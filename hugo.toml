@@ -6,6 +6,6 @@ images = ['images/chibanyplain.png']
 [params]
     math = true
 
-[markup.tableOfContents]
-startLevel = 0  # Include headings from H1
-endLevel = 4    # Include headings up to H3
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
