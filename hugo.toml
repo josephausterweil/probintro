@@ -1,0 +1,11 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'Narrative Introduction to Probabilistic Computing'
+theme = 'hugo-theme-relearn'
+images = ['images/chibanyplain.png']
+[params]
+    math = true
+
+[markup.tableOfContents]
+startLevel = 0  # Include headings from H1
+endLevel = 4    # Include headings up to H3
