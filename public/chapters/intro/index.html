@@ -27,27 +27,27 @@ Goals Introduce probability theory and Bayesian inference from a set-based persp
     <meta itemprop="wordCount" content="5299">
     <title>A Narrative Introduction to Probability :: Narrative Introduction to Probabilistic Computing</title>
     <link href="/chapters/intro/index.xml" rel="alternate" type="application/rss+xml" title="A Narrative Introduction to Probability :: Narrative Introduction to Probabilistic Computing">
-    <link href="/images/favicon.png?1758795679" rel="icon" type="image/png">
-    <link href="/css/auto-complete/auto-complete.min.css?1758795679" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1758795679" defer></script>
-    <script src="/js/search-lunr.js?1758795679" defer></script>
-    <script src="/js/search.js?1758795679" defer></script>
+    <link href="/images/favicon.png?1758882925" rel="icon" type="image/png">
+    <link href="/css/auto-complete/auto-complete.min.css?1758882925" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1758882925" defer></script>
+    <script src="/js/search-lunr.js?1758882925" defer></script>
+    <script src="/js/search.js?1758882925" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1758795679";
+      window.relearn.index_js_url="/searchindex.en.js?1758882925";
     </script>
-    <script src="/js/lunr/lunr.min.js?1758795679" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1758795679" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1758795679" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1758795679" defer></script>
+    <script src="/js/lunr/lunr.min.js?1758882925" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1758882925" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1758882925" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1758882925" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1758795679" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1758795679" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1758795679" rel="stylesheet">
-    <link href="/css/theme.css?1758795679" rel="stylesheet">
-    <link href="/css/format-html.css?1758795679" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1758882925" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1758882925" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1758882925" rel="stylesheet">
+    <link href="/css/theme.css?1758882925" rel="stylesheet">
+    <link href="/css/format-html.css?1758882925" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -116,87 +116,76 @@ Goals Introduce probability theory and Bayesian inference from a set-based persp
                 <div class="topbar-content-wrapper">
 <nav class="TableOfContents">
   <ul>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#goals">Goals</a></li>
-    <li><a href="#chibany-is-hungry">Chibany is hungry</a>
+    <li><a href="#sets">Sets</a></li>
+    <li><a href="#outcome-space">Outcome Space</a></li>
+    <li><a href="#possibilities-vs-events">Possibilities vs. Events</a>
       <ul>
-        <li><a href="#sets">Sets</a></li>
-        <li><a href="#outcome-space">Outcome Space</a></li>
-        <li><a href="#possibilities-vs-events">Possibilities vs. Events</a>
-          <ul>
-            <li><a href="#quick-check">Quick Check</a></li>
-          </ul>
-        </li>
+        <li><a href="#quick-check">Quick Check</a></li>
       </ul>
     </li>
-    <li><a href="#probability-and-counting">Probability and Counting</a>
+  </ul>
+
+  <ul>
+    <li><a href="#counting">Counting</a>
       <ul>
-        <li><a href="#counting">Counting</a>
-          <ul>
-            <li><a href="#chibany-is-still-hungry-and-desires-tonkatsu">Chibany is still hungry&hellip; and desires Tonkatsu</a></li>
-          </ul>
-        </li>
-        <li><a href="#probability-as-counting">Probability as Counting</a></li>
-        <li><a href="#random-variables">Random Variables</a>
-          <ul>
-            <li><a href="#chibany-wants-to-know-how-much-tonkatsu">Chibany wants to know&hellip; how much Tonkatsu?</a></li>
-          </ul>
-        </li>
+        <li><a href="#chibany-is-still-hungry-and-desires-tonkatsu">Chibany is still hungry&hellip; and desires Tonkatsu</a></li>
       </ul>
     </li>
-    <li><a href="#conditional-probability-as-changing-the-possible-outcomes">Conditional probability as changing the possible outcomes</a>
+    <li><a href="#probability-as-counting">Probability as Counting</a></li>
+    <li><a href="#random-variables">Random Variables</a>
       <ul>
-        <li><a href="#chibany-wants-a-tonkatsu-dinner">Chibany wants a tonkatsu dinner</a></li>
-        <li><a href="#defining-conditional-probability-as-set-restriction">Defining conditional probability as set restriction</a></li>
-        <li><a href="#dependence-and-independence">Dependence and independence</a></li>
-        <li><a href="#marginal-and-joint-probabilities">Marginal and joint probabilities</a>
-          <ul>
-            <li><a href="#chibany-is-sad-marginalization">Chibany is sad (marginalization)</a></li>
-            <li><a href="#the-sum-rule-more-on-marginalization-and-marginal-probabilities">The Sum Rule: More on Marginalization and Marginal Probabilities</a></li>
-            <li><a href="#the-other-definition-of-conditional-probability">The other definition of conditional probability</a></li>
-          </ul>
-        </li>
-        <li><a href="#weighted-possibilities">Weighted possibilities</a>
-          <ul>
-            <li><a href="#chibany-tells-students-that-he-likes-tonkatsu-more">Chibany tells students that he likes Tonkatsu more</a></li>
-          </ul>
-        </li>
+        <li><a href="#chibany-wants-to-know-how-much-tonkatsu">Chibany wants to know&hellip; how much Tonkatsu?</a></li>
       </ul>
     </li>
-    <li><a href="#bayes-theorem-or-bayes-rule">Bayes&rsquo; Theorem or Bayes&rsquo; Rule</a>
+  </ul>
+
+  <ul>
+    <li><a href="#chibany-wants-a-tonkatsu-dinner">Chibany wants a tonkatsu dinner</a></li>
+    <li><a href="#defining-conditional-probability-as-set-restriction">Defining conditional probability as set restriction</a></li>
+    <li><a href="#dependence-and-independence">Dependence and independence</a></li>
+    <li><a href="#marginal-and-joint-probabilities">Marginal and joint probabilities</a>
       <ul>
-        <li><a href="#proving-bayes-rule">Proving Bayes&rsquo; rule</a></li>
-        <li><a href="#the-taxicab-problem">The Taxicab Problem</a>
-          <ul>
-            <li><a href="#taxicab-solution-1">Taxicab Solution 1</a></li>
-            <li><a href="#taxicab-solution-2">Taxicab Solution 2</a></li>
-            <li><a href="#why-learn-the-set-based-perspective-to-probability-theory">Why Learn the Set-Based Perspective to Probability Theory?</a></li>
-            <li><a href="#transfer-additional-practice-questions">Transfer additional practice questions</a></li>
-          </ul>
-        </li>
+        <li><a href="#chibany-is-sad-marginalization">Chibany is sad (marginalization)</a></li>
+        <li><a href="#the-sum-rule-more-on-marginalization-and-marginal-probabilities">The Sum Rule: More on Marginalization and Marginal Probabilities</a></li>
+        <li><a href="#the-other-definition-of-conditional-probability">The other definition of conditional probability</a></li>
       </ul>
     </li>
-    <li><a href="#glossary">Glossary</a>
+    <li><a href="#weighted-possibilities">Weighted possibilities</a>
       <ul>
-        <li>
-          <ul>
-            <li><a href="#set">set</a></li>
-            <li><a href="#event">event</a></li>
-            <li><a href="#cardinality">cardinality</a></li>
-            <li><a href="#probability">probability</a></li>
-            <li><a href="#random-variable">random variable</a></li>
-            <li><a href="#conditional-probability">conditional probability</a></li>
-            <li><a href="#dependence">dependence</a></li>
-            <li><a href="#marginal-probability">marginal probability</a></li>
-            <li><a href="#joint-probability">joint probability</a></li>
-            <li><a href="#bayes-theorem">Bayes theorem</a></li>
-            <li><a href="#generative-process">generative process</a></li>
-            <li><a href="#probabilistic-computing">probabilistic computing</a></li>
-          </ul>
-        </li>
+        <li><a href="#chibany-tells-students-that-he-likes-tonkatsu-more">Chibany tells students that he likes Tonkatsu more</a></li>
       </ul>
     </li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#proving-bayes-rule">Proving Bayes&rsquo; rule</a></li>
+    <li><a href="#the-taxicab-problem">The Taxicab Problem</a>
+      <ul>
+        <li><a href="#taxicab-solution-1">Taxicab Solution 1</a></li>
+        <li><a href="#taxicab-solution-2">Taxicab Solution 2</a></li>
+        <li><a href="#why-learn-the-set-based-perspective-to-probability-theory">Why Learn the Set-Based Perspective to Probability Theory?</a></li>
+        <li><a href="#transfer-additional-practice-questions">Transfer additional practice questions</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#set">set</a></li>
+        <li><a href="#event">event</a></li>
+        <li><a href="#cardinality">cardinality</a></li>
+        <li><a href="#probability">probability</a></li>
+        <li><a href="#random-variable">random variable</a></li>
+        <li><a href="#conditional-probability">conditional probability</a></li>
+        <li><a href="#dependence">dependence</a></li>
+        <li><a href="#marginal-probability">marginal probability</a></li>
+        <li><a href="#joint-probability">joint probability</a></li>
+        <li><a href="#bayes-theorem">Bayes theorem</a></li>
+        <li><a href="#generative-process">generative process</a></li>
+        <li><a href="#probabilistic-computing">probabilistic computing</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
                 </div>
@@ -241,8 +230,8 @@ Goals Introduce probability theory and Bayesian inference from a set-based persp
 <li>Present everything in a friendly narrative for approachability</li>
 </ol>
 <h1 id="chibany-is-hungry">Chibany is hungry</h1>
-<p><a href="#R-image-7451515fb3b240df86fde10fe17a307e" class="lightbox-link"><img alt="chibany laying down" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-7451515fb3b240df86fde10fe17a307e"><img alt="chibany laying down" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-ffdb905ffff683595ad9b984092d8ef7" class="lightbox-link"><img alt="chibany laying down" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-ffdb905ffff683595ad9b984092d8ef7"><img alt="chibany laying down" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanylayingdown.png"></a></p>
 <p>Chibany wakes up from dreaming of the delicious meals he will get later today. Twice per day, a student brings a bento box with a meal as an offering to Chibany. One student brings him a bento box in the early afternoon for lunch and a different student brings him a bento box in the evening for dinner. The meal is either a Hamburger <i class="fa-fw fas fa-burger" style="color: white;"></i>
 or a Tonkatsu (pork cutlet) <i class="fa-fw fas fa-piggy-bank" style="color: white;"></i>. To keep track of his meal possibilities, his lists out the four possibilities:</p>
 <pre class="mermaid align-center ">block-beta
@@ -373,8 +362,8 @@ or a Tonkatsu (pork cutlet) <i class="fa-fw fas fa-piggy-bank" style="color: whi
 <p>When conditioning on one event $A$ influences the probability of another event $B$, those two events are called <a href="/chapters/intro/index.html#dependence">dependent</a>. This is denoted as $A \not\perp B$. If they do not influence each other they are called independent, which is denoted as $A \perp B$.</p>
 <h2 id="marginal-and-joint-probabilities">Marginal and joint probabilities</h2>
 <h3 id="chibany-is-sad-marginalization">Chibany is sad (marginalization)</h3>
-<p><a href="#R-image-77b81610daef51705f24d7f7ae04aa2c" class="lightbox-link"><img alt="Chibany is sad" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanysad.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-77b81610daef51705f24d7f7ae04aa2c"><img alt="Chibany is sad" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanysad.png"></a></p>
+<p><a href="#R-image-e3df3979179d96a489d8e6f908860422" class="lightbox-link"><img alt="Chibany is sad" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanysad.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e3df3979179d96a489d8e6f908860422"><img alt="Chibany is sad" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanysad.png"></a></p>
 <p>The student that normally gives Chibany his second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \{H, T\}$.</p>
 <pre class="mermaid align-center ">block-beta
     block
@@ -412,8 +401,8 @@ $P(A \mid B) = \frac{P(A,B)}{P(B)} = \frac{2/4}{3/4} = \frac{2}{3}$</p>
 <p>Although Chibany is happy to see the same result of it being more likely than not he&rsquo;ll have a second meal of Tonkatsu if he learns he gets at least one Tonkatsu, this felt a lot harder to him than the first way of doing things. It may have felt that way for you too (it does for me!). That&rsquo;s why Chibany wants everyone to know the set-based perspective to probability.</p>
 <h2 id="weighted-possibilities">Weighted possibilities</h2>
 <h3 id="chibany-tells-students-that-he-likes-tonkatsu-more">Chibany tells students that he likes Tonkatsu more</h3>
-<p><a href="#R-image-f5f0a23961e2c70c9175688b273d8fc0" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-f5f0a23961e2c70c9175688b273d8fc0"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanyplain.png"></a></p>
+<p><a href="#R-image-6a741355ef82d2410aa30baf77c3a0d5" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-6a741355ef82d2410aa30baf77c3a0d5"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanyplain.png"></a></p>
 <p>Chibany is happy! He remembered that students love learning. He has important information for them: Chibany likes Tonkatsu more than Hamburgers.</p>
 <p>While wondering how to calculate probabilities taking this glorious news into account, Tanaka-san stops by. Tanaka-san lets Chibany know that the students coordinate to ensure that he gets at least one tonkatsu, but try not to make both offerings tonkatsu (that way he doesn&rsquo;t get tired of Tonkatsu). Tanaka-san shares the following chart the students use to guide their daily offerings</p>
 <pre class="mermaid align-center ">block-beta
@@ -595,7 +584,7 @@ The <em>cardinality</em> or <em>size</em> of a set is the number of elements it 
   </summary>
   <div class="box-content">
 <p>
-The <em>probability</em> of an event $A$ relative to an outcome space $\Omega$ is the ratio of their sizes or $\frac{|A|}{|\Omega|}
+The <em>probability</em> of an event $A$ relative to an outcome space $\Omega$ is the ratio of their sizes or $\frac{|A|}{|\Omega|}$
   </div>
 </details>
 <h3 id="random-variable">random variable</h3>
@@ -774,23 +763,23 @@ A <em>generative process</em> defines the probabilities for possible outcomes ac
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1758795679"></script>
-    <script src="/js/js-yaml/js-yaml.min.js?1758795679" defer></script>
-    <script src="/js/d3/d3-color.min.js?1758795679" defer></script>
-    <script src="/js/d3/d3-dispatch.min.js?1758795679" defer></script>
-    <script src="/js/d3/d3-drag.min.js?1758795679" defer></script>
-    <script src="/js/d3/d3-ease.min.js?1758795679" defer></script>
-    <script src="/js/d3/d3-interpolate.min.js?1758795679" defer></script>
-    <script src="/js/d3/d3-selection.min.js?1758795679" defer></script>
-    <script src="/js/d3/d3-timer.min.js?1758795679" defer></script>
-    <script src="/js/d3/d3-transition.min.js?1758795679" defer></script>
-    <script src="/js/d3/d3-zoom.min.js?1758795679" defer></script>
-    <script src="/js/mermaid/mermaid.min.js?1758795679" defer></script>
+    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1758882925"></script>
+    <script src="/js/js-yaml/js-yaml.min.js?1758882925" defer></script>
+    <script src="/js/d3/d3-color.min.js?1758882925" defer></script>
+    <script src="/js/d3/d3-dispatch.min.js?1758882925" defer></script>
+    <script src="/js/d3/d3-drag.min.js?1758882925" defer></script>
+    <script src="/js/d3/d3-ease.min.js?1758882925" defer></script>
+    <script src="/js/d3/d3-interpolate.min.js?1758882925" defer></script>
+    <script src="/js/d3/d3-selection.min.js?1758882925" defer></script>
+    <script src="/js/d3/d3-timer.min.js?1758882925" defer></script>
+    <script src="/js/d3/d3-transition.min.js?1758882925" defer></script>
+    <script src="/js/d3/d3-zoom.min.js?1758882925" defer></script>
+    <script src="/js/mermaid/mermaid.min.js?1758882925" defer></script>
     <script>
       window.relearn.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/clipboard/clipboard.min.js?1758795679" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1758795679" defer></script>
-    <script src="/js/theme.js?1758795679" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1758882925" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1758882925" defer></script>
+    <script src="/js/theme.js?1758882925" defer></script>
   </body>
 </html>
