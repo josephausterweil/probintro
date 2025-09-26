@@ -5,7 +5,15 @@ theme = 'hugo-theme-relearn'
 images = ['images/chibanyplain.png']
 [params]
     math = true
+    # Enable a page-level TOC (headings) in the sidebar
+    showToc = true
+    # Optional: expand sub-sections automatically
+    alwaysopen = true
 
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 6
