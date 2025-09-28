@@ -6,7 +6,6 @@ weight = 4
 ## Chibany wants a tonkatsu dinner
 A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chinbany that he knows that there will be at least one tonkatsu in tomorrow's offering. Chibany is excited. They wants to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. He say it's just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says "I learned something because I knows I will get at least one tonkatsu". Also, Chibany is an optimist and deserves to have all the tonkatsu. Who's right!? Let's check the chart...
 
-**TODO: Make top block look more disabled** 
 ```mermaid
 block-beta
     block

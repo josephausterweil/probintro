@@ -33,8 +33,6 @@ Chibany is skeptical, but will try to keep it in mind. It can be confusing!
 ## Possibilities vs. Events
 So far, we have discussed sets, possibile outcomes and the set of all possible outcomes $\Omega$. Chibany is interested in the set of possible meals that include Tonkatsu. What is this set?
 
-_TODO_: Add interactive elements to quiz reader as they go
-
 $\{HT, TH, TT\}$
 
 This is an example of an [event](./06_glossary.md/#event). Technically, an event or a set that is none, some, or all of the possible outcomes. 
@@ -43,14 +41,15 @@ This is an example of an [event](./06_glossary.md/#event). Technically, an event
 
 Is $\Omega$ an event? 
 
-Yes -- it is the event that contains all possible outcomes. 
+{{% expand "solution" %}} Yes -- it is the event that contains all possible outcomes.  {{% /expand %}}
 
 Is $\Omega$ the set of all possible events?
 
-No.
+{{% expand "solution" %}} No {{% /expand %}}
 
 What is the set of all possible events for Chibany's situation?
 
+{{%expand "solution" %}}
 $\\{ \\{ \\}, \\{ HH \\}, \\{ HT\\}, \\{TH \\}, \\{TT\\}, 
 \\{HH,HT\\}, \\{HH,TH\\}, \\{HH,TT\\},
 \\{HT, TH\\}, \\{HT, TT \\},
@@ -60,3 +59,4 @@ $\\{ \\{ \\}, \\{ HH \\}, \\{ HT\\}, \\{TH \\}, \\{TT\\},
 \\{HH, HT, TH, TT\\}  \\}$
 
 Note that $\\{ \\}$ is called the empty or null set and is a special set that contains no elements.
+{{% /expand %}}
