@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Bayes&#39; Theorem or Bayes&#39; Rule :: Narrative Introduction to Probabilistic Computing">
+    <meta name="twitter:description" content="Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).">
+    <meta property="og:url" content="http://localhost:1313/intro/05_bayes/index.html">
+    <meta property="og:site_name" content="Narrative Introduction to Probabilistic Computing">
+    <meta property="og:title" content="Bayes&#39; Theorem or Bayes&#39; Rule :: Narrative Introduction to Probabilistic Computing">
+    <meta property="og:description" content="Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="A Narrative Introduction to Probability">
+    <meta itemprop="name" content="Bayes&#39; Theorem or Bayes&#39; Rule :: Narrative Introduction to Probabilistic Computing">
+    <meta itemprop="description" content="Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).">
+    <meta itemprop="wordCount" content="1526">
+    <title>Bayes&#39; Theorem or Bayes&#39; Rule :: Narrative Introduction to Probabilistic Computing</title>
+    <link href="/images/favicon.png?1759055638" rel="icon" type="image/png">
+    <link href="/css/auto-complete/auto-complete.min.css?1759055638" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759055638" defer></script>
+    <script src="/js/search-lunr.js?1759055638" defer></script>
+    <script src="/js/search.js?1759055638" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759055638";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759055638" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759055638" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759055638" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759055638" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759055638" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759055638" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759055638" rel="stylesheet">
+    <link href="/css/theme.css?1759055638" rel="stylesheet">
+    <link href="/css/format-html.css?1759055638" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/intro\/05_bayes\/index.html';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/intro/05_bayes/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#proving-bayes-rule">Proving Bayes&rsquo; rule</a></li>
+    <li><a href="#the-taxicab-problem">The Taxicab Problem</a>
+      <ul>
+        <li><a href="#taxicab-solution-1">Taxicab Solution 1</a></li>
+        <li><a href="#taxicab-solution-2">Taxicab Solution 2</a></li>
+        <li><a href="#why-learn-the-set-based-perspective-to-probability-theory">Why Learn the Set-Based Perspective to Probability Theory?</a></li>
+        <li><a href="#transfer-additional-practice-questions">Transfer additional practice questions</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/index.html"><span itemprop="name">Narrative Introduction to Probabilistic Computing</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/intro/index.html"><span itemprop="name">A Narrative Introduction to Probability</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Bayes&#39; Theorem or Bayes&#39; Rule</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/intro/04_conditional/index.html" title="Conditional probability as changing the possible outcomes (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/intro/06_glossary/index.html" title="Glossary (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable intro" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="bayes-theorem-or-bayes-rule">Bayes&#39; Theorem or Bayes&#39; Rule</h1>
+
+<p><a href="/intro/06_glossary/index.html#bayes-theorem">Bayes&rsquo; Theorem</a> (Bayes&rsquo; rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let&rsquo;s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let&rsquo;s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).</p>
+<p>Bayes Theorem tells us to update our beliefs in hypothesis $h$ being the way the world works after learning $D=d$ in the following manner:</p>
+<p>$P(H=h \mid D = d) = \frac{P(D=d\mid H=h) P(H=h)}{P(D=d)}$</p>
+<p>where $P(D=d \mid H=h)$ is called the <em>likelihood</em>, whic h is the probability of observing $d$ given $h$ is the true hypothesis for how the world works, $P(H=h)$ is called the <em>prior</em>, which tells us how likely it is that $h$ is the way the world works</p>
+<p>We have all the information to prove this! Feel free to skip to the next subsection if you don&rsquo;t care about proofs.</p>
+<h2 id="proving-bayes-rule">Proving Bayes&rsquo; rule</h2>
+<p>Using the <a href="/intro/06_glossary/index.html#the-other-definition-of-conditional-probability">other definition of conditional probability</a>, we know that $P(H \mid D) = \frac{P(H,D)}{P(D)}$. If we multiply both sides of the equation by $P(D)$, we get $P(H,D) = P(H \mid D) P(D)$. We can do the same thing but for the opposite way of conditioning (the joint probability can be written in either order and it is the same as it is the common elements of two sets which is the same no matter which order you consider the two sets), so $P(D \mid H) = \frac{P(H,D)}{P(H)}$. We can can solve for $P(H,D)$ in a similar manner: multiply both sides of the equation by $P(H)$ and we get $P(H,D) = P(D \mid H) P(H)$. Putting these together, we can prove Bayes&rsquo; rule:</p>
+<p>$P(H \mid D) P(D) = P(H,D) = P(D \mid H) P(H)$
+$\Rightarrow P(H \mid D) = \frac{P(H,D)}{P(D)} = \frac{P(D \mid H) P(H)}{P(D)}$</p>
+<h2 id="the-taxicab-problem">The Taxicab Problem</h2>
+<p><strong>TODO: Add picture with chibany seeing a hit and run with a taxi with fog/smoke</strong></p>
+<p>In Chibany&rsquo;s hometown, there are two taxi companies: the Green <i class="fa-fw fas fa-taxi cstyle green"></i> and the Blue <i class="fa-fw fas fa-taxi cstyle blue"></i>. All Green company&rsquo;s taxis are painted green <i class="fa-fw fas fa-taxi cstyle green"></i> and all the Blue company&rsquo;s taxis are painted blue <i class="fa-fw fas fa-taxi cstyle blue"></i>.</p>
+<p>85% of the town&rsquo;s taxis work for the Green <i class="fa-fw fas fa-taxi cstyle green"></i> company. So 15% fo the town&rsquo;s taxis work for the <i class="fa-fw fas fa-taxi cstyle blue"></i> company.</p>
+<p>Late one foggy evening, Chibany saw a cab perform a hit-and-run (hit another car and leave without providing any information). Chibany saw a <i class="fa-fw fas fa-taxi cstyle blue"></i> taxi!</p>
+<p>Chibany is an outstanding citizen and so they go to the police with this information. The police know it was foggy and dark, so it&rsquo;s possible Chibany might not have seen the taxi&rsquo;s color correctly. They test Chibany several times and find that Chibany reports the correct taxi color 80% of the time!</p>
+<p>Taking all of this information into account, how likely do you think it is that the cab involved in the hit-and-run was a Blue taxi <i class="fa-fw fas fa-taxi cstyle blue"></i>?</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    answer
+  </summary>
+  <div class="box-content">
+<p>
+The correct answer is 41%, but most people think it is closer to 60-80%!
+  </div>
+</details>
+<p>This is known as the Taxicab Problem (Kahneman and Tversky, 1972; Bar-Hillel, 1980).</p>
+<p>A note: Kahneman and Tversky (and others) use this example (and others) to argue that people are not Bayesian at all! There are a number of replies through the years and it is an ongoing debate. Joe loves discussing it. If interested, please reach out and he would be more than happy to discuss it more.</p>
+<h3 id="taxicab-solution-1">Taxicab Solution 1</h3>
+<p>One way to solve this is to use the outcome space perspective! Let us assume there are 100 taxis in Chibany&rsquo;s hometown. That means the set of possibilities $\Omega$ has 85 individual Green taxis <i class="fa-fw fas fa-taxi cstyle green"></i> and 15 individual Blue taxis <i class="fa-fw fas fa-taxi cstyle blue"></i></p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 10
+        g1[&#34;fa:fa-taxi&#34;] g2[&#34;fa:fa-taxi&#34;] g3[&#34;fa:fa-taxi&#34;] g4[&#34;fa:fa-taxi&#34;] g5[&#34;fa:fa-taxi&#34;] g6[&#34;fa:fa-taxi&#34;] g7[&#34;fa:fa-taxi&#34;] g8[&#34;fa:fa-taxi&#34;] g9[&#34;fa:fa-taxi&#34;] g10[&#34;fa:fa-taxi&#34;]
+        g11[&#34;fa:fa-taxi&#34;] g12[&#34;fa:fa-taxi&#34;] g13[&#34;fa:fa-taxi&#34;] g14[&#34;fa:fa-taxi&#34;] g15[&#34;fa:fa-taxi&#34;] g16[&#34;fa:fa-taxi&#34;] g17[&#34;fa:fa-taxi&#34;] g18[&#34;fa:fa-taxi&#34;] g19[&#34;fa:fa-taxi&#34;] g20[&#34;fa:fa-taxi&#34;]
+        g21[&#34;fa:fa-taxi&#34;] g22[&#34;fa:fa-taxi&#34;] g23[&#34;fa:fa-taxi&#34;] g24[&#34;fa:fa-taxi&#34;] g25[&#34;fa:fa-taxi&#34;] g26[&#34;fa:fa-taxi&#34;] g27[&#34;fa:fa-taxi&#34;] g28[&#34;fa:fa-taxi&#34;] g29[&#34;fa:fa-taxi&#34;] g30[&#34;fa:fa-taxi&#34;]
+        g31[&#34;fa:fa-taxi&#34;] g32[&#34;fa:fa-taxi&#34;] g33[&#34;fa:fa-taxi&#34;] g34[&#34;fa:fa-taxi&#34;] g35[&#34;fa:fa-taxi&#34;] g36[&#34;fa:fa-taxi&#34;] g37[&#34;fa:fa-taxi&#34;] g38[&#34;fa:fa-taxi&#34;] g39[&#34;fa:fa-taxi&#34;] g40[&#34;fa:fa-taxi&#34;]   
+        g41[&#34;fa:fa-taxi&#34;] g42[&#34;fa:fa-taxi&#34;] g43[&#34;fa:fa-taxi&#34;] g44[&#34;fa:fa-taxi&#34;] g45[&#34;fa:fa-taxi&#34;] g46[&#34;fa:fa-taxi&#34;] g47[&#34;fa:fa-taxi&#34;] g48[&#34;fa:fa-taxi&#34;] g49[&#34;fa:fa-taxi&#34;] g50[&#34;fa:fa-taxi&#34;]
+        g51[&#34;fa:fa-taxi&#34;] g52[&#34;fa:fa-taxi&#34;] g53[&#34;fa:fa-taxi&#34;] g54[&#34;fa:fa-taxi&#34;] g55[&#34;fa:fa-taxi&#34;] g56[&#34;fa:fa-taxi&#34;] g57[&#34;fa:fa-taxi&#34;] g58[&#34;fa:fa-taxi&#34;] g59[&#34;fa:fa-taxi&#34;] g60[&#34;fa:fa-taxi&#34;]
+        g61[&#34;fa:fa-taxi&#34;] g62[&#34;fa:fa-taxi&#34;] g63[&#34;fa:fa-taxi&#34;] g64[&#34;fa:fa-taxi&#34;] g65[&#34;fa:fa-taxi&#34;] g66[&#34;fa:fa-taxi&#34;] g67[&#34;fa:fa-taxi&#34;] g68[&#34;fa:fa-taxi&#34;] g69[&#34;fa:fa-taxi&#34;] g70[&#34;fa:fa-taxi&#34;]
+        g71[&#34;fa:fa-taxi&#34;] g72[&#34;fa:fa-taxi&#34;] g73[&#34;fa:fa-taxi&#34;] g74[&#34;fa:fa-taxi&#34;] g75[&#34;fa:fa-taxi&#34;] g76[&#34;fa:fa-taxi&#34;] g77[&#34;fa:fa-taxi&#34;] g78[&#34;fa:fa-taxi&#34;] g79[&#34;fa:fa-taxi&#34;] g80[&#34;fa:fa-taxi&#34;]  
+        g81[&#34;fa:fa-taxi&#34;] g82[&#34;fa:fa-taxi&#34;] g83[&#34;fa:fa-taxi&#34;] g84[&#34;fa:fa-taxi&#34;] g85[&#34;fa:fa-taxi&#34;] b11[&#34;fa:fa-taxi&#34;] b12[&#34;fa:fa-taxi&#34;] b13[&#34;fa:fa-taxi&#34;] b14[&#34;fa:fa-taxi&#34;] b15[&#34;fa:fa-taxi&#34;] 
+        b1[&#34;fa:fa-taxi&#34;] b2[&#34;fa:fa-taxi&#34;] b3[&#34;fa:fa-taxi&#34;] b4[&#34;fa:fa-taxi&#34;] b5[&#34;fa:fa-taxi&#34;] b6[&#34;fa:fa-taxi&#34;] b7[&#34;fa:fa-taxi&#34;] b8[&#34;fa:fa-taxi&#34;] b9[&#34;fa:fa-taxi&#34;] b10[&#34;fa:fa-taxi&#34;]
+
+
+    classDef blueTaxi color: #06f, min-width:22px, font-size:18px
+    classDef greenTaxi color: #0d2, min-width:22px, font-size:18px
+    class b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15 blueTaxi  
+    class g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,g11,g12,g13,g14,g15,g16,g17,g18,g19,g20,g21,g22,g23,g24,g25,g26,g27,g28,g29,g30,g31,g32,g33,g34,g35,g36,g37,g38,g39,g40,g41,g42,g43,g44,g45,g46,g47,g48,g49,g50,g51,g52,g53,g54,g55,g56,g57,g58,g59,g60,g61,g62,g63,g64,g65,g66,g67,g68,g69,g70,g71,g72,g73,g74,g75,g76,g77,g78,g79,g80,g81,g82,g83,g84,g85 greenTaxi
+    end</pre>
+<p>Now I can make the outcome space include the taxi color and whether Chibany identifies the taxi as Blue in foggy nighttime conditions. As Chibany correctly identifies 80% of the Blue taxis as Blue, ($15 \times 0.80=12$). This means 12 of the Blue taxis are identified as Blue and ($15 \times 0.2 = 3$) 3 are incorrectly as Green. As Chibany <em>incorrectly</em> identifies 20% of the Green taxis as Blue. This means ($85 \times 0.2 = 17$) 17 of the Green taxis are identified as Blue and ($85 \times 0.8=68$) 68 are <em>correctly</em> identified as Green.</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 10
+        g1[&#34;fa:fa-taxi&#34;] g2[&#34;fa:fa-taxi&#34;] g3[&#34;fa:fa-taxi&#34;] g4[&#34;fa:fa-taxi&#34;] g5[&#34;fa:fa-taxi&#34;] g6[&#34;fa:fa-taxi&#34;] g7[&#34;fa:fa-taxi&#34;] g8[&#34;fa:fa-taxi&#34;] g9[&#34;fa:fa-taxi&#34;] g10[&#34;fa:fa-taxi&#34;]
+        g11[&#34;fa:fa-taxi&#34;] g12[&#34;fa:fa-taxi&#34;] g13[&#34;fa:fa-taxi&#34;] g14[&#34;fa:fa-taxi&#34;] g15[&#34;fa:fa-taxi&#34;] g16[&#34;fa:fa-taxi&#34;] g17[&#34;fa:fa-taxi&#34;] g18[&#34;fa:fa-taxi&#34;] g19[&#34;fa:fa-taxi&#34;] g20[&#34;fa:fa-taxi&#34;]
+        g21[&#34;fa:fa-taxi&#34;] g22[&#34;fa:fa-taxi&#34;] g23[&#34;fa:fa-taxi&#34;] g24[&#34;fa:fa-taxi&#34;] g25[&#34;fa:fa-taxi&#34;] g26[&#34;fa:fa-taxi&#34;] g27[&#34;fa:fa-taxi&#34;] g28[&#34;fa:fa-taxi&#34;] g29[&#34;fa:fa-taxi&#34;] g30[&#34;fa:fa-taxi&#34;]
+        g31[&#34;fa:fa-taxi&#34;] g32[&#34;fa:fa-taxi&#34;] g33[&#34;fa:fa-taxi&#34;] g34[&#34;fa:fa-taxi&#34;] g35[&#34;fa:fa-taxi&#34;] g36[&#34;fa:fa-taxi&#34;] g37[&#34;fa:fa-taxi&#34;] g38[&#34;fa:fa-taxi&#34;] g39[&#34;fa:fa-taxi&#34;] g40[&#34;fa:fa-taxi&#34;]   
+        g41[&#34;fa:fa-taxi&#34;] g42[&#34;fa:fa-taxi&#34;] g43[&#34;fa:fa-taxi&#34;] g44[&#34;fa:fa-taxi&#34;] g45[&#34;fa:fa-taxi&#34;] g46[&#34;fa:fa-taxi&#34;] g47[&#34;fa:fa-taxi&#34;] g48[&#34;fa:fa-taxi&#34;] g49[&#34;fa:fa-taxi&#34;] g50[&#34;fa:fa-taxi&#34;]
+        g51[&#34;fa:fa-taxi&#34;] g52[&#34;fa:fa-taxi&#34;] g53[&#34;fa:fa-taxi&#34;] g54[&#34;fa:fa-taxi&#34;] g55[&#34;fa:fa-taxi&#34;] g56[&#34;fa:fa-taxi&#34;] g57[&#34;fa:fa-taxi&#34;] g58[&#34;fa:fa-taxi&#34;] g59[&#34;fa:fa-taxi&#34;] g60[&#34;fa:fa-taxi&#34;]
+        g61[&#34;fa:fa-taxi&#34;] g62[&#34;fa:fa-taxi&#34;] g63[&#34;fa:fa-taxi&#34;] g64[&#34;fa:fa-taxi&#34;] g65[&#34;fa:fa-taxi&#34;] g66[&#34;fa:fa-taxi&#34;] g67[&#34;fa:fa-taxi&#34;] g68[&#34;fa:fa-taxi&#34;] g69[&#34;fa:fa-taxi&#34;] g70[&#34;fa:fa-taxi&#34;]
+        g71[&#34;fa:fa-taxi&#34;] g72[&#34;fa:fa-taxi&#34;] g73[&#34;fa:fa-taxi&#34;] g74[&#34;fa:fa-taxi&#34;] g75[&#34;fa:fa-taxi&#34;] g76[&#34;fa:fa-taxi&#34;] g77[&#34;fa:fa-taxi&#34;] g78[&#34;fa:fa-taxi&#34;] g79[&#34;fa:fa-taxi&#34;] g80[&#34;fa:fa-taxi&#34;]  
+        g81[&#34;fa:fa-taxi&#34;] g82[&#34;fa:fa-taxi&#34;] g83[&#34;fa:fa-taxi&#34;] g84[&#34;fa:fa-taxi&#34;] g85[&#34;fa:fa-taxi&#34;] b11[&#34;fa:fa-taxi&#34;] b12[&#34;fa:fa-taxi&#34;] b13[&#34;fa:fa-taxi&#34;] b14[&#34;fa:fa-taxi&#34;] b15[&#34;fa:fa-taxi&#34;] 
+        b1[&#34;fa:fa-taxi&#34;] b2[&#34;fa:fa-taxi&#34;] b3[&#34;fa:fa-taxi&#34;] b4[&#34;fa:fa-taxi&#34;] b5[&#34;fa:fa-taxi&#34;] b6[&#34;fa:fa-taxi&#34;] b7[&#34;fa:fa-taxi&#34;] b8[&#34;fa:fa-taxi&#34;] b9[&#34;fa:fa-taxi&#34;] b10[&#34;fa:fa-taxi&#34;]
+
+
+    classDef blueTaxi color: #06f, min-width:22px, font-size:18px, stroke: #f33, stroke-width:2px
+    classDef blueGrayTaxi color: #028, min-width:22px, font-size:18px
+    classDef greenTaxi color: #0d2, min-width:22px, font-size:18px, stroke: #f33, stroke-width:2px
+    classDef greenGrayTaxi color: #051, min-width:22px, font-size:18px
+    class b1,b2,b3,b4,b5,b6,b7,b11,b12,b13,b14,b15 blueTaxi  
+    class b8,b9,b10 blueGrayTaxi
+    class g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,g11,g12,g13,g14,g15,g16,g17 greenTaxi
+    class g18,g19,g20,g21,g22,g23,g24,g25,g26,g27,g28,g29,g30,g31,g32,g33,g34,g35,g36,g37,g38,g39,g40,g41,g42,g43,g44,g45,g46,g47,g48,g49,g50,g51,g52,g53,g54,g55,g56,g57,g58,g59,g60,g61,g62,g63,g64,g65,g66,g67,g68,g69,g70,g71,g72,g73,g74,g75,g76,g77,g78,g79,g80,g81,g82,g83,g84,g85 greenGrayTaxi
+    end</pre>
+<p>The brightly colored taxis that are outlined in red are those that Chibany reports as Blue in the difficult viewing conditions. We can already see there are more Green <i class="fa-fw fas fa-taxi cstyle green"></i> taxis tha Blue <i class="fa-fw fas fa-taxi cstyle blue"></i>, so it is still more probable that the taxi involved in the hit-and-run was Green. We can get the exact probability that it was a Blue taxi <i class="fa-fw fas fa-taxi cstyle blue"></i> by the same counting rule as before. There are 12 <i class="fa-fw fas fa-taxi cstyle blue"></i> Blue taxis and 17 <i class="fa-fw fas fa-taxi cstyle green"></i> Green taxis. So, the probability that it was a blue taxi given Chibany reports it as Blue is $12/(12+17)=12/29 \approx 0.41$.</p>
+<h3 id="taxicab-solution-2">Taxicab Solution 2</h3>
+<p>We can also solve this without counting in a sample space following the rules of probability theory as described before. Let $X$ be the actual color of the taxi involved in the hit-and-run and $W$ be the color reported by Chibany. Based on the percentage of Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> and Green <i class="fa-fw fas fa-taxi cstyle green"></i> taxis in the city, we know that $P(X=G) = 0.85$ and $P(X=B)=0.15$. We also know that Chibany is accurate 80% of the time. So, $P(W = B \mid X = B) = 0.8$ and $P(W=G \mid X=G)=0.8$. This also means Chibany is inaccurate 20% fo the tim$e: $P(W = B \mid X=G)=0.2$ and $P(W=G \mid X=B)=0.2$.</p>
+<p>Chibany said the taxi is Blue and given this, how likely it is that the taxi is Blue. So, we&rsquo;re interested in $P(X=B \mid W=B)$ We can solve this using Bayes&rsquo; rule and the sum rule.</p>
+<p>$P(X=B \mid W=B) = \frac{P(W =B \mid X=B) P(X=B)}{P(W=B)}$</p>
+<p>$P(X=B \mid W=B) = \frac{P(W =B \mid X=B) P(X=B)}{\sum_c{P(W=B,X=c)}}$</p>
+<p>$P(X=B \mid W=B) = \frac{P(W =B \mid X=B) P(X=B)}{\sum_c{P(W=B \mid X=c)P(X=c)}}$</p>
+<p>$P(X=B \mid W=B) = \frac{P(W =B \mid X=B) P(X=B)}{P(W=B \mid X=B)P(X=B) + P(W=B \mid X=G)P(X=G)}$</p>
+<p>$P(X=B \mid W=B) = \frac{0.8 \times 0.15 }{0.8 \times 0.15 + 0.2 \times 0.85} = \frac{0.12}{0.12+0.17} = \frac{0.12}{0.29} \approx 0.41$</p>
+<h3 id="why-learn-the-set-based-perspective-to-probability-theory">Why Learn the Set-Based Perspective to Probability Theory?</h3>
+<p>If we can solve probability problems via symbol manipulation, why is learning the set-based perspective to probability theory?</p>
+<p>Here are some reasons:</p>
+<ol>
+<li>As variables become more complex, explicitly solving problems becomes infeasible. Thinking through how to count is strong starting point for a <a href="/intro/06_glossary/index.html#generative-process">generative process</a> perspective, which discusses how outcomes are produced according to computer programs with random choices. These define proabilistic models! <a href="/intro/06_glossary/index.html#probabilistic-computing">Probabilistic computing</a> are programming languages for specifying probabilistic models and built to calculate different probabilities according to this model in an efficient manner. We will build to exploring how to do this over the next few tutorials.</li>
+<li>Many probability novices find the distinction between joint and conditional probabilities confusing and unintuitive. From the set-based perspective, their difference is clear. Joint probabilities count in the outcome space where multiple possible outcomes are being simultaneously. Conditional probabilities change the outcome space to be whatever is consistent with the conditioned information and then count in that new space.</li>
+<li>It forces you to think about how events and outcomes are represented. This can be obsfucated at times when thinking about probabilities from the rule-based perspective.</li>
+<li>They are formally equivalent.</li>
+<li>It is fun.</li>
+<li>It connects combinatorics and probability theory.</li>
+<li>It makes Chibany happy.</li>
+</ol>
+<h3 id="transfer-additional-practice-questions">Transfer additional practice questions</h3>
+<ul>
+<li>
+<p>Example with rare disease and not too diagnostic test.</p>
+</li>
+<li>
+<p>Example with organic fruit and made at a local place</p>
+</li>
+</ul>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/index.html">
+            <div class="logo-title">Narrative Introduction to Probabilistic Computing</div>
+          </a>
+        </div>
+        <search><form action="/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/index.html"><a class="padding" href="/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="parent alwaysopen " data-nav-id="/intro/index.html"><a class="padding" href="/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu">
+            <li class="" data-nav-id="/intro/01_goals/index.html"><a class="padding" href="/intro/01_goals/index.html">Goals</a></li>
+            <li class="" data-nav-id="/intro/02_hungry/index.html"><a class="padding" href="/intro/02_hungry/index.html">Chibany is hungry</a></li>
+            <li class="" data-nav-id="/intro/03_prob_count/index.html"><a class="padding" href="/intro/03_prob_count/index.html">Probability and Counting</a></li>
+            <li class="" data-nav-id="/intro/04_conditional/index.html"><a class="padding" href="/intro/04_conditional/index.html">Conditional probability as changing the possible outcomes</a></li>
+            <li class="active " data-nav-id="/intro/05_bayes/index.html"><a class="padding" href="/intro/05_bayes/index.html">Bayes&#39; Theorem or Bayes&#39; Rule</a></li>
+            <li class="" data-nav-id="/intro/06_glossary/index.html"><a class="padding" href="/intro/06_glossary/index.html">Glossary</a></li>
+            <li class="" data-nav-id="/intro/07_ack/index.html"><a class="padding" href="/intro/07_ack/index.html">Acknowledgements</a></li></ul></li>
+            <li class="" data-nav-id="/intro2/index.html"><a class="padding" href="/intro2/index.html">Intro2</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1759055638"></script>
+    <script src="/js/js-yaml/js-yaml.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-color.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-dispatch.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-drag.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-ease.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-interpolate.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-selection.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-timer.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-transition.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-zoom.min.js?1759055638" defer></script>
+    <script src="/js/mermaid/mermaid.min.js?1759055638" defer></script>
+    <script>
+      window.relearn.themeUseMermaid = JSON.parse("{}");
+    </script>
+    <script src="/js/clipboard/clipboard.min.js?1759055638" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759055638" defer></script>
+    <script src="/js/theme.js?1759055638" defer></script>
+  </body>
+</html>

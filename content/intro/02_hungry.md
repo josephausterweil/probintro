@@ -20,7 +20,7 @@ block-beta
 
 ## Sets
 
-This forms a [set](#set) of four elements. A set is a collection of elements or members. In this case, an element is defined by the two meals given to Chibany that day. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\\{$" denotes the start of a set and "$\\}$" the end of a set. 
+This forms a [set](./06_glossary.md/#set) of four elements. A set is a collection of elements or members. In this case, an element is defined by the two meals given to Chibany that day. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\\{$" denotes the start of a set and "$\\}$" the end of a set. 
 
 ## Outcome Space
 
@@ -37,7 +37,7 @@ _TODO_: Add interactive elements to quiz reader as they go
 
 $\{HT, TH, TT\}$
 
-This is an example of an [event](#event). Technically, an event or a set that is none, some, or all of the possible outcomes. 
+This is an example of an [event](./06_glossary.md/#event). Technically, an event or a set that is none, some, or all of the possible outcomes. 
 
 ### Quick Check
 

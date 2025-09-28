@@ -29,7 +29,7 @@ Chibany kindly reminds Tanaka-san that you never stop learning and to consider t
 
 ## Defining conditional probability as set restriction
 
-What Chibany calculated is a [conditional probability](#conditional-probability) -- the probability of an event (two tonkatsus) conditioned on knowledge of another event (at least one tonkatsu). Conditioning on an event means that the possible outcomes in that event form the set of possibilities or outcome space. We then calculate probabilities as normal within that *restricted* outcome space. In our example, we're interested in the probability of the event $A= \\{TT\\}$ conditioned on the knowledge that there's at least one tonkatsu, $ B = \Omega_{\geq 1 T}= \\{HT, TH, TT\\}$. Formally, this is written as $P(A \mid B) = \frac{|A|}{|B|}$, where everything to the left of the $\mid$ is what we're interested in knowing the probability of and everything to the right of the $\mid$ is what we know to be true.
+What Chibany calculated is a [conditional probability](./06_glossary.md/#conditional-probability) -- the probability of an event (two tonkatsus) conditioned on knowledge of another event (at least one tonkatsu). Conditioning on an event means that the possible outcomes in that event form the set of possibilities or outcome space. We then calculate probabilities as normal within that *restricted* outcome space. In our example, we're interested in the probability of the event $A= \\{TT\\}$ conditioned on the knowledge that there's at least one tonkatsu, $ B = \Omega_{\geq 1 T}= \\{HT, TH, TT\\}$. Formally, this is written as $P(A \mid B) = \frac{|A|}{|B|}$, where everything to the left of the $\mid$ is what we're interested in knowing the probability of and everything to the right of the $\mid$ is what we know to be true.
 
 Note that this is a different, yet equivalent perspective to how conditional probability is traditionally taught. 
 
@@ -73,7 +73,7 @@ Look at that -- It's one half! Chibany prefers learning that there will be at le
 
 We saw in one case that conditioning on an event (that there will be one tonkatsu) influenced the probability of another event (that the second offering will be tonkatsu). But in a different case, conditioning on a slighlty differnt event (that the first meal will be a tonkatsu) did not influence the probability of another event (again, that the second offering will be a tonkatsu). 
 
-When conditioning on one event $A$ influences the probability of another event $B$, those two events are called [dependent](#dependence). This is denoted as $A \not\perp B$. If they do not influence each other they are called independent, which is denoted as $A \perp B$. 
+When conditioning on one event $A$ influences the probability of another event $B$, those two events are called [dependent](./06_glossary.md/#dependence). This is denoted as $A \not\perp B$. If they do not influence each other they are called independent, which is denoted as $A \perp B$. 
 
 ## Marginal and joint probabilities
 
@@ -110,10 +110,10 @@ block-beta
 
 In this case, he is interested $P(\\{TH, TT \\}) = 2/4 = 1/2$. Phew! 
 
-What happened here? In both cases, we are interested in the same *event* -- the probability the first meal is a Tonkatsu. In the first case, we did not include the second meal. This is called using [marginal probability](#marginal-probability). In the second case, we did include the second meal. This is called using [joint probability](#joint-probability). Technically it counts the number of outcomes in the intersection of the different events being considered jointly. This means the number of outcomes that are in all the events under consideration.
+What happened here? In both cases, we are interested in the same *event* -- the probability the first meal is a Tonkatsu. In the first case, we did not include the second meal. This is called using [marginal probability](./06_glossary.md/#marginal-probability). In the second case, we did include the second meal. This is called using [joint probability](./06_glossary.md/#joint-probability). Technically it counts the number of outcomes in the intersection of the different events being considered jointly. This means the number of outcomes that are in all the events under consideration.
 
 ### The Sum Rule: More on Marginalization and Marginal Probabilities
- Intuitively, the following two ways of calculating the probability a variable takes a value should give the same answer: ([marginal probability](#marginal-probability)) list the possible outcomes containing only that variable and count those where it has the specified value, and (2) enumerate the possible outcomes containing that variable and another variable and count all of those where the first variable has the value of interest ([joint probability](#joint-probability)).
+ Intuitively, the following two ways of calculating the probability a variable takes a value should give the same answer: ([marginal probability](./06_glossary.md/#marginal-probability)) list the possible outcomes containing only that variable and count those where it has the specified value, and (2) enumerate the possible outcomes containing that variable and another variable and count all of those where the first variable has the value of interest ([joint probability](./06_glossary.md/#joint-probability)).
  
 Formally, if we have two random variables $A$ and $B$, the marginal probability of $A$ $P(A)$ is 
 

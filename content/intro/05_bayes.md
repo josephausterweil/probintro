@@ -3,7 +3,7 @@ title = "Bayes' Theorem or Bayes' Rule"
 weight = 5
 +++
 
-[Bayes' Theorem](#bayes-theorem) (Bayes' rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let's say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let's encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).
+[Bayes' Theorem](./06_glossary.md/#bayes-theorem) (Bayes' rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let's say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let's encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).
 
 Bayes Theorem tells us to update our beliefs in hypothesis $h$ being the way the world works after learning $D=d$ in the following manner:
 
@@ -15,7 +15,7 @@ We have all the information to prove this! Feel free to skip to the next subsect
 
 ## Proving Bayes' rule
 
-Using the [other definition of conditional probability](#the-other-definition-of-conditional-probability), we know that $P(H \mid D) = \frac{P(H,D)}{P(D)}$. If we multiply both sides of the equation by $P(D)$, we get $P(H,D) = P(H \mid D) P(D)$. We can do the same thing but for the opposite way of conditioning (the joint probability can be written in either order and it is the same as it is the common elements of two sets which is the same no matter which order you consider the two sets), so $P(D \mid H) = \frac{P(H,D)}{P(H)}$. We can can solve for $P(H,D)$ in a similar manner: multiply both sides of the equation by $P(H)$ and we get $P(H,D) = P(D \mid H) P(H)$. Putting these together, we can prove Bayes' rule:
+Using the [other definition of conditional probability](./06_glossary.md/#the-other-definition-of-conditional-probability), we know that $P(H \mid D) = \frac{P(H,D)}{P(D)}$. If we multiply both sides of the equation by $P(D)$, we get $P(H,D) = P(H \mid D) P(D)$. We can do the same thing but for the opposite way of conditioning (the joint probability can be written in either order and it is the same as it is the common elements of two sets which is the same no matter which order you consider the two sets), so $P(D \mid H) = \frac{P(H,D)}{P(H)}$. We can can solve for $P(H,D)$ in a similar manner: multiply both sides of the equation by $P(H)$ and we get $P(H,D) = P(D \mid H) P(H)$. Putting these together, we can prove Bayes' rule:
 
 $P(H \mid D) P(D) = P(H,D) = P(D \mid H) P(H)$
 $\Rightarrow P(H \mid D) = \frac{P(H,D)}{P(D)} = \frac{P(D \mid H) P(H)}{P(D)}$
@@ -115,7 +115,7 @@ $P(X=B \mid W=B) = \frac{0.8 \times 0.15 }{0.8 \times 0.15 + 0.2 \times 0.85} = 
 If we can solve probability problems via symbol manipulation, why is learning the set-based perspective to probability theory?
 
 Here are some reasons:
-1. As variables become more complex, explicitly solving problems becomes infeasible. Thinking through how to count is strong starting point for a [generative process](#generative-process) perspective, which discusses how outcomes are produced according to computer programs with random choices. These define proabilistic models! [Probabilistic computing](#probabilistic-computing) are programming languages for specifying probabilistic models and built to calculate different probabilities according to this model in an efficient manner. We will build to exploring how to do this over the next few tutorials.
+1. As variables become more complex, explicitly solving problems becomes infeasible. Thinking through how to count is strong starting point for a [generative process](./06_glossary.md/#generative-process) perspective, which discusses how outcomes are produced according to computer programs with random choices. These define proabilistic models! [Probabilistic computing](./06_glossary.md/#probabilistic-computing) are programming languages for specifying probabilistic models and built to calculate different probabilities according to this model in an efficient manner. We will build to exploring how to do this over the next few tutorials.
 2. Many probability novices find the distinction between joint and conditional probabilities confusing and unintuitive. From the set-based perspective, their difference is clear. Joint probabilities count in the outcome space where multiple possible outcomes are being simultaneously. Conditional probabilities change the outcome space to be whatever is consistent with the conditioned information and then count in that new space.
 3. It forces you to think about how events and outcomes are represented. This can be obsfucated at times when thinking about probabilities from the rule-based perspective. 
 4. They are formally equivalent. 

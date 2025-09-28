@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="One goal of this tutorial is to show you that probability is counting. When every possibility is equally likely, probability is defined as the relative number of possibilities in each set. When possibilities are not equally likely, it is only slightly more complicated. Rather than each possibility counting one towards the size of a set it is in, you count the possibility according to its relative weight.
+Counting The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the cardinality or size of the set. For example, the set of Chibany’s lunch options is $\{H,T\}$. Counting the number of elements determines its size, which is $\left|\{H, T\} \right| = 2$. The set of Chibany’s meal offerings for a day, $\Omega = \{HH, HT, TH, TT \}$. There are four possibilities, so its size $|\Omega|$ is $ 4$.">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Probability and Counting :: Narrative Introduction to Probabilistic Computing">
+    <meta name="twitter:description" content="One goal of this tutorial is to show you that probability is counting. When every possibility is equally likely, probability is defined as the relative number of possibilities in each set. When possibilities are not equally likely, it is only slightly more complicated. Rather than each possibility counting one towards the size of a set it is in, you count the possibility according to its relative weight.
+Counting The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the cardinality or size of the set. For example, the set of Chibany’s lunch options is $\{H,T\}$. Counting the number of elements determines its size, which is $\left|\{H, T\} \right| = 2$. The set of Chibany’s meal offerings for a day, $\Omega = \{HH, HT, TH, TT \}$. There are four possibilities, so its size $|\Omega|$ is $ 4$.">
+    <meta property="og:url" content="http://localhost:1313/intro/03_prob_count/index.html">
+    <meta property="og:site_name" content="Narrative Introduction to Probabilistic Computing">
+    <meta property="og:title" content="Probability and Counting :: Narrative Introduction to Probabilistic Computing">
+    <meta property="og:description" content="One goal of this tutorial is to show you that probability is counting. When every possibility is equally likely, probability is defined as the relative number of possibilities in each set. When possibilities are not equally likely, it is only slightly more complicated. Rather than each possibility counting one towards the size of a set it is in, you count the possibility according to its relative weight.
+Counting The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the cardinality or size of the set. For example, the set of Chibany’s lunch options is $\{H,T\}$. Counting the number of elements determines its size, which is $\left|\{H, T\} \right| = 2$. The set of Chibany’s meal offerings for a day, $\Omega = \{HH, HT, TH, TT \}$. There are four possibilities, so its size $|\Omega|$ is $ 4$.">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="A Narrative Introduction to Probability">
+    <meta itemprop="name" content="Probability and Counting :: Narrative Introduction to Probabilistic Computing">
+    <meta itemprop="description" content="One goal of this tutorial is to show you that probability is counting. When every possibility is equally likely, probability is defined as the relative number of possibilities in each set. When possibilities are not equally likely, it is only slightly more complicated. Rather than each possibility counting one towards the size of a set it is in, you count the possibility according to its relative weight.
+Counting The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the cardinality or size of the set. For example, the set of Chibany’s lunch options is $\{H,T\}$. Counting the number of elements determines its size, which is $\left|\{H, T\} \right| = 2$. The set of Chibany’s meal offerings for a day, $\Omega = \{HH, HT, TH, TT \}$. There are four possibilities, so its size $|\Omega|$ is $ 4$.">
+    <meta itemprop="wordCount" content="704">
+    <title>Probability and Counting :: Narrative Introduction to Probabilistic Computing</title>
+    <link href="/images/favicon.png?1759055638" rel="icon" type="image/png">
+    <link href="/css/auto-complete/auto-complete.min.css?1759055638" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759055638" defer></script>
+    <script src="/js/search-lunr.js?1759055638" defer></script>
+    <script src="/js/search.js?1759055638" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759055638";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759055638" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759055638" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759055638" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759055638" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759055638" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759055638" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759055638" rel="stylesheet">
+    <link href="/css/theme.css?1759055638" rel="stylesheet">
+    <link href="/css/format-html.css?1759055638" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/intro\/03_prob_count\/index.html';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/intro/03_prob_count/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#counting">Counting</a>
+      <ul>
+        <li><a href="#chibany-is-still-hungry-and-desires-tonkatsu">Chibany is still hungry&hellip; and desires Tonkatsu</a></li>
+      </ul>
+    </li>
+    <li><a href="#probability-as-counting">Probability as Counting</a></li>
+    <li><a href="#random-variables">Random Variables</a>
+      <ul>
+        <li><a href="#chibany-wants-to-know-how-much-tonkatsu">Chibany wants to know&hellip; how much Tonkatsu?</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/index.html"><span itemprop="name">Narrative Introduction to Probabilistic Computing</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/intro/index.html"><span itemprop="name">A Narrative Introduction to Probability</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Probability and Counting</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/intro/02_hungry/index.html" title="Chibany is hungry (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/intro/04_conditional/index.html" title="Conditional probability as changing the possible outcomes (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable intro" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="probability-and-counting">Probability and Counting</h1>
+
+<p>One goal of this tutorial is to show you that probability is counting. When every possibility is equally likely, probability is defined as the relative number of possibilities in each set. When possibilities are not equally likely, it is only slightly more complicated. Rather than each possibility counting one towards the size of a set it is in, you count the possibility according to its relative weight.</p>
+<h2 id="counting">Counting</h2>
+<p>The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the <a href="/intro/06_glossary/index.html#cardinality">cardinality</a> or size of the set. For example, the set of Chibany&rsquo;s lunch options is $\{H,T\}$. Counting the number of elements determines its size, which is $\left|\{H, T\} \right| = 2$. The set of Chibany&rsquo;s meal offerings for a day, $\Omega = \{HH, HT, TH, TT \}$. There are four possibilities, so its size $|\Omega|$ is $ 4$.</p>
+<h3 id="chibany-is-still-hungry-and-desires-tonkatsu">Chibany is still hungry&hellip; and desires Tonkatsu</h3>
+<p>Chibany is still hungry and wondering what his meal possibilities are for the day. He wonders, what is the probability that students appease him today by giving him Tonkatsu?</p>
+<p>To make this calculation, Chibany lists out the outcome space $\Omega$ again. He then forms the event &ldquo;Tonkatsu offering today&rdquo;. He defines the set of possible outcomes with a Tonkatsu as $A = \{HT, TH, TT\}$ to encode the event. He highlights those in red. Chibany thinks &ldquo;wow&hellip; three of the four possible outcomes are red. Fortune must favor me today, right?&rdquo;</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 2
+        a[&#34;H(amburger) H(amburger)&#34;] b[&#34;H(amburger) T(onkastu)&#34;]
+        c[&#34;T(onkastu) H(amburger)&#34;] d[&#34;T(onkastu) T(onkastu)&#34;]
+    end
+    style b stroke: #f33, stroke-width:4px
+    style c stroke: #f33, stroke-width:4px
+    style d stroke: #f33, stroke-width:4px</pre>
+<p>Yes, Chibany, it does as it always should. Your chance of getting Tonkatsu is three out of four or 0.75. He calculated the probability exactly as he should!</p>
+<h2 id="probability-as-counting">Probability as Counting</h2>
+<p>The <a href="/intro/06_glossary/index.html#probability">probability</a> of an event $A$ is $\frac{|A|}{|\Omega|}$. It is written as $P(A)$. In the prior example, $|A| = | \{HT, TH, TT\} |$ and $|\Omega| = | \{HH, HT, TH, TT\}|$ have three and four elements, respectively. Note that if the possible outcomes were not equally likely, we would sum their individual probabilities to calculate the cardinality. But everything works in the same way &ndash; the probability of the event is the total &ldquo;size&rdquo; or &ldquo;weight&rdquo; of the possible outcomes in the event as compared to the total size or weight of all possible outcomes.</p>
+<p>What is the probability that Chibany gets Tonkatsu for his first offering? Well the possible outcomes with Tonkatsu are $\{TH, TT\}$. There are four possible outcomes for his offerings $\Omega = \{HH,HT, TH, TT\}$. So the probability he gets Tonkatsu for his first offering is $|\{TH, TT\}|/|\{HH,HT, TH, TT\}| = 2/4=1/2$. Chibany draws the following table to illustrate his counting:</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 2
+        a[&#34;H(amburger) H(amburger)&#34;] b[&#34;H(amburger) T(onkastu)&#34;]
+        c[&#34;T(onkastu) H(amburger)&#34;] d[&#34;T(onkastu) T(onkastu)&#34;]
+    end
+    style c stroke: #f33, stroke-width:4px
+    style d stroke: #f33, stroke-width:4px</pre>
+<h2 id="random-variables">Random Variables</h2>
+<h3 id="chibany-wants-to-know-how-much-tonkatsu">Chibany wants to know&hellip; how much Tonkatsu?</h3>
+<p>Chibany wants to know how much Tonkatsu he gets each day. To do so, he converts each possibility to a whole number: the number of Tonkatsu in that possibility. He calls this a function $f : \Omega \rightarrow \{0, 1, 2, \ldots\}$, meaning it takes a possibility out of the outcome space and maps it (changes it into) a number. He notes: mapping every possibility to a whole number is like making each whole number an event! His Tonkatsu counter $f$ is defined as $f(HH) = 0$, $f(HT) = 1$, $f(TH)=1$, and $f(TT) = 2$. Chibany defined his first <a href="/intro/06_glossary/index.html#random-variable">random variable</a>.</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 2
+        a[&#34;HH: 0&#34;] space
+        b[&#34;HT: 1&#34;] c[&#34;TH: 1&#34;]
+        d[&#34;TT: 2&#34;] space
+    end
+    style b stroke: #44c, stroke-width:4px
+    style c stroke: #44c, stroke-width:4px
+    style d stroke: #f33, stroke-width:4px</pre>
+<p>What is the probability of having two tonkatsus? We count the number of outcomes with two tonkatsus ($\{TT\}$ highlighted in red) and divide by the number of possible outcomes ($|\Omega|=4$). So, it is 1 out of 4 or 1/4.</p>
+<p>What about the probability of having <em>exactly</em> one tonkatsu? We count the number of outcomes with <em>exactly</em> one tonkatsu ($\{HT, TH\}$) and divide by the number of possible outcomes ($|\Omega|=4$). So it is 2/4 or 1/2.</p>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/index.html">
+            <div class="logo-title">Narrative Introduction to Probabilistic Computing</div>
+          </a>
+        </div>
+        <search><form action="/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/index.html"><a class="padding" href="/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="parent alwaysopen " data-nav-id="/intro/index.html"><a class="padding" href="/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu">
+            <li class="" data-nav-id="/intro/01_goals/index.html"><a class="padding" href="/intro/01_goals/index.html">Goals</a></li>
+            <li class="" data-nav-id="/intro/02_hungry/index.html"><a class="padding" href="/intro/02_hungry/index.html">Chibany is hungry</a></li>
+            <li class="active " data-nav-id="/intro/03_prob_count/index.html"><a class="padding" href="/intro/03_prob_count/index.html">Probability and Counting</a></li>
+            <li class="" data-nav-id="/intro/04_conditional/index.html"><a class="padding" href="/intro/04_conditional/index.html">Conditional probability as changing the possible outcomes</a></li>
+            <li class="" data-nav-id="/intro/05_bayes/index.html"><a class="padding" href="/intro/05_bayes/index.html">Bayes&#39; Theorem or Bayes&#39; Rule</a></li>
+            <li class="" data-nav-id="/intro/06_glossary/index.html"><a class="padding" href="/intro/06_glossary/index.html">Glossary</a></li>
+            <li class="" data-nav-id="/intro/07_ack/index.html"><a class="padding" href="/intro/07_ack/index.html">Acknowledgements</a></li></ul></li>
+            <li class="" data-nav-id="/intro2/index.html"><a class="padding" href="/intro2/index.html">Intro2</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1759055638"></script>
+    <script src="/js/js-yaml/js-yaml.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-color.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-dispatch.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-drag.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-ease.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-interpolate.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-selection.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-timer.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-transition.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-zoom.min.js?1759055638" defer></script>
+    <script src="/js/mermaid/mermaid.min.js?1759055638" defer></script>
+    <script>
+      window.relearn.themeUseMermaid = JSON.parse("{}");
+    </script>
+    <script src="/js/clipboard/clipboard.min.js?1759055638" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759055638" defer></script>
+    <script src="/js/theme.js?1759055638" defer></script>
+  </body>
+</html>

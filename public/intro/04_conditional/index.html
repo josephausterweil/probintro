@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Chibany wants a tonkatsu dinner A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chinbany that he knows that there will be at least one tonkatsu in tomorrow’s offering. Chibany is excited. They wants to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. He say it’s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says “I learned something because I knows I will get at least one tonkatsu”. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who’s right!? Let’s check the chart…">
+    <meta name="author" content="">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Conditional probability as changing the possible outcomes :: Narrative Introduction to Probabilistic Computing">
+    <meta name="twitter:description" content="Chibany wants a tonkatsu dinner A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chinbany that he knows that there will be at least one tonkatsu in tomorrow’s offering. Chibany is excited. They wants to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. He say it’s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says “I learned something because I knows I will get at least one tonkatsu”. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who’s right!? Let’s check the chart…">
+    <meta property="og:url" content="http://localhost:1313/intro/04_conditional/index.html">
+    <meta property="og:site_name" content="Narrative Introduction to Probabilistic Computing">
+    <meta property="og:title" content="Conditional probability as changing the possible outcomes :: Narrative Introduction to Probabilistic Computing">
+    <meta property="og:description" content="Chibany wants a tonkatsu dinner A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chinbany that he knows that there will be at least one tonkatsu in tomorrow’s offering. Chibany is excited. They wants to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. He say it’s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says “I learned something because I knows I will get at least one tonkatsu”. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who’s right!? Let’s check the chart…">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="A Narrative Introduction to Probability">
+    <meta itemprop="name" content="Conditional probability as changing the possible outcomes :: Narrative Introduction to Probabilistic Computing">
+    <meta itemprop="description" content="Chibany wants a tonkatsu dinner A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chinbany that he knows that there will be at least one tonkatsu in tomorrow’s offering. Chibany is excited. They wants to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. He say it’s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says “I learned something because I knows I will get at least one tonkatsu”. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who’s right!? Let’s check the chart…">
+    <meta itemprop="wordCount" content="1883">
+    <title>Conditional probability as changing the possible outcomes :: Narrative Introduction to Probabilistic Computing</title>
+    <link href="/images/favicon.png?1759055638" rel="icon" type="image/png">
+    <link href="/css/auto-complete/auto-complete.min.css?1759055638" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759055638" defer></script>
+    <script src="/js/search-lunr.js?1759055638" defer></script>
+    <script src="/js/search.js?1759055638" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/searchindex.en.js?1759055638";
+    </script>
+    <script src="/js/lunr/lunr.min.js?1759055638" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759055638" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759055638" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759055638" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759055638" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759055638" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759055638" rel="stylesheet">
+    <link href="/css/theme.css?1759055638" rel="stylesheet">
+    <link href="/css/format-html.css?1759055638" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/intro\/04_conditional\/index.html';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/intro/04_conditional/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#chibany-wants-a-tonkatsu-dinner">Chibany wants a tonkatsu dinner</a></li>
+    <li><a href="#defining-conditional-probability-as-set-restriction">Defining conditional probability as set restriction</a></li>
+    <li><a href="#dependence-and-independence">Dependence and independence</a></li>
+    <li><a href="#marginal-and-joint-probabilities">Marginal and joint probabilities</a>
+      <ul>
+        <li><a href="#chibany-is-sad-marginalization">Chibany is sad (marginalization)</a></li>
+        <li><a href="#the-sum-rule-more-on-marginalization-and-marginal-probabilities">The Sum Rule: More on Marginalization and Marginal Probabilities</a></li>
+        <li><a href="#the-other-definition-of-conditional-probability">The other definition of conditional probability</a></li>
+      </ul>
+    </li>
+    <li><a href="#weighted-possibilities">Weighted possibilities</a>
+      <ul>
+        <li><a href="#chibany-tells-students-that-he-likes-tonkatsu-more">Chibany tells students that he likes Tonkatsu more</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/index.html"><span itemprop="name">Narrative Introduction to Probabilistic Computing</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/intro/index.html"><span itemprop="name">A Narrative Introduction to Probability</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Conditional probability as changing the possible outcomes</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/intro/03_prob_count/index.html" title="Probability and Counting (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/intro/05_bayes/index.html" title="Bayes' Theorem or Bayes' Rule (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable intro" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="conditional-probability-as-changing-the-possible-outcomes">Conditional probability as changing the possible outcomes</h1>
+
+<h2 id="chibany-wants-a-tonkatsu-dinner">Chibany wants a tonkatsu dinner</h2>
+<p>A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chinbany that he knows that there will be at least one tonkatsu in tomorrow&rsquo;s offering. Chibany is excited. They wants to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. He say it&rsquo;s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says &ldquo;I learned something because I knows I will get at least one tonkatsu&rdquo;. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who&rsquo;s right!? Let&rsquo;s check the chart&hellip;</p>
+<p><strong>TODO: Make top block look more disabled</strong></p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 1
+        a[&#34;HH&#34;] 
+        block:group1
+            b[&#34;HT&#34;] c[&#34;TH&#34;]
+            d[&#34;TT&#34;] space
+        end
+    end
+    style a fill:#999, text-decoration:line-through
+    style group1 stroke: #33f, stroke-width: 6px
+    style c stroke: #f33, stroke-width: 4px
+    style d stroke: #f33, stroke-width: 4px</pre>
+<p>In the case where there is at least one tonkatsu, the space of possible outcomes is $\{HT, TH, TT\}$, which is outlined in blue. The event of interest for Chibany is outlined in red. It turns out Chibany is correct! There is a two in three chance that he gets a tonkatsu dinner. That&rsquo;s larger than one in two.</p>
+<p>Chibany kindly reminds Tanaka-san that you never stop learning and to consider taking one of Joe&rsquo;s classes at Chiba Tech. Chibany hears great things about them!</p>
+<h2 id="defining-conditional-probability-as-set-restriction">Defining conditional probability as set restriction</h2>
+<p>What Chibany calculated is a <a href="/intro/06_glossary/index.html#conditional-probability">conditional probability</a> &ndash; the probability of an event (two tonkatsus) conditioned on knowledge of another event (at least one tonkatsu). Conditioning on an event means that the possible outcomes in that event form the set of possibilities or outcome space. We then calculate probabilities as normal within that <em>restricted</em> outcome space. In our example, we&rsquo;re interested in the probability of the event $A= \{TT\}$ conditioned on the knowledge that there&rsquo;s at least one tonkatsu, $ B = \Omega_{\geq 1 T}= \{HT, TH, TT\}$. Formally, this is written as $P(A \mid B) = \frac{|A|}{|B|}$, where everything to the left of the $\mid$ is what we&rsquo;re interested in knowing the probability of and everything to the right of the $\mid$ is what we know to be true.</p>
+<p>Note that this is a different, yet equivalent perspective to how conditional probability is traditionally taught.</p>
+<h2 id="dependence-and-independence">Dependence and independence</h2>
+<p>Tanaka-san explains to Chibany his reasoning: He did not think whether Chibany received a tonkatsu (T) for their first offering influenced whether they receive a tonkatsu (T) for their second offering.</p>
+<p>Chibany is curious. Tanaka-san&rsquo;s logic seems sound, but it sounds like a slightly different question. Chibany asks Tanaka-san to draw out the outcome space and events for this question to help clarify what is different. Tanaka-san states his question formally: What is the probability of getting a second tonkatsu ($\{TT\}$) given the first offering was a tonkatsu ($\{TH, TT\}$)  or $P(\{HT, TT\} \mid \{TH, TT\})$</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 1
+        block:group1
+            a[&#34;HH&#34;] b[&#34;HT&#34;]
+        end
+        block:group2
+            c[&#34;TH&#34;] d[&#34;TT&#34;]
+        end
+    end
+    style group1 fill:#999, text-decoration:line-through
+    style a fill:#999, text-decoration:line-through
+    style b fill:#999, text-decoration:line-through
+    style group2 stroke: #33f, stroke-width: 6px
+    style d stroke: #f33, stroke-width: 4px</pre>
+<p>There&rsquo;s one outcome ($TT$) out of two possible outcomes ($\{TH, TT\}$). Thus the probability is $1/2$: $P(\{HT, TT\} \mid \{TH, TT\}) = 1/2$.</p>
+<p>Tanaka-san says this time the result is what I expected. he says &ldquo;If I just think about what the probability of the second meal is and make that my outcome space, then the probability of the second meal being tonkatsu should just be one-half. Chibany asks Tanaka-san the draw out this outcome space and calculate the probability this way instead. Chibany notes that probability is much more fun when you ask your friends to help you do the hard parts!</p>
+<pre class="mermaid align-center ">block-beta
+    block:group2
+        columns 2
+        c[&#34;H&#34;] d[&#34;T&#34;]
+    end
+    style group2 stroke: #33f, stroke-width: 6px
+    style d stroke: #f33, stroke-width: 4px</pre>
+<p>Look at that &ndash; It&rsquo;s one half! Chibany prefers learning that there will be at least one tonkatsu because it makes it more likely that he will get a tonkatsu for his second offering.</p>
+<p>We saw in one case that conditioning on an event (that there will be one tonkatsu) influenced the probability of another event (that the second offering will be tonkatsu). But in a different case, conditioning on a slighlty differnt event (that the first meal will be a tonkatsu) did not influence the probability of another event (again, that the second offering will be a tonkatsu).</p>
+<p>When conditioning on one event $A$ influences the probability of another event $B$, those two events are called <a href="/intro/06_glossary/index.html#dependence">dependent</a>. This is denoted as $A \not\perp B$. If they do not influence each other they are called independent, which is denoted as $A \perp B$.</p>
+<h2 id="marginal-and-joint-probabilities">Marginal and joint probabilities</h2>
+<h3 id="chibany-is-sad-marginalization">Chibany is sad (marginalization)</h3>
+<p><a href="#R-image-4bc50afe50a31730e6fc4d94facec411" class="lightbox-link"><img alt="Chibany is sad" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanysad.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4bc50afe50a31730e6fc4d94facec411"><img alt="Chibany is sad" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanysad.png"></a></p>
+<p>The student that normally gives Chibany his second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \{H, T\}$.</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 2
+        a[&#34;H(amburger)&#34;] b[&#34;T(onkastu)&#34;]
+    end
+        style b stroke: #f33, stroke-width:4px</pre>
+<p>He notes this is a much sadder set of possibilities. At least the probability of getting Tonkatsu isn&rsquo;t too low! It&rsquo;s one of two possibilities.</p>
+<p>Thankfully, on the next day, the student is healthy again and Chibany is back to getting two offerings each day. This changes the set of possibilities back to the original one $\Omega_2 = \{HH,HT, TH, TT \}$. Chibany realizes he can calculate the probability of the first offering being Tonkatsu. Getting his second meal shouldn&rsquo;t influence the chance the first one is Tonkatsu, right? Let&rsquo;s check!</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 2
+        a[&#34;H(amburger) H(amburger)&#34;] b[&#34;H(amburger) T(onkastu)&#34;]
+        c[&#34;T(onkastu) H(amburger)&#34;] d[&#34;T(onkastu) T(onkastu)&#34;]
+    end
+    style c stroke: #f33, stroke-width:4px
+    style d stroke: #f33, stroke-width:4px</pre>
+<p>In this case, he is interested $P(\{TH, TT \}) = 2/4 = 1/2$. Phew!</p>
+<p>What happened here? In both cases, we are interested in the same <em>event</em> &ndash; the probability the first meal is a Tonkatsu. In the first case, we did not include the second meal. This is called using <a href="/intro/06_glossary/index.html#marginal-probability">marginal probability</a>. In the second case, we did include the second meal. This is called using <a href="/intro/06_glossary/index.html#joint-probability">joint probability</a>. Technically it counts the number of outcomes in the intersection of the different events being considered jointly. This means the number of outcomes that are in all the events under consideration.</p>
+<h3 id="the-sum-rule-more-on-marginalization-and-marginal-probabilities">The Sum Rule: More on Marginalization and Marginal Probabilities</h3>
+<p>Intuitively, the following two ways of calculating the probability a variable takes a value should give the same answer: (<a href="/intro/06_glossary/index.html#marginal-probability">marginal probability</a>) list the possible outcomes containing only that variable and count those where it has the specified value, and (2) enumerate the possible outcomes containing that variable and another variable and count all of those where the first variable has the value of interest (<a href="/intro/06_glossary/index.html#joint-probability">joint probability</a>).</p>
+<p>Formally, if we have two random variables $A$ and $B$, the marginal probability of $A$ $P(A)$ is</p>
+<p>$P(A) = \sum_{b} P(A, B=b)$.</p>
+<p>If you&rsquo;re unfamiliar with the notation $\sum_{b}$, $\sum$ is a fancy way of saying &ldquo;add the following up&rdquo; and the $b$ tells you which values to add up over (in this case, the values $b$ that random variable $B$ could possibly be).</p>
+<p>In the last example, $A$ was Chibany&rsquo;s first meal and $B$ was Chibany&rsquo;s second meal. We were interested in whether Chibany&rsquo;s first meal was Tonkatsu or $P(A=T)$. The possible values for $B$ are Hamburger and Tonkatsu or ${H,T }$. What we showed was
+$
+P(A=T) = \sum_{b} P(A=T,B=b) = P(A=T, B=H) + P(A=T, B=T) = 1/4 + 1/4 = 2/4 = 1/2
+$</p>
+<h3 id="the-other-definition-of-conditional-probability">The other definition of conditional probability</h3>
+<p>Using joint and marginal probabilities, we can define conditional probability in a different manner &ndash; as the ratio of the joint probability to the marginal probability of the conditioned information. Or</p>
+<p>$P(A \mid B) = \frac{P(A,B)}{P(B)}$</p>
+<p>Note that the probability of $B$ must be greater than zero ($P(B) &gt; 0$). This makes sense to Chibany. How could he be given information that had zero chance of happening?</p>
+<p>Chibany is no fan of this other way of calculating conditional probabilities, but he decides to practice using it. He goes back to his favorite example so far &ndash; the one where he had better than a one-half chance of getting two Tonkatsus. In that example, he learned he was going to get at least one Tonkatsu and was interested in finding the probability that there would be two Tonkatsus. So, $A$ is getting a tonkatsu dinner (second meal is tonkatsu) and $B$ is that there is at least one tonkatsu. So $A = \{HT, TT\}$ and $B=\{HT, TH, TT\}$. The intersection or common possibilities in $A$ and $B$ is $\{HT,TT\}$. Remember that there are four possible outcomes in the larger outcome space $\Omega = \{HH,HT,TH,TT\}$ This means $P(A,B) = |\{HT,TT\}/ | \{HH,HT,TH,TT\} = 2/4$. $P(B) = |\{HT,TH,TT\}|/\{HH,HT,TH,TT\} = 3/4$. Putting these together we get
+$P(A \mid B) = \frac{P(A,B)}{P(B)} = \frac{2/4}{3/4} = \frac{2}{3}$</p>
+<p>Although Chibany is happy to see the same result of it being more likely than not he&rsquo;ll have a second meal of Tonkatsu if he learns he gets at least one Tonkatsu, this felt a lot harder to him than the first way of doing things. It may have felt that way for you too (it does for me!). That&rsquo;s why Chibany wants everyone to know the set-based perspective to probability.</p>
+<h2 id="weighted-possibilities">Weighted possibilities</h2>
+<h3 id="chibany-tells-students-that-he-likes-tonkatsu-more">Chibany tells students that he likes Tonkatsu more</h3>
+<p><a href="#R-image-f9a313f6d296982e6d0b06f4d43fbc10" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f9a313f6d296982e6d0b06f4d43fbc10"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanyplain.png"></a></p>
+<p>Chibany is happy! He remembered that students love learning. He has important information for them: Chibany likes Tonkatsu more than Hamburgers.</p>
+<p>While wondering how to calculate probabilities taking this glorious news into account, Tanaka-san stops by. Tanaka-san lets Chibany know that the students coordinate to ensure that he gets at least one tonkatsu, but try not to make both offerings tonkatsu (that way he doesn&rsquo;t get tired of Tonkatsu). Tanaka-san shares the following chart the students use to guide their daily offerings</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 2
+        a[&#34;HH: 4%&#34;] b[&#34;HT: 43%&#34;]
+        c[&#34;TH: 43%&#34;] d[&#34;TT: 10%&#34;]
+    style b stroke: #f33, stroke-width:4px
+    style c stroke: #f33, stroke-width:4px
+    style d stroke: #f33, stroke-width:4px
+    end</pre>
+<p>Chibany is confused at first, but he sticks with the rules he learned. I follow the same procedure as before, but add the weighted versions of each outcome rather than each outcome counting 1 automatically.</p>
+<p>So he adds up the outcomes containing Tonkatsu (outlined in red) and divides it by the total amount:
+$P(\textrm{Tonkatsu}) = \frac{0.43+0.43+0.10}{0.04+0.43+0.43+0.10} = \frac{0.96}{1}=0.96$</p>
+<p>He gets a lot more Tonkatsu &ndash; Tonkatsu 96% of the time. Joyous times!</p>
+<p>Practice question:
+Can you determine whether the first and second meals are dependent? How would you do that?
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    answer
+  </summary>
+  <div class="box-content">
+<p>
+If $A$ and $B$ are random variables encoding Chibany&rsquo;s first meal and second meals, we would want to see whether $P(A=a)$ is different from $P(A =a \mid B=b)$ for any possible $a$ or $b$. Let&rsquo;s consider whether the probability the first meal is Tonkatsu is influenced by the second meal being Tonkatsu. First let&rsquo;s calculate $P(A=T)$. To do, we&rsquo;ll use the sum rule, so $P(A=T) = \sum_b{P(A=T, B= b)} = P(A=T, B=H) + P(A=T, B=T) = 0.43+0.10 = 0.53$. Is this different from the $P(A = T \mid B=T)$? How do we calculate this in the weighted case? The same as before except the $| \Omega|$ is the amount of weight for the conditioned event $B=T$. So,  $P(A=T \mid B=T) = \frac{0.10}{0.43+0.10} = \frac{0.1}{0.53} \approx 0.19$.
+  </div>
+</details></p>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/index.html">
+            <div class="logo-title">Narrative Introduction to Probabilistic Computing</div>
+          </a>
+        </div>
+        <search><form action="/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/index.html"><a class="padding" href="/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="parent alwaysopen " data-nav-id="/intro/index.html"><a class="padding" href="/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu">
+            <li class="" data-nav-id="/intro/01_goals/index.html"><a class="padding" href="/intro/01_goals/index.html">Goals</a></li>
+            <li class="" data-nav-id="/intro/02_hungry/index.html"><a class="padding" href="/intro/02_hungry/index.html">Chibany is hungry</a></li>
+            <li class="" data-nav-id="/intro/03_prob_count/index.html"><a class="padding" href="/intro/03_prob_count/index.html">Probability and Counting</a></li>
+            <li class="active " data-nav-id="/intro/04_conditional/index.html"><a class="padding" href="/intro/04_conditional/index.html">Conditional probability as changing the possible outcomes</a></li>
+            <li class="" data-nav-id="/intro/05_bayes/index.html"><a class="padding" href="/intro/05_bayes/index.html">Bayes&#39; Theorem or Bayes&#39; Rule</a></li>
+            <li class="" data-nav-id="/intro/06_glossary/index.html"><a class="padding" href="/intro/06_glossary/index.html">Glossary</a></li>
+            <li class="" data-nav-id="/intro/07_ack/index.html"><a class="padding" href="/intro/07_ack/index.html">Acknowledgements</a></li></ul></li>
+            <li class="" data-nav-id="/intro2/index.html"><a class="padding" href="/intro2/index.html">Intro2</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1759055638"></script>
+    <script src="/js/js-yaml/js-yaml.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-color.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-dispatch.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-drag.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-ease.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-interpolate.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-selection.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-timer.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-transition.min.js?1759055638" defer></script>
+    <script src="/js/d3/d3-zoom.min.js?1759055638" defer></script>
+    <script src="/js/mermaid/mermaid.min.js?1759055638" defer></script>
+    <script>
+      window.relearn.themeUseMermaid = JSON.parse("{}");
+    </script>
+    <script src="/js/clipboard/clipboard.min.js?1759055638" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759055638" defer></script>
+    <script src="/js/theme.js?1759055638" defer></script>
+  </body>
+</html>
