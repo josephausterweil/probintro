@@ -60,3 +60,6 @@ $\\{ \\{ \\}, \\{ HH \\}, \\{ HT\\}, \\{TH \\}, \\{TT\\},
 
 Note that $\\{ \\}$ is called the empty or null set and is a special set that contains no elements.
 {{% /expand %}}
+
+|[prev: goals](./01_goals.md) | [next: counting](./03_prob_count.md)|
+| :--- | ---: |

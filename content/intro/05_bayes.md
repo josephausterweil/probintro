@@ -127,3 +127,6 @@ Here are some reasons:
 * Example with rare disease and not too diagnostic test.
 
 * Example with organic fruit and made at a local place 
+
+|[prev: conditioning](./04_conditional.md) | [next: glossary](./06_glossary.md)|
+| :--- | ---: |

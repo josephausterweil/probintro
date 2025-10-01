@@ -19,29 +19,29 @@
     <meta property="article:section" content="A Narrative Introduction to Probability">
     <meta itemprop="name" content="Conditional probability as changing the possible outcomes :: Narrative Introduction to Probabilistic Computing">
     <meta itemprop="description" content="Chibany wants a tonkatsu dinner A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chinbany that he knows that there will be at least one tonkatsu in tomorrow’s offering. Chibany is excited. They wants to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. He say it’s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says “I learned something because I knows I will get at least one tonkatsu”. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who’s right!? Let’s check the chart…">
-    <meta itemprop="wordCount" content="1876">
+    <meta itemprop="wordCount" content="1880">
     <title>Conditional probability as changing the possible outcomes :: Narrative Introduction to Probabilistic Computing</title>
-    <link href="/images/favicon.png?1759121089" rel="icon" type="image/png">
-    <link href="/css/auto-complete/auto-complete.min.css?1759121089" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1759121089" defer></script>
-    <script src="/js/search-lunr.js?1759121089" defer></script>
-    <script src="/js/search.js?1759121089" defer></script>
+    <link href="/images/favicon.png?1759282942" rel="icon" type="image/png">
+    <link href="/css/auto-complete/auto-complete.min.css?1759282942" rel="stylesheet">
+    <script src="/js/auto-complete/auto-complete.min.js?1759282942" defer></script>
+    <script src="/js/search-lunr.js?1759282942" defer></script>
+    <script src="/js/search.js?1759282942" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1759121089";
+      window.relearn.index_js_url="/searchindex.en.js?1759282942";
     </script>
-    <script src="/js/lunr/lunr.min.js?1759121089" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1759121089" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1759121089" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1759121089" defer></script>
+    <script src="/js/lunr/lunr.min.js?1759282942" defer></script>
+    <script src="/js/lunr/lunr.stemmer.support.min.js?1759282942" defer></script>
+    <script src="/js/lunr/lunr.multi.min.js?1759282942" defer></script>
+    <script src="/js/lunr/lunr.en.min.js?1759282942" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759121089" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759121089" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759121089" rel="stylesheet">
-    <link href="/css/theme.css?1759121089" rel="stylesheet">
-    <link href="/css/format-html.css?1759121089" rel="stylesheet" id="R-format-style">
+    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759282942" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1759282942" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1759282942" rel="stylesheet">
+    <link href="/css/theme.css?1759282942" rel="stylesheet">
+    <link href="/css/format-html.css?1759282942" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -210,8 +210,8 @@
 <p>When conditioning on one event $A$ influences the probability of another event $B$, those two events are called <a href="/intro/06_glossary/index.html#dependence">dependent</a>. This is denoted as $A \not\perp B$. If they do not influence each other they are called independent, which is denoted as $A \perp B$.</p>
 <h2 id="marginal-and-joint-probabilities">Marginal and joint probabilities</h2>
 <h3 id="chibany-is-sad-marginalization">Chibany is sad (marginalization)</h3>
-<p><a href="#R-image-d26a083ed7667813979442fa2a5943f4" class="lightbox-link"><img alt="Chibany is sad" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanysad.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-d26a083ed7667813979442fa2a5943f4"><img alt="Chibany is sad" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanysad.png"></a></p>
+<p><a href="#R-image-6efc696b54ef7ea5488c48bdf257f35c" class="lightbox-link"><img alt="Chibany is sad" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanysad.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-6efc696b54ef7ea5488c48bdf257f35c"><img alt="Chibany is sad" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanysad.png"></a></p>
 <p>The student that normally gives Chibany his second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \{H, T\}$.</p>
 <pre class="mermaid align-center ">block-beta
     block
@@ -249,8 +249,8 @@ $P(A \mid B) = \frac{P(A,B)}{P(B)} = \frac{2/4}{3/4} = \frac{2}{3}$</p>
 <p>Although Chibany is happy to see the same result of it being more likely than not he&rsquo;ll have a second meal of Tonkatsu if he learns he gets at least one Tonkatsu, this felt a lot harder to him than the first way of doing things. It may have felt that way for you too (it does for me!). That&rsquo;s why Chibany wants everyone to know the set-based perspective to probability.</p>
 <h2 id="weighted-possibilities">Weighted possibilities</h2>
 <h3 id="chibany-tells-students-that-he-likes-tonkatsu-more">Chibany tells students that he likes Tonkatsu more</h3>
-<p><a href="#R-image-f7d96e48b0781e17b05cf81958f5e309" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-f7d96e48b0781e17b05cf81958f5e309"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanyplain.png"></a></p>
+<p><a href="#R-image-4a0a0c9a3f581b26b6d5483ce0ebddaf" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4a0a0c9a3f581b26b6d5483ce0ebddaf"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/images/chibanyplain.png"></a></p>
 <p>Chibany is happy! He remembered that students love learning. He has important information for them: Chibany likes Tonkatsu more than Hamburgers.</p>
 <p>While wondering how to calculate probabilities taking this glorious news into account, Tanaka-san stops by. Tanaka-san lets Chibany know that the students coordinate to ensure that he gets at least one tonkatsu, but try not to make both offerings tonkatsu (that way he doesn&rsquo;t get tired of Tonkatsu). Tanaka-san shares the following chart the students use to guide their daily offerings</p>
 <pre class="mermaid align-center ">block-beta
@@ -279,6 +279,16 @@ Can you determine whether the first and second meals are dependent? How would yo
 If $A$ and $B$ are random variables encoding Chibany&rsquo;s first meal and second meals, we would want to see whether $P(A=a)$ is different from $P(A =a \mid B=b)$ for any possible $a$ or $b$. Let&rsquo;s consider whether the probability the first meal is Tonkatsu is influenced by the second meal being Tonkatsu. First let&rsquo;s calculate $P(A=T)$. To do, we&rsquo;ll use the sum rule, so $P(A=T) = \sum_b{P(A=T, B= b)} = P(A=T, B=H) + P(A=T, B=T) = 0.43+0.10 = 0.53$. Is this different from the $P(A = T \mid B=T)$? How do we calculate this in the weighted case? The same as before except the $| \Omega|$ is the amount of weight for the conditioned event $B=T$. So,  $P(A=T \mid B=T) = \frac{0.10}{0.43+0.10} = \frac{0.1}{0.53} \approx 0.19$.
   </div>
 </details></p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><a href="/intro/03_prob_count/index.html">prev: counting</a></th>
+          <th style="text-align: right"><a href="/intro/05_bayes/index.html">next: bayes</a></th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
 
   <footer class="footline">
   </footer>
@@ -363,23 +373,23 @@ If $A$ and $B$ are random variables encoding Chibany&rsquo;s first meal and seco
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1759121089"></script>
-    <script src="/js/js-yaml/js-yaml.min.js?1759121089" defer></script>
-    <script src="/js/d3/d3-color.min.js?1759121089" defer></script>
-    <script src="/js/d3/d3-dispatch.min.js?1759121089" defer></script>
-    <script src="/js/d3/d3-drag.min.js?1759121089" defer></script>
-    <script src="/js/d3/d3-ease.min.js?1759121089" defer></script>
-    <script src="/js/d3/d3-interpolate.min.js?1759121089" defer></script>
-    <script src="/js/d3/d3-selection.min.js?1759121089" defer></script>
-    <script src="/js/d3/d3-timer.min.js?1759121089" defer></script>
-    <script src="/js/d3/d3-transition.min.js?1759121089" defer></script>
-    <script src="/js/d3/d3-zoom.min.js?1759121089" defer></script>
-    <script src="/js/mermaid/mermaid.min.js?1759121089" defer></script>
+    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1759282942"></script>
+    <script src="/js/js-yaml/js-yaml.min.js?1759282942" defer></script>
+    <script src="/js/d3/d3-color.min.js?1759282942" defer></script>
+    <script src="/js/d3/d3-dispatch.min.js?1759282942" defer></script>
+    <script src="/js/d3/d3-drag.min.js?1759282942" defer></script>
+    <script src="/js/d3/d3-ease.min.js?1759282942" defer></script>
+    <script src="/js/d3/d3-interpolate.min.js?1759282942" defer></script>
+    <script src="/js/d3/d3-selection.min.js?1759282942" defer></script>
+    <script src="/js/d3/d3-timer.min.js?1759282942" defer></script>
+    <script src="/js/d3/d3-transition.min.js?1759282942" defer></script>
+    <script src="/js/d3/d3-zoom.min.js?1759282942" defer></script>
+    <script src="/js/mermaid/mermaid.min.js?1759282942" defer></script>
     <script>
       window.relearn.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/clipboard/clipboard.min.js?1759121089" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759121089" defer></script>
-    <script src="/js/theme.js?1759121089" defer></script>
+    <script src="/js/clipboard/clipboard.min.js?1759282942" defer></script>
+    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1759282942" defer></script>
+    <script src="/js/theme.js?1759282942" defer></script>
   </body>
 </html>

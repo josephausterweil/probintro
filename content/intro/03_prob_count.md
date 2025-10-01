@@ -69,3 +69,6 @@ block-beta
 What is the probability of having two tonkatsus? We count the number of outcomes with two tonkatsus ($\\{TT\\}$ highlighted in red) and divide by the number of possible outcomes ($|\Omega|=4$). So, it is 1 out of 4 or 1/4. 
 
 What about the probability of having *exactly* one tonkatsu? We count the number of outcomes with *exactly* one tonkatsu ($\\{HT, TH\\}$) and divide by the number of possible outcomes ($|\Omega|=4$). So it is 2/4 or 1/2.
+
+|[prev: hungry](./02_hungry.md) | [next: conditioning](./04_conditional.md)|
+| :--- | ---: |

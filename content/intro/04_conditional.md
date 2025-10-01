@@ -170,3 +170,5 @@ He gets a lot more Tonkatsu -- Tonkatsu 96\% of the time. Joyous times!
 Practice question:
 Can you determine whether the first and second meals are dependent? How would you do that?
 {{% expand "answer" %}} If $A$ and $B$ are random variables encoding Chibany's first meal and second meals, we would want to see whether $P(A=a)$ is different from $P(A =a \mid B=b)$ for any possible $a$ or $b$. Let's consider whether the probability the first meal is Tonkatsu is influenced by the second meal being Tonkatsu. First let's calculate $P(A=T)$. To do, we'll use the sum rule, so $P(A=T) = \sum_b{P(A=T, B= b)} = P(A=T, B=H) + P(A=T, B=T) = 0.43+0.10 = 0.53$. Is this different from the $P(A = T \mid B=T)$? How do we calculate this in the weighted case? The same as before except the $| \Omega|$ is the amount of weight for the conditioned event $B=T$. So,  $P(A=T \mid B=T) = \frac{0.10}{0.43+0.10} = \frac{0.1}{0.53} \approx 0.19$.{{% /expand %}}
+|[prev: counting](./03_prob_count.md) | [next: bayes](./05_bayes.md)|
+| :--- | ---: |

@@ -38,3 +38,6 @@ weight = 6
 
 ### probabilistic computing
 {{% expand "probabilistic computing" %}} *Probabilistic computing* is a programming language for specifying probabilistic models and built to calculate different probabilities according to this model in an efficient manner {{% /expand %}}
+
+|[prev: bayes](./05_bayes.md) | [next: acknowledgements](./07_ack.md)|
+| :--- | ---: |

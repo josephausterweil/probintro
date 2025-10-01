@@ -1,8 +1,8 @@
 var relearn_searchindex = [
   {
     "breadcrumb": "Narrative Introduction to Probabilistic Computing",
-    "content": "Introduction acknowledgements",
-    "description": "Introduction acknowledgements",
+    "content": "Introduction This is still a draft in what will be a series of tutorials.\nacknowledgements\nnext page - goals",
+    "description": "Introduction This is still a draft in what will be a series of tutorials.\nacknowledgements\nnext page - goals",
     "tags": [],
     "title": "A Narrative Introduction to Probability",
     "uri": "/intro/index.html"

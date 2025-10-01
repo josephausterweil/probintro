@@ -1,5 +1,5 @@
 +++
-date = "2025-09-29"
+date = "2025-10-01"
 title = "A Narrative Introduction to Probability"
 weight = 1
 toc = true
@@ -9,11 +9,8 @@ toc = true
 This is still a draft in what will be a series of tutorials.
 
 [acknowledgements](./07_ack.md)
-
-
-
-
-
+| | [Next: goals](./01_goals.md)| 
+| :--- | ---: |
 
 
 
