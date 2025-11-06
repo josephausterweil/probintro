@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>A Narrative Introduction to Probability :: Narrative Introduction to Probabilistic Computing</title>
-    <link>http://localhost:1313/intro/index.html</link>
-    <description>Introduction This is still a draft in what will be a series of tutorials.&#xA;acknowledgements&#xA;Next: goals</description>
+    <title>A Narrative Introduction to Probability :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link>http://localhost:1313/probintro/intro/index.html</link>
+    <description>Welcome! This tutorial teaches probability theory through the story of Chibany, a philosophical cat who loves tonkatsu and wants to understand the likelihood of his daily meals. Along the way, you’ll learn to think about probability using sets — a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.&#xA;Who is this for? Designers and social scientists curious about probability and data Anyone who wants to understand Bayesian thinking Learners preparing to use probabilistic programming, machine learning, or statistical tools The curious who want to develop clearer intuitions about uncertainty No prior math background required — just curiosity and willingness to think carefully!</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/intro/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/probintro/intro/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Goals</title>
-      <link>http://localhost:1313/intro/01_goals/index.html</link>
+      <title>What You&#39;ll Learn</title>
+      <link>http://localhost:1313/probintro/intro/01_goals/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/intro/01_goals/index.html</guid>
-      <description>Introduce probability theory and Bayesian inference from a set-based perspective. Uses real-world examples and examples to introduce key concepts, such as conditional and marginal probability, independence, and Bayes’ rule. Tailored examples to highlight common misconceptions (e.g., base-rate neglect with taxicab problem) and how thinking through it clearly using tools from tutorial. Provide the knowledge and confidence to start learning probabilistic computing and transition to that in the next tutorial Present everything in a friendly narrative for approachability Previous: index Next: hungry</description>
+      <guid>http://localhost:1313/probintro/intro/01_goals/index.html</guid>
+      <description>This tutorial will give you a solid foundation in probability theory through a set-based approach. By the end, you’ll be able to reason clearly about uncertainty and be prepared for advanced topics in probabilistic computing and Bayesian inference.&#xA;Learning Goals 1. Think About Probability Using Sets Learn to see probability as counting — a concrete, visual approach that makes abstract concepts intuitive.&#xA;You’ll be able to:&#xA;Define outcome spaces (What could happen?) Identify events as subsets (What am I interested in?) Calculate probabilities by counting (What’s the ratio?) 2. Understand Core Concepts Through Narrative Follow Chibany’s story to master the fundamental building blocks of probability theory.</description>
     </item>
     <item>
       <title>Chibany is hungry</title>
-      <link>http://localhost:1313/intro/02_hungry/index.html</link>
+      <link>http://localhost:1313/probintro/intro/02_hungry/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/intro/02_hungry/index.html</guid>
-      <description>Chibany wakes up from dreaming of the delicious meals he will get later today. Twice per day, a student brings a bento box with a meal as an offering to Chibany. One student brings him a bento box in the early afternoon for lunch and a different student brings him a bento box in the evening for dinner. The meal is either a Hamburger or a Tonkatsu (pork cutlet) . To keep track of his meal possibilities, his lists out the four possibilities:</description>
+      <guid>http://localhost:1313/probintro/intro/02_hungry/index.html</guid>
+      <description>Chibany wakes up from dreaming of the delicious meals he will get later today. Twice per day, a student brings him a bento box with a meal as an offering to Chibany. One student brings him a bento box in the early afternoon for lunch and a different student brings him a bento box in the evening for dinner. The meal is either a Hamburger or a Tonkatsu (pork cutlet) . To keep track of his meal possibilities, he lists out the four possibilities:</description>
     </item>
     <item>
       <title>Probability and Counting</title>
-      <link>http://localhost:1313/intro/03_prob_count/index.html</link>
+      <link>http://localhost:1313/probintro/intro/03_prob_count/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/intro/03_prob_count/index.html</guid>
-      <description>One goal of this tutorial is to show you that probability is counting. When every possibility is equally likely, probability is defined as the relative number of possibilities in each set. When possibilities are not equally likely, it is only slightly more complicated. Rather than each possibility counting one towards the size of a set it is in, you count the possibility according to its relative weight.&#xA;Counting The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the cardinality or size of the set. For example, the set of Chibany’s lunch options is $\{H,T\}$. Counting the number of elements determines its size, which is $\left|\{H, T\} \right| = 2$. The set of Chibany’s meal offerings for a day, $\Omega = \{HH, HT, TH, TT \}$. There are four possibilities, so its size $|\Omega|$ is $ 4$.</description>
+      <guid>http://localhost:1313/probintro/intro/03_prob_count/index.html</guid>
+      <description>One goal of this tutorial is to show you that probability is counting. When every possibility is equally likely, probability is defined as the relative number of possibilities in each set. When possibilities are not equally likely, it is only slightly more complicated. Rather than each possibility counting one towards the size of a set it is in, you count the possibility according to its relative weight.&#xA;Counting The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the cardinality or size of the set.</description>
     </item>
     <item>
       <title>Conditional probability as changing the possible outcomes</title>
-      <link>http://localhost:1313/intro/04_conditional/index.html</link>
+      <link>http://localhost:1313/probintro/intro/04_conditional/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/intro/04_conditional/index.html</guid>
-      <description>Chibany wants a tonkatsu dinner A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chinbany that he knows that there will be at least one tonkatsu in tomorrow’s offering. Chibany is excited. They wants to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. He say it’s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says “I learned something because I knows I will get at least one tonkatsu”. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who’s right!? Let’s check the chart…</description>
+      <guid>http://localhost:1313/probintro/intro/04_conditional/index.html</guid>
+      <description>Chibany wants a tonkatsu dinner A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chibany that he knows that there will be at least one tonkatsu in tomorrow’s offering. Chibany is excited. He wants to know how likely it is that the second meal is a Tonkatsu. He quizzes Tanaka-san. Tanaka-san says it’s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says “I learned something because I know I will get at least one tonkatsu”. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who’s right!? Let’s check the chart…</description>
     </item>
     <item>
-      <title>Bayes&#39; Theorem or Bayes&#39; Rule</title>
-      <link>http://localhost:1313/intro/05_bayes/index.html</link>
+      <title>Bayes&#39; Theorem: Updating Beliefs</title>
+      <link>http://localhost:1313/probintro/intro/05_bayes/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/intro/05_bayes/index.html</guid>
-      <description>Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).</description>
+      <guid>http://localhost:1313/probintro/intro/05_bayes/index.html</guid>
+      <description>What is Bayes’ Theorem? Imagine you have a belief about the world (a hypothesis), and then you observe something new (data). Bayes’ Theorem tells you how to update your belief based on what you observed.&#xA;Example: You believe most taxis are green. Then you see a taxi that looks blue in the fog. How should you update your belief about which color it really was?&#xA;The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).</description>
     </item>
     <item>
       <title>Glossary</title>
-      <link>http://localhost:1313/intro/06_glossary/index.html</link>
+      <link>http://localhost:1313/probintro/intro/06_glossary/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/intro/06_glossary/index.html</guid>
-      <description>set set A set is a collection of elements or members. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and “$\{$” denotes the start of a set and “$\}$” the end of a set. Note that the elements of a set are unique. event event An event is a set that is none, some, or all of the possible outcomes. cardinality cardinality The cardinality or size of a set is the number of elements it contains. If $A = \{H, T\}$, then the cardinality $A$ is $|A|=2$. probability probability The probability of an event $A$ relative to an outcome space $\Omega$ is the ratio of their sizes or $\frac{|A|}{|\Omega|}$ random variable random variable A random variable is a function that maps from the set of possible outcomes to some set or space. The output or range of the function could be the set of outcomes again, a whole number based on the outcome (e.g., counting the number of Tonkatsu), or something more complex (e.g., the world’s friendship matrix, an 8-billion by 8-billion, binary matrix where $N$ where $N_{1,100}=1$ if person 1 is friends with person 100). Technically the output must be measurable. You shouldn’t worry about that distinction unless your random variable’s output gets really, really big (like continuous). We’ll talk more about probabilities over continuous random variables later. conditional probability conditional probability The conditional probability is the probability of an event conditioned on knowledge of another event. Conditioning on an event means that the possible outcomes in that event form the set of possibilities or outcome space. We then calculate probabilities as normal within that restricted outcome space. Formally, this is written as $P(A \mid B) = \frac{|A|}{|B|}$, where everything to the left of the $\mid$ is what we’re interested in knowing the probability of and everything to the right of the $\mid$ is what we know to be true. dependence dependence When knowing the outcome of one random variable or event influences the probability of another, those variables or events are called dependent. This is denoted as $A \not\perp B$. When they do not influence each other, they are called independent. This is denoted as $A \perp B$. marginal probability marginal probability A marginal probability is the probability of a random variable that has been calculated by summing over the possible values of one or more other random variables. joint probability joint probability The joint probability is the probability of all considered events. This corresponds to the intersection of the events. Bayes theorem Bayes Theorem Bayes Theorem is a rule for reversing the order that variables are conditioned – how to go from $P(A \mid B)$ to $P(B \mid A)$ generative process generative process A generative process defines the probabilities for possible outcomes according to an algorithm with random choices. probabilistic computing probabilistic computing Probabilistic computing is a programming language for specifying probabilistic models and built to calculate different probabilities according to this model in an efficient manner prev: bayes next: acknowledgements</description>
+      <guid>http://localhost:1313/probintro/intro/06_glossary/index.html</guid>
+      <description>This glossary provides definitions for key terms used throughout the tutorial. Click on any term to expand its definition.&#xA;Core Concepts set set A set is a collection of elements or members. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and “$\{$” denotes the start of a set and “$\}$” the end of a set. Note that the elements of a set are unique.</description>
     </item>
     <item>
       <title>Acknowledgements</title>
-      <link>http://localhost:1313/intro/07_ack/index.html</link>
+      <link>http://localhost:1313/probintro/intro/07_ack/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/intro/07_ack/index.html</guid>
+      <guid>http://localhost:1313/probintro/intro/07_ack/index.html</guid>
       <description>Written by Joe Austerweil. Thank you to Kyana Burhite, Hongtao Hao, and the many students who took Human and Machine Learning over the years who have provided invaluable feedback on an early draft of this tutorial. Further thanks to the Japan Probabilistic Computing Consortium Association (JPCCA) for funding my ability to polish and publish this tutorial series.&#xA;Please reach out to Joe via email if you have any constructive feedback (anything from X could be more clear or this is a great resource I will share with my class).</description>
     </item>
   </channel>

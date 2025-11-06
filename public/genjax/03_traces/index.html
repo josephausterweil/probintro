@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.
+GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:
+What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!">
+    <meta name="author" content="Joseph Austerweil">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Understanding Traces :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.
+GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:
+What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!">
+    <meta property="og:url" content="http://localhost:1313/probintro/genjax/03_traces/index.html">
+    <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Understanding Traces :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.
+GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:
+What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Probabilistic Programming with GenJAX">
+    <meta itemprop="name" content="Understanding Traces :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.
+GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:
+What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!">
+    <meta itemprop="wordCount" content="2000">
+    <title>Understanding Traces :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/images/favicon.png?1762419656" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762419656" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762419656" defer></script>
+    <script src="/probintro/js/search-lunr.js?1762419656" defer></script>
+    <script src="/probintro/js/search.js?1762419656" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1762419656";
+    </script>
+    <script src="/probintro/js/lunr/lunr.min.js?1762419656" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762419656" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1762419656" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1762419656" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762419656" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762419656" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762419656" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1762419656" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1762419656" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/genjax\/03_traces\/index.html';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/probintro/genjax/03_traces/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#what-gets-recorded-when-code-runs">What Gets Recorded When Code Runs?</a></li>
+    <li><a href="#why-traces-matter">Why Traces Matter</a></li>
+    <li><a href="#anatomy-of-a-trace">Anatomy of a Trace</a>
+      <ul>
+        <li><a href="#1-the-return-value">1. The Return Value</a></li>
+        <li><a href="#2-the-random-choices">2. The Random Choices</a></li>
+        <li><a href="#3-the-log-probability-score">3. The Log Probability (Score)</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-complete-trace-diagram">The Complete Trace Diagram</a></li>
+    <li><a href="#accessing-trace-components">Accessing Trace Components</a></li>
+    <li><a href="#multiple-traces-multiple-histories">Multiple Traces, Multiple Histories</a></li>
+    <li><a href="#traces-vs-return-values">Traces vs Return Values</a></li>
+    <li><a href="#connection-to-probability-theory">Connection to Probability Theory</a></li>
+    <li><a href="#why-this-matters-for-inference">Why This Matters for Inference</a></li>
+    <li><a href="#practical-example-inspecting-traces">Practical Example: Inspecting Traces</a></li>
+    <li><a href="#exercises">Exercises</a>
+      <ul>
+        <li><a href="#exercise-1-trace-exploration">Exercise 1: Trace Exploration</a></li>
+        <li><a href="#exercise-2-unequal-probabilities">Exercise 2: Unequal Probabilities</a></li>
+        <li><a href="#exercise-3-conditional-counting">Exercise 3: Conditional Counting</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-youve-learned">What You&rsquo;ve Learned</a></li>
+    <li><a href="#next-steps">Next Steps</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/genjax/index.html"><span itemprop="name">Probabilistic Programming with GenJAX</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Understanding Traces</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/02_first_model/index.html" title="Your First GenJAX Model (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/04_conditioning/index.html" title="Conditioning and Observations (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable genjax" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="understanding-traces">Understanding Traces</h1>
+
+<h2 id="what-gets-recorded-when-code-runs">What Gets Recorded When Code Runs?</h2>
+<p>When you run a regular Python function, it does its work and returns a value. Then it&rsquo;s done — no record of what happened internally.</p>
+<p><strong>GenJAX is different.</strong> When you run a generative function, GenJAX creates a <strong>trace</strong> — a complete record of:</p>
+<ol>
+<li>What random choices were made</li>
+<li>What values they took</li>
+<li>What the function returned</li>
+<li>How probable this execution was</li>
+</ol>
+<p>Think of it like a lab notebook that automatically records every detail of an experiment!</p>
+<p><a href="#R-image-957a3581a3965771ecc1fe826be4df71" class="lightbox-link"><img alt="Chibany investigating" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-957a3581a3965771ecc1fe826be4df71"><img alt="Chibany investigating" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<hr>
+<h2 id="why-traces-matter">Why Traces Matter</h2>
+<p><strong>Short answer:</strong> Traces enable <strong>inference</strong> — answering &ldquo;what if I observed this?&rdquo;</p>
+<p><strong>Example scenario:</strong></p>
+<ul>
+<li>You run <code>chibany_day()</code> and it returns <code>(0, 1)</code> — Hamburger for lunch, Tonkatsu for dinner</li>
+<li>The trace records: &ldquo;I chose 0 for lunch, 1 for dinner&rdquo;</li>
+<li>Later, you can ask: &ldquo;Given that dinner was Tonkatsu, what&rsquo;s the probability lunch was also Tonkatsu?&rdquo;</li>
+</ul>
+<p><strong>Traces let us reason backwards from observations to causes!</strong></p>
+<p>We&rsquo;ll explore this fully in Chapter 4. For now, let&rsquo;s understand what traces contain.</p>
+<hr>
+<h2 id="anatomy-of-a-trace">Anatomy of a Trace</h2>
+<p>Recall our generative function:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day</span>():
+</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
+</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p>When we run it:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(key, ())</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p>GenJAX creates a trace object containing <strong>three key components:</strong></p>
+<h3 id="1-the-return-value">1. The Return Value</h3>
+<p><strong>What the function returned:</strong></p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>meals <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>print(meals)  <span style="color:#75715e"># Output: (0, 1)</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p>This is the final result — the observable outcome.</p>
+<h3 id="2-the-random-choices">2. The Random Choices</h3>
+<p><strong>All the random decisions made, with their names:</strong></p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>choices <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_choices()
+</span></span><span style="display:flex;"><span>print(choices)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Output: {&#39;lunch&#39;: 0, &#39;dinner&#39;: 1}</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p>This is the <strong>choice map</strong> — a dictionary mapping addresses (names) to values.</p>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    Why Names Matter
+  </summary>
+  <div class="box-content">
+<p>In <code>bernoulli(0.5) @ &quot;lunch&quot;</code>, the <code>@ &quot;lunch&quot;</code> part gives this random choice a <strong>name</strong> (or address).</p>
+<p>GenJAX uses these names to:</p>
+<ul>
+<li>Track which choice is which</li>
+<li>Let you specify observations (more in Chapter 4!)</li>
+<li>Enable inference algorithms</li>
+</ul>
+<p><strong>Think of it like labeling test tubes in a chemistry lab.</strong> You need to know which is which!</p>
+  </div>
+</details>
+<h3 id="3-the-log-probability-score">3. The Log Probability (Score)</h3>
+<p><strong>How probable was this execution?</strong></p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>score <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_score()
+</span></span><span style="display:flex;"><span>print(score)  <span style="color:#75715e"># Output: -1.3862943611198906</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p>This is the <strong>log probability</strong> of this particular execution.</p>
+
+<details open class=" box cstyle notices note">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-circle"></i> 
+    Math Notation: Log Probability
+  </summary>
+  <div class="box-content">
+<p>For our example:</p>
+<ul>
+<li>Lunch = 0 has probability 0.5</li>
+<li>Dinner = 1 has probability 0.5</li>
+<li>Joint probability: $P(\text{lunch}=0, \text{dinner}=1) = 0.5 \times 0.5 = 0.25$</li>
+</ul>
+<p>Log probability: $\log(0.25) = -1.386&hellip;$</p>
+<p><strong>Why use logs?</strong></p>
+<ul>
+<li>Prevents numerical underflow (very small probabilities)</li>
+<li>Turns multiplication into addition (easier math!)</li>
+<li>Standard in probabilistic programming</li>
+</ul>
+<p><strong>You don&rsquo;t need to work with log probabilities directly</strong> — GenJAX handles this for you. Just know they measure &ldquo;how likely was this outcome.&rdquo;</p>
+  </div>
+</details>
+<hr>
+<h2 id="the-complete-trace-diagram">The Complete Trace Diagram</h2>
+<p>Let&rsquo;s visualize what&rsquo;s in a trace:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>┌─────────────────────────────────────────┐
+│           TRACE OBJECT                  │
+├─────────────────────────────────────────┤
+│                                         │
+│  1. Arguments: ()                       │
+│     (what was passed to the function)   │
+│                                         │
+│  2. Random Choices (Choice Map):        │
+│     {&#39;lunch&#39;: 0, &#39;dinner&#39;: 1}           │
+│     (all random decisions made)         │
+│                                         │
+│  3. Return Value:                       │
+│     (0, 1)                              │
+│     (what the function returned)        │
+│                                         │
+│  4. Log Probability (Score):            │
+│     -1.386                              │
+│     (how probable was this trace)       │
+│                                         │
+└─────────────────────────────────────────┘</code></pre></div>
+<p><strong>Every time you call <code>simulate()</code>, you get a new trace with (potentially) different random choices.</strong></p>
+<hr>
+<h2 id="accessing-trace-components">Accessing Trace Components</h2>
+<p>Here&rsquo;s a complete example showing all three ways to access trace information:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day</span>():
+</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
+</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate one trace</span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(key, ())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Access different parts</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;=== TRACE CONTENTS ===&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Return value: </span><span style="color:#e6db74">{</span>trace<span style="color:#f92672">.</span>get_retval()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Random choices: </span><span style="color:#e6db74">{</span>trace<span style="color:#f92672">.</span>get_choices()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Log probability: </span><span style="color:#e6db74">{</span>trace<span style="color:#f92672">.</span>get_score()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Decode to outcome notation</span>
+</span></span><span style="display:flex;"><span>outcome_map <span style="color:#f92672">=</span> {(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>): <span style="color:#e6db74">&#34;HH&#34;</span>, (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>): <span style="color:#e6db74">&#34;HT&#34;</span>, (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>): <span style="color:#e6db74">&#34;TH&#34;</span>, (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>): <span style="color:#e6db74">&#34;TT&#34;</span>}
+</span></span><span style="display:flex;"><span>outcome <span style="color:#f92672">=</span> outcome_map[tuple(trace<span style="color:#f92672">.</span>get_retval())]
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Outcome: </span><span style="color:#e6db74">{</span>outcome<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output (example):</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>=== TRACE CONTENTS ===
+Return value: (0, 1)
+Random choices: {&#39;lunch&#39;: 0, &#39;dinner&#39;: 1}
+Log probability: -1.3862943611198906
+Outcome: HT</code></pre></div>
+<hr>
+<h2 id="multiple-traces-multiple-histories">Multiple Traces, Multiple Histories</h2>
+<p>Each trace represents <strong>one possible execution</strong> of the generative function.</p>
+<p>Run it 5 times, get 5 different traces:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Split key for each run (JAX requirement)</span>
+</span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(subkey, ())
+</span></span><span style="display:flex;"><span>    outcome <span style="color:#f92672">=</span> outcome_map[tuple(trace<span style="color:#f92672">.</span>get_retval())]
+</span></span><span style="display:flex;"><span>    choices <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_choices()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Day </span><span style="color:#e6db74">{</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>outcome<span style="color:#e6db74">}</span><span style="color:#e6db74"> — lunch=</span><span style="color:#e6db74">{</span>choices[<span style="color:#e6db74">&#39;lunch&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">, dinner=</span><span style="color:#e6db74">{</span>choices[<span style="color:#e6db74">&#39;dinner&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output (example):</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Day 1: HT — lunch=0, dinner=1
+Day 2: TH — lunch=1, dinner=0
+Day 3: HH — lunch=0, dinner=0
+Day 4: TT — lunch=1, dinner=1
+Day 5: HT — lunch=0, dinner=1</code></pre></div>
+<p>Each trace is a <strong>different history</strong> — a different way the random process could have unfolded.</p>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    JAX Random Keys
+  </summary>
+  <div class="box-content">
+<p>Notice we use <code>jax.random.split(key)</code> to create new keys for each run?</p>
+<p><strong>Why?</strong> JAX uses explicit random keys for reproducibility. The same key always gives the same result.</p>
+<p><strong>Pattern:</strong></p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>key, subkey <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key)  <span style="color:#75715e"># Create new key</span>
+</span></span><span style="display:flex;"><span>trace <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>simulate(subkey, <span style="color:#f92672">...</span>)   <span style="color:#75715e"># Use the subkey</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p>This ensures different random outcomes each time while maintaining reproducibility.</p>
+  </div>
+</details>
+<hr>
+<h2 id="traces-vs-return-values">Traces vs Return Values</h2>
+<p><strong>Important distinction:</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th><code>simulate()</code> returns</th>
+          <th><code>get_retval()</code> returns</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Trace object</strong></td>
+          <td><strong>The actual value</strong></td>
+      </tr>
+      <tr>
+          <td>Contains choices, score, return value</td>
+          <td>Just the return value</td>
+      </tr>
+      <tr>
+          <td>Used for inference</td>
+          <td>Used for the result</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Example:</strong></p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># This is a trace object</span>
+</span></span><span style="display:flex;"><span>trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(key, ())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This is the return value (a tuple)</span>
+</span></span><span style="display:flex;"><span>meals <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># These are different!</span>
+</span></span><span style="display:flex;"><span>print(type(trace))   <span style="color:#75715e"># &lt;class &#39;genjax.generative_functions.static.trace.StaticTrace&#39;&gt;</span>
+</span></span><span style="display:flex;"><span>print(type(meals))   <span style="color:#75715e"># &lt;class &#39;tuple&#39;&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>When to use which:</strong></p>
+<ul>
+<li><strong>Need just the outcome?</strong> Use <code>trace.get_retval()</code></li>
+<li><strong>Need to inspect random choices?</strong> Use <code>trace.get_choices()</code></li>
+<li><strong>Doing inference?</strong> Use the full trace object</li>
+</ul>
+<hr>
+<h2 id="connection-to-probability-theory">Connection to Probability Theory</h2>
+<p>Let&rsquo;s connect traces back to set-based probability:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Probability Concept</th>
+          <th>Trace Equivalent</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Outcome $\omega \in \Omega$</td>
+          <td>One trace (one execution)</td>
+      </tr>
+      <tr>
+          <td>Outcome space $\Omega$</td>
+          <td>All possible traces</td>
+      </tr>
+      <tr>
+          <td>$P(\omega)$</td>
+          <td><code>exp(trace.get_score())</code></td>
+      </tr>
+      <tr>
+          <td>Random variable $X(\omega)$</td>
+          <td>A choice in the choice map</td>
+      </tr>
+      <tr>
+          <td>Joint distribution</td>
+          <td>Distribution over traces</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Key insight:</strong> A trace IS an outcome! The trace represents one complete way the random process could unfold.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Set-based:</strong> $\omega = HT$ (one outcome from $\Omega = {HH, HT, TH, TT}$)</li>
+<li><strong>Trace-based:</strong> A trace where <code>choices = {'lunch': 0, 'dinner': 1}</code></li>
+</ul>
+<p><strong>They&rsquo;re the same thing!</strong> Just different representations.</p>
+<hr>
+<h2 id="why-this-matters-for-inference">Why This Matters for Inference</h2>
+<p>Consider this question:</p>
+<blockquote>
+<p><strong>&ldquo;Given that Chibany got Tonkatsu for dinner, what&rsquo;s the probability he also got Tonkatsu for lunch?&rdquo;</strong></p></blockquote>
+<p><strong>Set-based approach:</strong></p>
+<ol>
+<li>Define event $D$ = &ldquo;dinner is Tonkatsu&rdquo; = ${HT, TT}$</li>
+<li>Define event $L$ = &ldquo;lunch is Tonkatsu&rdquo; = ${TH, TT}$</li>
+<li>Calculate $P(L \mid D) = \frac{|L \cap D|}{|D|} = \frac{1}{2}$</li>
+</ol>
+<p><strong>Trace-based approach:</strong></p>
+<ol>
+<li>Generate many traces</li>
+<li>Filter traces where <code>choices['dinner'] == 1</code></li>
+<li>Among those, count how many have <code>choices['lunch'] == 1</code></li>
+<li>Calculate the ratio</li>
+</ol>
+<p><strong>The trace structure makes this filtering possible!</strong> Because GenJAX records all the random choices, we can look inside and check what happened.</p>
+<p>We&rsquo;ll implement this in Chapter 4!</p>
+<hr>
+<h2 id="practical-example-inspecting-traces">Practical Example: Inspecting Traces</h2>
+<p>Let&rsquo;s generate 10 traces and inspect them:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day</span>():
+</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
+</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate 10 traces</span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>outcome_map <span style="color:#f92672">=</span> {(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>): <span style="color:#e6db74">&#34;HH&#34;</span>, (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>): <span style="color:#e6db74">&#34;HT&#34;</span>, (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>): <span style="color:#e6db74">&#34;TH&#34;</span>, (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>): <span style="color:#e6db74">&#34;TT&#34;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Day | Outcome | Lunch | Dinner | Log Prob&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;----|---------|-------|--------|----------&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+</span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key)
+</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(subkey, ())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    outcome <span style="color:#f92672">=</span> outcome_map[tuple(trace<span style="color:#f92672">.</span>get_retval())]
+</span></span><span style="display:flex;"><span>    choices <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_choices()
+</span></span><span style="display:flex;"><span>    score <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_score()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34; </span><span style="color:#e6db74">{</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">:</span><span style="color:#e6db74">2d</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> |   </span><span style="color:#e6db74">{</span>outcome<span style="color:#e6db74">}</span><span style="color:#e6db74">    |   </span><span style="color:#e6db74">{</span>choices[<span style="color:#e6db74">&#39;lunch&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">   |   </span><span style="color:#e6db74">{</span>choices[<span style="color:#e6db74">&#39;dinner&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">    | </span><span style="color:#e6db74">{</span>score<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output (example):</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Day | Outcome | Lunch | Dinner | Log Prob
+----|---------|-------|--------|----------
+  1 |   HT    |   0   |   1    | -1.39
+  2 |   TH    |   1   |   0    | -1.39
+  3 |   HH    |   0   |   0    | -1.39
+  4 |   TT    |   1   |   1    | -1.39
+  5 |   HT    |   0   |   1    | -1.39
+  6 |   HH    |   0   |   0    | -1.39
+  7 |   TT    |   1   |   1    | -1.39
+  8 |   HT    |   0   |   1    | -1.39
+  9 |   TH    |   1   |   0    | -1.39
+ 10 |   HH    |   0   |   0    | -1.39</code></pre></div>
+<p><strong>Notice:</strong> All log probabilities are the same (-1.39 ≈ log(0.25)) because all outcomes are equally probable!</p>
+<hr>
+<h2 id="exercises">Exercises</h2>
+<h3 id="exercise-1-trace-exploration">Exercise 1: Trace Exploration</h3>
+<p>Run this code and answer the questions:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">123</span>)
+</span></span><span style="display:flex;"><span>trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(key, ())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Return value: </span><span style="color:#e6db74">{</span>trace<span style="color:#f92672">.</span>get_retval()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Choices: </span><span style="color:#e6db74">{</span>trace<span style="color:#f92672">.</span>get_choices()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Score: </span><span style="color:#e6db74">{</span>trace<span style="color:#f92672">.</span>get_score()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Questions:</strong></p>
+<ol>
+<li>What outcome did you get? (HH, HT, TH, or TT)</li>
+<li>What&rsquo;s in the choice map?</li>
+<li>Is the log probability the same as previous examples?</li>
+</ol>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<p><strong>Answers:</strong></p>
+<ol>
+<li>The outcome depends on the random seed (123)</li>
+<li>The choice map contains <code>{'lunch': 0 or 1, 'dinner': 0 or 1}</code></li>
+<li>Yes! All outcomes have equal probability (0.25), so log probability is always -1.386&hellip;</li>
+</ol>
+<p><strong>Key insight:</strong> Different random keys → different traces, but same probabilities (for this symmetric example)</p>
+  </div>
+</details>
+<hr>
+<h3 id="exercise-2-unequal-probabilities">Exercise 2: Unequal Probabilities</h3>
+<p>Modify <code>chibany_day</code> to have unequal probabilities:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day_biased</span>():
+</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>  <span style="color:#75715e"># 80% Tonkatsu</span>
+</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>  <span style="color:#75715e"># 20% Tonkatsu</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p>Generate 5 traces and compare their log probabilities.</p>
+<p><strong>Question:</strong> Are all log probabilities the same? Why or why not?</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key)
+</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day_biased<span style="color:#f92672">.</span>simulate(subkey, ())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    outcome <span style="color:#f92672">=</span> outcome_map[tuple(trace<span style="color:#f92672">.</span>get_retval())]
+</span></span><span style="display:flex;"><span>    score <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_score()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Day </span><span style="color:#e6db74">{</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>outcome<span style="color:#e6db74">}</span><span style="color:#e6db74"> — Log prob: </span><span style="color:#e6db74">{</span>score<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Answer:</strong> No! Log probabilities differ because outcomes have different probabilities:</p>
+<ul>
+<li>TT: $P = 0.8 \times 0.2 = 0.16$, $\log(0.16) = -1.83$</li>
+<li>TH: $P = 0.8 \times 0.8 = 0.64$, $\log(0.64) = -0.45$</li>
+<li>HT: $P = 0.2 \times 0.2 = 0.04$, $\log(0.04) = -3.22$</li>
+<li>HH: $P = 0.2 \times 0.8 = 0.16$, $\log(0.16) = -1.83$</li>
+</ul>
+<p><strong>TH is most likely</strong> (highest probability = least negative log probability)!</p>
+  </div>
+</details>
+<hr>
+<h3 id="exercise-3-conditional-counting">Exercise 3: Conditional Counting</h3>
+<p>Generate 1000 traces from <code>chibany_day()</code> and answer:</p>
+<p><strong>&ldquo;Among days when dinner is Tonkatsu, what fraction also have Tonkatsu for lunch?&rdquo;</strong></p>
+<p><strong>Hint:</strong> Filter traces where <code>choices['dinner'] == 1</code>, then count how many have <code>choices['lunch'] == 1</code>.</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">1000</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate all traces</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_one_day</span>(k):
+</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(k, ())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>days <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_one_day)(keys)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Filter: dinner is Tonkatsu (dinner == 1)</span>
+</span></span><span style="display:flex;"><span>dinner_is_tonkatsu <span style="color:#f92672">=</span> days[:, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Among those, count lunch is Tonkatsu</span>
+</span></span><span style="display:flex;"><span>both_tonkatsu <span style="color:#f92672">=</span> (days[:, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> (days[:, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate conditional probability</span>
+</span></span><span style="display:flex;"><span>n_dinner_tonkatsu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(dinner_is_tonkatsu)
+</span></span><span style="display:flex;"><span>n_both <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(both_tonkatsu)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prob_lunch_given_dinner <span style="color:#f92672">=</span> n_both <span style="color:#f92672">/</span> n_dinner_tonkatsu
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Days with dinner = Tonkatsu: </span><span style="color:#e6db74">{</span>n_dinner_tonkatsu<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Days with both = Tonkatsu: </span><span style="color:#e6db74">{</span>n_both<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(lunch=T | dinner=T) ≈ </span><span style="color:#e6db74">{</span>prob_lunch_given_dinner<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Expected result:</strong> ≈ 0.5 (50%)</p>
+<p><strong>Why?</strong> Lunch and dinner are independent! Knowing dinner doesn&rsquo;t change lunch probability.</p>
+<p><strong>This is conditional probability through filtering!</strong> (More in Chapter 4)</p>
+  </div>
+</details>
+<hr>
+<h2 id="what-youve-learned">What You&rsquo;ve Learned</h2>
+<p>In this chapter, you learned:</p>
+<p>✅ <strong>What traces are</strong> — complete records of random execution
+✅ <strong>Three key components</strong> — return value, choice map, log probability
+✅ <strong>Why names matter</strong> — <code>@ &quot;address&quot;</code> enables tracking and inference
+✅ <strong>How to access trace parts</strong> — <code>get_retval()</code>, <code>get_choices()</code>, <code>get_score()</code>
+✅ <strong>Traces as outcomes</strong> — connection to probability theory
+✅ <strong>Preview of inference</strong> — filtering traces to answer conditional questions</p>
+<p><strong>The key insight:</strong> Traces aren&rsquo;t just records — they&rsquo;re the bridge between generative code and probabilistic reasoning!</p>
+<hr>
+<h2 id="next-steps">Next Steps</h2>
+<p>Now that you understand traces, you&rsquo;re ready for the most powerful feature of GenJAX:</p>
+<p><strong>Chapter 4: Conditioning and Observations</strong> — How to ask &ldquo;what if I observed this?&rdquo; and update beliefs based on evidence!</p>
+<p>This is where GenJAX really shines compared to regular simulation.</p>
+<hr>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><a href="/probintro/genjax/02_first_model/index.html">← Previous: Your First GenJAX Model</a></th>
+          <th style="text-align: right"><a href="/probintro/genjax/04_conditioning/index.html">Next: Conditioning and Observations →</a></th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/probintro/index.html">
+            <div class="logo-title">Probability &amp; Probabilistic Computing Tutorial</div>
+          </a>
+        </div>
+        <search><form action="/probintro/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/probintro/index.html"><a class="padding" href="/probintro/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
+            <li class="parent alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu">
+            <li class="" data-nav-id="/probintro/genjax/00_getting_started/index.html"><a class="padding" href="/probintro/genjax/00_getting_started/index.html">Getting Started with Google Colab</a></li>
+            <li class="" data-nav-id="/probintro/genjax/01_python_basics/index.html"><a class="padding" href="/probintro/genjax/01_python_basics/index.html">Python Essentials for GenJAX</a></li>
+            <li class="" data-nav-id="/probintro/genjax/02_first_model/index.html"><a class="padding" href="/probintro/genjax/02_first_model/index.html">Your First GenJAX Model</a></li>
+            <li class="active " data-nav-id="/probintro/genjax/03_traces/index.html"><a class="padding" href="/probintro/genjax/03_traces/index.html">Understanding Traces</a></li>
+            <li class="" data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Observations</a></li>
+            <li class="" data-nav-id="/probintro/genjax/05_inference/index.html"><a class="padding" href="/probintro/genjax/05_inference/index.html">Inference in Action: The Taxicab Problem</a></li>
+            <li class="" data-nav-id="/probintro/genjax/06_building_models/index.html"><a class="padding" href="/probintro/genjax/06_building_models/index.html">Building Your Own Models</a></li></ul></li>
+            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762419656"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1762419656" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762419656" defer></script>
+    <script src="/probintro/js/theme.js?1762419656" defer></script>
+  </body>
+</html>

@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Narrative Introduction to Probabilistic Computing</title>
-    <link>http://localhost:1313/index.html</link>
+    <title>Probability &amp; Probabilistic Computing Tutorial</title>
+    <link>http://localhost:1313/probintro/index.html</link>
     <description></description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/probintro/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Narrative Introduction to Probability</title>
-      <link>http://localhost:1313/intro/index.html</link>
+      <link>http://localhost:1313/probintro/intro/index.html</link>
       <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/intro/index.html</guid>
-      <description>Introduction This is still a draft in what will be a series of tutorials.&#xA;acknowledgements&#xA;Next: goals</description>
+      <guid>http://localhost:1313/probintro/intro/index.html</guid>
+      <description>Welcome! This tutorial teaches probability theory through the story of Chibany, a philosophical cat who loves tonkatsu and wants to understand the likelihood of his daily meals. Along the way, you’ll learn to think about probability using sets — a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.&#xA;Who is this for? Designers and social scientists curious about probability and data Anyone who wants to understand Bayesian thinking Learners preparing to use probabilistic programming, machine learning, or statistical tools The curious who want to develop clearer intuitions about uncertainty No prior math background required — just curiosity and willingness to think carefully!</description>
+    </item>
+    <item>
+      <title>Probabilistic Programming with GenJAX</title>
+      <link>http://localhost:1313/probintro/genjax/index.html</link>
+      <pubDate>Thu, 06 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/probintro/genjax/index.html</guid>
+      <description>From Probability Theory to Probabilistic Code In the previous tutorial, you learned to think about probability using sets and counting. Chibany showed you that probability questions are really about:&#xA;What’s possible? (Define the outcome space) What am I interested in? (Define the event) Count them! (Calculate the ratio) Now you’ll learn to express those same ideas in code using GenJAX — a probabilistic programming language that lets computers do the counting for you!</description>
     </item>
     <item>
       <title>Intro2</title>
-      <link>http://localhost:1313/intro2/index.html</link>
+      <link>http://localhost:1313/probintro/intro2/index.html</link>
       <pubDate>Mon, 18 Aug 2025 17:37:54 +0900</pubDate>
-      <guid>http://localhost:1313/intro2/index.html</guid>
+      <guid>http://localhost:1313/probintro/intro2/index.html</guid>
       <description></description>
     </item>
   </channel>

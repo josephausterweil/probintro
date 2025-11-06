@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="You Don’t Need to Become a Programmer! This chapter teaches you just enough Python to read and run GenJAX code. You won’t become a software developer, but you’ll be able to:
+Understand what the code is doing Modify values to experiment Run examples and see results Think of it like learning enough Italian to order food in a restaurant — you don’t need fluency, just practical knowledge!
+1. Variables: Giving Names to Things In Python, we give names to values so we can use them later.">
+    <meta name="author" content="Joseph Austerweil">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Python Essentials for GenJAX :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="You Don’t Need to Become a Programmer! This chapter teaches you just enough Python to read and run GenJAX code. You won’t become a software developer, but you’ll be able to:
+Understand what the code is doing Modify values to experiment Run examples and see results Think of it like learning enough Italian to order food in a restaurant — you don’t need fluency, just practical knowledge!
+1. Variables: Giving Names to Things In Python, we give names to values so we can use them later.">
+    <meta property="og:url" content="http://localhost:1313/probintro/genjax/01_python_basics/index.html">
+    <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Python Essentials for GenJAX :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="You Don’t Need to Become a Programmer! This chapter teaches you just enough Python to read and run GenJAX code. You won’t become a software developer, but you’ll be able to:
+Understand what the code is doing Modify values to experiment Run examples and see results Think of it like learning enough Italian to order food in a restaurant — you don’t need fluency, just practical knowledge!
+1. Variables: Giving Names to Things In Python, we give names to values so we can use them later.">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Probabilistic Programming with GenJAX">
+    <meta itemprop="name" content="Python Essentials for GenJAX :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="You Don’t Need to Become a Programmer! This chapter teaches you just enough Python to read and run GenJAX code. You won’t become a software developer, but you’ll be able to:
+Understand what the code is doing Modify values to experiment Run examples and see results Think of it like learning enough Italian to order food in a restaurant — you don’t need fluency, just practical knowledge!
+1. Variables: Giving Names to Things In Python, we give names to values so we can use them later.">
+    <meta itemprop="wordCount" content="1369">
+    <title>Python Essentials for GenJAX :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/images/favicon.png?1762419656" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762419656" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762419656" defer></script>
+    <script src="/probintro/js/search-lunr.js?1762419656" defer></script>
+    <script src="/probintro/js/search.js?1762419656" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1762419656";
+    </script>
+    <script src="/probintro/js/lunr/lunr.min.js?1762419656" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762419656" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1762419656" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1762419656" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762419656" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762419656" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762419656" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1762419656" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1762419656" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/genjax\/01_python_basics\/index.html';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/probintro/genjax/01_python_basics/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#you-dont-need-to-become-a-programmer">You Don&rsquo;t Need to Become a Programmer!</a></li>
+    <li><a href="#1-variables-giving-names-to-things">1. Variables: Giving Names to Things</a></li>
+    <li><a href="#2-functions-recipes-for-actions">2. Functions: Recipes for Actions</a>
+      <ul>
+        <li><a href="#functions-with-inputs-parameters">Functions with Inputs (Parameters)</a></li>
+        <li><a href="#functions-with-outputs-return-values">Functions with Outputs (Return Values)</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-lists-collections-of-things">3. Lists: Collections of Things</a>
+      <ul>
+        <li><a href="#accessing-items">Accessing Items</a></li>
+        <li><a href="#how-many-items">How Many Items?</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-loops-doing-things-repeatedly">4. Loops: Doing Things Repeatedly</a>
+      <ul>
+        <li><a href="#counting-loops">Counting Loops</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-conditionals-making-decisions">5. Conditionals: Making Decisions</a>
+      <ul>
+        <li><a href="#multiple-conditions">Multiple Conditions</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-decorators-adding-special-powers">6. Decorators: Adding Special Powers</a></li>
+    <li><a href="#7-the--symbol-in-genjax-addressing">7. The @ Symbol in GenJAX (Addressing)</a></li>
+    <li><a href="#8-libraries-and-imports">8. Libraries and Imports</a></li>
+    <li><a href="#9-calling-methods-with-dot-notation">9. Calling Methods with Dot Notation</a></li>
+    <li><a href="#10-comments-and-documentation">10. Comments and Documentation</a>
+      <ul>
+        <li><a href="#single-line-comments">Single-line Comments</a></li>
+        <li><a href="#multi-line-comments-docstrings">Multi-line Comments (Docstrings)</a></li>
+      </ul>
+    </li>
+    <li><a href="#quick-reference-reading-genjax-code">Quick Reference: Reading GenJAX Code</a></li>
+    <li><a href="#practice-can-you-read-this">Practice: Can You Read This?</a></li>
+    <li><a href="#what-you-dont-need-to-learn">What You Don&rsquo;t Need to Learn</a></li>
+    <li><a href="#tips-for-success">Tips for Success</a>
+      <ul>
+        <li><a href="#1-you-dont-need-to-memorize">1. You Don&rsquo;t Need to Memorize</a></li>
+        <li><a href="#2-run-code-to-understand-it">2. Run Code to Understand It</a></li>
+        <li><a href="#3-experiment">3. Experiment!</a></li>
+        <li><a href="#4-ask-what-is-this-doing">4. Ask &ldquo;What is This Doing?&rdquo;</a></li>
+      </ul>
+    </li>
+    <li><a href="#ready-for-genjax">Ready for GenJAX!</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/genjax/index.html"><span itemprop="name">Probabilistic Programming with GenJAX</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Python Essentials for GenJAX</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/00_getting_started/index.html" title="Getting Started with Google Colab (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/02_first_model/index.html" title="Your First GenJAX Model (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable genjax" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="python-essentials-for-genjax">Python Essentials for GenJAX</h1>
+
+<h2 id="you-dont-need-to-become-a-programmer">You Don&rsquo;t Need to Become a Programmer!</h2>
+<p>This chapter teaches you <strong>just enough Python</strong> to read and run GenJAX code. You won&rsquo;t become a software developer, but you&rsquo;ll be able to:</p>
+<ul>
+<li>Understand what the code is doing</li>
+<li>Modify values to experiment</li>
+<li>Run examples and see results</li>
+</ul>
+<p>Think of it like learning enough Italian to order food in a restaurant — you don&rsquo;t need fluency, just practical knowledge!</p>
+<hr>
+<h2 id="1-variables-giving-names-to-things">1. Variables: Giving Names to Things</h2>
+<p>In Python, we give names to values so we can use them later.</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>probability_hamburger <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>
+</span></span><span style="display:flex;"><span>probability_tonkatsu <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>What this means:</strong> &ldquo;Remember these numbers and call them by these names&rdquo;</p>
+<p><strong>Connection to probability:</strong> Just like we wrote $P(H) = 0.5$ in math, we&rsquo;re storing that value.</p>
+<p><strong>Try it:</strong></p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> y
+</span></span><span style="display:flex;"><span>print(result)  <span style="color:#75715e"># Shows: 30</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    The # Symbol
+  </summary>
+  <div class="box-content">
+<p>Anything after <code>#</code> is a <strong>comment</strong> — a note for humans, ignored by the computer.</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># This is a comment</span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># Comments can go after code too</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+  </div>
+</details>
+<hr>
+<h2 id="2-functions-recipes-for-actions">2. Functions: Recipes for Actions</h2>
+<p>A <strong>function</strong> is a named set of instructions. Think of it like a recipe.</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">greet_chibany</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Hello, Chibany!&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Time for tonkatsu!&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>greet_chibany()  <span style="color:#75715e"># &#34;Calls&#34; the function (runs the recipe)</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Hello, Chibany!
+Time for tonkatsu!</code></pre></div>
+<h3 id="functions-with-inputs-parameters">Functions with Inputs (Parameters)</h3>
+<p>Functions can take <strong>inputs</strong> (called parameters):</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">greet_cat</span>(name):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Hello, </span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">!&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>greet_cat(<span style="color:#e6db74">&#34;Chibany&#34;</span>)  <span style="color:#75715e"># Output: Hello, Chibany!</span>
+</span></span><span style="display:flex;"><span>greet_cat(<span style="color:#e6db74">&#34;Felix&#34;</span>)    <span style="color:#75715e"># Output: Hello, Felix!</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>The f before the string</strong> lets you put variables inside {} inside the text.</p>
+<h3 id="functions-with-outputs-return-values">Functions with Outputs (Return Values)</h3>
+<p>Functions can <strong>return</strong> values:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_numbers</span>(a, b):
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> b
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>total <span style="color:#f92672">=</span> add_numbers(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>)  <span style="color:#75715e"># total is now 8</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Connection to probability:</strong> Remember how $f(\omega)$ is a function that takes an outcome and returns a number? Same idea!</p>
+<hr>
+<h2 id="3-lists-collections-of-things">3. Lists: Collections of Things</h2>
+<p>A <strong>list</strong> is like a shopping list — an ordered collection of items.</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>meals <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;HH&#34;</span>, <span style="color:#e6db74">&#34;HT&#34;</span>, <span style="color:#e6db74">&#34;TH&#34;</span>, <span style="color:#e6db74">&#34;TT&#34;</span>]</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Connection to sets:</strong> This is like $\Omega = \{HH, HT, TH, TT\}$ but with ordering!</p>
+<h3 id="accessing-items">Accessing Items</h3>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>meals <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;HH&#34;</span>, <span style="color:#e6db74">&#34;HT&#34;</span>, <span style="color:#e6db74">&#34;TH&#34;</span>, <span style="color:#e6db74">&#34;TT&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>first_meal <span style="color:#f92672">=</span> meals[<span style="color:#ae81ff">0</span>]   <span style="color:#75715e"># &#34;HH&#34; (Python counts from 0!)</span>
+</span></span><span style="display:flex;"><span>second_meal <span style="color:#f92672">=</span> meals[<span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># &#34;HT&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+<details open class=" box cstyle notices warning">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-triangle"></i> 
+    Python Counts from Zero!
+  </summary>
+  <div class="box-content">
+<p>The first item is <code>[0]</code>, the second is <code>[1]</code>, etc.</p>
+<p>This trips up everyone at first. Just remember: Python is a bit quirky!</p>
+  </div>
+</details>
+<h3 id="how-many-items">How Many Items?</h3>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>meals <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;HH&#34;</span>, <span style="color:#e6db74">&#34;HT&#34;</span>, <span style="color:#e6db74">&#34;TH&#34;</span>, <span style="color:#e6db74">&#34;TT&#34;</span>]
+</span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> len(meals)  <span style="color:#75715e"># 4</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Connection:</strong> This is like $|\Omega|$ (cardinality)!</p>
+<hr>
+<h2 id="4-loops-doing-things-repeatedly">4. Loops: Doing Things Repeatedly</h2>
+<p>A <strong>for loop</strong> repeats actions:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> meal <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#34;HH&#34;</span>, <span style="color:#e6db74">&#34;HT&#34;</span>, <span style="color:#e6db74">&#34;TH&#34;</span>, <span style="color:#e6db74">&#34;TT&#34;</span>]:
+</span></span><span style="display:flex;"><span>    print(meal)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>HH
+HT
+TH
+TT</code></pre></div>
+<p><strong>How to read it:</strong> &ldquo;For each meal in this list, print the meal&rdquo;</p>
+<h3 id="counting-loops">Counting Loops</h3>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Day </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Day 0
+Day 1
+Day 2
+Day 3
+Day 4</code></pre></div>
+<p><strong>Connection:</strong> If we wanted to simulate 10,000 days, we&rsquo;d use <code>range(10000)</code>!</p>
+<hr>
+<h2 id="5-conditionals-making-decisions">5. Conditionals: Making Decisions</h2>
+<p>An <strong>if statement</strong> lets code make choices:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>meal <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;TT&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#34;T&#34;</span> <span style="color:#f92672">in</span> meal:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Contains tonkatsu!&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;No tonkatsu today :(&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>How to read it:</strong> &ldquo;If T is in the meal, do this. Otherwise, do that.&rdquo;</p>
+<h3 id="multiple-conditions">Multiple Conditions</h3>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tonkatsu_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> tonkatsu_count <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Two tonkatsus!&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> tonkatsu_count <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;One tonkatsu!&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;No tonkatsu!&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Note:</strong></p>
+<ul>
+<li><code>==</code> means &ldquo;equals&rdquo; (comparison)</li>
+<li><code>=</code> means &ldquo;assign&rdquo; (giving a value)</li>
+</ul>
+<hr>
+<h2 id="6-decorators-adding-special-powers">6. Decorators: Adding Special Powers</h2>
+<p>A <strong>decorator</strong> adds capabilities to a function. In GenJAX, we use <code>@gen</code>:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">my_function</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ... code ...</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>What <code>@gen</code> does:</strong> Tells GenJAX &ldquo;this is a generative function — please track all the random choices!&rdquo;</p>
+<p><strong>You don&rsquo;t need to fully understand decorators.</strong> Just know:</p>
+<ul>
+<li>They go right before function definitions</li>
+<li>They modify how the function behaves</li>
+<li>In GenJAX, <code>@gen</code> is essential for probabilistic models</li>
+</ul>
+<hr>
+<h2 id="7-the--symbol-in-genjax-addressing">7. The @ Symbol in GenJAX (Addressing)</h2>
+<p>In GenJAX, we use <code>@</code> to <strong>name random choices</strong>:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>lunch <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>How to read it:</strong> &ldquo;Generate a random Bernoulli value with probability 0.5, and call this choice &rsquo;lunch'&rdquo;</p>
+<p><strong>Connection to probability:</strong> This is like saying &ldquo;let $L$ be the random variable for lunch&rdquo;</p>
+<hr>
+<h2 id="8-libraries-and-imports">8. Libraries and Imports</h2>
+<p>Libraries are collections of pre-written code we can use:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>What this means:</strong></p>
+<ul>
+<li><code>import jax</code> — Load the JAX library (for computation)</li>
+<li><code>import matplotlib.pyplot as plt</code> — Load plotting tools, call them <code>plt</code></li>
+<li><code>from genjax import gen, bernoulli</code> — From GenJAX, load these specific tools</li>
+</ul>
+<p><strong>You don&rsquo;t need to memorize these.</strong> Just run the import cells at the start of each notebook!</p>
+<hr>
+<h2 id="9-calling-methods-with-dot-notation">9. Calling Methods with Dot Notation</h2>
+<p>Sometimes we call functions &ldquo;on&rdquo; an object:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>trace <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>simulate(key, args)
+</span></span><span style="display:flex;"><span>choices <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_choices()</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>How to read it:</strong> &ldquo;Call the simulate function that belongs to model&rdquo;</p>
+<p>The <code>.</code> means &ldquo;belonging to&rdquo; or &ldquo;part of&rdquo;.</p>
+<hr>
+<h2 id="10-comments-and-documentation">10. Comments and Documentation</h2>
+<h3 id="single-line-comments">Single-line Comments</h3>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># This is a comment</span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># This is also a comment</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="multi-line-comments-docstrings">Multi-line Comments (Docstrings)</h3>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">my_function</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    This is a docstring.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    It explains what the function does.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ... code ...</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Why they matter:</strong> They help you understand what code does!</p>
+<hr>
+<h2 id="quick-reference-reading-genjax-code">Quick Reference: Reading GenJAX Code</h2>
+<p>Here&rsquo;s a typical GenJAX function broken down:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>                                    <span style="color:#75715e"># Decorator: makes this a generative function</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_meals</span>():                    <span style="color:#75715e"># Function name</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Generate one day of meals.&#34;&#34;&#34;</span>   <span style="color:#75715e"># Docstring: what it does</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Random choice: lunch</span>
+</span></span><span style="display:flex;"><span>    lunch <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>    <span style="color:#75715e"># @ names the choice</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Random choice: dinner</span>
+</span></span><span style="display:flex;"><span>    dinner <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>  <span style="color:#75715e"># Another named choice</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Return both meals as a pair</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch, dinner)              <span style="color:#75715e"># Return value</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>To read GenJAX code:</strong></p>
+<ol>
+<li>Find the <code>@gen</code> — it&rsquo;s a generative function</li>
+<li>Read the docstring — what does it do?</li>
+<li>Look for <code>@</code> symbols — those are the random choices</li>
+<li>See what it returns — that&rsquo;s the outcome</li>
+</ol>
+<hr>
+<h2 id="practice-can-you-read-this">Practice: Can You Read This?</h2>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">coin_flips</span>(n):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Flip a fair coin n times.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    heads_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n):
+</span></span><span style="display:flex;"><span>        flip <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;flip_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> flip <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>            heads_count <span style="color:#f92672">=</span> heads_count <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> heads_count</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    What does this do?
+  </summary>
+  <div class="box-content">
+<p><strong>Line by line:</strong></p>
+<ol>
+<li><code>@gen</code> — This is a generative function</li>
+<li><code>def coin_flips(n):</code> — Takes a number <code>n</code> as input</li>
+<li><code>heads_count = 0</code> — Start counting at 0</li>
+<li><code>for i in range(n):</code> — Repeat n times</li>
+<li><code>flip = bernoulli(0.5) @ f&quot;flip_{i}&quot;</code> — Flip a fair coin, name it &ldquo;flip_0&rdquo;, &ldquo;flip_1&rdquo;, etc.</li>
+<li><code>if flip == 1:</code> — If it&rsquo;s heads (1)</li>
+<li><code>heads_count = heads_count + 1</code> — Add one to the count</li>
+<li><code>return heads_count</code> — Return how many heads we got</li>
+</ol>
+<p><strong>What it does:</strong> Flips a coin n times and counts the heads!</p>
+<p><strong>Connection:</strong> This is like the binomial distribution from probability theory.</p>
+  </div>
+</details>
+<hr>
+<h2 id="what-you-dont-need-to-learn">What You Don&rsquo;t Need to Learn</h2>
+<p><strong>Don&rsquo;t worry about:</strong></p>
+<ul>
+<li>❌ Object-oriented programming</li>
+<li>❌ Advanced data structures</li>
+<li>❌ File I/O</li>
+<li>❌ Error handling</li>
+<li>❌ Most of Python&rsquo;s features!</li>
+</ul>
+<p><strong>Focus on:</strong></p>
+<ul>
+<li>✅ Reading code to understand what it does</li>
+<li>✅ Running code cells in notebooks</li>
+<li>✅ Changing parameter values to experiment</li>
+<li>✅ Understanding the connection to probability</li>
+</ul>
+<hr>
+<h2 id="tips-for-success">Tips for Success</h2>
+<h3 id="1-you-dont-need-to-memorize">1. You Don&rsquo;t Need to Memorize</h3>
+<p>Keep this chapter open as a reference. When you see something in GenJAX code you don&rsquo;t recognize, come back here!</p>
+<h3 id="2-run-code-to-understand-it">2. Run Code to Understand It</h3>
+<p>Don&rsquo;t just read — <strong>run</strong> the code! Seeing output makes everything clearer.</p>
+<h3 id="3-experiment">3. Experiment!</h3>
+<p>Try changing values:</p>
+<ul>
+<li>What happens if you change <code>0.5</code> to <code>0.8</code>?</li>
+<li>What if you change the number of simulations?</li>
+<li>Break things and see what errors you get!</li>
+</ul>
+<h3 id="4-ask-what-is-this-doing">4. Ask &ldquo;What is This Doing?&rdquo;</h3>
+<p>Not &ldquo;How does this work?&rdquo; but &ldquo;What is this trying to accomplish?&rdquo;</p>
+<hr>
+<h2 id="ready-for-genjax">Ready for GenJAX!</h2>
+<p>You now know enough Python to:</p>
+<ul>
+<li>✅ Read GenJAX code</li>
+<li>✅ Understand what generative functions do</li>
+<li>✅ Run examples in Colab</li>
+<li>✅ Modify values to experiment</li>
+</ul>
+<p><strong>Next up:</strong> Let&rsquo;s write your first generative function!</p>
+<hr>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><a href="/probintro/genjax/00_getting_started/index.html">← Previous: Getting Started</a></th>
+          <th style="text-align: right"><a href="/probintro/genjax/02_first_model/index.html">Next: Your First GenJAX Model →</a></th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/probintro/index.html">
+            <div class="logo-title">Probability &amp; Probabilistic Computing Tutorial</div>
+          </a>
+        </div>
+        <search><form action="/probintro/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/probintro/index.html"><a class="padding" href="/probintro/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
+            <li class="parent alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu">
+            <li class="" data-nav-id="/probintro/genjax/00_getting_started/index.html"><a class="padding" href="/probintro/genjax/00_getting_started/index.html">Getting Started with Google Colab</a></li>
+            <li class="active " data-nav-id="/probintro/genjax/01_python_basics/index.html"><a class="padding" href="/probintro/genjax/01_python_basics/index.html">Python Essentials for GenJAX</a></li>
+            <li class="" data-nav-id="/probintro/genjax/02_first_model/index.html"><a class="padding" href="/probintro/genjax/02_first_model/index.html">Your First GenJAX Model</a></li>
+            <li class="" data-nav-id="/probintro/genjax/03_traces/index.html"><a class="padding" href="/probintro/genjax/03_traces/index.html">Understanding Traces</a></li>
+            <li class="" data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Observations</a></li>
+            <li class="" data-nav-id="/probintro/genjax/05_inference/index.html"><a class="padding" href="/probintro/genjax/05_inference/index.html">Inference in Action: The Taxicab Problem</a></li>
+            <li class="" data-nav-id="/probintro/genjax/06_building_models/index.html"><a class="padding" href="/probintro/genjax/06_building_models/index.html">Building Your Own Models</a></li></ul></li>
+            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762419656"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1762419656" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762419656" defer></script>
+    <script src="/probintro/js/theme.js?1762419656" defer></script>
+  </body>
+</html>
