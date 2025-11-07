@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Narrative Introduction to Probabilistic Computing</title>
-    <link>https://example.org/index.html</link>
+    <title>Probability &amp; Probabilistic Computing Tutorial</title>
+    <link>https://josephausterweil.github.io/probintro/index.html</link>
     <description></description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 07 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://josephausterweil.github.io/probintro/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Narrative Introduction to Probability</title>
-      <link>https://example.org/intro/index.html</link>
-      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>https://example.org/intro/index.html</guid>
-      <description>Introduction This is still a draft in what will be a series of tutorials.&#xA;acknowledgements&#xA;Next: goals</description>
+      <link>https://josephausterweil.github.io/probintro/intro/index.html</link>
+      <pubDate>Fri, 07 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://josephausterweil.github.io/probintro/intro/index.html</guid>
+      <description>Welcome! This tutorial teaches probability theory through the story of Chibany (pictured below) who loves tonkatsu and wants to understand how likely he will get it in his daily meals. Along the way, you’ll learn to think about probability using sets — a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.</description>
+    </item>
+    <item>
+      <title>Probabilistic Programming with GenJAX</title>
+      <link>https://josephausterweil.github.io/probintro/genjax/index.html</link>
+      <pubDate>Thu, 06 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://josephausterweil.github.io/probintro/genjax/index.html</guid>
+      <description>From Probability Theory to Probabilistic Code In the previous tutorial, you learned to think about probability using sets and counting. Chibany showed you that probability questions are really about:&#xA;What’s possible? (Define the outcome space) What am I interested in? (Define the event) Count them! (Calculate the ratio) Now you’ll learn to express those same ideas in code using GenJAX — a probabilistic programming language that lets computers do the counting for you!</description>
     </item>
     <item>
       <title>Intro2</title>
-      <link>https://example.org/intro2/index.html</link>
+      <link>https://josephausterweil.github.io/probintro/intro2/index.html</link>
       <pubDate>Mon, 18 Aug 2025 17:37:54 +0900</pubDate>
-      <guid>https://example.org/intro2/index.html</guid>
+      <guid>https://josephausterweil.github.io/probintro/intro2/index.html</guid>
       <description></description>
     </item>
   </channel>

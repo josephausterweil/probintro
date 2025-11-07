@@ -1,14 +1,45 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://josephausterweil.github.io/probintro/'
 languageCode = 'en-us'
-title = 'Narrative Introduction to Probabilistic Computing'
+title = 'Probability & Probabilistic Computing Tutorial'
 theme = 'hugo-theme-relearn'
 images = ['images/chibanyplain.png']
+
 [params]
     math = true
     # Enable a page-level TOC (headings) in the sidebar
     showToc = true
     # Optional: expand sub-sections automatically
     alwaysopen = true
+    # Description for SEO
+    description = "Learn probability theory through sets and prepare for probabilistic programming"
+    # Author info
+    author = "Joseph Austerweil"
+
+    # Mermaid diagram configuration for better rendering reliability
+    # Using v10.9.3 which has better block-beta support
+    customMermaidURL = "https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js"
+
+    # Mermaid initialization settings
+    mermaidInitialize = """{
+      "startOnLoad": true,
+      "theme": "base",
+      "securityLevel": "loose",
+      "themeVariables": {
+        "primaryColor": "#fff",
+        "primaryTextColor": "#000",
+        "primaryBorderColor": "#000",
+        "lineColor": "#000",
+        "secondaryColor": "#fff",
+        "tertiaryColor": "#fff"
+      },
+      "flowchart": {
+        "htmlLabels": true,
+        "curve": "basis"
+      },
+      "block": {
+        "padding": 8
+      }
+    }"""
 
 [caches]
   [caches.images]
@@ -17,3 +48,12 @@ images = ['images/chibanyplain.png']
 [markup.tableOfContents]
   startLevel = 2
   endLevel = 6
+
+# Enable syntax highlighting for code blocks
+[markup.highlight]
+  style = "monokai"
+  lineNos = true
+
+# Allow HTML in markdown (for embedded visualizations, etc.)
+[markup.goldmark.renderer]
+  unsafe = true

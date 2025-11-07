@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="From Probability Theory to Probabilistic Code In the previous tutorial, you learned to think about probability using sets and counting. Chibany showed you that probability questions are really about:
+What’s possible? (Define the outcome space) What am I interested in? (Define the event) Count them! (Calculate the ratio) Now you’ll learn to express those same ideas in code using GenJAX — a probabilistic programming language that lets computers do the counting for you!">
+    <meta name="author" content="Joseph Austerweil">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Probabilistic Programming with GenJAX :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="From Probability Theory to Probabilistic Code In the previous tutorial, you learned to think about probability using sets and counting. Chibany showed you that probability questions are really about:
+What’s possible? (Define the outcome space) What am I interested in? (Define the event) Count them! (Calculate the ratio) Now you’ll learn to express those same ideas in code using GenJAX — a probabilistic programming language that lets computers do the counting for you!">
+    <meta property="og:url" content="https://josephausterweil.github.io/probintro/genjax/index.html">
+    <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Probabilistic Programming with GenJAX :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="From Probability Theory to Probabilistic Code In the previous tutorial, you learned to think about probability using sets and counting. Chibany showed you that probability questions are really about:
+What’s possible? (Define the outcome space) What am I interested in? (Define the event) Count them! (Calculate the ratio) Now you’ll learn to express those same ideas in code using GenJAX — a probabilistic programming language that lets computers do the counting for you!">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="website">
+    <meta itemprop="name" content="Probabilistic Programming with GenJAX :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="From Probability Theory to Probabilistic Code In the previous tutorial, you learned to think about probability using sets and counting. Chibany showed you that probability questions are really about:
+What’s possible? (Define the outcome space) What am I interested in? (Define the event) Count them! (Calculate the ratio) Now you’ll learn to express those same ideas in code using GenJAX — a probabilistic programming language that lets computers do the counting for you!">
+    <meta itemprop="datePublished" content="2025-11-06T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2025-11-06T00:00:00+00:00">
+    <meta itemprop="wordCount" content="673">
+    <title>Probabilistic Programming with GenJAX :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/genjax/index.xml" rel="alternate" type="application/rss+xml" title="Probabilistic Programming with GenJAX :: Probability &amp; Probabilistic Computing Tutorial">
+    <link href="/probintro/images/favicon.png?1762516374" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762516374" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762516374" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1762516374" defer></script>
+    <script src="/probintro/js/search.min.js?1762516374" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1762516374";
+    </script>
+    <script src="/probintro/js/lunr/lunr.min.js?1762516374" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762516374" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1762516374" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1762516374" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762516374" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762516374" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762516374" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1762516374" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1762516374" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = `.min`;
+      window.relearn.path='\/genjax\/index.html';
+      window.relearn.relBasePath='..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='https:\/\/josephausterweil.github.io\/probintro';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/probintro/genjax/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#from-probability-theory-to-probabilistic-code">From Probability Theory to Probabilistic Code</a></li>
+    <li><a href="#what-is-genjax">What is GenJAX?</a></li>
+    <li><a href="#no-coding-experience-no-problem">No Coding Experience? No Problem!</a></li>
+    <li><a href="#two-ways-to-follow-along">Two Ways to Follow Along</a>
+      <ul>
+        <li><a href="#option-1-google-colab-recommended-for-beginners">Option 1: Google Colab (Recommended for Beginners)</a></li>
+        <li><a href="#option-2-local-installation-optional">Option 2: Local Installation (Optional)</a></li>
+      </ul>
+    </li>
+    <li><a href="#tutorial-structure">Tutorial Structure</a>
+      <ul>
+        <li><a href="#chapter-0-getting-started">Chapter 0: Getting Started</a></li>
+        <li><a href="#chapter-1-python-essentials">Chapter 1: Python Essentials</a></li>
+        <li><a href="#chapter-2-your-first-generative-function">Chapter 2: Your First Generative Function</a></li>
+        <li><a href="#chapter-3-understanding-traces">Chapter 3: Understanding Traces</a></li>
+        <li><a href="#chapter-4-conditioning-and-observations">Chapter 4: Conditioning and Observations</a></li>
+        <li><a href="#chapter-5-inference-in-action">Chapter 5: Inference in Action</a></li>
+        <li><a href="#chapter-6-building-your-own-models">Chapter 6: Building Your Own Models</a></li>
+      </ul>
+    </li>
+    <li><a href="#learning-philosophy">Learning Philosophy</a></li>
+    <li><a href="#what-youll-build">What You&rsquo;ll Build</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#ready-to-start">Ready to Start?</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Probabilistic Programming with GenJAX</span><meta itemprop="position" content="2"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro/07_ack/index.html" title="Acknowledgements (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/00_getting_started/index.html" title="Getting Started with Google Colab (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable genjax" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="probabilistic-programming-with-genjax">Probabilistic Programming with GenJAX</h1>
+
+<h2 id="from-probability-theory-to-probabilistic-code">From Probability Theory to Probabilistic Code</h2>
+<p>In the previous tutorial, you learned to think about probability using <strong>sets and counting</strong>. Chibany showed you that probability questions are really about:</p>
+<ol>
+<li>What&rsquo;s possible? (Define the outcome space)</li>
+<li>What am I interested in? (Define the event)</li>
+<li>Count them! (Calculate the ratio)</li>
+</ol>
+<p>Now you&rsquo;ll learn to express those same ideas in <strong>code</strong> using GenJAX — a probabilistic programming language that lets computers do the counting for you!</p>
+<p><a href="#R-image-04744719046c33fc352eda7f31f4df34" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-04744719046c33fc352eda7f31f4df34"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanyplain.png"></a></p>
+<h2 id="what-is-genjax">What is GenJAX?</h2>
+<p>GenJAX is a <strong>probabilistic programming language</strong> that lets you:</p>
+<ol>
+<li><strong>Define generative processes</strong> — Write code that describes how outcomes are produced</li>
+<li><strong>Perform inference</strong> — Find probable explanations given observations</li>
+<li><strong>Leverage powerful computation</strong> — Run fast on GPUs for complex problems</li>
+</ol>
+<p><strong>The best part?</strong> You already understand the concepts! GenJAX just translates what you learned about sets into code that computers can execute.</p>
+<h2 id="no-coding-experience-no-problem">No Coding Experience? No Problem!</h2>
+<p>This tutorial is designed for <strong>complete beginners</strong> to programming. We&rsquo;ll:</p>
+<p>✅ Use <strong>Google Colab</strong> — Run code in your browser, no installation needed
+✅ Provide <strong>interactive notebooks</strong> — Adjust sliders and see results change instantly
+✅ Teach <strong>just enough Python</strong> — Only what you need to understand the code
+✅ Connect <strong>everything to sets</strong> — Every line of code relates to concepts you know</p>
+<p><strong>You won&rsquo;t become a programmer from this tutorial</strong> — but you&rsquo;ll be able to use probabilistic programming tools to explore probability and build models!</p>
+<h2 id="two-ways-to-follow-along">Two Ways to Follow Along</h2>
+<h3 id="option-1-google-colab-recommended-for-beginners">Option 1: Google Colab (Recommended for Beginners)</h3>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>✅ No installation required</li>
+<li>✅ Runs in your web browser</li>
+<li>✅ Interactive widgets and visualizations</li>
+<li>✅ Works on any computer (Windows, Mac, Linux, Chromebook)</li>
+<li>✅ Free GPU access</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>⚠️ Requires internet connection</li>
+<li>⚠️ Sessions timeout after inactivity</li>
+</ul>
+<p><strong>Perfect for:</strong> Complete beginners, trying things out, classroom settings</p>
+<h3 id="option-2-local-installation-optional">Option 2: Local Installation (Optional)</h3>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>✅ Works offline</li>
+<li>✅ Faster for large computations</li>
+<li>✅ Full control over environment</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>⚠️ Requires installation and setup</li>
+<li>⚠️ More technical troubleshooting needed</li>
+</ul>
+<p><strong>Perfect for:</strong> Those comfortable with software installation, serious projects</p>
+<hr>
+<h2 id="tutorial-structure">Tutorial Structure</h2>
+<h3 id="chapter-0-getting-started">Chapter 0: Getting Started</h3>
+<p>Set up your environment (Google Colab or local installation)</p>
+<h3 id="chapter-1-python-essentials">Chapter 1: Python Essentials</h3>
+<p>Just enough Python to read and run GenJAX code</p>
+<h3 id="chapter-2-your-first-generative-function">Chapter 2: Your First Generative Function</h3>
+<p>Chibany&rsquo;s meals in code — from sets to simulation</p>
+<h3 id="chapter-3-understanding-traces">Chapter 3: Understanding Traces</h3>
+<p>What GenJAX records when programs run</p>
+<h3 id="chapter-4-conditioning-and-observations">Chapter 4: Conditioning and Observations</h3>
+<p>How to ask &ldquo;what if I know this happened?&rdquo;</p>
+<h3 id="chapter-5-inference-in-action">Chapter 5: Inference in Action</h3>
+<p>The taxicab problem, now solved with code!</p>
+<h3 id="chapter-6-building-your-own-models">Chapter 6: Building Your Own Models</h3>
+<p>Go beyond Chibany&rsquo;s meals</p>
+<hr>
+<h2 id="learning-philosophy">Learning Philosophy</h2>
+<p><strong>You already know the concepts</strong> from the probability tutorial. This tutorial just shows you how to:</p>
+<ul>
+<li>Express outcome spaces as generative functions</li>
+<li>Express events as filters on outcomes</li>
+<li>Let computers do the counting (simulation)</li>
+<li>Ask conditional probability questions (inference)</li>
+</ul>
+<p><strong>Every chapter includes:</strong></p>
+<ul>
+<li>📖 Explanation connecting to set-based probability</li>
+<li>💻 Interactive Colab notebook</li>
+<li>🎮 Widgets to play with parameters</li>
+<li>📊 Visualizations that update automatically</li>
+<li>✅ Exercises with solutions</li>
+</ul>
+<hr>
+<h2 id="what-youll-build">What You&rsquo;ll Build</h2>
+<p>By the end of this tutorial, you&rsquo;ll be able to:</p>
+<ol>
+<li><strong>Write simple generative models</strong> in GenJAX</li>
+<li><strong>Run simulations</strong> to approximate probabilities</li>
+<li><strong>Perform inference</strong> given observations</li>
+<li><strong>Visualize results</strong> with interactive plots</li>
+<li><strong>Understand the connection</strong> between theory and code</li>
+</ol>
+<p>You&rsquo;ll see how the taxicab problem, Chibany&rsquo;s meals, and other examples from the probability tutorial can be solved computationally!</p>
+<hr>
+<h2 id="prerequisites">Prerequisites</h2>
+<p><strong>Required:</strong></p>
+<ul>
+<li>✅ Completed &ldquo;A Narrative Introduction to Probability&rdquo;</li>
+<li>✅ Understand sets, events, and conditional probability</li>
+<li>✅ Know what Chibany likes to eat 😊</li>
+</ul>
+<p><strong>Not Required:</strong></p>
+<ul>
+<li>❌ Programming experience</li>
+<li>❌ Python knowledge</li>
+<li>❌ Software installation (if using Colab)</li>
+</ul>
+<hr>
+<h2 id="ready-to-start">Ready to Start?</h2>
+<p>Let&rsquo;s set up your environment and write your first probabilistic program!</p>
+<p><strong>Choose your path:</strong></p>
+<ul>
+<li><a href="/probintro/genjax/00_getting_started/index.html">Chapter 0: Getting Started with Google Colab →</a> (Recommended)</li>
+<li><a href="./00b_local_install.md">Chapter 0b: Local Installation →</a> (Optional)</li>
+</ul>
+<p><strong>Or jump to Python basics:</strong></p>
+<ul>
+<li><a href="/probintro/genjax/01_python_basics/index.html">Chapter 1: Python Essentials →</a></li>
+</ul>
+<hr>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    Learning Tip
+  </summary>
+  <div class="box-content">
+<p><strong>Don&rsquo;t try to memorize Python syntax!</strong> Focus on understanding:</p>
+<ul>
+<li>What the code is trying to do (the purpose)</li>
+<li>How it connects to probability concepts (the mapping)</li>
+<li>What happens when you run it (the result)</li>
+</ul>
+<p>You can always copy-paste and modify examples. Understanding beats memorization!</p>
+  </div>
+</details>
+
+  <footer class="footline">
+              <i class='fa-fw fas fa-calendar'></i> Nov 6, 2025
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/probintro/index.html">
+            <div class="logo-title">Probability &amp; Probabilistic Computing Tutorial</div>
+          </a>
+        </div>
+        <search><form action="/probintro/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/probintro/index.html"><a class="padding" href="/probintro/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
+            <li class="active parent alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu">
+            <li class="" data-nav-id="/probintro/genjax/00_getting_started/index.html"><a class="padding" href="/probintro/genjax/00_getting_started/index.html">Getting Started with Google Colab</a></li>
+            <li class="" data-nav-id="/probintro/genjax/01_python_basics/index.html"><a class="padding" href="/probintro/genjax/01_python_basics/index.html">Python Essentials for GenJAX</a></li>
+            <li class="" data-nav-id="/probintro/genjax/02_first_model/index.html"><a class="padding" href="/probintro/genjax/02_first_model/index.html">Your First GenJAX Model</a></li>
+            <li class="" data-nav-id="/probintro/genjax/03_traces/index.html"><a class="padding" href="/probintro/genjax/03_traces/index.html">Understanding Traces</a></li>
+            <li class="" data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Observations</a></li>
+            <li class="" data-nav-id="/probintro/genjax/05_inference/index.html"><a class="padding" href="/probintro/genjax/05_inference/index.html">Inference in Action: The Taxicab Problem</a></li>
+            <li class="" data-nav-id="/probintro/genjax/06_building_models/index.html"><a class="padding" href="/probintro/genjax/06_building_models/index.html">Building Your Own Models</a></li></ul></li>
+            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762516374"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1762516374" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762516374" defer></script>
+    <script src="/probintro/js/theme.min.js?1762516374" defer></script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+{{- /* Custom mermaid initialization with retry logic for better reliability */ -}}
+<script>
+(function() {
+  'use strict';
+
+  // Wait for mermaid to be loaded
+  function waitForMermaid(callback, attempts = 0) {
+    if (typeof mermaid !== 'undefined') {
+      callback();
+    } else if (attempts < 50) {
+      setTimeout(function() {
+        waitForMermaid(callback, attempts + 1);
+      }, 100);
+    } else {
+      console.error('Mermaid failed to load after 5 seconds');
+    }
+  }
+
+  // Initialize mermaid with retry on failure
+  function initMermaid() {
+    try {
+      // The theme already initializes mermaid via window.relearn.themeUseMermaid
+      // We just add retry logic for failed renders
+
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          // Check for any mermaid diagrams that failed to render
+          var unrendered = document.querySelectorAll('pre.mermaid:not([data-processed])');
+
+          if (unrendered.length > 0) {
+            console.log('Retrying ' + unrendered.length + ' unrendered mermaid diagram(s)...');
+
+            // Retry each unrendered diagram
+            unrendered.forEach(function(element) {
+              try {
+                var content = element.textContent;
+                mermaid.render('mermaid-retry-' + Math.random().toString(36).substr(2, 9), content)
+                  .then(function(result) {
+                    element.innerHTML = result.svg;
+                    element.setAttribute('data-processed', 'true');
+                  })
+                  .catch(function(error) {
+                    console.error('Mermaid retry failed:', error);
+                    element.innerHTML = '<div style="color: red; padding: 10px; border: 1px solid red;">Diagram rendering failed. Please refresh the page.</div>';
+                  });
+              } catch (e) {
+                console.error('Error processing mermaid diagram:', e);
+              }
+            });
+          }
+        }, 500);
+      });
+
+    } catch (error) {
+      console.error('Failed to initialize mermaid retry logic:', error);
+    }
+  }
+
+  // Wait for mermaid and then initialize retry logic
+  waitForMermaid(initMermaid);
+})();
+</script>

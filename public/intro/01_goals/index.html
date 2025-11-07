@@ -5,51 +5,63 @@
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
     <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
-    <meta name="description" content="Introduce probability theory and Bayesian inference from a set-based perspective. Uses real-world examples and examples to introduce key concepts, such as conditional and marginal probability, independence, and Bayes’ rule. Tailored examples to highlight common misconceptions (e.g., base-rate neglect with taxicab problem) and how thinking through it clearly using tools from tutorial. Provide the knowledge and confidence to start learning probabilistic computing and transition to that in the next tutorial Present everything in a friendly narrative for approachability Previous: index Next: hungry">
-    <meta name="author" content="">
+    <meta name="description" content="This tutorial will give you a solid foundation in probability theory through a set-based approach. By the end, you’ll be able to reason clearly about uncertainty and be prepared for advanced topics in probabilistic computing and Bayesian inference.
+Learning Goals 1. Think About Probability Using Sets Learn to see probability as counting — a concrete, visual approach that makes abstract concepts intuitive.
+You’ll be able to:
+Define outcome spaces (What could happen?) Identify events as subsets (What am I interested in?) Calculate probabilities by counting (What’s the ratio?) 2. Understand Core Concepts Through Narrative Follow Chibany’s story to master the fundamental building blocks of probability theory.">
+    <meta name="author" content="Joseph Austerweil">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Goals :: Narrative Introduction to Probabilistic Computing">
-    <meta name="twitter:description" content="Introduce probability theory and Bayesian inference from a set-based perspective. Uses real-world examples and examples to introduce key concepts, such as conditional and marginal probability, independence, and Bayes’ rule. Tailored examples to highlight common misconceptions (e.g., base-rate neglect with taxicab problem) and how thinking through it clearly using tools from tutorial. Provide the knowledge and confidence to start learning probabilistic computing and transition to that in the next tutorial Present everything in a friendly narrative for approachability Previous: index Next: hungry">
-    <meta property="og:url" content="https://example.org/intro/01_goals/index.html">
-    <meta property="og:site_name" content="Narrative Introduction to Probabilistic Computing">
-    <meta property="og:title" content="Goals :: Narrative Introduction to Probabilistic Computing">
-    <meta property="og:description" content="Introduce probability theory and Bayesian inference from a set-based perspective. Uses real-world examples and examples to introduce key concepts, such as conditional and marginal probability, independence, and Bayes’ rule. Tailored examples to highlight common misconceptions (e.g., base-rate neglect with taxicab problem) and how thinking through it clearly using tools from tutorial. Provide the knowledge and confidence to start learning probabilistic computing and transition to that in the next tutorial Present everything in a friendly narrative for approachability Previous: index Next: hungry">
+    <meta name="twitter:title" content="What You&#39;ll Learn :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="This tutorial will give you a solid foundation in probability theory through a set-based approach. By the end, you’ll be able to reason clearly about uncertainty and be prepared for advanced topics in probabilistic computing and Bayesian inference.
+Learning Goals 1. Think About Probability Using Sets Learn to see probability as counting — a concrete, visual approach that makes abstract concepts intuitive.
+You’ll be able to:
+Define outcome spaces (What could happen?) Identify events as subsets (What am I interested in?) Calculate probabilities by counting (What’s the ratio?) 2. Understand Core Concepts Through Narrative Follow Chibany’s story to master the fundamental building blocks of probability theory.">
+    <meta property="og:url" content="https://josephausterweil.github.io/probintro/intro/01_goals/index.html">
+    <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="What You&#39;ll Learn :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="This tutorial will give you a solid foundation in probability theory through a set-based approach. By the end, you’ll be able to reason clearly about uncertainty and be prepared for advanced topics in probabilistic computing and Bayesian inference.
+Learning Goals 1. Think About Probability Using Sets Learn to see probability as counting — a concrete, visual approach that makes abstract concepts intuitive.
+You’ll be able to:
+Define outcome spaces (What could happen?) Identify events as subsets (What am I interested in?) Calculate probabilities by counting (What’s the ratio?) 2. Understand Core Concepts Through Narrative Follow Chibany’s story to master the fundamental building blocks of probability theory.">
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
     <meta property="article:section" content="A Narrative Introduction to Probability">
-    <meta itemprop="name" content="Goals :: Narrative Introduction to Probabilistic Computing">
-    <meta itemprop="description" content="Introduce probability theory and Bayesian inference from a set-based perspective. Uses real-world examples and examples to introduce key concepts, such as conditional and marginal probability, independence, and Bayes’ rule. Tailored examples to highlight common misconceptions (e.g., base-rate neglect with taxicab problem) and how thinking through it clearly using tools from tutorial. Provide the knowledge and confidence to start learning probabilistic computing and transition to that in the next tutorial Present everything in a friendly narrative for approachability Previous: index Next: hungry">
-    <meta itemprop="wordCount" content="81">
-    <title>Goals :: Narrative Introduction to Probabilistic Computing</title>
-    <link href="/images/favicon.png?1762516341" rel="icon" type="image/png">
-    <link href="/css/auto-complete/auto-complete.min.css?1762516341" rel="stylesheet">
-    <script src="/js/auto-complete/auto-complete.min.js?1762516341" defer></script>
-    <script src="/js/search-lunr.min.js?1762516341" defer></script>
-    <script src="/js/search.min.js?1762516341" defer></script>
+    <meta itemprop="name" content="What You&#39;ll Learn :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="This tutorial will give you a solid foundation in probability theory through a set-based approach. By the end, you’ll be able to reason clearly about uncertainty and be prepared for advanced topics in probabilistic computing and Bayesian inference.
+Learning Goals 1. Think About Probability Using Sets Learn to see probability as counting — a concrete, visual approach that makes abstract concepts intuitive.
+You’ll be able to:
+Define outcome spaces (What could happen?) Identify events as subsets (What am I interested in?) Calculate probabilities by counting (What’s the ratio?) 2. Understand Core Concepts Through Narrative Follow Chibany’s story to master the fundamental building blocks of probability theory.">
+    <meta itemprop="wordCount" content="414">
+    <title>What You&#39;ll Learn :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/images/favicon.png?1762516374" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762516374" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762516374" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1762516374" defer></script>
+    <script src="/probintro/js/search.min.js?1762516374" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/searchindex.en.js?1762516341";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1762516374";
     </script>
-    <script src="/js/lunr/lunr.min.js?1762516341" defer></script>
-    <script src="/js/lunr/lunr.stemmer.support.min.js?1762516341" defer></script>
-    <script src="/js/lunr/lunr.multi.min.js?1762516341" defer></script>
-    <script src="/js/lunr/lunr.en.min.js?1762516341" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1762516374" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762516374" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1762516374" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1762516374" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/fonts/fontawesome/css/fontawesome-all.min.css?1762516341" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/fonts/fontawesome/css/fontawesome-all.min.css?1762516341" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar/perfect-scrollbar.min.css?1762516341" rel="stylesheet">
-    <link href="/css/theme.min.css?1762516341" rel="stylesheet">
-    <link href="/css/format-html.min.css?1762516341" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762516374" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762516374" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762516374" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1762516374" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1762516374" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
       window.relearn.min = `.min`;
       window.relearn.path='\/intro\/01_goals\/index.html';
       window.relearn.relBasePath='..\/..';
-      window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='https:\/\/example.org';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='https:\/\/josephausterweil.github.io\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -96,7 +108,7 @@
       window.relearn.markVariant();
     </script>
   </head>
-  <body class="mobile-support html" data-url="/intro/01_goals/index.html">
+  <body class="mobile-support html" data-url="/probintro/intro/01_goals/index.html">
     <div id="R-body" class="default-animation">
       <div id="R-body-overlay"></div>
       <nav id="R-topbar">
@@ -107,17 +119,32 @@
             </div>
             <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
               <div class="topbar-content">
-                <div class="topbar-content-wrapper"> 
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#learning-goals">Learning Goals</a>
+      <ul>
+        <li><a href="#1-think-about-probability-using-sets">1. Think About Probability Using Sets</a></li>
+        <li><a href="#2-understand-core-concepts-through-narrative">2. Understand Core Concepts Through Narrative</a></li>
+        <li><a href="#3-avoid-common-misconceptions">3. Avoid Common Misconceptions</a></li>
+        <li><a href="#4-build-foundation-for-probabilistic-programming">4. Build Foundation for Probabilistic Programming</a></li>
+        <li><a href="#5-develop-confidence-for-further-learning">5. Develop Confidence for Further Learning</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-the-tutorial-works">How the Tutorial Works</a></li>
+    <li><a href="#what-you-need">What You Need</a></li>
+  </ul>
+</nav>
                 </div>
               </div>
             </div>
           </div>
-          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/index.html"><span itemprop="name">Narrative Introduction to Probabilistic Computing</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/intro/index.html"><span itemprop="name">A Narrative Introduction to Probability</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Goals</span><meta itemprop="position" content="3"></li>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/intro/index.html"><span itemprop="name">A Narrative Introduction to Probability</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">What You&#39;ll Learn</span><meta itemprop="position" content="3"></li>
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
-            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/intro/index.html" title="A Narrative Introduction to Probability (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro/index.html" title="A Narrative Introduction to Probability (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
-            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/intro/02_hungry/index.html" title="Chibany is hungry (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro/02_hungry/index.html" title="Chibany is hungry (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
             </div>
             <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
               <div class="topbar-content">
@@ -137,25 +164,77 @@
   <header class="headline">
   </header>
 
-<h1 id="goals">Goals</h1>
+<h1 id="what-youll-learn">What You&#39;ll Learn</h1>
 
+<p>This tutorial will give you a solid foundation in probability theory through a set-based approach. By the end, you&rsquo;ll be able to reason clearly about uncertainty and be prepared for advanced topics in probabilistic computing and Bayesian inference.</p>
+<h2 id="learning-goals">Learning Goals</h2>
+<h3 id="1-think-about-probability-using-sets">1. Think About Probability Using Sets</h3>
+<p>Learn to see probability as <strong>counting</strong> — a concrete, visual approach that makes abstract concepts intuitive.</p>
+<p><strong>You&rsquo;ll be able to:</strong></p>
+<ul>
+<li>Define outcome spaces (What could happen?)</li>
+<li>Identify events as subsets (What am I interested in?)</li>
+<li>Calculate probabilities by counting (What&rsquo;s the ratio?)</li>
+</ul>
+<h3 id="2-understand-core-concepts-through-narrative">2. Understand Core Concepts Through Narrative</h3>
+<p>Follow Chibany&rsquo;s story to master the fundamental building blocks of probability theory.</p>
+<p><strong>Key concepts:</strong></p>
+<ul>
+<li><strong>Events and outcome spaces</strong> — The foundation of probabilistic reasoning</li>
+<li><strong>Conditional probability</strong> — How learning changes what&rsquo;s possible</li>
+<li><strong>Independence</strong> — When things don&rsquo;t affect each other</li>
+<li><strong>Bayes&rsquo; rule</strong> — Updating beliefs with new information</li>
+<li><strong>Random variables</strong> — Functions on outcomes</li>
+<li><strong>Joint and marginal probabilities</strong> — Relationships between variables</li>
+</ul>
+<h3 id="3-avoid-common-misconceptions">3. Avoid Common Misconceptions</h3>
+<p>Understand where intuition misleads us and develop tools to think more clearly.</p>
+<p><strong>You&rsquo;ll tackle:</strong></p>
+<ul>
+<li>The <a href="https://en.wikipedia.org/wiki/Representativeness_heuristic#The_taxicab_problem" rel="external" target="_blank">Taxicab Problem</a> — How base rates matter</li>
+<li>Base-rate neglect — Why rare events stay rare even with evidence</li>
+<li>The difference between $P(A \mid B)$ and $P(B \mid A)$ — A source of endless confusion</li>
+</ul>
+<h3 id="4-build-foundation-for-probabilistic-programming">4. Build Foundation for Probabilistic Programming</h3>
+<p>Develop the mental models that make probabilistic computing approachable.</p>
+<p><strong>You&rsquo;ll understand:</strong></p>
+<ul>
+<li>How outcome spaces become generative processes</li>
+<li>Why conditioning is fundamental to inference</li>
+<li>How counting scales to computation</li>
+<li>The connection between sets and code</li>
+</ul>
+<h3 id="5-develop-confidence-for-further-learning">5. Develop Confidence for Further Learning</h3>
+<p>After this tutorial, you&rsquo;ll be ready to explore more advanced topics with a solid conceptual foundation.</p>
+<p><strong>Next steps will include:</strong></p>
+<ul>
+<li>Probabilistic programming with GenJAX</li>
+<li>Continuous probability distributions</li>
+<li>Bayesian inference and conjugate models</li>
+<li>Mixture models and hierarchical models</li>
+<li>Machine learning and generative AI</li>
+</ul>
+<hr>
+<h2 id="how-the-tutorial-works">How the Tutorial Works</h2>
+<p>Each chapter builds on previous concepts using Chibany&rsquo;s daily meal situation:</p>
 <ol>
-<li>Introduce probability theory and Bayesian inference from a set-based perspective.</li>
-<li>Uses real-world examples and examples to introduce key concepts, such as conditional and marginal probability, independence, and Bayes’ rule.</li>
-<li>Tailored examples to highlight common misconceptions (e.g., <a href="https://en.wikipedia.org/wiki/Representativeness_heuristic#The_taxicab_problem" rel="external" target="_blank">base-rate neglect with taxicab problem</a>) and how thinking through it clearly using tools from tutorial.</li>
-<li>Provide the knowledge and confidence to start learning probabilistic computing and transition to that in the next tutorial</li>
-<li>Present everything in a friendly narrative for approachability</li>
+<li>Start with simple counting (two meals, two options)</li>
+<li>Introduce probability as ratios</li>
+<li>Explore what happens when you learn something new</li>
+<li>Apply Bayes&rsquo; rule to real problems</li>
+<li>Connect to computational approaches</li>
 </ol>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left"><a href="/intro/index.html">Previous: index</a></th>
-          <th style="text-align: right"><a href="/intro/02_hungry/index.html">Next: hungry</a></th>
-      </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
+<p><strong>The progression is gradual</strong> — from concrete examples to general principles, from small outcome spaces to the logic that scales to complex models.</p>
+<hr>
+<h2 id="what-you-need">What You Need</h2>
+<ul>
+<li><strong>No math prerequisites</strong> — We introduce everything from scratch</li>
+<li><strong>Curiosity</strong> — Willingness to think through examples carefully</li>
+<li><strong>Patience</strong> — Some concepts feel strange at first but become natural with practice</li>
+</ul>
+<hr>
+<p><strong>Ready to meet Chibany and start learning?</strong></p>
+<p><a href="/probintro/intro/index.html">← Previous: Introduction</a> | <a href="/probintro/intro/02_hungry/index.html">Next: Chibany is Hungry →</a></p>
 
   <footer class="footline">
   </footer>
@@ -167,11 +246,11 @@
       <div id="R-header-topbar" class="default-animation"></div>
       <div id="R-header-wrapper" class="default-animation">
         <div id="R-header" class="default-animation">
-          <a id="R-logo" class="R-default" href="/index.html">
-            <div class="logo-title">Narrative Introduction to Probabilistic Computing</div>
+          <a id="R-logo" class="R-default" href="/probintro/index.html">
+            <div class="logo-title">Probability &amp; Probabilistic Computing Tutorial</div>
           </a>
         </div>
-        <search><form action="/search/index.html" method="get">
+        <search><form action="/probintro/search/index.html" method="get">
           <div class="searchbox default-animation">
             <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
             <label class="a11y-only" for="R-search-by">Search</label>
@@ -186,7 +265,7 @@
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-homelinks">
           <ul class="space collapsible-menu">
-            <li class="" data-nav-id="/index.html"><a class="padding" href="/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+            <li class="" data-nav-id="/probintro/index.html"><a class="padding" href="/probintro/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
           </ul>
         </div>
         <div class="R-menu-divider default-animation">
@@ -203,15 +282,16 @@
       <div id="R-content-wrapper" class="highlightable">
         <div class="R-sidebarmenu R-shortcutmenu-main">
           <ul class="enlarge morespace collapsible-menu">
-            <li class="parent alwaysopen " data-nav-id="/intro/index.html"><a class="padding" href="/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu">
-            <li class="active " data-nav-id="/intro/01_goals/index.html"><a class="padding" href="/intro/01_goals/index.html">Goals</a></li>
-            <li class="" data-nav-id="/intro/02_hungry/index.html"><a class="padding" href="/intro/02_hungry/index.html">Chibany is hungry</a></li>
-            <li class="" data-nav-id="/intro/03_prob_count/index.html"><a class="padding" href="/intro/03_prob_count/index.html">Probability and Counting</a></li>
-            <li class="" data-nav-id="/intro/04_conditional/index.html"><a class="padding" href="/intro/04_conditional/index.html">Conditional probability as changing the possible outcomes</a></li>
-            <li class="" data-nav-id="/intro/05_bayes/index.html"><a class="padding" href="/intro/05_bayes/index.html">Bayes&#39; Theorem or Bayes&#39; Rule</a></li>
-            <li class="" data-nav-id="/intro/06_glossary/index.html"><a class="padding" href="/intro/06_glossary/index.html">Glossary</a></li>
-            <li class="" data-nav-id="/intro/07_ack/index.html"><a class="padding" href="/intro/07_ack/index.html">Acknowledgements</a></li></ul></li>
-            <li class="" data-nav-id="/intro2/index.html"><a class="padding" href="/intro2/index.html">Intro2</a></li>
+            <li class="parent alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu">
+            <li class="active " data-nav-id="/probintro/intro/01_goals/index.html"><a class="padding" href="/probintro/intro/01_goals/index.html">What You&#39;ll Learn</a></li>
+            <li class="" data-nav-id="/probintro/intro/02_hungry/index.html"><a class="padding" href="/probintro/intro/02_hungry/index.html">Chibany is hungry</a></li>
+            <li class="" data-nav-id="/probintro/intro/03_prob_count/index.html"><a class="padding" href="/probintro/intro/03_prob_count/index.html">Probability and Counting</a></li>
+            <li class="" data-nav-id="/probintro/intro/04_conditional/index.html"><a class="padding" href="/probintro/intro/04_conditional/index.html">Conditional probability as changing the possible outcomes</a></li>
+            <li class="" data-nav-id="/probintro/intro/05_bayes/index.html"><a class="padding" href="/probintro/intro/05_bayes/index.html">Bayes&#39; Theorem: Updating Beliefs</a></li>
+            <li class="" data-nav-id="/probintro/intro/06_glossary/index.html"><a class="padding" href="/probintro/intro/06_glossary/index.html">Glossary</a></li>
+            <li class="" data-nav-id="/probintro/intro/07_ack/index.html"><a class="padding" href="/probintro/intro/07_ack/index.html">Acknowledgements</a></li></ul></li>
+            <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
+            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -240,9 +320,9 @@
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/js/mathjax/tex-mml-chtml.js?1762516341"></script>
-    <script src="/js/clipboard/clipboard.min.js?1762516341" defer></script>
-    <script src="/js/perfect-scrollbar/perfect-scrollbar.min.js?1762516341" defer></script>
-    <script src="/js/theme.min.js?1762516341" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762516374"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1762516374" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762516374" defer></script>
+    <script src="/probintro/js/theme.min.js?1762516374" defer></script>
   </body>
 </html>
