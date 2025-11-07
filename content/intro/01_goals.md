@@ -51,11 +51,11 @@ Develop the mental models that make probabilistic computing approachable.
 
 After this tutorial, you'll be ready to explore more advanced topics with a solid conceptual foundation.
 
-**Next steps could include:**
+**Next steps will include:**
+- Probabilistic programming with GenJAX
 - Continuous probability distributions
 - Bayesian inference and conjugate models
 - Mixture models and hierarchical models
-- Probabilistic programming with GenJAX
 - Machine learning and generative AI
 
 ---

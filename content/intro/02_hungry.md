@@ -32,6 +32,8 @@ Sets are perfect for probability because they let us **visualize and count** pos
 2. **What am I interested in?** (Define the event)
 3. **Count both!** (Calculate the ratio)
 
+The outcome space and an event will be defined as sets. Probability comes down to the relative sizes of two sets!
+
 This makes probability **concrete** instead of abstract.
 {{% /notice %}}
 
@@ -42,7 +44,7 @@ Technically, the elements of a set are unique. So, if Chibany writes down gettin
 Think of it like a list where duplicates automatically disappear — only what's **different** matters.
 
 {{% notice style="tip" title="For Chibany's meals" %}}
-Each element in $\Omega = \\{HH, HT, TH, TT\\}$ is already unique because the **position** matters (first meal vs. second meal). $HT$ ≠ $TH$ — getting tonkatsu for lunch is different from getting it for dinner!
+Each element in $\Omega = \\{HH, HT, TH, TT\\}$ is unique because **position matters** (first meal vs. second meal). $HT$ ≠ $TH$ — getting tonkatsu for lunch is different from getting it for dinner!
 {{% /notice %}}
 
 Chibany is skeptical, but will try to keep it in mind. It can be confusing!
@@ -55,7 +57,9 @@ $\{HT, TH, TT\}$
 This is an example of an [event](./06_glossary.md/#event). Technically, an event is a set that contains none, some, or all of the possible outcomes.
 
 {{% notice style="info" title="Events are Subsets" %}}
-Any event $A$ is a **subset** of the outcome space $\Omega$. This means:
+Any event $A$ is a **subset** of the outcome space $\Omega$. Formally, this is written as $A \subseteq \Omega$.
+
+This means:
 - Every element in $A$ is also in $\Omega$
 - $A$ could be empty ($\\{\\}$ — nothing happens)
 - $A$ could be all of $\Omega$ (something definitely happens)
@@ -85,7 +89,7 @@ $\\{ \\{ \\}, \\{ HH \\}, \\{ HT\\}, \\{TH \\}, \\{TT\\},
 \\{HT, TH, TT\\},
 \\{HH, HT, TH, TT\\}  \\}$
 
-Note that $\\{ \\}$ is called the empty or null set and is a special set that contains no elements. It's the **impossible event** — nothing happens.
+Note that $\\{ \\}$ is called the empty or null set and is a special set that contains no elements. It's the **impossible event** — nothing happens. Chibany would never allow himself to not get any meals!
 
 **Counting tip:** For an outcome space with $n$ outcomes, there are $2^n$ possible events. Here: $2^4 = 16$ events.
 {{% /expand %}}

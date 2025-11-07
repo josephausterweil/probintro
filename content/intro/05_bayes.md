@@ -47,7 +47,7 @@ Don't worry if this felt abstract. The taxicab problem below will make it concre
 
 ## The Taxicab Problem
 
-**TODO: Add picture with chibany seeing a hit and run with a taxi with fog/smoke**
+![chibany witnesses accident with taxi on a foggy night](images/foggy_night_collision.png)
 
 In Chibany's hometown, there are two taxi companies: the Green {{% icon taxi green %}} and the Blue {{% icon taxi blue %}}. All Green company's taxis are painted green {{% icon taxi green %}} and all the Blue company's taxis are painted blue {{% icon taxi blue %}}.
 

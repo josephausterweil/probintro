@@ -54,7 +54,7 @@ That's it! Everything else builds from this foundation.
 
 ### Visualizing Probability as Counting
 
-Think of probability as **shading** parts of the outcome space:
+Think of us circling the outcomes we're interested in with red ink. That gives us:
 
 ```mermaid
 block-beta
@@ -63,19 +63,19 @@ block-beta
         a["HH<br/>❌"] b["HT<br/>✓"]
         c["TH<br/>✓"] d["TT<br/>✓"]
     end
-    style b fill:#faa
-    style c fill:#faa
-    style d fill:#faa
+    style b stroke: #f33, stroke-width:4px
+    style c stroke: #f33, stroke-width:4px
+    style d stroke: #f33, stroke-width:4px
 ```
 
-**Red outcomes** = Event $A$ (contains Tonkatsu)
+**Circled outcomes** = Event $A$ (contains Tonkatsu)
 **All outcomes** = Outcome space $\Omega$
 
-$$P(A) = \frac{\text{shaded outcomes}}{\text{total outcomes}} = \frac{3}{4} = 0.75$$
+$$P(A) = \frac{\text{circled outcomes}}{\text{total outcomes}} = \frac{3}{4} = 0.75$$
 
 ### When Outcomes Aren't Equally Likely
 
-Note that if the possible outcomes were not equally likely, we would sum their individual probabilities to calculate the cardinality. But everything works in the same way — the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this later!
+Note that if the possible outcomes were not equally likely, we would sum their individual probabilities to calculate the cardinality. But everything works in the same way — the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this [later](./04_conditional.md#weighted-possibilities)!
 
 ## Another Example
 
