@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Narrative Introduction to Probabilistic Computing</title>
-    <link>http://localhost:1313/index.html</link>
+    <link>https://example.org/index.html</link>
     <description></description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Narrative Introduction to Probability</title>
-      <link>http://localhost:1313/intro/index.html</link>
+      <link>https://example.org/intro/index.html</link>
       <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/intro/index.html</guid>
+      <guid>https://example.org/intro/index.html</guid>
       <description>Introduction This is still a draft in what will be a series of tutorials.&#xA;acknowledgements&#xA;Next: goals</description>
     </item>
     <item>
       <title>Intro2</title>
-      <link>http://localhost:1313/intro2/index.html</link>
+      <link>https://example.org/intro2/index.html</link>
       <pubDate>Mon, 18 Aug 2025 17:37:54 +0900</pubDate>
-      <guid>http://localhost:1313/intro2/index.html</guid>
+      <guid>https://example.org/intro2/index.html</guid>
       <description></description>
     </item>
   </channel>
