@@ -2,59 +2,59 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>A Narrative Introduction to Probability :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link>https://josephausterweil.github.io/probintro/intro/index.html</link>
-    <description>Welcome! This tutorial teaches probability theory through the story of Chibany (pictured below) who loves tonkatsu and wants to understand how likely he will get it in his daily meals. Along the way, you’ll learn to think about probability using sets — a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.</description>
+    <link>http://localhost:37465/probintro/intro/index.html</link>
+    <description>Welcome! This tutorial teaches probability theory through the story of Chibany (pictured below) who loves tonkatsu and wants to understand how likely he will get it in his daily meals. Along the way, you’ll learn to think about probability using sets. It is a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://josephausterweil.github.io/probintro/intro/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:37465/probintro/intro/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>What You&#39;ll Learn</title>
-      <link>https://josephausterweil.github.io/probintro/intro/01_goals/index.html</link>
+      <link>http://localhost:37465/probintro/intro/01_goals/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://josephausterweil.github.io/probintro/intro/01_goals/index.html</guid>
-      <description>This tutorial will give you a solid foundation in probability theory through a set-based approach. By the end, you’ll be able to reason clearly about uncertainty and be prepared for advanced topics in probabilistic computing and Bayesian inference.&#xA;Learning Goals 1. Think About Probability Using Sets Learn to see probability as counting — a concrete, visual approach that makes abstract concepts intuitive.&#xA;You’ll be able to:&#xA;Define outcome spaces (What could happen?) Identify events as subsets (What am I interested in?) Calculate probabilities by counting (What’s the ratio?) 2. Understand Core Concepts Through Narrative Follow Chibany’s story to master the fundamental building blocks of probability theory.</description>
+      <guid>http://localhost:37465/probintro/intro/01_goals/index.html</guid>
+      <description>This tutorial will give you a solid foundation in probability theory through a set-based approach. By the end, you’ll be able to reason clearly about uncertainty and be prepared for advanced topics in probabilistic computing and Bayesian inference.&#xA;Learning Goals 1. Think About Probability Using Sets Learn to see probability as counting.&#xA;You’ll be able to:&#xA;Define outcome spaces (What could happen?) Identify events as subsets (What am I interested in?) Calculate probabilities by counting (What’s the ratio?) 2. Understand Core Concepts Through Narrative Follow Chibany’s story to master the fundamental building blocks of probability theory.</description>
     </item>
     <item>
       <title>Chibany is hungry</title>
-      <link>https://josephausterweil.github.io/probintro/intro/02_hungry/index.html</link>
+      <link>http://localhost:37465/probintro/intro/02_hungry/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://josephausterweil.github.io/probintro/intro/02_hungry/index.html</guid>
+      <guid>http://localhost:37465/probintro/intro/02_hungry/index.html</guid>
       <description>Chibany wakes up from dreaming of the delicious meals he will get later today. Twice per day, a student brings him a bento box with a meal as an offering to Chibany. One student brings him a bento box in the early afternoon for lunch and a different student brings him a bento box in the evening for dinner. The meal is either a Hamburger or a Tonkatsu (pork cutlet) . To keep track of his meal possibilities, he lists out the four possibilities:</description>
     </item>
     <item>
       <title>Probability and Counting</title>
-      <link>https://josephausterweil.github.io/probintro/intro/03_prob_count/index.html</link>
+      <link>http://localhost:37465/probintro/intro/03_prob_count/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://josephausterweil.github.io/probintro/intro/03_prob_count/index.html</guid>
+      <guid>http://localhost:37465/probintro/intro/03_prob_count/index.html</guid>
       <description>One goal of this tutorial is to show you that probability is counting. When every possibility is equally likely, probability is defined as the relative number of possibilities in each set. When possibilities are not equally likely, it is only slightly more complicated. Rather than each possibility counting one towards the size of a set it is in, you count the possibility according to its relative weight.&#xA;Counting The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the cardinality or size of the set.</description>
     </item>
     <item>
       <title>Conditional probability as changing the possible outcomes</title>
-      <link>https://josephausterweil.github.io/probintro/intro/04_conditional/index.html</link>
+      <link>http://localhost:37465/probintro/intro/04_conditional/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://josephausterweil.github.io/probintro/intro/04_conditional/index.html</guid>
+      <guid>http://localhost:37465/probintro/intro/04_conditional/index.html</guid>
       <description>Chibany wants a tonkatsu dinner A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chibany that he knows that there will be at least one tonkatsu in tomorrow’s offering. Chibany is excited. He wants to know how likely it is that the second meal is a Tonkatsu. He quizzes Tanaka-san. Tanaka-san says it’s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says “I learned something because I know I will get at least one tonkatsu”. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who’s right!? Let’s check the chart…</description>
     </item>
     <item>
       <title>Bayes&#39; Theorem: Updating Beliefs</title>
-      <link>https://josephausterweil.github.io/probintro/intro/05_bayes/index.html</link>
+      <link>http://localhost:37465/probintro/intro/05_bayes/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://josephausterweil.github.io/probintro/intro/05_bayes/index.html</guid>
+      <guid>http://localhost:37465/probintro/intro/05_bayes/index.html</guid>
       <description>What is Bayes’ Theorem? Imagine you have a belief about the world (a hypothesis), and then you observe something new (data). Bayes’ Theorem tells you how to update your belief based on what you observed.&#xA;Example: You believe most taxis are green. Then you see a taxi that looks blue in the fog. How should you update your belief about which color it really was?&#xA;The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).</description>
     </item>
     <item>
       <title>Glossary</title>
-      <link>https://josephausterweil.github.io/probintro/intro/06_glossary/index.html</link>
+      <link>http://localhost:37465/probintro/intro/06_glossary/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://josephausterweil.github.io/probintro/intro/06_glossary/index.html</guid>
+      <guid>http://localhost:37465/probintro/intro/06_glossary/index.html</guid>
       <description>This glossary provides definitions for key terms used throughout the tutorial. Click on any term to expand its definition.&#xA;Core Concepts set set A set is a collection of elements or members. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and “$\{$” denotes the start of a set and “$\}$” the end of a set. Note that the elements of a set are unique.</description>
     </item>
     <item>
       <title>Acknowledgements</title>
-      <link>https://josephausterweil.github.io/probintro/intro/07_ack/index.html</link>
+      <link>http://localhost:37465/probintro/intro/07_ack/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://josephausterweil.github.io/probintro/intro/07_ack/index.html</guid>
+      <guid>http://localhost:37465/probintro/intro/07_ack/index.html</guid>
       <description>Written by Joe Austerweil. Thank you to Kyana Burhite, Hongtao Hao, and the many students who took Human and Machine Learning over the years who have provided invaluable feedback on an early draft of this tutorial.&#xA;Thanks to amplifier, which was used to help refine the tutorial content and generate the connecting GenJAX tutorials.&#xA;Further thanks to the Japan Probabilistic Computing Consortium Association (JPCCA) for funding my ability to polish and publish this tutorial series.</description>
     </item>
   </channel>

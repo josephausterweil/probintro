@@ -245,11 +245,11 @@ Since $0.53 \neq 0.19$, the events **are dependent**! Learning about the second 
 
 This chapter covered some of the most important concepts in probability:
 
-- **Conditional probability as restriction** — Learning changes what's possible
-- **Independence vs. dependence** — Whether events influence each other
-- **Marginal vs. joint probability** — Different ways to think about the same event
-- **The sum rule** — Marginalizing out variables
-- **Weighted counting** — Handling unequal probabilities
+- **Conditional probability as restriction** Learning changes what's possible
+- **Independence vs. dependence** Whether events influence each other
+- **Marginal vs. joint probability** Different ways to think about the same event
+- **The sum rule** Marginalizing out variables
+- **Weighted counting** Handling unequal probabilities
 
 These tools will be essential for Bayes' rule in the next chapter!
 

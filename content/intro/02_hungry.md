@@ -100,9 +100,9 @@ Note that $\\{ \\}$ is called the empty or null set and is a special set that co
 
 In this chapter, Chibany introduced us to the fundamental building blocks of probability:
 
-- **Sets** — Collections of distinct elements
-- **Outcome spaces ($\Omega$)** — All possible outcomes
-- **Events** — Subsets of outcomes we're interested in
+- **Sets** Collections of distinct elements
+- **Outcome spaces ($\Omega$)** All possible outcomes
+- **Events** Subsets of outcomes we're interested in
 
 Next, we'll see how to turn these into actual probabilities!
 

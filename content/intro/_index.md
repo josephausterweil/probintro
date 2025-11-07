@@ -7,7 +7,7 @@ toc = true
 
 ## Welcome!
 
-This tutorial teaches probability theory through the story of Chibany (pictured below) who loves tonkatsu and wants to understand how likely he will get it in his daily meals. Along the way, you'll learn to think about probability using **sets** — a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.
+This tutorial teaches probability theory through the story of Chibany (pictured below) who loves tonkatsu and wants to understand how likely he will get it in his daily meals. Along the way, you'll learn to think about probability using **sets**. It is a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.
 
 ![Chibany laying down](images/chibanylayingdown.png)
 
@@ -15,17 +15,17 @@ This tutorial teaches probability theory through the story of Chibany (pictured 
 
 This tutorial was created with **designers and social scientists** in mind. But it is for **anyone** wanting to learn about probability, machine learning, and Bayesian thinking in an approachable manner.
 
-**No prior math background required** — just curiosity and willingness to think carefully!
+**No prior math background required;** just curiosity and willingness to think carefully!
 
 ### What you'll learn
 
 By following Chibany's journey, you'll discover:
 
-- **How to think about probability as "counting possibilities"** — making abstract concepts concrete
-- **The connection between sets and probabilities** — a foundation that generalizes to probabilistic programming
-- **Conditional probability, independence, and Bayes' rule** — the core tools of probabilistic reasoning
-- **How to avoid common misconceptions** — through classic puzzles that trip up even experts
-- **The foundation for probabilistic computing** — the mental models that make code-based approaches make sense
+- **How to think about probability as "counting possibilities:"** making abstract concepts concrete
+- **The connection between sets and probabilities:** a foundation that generalizes to probabilistic programming
+- **Conditional probability, independence, and Bayes' rule:**  the core tools of probabilistic reasoning
+- **How to avoid common misconceptions:** through classic puzzles that trip up even experts
+- **The foundation for probabilistic computing:** the mental models that make code-based approaches make sense
 
 ### Why the set-based perspective?
 
