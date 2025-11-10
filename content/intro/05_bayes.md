@@ -192,9 +192,74 @@ Here are some reasons:
 7. **It makes Chibany happy**: And that's what really matters!
 
 ### Transfer additional practice questions
-* Example with rare disease and not too diagnostic test.
 
-* Example with organic fruit and made at a local place
+* One of your friends recently became sick. Concerned about them, you go with them to the doctor. The doctor notes that your friend may have contracted *Kyoto Syndrome*, which is a rare illness. Left untreated, someone with Kyoto Syndrome experiences distress when they leave Kyoto.
+
+5 in 100 people are afflicted with *Kyoto Syndrome*. 
+
+To determine whether your friend has Kyoto Syndrome, the doctor has your friend drink some Matcha from Kyoto. 
+
+*9 in 10 people afflicted with Kyoto Syndrome* drool for 20 minutes after drinking Matcha from Kyoto. 
+
+Only *5 in 10 people not afflicted by Kyoto Syndrome* drool for 20 minutes after drinking Matcha from Kyoto.
+
+While visiting Kyoto, you go with your friend to the doctor's office. Your friend drinks Matcha from Kyoto and drools from the mouth for 20 minutes. 
+
+Given this, what is the probability that they have *Kyoto Syndrome*?
+
+{{% expand "answer" %}}
+
+**Step 1: Identify what we know**
+
+Let $K$ represent having Kyoto Syndrome, and $D$ represent drooling after drinking Matcha.
+
+- **Prior:** $P(K) = 0.05$ (5% of people have Kyoto Syndrome)
+- **Likelihood:** $P(D \mid K) = 0.9$ (90% of people with KS drool)
+- **False positive rate:** $P(D \mid \neg K) = 0.5$ (50% of people without KS also drool)
+
+We want to find: $P(K \mid D)$ — the probability your friend has KS given that they drooled.
+
+**Step 2: Apply Bayes' Rule**
+
+$$P(K \mid D) = \frac{P(D \mid K) P(K)}{P(D)}$$
+
+**Step 3: Calculate the denominator (total evidence)**
+
+The denominator needs to account for ALL ways drooling can happen:
+
+$$P(D) = P(D \mid K)P(K) + P(D \mid \neg K)P(\neg K)$$
+
+$$P(D) = (0.9)(0.05) + (0.5)(0.95)$$
+
+$$P(D) = 0.045 + 0.475 = 0.52$$
+
+**Step 4: Calculate the posterior**
+
+$$P(K \mid D) = \frac{(0.9)(0.05)}{0.52} = \frac{0.045}{0.52} \approx 0.087 \approx 8.7\%$$
+
+{{% notice style="warning" title="A Counterintuitive Result!" %}}
+Even though the test is 90% accurate for detecting Kyoto Syndrome, there's only an **8.7% chance** your friend actually has it!
+
+**Why?** Because Kyoto Syndrome is rare (5%) and the test has a high false positive rate (50% of healthy people drool). This means:
+
+- **True positives:** About 4.5 people out of 100 (people with KS who drool)
+- **False positives:** About 47.5 people out of 100 (people without KS who drool)
+
+The false positives massively outnumber the true positives! This is base-rate neglect in action.
+{{% /notice %}}
+
+**The Set-Based Perspective:**
+
+Imagine 100 people are tested:
+- 5 have Kyoto Syndrome → 4.5 of them drool (90%)
+- 95 don't have Kyoto Syndrome → 47.5 of them drool (50%)
+- **Total drooling:** 4.5 + 47.5 = 52 people
+
+Of the 52 people who drool, only 4.5 actually have KS: $\frac{4.5}{52} \approx 8.7\%$
+
+{{% /expand %}}
+
+* Example with organic fruit and made at a local place?
 
 ---
 
@@ -202,11 +267,11 @@ Here are some reasons:
 
 In this chapter, we tackled one of the most important tools in probability:
 
-- **Bayes' Theorem** — How to update beliefs with new evidence
-- **The taxicab problem** — Why base rates matter
-- **Two solution methods** — Visualization vs. formula
-- **Base-rate neglect** — A common reasoning error
-- **Why set-based thinking helps** — Making abstract concepts concrete
+- **Bayes' Theorem** How to update beliefs with new evidence
+- **The taxicab problem** Why base rates matter
+- **Two solution methods** Visualization vs. formula
+- **Base-rate neglect** A common reasoning error
+- **Why set-based thinking helps** Making abstract concepts concrete
 
 You now have all the core tools of probability theory! The next chapter summarizes key definitions, and then you'll be ready for advanced topics.
 

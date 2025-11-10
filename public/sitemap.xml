@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:37465/probintro/intro/index.html</loc>
+    <loc>http://localhost:45707/probintro/intro/index.html</loc>
     <lastmod>2025-11-07T00:00:00+00:00</lastmod>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/genjax/00_getting_started/index.html</loc>
+    <loc>http://localhost:45707/probintro/genjax/00_getting_started/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/intro/01_goals/index.html</loc>
+    <loc>http://localhost:45707/probintro/intro/01_goals/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/genjax/index.html</loc>
+    <loc>http://localhost:45707/probintro/genjax/index.html</loc>
     <lastmod>2025-11-06T00:00:00+00:00</lastmod>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/intro2/index.html</loc>
+    <loc>http://localhost:45707/probintro/intro2/index.html</loc>
     <lastmod>2025-08-18T17:37:54+09:00</lastmod>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/intro/02_hungry/index.html</loc>
+    <loc>http://localhost:45707/probintro/intro/02_hungry/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/genjax/01_python_basics/index.html</loc>
+    <loc>http://localhost:45707/probintro/genjax/01_python_basics/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/intro/03_prob_count/index.html</loc>
+    <loc>http://localhost:45707/probintro/intro/03_prob_count/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/genjax/02_first_model/index.html</loc>
+    <loc>http://localhost:45707/probintro/genjax/02_first_model/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/intro/04_conditional/index.html</loc>
+    <loc>http://localhost:45707/probintro/intro/04_conditional/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/genjax/03_traces/index.html</loc>
+    <loc>http://localhost:45707/probintro/genjax/03_traces/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/intro/05_bayes/index.html</loc>
+    <loc>http://localhost:45707/probintro/intro/05_bayes/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/genjax/04_conditioning/index.html</loc>
+    <loc>http://localhost:45707/probintro/genjax/04_conditioning/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/intro/06_glossary/index.html</loc>
+    <loc>http://localhost:45707/probintro/intro/06_glossary/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/genjax/05_inference/index.html</loc>
+    <loc>http://localhost:45707/probintro/genjax/05_inference/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/intro/07_ack/index.html</loc>
+    <loc>http://localhost:45707/probintro/intro/07_ack/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/genjax/06_building_models/index.html</loc>
+    <loc>http://localhost:45707/probintro/genjax/06_building_models/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/categories/index.html</loc>
+    <loc>http://localhost:45707/probintro/categories/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:37465/probintro/tags/index.html</loc>
+    <loc>http://localhost:45707/probintro/tags/index.html</loc>
   </url>
 </urlset>

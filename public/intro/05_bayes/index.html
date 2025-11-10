@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=37465&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=45707&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -14,7 +14,7 @@ The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our belief
     <meta name="twitter:description" content="What is Bayes’ Theorem? Imagine you have a belief about the world (a hypothesis), and then you observe something new (data). Bayes’ Theorem tells you how to update your belief based on what you observed.
 Example: You believe most taxis are green. Then you see a taxi that looks blue in the fog. How should you update your belief about which color it really was?
 The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).">
-    <meta property="og:url" content="http://localhost:37465/probintro/intro/05_bayes/index.html">
+    <meta property="og:url" content="http://localhost:45707/probintro/intro/05_bayes/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Bayes&#39; Theorem: Updating Beliefs :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="What is Bayes’ Theorem? Imagine you have a belief about the world (a hypothesis), and then you observe something new (data). Bayes’ Theorem tells you how to update your belief based on what you observed.
@@ -27,29 +27,29 @@ The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our belief
     <meta itemprop="description" content="What is Bayes’ Theorem? Imagine you have a belief about the world (a hypothesis), and then you observe something new (data). Bayes’ Theorem tells you how to update your belief based on what you observed.
 Example: You believe most taxis are green. Then you see a taxi that looks blue in the fog. How should you update your belief about which color it really was?
 The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).">
-    <meta itemprop="wordCount" content="2022">
+    <meta itemprop="wordCount" content="2437">
     <title>Bayes&#39; Theorem: Updating Beliefs :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1762517723" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762517723" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762517723" defer></script>
-    <script src="/probintro/js/search-lunr.js?1762517723" defer></script>
-    <script src="/probintro/js/search.js?1762517723" defer></script>
+    <link href="/probintro/images/favicon.png?1762763656" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762763656" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762763656" defer></script>
+    <script src="/probintro/js/search-lunr.js?1762763656" defer></script>
+    <script src="/probintro/js/search.js?1762763656" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1762517723";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1762763656";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1762517723" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762517723" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1762517723" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1762517723" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1762763656" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762763656" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1762763656" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1762763656" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762517723" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762517723" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762517723" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1762517723" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1762517723" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762763656" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762763656" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762763656" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1762763656" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1762763656" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -57,7 +57,7 @@ The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our belief
       window.relearn.path='\/intro\/05_bayes\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:37465\/probintro';
+      window.relearn.absBaseUri='http:\/\/localhost:45707\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -212,8 +212,8 @@ $$\Rightarrow P(H \mid D) = \frac{P(H,D)}{P(D)} = \frac{P(D \mid H) P(H)}{P(D)}$
   </div>
 </details>
 <h2 id="the-taxicab-problem">The Taxicab Problem</h2>
-<p><a href="#R-image-225701b7091f4ece1a59ae6a68a99e49" class="lightbox-link"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/foggy_night_collision.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-225701b7091f4ece1a59ae6a68a99e49"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/foggy_night_collision.png"></a></p>
+<p><a href="#R-image-f490cc17e5bc5e1f18530612bfc8b8df" class="lightbox-link"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/foggy_night_collision.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f490cc17e5bc5e1f18530612bfc8b8df"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/foggy_night_collision.png"></a></p>
 <p>In Chibany&rsquo;s hometown, there are two taxi companies: the Green <i class="fa-fw fas fa-taxi cstyle green"></i> and the Blue <i class="fa-fw fas fa-taxi cstyle blue"></i>. All Green company&rsquo;s taxis are painted green <i class="fa-fw fas fa-taxi cstyle green"></i> and all the Blue company&rsquo;s taxis are painted blue <i class="fa-fw fas fa-taxi cstyle blue"></i>.</p>
 <p>85% of the town&rsquo;s taxis work for the Green <i class="fa-fw fas fa-taxi cstyle green"></i> company. So 15% of the town&rsquo;s taxis work for the Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> company.</p>
 <p>Late one foggy evening, Chibany saw a cab perform a hit-and-run (hit another car and leave without providing any information). Chibany saw a Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> taxi!</p>
@@ -365,22 +365,75 @@ The correct answer is <strong>41%</strong>, but most people think it is closer t
 </ol>
 <h3 id="transfer-additional-practice-questions">Transfer additional practice questions</h3>
 <ul>
-<li>
-<p>Example with rare disease and not too diagnostic test.</p>
-</li>
-<li>
-<p>Example with organic fruit and made at a local place</p>
-</li>
+<li>One of your friends recently became sick. Concerned about them, you go with them to the doctor. The doctor notes that your friend may have contracted <em>Kyoto Syndrome</em>, which is a rare illness. Left untreated, someone with Kyoto Syndrome experiences distress when they leave Kyoto.</li>
+</ul>
+<p>5 in 100 people are afflicted with <em>Kyoto Syndrome</em>.</p>
+<p>To determine whether your friend has Kyoto Syndrome, the doctor has your friend drink some Matcha from Kyoto.</p>
+<p><em>9 in 10 people afflicted with Kyoto Syndrome</em> drool for 20 minutes after drinking Matcha from Kyoto.</p>
+<p>Only <em>5 in 10 people not afflicted by Kyoto Syndrome</em> drool for 20 minutes after drinking Matcha from Kyoto.</p>
+<p>While visiting Kyoto, you go with your friend to the doctor&rsquo;s office. Your friend drinks Matcha from Kyoto and drools from the mouth for 20 minutes.</p>
+<p>Given this, what is the probability that they have <em>Kyoto Syndrome</em>?</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    answer
+  </summary>
+  <div class="box-content">
+<p><strong>Step 1: Identify what we know</strong></p>
+<p>Let $K$ represent having Kyoto Syndrome, and $D$ represent drooling after drinking Matcha.</p>
+<ul>
+<li><strong>Prior:</strong> $P(K) = 0.05$ (5% of people have Kyoto Syndrome)</li>
+<li><strong>Likelihood:</strong> $P(D \mid K) = 0.9$ (90% of people with KS drool)</li>
+<li><strong>False positive rate:</strong> $P(D \mid \neg K) = 0.5$ (50% of people without KS also drool)</li>
+</ul>
+<p>We want to find: $P(K \mid D)$ — the probability your friend has KS given that they drooled.</p>
+<p><strong>Step 2: Apply Bayes&rsquo; Rule</strong></p>
+<p>$$P(K \mid D) = \frac{P(D \mid K) P(K)}{P(D)}$$</p>
+<p><strong>Step 3: Calculate the denominator (total evidence)</strong></p>
+<p>The denominator needs to account for ALL ways drooling can happen:</p>
+<p>$$P(D) = P(D \mid K)P(K) + P(D \mid \neg K)P(\neg K)$$</p>
+<p>$$P(D) = (0.9)(0.05) + (0.5)(0.95)$$</p>
+<p>$$P(D) = 0.045 + 0.475 = 0.52$$</p>
+<p><strong>Step 4: Calculate the posterior</strong></p>
+<p>$$P(K \mid D) = \frac{(0.9)(0.05)}{0.52} = \frac{0.045}{0.52} \approx 0.087 \approx 8.7%$$</p>
+<details open class=" box cstyle notices warning">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-triangle"></i> 
+    A Counterintuitive Result!
+  </summary>
+  <div class="box-content">
+<p>Even though the test is 90% accurate for detecting Kyoto Syndrome, there&rsquo;s only an <strong>8.7% chance</strong> your friend actually has it!</p>
+<p><strong>Why?</strong> Because Kyoto Syndrome is rare (5%) and the test has a high false positive rate (50% of healthy people drool). This means:</p>
+<ul>
+<li><strong>True positives:</strong> About 4.5 people out of 100 (people with KS who drool)</li>
+<li><strong>False positives:</strong> About 47.5 people out of 100 (people without KS who drool)</li>
+</ul>
+<p>The false positives massively outnumber the true positives! This is base-rate neglect in action.</p>
+  </div>
+</details>
+<p><strong>The Set-Based Perspective:</strong></p>
+<p>Imagine 100 people are tested:</p>
+<ul>
+<li>5 have Kyoto Syndrome → 4.5 of them drool (90%)</li>
+<li>95 don&rsquo;t have Kyoto Syndrome → 47.5 of them drool (50%)</li>
+<li><strong>Total drooling:</strong> 4.5 + 47.5 = 52 people</li>
+</ul>
+<p>Of the 52 people who drool, only 4.5 actually have KS: $\frac{4.5}{52} \approx 8.7%$</p>
+  </div>
+</details>
+<ul>
+<li>Example with organic fruit and made at a local place?</li>
 </ul>
 <hr>
 <h2 id="what-weve-learned">What We&rsquo;ve Learned</h2>
 <p>In this chapter, we tackled one of the most important tools in probability:</p>
 <ul>
-<li><strong>Bayes&rsquo; Theorem</strong> — How to update beliefs with new evidence</li>
-<li><strong>The taxicab problem</strong> — Why base rates matter</li>
-<li><strong>Two solution methods</strong> — Visualization vs. formula</li>
-<li><strong>Base-rate neglect</strong> — A common reasoning error</li>
-<li><strong>Why set-based thinking helps</strong> — Making abstract concepts concrete</li>
+<li><strong>Bayes&rsquo; Theorem</strong> How to update beliefs with new evidence</li>
+<li><strong>The taxicab problem</strong> Why base rates matter</li>
+<li><strong>Two solution methods</strong> Visualization vs. formula</li>
+<li><strong>Base-rate neglect</strong> A common reasoning error</li>
+<li><strong>Why set-based thinking helps</strong> Making abstract concepts concrete</li>
 </ul>
 <p>You now have all the core tools of probability theory! The next chapter summarizes key definitions, and then you&rsquo;ll be ready for advanced topics.</p>
 <hr>
@@ -479,23 +532,23 @@ The correct answer is <strong>41%</strong>, but most people think it is closer t
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762517723"></script>
-    <script src="/probintro/js/js-yaml/js-yaml.min.js?1762517723" defer></script>
-    <script src="/probintro/js/d3/d3-color.min.js?1762517723" defer></script>
-    <script src="/probintro/js/d3/d3-dispatch.min.js?1762517723" defer></script>
-    <script src="/probintro/js/d3/d3-drag.min.js?1762517723" defer></script>
-    <script src="/probintro/js/d3/d3-ease.min.js?1762517723" defer></script>
-    <script src="/probintro/js/d3/d3-interpolate.min.js?1762517723" defer></script>
-    <script src="/probintro/js/d3/d3-selection.min.js?1762517723" defer></script>
-    <script src="/probintro/js/d3/d3-timer.min.js?1762517723" defer></script>
-    <script src="/probintro/js/d3/d3-transition.min.js?1762517723" defer></script>
-    <script src="/probintro/js/d3/d3-zoom.min.js?1762517723" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762763656"></script>
+    <script src="/probintro/js/js-yaml/js-yaml.min.js?1762763656" defer></script>
+    <script src="/probintro/js/d3/d3-color.min.js?1762763656" defer></script>
+    <script src="/probintro/js/d3/d3-dispatch.min.js?1762763656" defer></script>
+    <script src="/probintro/js/d3/d3-drag.min.js?1762763656" defer></script>
+    <script src="/probintro/js/d3/d3-ease.min.js?1762763656" defer></script>
+    <script src="/probintro/js/d3/d3-interpolate.min.js?1762763656" defer></script>
+    <script src="/probintro/js/d3/d3-selection.min.js?1762763656" defer></script>
+    <script src="/probintro/js/d3/d3-timer.min.js?1762763656" defer></script>
+    <script src="/probintro/js/d3/d3-transition.min.js?1762763656" defer></script>
+    <script src="/probintro/js/d3/d3-zoom.min.js?1762763656" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js" defer></script>
     <script>
       window.relearn.themeUseMermaid = JSON.parse("{\n      \"startOnLoad\": true,\n      \"theme\": \"base\",\n      \"securityLevel\": \"loose\",\n      \"themeVariables\": {\n        \"primaryColor\": \"#fff\",\n        \"primaryTextColor\": \"#000\",\n        \"primaryBorderColor\": \"#000\",\n        \"lineColor\": \"#000\",\n        \"secondaryColor\": \"#fff\",\n        \"tertiaryColor\": \"#fff\"\n      },\n      \"flowchart\": {\n        \"htmlLabels\": true,\n        \"curve\": \"basis\"\n      },\n      \"block\": {\n        \"padding\": 8\n      }\n    }");
     </script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1762517723" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762517723" defer></script>
-    <script src="/probintro/js/theme.js?1762517723" defer></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1762763656" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762763656" defer></script>
+    <script src="/probintro/js/theme.js?1762763656" defer></script>
   </body>
 </html>
