@@ -471,7 +471,12 @@ plt.show()
 ```python
 # Try different alpha values
 alphas = [0.1, 1.0, 5.0, 20.0]
+```
 
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
 fig, axes = plt.subplots(1, 4, figsize=(16, 4))
 
 for ax, alpha in zip(axes, alphas):
@@ -503,7 +508,7 @@ plt.savefig('stick_breaking_alpha.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
 
-![Stick-breaking with different α](images/stick_breaking_alpha.png)
+</details>
 
 **Interpretation**:
 - **α = 0.1**: First component dominates (few clusters)

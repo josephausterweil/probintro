@@ -184,7 +184,12 @@ for _ in range(10000):
     temps.append(trace.get_retval())
 
 temps = jnp.array(temps)
+```
 
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
 # Plot histogram
 plt.figure(figsize=(10, 6))
 plt.hist(temps, bins=50, density=True, alpha=0.7, color='brown', edgecolor='black')
@@ -195,8 +200,13 @@ plt.ylabel('Probability Density', fontsize=12)
 plt.title("Chibany's Coffee Temperature (Uniform Distribution)", fontsize=14, fontweight='bold')
 plt.legend(fontsize=11)
 plt.grid(alpha=0.3)
+plt.savefig('coffee_temperature_histogram.png', dpi=150, bbox_inches='tight')
 plt.show()
+```
 
+</details>
+
+```python
 # Calculate probabilities for ranges
 prob_too_cold = jnp.mean(temps < 65)  # Below 65°C
 prob_just_right = jnp.mean((temps >= 70) & (temps <= 75))  # 70-75°C
@@ -259,7 +269,12 @@ pdf = jnp.where((x >= 60) & (x <= 80), 1/20, 0.0)
 cdf = jnp.where(x < 60, 0.0,
         jnp.where(x > 80, 1.0,
                   (x - 60) / 20))
+```
 
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
 plt.figure(figsize=(12, 5))
 
 # Plot 1: PDF
@@ -288,8 +303,11 @@ plt.plot(70, 0.5, 'ro', markersize=8)
 plt.text(72, 0.52, 'F(70) = 0.5\nMedian', fontsize=10)
 
 plt.tight_layout()
+plt.savefig('pdf_vs_cdf.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+</details>
 
 **Reading the CDF:**
 - At x = 70°C, F(70) = 0.5: "50% of coffees are ≤ 70°C"

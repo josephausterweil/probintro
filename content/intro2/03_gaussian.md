@@ -16,8 +16,6 @@ This pattern appears everywhere in nature:
 
 This is the **Gaussian distribution** (also called the **Normal distribution**), and it's arguably the most important probability distribution in statistics.
 
-![Gaussian bell curve](images/gaussian_bell_curve.png)
-
 The characteristic "bell curve" shape captures a fundamental pattern: most values cluster near the mean, with a smooth, symmetric decline as you move away.
 
 ---
@@ -65,8 +63,6 @@ One of the most useful properties of the Gaussian distribution:
 
 **99.7% of values fall within 3 standard deviations**
 - Between μ - 3σ and μ + 3σ
-
-![68-95-99.7 rule visualization](images/empirical_rule.png)
 
 ### Why This Matters
 

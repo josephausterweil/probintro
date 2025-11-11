@@ -30,8 +30,6 @@ Chibany receives 20 mystery bentos. He measures their weights:
 
 Looking at the histogram, he sees two clear clusters around 350g and 500g.
 
-![Mystery bento histogram](images/mystery_bento_histogram.png)
-
 **The questions**:
 1. **How many types** of bentos are there? (We'll assume 2 for now)
 2. **Which type** is each bento? (Classification problem)
