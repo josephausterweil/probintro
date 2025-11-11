@@ -649,7 +649,7 @@ We started with a mystery: bentos with an average weight that doesn't match any 
 ### Theoretical Foundations
 - Ferguson (1973): "A Bayesian Analysis of Some Nonparametric Problems" (original DP paper)
 - Teh et al. (2006): "Hierarchical Dirichlet Processes" (extensions to HDP)
-- Gershman & Blei (2012): "A Tutorial on Bayesian Nonparametric Models" (accessible overview)
+- Austerweil & Griffiths (2013): "A Nonparametric Bayesian Framework for Constructing Flexible Feature Representations" (Psychological Review - accessible overview connecting DPMMs to cognitive phenomena)
 
 ### Practical Implementations
 - Neal (2000): "Markov Chain Sampling Methods for Dirichlet Process Mixture Models" (MCMC inference)
