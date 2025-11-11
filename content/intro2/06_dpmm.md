@@ -672,6 +672,31 @@ We started with a mystery: bentos with an average weight that doesn't match any 
 
 ---
 
+## Interactive Exploration
+
+Want to experiment with DPMMs yourself? Try our **interactive Jupyter notebook** that lets you:
+
+- Adjust the concentration parameter α and see its effect on clustering
+- Add or remove data points and watch the model adapt
+- Change the truncation level K_max
+- Visualize posterior distributions in real-time
+
+{{% notice style="success" title="Try It Yourself!" %}}
+**📓 [Open Interactive DPMM Notebook on Google Colab](https://colab.research.google.com/github/JosephAusterweil/probintro/blob/main/notebooks/dpmm_interactive.ipynb)**
+
+No installation required - runs directly in your browser!
+{{% /notice %}}
+
+The notebook includes:
+- Complete DPMM implementation with stick-breaking
+- Interactive widgets for all parameters
+- Real-time visualization of posteriors
+- Guided exercises to deepen understanding
+
+This is a great way to build intuition for how α, K_max, and the data itself interact to produce the posterior distribution.
+
+---
+
 ## Congratulations!
 
 You've completed the tutorial on **Continuous Probability and Bayesian Learning with GenJAX**!
