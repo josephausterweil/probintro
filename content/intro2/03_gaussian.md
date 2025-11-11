@@ -24,7 +24,7 @@ The characteristic "bell curve" shape captures a fundamental pattern: most value
 
 The PDF for a Gaussian distribution is:
 
-$$p(x|\mu, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}$$
+$$p(x|\mu, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{1}{2\sigma^2}(x-\mu)^2\right)$$
 
 **Don't panic!** You don't need to memorize this formula. GenJAX handles it for you. But let's understand what the parameters mean:
 
@@ -44,7 +44,7 @@ $$p(x|\mu, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left\{-\frac{1}{2\sigma^
 
 The Gaussian PDF says: **"Values near μ are most likely, and likelihood drops off smoothly as you move away. How quickly it drops off depends on σ²."**
 
-The complicated-looking exponential term $\exp\{-\frac{1}{2\sigma^2}(x-\mu)^2\}$ creates the bell shape. The key insight:
+The complicated-looking exponential term $\exp\left(-\frac{1}{2\sigma^2}(x-\mu)^2\right)$ creates the bell shape. The key insight:
 - When x = μ (at the mean), the exponent is 0, so exp{0} = 1 (maximum height)
 - As x moves away from μ, $(x-\mu)^2$ grows, making the exponent more negative
 - Negative exponents shrink toward 0, creating the tails
