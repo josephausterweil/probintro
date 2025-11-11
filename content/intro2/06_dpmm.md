@@ -682,7 +682,7 @@ Want to experiment with DPMMs yourself? Try our **interactive Jupyter notebook**
 - Visualize posterior distributions in real-time
 
 {{% notice style="success" title="Try It Yourself!" %}}
-**📓 [Open Interactive DPMM Notebook on Google Colab](https://colab.research.google.com/github/JosephAusterweil/probintro/blob/main/notebooks/dpmm_interactive.ipynb)**
+**📓 [Open Interactive DPMM Notebook on Google Colab](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/dpmm_interactive.ipynb)**
 
 No installation required - runs directly in your browser!
 {{% /notice %}}
