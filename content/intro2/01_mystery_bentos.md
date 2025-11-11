@@ -98,8 +98,6 @@ plt.show()
 
 </details>
 
-![Mystery Bentos Histogram - Two clear peaks around 350g and 500g, with average at 445g where no bentos exist](images/mystery_bentos_histogram.png)
-
 **Output:**
 ```
 Average weight: 445.4g
@@ -364,8 +362,6 @@ plt.show()
 
 </details>
 
-![Seesaw visualization showing why E[X]=455g is the balance point - three panels demonstrating different fulcrum positions](images/seesaw_balance_point.png)
-
 **The expected value E[X] = 455g is the unique position where the distribution balances.**
 
 Think of it like a seesaw at a playground:
@@ -432,8 +428,6 @@ plt.show()
 ```
 
 </details>
-
-![Simulation validation showing convergence to theoretical expected value over 1000 days](images/simulation_validation.png)
 
 **Output:**
 ```

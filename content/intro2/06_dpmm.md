@@ -435,9 +435,6 @@ plt.show()
 
 </details>
 
-
-![DPMM results](images/dpmm_results.png)
-
 **The visualization shows**:
 - **Left**: Observed data points with posterior cluster centers and uncertainties
 - **Right**: Trimodal posterior predictive (mixture of three Gaussians)

@@ -202,9 +202,6 @@ plt.show()
 
 </details>
 
-
-![Gaussian variations](images/gaussian_variations.png)
-
 **Key observations:**
 - **Left plot**: Changing μ shifts the curve horizontally (location changes)
 - **Right plot**: Changing σ changes the spread (smaller σ = taller/narrower, larger σ = shorter/wider)
@@ -278,9 +275,6 @@ plt.show()
 ```
 
 </details>
-
-
-![Realistic bento mixture](images/realistic_bento_mixture.png)
 
 Now the two peaks have natural variation (they're not perfect spikes at 500g and 350g), but the average still falls in the valley where no individual bento lives!
 

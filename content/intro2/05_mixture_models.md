@@ -360,9 +360,6 @@ plt.show()
 
 </details>
 
-
-![GMM fitted components](images/gmm_fitted.png)
-
 **The visualization shows**:
 - Two distinct Gaussian components (blue and orange)
 - The overall mixture (black dashed) captures both peaks
