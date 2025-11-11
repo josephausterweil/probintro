@@ -330,6 +330,8 @@ plt.show()
 
 </details>
 
+![Bayesian Learning: Posterior Updates](/images/intro2/posterior_updates.png)
+
 **The story in the plot**:
 - **Black dashed**: Prior belief (wide, centered at 500g)
 - **Blue**: After 1 observation (shifted toward data, narrower)

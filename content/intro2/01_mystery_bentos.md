@@ -98,6 +98,8 @@ plt.show()
 
 </details>
 
+![Mystery Bentos - Weight Distribution](/images/intro2/mystery_bentos_histogram.png)
+
 **Output:**
 ```
 Average weight: 445.4g
@@ -362,6 +364,8 @@ plt.show()
 
 </details>
 
+![Mystery Bentos Balance on Seesaw](/images/intro2/seesaw_visualization.png)
+
 **The expected value E[X] = 455g is the unique position where the distribution balances.**
 
 Think of it like a seesaw at a playground:
@@ -428,6 +432,8 @@ plt.show()
 ```
 
 </details>
+
+![10,000 Simulated Mystery Bentos](/images/intro2/simulation_validation.png)
 
 **Output:**
 ```

@@ -138,6 +138,8 @@ plt.show()
 
 </details>
 
+![Coffee Temperature Distribution](/images/intro2/coffee_temperature_histogram.png)
+
 
 **Key observations:**
 - The PDF is flat at height 1.0 (uniform density)
@@ -205,6 +207,8 @@ plt.show()
 ```
 
 </details>
+
+![PDF vs CDF for Uniform Distribution](/images/intro2/pdf_vs_cdf.png)
 
 ```python
 # Calculate probabilities for ranges
@@ -308,6 +312,8 @@ plt.show()
 ```
 
 </details>
+
+![Probability as Area Under PDF Curve](/images/intro2/area_under_pdf.png)
 
 **Reading the CDF:**
 - At x = 70°C, F(70) = 0.5: "50% of coffees are ≤ 70°C"

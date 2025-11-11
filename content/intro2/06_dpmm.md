@@ -435,6 +435,8 @@ plt.show()
 
 </details>
 
+![DPMM: Discovered 3 Clusters](/images/intro2/dpmm_results.png)
+
 **The visualization shows**:
 - **Left**: Observed data points with posterior cluster centers and uncertainties
 - **Right**: Trimodal posterior predictive (mixture of three Gaussians)
@@ -509,6 +511,8 @@ plt.show()
 ```
 
 </details>
+
+![Stick-Breaking Process with Different α Values](/images/intro2/stick_breaking_alpha.png)
 
 **Interpretation**:
 - **α = 0.1**: First component dominates (few clusters)
