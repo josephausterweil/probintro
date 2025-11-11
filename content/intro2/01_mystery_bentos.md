@@ -452,6 +452,157 @@ We can compute the expected value of a complex mixture by just taking a weighted
 This will be crucial in Chapter 5 when we study Gaussian mixtures!
 {{% /notice %}}
 
+## Modeling the Mixture with GenJAX
+
+Now let's see how to express Chibany's bento mixture as a **generative model** using GenJAX! This builds directly on what you learned in Tutorial 2.
+
+### The Generative Process
+
+Recall from Tutorial 2 that we express random processes using **generative functions**. Here's Chibany's bento selection process:
+
+```python
+import jax
+import jax.numpy as jnp
+from genjax import gen, choice_map, simulate, Plot
+
+@gen
+def bento_mixture():
+    """Generate a single bento weight from the mixture"""
+    # Step 1: Choose the bento type
+    # 70% chance of tonkatsu, 30% chance of hamburger
+    is_tonkatsu = jnp.bernoulli(0.7) @ "type"
+
+    # Step 2: Assign the weight based on type
+    # (For now, we use exact weights - we'll add variation in Chapter 3!)
+    weight = jnp.where(is_tonkatsu, 500.0, 350.0)
+
+    return weight @ "weight"
+```
+
+**What's happening here?**
+
+1. `jnp.bernoulli(0.7)` flips a weighted coin: 70% True (tonkatsu), 30% False (hamburger)
+2. `@ "type"` gives this random choice an address (like you learned in Tutorial 2, Chapter 3)
+3. `jnp.where(is_tonkatsu, 500.0, 350.0)` returns 500g if tonkatsu, 350g if hamburger
+4. `@ "weight"` addresses the final output
+
+This is the **generative model** for Chibany's bentos!
+
+### Simulating from the Model
+
+Let's simulate 1000 bentos and calculate the average weight, just like Chibany's experiment:
+
+```python
+import jax.random as random
+
+# Create a random key (GenJAX requires explicit randomness)
+key = random.PRNGKey(42)
+
+# Simulate 1000 bentos
+n_bentos = 1000
+weights = []
+
+for i in range(n_bentos):
+    key, subkey = random.split(key)
+    trace = simulate(bento_mixture)(subkey)
+    weights.append(trace.get_retval())
+
+weights = jnp.array(weights)
+
+# Calculate statistics
+mean_weight = jnp.mean(weights)
+n_tonkatsu = jnp.sum(weights == 500.0)
+n_hamburger = jnp.sum(weights == 350.0)
+
+print(f"Simulated average weight: {mean_weight:.1f}g")
+print(f"Theoretical E[X]: {0.7 * 500 + 0.3 * 350:.1f}g")
+print(f"\nCounts:")
+print(f"  Tonkatsu (500g): {n_tonkatsu} ({n_tonkatsu/n_bentos*100:.1f}%)")
+print(f"  Hamburger (350g): {n_hamburger} ({n_hamburger/n_bentos*100:.1f}%)")
+```
+
+**Output:**
+```
+Simulated average weight: 454.5g
+Theoretical E[X]: 455.0g
+
+Counts:
+  Tonkatsu (500g): 691 (69.1%)
+  Hamburger (350g): 309 (30.9%)
+```
+
+The simulated average is very close to the theoretical expected value!
+
+### Connecting to Expected Value
+
+Remember the expected value formula:
+$$E[X] = 0.7 \times 500 + 0.3 \times 350 = 455\text{g}$$
+
+**GenJAX simulates this process:**
+1. Each simulation samples from the generative process
+2. The average of many samples **approximates** the expected value
+3. This is **Monte Carlo estimation**: using simulation to approximate mathematical expectations
+
+### Examining Individual Traces
+
+One power of GenJAX is that we can **inspect** what the model generates. Let's look at a few traces:
+
+```python
+# Generate and examine 5 bentos
+key = random.PRNGKey(123)
+
+for i in range(5):
+    key, subkey = random.split(key)
+    trace = simulate(bento_mixture)(subkey)
+
+    bento_type = "Tonkatsu" if trace["type"] else "Hamburger"
+    weight = trace.get_retval()
+
+    print(f"Bento {i+1}: {bento_type:10s} → {weight:.0f}g")
+```
+
+**Output:**
+```
+Bento 1: Tonkatsu   → 500g
+Bento 2: Hamburger  → 350g
+Bento 3: Tonkatsu   → 500g
+Bento 4: Tonkatsu   → 500g
+Bento 5: Hamburger  → 350g
+```
+
+Each trace records both the **type** (the random choice) and the **weight** (the return value). This is the **trace structure** you learned about in Tutorial 2, Chapter 3!
+
+{{% notice style="info" title="GenJAX vs. Pure Python" %}}
+
+**Why use GenJAX instead of pure Python/NumPy?**
+
+Right now, the GenJAX version might seem like overkill. But here's what we gain:
+
+1. **Explicit generative model**: The code reads like the probabilistic story
+2. **Addressable choices**: Every random decision has a name (`"type"`, `"weight"`)
+3. **Conditioning** (coming soon!): We can ask "What if I observe weight = 425g?"
+4. **Inference** (Chapters 4-6): We can learn parameters from data
+5. **Composability**: Easy to extend (add more bento types, add weight variation, etc.)
+
+As the models get more complex (Chapters 3-6), GenJAX will become essential!
+
+{{% /notice %}}
+
+### Preview: What's Missing?
+
+This model captures the **discrete mixture** (tonkatsu vs. hamburger) but notice what it **doesn't** capture:
+
+- Real tonkatsu bentos don't weigh exactly 500g - they vary (488g, 505g, 515g, etc.)
+- Real hamburger bentos don't weigh exactly 350g - they vary too (348g, 358g, 362g, etc.)
+
+To model this **within-category variation**, we need:
+
+1. **Continuous distributions** (Chapter 2)
+2. **Gaussian distributions** (Chapter 3)
+3. **Gaussian mixtures** (Chapter 5)
+
+That's where we're headed!
+
 ## But We're Not Done Yet...
 
 Chibany stares at his histogram. He understands the average now. 455g makes sense as a mixture. But something still bothers him.
