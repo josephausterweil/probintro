@@ -325,6 +325,12 @@ Perfect! The EM algorithm recovered the true parameters and correctly classified
 import matplotlib.pyplot as plt
 
 # Create histogram of data
+```
+
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
 fig, ax = plt.subplots(figsize=(12, 6))
 
 ax.hist(mystery_weights, bins=20, density=True, alpha=0.6,
@@ -351,6 +357,9 @@ ax.grid(True, alpha=0.3)
 plt.savefig('gmm_fitted.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+</details>
+
 
 ![GMM fitted components](images/gmm_fitted.png)
 

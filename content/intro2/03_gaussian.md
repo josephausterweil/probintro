@@ -162,6 +162,12 @@ import matplotlib.pyplot as plt
 x = jnp.linspace(490, 510, 1000)
 
 # Define the Gaussian PDF function
+```
+
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
 def gaussian_pdf(x, mu, sigma):
     return (1 / (sigma * jnp.sqrt(2 * jnp.pi))) * \
            jnp.exp(-0.5 * ((x - mu) / sigma) ** 2)
@@ -193,6 +199,9 @@ plt.tight_layout()
 plt.savefig('gaussian_variations.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+</details>
+
 
 ![Gaussian variations](images/gaussian_variations.png)
 
@@ -249,7 +258,12 @@ Now let's visualize this mixture:
 
 ```python
 import matplotlib.pyplot as plt
+```
 
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
 plt.figure(figsize=(10, 6))
 plt.hist(weights, bins=100, density=True, alpha=0.7, edgecolor='black')
 plt.axvline(jnp.mean(weights), color='red', linestyle='--', linewidth=2,
@@ -262,6 +276,9 @@ plt.grid(True, alpha=0.3)
 plt.savefig('realistic_bento_mixture.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+</details>
+
 
 ![Realistic bento mixture](images/realistic_bento_mixture.png)
 

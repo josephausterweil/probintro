@@ -379,7 +379,12 @@ The posterior predictive is multimodal (mixture of the three clusters), so the m
 ```python
 import matplotlib.pyplot as plt
 from scipy.stats import norm as scipy_norm
+```
 
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
 
 # Left: Observed data with posterior cluster means
@@ -427,6 +432,9 @@ plt.tight_layout()
 plt.savefig('dpmm_results.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+</details>
+
 
 ![DPMM results](images/dpmm_results.png)
 

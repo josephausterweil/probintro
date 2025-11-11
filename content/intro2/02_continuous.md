@@ -96,7 +96,12 @@ import matplotlib.pyplot as plt
 # p(x) = 1 for 0 ≤ x ≤ 1, and 0 otherwise
 x = jnp.linspace(-0.5, 1.5, 1000)
 pdf = jnp.where((x >= 0) & (x <= 1), 1.0, 0.0)
+```
 
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
 plt.figure(figsize=(12, 5))
 
 # Plot 1: The PDF itself
@@ -127,8 +132,12 @@ plt.legend(fontsize=11)
 plt.grid(alpha=0.3)
 
 plt.tight_layout()
+plt.savefig('visualization_1.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+</details>
+
 
 **Key observations:**
 - The PDF is flat at height 1.0 (uniform density)

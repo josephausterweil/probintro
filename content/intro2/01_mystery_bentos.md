@@ -60,7 +60,6 @@ Chibany plots his measurements on a histogram:
 
 ```python
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Chibany's actual measurements (grams)
 weights = np.array([
@@ -69,6 +68,18 @@ weights = np.array([
     498, 358, 505, 362, 490,  # Week 3
     352, 488, 508, 355, 495   # Week 4
 ])
+
+print(f"Average weight: {weights.mean():.1f}g")
+print(f"Weights near 350g: {np.sum((weights >= 340) & (weights <= 370))}")
+print(f"Weights near 500g: {np.sum((weights >= 480) & (weights <= 520))}")
+print(f"Weights near 445g: {np.sum((weights >= 435) & (weights <= 455))}")
+```
+
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
+import matplotlib.pyplot as plt
 
 # Create histogram
 plt.figure(figsize=(10, 6))
@@ -81,13 +92,13 @@ plt.title("Chibany's Mystery Bentos - First Month", fontsize=14, fontweight='bol
 plt.legend(fontsize=11)
 plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
+plt.savefig('mystery_bentos_histogram.png', dpi=150, bbox_inches='tight')
 plt.show()
-
-print(f"Average weight: {weights.mean():.1f}g")
-print(f"Weights near 350g: {np.sum((weights >= 340) & (weights <= 370))}")
-print(f"Weights near 500g: {np.sum((weights >= 480) & (weights <= 520))}")
-print(f"Weights near 445g: {np.sum((weights >= 435) & (weights <= 455))}")
 ```
+
+</details>
+
+![Mystery Bentos Histogram - Two clear peaks around 350g and 500g, with average at 445g where no bentos exist](images/mystery_bentos_histogram.png)
 
 **Output:**
 ```
@@ -212,6 +223,9 @@ Example: Expected value of a fair die is $E[X] = 3.5$, but you can never roll 3.
 ## Visualizing Expected Value as Balance Point
 
 Let's see why E[X] is called the "balance point" by trying different fulcrum positions:
+
+<details>
+<summary>Click to show visualization code</summary>
 
 ```python
 import numpy as np
@@ -344,8 +358,13 @@ draw_seesaw_panel(ax3, 455, "Fulcrum at E[X] = 455g")
 plt.suptitle("Why E[X] is the Balance Point",
             fontsize=16, fontweight='bold', y=1.02)
 plt.tight_layout()
+plt.savefig('seesaw_balance_point.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+</details>
+
+![Seesaw visualization showing why E[X]=455g is the balance point - three panels demonstrating different fulcrum positions](images/seesaw_balance_point.png)
 
 **The expected value E[X] = 455g is the unique position where the distribution balances.**
 
@@ -361,7 +380,6 @@ Let's verify this computationally. If Chibany's students are randomly choosing 7
 
 ```python
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Simulate 1000 days of bento deliveries
 np.random.seed(42)
@@ -382,6 +400,20 @@ print(f"Observed average: {observed_average:.1f}g")
 print(f"Theoretical E[X]: {theoretical_expected:.1f}g")
 print(f"Difference: {abs(observed_average - theoretical_expected):.1f}g")
 
+# Show the counts
+n_tonkatsu = np.sum(bento_types == 'tonkatsu')
+n_hamburger = np.sum(bento_types == 'hamburger')
+print(f"\nActual counts:")
+print(f"  Tonkatsu: {n_tonkatsu} ({n_tonkatsu/n_days*100:.1f}%)")
+print(f"  Hamburger: {n_hamburger} ({n_hamburger/n_days*100:.1f}%)")
+```
+
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
+import matplotlib.pyplot as plt
+
 # Plot histogram with both averages
 plt.figure(figsize=(10, 6))
 plt.hist(weights, bins=30, alpha=0.7, edgecolor='black', color='steelblue')
@@ -395,15 +427,13 @@ plt.legend(fontsize=11)
 plt.title("1000 Days of Mystery Bentos", fontsize=14, fontweight='bold')
 plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
+plt.savefig('simulation_validation.png', dpi=150, bbox_inches='tight')
 plt.show()
-
-# Show the counts
-n_tonkatsu = np.sum(bento_types == 'tonkatsu')
-n_hamburger = np.sum(bento_types == 'hamburger')
-print(f"\nActual counts:")
-print(f"  Tonkatsu: {n_tonkatsu} ({n_tonkatsu/n_days*100:.1f}%)")
-print(f"  Hamburger: {n_hamburger} ({n_hamburger/n_days*100:.1f}%)")
 ```
+
+</details>
+
+![Simulation validation showing convergence to theoretical expected value over 1000 days](images/simulation_validation.png)
 
 **Output:**
 ```

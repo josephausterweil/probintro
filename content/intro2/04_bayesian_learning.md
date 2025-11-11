@@ -298,6 +298,12 @@ for i, obs in enumerate(all_data):
         results.append((i + 1, mu, jnp.sqrt(var)))
 
 # Plot
+```
+
+<details>
+<summary>Click to show visualization code</summary>
+
+```python
 fig, ax = plt.subplots(figsize=(12, 6))
 
 ax.plot(x_range, prior_pdf, 'k--', linewidth=2, label='Prior: N(500, 25)')
@@ -321,6 +327,9 @@ ax.grid(True, alpha=0.3)
 plt.savefig('bayesian_learning_posterior.png', dpi=150, bbox_inches='tight')
 plt.show()
 ```
+
+</details>
+
 
 ![Bayesian learning visualization](images/bayesian_learning_posterior.png)
 
