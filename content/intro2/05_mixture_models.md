@@ -358,7 +358,7 @@ plt.show()
 
 </details>
 
-![GMM: Fitted Components](/images/intro2/gmm_fitted_components.png)
+![GMM: Fitted Components](../../images/intro2/gmm_fitted_components.png)
 
 **The visualization shows**:
 - Two distinct Gaussian components (blue and orange)

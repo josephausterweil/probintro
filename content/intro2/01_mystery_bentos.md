@@ -98,7 +98,7 @@ plt.show()
 
 </details>
 
-![Mystery Bentos - Weight Distribution](/images/intro2/mystery_bentos_histogram.png)
+![Mystery Bentos - Weight Distribution](../../images/intro2/mystery_bentos_histogram.png)
 
 **Output:**
 ```
@@ -364,7 +364,7 @@ plt.show()
 
 </details>
 
-![Mystery Bentos Balance on Seesaw](/images/intro2/seesaw_visualization.png)
+![Mystery Bentos Balance on Seesaw](../../images/intro2/seesaw_visualization.png)
 
 **The expected value E[X] = 455g is the unique position where the distribution balances.**
 
@@ -433,7 +433,7 @@ plt.show()
 
 </details>
 
-![10,000 Simulated Mystery Bentos](/images/intro2/simulation_validation.png)
+![10,000 Simulated Mystery Bentos](../../images/intro2/simulation_validation.png)
 
 **Output:**
 ```
