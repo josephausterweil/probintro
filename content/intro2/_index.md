@@ -29,31 +29,37 @@ These aren't discrete choices. They're **continuous values** that can fall anywh
 
 This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 
-### Chapter 1: Continuous Random Variables
+### Chapter 1: Chibany's Mystery Bentos (Expected Value)
+- The paradox of averages in mixtures
+- Expected value and balance points
+- Why averages can be misleading
+- **GenJAX**: Simulating mixture distributions
+
+### Chapter 2: Continuous Random Variables
 - Probability density functions (PDFs)
 - Cumulative distribution functions (CDFs)
 - The uniform distribution
 - **GenJAX**: Sampling from and conditioning on continuous distributions
 
-### Chapter 2: The Gaussian Distribution
+### Chapter 3: The Gaussian Distribution
 - The bell curve and its properties
 - Mean and variance parameters
 - The 68-95-99.7 rule
 - **GenJAX**: Working with Normal distributions
 
-### Chapter 3: Bayesian Learning with Gaussians
+### Chapter 4: Bayesian Learning with Gaussians
 - Prior beliefs about parameters
 - Updating beliefs with data (conjugate priors)
 - Posterior and predictive distributions
 - **GenJAX**: Implementing Gaussian-Gaussian models
 
-### Chapter 4: Mixture Models
+### Chapter 5: Gaussian Mixture Models
 - Combining multiple distributions
-- Gaussian Mixture Models (GMMs)
 - Clustering with mixtures
+- The complete bento model
 - **GenJAX**: Building and inferring mixture models
 
-### Chapter 5: Dirichlet Process Mixture Models
+### Chapter 6: Dirichlet Process Mixture Models
 - Infinite mixture models
 - The Dirichlet Process prior
 - Automatic model selection
@@ -113,9 +119,9 @@ Each chapter includes:
 
 ## Ready to Begin?
 
-Let's start by understanding what changes when we move from discrete outcomes to continuous measurements!
+Let's start with Chibany's mystery: why does the average weight of his bentos seem impossible?
 
-[Next: Chapter 1 - Continuous Random Variables →](./01_continuous.md)
+[Next: Chapter 1 - Chibany's Mystery Bentos →](./01_mystery_bentos.md)
 
 ---
 
