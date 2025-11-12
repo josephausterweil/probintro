@@ -43,6 +43,28 @@ Chibany's meals: $\Omega = \\{HH, HT, TH, TT\\}$
 
 **Key insight:** We **restricted the outcome space** from $\\{HH, HT, TH, TT\\}$ to just $\\{HT, TT\\}$ (outcomes where dinner = Tonkatsu).
 
+{{% notice style="info" title="📘 Foundation Concept: Conditioning as Restriction" %}}
+**Recall from Tutorial 1, Chapter 4** that conditional probability means **restricting the outcome space**:
+
+$$P(A \mid B) = \frac{|A \cap B|}{|B|}$$
+
+**The key idea:** Cross out outcomes where $B$ didn't happen, then calculate probabilities in what remains.
+
+**Tutorial 1 example:** "At least one tonkatsu" given "first meal was tonkatsu"
+- Original space: {HH, HT, TH, TT}
+- Condition: First meal is T → Restrict to {TH, TT}
+- Event: At least one T → In restricted space: {TH, TT}
+- Probability: 2/2 = 1 (both remaining outcomes have tonkatsu!)
+
+**What GenJAX does:**
+- Tutorial 1: Manually cross out outcomes and count
+- Tutorial 2: Code filters simulations or uses `ChoiceMap` to restrict
+
+**The logic is identical** — conditioning = restricting possibilities to match observations!
+
+[← Review conditional probability in Tutorial 1, Chapter 4](../../intro/04_conditional/)
+{{% /notice %}}
+
 ---
 
 ## Conditional Probability in GenJAX

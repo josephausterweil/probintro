@@ -39,29 +39,29 @@ This is the heart of probabilistic programming!
 Recall: Conditional Probability From the probability tutorial, remember conditional probability:
 “Given that I observed $B$, what’s the probability of $A$?”
 Written: $P(A \mid B)$">
-    <meta itemprop="wordCount" content="2384">
+    <meta itemprop="wordCount" content="2517">
     <title>Conditioning and Observations :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1762936147" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762936147" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762936147" defer></script>
-    <script src="/probintro/js/search-lunr.js?1762936147" defer></script>
-    <script src="/probintro/js/search.js?1762936147" defer></script>
+    <link href="/probintro/images/favicon.png?1762936916" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762936916" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762936916" defer></script>
+    <script src="/probintro/js/search-lunr.js?1762936916" defer></script>
+    <script src="/probintro/js/search.js?1762936916" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1762936147";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1762936916";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1762936147" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762936147" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1762936147" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1762936147" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1762936916" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762936916" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1762936916" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1762936916" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762936147" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762936147" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762936147" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1762936147" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1762936147" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762936916" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762936916" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762936916" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1762936916" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1762936916" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -217,8 +217,8 @@ Written: $P(A \mid B)$">
 <p>So far, we&rsquo;ve used GenJAX to <strong>generate</strong> outcomes — simulating what could happen.</p>
 <p>Now we&rsquo;ll learn to <strong>infer</strong> — reasoning backwards from observations to causes.</p>
 <p>This is the heart of probabilistic programming!</p>
-<p><a href="#R-image-0ced93e625dd6c408090f2ec9e6e432a" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-0ced93e625dd6c408090f2ec9e6e432a"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-9545be759bb898a8682dbb119cf045f1" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-9545be759bb898a8682dbb119cf045f1"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="recall-conditional-probability">Recall: Conditional Probability</h2>
 <p>From the probability tutorial, remember <strong>conditional probability</strong>:</p>
@@ -239,6 +239,32 @@ Written: $P(A \mid B)$">
 <li>Conditional probability: $P(L \mid D) = \frac{|\{TT\}|}{|\{HT, TT\}|} = \frac{1}{2}$</li>
 </ol>
 <p><strong>Key insight:</strong> We <strong>restricted the outcome space</strong> from $\{HH, HT, TH, TT\}$ to just $\{HT, TT\}$ (outcomes where dinner = Tonkatsu).</p>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    📘 Foundation Concept: Conditioning as Restriction
+  </summary>
+  <div class="box-content">
+<p><strong>Recall from Tutorial 1, Chapter 4</strong> that conditional probability means <strong>restricting the outcome space</strong>:</p>
+<p>$$P(A \mid B) = \frac{|A \cap B|}{|B|}$$</p>
+<p><strong>The key idea:</strong> Cross out outcomes where $B$ didn&rsquo;t happen, then calculate probabilities in what remains.</p>
+<p><strong>Tutorial 1 example:</strong> &ldquo;At least one tonkatsu&rdquo; given &ldquo;first meal was tonkatsu&rdquo;</p>
+<ul>
+<li>Original space: {HH, HT, TH, TT}</li>
+<li>Condition: First meal is T → Restrict to {TH, TT}</li>
+<li>Event: At least one T → In restricted space: {TH, TT}</li>
+<li>Probability: 2/2 = 1 (both remaining outcomes have tonkatsu!)</li>
+</ul>
+<p><strong>What GenJAX does:</strong></p>
+<ul>
+<li>Tutorial 1: Manually cross out outcomes and count</li>
+<li>Tutorial 2: Code filters simulations or uses <code>ChoiceMap</code> to restrict</li>
+</ul>
+<p><strong>The logic is identical</strong> — conditioning = restricting possibilities to match observations!</p>
+<p><a href="/probintro/intro/04_conditional/index.html">← Review conditional probability in Tutorial 1, Chapter 4</a></p>
+  </div>
+</details>
 <hr>
 <h2 id="conditional-probability-in-genjax">Conditional Probability in GenJAX</h2>
 <p>In GenJAX, we do the same thing — but with <strong>code instead of sets</strong>!</p>
@@ -1226,9 +1252,9 @@ Independent: False</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762936147"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1762936147" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762936147" defer></script>
-    <script src="/probintro/js/theme.js?1762936147" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762936916"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1762936916" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762936916" defer></script>
+    <script src="/probintro/js/theme.js?1762936916" defer></script>
   </body>
 </html>
