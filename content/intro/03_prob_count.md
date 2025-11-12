@@ -77,6 +77,32 @@ $$P(A) = \frac{\text{circled outcomes}}{\text{total outcomes}} = \frac{3}{4} = 0
 
 Note that if the possible outcomes were not equally likely, we would sum their individual probabilities to calculate the cardinality. But everything works in the same way — the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this [later](./04_conditional.md#weighted-possibilities)!
 
+{{% notice style="tip" title="💻 See This in Code" %}}
+**In GenJAX (Tutorial 2)**, we don't calculate $P(A) = |A|/|\Omega|$ by hand. Instead, we:
+
+1. **Simulate** the generative process many times
+2. **Count** how often the event occurs
+3. **Divide** by total simulations
+
+```python
+# Generate 10,000 days
+keys = jax.random.split(key, 10000)
+days = jax.vmap(lambda k: chibany_day.simulate(k, ()).get_retval())(keys)
+
+# Check if event occurs: at least one tonkatsu
+has_tonkatsu = (days[:, 0] == 1) | (days[:, 1] == 1)
+
+# Probability ≈ fraction of times event occurred
+prob = jnp.mean(has_tonkatsu)  # Equivalent to |A| / |Ω|
+```
+
+**The principle is identical** — counting favorable outcomes and dividing by total outcomes. But instead of listing Ω by hand, we generate samples!
+
+[→ See full implementation in Tutorial 2, Chapter 2](../../genjax/02_first_model/#counting-outcomes)
+
+**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/first_model.ipynb)
+{{% /notice %}}
+
 ## Another Example
 
 What is the probability that Chibany gets Tonkatsu for his first offering? Well the possible outcomes with Tonkatsu for lunch are $\\{TH, TT\\}$. There are four possible outcomes for his offerings $\Omega = \\{HH,HT, TH, TT\\}$. So the probability he gets Tonkatsu for his first offering is $|\\{TH, TT\\}|/|\\{HH,HT, TH, TT\\}| = 2/4=1/2$. Chibany draws the following table to illustrate his counting:

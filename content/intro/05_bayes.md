@@ -191,6 +191,47 @@ Here are some reasons:
 
 7. **It makes Chibany happy**: And that's what really matters!
 
+{{% notice style="tip" title="💻 See This in Code" %}}
+**In GenJAX**, Bayes' Theorem becomes **automatic**! You don't calculate posteriors by hand — you:
+
+1. **Define the generative model** (prior + likelihood)
+2. **Specify observations** (data)
+3. **Let GenJAX compute** the posterior
+
+```python
+@gen
+def taxicab_model():
+    # Prior: 85% green taxis
+    is_blue = bernoulli(0.15) @ "true_color"  # 1=blue, 0=green
+
+    # Likelihood: Chibany's accuracy (80%)
+    if is_blue:
+        reported_blue = bernoulli(0.80) @ "reported"  # P(report blue | is blue)
+    else:
+        reported_blue = bernoulli(0.20) @ "reported"  # P(report blue | is green)
+
+    return is_blue
+
+# Observe: Chibany reported blue
+observations = ChoiceMap.d({"reported": 1})  # 1 = reported blue
+
+# Posterior inference (automatic Bayes' Theorem!)
+target = Target(taxicab_model, (), observations)
+trace, log_weight = target.importance(key, ChoiceMap.empty())
+
+# trace now samples from P(true_color | reported=blue)
+# This is the posterior! GenJAX did all the Bayes' rule math.
+```
+
+**The principle is identical** — update beliefs with evidence. But GenJAX handles all the formula manipulation!
+
+[→ See Bayesian learning in Tutorial 2, Chapter 5](../../genjax/05_bayesian_learning/)
+
+[→ See advanced Bayesian inference in Tutorial 3, Chapter 4](../../intro2/04_bayesian_gaussian/)
+
+**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/bayesian_learning.ipynb)
+{{% /notice %}}
+
 ### Transfer additional practice questions
 * Example with rare disease and not too diagnostic test.
 

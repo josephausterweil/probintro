@@ -47,6 +47,33 @@ Where $A \cap B$ means "outcomes in both $A$ and $B$" (the intersection).
 
 Note that this is a different, yet equivalent perspective to how conditional probability is traditionally taught.
 
+{{% notice style="tip" title="💻 See This in Code" %}}
+**In GenJAX (Tutorial 2)**, we condition on observations using `ChoiceMap`:
+
+```python
+from genjax import ChoiceMap, Target
+
+# Specify what we observed: "at least one tonkatsu" means we saw tonkatsu somewhere
+# Let's say we observed lunch was tonkatsu
+observations = ChoiceMap.d({"lunch": 1})  # 1 = tonkatsu
+
+# Create a posterior target (restricts to outcomes matching observations)
+target = Target(chibany_day, (), observations)
+
+# Sample from the posterior (conditioned distribution)
+trace, log_weight = target.importance(key, ChoiceMap.empty())
+
+# Now trace contains samples where lunch IS tonkatsu
+# This is exactly like crossing out HH and HT from Ω!
+```
+
+**The principle is identical** — conditioning restricts the outcome space. In set notation we crossed out impossible outcomes. In GenJAX we specify observations with `ChoiceMap`.
+
+[→ See full conditioning tutorial in Tutorial 2, Chapter 4](../../genjax/04_conditioning/)
+
+**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/conditioning.ipynb)
+{{% /notice %}}
+
 ## Dependence and independence
 
 Tanaka-san explains to Chibany his reasoning: He did not think whether Chibany received a tonkatsu (T) for his first offering influenced whether he receives a tonkatsu (T) for his second offering.
