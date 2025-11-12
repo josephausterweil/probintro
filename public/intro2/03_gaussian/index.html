@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=46185&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -14,7 +14,7 @@ Heights of people Measurement errors Test scores Daily temperatures And yes, ben
     <meta name="twitter:description" content="The Bell Curve After learning about the uniform distribution in Chapter 2, Chibany realizes something: real measurements rarely spread evenly across a range. When he measures 1000 tonkatsu bentos carefully, the weights don’t spread uniformly between 495g and 505g. Instead, most cluster near 500g, with fewer and fewer measurements appearing as you move away from that center value.
 This pattern appears everywhere in nature:
 Heights of people Measurement errors Test scores Daily temperatures And yes, bento weights! This is the Gaussian distribution (also called the Normal distribution), and it’s arguably the most important probability distribution in statistics.">
-    <meta property="og:url" content="http://localhost:46185/probintro/intro2/03_gaussian/index.html">
+    <meta property="og:url" content="http://localhost:1313/probintro/intro2/03_gaussian/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="The Gaussian Distribution :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="The Bell Curve After learning about the uniform distribution in Chapter 2, Chibany realizes something: real measurements rarely spread evenly across a range. When he measures 1000 tonkatsu bentos carefully, the weights don’t spread uniformly between 495g and 505g. Instead, most cluster near 500g, with fewer and fewer measurements appearing as you move away from that center value.
@@ -29,27 +29,27 @@ This pattern appears everywhere in nature:
 Heights of people Measurement errors Test scores Daily temperatures And yes, bento weights! This is the Gaussian distribution (also called the Normal distribution), and it’s arguably the most important probability distribution in statistics.">
     <meta itemprop="wordCount" content="2102">
     <title>The Gaussian Distribution :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1762935862" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762935862" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762935862" defer></script>
-    <script src="/probintro/js/search-lunr.js?1762935862" defer></script>
-    <script src="/probintro/js/search.js?1762935862" defer></script>
+    <link href="/probintro/images/favicon.png?1762936147" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762936147" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762936147" defer></script>
+    <script src="/probintro/js/search-lunr.js?1762936147" defer></script>
+    <script src="/probintro/js/search.js?1762936147" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1762935862";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1762936147";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1762935862" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762935862" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1762935862" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1762935862" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1762936147" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762936147" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1762936147" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1762936147" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762935862" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762935862" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762935862" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1762935862" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1762935862" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762936147" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762936147" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762936147" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1762936147" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1762936147" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -57,7 +57,7 @@ Heights of people Measurement errors Test scores Daily temperatures And yes, ben
       window.relearn.path='\/intro2\/03_gaussian\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:46185\/probintro';
+      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -442,8 +442,8 @@ Within 3σ (494-506g): 99.7% (expect 99.7%)</code></pre></div>
 </div>
 </div>
 </details>
-<p><a href="#R-image-10e4fffc6e031dc4929a6348b32a5f06" class="lightbox-link"><img alt="Gaussian Distribution Variations" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/gaussian_variations.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-10e4fffc6e031dc4929a6348b32a5f06"><img alt="Gaussian Distribution Variations" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/gaussian_variations.png"></a></p>
+<p><a href="#R-image-fd1dc1b40b1603d6ec84c7c819195a96" class="lightbox-link"><img alt="Gaussian Distribution Variations" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/gaussian_variations.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-fd1dc1b40b1603d6ec84c7c819195a96"><img alt="Gaussian Distribution Variations" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/gaussian_variations.png"></a></p>
 <p><strong>Key observations:</strong></p>
 <ul>
 <li><strong>Left plot</strong>: Changing μ shifts the curve horizontally (location changes)</li>
@@ -557,8 +557,8 @@ Expected value: 455.0g</code></pre></div>
 </div>
 </div>
 </details>
-<p><a href="#R-image-d6eb784bfe49b7c0bad68e8ca8bc8b3e" class="lightbox-link"><img alt="Realistic Bento Mixture with Gaussian Components" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/realistic_bento_mixture.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-d6eb784bfe49b7c0bad68e8ca8bc8b3e"><img alt="Realistic Bento Mixture with Gaussian Components" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/realistic_bento_mixture.png"></a></p>
+<p><a href="#R-image-5389a3410e8ba30e384a0cee37ddbf69" class="lightbox-link"><img alt="Realistic Bento Mixture with Gaussian Components" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/realistic_bento_mixture.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-5389a3410e8ba30e384a0cee37ddbf69"><img alt="Realistic Bento Mixture with Gaussian Components" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/realistic_bento_mixture.png"></a></p>
 <p>Now the two peaks have natural variation (they&rsquo;re not perfect spikes at 500g and 350g), but the average still falls in the valley where no individual bento lives!</p>
 <hr>
 <h2 id="why-the-gaussian-distribution-is-special">Why the Gaussian Distribution is Special</h2>
@@ -908,9 +908,9 @@ b) Required std dev: 0.388mm
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762935862"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1762935862" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762935862" defer></script>
-    <script src="/probintro/js/theme.js?1762935862" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762936147"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1762936147" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762936147" defer></script>
+    <script src="/probintro/js/theme.js?1762936147" defer></script>
   </body>
 </html>

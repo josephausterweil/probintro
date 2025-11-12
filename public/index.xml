@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Probability &amp; Probabilistic Computing Tutorial</title>
-    <link>http://localhost:46185/probintro/index.html</link>
+    <link>http://localhost:1313/probintro/index.html</link>
     <description></description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 11 Nov 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:46185/probintro/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/probintro/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Narrative Introduction to Probability</title>
-      <link>http://localhost:46185/probintro/intro/index.html</link>
+      <link>http://localhost:1313/probintro/intro/index.html</link>
       <pubDate>Fri, 07 Nov 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:46185/probintro/intro/index.html</guid>
+      <guid>http://localhost:1313/probintro/intro/index.html</guid>
       <description>Welcome! This tutorial teaches probability theory through the story of Chibany (pictured below) who loves tonkatsu and wants to understand how likely he will get it in his daily meals. Along the way, you’ll learn to think about probability using sets — a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.</description>
     </item>
     <item>
       <title>Probabilistic Programming with GenJAX</title>
-      <link>http://localhost:46185/probintro/genjax/index.html</link>
+      <link>http://localhost:1313/probintro/genjax/index.html</link>
       <pubDate>Thu, 06 Nov 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:46185/probintro/genjax/index.html</guid>
+      <guid>http://localhost:1313/probintro/genjax/index.html</guid>
       <description>From Probability Theory to Probabilistic Code In the previous tutorial, you learned to think about probability using sets and counting. Chibany showed you that probability questions are really about:&#xA;What’s possible? (Define the outcome space) What am I interested in? (Define the event) Count them! (Calculate the ratio) Now you’ll learn to express those same ideas in code using GenJAX — a probabilistic programming language that lets computers do the counting for you!</description>
     </item>
     <item>
       <title>Continuous Probability and Bayesian Learning</title>
-      <link>http://localhost:46185/probintro/intro2/index.html</link>
+      <link>http://localhost:1313/probintro/intro2/index.html</link>
       <pubDate>Tue, 11 Nov 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:46185/probintro/intro2/index.html</guid>
+      <guid>http://localhost:1313/probintro/intro2/index.html</guid>
       <description>From Discrete to Continuous with GenJAX In the first two tutorials, you learned:&#xA;Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutorial 2: How to express probability in code using GenJAX Now you’ll learn to work with continuous probability distributions and perform Bayesian learning on real-valued data, all using the GenJAX tools you’ve already learned!</description>
     </item>
     <item>
       <title>Glossary - All Tutorials</title>
-      <link>http://localhost:46185/probintro/glossary/index.html</link>
+      <link>http://localhost:1313/probintro/glossary/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:46185/probintro/glossary/index.html</guid>
+      <guid>http://localhost:1313/probintro/glossary/index.html</guid>
       <description>How to Use This Glossary This glossary covers all three tutorials in the Probability with GenJAX series. Terms are tagged to show which tutorial introduces them:&#xA;📘 Tutorial 1 (Discrete Probability) - Sets and counting approach 💻 Tutorial 2 (GenJAX Programming) - Probabilistic programming basics 📊 Tutorial 3 (Continuous Probability) - Advanced topics and Bayesian learning Click on any term to expand its definition with examples and code.&#xA;Core Concepts (Tutorial 1) Bayes Theorem 📘 Bayes Theorem Bayes Theorem (or Bayes’ rule) is a formula for reversing the order that variables are conditioned — how to go from $P(A \mid B)$ to $P(B \mid A)$.</description>
     </item>
   </channel>

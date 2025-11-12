@@ -84,6 +84,9 @@ Note that if the possible outcomes were not equally likely, we would sum their i
 2. **Count** how often the event occurs
 3. **Divide** by total simulations
 
+<details>
+<summary>Click to show code example</summary>
+
 ```python
 # Generate 10,000 days
 keys = jax.random.split(key, 10000)
@@ -95,6 +98,8 @@ has_tonkatsu = (days[:, 0] == 1) | (days[:, 1] == 1)
 # Probability ≈ fraction of times event occurred
 prob = jnp.mean(has_tonkatsu)  # Equivalent to |A| / |Ω|
 ```
+
+</details>
 
 **The principle is identical** — counting favorable outcomes and dividing by total outcomes. But instead of listing Ω by hand, we generate samples!
 

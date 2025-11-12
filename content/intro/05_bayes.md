@@ -198,6 +198,9 @@ Here are some reasons:
 2. **Specify observations** (data)
 3. **Let GenJAX compute** the posterior
 
+<details>
+<summary>Click to show code example</summary>
+
 ```python
 @gen
 def taxicab_model():
@@ -222,6 +225,8 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 # trace now samples from P(true_color | reported=blue)
 # This is the posterior! GenJAX did all the Bayes' rule math.
 ```
+
+</details>
 
 **The principle is identical** — update beliefs with evidence. But GenJAX handles all the formula manipulation!
 

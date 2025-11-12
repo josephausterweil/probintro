@@ -50,6 +50,9 @@ Note that this is a different, yet equivalent perspective to how conditional pro
 {{% notice style="tip" title="💻 See This in Code" %}}
 **In GenJAX (Tutorial 2)**, we condition on observations using `ChoiceMap`:
 
+<details>
+<summary>Click to show code example</summary>
+
 ```python
 from genjax import ChoiceMap, Target
 
@@ -66,6 +69,8 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 # Now trace contains samples where lunch IS tonkatsu
 # This is exactly like crossing out HH and HT from Ω!
 ```
+
+</details>
 
 **The principle is identical** — conditioning restricts the outcome space. In set notation we crossed out impossible outcomes. In GenJAX we specify observations with `ChoiceMap`.
 

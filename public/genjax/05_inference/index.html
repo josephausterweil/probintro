@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=46185&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -16,7 +16,7 @@ In the probability tutorial, we solved this with sets and Bayes’ theorem. Now 
 Scenario: Chibany witnesses a hit-and-run at night. He says the taxi was blue. But:
 85% of taxis are green, 15% are blue Chibany identifies colors correctly 80% of the time Question: What’s the probability it was actually a blue taxi?
 In the probability tutorial, we solved this with sets and Bayes’ theorem. Now we’ll solve it with GenJAX!">
-    <meta property="og:url" content="http://localhost:46185/probintro/genjax/05_inference/index.html">
+    <meta property="og:url" content="http://localhost:1313/probintro/genjax/05_inference/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Inference in Action: The Taxicab Problem :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="Solving Real Problems with Probabilistic Code Remember the taxicab problem from the probability tutorial?
@@ -33,27 +33,27 @@ Scenario: Chibany witnesses a hit-and-run at night. He says the taxi was blue. B
 In the probability tutorial, we solved this with sets and Bayes’ theorem. Now we’ll solve it with GenJAX!">
     <meta itemprop="wordCount" content="2272">
     <title>Inference in Action: The Taxicab Problem :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1762935862" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762935862" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762935862" defer></script>
-    <script src="/probintro/js/search-lunr.js?1762935862" defer></script>
-    <script src="/probintro/js/search.js?1762935862" defer></script>
+    <link href="/probintro/images/favicon.png?1762936147" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762936147" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762936147" defer></script>
+    <script src="/probintro/js/search-lunr.js?1762936147" defer></script>
+    <script src="/probintro/js/search.js?1762936147" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1762935862";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1762936147";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1762935862" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762935862" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1762935862" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1762935862" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1762936147" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762936147" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1762936147" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1762936147" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762935862" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762935862" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762935862" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1762935862" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1762935862" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762936147" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762936147" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762936147" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1762936147" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1762936147" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -61,7 +61,7 @@ In the probability tutorial, we solved this with sets and Bayes’ theorem. Now 
       window.relearn.path='\/genjax\/05_inference\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:46185\/probintro';
+      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -198,8 +198,8 @@ In the probability tutorial, we solved this with sets and Bayes’ theorem. Now 
 </ul>
 <p><strong>Question:</strong> What&rsquo;s the probability it was actually a blue taxi?</p>
 <p>In the probability tutorial, we solved this with sets and Bayes&rsquo; theorem. <strong>Now we&rsquo;ll solve it with GenJAX!</strong></p>
-<p><a href="#R-image-fe52aabe039abf892e9d99715398220e" class="lightbox-link"><img alt="Chibany investigating" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-fe52aabe039abf892e9d99715398220e"><img alt="Chibany investigating" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-8eea421874f7dbc9d09d72f292b2fa13" class="lightbox-link"><img alt="Chibany investigating" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-8eea421874f7dbc9d09d72f292b2fa13"><img alt="Chibany investigating" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="the-taxicab-problem-quick-recap">The Taxicab Problem: Quick Recap</h2>
 <h3 id="the-setup">The Setup</h3>
@@ -1152,9 +1152,9 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762935862"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1762935862" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762935862" defer></script>
-    <script src="/probintro/js/theme.js?1762935862" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762936147"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1762936147" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762936147" defer></script>
+    <script src="/probintro/js/theme.js?1762936147" defer></script>
   </body>
 </html>
