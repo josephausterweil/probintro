@@ -105,13 +105,12 @@ Imagine a stick of length 1. We break it into pieces:
 **Component parameters**:
 - μₖ ~ N(μ₀, σ₀²) [prior on means]
 
-**Dirichlet concentration** (ensures valid probabilities):
-- θ ~ Dirichlet(π₁, π₂, ..., πₖₘₐₓ)
-
-**Observations**:
+**Observations** (using stick-breaking weights directly):
 - For i = 1, ..., N:
-  - zᵢ ~ Categorical(θ) [cluster assignment]
+  - zᵢ ~ Categorical(π) [cluster assignment using stick-breaking weights]
   - xᵢ ~ N(μ_zᵢ, σₓ²) [observation from assigned cluster]
+
+**Important**: We use the stick-breaking weights π directly for cluster assignment. Adding an extra Dirichlet draw would create "double randomization" that makes inference much slower and less accurate!
 
 ### Why K_max?
 
@@ -121,12 +120,12 @@ In practice, we truncate the infinite model at some large K_max (e.g., 10 or 20)
 
 ## Implementing DPMM in GenJAX
 
-Let's implement the DPMM for Chibany's bentos:
+Let's implement the DPMM for Chibany's bentos using the corrected approach:
 
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen, simulate, choice_map, importance_resampling
+from genjax import gen, beta, normal, categorical, Target, ChoiceMap
 import jax.random as random
 
 # Hyperparameters
@@ -135,68 +134,90 @@ MU0 = 0.0        # Prior mean for cluster means
 SIG0 = 4.0       # Prior std dev for cluster means
 SIGX = 0.05      # Observation std dev (tight clusters)
 KMAX = 10        # Maximum number of components
-MIN_PI = 1e-6    # Minimum mixing proportion
 
-@gen
-def dpmm_model(N):
+def make_dpmm_model(K, N):
     """
-    Dirichlet Process Mixture Model with Gaussian components
+    Factory function creates DPMM model with fixed K and N
+
+    This avoids TracerIntegerConversionError by making K and N
+    closures rather than traced parameters.
 
     Args:
+        K: Maximum number of clusters (truncation level)
         N: Number of observations
     """
-    # Step 1: Stick-breaking construction
-    betas = []
-    pis = []
+    @gen
+    def dpmm_model(alpha, mu0, sig0, sigx):
+        """
+        Dirichlet Process Mixture Model with Gaussian components
 
-    for k in range(KMAX):
-        # Sample beta_k ~ Beta(1, alpha)
-        beta_k = jnp.beta(1.0, ALPHA) @ f"beta_{k}"
-        betas.append(beta_k)
+        Args:
+            alpha: Concentration parameter
+            mu0: Prior mean for cluster means
+            sig0: Prior std dev for cluster means
+            sigx: Observation std dev
+        """
+        # Step 1: Stick-breaking construction
+        betas = []
+        for k in range(K):
+            beta_k = beta(1.0, alpha) @ f"beta_{k}"
+            betas.append(beta_k)
 
-        # Compute pi_k from stick-breaking
-        if k == 0:
-            pi_k = jnp.maximum(beta_k, MIN_PI)
-        else:
-            remaining_stick = 1.0 - sum(pis)
-            pi_k = jnp.maximum(beta_k * remaining_stick, MIN_PI)
+        # Convert betas to pis (mixing weights)
+        pis = []
+        remaining = 1.0
+        for k in range(K):
+            pi_k = betas[k] * remaining
+            pis.append(pi_k)
+            remaining *= (1.0 - betas[k])
 
-        pis.append(pi_k)
+        pis_array = jnp.array(pis)
+        pis_array = jnp.maximum(pis_array, 1e-6)  # Numerical stability
+        pis_array = pis_array / jnp.sum(pis_array)  # Normalize
 
-    pis = jnp.array(pis)
-    pis = pis / jnp.sum(pis)  # Normalize to ensure sum = 1
+        # Step 2: Sample cluster means
+        mus = []
+        for k in range(K):
+            mu_k = normal(mu0, sig0) @ f"mu_{k}"
+            mus.append(mu_k)
+        mus_array = jnp.array(mus)
 
-    # Step 2: Sample mixing proportions from Dirichlet
-    theta = jnp.dirichlet(pis) @ "theta"
+        # Step 3: Generate observations
+        # IMPORTANT: Use pis directly (no extra Dirichlet draw!)
+        zs = []
+        xs = []
+        for i in range(N):
+            # Cluster assignment using stick-breaking weights directly
+            z_i = categorical(pis_array) @ f"z_{i}"
+            zs.append(z_i)
 
-    # Step 3: Sample cluster means
-    mus = []
-    for k in range(KMAX):
-        mu_k = jnp.normal(MU0, SIG0) @ f"mu_{k}"
-        mus.append(mu_k)
-    mus = jnp.array(mus)
+            # Observation from assigned cluster
+            x_i = normal(mus_array[z_i], sigx) @ f"x_{i}"
+            xs.append(x_i)
 
-    # Step 4: Generate observations
-    zs = []
-    xs = []
-    for i in range(N):
-        # Cluster assignment
-        z_i = jnp.categorical(jnp.log(theta)) @ f"z_{i}"
-        zs.append(z_i)
+        return {
+            'mus': mus_array,
+            'pis': pis_array,
+            'zs': jnp.array(zs),
+            'xs': jnp.array(xs),
+            'betas': jnp.array(betas)
+        }
 
-        # Observation from assigned cluster
-        x_i = jnp.normal(mus[z_i], SIGX) @ f"x_{i}"
-        xs.append(x_i)
-
-    return jnp.array(xs)
+    return dpmm_model
 
 # Example: Generate synthetic data from DPMM
 key = random.PRNGKey(42)
-trace = simulate(dpmm_model)(key, N=20)
-synthetic_data = trace.get_retval()
 
-print(f"Generated data: {synthetic_data}")
-print(f"Cluster assignments: {[trace[f'z_{i}'] for i in range(20)]}")
+# Create model with K=10 clusters, N=20 observations
+model = make_dpmm_model(K=10, N=20)
+
+# Simulate (using default hyperparameters)
+trace = model.simulate(key, (ALPHA, MU0, SIG0, SIGX))
+result = trace.get_retval()
+
+print(f"Generated data: {result['xs']}")
+print(f"Cluster assignments: {result['zs']}")
+print(f"Active mixing weights: {result['pis'][result['pis'] > 0.01]}")
 ```
 
 **Output:**
