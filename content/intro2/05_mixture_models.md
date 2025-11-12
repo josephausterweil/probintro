@@ -57,6 +57,33 @@ Constraint: $\sum_{k=1}^{K} \pi_k = 1$ (probabilities must sum to 1)
 
 This is exactly what GenJAX is built for!
 
+{{% notice style="info" title="📘 Foundation Concept: Discrete + Continuous Together" %}}
+**Notice the beautiful combination here!**
+
+**Step 1 is discrete** (like Tutorial 1):
+- Choose which component: k ~ Categorical(π₁, π₂, ..., πₖ)
+- This is just like choosing between {hamburger, tonkatsu}
+- We're **counting** discrete outcomes (component 1, component 2, ...)
+- From Tutorial 1: **Random variables** map outcomes to values
+
+**Step 2 is continuous** (like Tutorial 3):
+- Generate the actual weight: x ~ N(μₖ, σₖ²)
+- This uses **probability density** we learned in Chapter 2
+- We're **measuring** continuous values (350g, 500g, ...)
+
+**Why this matters:**
+- Real problems often combine both!
+- Discrete choices (which category?) + Continuous measurements (what value?)
+- **Tutorial 1's logic** (discrete counting) works alongside **Tutorial 3's tools** (continuous density)
+- GenJAX handles both seamlessly in the same model
+
+**The power:** Mixture models show that discrete and continuous probability aren't separate worlds—they work together to model rich, real-world phenomena.
+
+[← Review random variables in Tutorial 1, Chapter 3](../../intro/03_prob_count/#random-variables)
+
+[← Review continuous distributions in Tutorial 3, Chapter 2](../02_continuous/)
+{{% /notice %}}
+
 ---
 
 ## Two-Component Bento Model

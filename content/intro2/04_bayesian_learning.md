@@ -52,6 +52,34 @@ $$p(\mu | x_1, ..., x_n) = \frac{p(x_1, ..., x_n | \mu) \cdot p(\mu)}{p(x_1, ...
 - **Posterior** ∝ **Likelihood** × **Prior**
 - What we believe after seeing data ∝ (How likely the data is) × (What we believed before)
 
+{{% notice style="info" title="📘 Foundation Concept: Bayes' Rule Extended" %}}
+**Remember from Tutorial 1, Chapter 5** that Bayes' Rule lets us update beliefs with evidence:
+
+$$P(H | E) = \frac{P(E | H) \cdot P(H)}{P(E)}$$
+
+We used it for **discrete events** like "Was the taxi blue?" given "Chibany said it was blue."
+
+**Now we're extending it to continuous parameters!**
+
+**The structure is identical:**
+
+| Tutorial 1 (Discrete) | Tutorial 3 (Continuous) |
+|----------------------|------------------------|
+| $P(H \mid E)$ — Posterior belief about hypothesis | $p(\mu \mid x_1, ..., x_n)$ — Posterior belief about parameter |
+| $P(E \mid H)$ — Likelihood of evidence given hypothesis | $p(x_1, ..., x_n \mid \mu)$ — Likelihood of data given parameter |
+| $P(H)$ — Prior belief about hypothesis | $p(\mu)$ — Prior belief about parameter |
+| $P(E)$ — Total probability of evidence | $p(x_1, ..., x_n)$ — Total probability of data |
+
+**The logic hasn't changed:**
+- Start with prior beliefs (before seeing data)
+- Update with evidence (likelihood of observations)
+- Get posterior beliefs (after seeing data)
+
+**What's new:** Instead of discrete probabilities (0.15, 0.85), we're working with continuous densities (Gaussians). But the **belief-updating principle** is exactly the same!
+
+[← Review Bayes' Theorem in Tutorial 1, Chapter 5](../../intro/05_bayes/)
+{{% /notice %}}
+
 ### The Gaussian-Gaussian Conjugate Prior
 
 Here's the magic: **When the prior is Gaussian and the likelihood is Gaussian, the posterior is also Gaussian!**

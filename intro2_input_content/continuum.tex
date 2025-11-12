@@ -1,0 +1,223 @@
+\begin{enumerate}
+ \item {\em Continuous probabilities}. Continuous probabilities are a bit trickier. We will not define it as before, where we built a probability space on events that are subsets of outcome space. Instead, we will define probabilities over a continuous space as the area under a \gls{probdensfn}. Note that any particular $x$ has zero probability in a continuous space. Instead, we examine the probability of a set of values under a \gls{probdensfn}. The relative values of a $x_1$ and $x_2$ according to \gls{probdensfn} $p(x)$ gives the relative likelihood of each value and $p(x)$ can be greater than $1$, as long as $0 \leq \int_{A}{p(x)dx} \leq 1 $ for any region $A$. In other words, $P(A) = \int_A{p(x)dx}$. 
+
+Another tool used for manipulating continuous probabilities is the \gls{cumprobfn}. The \gls{cumprobfn} of a random variable $X$ is $F_X(x) = \int_{\infty}^x{p(t)dt}$. It is useful for calculating the probability of random variable $X$ taking a value within an interval: $P(a \leq X \leq b) = F_X(b)-F_X(a)$.
+
+\item {\em Uniform}. The continuous uniform distribution places an equal probability across an interval $[a, b]$. The probability density function $p(x)$ for the continuous uniform distribution is $p(x) = \frac{1}{b-a}$. For example, if $X$ is a continuous random variable that is uniformly distributed between $0$ and $0.5$ ($0 \leq X \leq 0.5$), then $p(x) = \frac{1}{0.5-0}=2$ (between $0$ and $0.5$, it is zero for other $x$). Note that $p(x)$ is greater than zero everywhere that it is non-zero. To signify the region that a density is non-zero, we frequently use an \gls{indfn}, $I(\cdot)$, which is 1 when the argument to the function $I$ is true and zero when the argument is false. Thus, the probability density function for a continuous random variable uniformly distributed between 0 and 0.5 is defined as $p(x) = 2 I(0 \leq x \leq 0.5)$. Note that the cumulative probability function for a continuous random variable $X$ that is uniformly distributed between 0 and 0.5 is
+\begin{equation*}
+F_X(x) = \left\{ \begin{array}{lcl}
+0 & &{\rm for \ } x < 0 \\
+2x & & {\rm for \ } 0 \leq x < 0.5 \\
+1 & & {\rm for \ } x \geq 1
+\end{array}  \right.
+\end{equation*}
+
+\item {\em Gaussians}. Although we will work with many distributions throughout the semester, one of the most common ones is the \gls{gaussdist} (also called the Normal distribution). The \gls{gaussdist} has two parameters: its mean $\mu$, which is the center of the distribution (its expected value), and its variance $\sigma^2$, which is its spread.  The probability of $x$ under a \gls{gaussdist} is
+\begin{equation*}
+p(x|\mu, \sigma^2) = \frac{1}{\sigma \sqrt{\pi}} \exp \left\{-\frac{1}{2\sigma^2}\left(x-\mu \right)^2 \right\}.
+\end{equation*}
+In generative process notation, this is written as $x | \mu, \sigma^2 \sim N(\mu, \sigma^2)$, which is read as "the probability of $x$ conditioned on $\mu$ and $\sigma^2$ is a Normal distribution with parameters $\mu$ and $\sigma^2$. Figure \ref{fig:gausspdf} illustrates the Gaussian distribution for $\sigma^2 = 0.5$ and $\sigma^2 = 1$. 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{figs/normpdfEdited}
+\end{center}
+\caption{Gaussian probability density function for $\mu=0$ with $\sigma^2=0.5$ (red) and $\sigma^2=1$ (blue).}
+\label{fig:gausspdf}
+\end{figure}
+One quantity of interest is how to update our beliefs in the mean of a Gaussian after observing one sample from it (and with some prior beliefs as to what the mean is). One generative process capturing this model is
+\begin{align}
+\mu \sim N(\mu_0, \sigma^2_0)   & \qquad \qquad \qquad & x | \mu, \sigma_x^2 \sim N(\mu, \sigma^2_x)  \label{eq:nnmodel}
+\end{align}
+Thus, we are looking for the posterior probability $p(\mu | x)$, which is given by Bayes' rule $p(\mu | x) = \frac{p(x|\mu)p(\mu)}{p(x)}$. One way to solve this is to calculate each term and solve for the posterior distribution explicitly. However, in many cases there is an easier way (and remember the even easier way is to look up the result on Wikipedia \url{https://en.wikipedia.org/wiki/Conjugate_prior}). 
+
+Note that $p(x)$ does not change with changing $\mu$. It only affects $p(\mu|x)$ as multiplying the probability of $\mu$ by the same constant value. $p(x)$ is the value that normalizes $p(x|\mu)p(\mu)$ such that integrating over all possible values for $\mu$ is 1 (one of the things necessary for it to be a probability distribution). So, what we need to do is figure out what $\int p(x|\mu)p(\mu) d\mu$. Integrating is hard. So, we hope that $p(x|\mu)p(\mu)$ corresponds to the functional form of a familiar probability distribution. If that is the case, we can see what parameters that distribution must be so that the whole quantity results in a valid probability distribution. 
+
+Lets follow through with this for the example defined by Equation \ref{eq:nnmodel}. We drop the integral because we can examine the product in proportional form.
+\begin{align*}
+p(\mu|x) \underbrace{\propto}_{\text{means proportional to}} p(x|\mu) p(\mu) = & \frac{1}{\sigma_x \sqrt{\pi}} \exp \left\{-\frac{1}{2\sigma_x^2}\left(x-\mu \right)^2 \right\} \frac{1}{\sigma_0 \sqrt{\pi}} \exp \left\{-\frac{1}{2\sigma_0^2}\left(\mu -\mu_0 \right)^2 \right\} \\
+= & \frac{1}{\sigma_x \sigma_0 \pi} \exp \left\{ -\frac{1}{2\sigma_x^2}\left(x-\mu \right)^2 - \frac{1}{2\sigma_0^2}\left(\mu -\mu_0 \right)^2 \right\}
+\end{align*}
+
+Now there are two ways to proceed: (a) Isolate $\mu$ to the point where we can identify the parameters of the updated distribution or (b) solve for it explicitly. If (a) does not feel ok to you yet, stick with (b) for now.
+
+\begin{enumerate}
+	\item[(a)] $\mu$ only occurs in the exponential portion, so we can drop everything outside of it as proportional to it. Thus,
+	\begin{align*}
+	p(\mu \mid x) & \propto \exp \left\{ -\frac{1}{2\sigma_x^2}\left(x-\mu \right)^2 - \frac{1}{2\sigma_0^2}\left(\mu -\mu_0 \right)^2 \right\} \\
+	& = \exp \left\{ -\frac{1}{2\sigma_x^2}\left(x^2-2x\mu+\mu^2 \right) - \frac{1}{2\sigma_0^2} \left(\mu^2 -2\mu \mu_0 +\mu_0^2 \right) \right\}
+	\end{align*} 
+	Now any term that does not include $\mu$ can be dropped because it ultimately is part of the normalization constant (remember that $e^{a+b}=e^a e^b$). After dropping, we combine and write in terms of $\mu$  Thus,
+	\begin{align*}
+	p(\mu \mid x) & \propto \exp \left\{-\frac{1}{2\sigma_x^2} \left(2x \mu + \mu^2 \right) - \frac{1}{2 \sigma_0^2} \left( \mu^2 - 2\mu \mu_0\right) \right\} \\
+	& = \propto \exp \left\{  - \mu^2 \left(\frac{1}{2\sigma_x^2} + \frac{1}{2\sigma_0^2} \right) + 2\mu \left(\frac{x}{2\sigma_x^2}+\frac{\mu_0}{2\sigma_0^2} \right) \right\} 
+	\end{align*}
+	This looks like part of an expanded quadratic of a Gaussian (the missing parts are those we dropped during normalization). Whatever the coefficient is outside the quadratic will end up determining the updated variance. We first divide out the coefficient on $\mu^2$ so that we have it outside the quadratic and can derive the updated variance from it. The updated mean will be the subtracted value in the quadratic. The value we have subtracting $\mu^2$ right now is 2 times $\mu$ times the constant term of the quadratic. That constant term is the updated mean and so we solve for it second. So (first rewriting the last line),
+	\begin{align*}
+	p(\mu \mid x) & \propto \exp \left\{  - \mu^2 \left(\frac{1}{2\sigma_x^2} + \frac{1}{2\sigma_0^2} \right) + 2\mu \left(\frac{x}{2\sigma_x^2}+\frac{\mu_0}{2\sigma_0^2} \right) \right\} \\
+ 	& = \exp \left\{-\left(\frac{1}{2\sigma_x^2} + \frac{1}{2\sigma_0^2} \right) \left(\mu^2 - 2\mu\left(\frac{1}{2\sigma_x^2} + \frac{1}{2\sigma_0^2} \right)^{-1} \left(\frac{x}{2\sigma_x^2}+\frac{\mu_0}{2\sigma_0^2} \right) \right) \right\}
+	\end{align*}
+	Denoting the updated mean and variance parameters as $\mu_1$ and $\sigma_1^2$ (the subscript refers to having updated by 1 data point). We'll do the variance first.
+	\begin{align*}
+	& \frac{1}{2\sigma_1^2} = \left(\frac{1}{2\sigma_x^2} + \frac{1}{2\sigma_0^2} \right) \\
+	& \Rightarrow \sigma_1^2 = \left(\frac{1}{\sigma_x^2} + \frac{1}{\sigma_0^2} \right)^{-1}
+	\end{align*}
+	Remember that inside of the exponential, the updated Gaussian should look something like this: $-\frac{1}{2\sigma_1^2} (\mu - \mu_1)^2 = -\frac{1}{2\sigma_1^2} (\mu - 2\mu \mu_1 + \mu_1^2)$. So, $\mu_1$ is
+	\begin{equation*}
+	\Rightarrow \mu_1 = \left(\frac{1}{2\sigma_x^2} + \frac{1}{2\sigma_0^2} \right)^{-1}\left(\frac{x}{2\sigma_x^2}+\frac{\mu_0}{2\sigma_0^2} \right) = \left(\frac{1}{\sigma_x^2} + \frac{1}{\sigma_0^2} \right)^{-1}\left(\frac{x}{\sigma_x^2}+\frac{\mu_0}{\sigma_0^2} \right)
+	\end{equation*}
+	\item[(b)] We will focus on the exponentiated terms because these are the only ones that depend on $\mu$ (and thus the rest are part of the normalizing constant).
+	\begin{align*}
+	& -\frac{1}{2\sigma_x^2}\left(x-\mu \right)^2 - \frac{1}{2\sigma_0^2}\left(\mu -\mu_0 \right)^2 = -\frac{\sigma^2_0}{2\sigma_x^2 \sigma_0^2}\left(x-\mu \right)^2 - \frac{\sigma_x^2}{2\sigma_0^2\sigma_x^2}\left(\mu -\mu_0 \right)^2 \\
+	& -\frac{1}{2\sigma_0^2\sigma_x^2} \left[  \sigma_0^2 \left(x^2 - 2\mu x + \mu^2 \right) + \sigma_x^2 \left( \mu^2 - 2 \mu \mu_0 + \mu_0^2 \right) \right]
+	\end{align*}
+	Next we combine terms and look for some way of writing this equation as a function of $\mu$ and hope that there is a corresponding distribution that is that function exponentiated.
+	\begin{align*}
+	& -\frac{1}{2\sigma_0^2\sigma_x^2} \left[  \sigma_0^2 \left(x^2 - 2\mu x + \mu^2 \right) + \sigma_x^2 \left( \mu^2 - 2 \mu \mu_0 + \mu_0^2 \right) \right]  \\
+	=& -\frac{1}{2\sigma_0^2\sigma_x^2} \left[\mu^2 (\sigma_0^2+\sigma_x^2) - 2 \mu (x \sigma_0^2 + \mu_0 \sigma_x^2) + \sigma_0^2 x^2 + \sigma_x^2 \mu_0^2  \right] 
+	\end{align*}
+	The latter two sums can be brought out of the exponential (remember $e^{a+b} = e^a e^b$) and they can be dropped because the do not depend on $\mu$ (and so they are part of the constant). Dropping them and continuing on
+	\begin{align*}
+	& -\frac{1}{2\sigma_0^2\sigma_x^2} \left[\mu^2 (\sigma_0^2+\sigma_x^2) - 2 \mu (x \sigma_0^2 + \mu_0 \sigma_x^2) + \sigma_0^2 x^2 + \sigma_x^2 \mu_0^2  \right] \propto -\frac{1}{2\sigma_0^2\sigma_x^2} \left[\mu^2 (\sigma_0^2+\sigma_x^2) - 2 \mu (x \sigma_0^2 + \mu_0 \sigma_x^2)  \right] \\
+	=& -\frac{\sigma_0^2+\sigma_x^2}{2\sigma_0^2\sigma_x^2} \left[\mu^2 - 2\mu \frac{x \sigma_0^2 + \mu_0 \sigma_x^2}{\sigma_0^2+\sigma_x^2}  \right] 
+	\end{align*}
+	Note that although this looks complicated, it is of the form $(\mu-c)^2$, which expands to $\mu^2-2\mu c + c^2$. Thus, we can reduce the above equation to 
+	\begin{equation}
+	p(\mu|x) \propto \exp \left\{ -\frac{\sigma_0^2+\sigma_x^2}{2\sigma_0^2\sigma_x^2} \left(\mu - \frac{x \sigma_0^2 + \mu_0 \sigma_x^2}{\sigma_0^2+\sigma_x^2} \right)^2 \right\}
+	\end{equation}
+	This looks like a Normal distribution with mean $\frac{\sigma_0^2 + \mu_0 \sigma_x^2}{\sigma_0^2+\sigma_x^2} x $ and variance $\left( \frac{\sigma_0^2+\sigma_x^2}{\sigma_0^2\sigma_x^2} \right)^{-1}$. This is the same result as Wikipedia gives, though they write it differently. Their update is that the mean is $\left(\mu_0/\sigma_0^2  + x/ \sigma^2_x \right)/(1/\sigma^2_0 + 1/\sigma^2_x)$ ($n=1$ because we have only one observation). To see that our result is equivalent, first we will derive our variance to look like theirs:
+	\begin{equation}
+	\left( \frac{\sigma_0^2+\sigma_x^2}{\sigma_0^2\sigma_x^2} \right)^{-1} = \left( \frac{\sigma_0^2}{\sigma_0^2\sigma_x^2} + \frac{\sigma_x^2}{\sigma_0^2\sigma_x^2} \right)^{-1} = \left( \frac{1}{\sigma_x^2} + \frac{1}{\sigma_0^2}\right)^{-1}
+	\end{equation}
+	The inverses of the variances add (this is why sometimes people parameterize using a ``precision'' parameter, which is the inverse variance.). We can do the same for the mean (first we pull out the inverse of our variance and convert that into their form):
+	\begin{equation}
+	\frac{x \sigma_0^2 + \mu_0 \sigma_x^2}{\sigma_0^2+\sigma_x^2} =   \frac{\frac{\sigma_0^2 \sigma_x^2}{\sigma_0^2 \sigma_x^2}x \sigma_0^2 + \mu_0 \sigma_x^2}{\sigma_0^2+\sigma_x^2} = \sigma_0^2 \sigma_x^2 \frac{x/\sigma_x^2 + \mu_0 / \sigma_0^2}{\sigma_0^2+\sigma_x^2} = \frac{\sigma_0^2\sigma_x^2}{\sigma_0^2+\sigma_x^2} \left( x/\sigma_x^2 + \mu_0 / \sigma_0^2 \right)
+	\end{equation}
+\end{enumerate}
+
+\item {\em Gaussians: Predictive update}. In some cases, we get a set of observations $X_1,\ldots, X_N$ that are all generated from the same, unknown mean $\mu$, and want to use the observed set to predict the next observation $X_{N+1}$ from the unknown mean. We're going to be in the same generative process as before: $X_1, \ldots, X_{N+1} | \mu, \sigma_x^2 \overset{iid}{\sim} N(\mu,\sigma_x^2),$ and $\mu | \mu_0, \sigma_0^2 \sim N(\mu_0, \sigma_0^2)$. $iid$ means that the random variables are independent and identically distributed. We're going to assume that $\sigma_x^2, \mu_0,$ and $\sigma_0^2$ are known.\footnote{If you are concerned that we are always assuming known parameter values, deriving the full updates when all parameters of the likelihood are unknown is doing the same process, but for multiple steps.} We are also going to use the posterior update for $\mu$ given $N$ observations from Wikipedia $\mu | X_1, \ldots, X_N$:
+\begin{equation*}
+\mu | x_1,\dotsc, x_N \sim {\rm N} \left( \frac{\mu_0 \sigma_0^{-2} + \sigma_x^{-2} \sum_{n=1}^N{x_n}   } {\sigma_0^{-2} + N \sigma_x^{-2} }, \left[ \sigma_0^{-2} + N \sigma_x^{-2} \right]^{-1}  \right)
+\end{equation*}
+Lets derive the predictive update using this information and the sum rule.
+\begin{align*}
+& p(X_{N+1} \mid X_1, \ldots, X_N) = \int{p(X_{N+1}, \mu \mid X_1, \ldots, X_N, \sigma_x^2) d\mu } \\
+& = \int{p(X_{N+1} \mid \mu, X_1, \ldots, X_N, \sigma_x^2) p(\mu \mid X_1, \ldots, X_N) d \mu }  \\
+& = \int{p(X_{N+1} \mid \mu, \sigma_x^2) p(\mu \mid X_1, \ldots, X_N) d \mu } %\\
+%& \propto \int{\exp \left\{-\frac{1}{2 \sigma_x^2}\left(X_{N+1} - \mu \right)^2 \right\} \exp \left\{ - \frac{1}{2\left[ \sigma_0^{-2} + N \sigma_x^{-2} \right]^{-1}} \left( \frac{\mu_0 \sigma_0^{-2} + \sigma_x^{-2} \sum_{n=1}^N{x_n}   } {\sigma_0^{-2} + N \sigma_x^{-2} } - \mu \right)^2 \right\} d\mu }
+\end{align*}
+Because this is getting a bit unwieldy, lets define variables for the posterior updates: $\sigma_N^2$ and $\mu_N$.
+
+\begin{equation*}
+\mu_N = \frac{\mu_0 \sigma_0^{-2} + \sigma_x^{-2} \sum_{n=1}^N{x_n}   } {\sigma_0^{-2} + N \sigma_x^{-2} } \qquad \qquad \qquad \qquad \sigma_N = \left[ \sigma_0^{-2} + N \sigma_x^{-2} \right]^{-1} 
+\end{equation*}
+
+So,
+\begin{align*}
+&  p(X_{N+1} \mid X_1, \ldots, X_N) = \frac{1}{\sigma_N \sigma_x \pi } \int{\exp \left\{-\frac{1}{2 \sigma_x^2}\left(X_{N+1} - \mu \right)^2 \right\} \exp \left\{-\frac{1}{2 \sigma_N^2} \left(\mu - \mu_N \right)^2 \right\}  d \mu } \\
+& =  \frac{1}{\sigma_N \sigma_x \pi } \int{\exp \left\{ -\frac{1}{2\sigma_x^2}\left(X_{N+1}^2 - 2X_{N+1} \mu + \mu^2 \right) -\frac{1}{2\sigma_N^2} \left(\mu^2 - 2\mu_N \mu  + \mu_N^2 \right)  \right\}  d\mu } \\
+&  =  \frac{1}{\sigma_N \sigma_x \pi } \exp\left\{-\frac{1}{2 \sigma_x^2} X_{N+1}^2 - \frac{1}{2 \sigma_{N}^2} \mu_N^2 \right\} \int{\left( \exp \left\{ -\left( \frac{1}{2\sigma_x^2} +\frac{1}{2\sigma_N^2} \right) \mu^2 + 2\left(\frac{1}{2\sigma_x^2}X_{N+1} + \frac{1}{2 \sigma_N^2} \mu_N  \right)\mu   \right\} \right) d\mu } 
+\end{align*}
+The integral has the (incomplete) form of an unnormalized normal distribution. To solve it, we need to complete it (called "completing the square"). Once we have the completed form, we know it must integrate to whatever the standard normalizing constant is for that unnormalized Normal distribution (because that's the constant that makes sure it sums to 1!). Focusing on the exponential term in the integral:
+\begin{align*}
+ & -\left( \frac{1}{2\sigma_x^2} +\frac{1}{2\sigma_N^2} \right) \mu^2 + 2\left(\frac{1}{2\sigma_x^2}X_{N+1} + \frac{1}{2 \sigma_N^2} \mu_N  \right)\mu = \\
+ & -\left( \frac{1}{2\sigma_x^2} +\frac{1}{2\sigma_N^2} \right) \left(\mu^2 - 2\left(\frac{1}{2\sigma_x^2}X_{N+1} + \frac{1}{2 \sigma_N^2} \mu_N  \right) \left( \frac{1}{2\sigma_x^2} +\frac{1}{2\sigma_N^2} \right)^{-1} \mu  \right) 
+\end{align*}
+Note that
+\begin{equation*}
+\frac{1}{2\sigma_x^2} + \frac{1}{2\sigma_N^2} = \frac{\sigma_N^2}{2\sigma_x^2\sigma_N^2} + \frac{\sigma_x^2}{2\sigma_N^2 \sigma_x^2} = \frac{\sigma_x^2 + \sigma_N^2}{2\sigma_x^2\sigma_N^2}
+\end{equation*}
+and
+\begin{equation*}
+\frac{1}{2\sigma_x^2}X_{N+1} + \frac{1}{2\sigma_N^2}\mu_N = \frac{\sigma_N^2 X_{N+1}}{2\sigma_x^2\sigma_N^2} + \frac{\sigma_x^2 \mu_N}{2\sigma_N^2 \sigma_x^2} = \frac{\sigma_x^2\mu_N + \sigma_N^2X_{N+1}}{2\sigma_x^2\sigma_N^2}
+\end{equation*}
+
+Using that to simplify and continue:
+\begin{align*}
+& -\left(\frac{\sigma_x^2 + \sigma_N^2}{2\sigma_x^2\sigma_N^2} \right)\left(\mu^2 - 2\frac{\sigma_x^2\mu_N + \sigma_N^2X_{N+1}}{2\sigma_x^2\sigma_N^2}\frac{2\sigma_x^2\sigma_N^2}{\sigma_x^2 + \sigma_N^2} \mu  \right) \\
+& -\left(\frac{\sigma_x^2 + \sigma_N^2}{2\sigma_x^2\sigma_N^2} \right)\left(\mu^2 - 2\frac{\sigma_x^2\mu_N + \sigma_N^2X_{N+1}}{\sigma_x^2 + \sigma_N^2} \mu  \right)
+\end{align*}
+This means that the coefficient of $\mu$ (not including $2$) is the "mean" of the Normal distribution of the integral. But, we can't just complete it, and make it proportional without keeping track of the term because the needed term includes $X_{N+1}$. We know it is missing the $+c$ term of the quadratic, which is the coefficient of $\mu^2$ (multiplied by the outer variance term). So, to complete the square, we will be (implicitly) including
+\begin{equation*}
+-\left(\frac{\sigma_x^2 + \sigma_N^2}{2\sigma_x^2\sigma_N^2} \right) \left( \frac{\sigma_x^2\mu_N + \sigma_N^2X_{N+1}}{\sigma_x^2 + \sigma_N^2} \right)^2
+\end{equation*}
+Thus, to make sure our net effect on the equation is still $1$, we need to include its inverse (don't forget we're inside of an exponential too!). So we will include this term outside of the integral: 
+\begin{equation*}
+\exp \left\{\left(\frac{\sigma_x^2 + \sigma_N^2}{2\sigma_x^2\sigma_N^2} \right) \left( \frac{\sigma_x^2\mu_N + \sigma_N^2X_{N+1}}{\sigma_x^2 + \sigma_N^2} \right)^2 \right\}
+\end{equation*}
+Completing the square, we get the following inside the exponential inside of the integral.
+\begin{equation*}
+-\left(\frac{\sigma_x^2 + \sigma_N^2}{2\sigma_x^2\sigma_N^2} \right)\left(\mu  - \frac{\sigma_x^2\mu_N + \sigma_N^2X_{N+1}}{\sigma_x^2 + \sigma_N^2} \right)^2
+\end{equation*}
+This is a Normal distribution with mean $\frac{\sigma_x^2\mu_N + \sigma_N^2X_{N+1}}{\sigma_x^2 + \sigma_N^2}$ and variance $\frac{\sigma_x^2 \sigma_N^2}{\sigma_x^2 + \sigma_N^2}$. We know that the Normal distribution integrates to 1 (this has to be true for it to be a probability density). Thus,
+\begin{align*}
+ &\frac{1}{\sigma \sqrt{2 \pi}}\int{ \exp \left\{-\frac{1}{2 \sigma^2} \left(x-\mu\right)^2  \right\} dx} = 1 \\
+\Rightarrow & \int{ \exp \left\{-\frac{1}{2 \sigma^2} \left(x-\mu\right)^2  \right\} dx} = \sigma \sqrt{2 \pi}
+\end{align*}
+So our integral must equal $\left(\frac{\sigma_x^2 \sigma_N^2}{\sigma_x^2 + \sigma_N^2} \right)^{1/2} \sqrt{2\pi}$.
+
+Putting this all together:
+\begin{align*}
+& = \frac{1}{\sigma_N \sigma_x \pi } \exp\left\{-\frac{1}{2 \sigma_x^2} X_{N+1}^2 - \frac{1}{2 \sigma_{N}^2} \mu_N^2 \right\} \exp \left\{\left(\frac{\sigma_x^2 + \sigma_N^2}{2\sigma_x^2\sigma_N^2} \right) \left( \frac{\sigma_x^2\mu_N + \sigma_N^2X_{N+1}}{\sigma_x^2 + \sigma_N^2} \right)^2 \right\} \left(\frac{\sigma_x^2 \sigma_N^2}{\sigma_x^2 + \sigma_N^2} \right)^{1/2} \sqrt{2\pi} \\
+& = \frac{1}{\sqrt{2 \pi (\sigma_x^2 + \sigma_N^2)} } \exp\left\{-\frac{1}{2 \sigma_x^2} X_{N+1}^2 - \frac{1}{2 \sigma_{N}^2} \mu_N^2 + \left(\frac{\sigma_x^2 + \sigma_N^2}{2\sigma_x^2\sigma_N^2} \right) \left( \frac{\sigma_x^2\mu_N + \sigma_N^2X_{N+1}}{\sigma_x^2 + \sigma_N^2} \right)^2 \right\}
+\end{align*}
+Note that from outside of the exponential, we already have the variance! (It's $\sigma_x^2 + \sigma_N^2$). If we continue the manipulation, we would get the following solution:
+\begin{equation*}
+x_{N+1} | x_1, \dotsc, x_N \sim {\rm N} \left( \frac{ \mu_0 \sigma_0^{-2} + \sigma_x^{-2} \sum_{n=1}^N{x_n}  }{\sigma_0^{-2} + N \sigma_x^{-2} },  \left[ \sigma_0^{-2} + N \sigma_x^{-2} \right]^{-1} + \sigma_x^2 \right)
+\end{equation*}
+
+\item {\em Expectations.} Sometimes we are interested in what values we should expect from a random variable (or a function of a random variable). For example, we are often interested in the average. The \gls{expval} of a random variable $X$ is $E[X] = \sum_x{xP(X=x)}$ for discrete random variables and $E[X] = \int{xp(x)dx}$ for continuous random variables. Note that sometimes we're interested in expected value of a function $f(x)$ a random variable (for example, the variance), which is $E[f(X)] = \sum_x{f(x) P(X=x)}$ for discrete random variables and $E[f(X)] = \int{f(x)p(x)dx}$. One neat trick is to represent probabilities in terms of the expectation of indicator functions. For example, the probability that a continuous random variable is between 1 and 3 can be represented as $E[I(1 \leq X \leq 3)]$. This will be used often when we discuss approximations. Here are some common expectations and properties:
+\begin{enumerate}
+	\item $E[X]$ is the mean (or average) of a random variable. 
+	\item $E[X^k]$ is sometimes called the $k$-th moment of random variable $X$.
+	\item $E[X^2]-(E[X])^2$ is the variance of a random variable.
+	\item {\em Linearity}. $E[\alpha X + \beta Y] = \alpha E[X] + \beta E[Y]$ for random variables $X$ and $Y$, and constants $\alpha$ and $\beta$.
+	\item You can also have conditional expectations (i.e., the expected value of $X$ given $Y$), which is defined in the same way and has the same properties as standard expectations except using $P(X|Y)$.
+	\item Note that if $X \sim N(\mu, \sigma^2)$, then $E[X] = \mu$. 
+\end{enumerate}
+
+\item {\em The Dirichlet-Multinomial Model} (the generalization of the Beta-Binomial Model). A common model for discrete (nominal) data is the Dirichlet-Multinomial model. According to this model, each data point is discrete-valued and takes each value with probability given by its corresponding element in a vector of probabilities $\vec{\theta}$. If there are $K$ possible discrete values, $\vec{\theta}$ has length $K$ and forms a probability distribution. This means that for each $k$, $\theta_k \geq 0$, and the sum of the elements of $\vec{\theta}$ is one -- $\sum_{k=1}^{K}{\theta_k} = 1$. So, given a probability distribution over discrete-values, the data are multinomial distributed: $\vec{x} | \vec{\theta} \sim {\rm Multinomial}(\vec{\theta})$. Lets say there were $N$ total outcomes and $x_k$ is the number of outcomes with value $k$. The form of the distribution is 
+\begin{equation*}
+P(\vec{x} | \vec{\theta}) = \frac{N!}{x_1! \ldots x_K!} \theta_1^{x_1}\ldots \theta_K^{x_K} = \frac{N!}{\prod_k{x_k!}} \prod_{k=1}^K {\theta_k^{x_k}}
+\end{equation*}
+
+The conjugate prior for the Multinomial distribution is the Dirichlet distribution (the generalization of the Beta distribution). It is a probability distribution over discrete-valued probability distributions (aka $\vec{\theta}$). It has a parameter $\alpha_k$, corresponding to each element of $\vec{\theta}$. The constraint on the parameters is $\alpha_k >0$. Sometimes $\alpha$ is a scalar, which is equivalent to setting each element of the vector to $\alpha$. The Dirichlet probability distribution is
+\begin{equation*}
+p(\vec{\theta} | \vec{\alpha}) = \frac{\Gamma \left( \sum_k{\alpha_k} \right)}{\prod_k{ \Gamma(\alpha_k)}} \prod_k \theta_k^{\alpha_k-1}.
+\end{equation*}
+
+So, the Dirichlet-multinomial model written as a generative process is $\vec{\theta} | \vec{\alpha} \sim {\rm Dirichlet}(\alpha)$ and $\vec{x} | \vec{\theta} \sim {\rm Multinomial}(\vec{\theta})$.
+
+\item Posterior update for {\em the Dirichlet-Multinomial Model} and expected value. 
+\begin{align*}
+p(\vec{\theta} | \vec{x}, \vec{\alpha}) &\propto P(\vec{x} | \vec{\theta}) p(\vec{\theta} | \vec{\alpha}) \\ 
+& \propto \prod_k {\theta_k^{x_k}} \prod_k {\theta_k^{\alpha_k-1}} = \prod_k {\theta_k^{x_k + \alpha_k -1}}
+\end{align*}
+This is the functional form for a Dirichlet distribution with parameters $\vec{x} + \vec{\alpha}$. 
+
+What is the expected proportion of $k$-valued outcomes? This is $E[\theta_k]$.
+\begin{align*}
+E[\theta_k] &  = \int {d\vec{\theta}\theta_k p(\vec{\theta})} = \int {d\vec{\theta} \theta_k \frac{\Gamma \left( \sum_i{\alpha_i} \right)}{\prod_i{ \Gamma(\alpha_i)}} \prod_i \theta_i^{\alpha_i-1}  } \\
+& = \frac{\Gamma \left( \sum_i{\alpha_i} \right)}{\prod_i{ \Gamma(\alpha_i)}} \int{d\vec{\theta} \theta_k^{\alpha_k} \prod_{i \neq k}{\theta_i^{\alpha - 1}}}
+\end{align*}
+The integral is of an unnormalized Dirichlet distribution with the same parameter $\vec{\alpha}$ but with one added to the $k$-th element. Thus, we continue with plugging in the inverted normalization constant for this Dirichlet distribution for the integral.
+\begin{align*}
+E[\theta_k] & = \frac{\Gamma \left( \sum_i{\alpha_i} \right)}{\prod_i{ \Gamma(\alpha_i)}} \frac{\Gamma(\alpha_k+1)\prod_{i\neq k}{ \Gamma(\alpha_i)}}{\Gamma \left( 1+ \sum_i{\alpha_i} \right)} = \frac{\Gamma \left( \sum_i{\alpha_i} \right)\Gamma(\alpha_k+1)\prod_{i\neq k}{ \Gamma(\alpha_i)}}{\Gamma \left( 1+ \sum_i{\alpha_i} \right) \prod_i{ \Gamma(\alpha_i)}} \\
+& = \frac{\Gamma \left( \sum_i{\alpha_i} \right) \alpha_k \Gamma(\alpha_k) \prod_{i\neq k}{ \Gamma(\alpha_i)}}{\left( \sum_i{\alpha_i}\right) \Gamma(\sum_i{\alpha_i}) \prod_i{\Gamma_i} } = \frac{\Gamma \left( \sum_i{\alpha_i} \right) \alpha_k \prod_{i}{ \Gamma(\alpha_i)}}{\left( \sum_i{\alpha_i}\right) \Gamma(\sum_i{\alpha_i}) \prod_i{\Gamma_i} } = \frac{\alpha_k}{\Gamma(\sum_i{\alpha_i})}
+\end{align*}
+\end{enumerate}
+\printglossaries
+
+\appendix
+\section{Why use Bayesian inference as a normative theory of how to update one's belief in hypotheses after observing data?}
+
+{\bf Note:} We will denote someone's belief using a function $P(\cdot)$, which reads as "the probability of " (and then whatever is in the parentheses). As we are discussing people's belief in hypotheses, we will write that as $P(h)$, which is the probability of $h$ or the belief someone has in a particular hypothesis $h$.
+\begin{enumerate}
+	\item \textsf{Cox's theorem}. If you accept the following axioms, then you should update your belief in each hypothesis $h$ about the state of the world according to Bayes' rule (to stay \gls{consistent}):
+	\begin{enumerate}
+		\item Hypotheses cannot have negative probability: $P(h) \geq 0$ for every $h$. 
+		\item There is some hypothesis that is true. $P( {\rm some \ } h {\rm \ is \ true})=1$.
+		\item If we have a \gls{countable} set of \gls{mutexc} hypotheses $H_n = \{ h_1,\dotsc, h_n\}$, \\ $P( {\rm some \ } h \in H_n {\rm \ is \ true}) = \sum_{i}^n{P(h_i)}$ 
+	\end{enumerate}
+	In sum, accepting these axioms is akin to accepting that beliefs about the state of the world can be encoded as probability distributions (Otherwise it will lead to inconsistent beliefs).\footnote{ As you may suspect there is a literature debating that {\em these} are the correct assumptions to have in philosophy. However, this will be beyond the scope of the class. Most machine learning and many artificial intelligence theorists accept Bayesian theory as the normative theory for induction.}
+	\item \textsf{Dutch books}. Assume that a person will {\em always} accept  a ``fair'' bet or better --- one whose expected financial is gain greater than or equal to zero. For example, Jane believes that there is a $2/3$ probability that Joe will show 30 or more than cat pictures by the end of the semester and a $1/3$ probability that he will show fewer than 30. She should be willing to take a bet where she loses \$1 if Joe shows 30 or more cat pictures and gets \$2 if he shows fewer. Assume there are different events in the world that could effect the odds (e.g., Joe gets sick and cannot come to class one day). If she does not assign probabilities and take bets according to Bayesian inference, it is possible to offer a combination of bets such that Jane will accept each individual bet, but no matter what (i.e., with probability 1), there is a sequence of bets where Jane is {\em guaranteed} to lose money! See the Wikipedia (\url{https://en.wikipedia.org/wiki/Dutch_book}) on Dutch books for a nice example of such a case.
+\end{enumerate}

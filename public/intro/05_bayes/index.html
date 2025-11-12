@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=46185&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -14,7 +14,7 @@ The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our belief
     <meta name="twitter:description" content="What is Bayes’ Theorem? Imagine you have a belief about the world (a hypothesis), and then you observe something new (data). Bayes’ Theorem tells you how to update your belief based on what you observed.
 Example: You believe most taxis are green. Then you see a taxi that looks blue in the fog. How should you update your belief about which color it really was?
 The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).">
-    <meta property="og:url" content="http://localhost:1313/probintro/intro/05_bayes/index.html">
+    <meta property="og:url" content="http://localhost:46185/probintro/intro/05_bayes/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Bayes&#39; Theorem: Updating Beliefs :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="What is Bayes’ Theorem? Imagine you have a belief about the world (a hypothesis), and then you observe something new (data). Bayes’ Theorem tells you how to update your belief based on what you observed.
@@ -27,29 +27,29 @@ The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our belief
     <meta itemprop="description" content="What is Bayes’ Theorem? Imagine you have a belief about the world (a hypothesis), and then you observe something new (data). Bayes’ Theorem tells you how to update your belief based on what you observed.
 Example: You believe most taxis are green. Then you see a taxi that looks blue in the fog. How should you update your belief about which color it really was?
 The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let’s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let’s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).">
-    <meta itemprop="wordCount" content="2022">
+    <meta itemprop="wordCount" content="2218">
     <title>Bayes&#39; Theorem: Updating Beliefs :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1762835441" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762835441" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762835441" defer></script>
-    <script src="/probintro/js/search-lunr.js?1762835441" defer></script>
-    <script src="/probintro/js/search.js?1762835441" defer></script>
+    <link href="/probintro/images/favicon.png?1762935862" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762935862" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762935862" defer></script>
+    <script src="/probintro/js/search-lunr.js?1762935862" defer></script>
+    <script src="/probintro/js/search.js?1762935862" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1762835441";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1762935862";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1762835441" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762835441" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1762835441" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1762835441" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1762935862" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762935862" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1762935862" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1762935862" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762835441" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762835441" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762835441" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1762835441" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1762835441" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762935862" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762935862" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762935862" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1762935862" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1762935862" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -57,7 +57,7 @@ The Formula Bayes’ Theorem (Bayes’ rule) provides a way to update our belief
       window.relearn.path='\/intro\/05_bayes\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.absBaseUri='http:\/\/localhost:46185\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -212,8 +212,8 @@ $$\Rightarrow P(H \mid D) = \frac{P(H,D)}{P(D)} = \frac{P(D \mid H) P(H)}{P(D)}$
   </div>
 </details>
 <h2 id="the-taxicab-problem">The Taxicab Problem</h2>
-<p><a href="#R-image-d2a41eb33296af138654cd18df6b7715" class="lightbox-link"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/foggy_night_collision.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-d2a41eb33296af138654cd18df6b7715"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/foggy_night_collision.png"></a></p>
+<p><a href="#R-image-bb5c0720070e0813b154b564867e68de" class="lightbox-link"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/foggy_night_collision.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-bb5c0720070e0813b154b564867e68de"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/foggy_night_collision.png"></a></p>
 <p>In Chibany&rsquo;s hometown, there are two taxi companies: the Green <i class="fa-fw fas fa-taxi cstyle green"></i> and the Blue <i class="fa-fw fas fa-taxi cstyle blue"></i>. All Green company&rsquo;s taxis are painted green <i class="fa-fw fas fa-taxi cstyle green"></i> and all the Blue company&rsquo;s taxis are painted blue <i class="fa-fw fas fa-taxi cstyle blue"></i>.</p>
 <p>85% of the town&rsquo;s taxis work for the Green <i class="fa-fw fas fa-taxi cstyle green"></i> company. So 15% of the town&rsquo;s taxis work for the Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> company.</p>
 <p>Late one foggy evening, Chibany saw a cab perform a hit-and-run (hit another car and leave without providing any information). Chibany saw a Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> taxi!</p>
@@ -363,6 +363,75 @@ The correct answer is <strong>41%</strong>, but most people think it is closer t
 <p><strong>It makes Chibany happy</strong>: And that&rsquo;s what really matters!</p>
 </li>
 </ol>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    💻 See This in Code
+  </summary>
+  <div class="box-content">
+<p><strong>In GenJAX</strong>, Bayes&rsquo; Theorem becomes <strong>automatic</strong>! You don&rsquo;t calculate posteriors by hand — you:</p>
+<ol>
+<li><strong>Define the generative model</strong> (prior + likelihood)</li>
+<li><strong>Specify observations</strong> (data)</li>
+<li><strong>Let GenJAX compute</strong> the posterior</li>
+</ol>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">taxicab_model</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Prior: 85% green taxis</span>
+</span></span><span style="display:flex;"><span>    is_blue <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;true_color&#34;</span>  <span style="color:#75715e"># 1=blue, 0=green</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Likelihood: Chibany&#39;s accuracy (80%)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_blue:
+</span></span><span style="display:flex;"><span>        reported_blue <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.80</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;reported&#34;</span>  <span style="color:#75715e"># P(report blue | is blue)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        reported_blue <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.20</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;reported&#34;</span>  <span style="color:#75715e"># P(report blue | is green)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_blue
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Observe: Chibany reported blue</span>
+</span></span><span style="display:flex;"><span>observations <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;reported&#34;</span>: <span style="color:#ae81ff">1</span>})  <span style="color:#75715e"># 1 = reported blue</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Posterior inference (automatic Bayes&#39; Theorem!)</span>
+</span></span><span style="display:flex;"><span>target <span style="color:#f92672">=</span> Target(taxicab_model, (), observations)
+</span></span><span style="display:flex;"><span>trace, log_weight <span style="color:#f92672">=</span> target<span style="color:#f92672">.</span>importance(key, ChoiceMap<span style="color:#f92672">.</span>empty())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># trace now samples from P(true_color | reported=blue)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This is the posterior! GenJAX did all the Bayes&#39; rule math.</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>The principle is identical</strong> — update beliefs with evidence. But GenJAX handles all the formula manipulation!</p>
+<p><a href="../../genjax/05_bayesian_learning/">→ See Bayesian learning in Tutorial 2, Chapter 5</a></p>
+<p><a href="../../intro2/04_bayesian_gaussian/">→ See advanced Bayesian inference in Tutorial 3, Chapter 4</a></p>
+<p><strong>Try it yourself:</strong> <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/bayesian_learning.ipynb" rel="external" target="_blank">Open Interactive Colab Notebook</a></p>
+  </div>
+</details>
 <h3 id="transfer-additional-practice-questions">Transfer additional practice questions</h3>
 <ul>
 <li>
@@ -449,14 +518,9 @@ The correct answer is <strong>41%</strong>, but most people think it is closer t
             <li class="active " data-nav-id="/probintro/intro/05_bayes/index.html"><a class="padding" href="/probintro/intro/05_bayes/index.html">Bayes&#39; Theorem: Updating Beliefs</a></li>
             <li class="" data-nav-id="/probintro/intro/06_glossary/index.html"><a class="padding" href="/probintro/intro/06_glossary/index.html">Glossary</a></li>
             <li class="" data-nav-id="/probintro/intro/07_ack/index.html"><a class="padding" href="/probintro/intro/07_ack/index.html">Acknowledgements</a></li></ul></li>
-            <li class="" data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
             <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
-            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
-            <li class="" data-nav-id="/probintro/intro2/02_continuous/index.html"><a class="padding" href="/probintro/intro2/02_continuous/index.html">The Continuum: Continuous Probability</a></li>
-            <li class="" data-nav-id="/probintro/intro2/03_gaussian/index.html"><a class="padding" href="/probintro/intro2/03_gaussian/index.html">The Gaussian Distribution</a></li>
-            <li class="" data-nav-id="/probintro/intro2/04_bayesian_learning/index.html"><a class="padding" href="/probintro/intro2/04_bayesian_learning/index.html">Bayesian Learning with Gaussians</a></li>
-            <li class="" data-nav-id="/probintro/intro2/05_mixture_models/index.html"><a class="padding" href="/probintro/intro2/05_mixture_models/index.html">Gaussian Mixture Models</a></li>
-            <li class="" data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li>
+            <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
+            <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -485,23 +549,23 @@ The correct answer is <strong>41%</strong>, but most people think it is closer t
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762835441"></script>
-    <script src="/probintro/js/js-yaml/js-yaml.min.js?1762835441" defer></script>
-    <script src="/probintro/js/d3/d3-color.min.js?1762835441" defer></script>
-    <script src="/probintro/js/d3/d3-dispatch.min.js?1762835441" defer></script>
-    <script src="/probintro/js/d3/d3-drag.min.js?1762835441" defer></script>
-    <script src="/probintro/js/d3/d3-ease.min.js?1762835441" defer></script>
-    <script src="/probintro/js/d3/d3-interpolate.min.js?1762835441" defer></script>
-    <script src="/probintro/js/d3/d3-selection.min.js?1762835441" defer></script>
-    <script src="/probintro/js/d3/d3-timer.min.js?1762835441" defer></script>
-    <script src="/probintro/js/d3/d3-transition.min.js?1762835441" defer></script>
-    <script src="/probintro/js/d3/d3-zoom.min.js?1762835441" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762935862"></script>
+    <script src="/probintro/js/js-yaml/js-yaml.min.js?1762935862" defer></script>
+    <script src="/probintro/js/d3/d3-color.min.js?1762935862" defer></script>
+    <script src="/probintro/js/d3/d3-dispatch.min.js?1762935862" defer></script>
+    <script src="/probintro/js/d3/d3-drag.min.js?1762935862" defer></script>
+    <script src="/probintro/js/d3/d3-ease.min.js?1762935862" defer></script>
+    <script src="/probintro/js/d3/d3-interpolate.min.js?1762935862" defer></script>
+    <script src="/probintro/js/d3/d3-selection.min.js?1762935862" defer></script>
+    <script src="/probintro/js/d3/d3-timer.min.js?1762935862" defer></script>
+    <script src="/probintro/js/d3/d3-transition.min.js?1762935862" defer></script>
+    <script src="/probintro/js/d3/d3-zoom.min.js?1762935862" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js" defer></script>
     <script>
       window.relearn.themeUseMermaid = JSON.parse("{\n      \"startOnLoad\": true,\n      \"theme\": \"base\",\n      \"securityLevel\": \"loose\",\n      \"themeVariables\": {\n        \"primaryColor\": \"#fff\",\n        \"primaryTextColor\": \"#000\",\n        \"primaryBorderColor\": \"#000\",\n        \"lineColor\": \"#000\",\n        \"secondaryColor\": \"#fff\",\n        \"tertiaryColor\": \"#fff\"\n      },\n      \"flowchart\": {\n        \"htmlLabels\": true,\n        \"curve\": \"basis\"\n      },\n      \"block\": {\n        \"padding\": 8\n      }\n    }");
     </script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1762835441" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762835441" defer></script>
-    <script src="/probintro/js/theme.js?1762835441" defer></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1762935862" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762935862" defer></script>
+    <script src="/probintro/js/theme.js?1762935862" defer></script>
   </body>
 </html>

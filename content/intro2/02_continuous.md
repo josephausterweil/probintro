@@ -45,6 +45,30 @@ This worked because there were finitely many outcomes:
 
 This seems wrong. Chibany definitely observed 505g. How can something that happened have zero probability?
 
+{{% notice style="info" title="📘 Foundation Concept: From Counting to Measuring" %}}
+**Remember from Tutorial 1** that probability started with **counting**:
+
+$$P(A) = \frac{|A|}{|\Omega|} = \frac{\text{outcomes in event}}{\text{total outcomes}}$$
+
+This worked perfectly for **discrete** outcomes like {hamburger, tonkatsu} because:
+- We could **count** the outcomes (|Ω| = 2)
+- Each outcome got equal "share" of probability (1/2 each)
+- The formula made intuitive sense
+
+**But with continuous variables** like weight, we can't count outcomes:
+- Infinitely many possible values between 340g and 520g
+- Can't divide by infinity (|Ω| = ∞)
+- The counting formula breaks down
+
+**The key transition**: Instead of **counting discrete outcomes**, we'll **measure continuous areas**. The logic stays the same (favorable / total), but:
+- **Discrete**: Count outcomes → divide by total count
+- **Continuous**: Measure area → divide by total area
+
+**Chibany's realization**: "I need a new tool for this new type of problem, but the core idea of probability hasn't changed!"
+
+[← Review counting approach in Tutorial 1, Chapter 3](../../intro/03_prob_count/)
+{{% /notice %}}
+
 ## The Resolution: Probability Density
 
 The solution is to stop asking about **exact values** and start asking about **ranges**.
