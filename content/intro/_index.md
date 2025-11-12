@@ -27,6 +27,27 @@ By following Chibany's journey, you'll discover:
 - **How to avoid common misconceptions** — through classic puzzles that trip up even experts
 - **The foundation for probabilistic computing** — the mental models that make code-based approaches make sense
 
+### Learning Path
+
+Here's your journey through probability fundamentals:
+
+```mermaid
+graph LR
+    A[1. Goals] --> B[2. Chibany's Hungry]
+    B --> C[3. Probability & Counting]
+    C --> D[4. Conditional Probability]
+    D --> E[5. Bayes' Theorem]
+    E --> F[6. Glossary]
+
+    style C fill:#e1f5ff
+    style D fill:#e1f5ff
+    style E fill:#e1f5ff
+
+    classDef foundation fill:#e1f5ff,stroke:#333,stroke-width:2px
+```
+
+**Core Concepts** (blue): The three foundational chapters that build your probability intuition.
+
 ### Why the set-based perspective?
 
 Most probability courses jump straight into formulas and rules. This tutorial takes a different approach: **probability is fancy counting**.

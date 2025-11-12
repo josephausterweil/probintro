@@ -25,6 +25,29 @@ In Tutorial 1, Chibany's lunch choices were **discrete**: tonkatsu OR hamburger.
 
 These aren't discrete choices. They're **continuous values** that can fall anywhere on a number line!
 
+## Learning Path
+
+Here's your journey into continuous probability and Bayesian learning:
+
+```mermaid
+graph TB
+    A[1. Mystery Bentos] --> B[2. Continuous Probability]
+    B --> C[3. Gaussian Distribution]
+    C --> D[4. Bayesian Learning]
+    D --> E[5. Mixture Models]
+    E --> F[6. Dirichlet Process]
+
+    style B fill:#e8f5e8
+    style D fill:#e8f5e8
+    style E fill:#e8f5e8
+
+    classDef foundational fill:#e8f5e8,stroke:#333,stroke-width:2px
+```
+
+**Foundational Chapters** (green): Core continuous probability concepts—PDFs, Bayesian updating, and mixture models.
+
+**Prerequisites**: Complete Tutorial 1 (Probability) and Tutorial 2 (GenJAX) before starting here.
+
 ## What You'll Learn
 
 This tutorial builds directly on GenJAX (Tutorial 2) to explore:
