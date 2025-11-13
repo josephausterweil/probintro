@@ -1,36 +1,65 @@
 /* Custom color overrides for probintro tutorial */
 /* Change navigation header from green to SDS/JPCCA blue */
 
+/* Override CSS variables at root level */
 :root {
-    --MAIN-THEME-color: #1565c0; /* SDS/JPCCA blue - replaces default green */
-    --MAIN-BG-color: #1565c0; /* Background for header */
+    --MAIN-THEME-color: #1565c0 !important; /* SDS/JPCCA blue - replaces default green */
+    --MAIN-BG-color: #1565c0 !important; /* Background for header */
+    --MENU-SECTIONS-BG-color: #1565c0 !important;
+    --MENU-SECTIONS-ACTIVE-BG-color: #0d47a1 !important;
+    --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #0d47a1 !important;
+    --MENU-HOME-LINK-color: #ffffff !important;
+    --MENU-HOME-LINK-HOVER-color: #ffffff !important;
 }
 
 /* Override specific header elements */
-#header-wrapper {
+#header-wrapper,
+#header-wrapper * {
     background-color: #1565c0 !important;
 }
 
-#header {
+#header,
+#header * {
     background-color: #1565c0 !important;
 }
 
-/* Logo area background */
-#logo {
+/* Logo area background - top left corner */
+#logo,
+#logo *,
+.logo {
     background-color: #1565c0 !important;
 }
 
 /* Sidebar background */
-#sidebar {
+#sidebar,
+#sidebar *,
+aside#sidebar {
+    background-color: #1565c0 !important;
+}
+
+/* Menu sections */
+.menu-section,
+#navigation,
+#content-wrapper #sidebar #header-wrapper {
     background-color: #1565c0 !important;
 }
 
 /* Active menu item */
-.menu-item.active {
+.menu-item.active,
+#sidebar .menu-item.active {
     background-color: #0d47a1 !important; /* Darker blue for active state */
 }
 
 /* Menu item hover */
-.menu-item:hover {
+.menu-item:hover,
+#sidebar .menu-item:hover {
     background-color: #0d47a1 !important; /* Darker blue for hover */
+}
+
+/* Top navigation bar */
+nav,
+.topbar,
+#top-github-link,
+#top-bar {
+    background-color: #1565c0 !important;
 }

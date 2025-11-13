@@ -33,27 +33,27 @@ The Generative Process Each day:
 Lunch arrives — randomly H or T (equal probability) Dinner arrives — randomly H or T (equal probability) Record the day — the pair of meals In GenJAX, we express this as a generative function.">
     <meta itemprop="wordCount" content="1629">
     <title>Your First GenJAX Model :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763014990" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763014990" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763014990" defer></script>
-    <script src="/probintro/js/search-lunr.min.js?1763014990" defer></script>
-    <script src="/probintro/js/search.min.js?1763014990" defer></script>
+    <link href="/probintro/images/favicon.png?1763015143" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763015143" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763015143" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1763015143" defer></script>
+    <script src="/probintro/js/search.min.js?1763015143" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763014990";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763015143";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763014990" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763014990" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763014990" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763014990" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763015143" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763015143" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763015143" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763015143" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763014990" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763014990" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763014990" rel="stylesheet">
-    <link href="/probintro/css/theme.min.css?1763014990" rel="stylesheet">
-    <link href="/probintro/css/format-html.min.css?1763014990" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763015143" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763015143" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763015143" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1763015143" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1763015143" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -80,7 +80,7 @@ Lunch arrives — randomly H or T (equal probability) Dinner arrives — randoml
       window.T_No_results_found = `No results found for "{0}"`;
       window.T_N_results_found = `{1} results found for "{0}"`;
       // variant stuff
-      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.themevariants = [ 'relearn-light' ];
       window.relearn.customvariantname = "my-custom-variant";
       window.relearn.changeVariant = function(variant) {
         var oldVariant = document.documentElement.dataset.rThemeVariant;
@@ -198,8 +198,8 @@ Lunch arrives — randomly H or T (equal probability) Dinner arrives — randoml
 <h2 id="from-sets-to-simulation">From Sets to Simulation</h2>
 <p>Remember Chibany&rsquo;s daily meals? We listed out the outcome space $\Omega = \{HH, HT, TH, TT\}$ and counted possibilities.</p>
 <p>Now we&rsquo;ll teach a computer to <strong>generate</strong> those outcomes instead!</p>
-<p><a href="#R-image-422dd4b3d644436f565eaf427198050a" class="lightbox-link"><img alt="Chibany laying down" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-422dd4b3d644436f565eaf427198050a"><img alt="Chibany laying down" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-5b95f2fa6f60e2a775d0462a07b3468b" class="lightbox-link"><img alt="Chibany laying down" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-5b95f2fa6f60e2a775d0462a07b3468b"><img alt="Chibany laying down" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="the-generative-process">The Generative Process</h2>
 <p>Each day:</p>
@@ -911,9 +911,9 @@ P(at least one tonkatsu) ≈ 0.749</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763014990"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763014990" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763014990" defer></script>
-    <script src="/probintro/js/theme.min.js?1763014990" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763015143"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763015143" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763015143" defer></script>
+    <script src="/probintro/js/theme.min.js?1763015143" defer></script>
   </body>
 </html>
