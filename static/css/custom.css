@@ -1,72 +1,22 @@
 /* Custom color overrides for probintro tutorial */
 /* Change sidebar and header from green to SDS/JPCCA blue */
 
-/* Target the actual IDs used by hugo-theme-relearn (they have R- prefix) */
-
-/* The entire sidebar including the green header area with title and search */
-#R-sidebar {
-    background-color: #1565c0 !important;
-}
-
-/* The header wrapper containing title and search bar - THIS IS THE TOP LEFT GREEN AREA */
-#R-header-wrapper,
-#R-header-topbar {
-    background-color: #1565c0 !important;
-}
-
-/* The header itself */
-#R-header {
-    background-color: #1565c0 !important;
-}
-
-/* The logo/title area */
-#R-logo {
-    background-color: #1565c0 !important;
-}
-
-/* All homelinks and menu sections */
-#R-homelinks,
-.R-sidebarmenu,
-.R-shortcutmenu-homelinks,
-.R-shortcutmenu-headercontrols {
-    background-color: #1565c0 !important;
-}
-
-/* Menu dividers and HR lines */
-.R-menu-divider,
-.R-menu-divider hr {
-    background-color: #1565c0 !important;
-    border-color: #0d47a1 !important;
-}
-
-/* Search box */
-.searchbox {
-    background-color: #1565c0 !important;
-}
-
-/* Menu items */
-.R-sidebarmenu ul li,
-.R-sidebarmenu ul li a {
-    background-color: #1565c0 !important;
-}
-
-/* Active menu items - darker blue */
-.R-sidebarmenu ul li.active,
-.R-sidebarmenu ul li.active > a {
-    background-color: #0d47a1 !important;
-}
-
-/* Hover states - darker blue */
-.R-sidebarmenu ul li:hover,
-.R-sidebarmenu ul li a:hover {
-    background-color: #0d47a1 !important;
-}
-
-/* Override CSS variables as well */
+/* Override the CSS variables that control the header and sidebar colors */
 :root {
-    --MAIN-THEME-color: #1565c0 !important;
-    --MAIN-BG-color: #1565c0 !important;
-    --MENU-HOME-LINK-color: #1565c0 !important;
+    /* PRIMARY-color controls the header background (top-left green area) */
+    --PRIMARY-color: #1565c0 !important;
+
+    /* MENU-HEADER-BG-color is used by --INTERNAL-MENU-HEADER-BG-color */
+    --MENU-HEADER-BG-color: #1565c0 !important;
+
+    /* MENU-SECTIONS-BG-color is used by --INTERNAL-MENU-SECTIONS-BG-color for sidebar */
     --MENU-SECTIONS-BG-color: #1565c0 !important;
+
+    /* Active/hover states */
     --MENU-SECTION-ACTIVE-CATEGORY-color: #0d47a1 !important;
+    --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #0d47a1 !important;
+
+    /* Additional related variables */
+    --MENU-HOME-LINK-color: #1565c0 !important;
+    --MENU-HOME-LINK-HOVER-color: #0d47a1 !important;
 }
