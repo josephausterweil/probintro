@@ -46,6 +46,23 @@ def chibany_day():
     return (lunch_is_tonkatsu, dinner_is_tonkatsu)
 ```
 
+{{% notice style="success" title="📐→💻 Math-to-Code Translation" %}}
+**How mathematical concepts translate to GenJAX:**
+
+| Math Concept | Mathematical Notation | GenJAX Code |
+|--------------|----------------------|-------------|
+| **Outcome Space** | $\Omega = \\{HH, HT, TH, TT\\}$ | `@gen def chibany_day(): ...` |
+| **Random Variable** | $X \sim \text{Bernoulli}(0.5)$ | `bernoulli(0.5) @ "lunch"` |
+| **Probability** | $P(A) = \frac{\|A\|}{\|\Omega\|}$ | `jnp.mean(condition_satisfied)` |
+| **Event** | $A = \\{HT, TH, TT\\}$ | `has_tonkatsu = (days[:, 0] == 1) \| (days[:, 1] == 1)` |
+
+**Key insights:**
+- **@gen function** = Generative process defining Ω
+- **bernoulli(p)** = Random variable with probability p
+- **@ "name"** = Label the random choice (for inference later)
+- **Simulation + counting** = Computing probabilities
+{{% /notice %}}
+
 ### Breaking It Down
 
 **Line 1: `@gen`**

@@ -97,6 +97,27 @@ More advanced methods that we'll explore in Chapter 5. These are more efficient 
 
 **This chapter focuses on Approach 1 and 2** — the most intuitive methods.
 
+{{% notice style="success" title="📐→💻 Math-to-Code Translation" %}}
+**How conditional probability translates to GenJAX:**
+
+| Math Concept | Mathematical Notation | GenJAX Code |
+|--------------|----------------------|-------------|
+| **Conditional Probability** | $P(A \mid B)$ | `Target(model, (), observations)` |
+| **Observation** | $B$ = "dinner is T" | `ChoiceMap.d({"dinner": 1})` |
+| **Query** | $A$ = "lunch is T" | Check `trace["lunch"] == 1` |
+| **Restriction** | Cross out outcomes where $B$ is false | Filter traces or use `Target` |
+
+**The three approaches:**
+
+| Approach | Math Equivalent | GenJAX Implementation |
+|----------|----------------|----------------------|
+| **1. Filtering** | Keep only outcomes in $B$, count $A$ | `traces[condition]` + count |
+| **2. ChoiceMap** | Specify $B$ directly | `Target(model, (), observations)` |
+| **3. Inference** | Weighted sampling from $P(A\mid B)$ | `target.importance(key, ...)` |
+
+**Key insight:** All three compute the same conditional probability—they just differ in efficiency and how explicitly you specify the condition.
+{{% /notice %}}
+
 ---
 
 ## Approach 1: Filtering Simulations

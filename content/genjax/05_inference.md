@@ -110,6 +110,41 @@ $$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
 [← Review Bayes' Theorem in Tutorial 1, Chapter 5](../../intro/05_bayes/)
 {{% /notice %}}
 
+{{% notice style="success" title="📐→💻 Math-to-Code Translation" %}}
+**How Bayesian inference translates to GenJAX:**
+
+| Math Concept | Mathematical Notation | GenJAX Code |
+|--------------|----------------------|-------------|
+| **Prior** | $P(H)$ | `bernoulli(0.15) @ "is_blue"` |
+| **Likelihood** | $P(E \mid H)$ | `if is_blue: bernoulli(0.80)` |
+| **Evidence** | $P(E)$ | GenJAX computes automatically |
+| **Posterior** | $P(H \mid E) = \frac{P(E \mid H) P(H)}{P(E)}$ | Result of conditioning |
+| **Observation** | $E$ = "says blue" | `ChoiceMap({"says_blue": 1})` |
+| **Inference Query** | $P(\text{is\_blue} \mid \text{says\_blue})$ | `mean(posterior_samples)` |
+
+**Three equivalent inference approaches:**
+
+| Approach | Mathematical Idea | GenJAX Implementation |
+|----------|------------------|----------------------|
+| **1. Filtering** | Sample from joint, keep only matching $E$ | Filter traces where `says_blue == 1` |
+| **2. generate()** | Direct sampling from $P(H \mid E)$ | `model.generate(key, args, observations)` |
+| **3. importance()** | Weighted sampling | `target.importance(key, n_particles)` |
+
+**Key insights:**
+- **Generative model = Prior + Likelihood** — The @gen function encodes both
+- **Conditioning = Computing posterior** — GenJAX does the Bayes' theorem math
+- **All three methods compute the same thing** — They just differ in efficiency
+- **Base rates matter!** — Prior P(H) heavily influences posterior P(H|E)
+
+**Example: Taxicab problem**
+```
+Math: P(Blue | says Blue) = ?
+Code: observation = ChoiceMap({"says_blue": 1})
+      posterior_samples = [model.generate(..., observation) for _ in range(n)]
+      P(Blue | says Blue) ≈ mean(posterior_samples)
+```
+{{% /notice %}}
+
 ---
 
 ## Approach 1: Filtering (Rejection Sampling)
