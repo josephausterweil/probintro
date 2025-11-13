@@ -82,11 +82,11 @@ graph TB
     E --> F[5. Inference]
     F --> G[6. Building Models]
 
-    style C fill:#fff4e1
-    style E fill:#fff4e1
-    style F fill:#fff4e1
+    style C fill:#f39c12
+    style E fill:#f39c12
+    style F fill:#f39c12
 
-    classDef core fill:#fff4e1,stroke:#333,stroke-width:2px
+    classDef core fill:#f39c12,stroke:#333,stroke-width:2px,color:#fff
 ```
 
 **Core Chapters** (yellow): The essential GenJAX concepts—generative models, conditioning, and inference.

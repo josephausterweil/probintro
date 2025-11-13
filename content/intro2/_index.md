@@ -37,11 +37,11 @@ graph TB
     D --> E[5. Mixture Models]
     E --> F[6. Dirichlet Process]
 
-    style B fill:#e8f5e8
-    style D fill:#e8f5e8
-    style E fill:#e8f5e8
+    style B fill:#27ae60
+    style D fill:#27ae60
+    style E fill:#27ae60
 
-    classDef foundational fill:#e8f5e8,stroke:#333,stroke-width:2px
+    classDef foundational fill:#27ae60,stroke:#333,stroke-width:2px,color:#fff
 ```
 
 **Foundational Chapters** (green): Core continuous probability concepts—PDFs, Bayesian updating, and mixture models.

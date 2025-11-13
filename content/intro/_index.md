@@ -39,11 +39,11 @@ graph LR
     D --> E[5. Bayes' Theorem]
     E --> F[6. Glossary]
 
-    style C fill:#e1f5ff
-    style D fill:#e1f5ff
-    style E fill:#e1f5ff
+    style C fill:#4a9eff
+    style D fill:#4a9eff
+    style E fill:#4a9eff
 
-    classDef foundation fill:#e1f5ff,stroke:#333,stroke-width:2px
+    classDef foundation fill:#4a9eff,stroke:#333,stroke-width:2px,color:#fff
 ```
 
 **Core Concepts** (blue): The three foundational chapters that build your probability intuition.
