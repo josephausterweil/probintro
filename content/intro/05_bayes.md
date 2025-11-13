@@ -18,10 +18,10 @@ Bayes Theorem tells us to update our beliefs in hypothesis $h$ being the way the
 $$P(H=h \mid D = d) = \frac{P(D=d\mid H=h) P(H=h)}{P(D=d)}$$
 
 where:
-- $P(H=h \mid D=d)$ is called the **posterior** — our updated belief after seeing the data
-- $P(D=d \mid H=h)$ is called the **likelihood** — the probability of observing $d$ given $h$ is the true hypothesis for how the world works
-- $P(H=h)$ is called the **prior** — how likely it is that $h$ is the way the world works before seeing any data
-- $P(D=d)$ is called the **evidence** or **marginal likelihood** — the total probability of observing $d$ across all hypotheses
+- $P(H=h \mid D=d)$ is called the **posterior**: our updated belief after seeing the data
+- $P(D=d \mid H=h)$ is called the **likelihood**: the probability of observing $d$ given $h$ is the true hypothesis for how the world works
+- $P(H=h)$ is called the **prior**: how likely it is that $h$ is the way the world works before seeing any data
+- $P(D=d)$ is called the **evidence** or **marginal likelihood**: the total probability of observing $d$ across all hypotheses
 
 {{% notice style="info" title="Understanding the Terms" %}}
 - **Prior** = What you believed before seeing data
@@ -159,8 +159,8 @@ $$P(X=B \mid W=B) = \frac{0.8 \times 0.15 }{0.8 \times 0.15 + 0.2 \times 0.85} =
 Let's identify each component:
 
 **Numerator (likelihood × prior):**
-- Likelihood: $P(W=B \mid X=B) = 0.8$ — "If it's blue, I'll probably say blue"
-- Prior: $P(X=B) = 0.15$ — "Blue taxis are rare"
+- Likelihood: $P(W=B \mid X=B) = 0.8$: "If it's blue, I'll probably say blue"
+- Prior: $P(X=B) = 0.15$: "Blue taxis are rare"
 - Product: $0.8 \times 0.15 = 0.12$
 
 **Denominator (total evidence):**
@@ -168,7 +168,7 @@ Let's identify each component:
 - Green BUT reported blue: $0.2 \times 0.85 = 0.17$
 - Total: $0.12 + 0.17 = 0.29$
 
-**Posterior:** $\frac{0.12}{0.29} \approx 0.41$ — Only 41% chance it's actually blue!
+**Posterior:** $\frac{0.12}{0.29} \approx 0.41$: Only 41% chance it's actually blue!
 {{% /notice %}}
 
 ### Why Learn the Set-Based Perspective to Probability Theory?
@@ -183,7 +183,7 @@ Here are some reasons:
 
 3. **Forces representation thinking**: It requires you to think about how events and outcomes are represented. This can be obscured at times when thinking about probabilities from the rule-based perspective.
 
-4. **Formal equivalence**: The set-based and formula-based approaches are formally equivalent — they always give the same answer.
+4. **Formal equivalence**: The set-based and formula-based approaches are formally equivalent: they always give the same answer.
 
 5. **It's more intuitive**: For many people (including this tutorial's author!), visualizing and counting feels more natural than manipulating symbols.
 
@@ -192,7 +192,7 @@ Here are some reasons:
 7. **It makes Chibany happy**: And that's what really matters!
 
 {{% notice style="tip" title="💻 See This in Code" %}}
-**In GenJAX**, Bayes' Theorem becomes **automatic**! You don't calculate posteriors by hand — you:
+**In GenJAX**, Bayes' Theorem becomes **automatic**! You don't calculate posteriors by hand: you:
 
 1. **Define the generative model** (prior + likelihood)
 2. **Specify observations** (data)
@@ -228,7 +228,7 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 
 </details>
 
-**The principle is identical** — update beliefs with evidence. But GenJAX handles all the formula manipulation!
+**The principle is identical**: update beliefs with evidence. But GenJAX handles all the formula manipulation!
 
 [→ See Bayesian learning in Tutorial 2, Chapter 5](../../genjax/05_bayesian_learning/)
 
@@ -248,11 +248,11 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 
 In this chapter, we tackled one of the most important tools in probability:
 
-- **Bayes' Theorem** — How to update beliefs with new evidence
-- **The taxicab problem** — Why base rates matter
-- **Two solution methods** — Visualization vs. formula
-- **Base-rate neglect** — A common reasoning error
-- **Why set-based thinking helps** — Making abstract concepts concrete
+- **Bayes' Theorem**: How to update beliefs with new evidence
+- **The taxicab problem**: Why base rates matter
+- **Two solution methods**: Visualization vs. formula
+- **Base-rate neglect**: A common reasoning error
+- **Why set-based thinking helps**: Making abstract concepts concrete
 
 You now have all the core tools of probability theory! The next chapter summarizes key definitions, and then you'll be ready for advanced topics.
 
