@@ -3,6 +3,22 @@ title = "Conditional probability as changing the possible outcomes"
 weight = 4
 +++
 
+## The Big Question
+
+**Have you ever changed your mind about something after learning new information?**
+
+Of course you have! That's what conditional probability is all about: *how new knowledge changes what we believe is possible.*
+
+**In this chapter, you'll discover:**
+- How learning something restricts the outcome space
+- When events influence each other (dependence)
+- How to calculate probabilities when possibilities have different weights
+- Why your first intuition about conditional probability is often wrong!
+
+Ready for some surprising results? Let's see what Chibany learns about dinner...
+
+---
+
 ## Chibany wants a tonkatsu dinner
 
 A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chibany that he knows that there will be at least one tonkatsu in tomorrow's offering. Chibany is excited. He wants to know how likely it is that the second meal is a Tonkatsu. He quizzes Tanaka-san. Tanaka-san says it's just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says "I learned something because I know I will get at least one tonkatsu". Also, Chibany is an optimist and deserves to have all the tonkatsu. Who's right!? Let's check the chart...
@@ -24,6 +40,14 @@ block-beta
 ```
 
 In the case where there is at least one tonkatsu, the space of possible outcomes is $\\{HT, TH, TT\\}$, which is outlined in blue. The event of interest for Chibany is outlined in red. It turns out Chibany is right! There is a two in three chance that he gets a tonkatsu dinner. That's larger than one in two.
+
+{{% notice style="warning" title="Common Pitfall: The Intuition Trap" %}}
+**Many students (and Tanaka-san!) think**: "If each meal is 50/50, learning about one meal shouldn't change the other. So it's still 1/2, right?"
+
+**Why this is wrong**: Learning "at least one T" doesn't just tell you about one specific meal—it **eliminates the HH outcome entirely**. When you cross out HH from the outcome space, you're left with {HT, TH, TT}, and now 2 out of 3 have T for dinner!
+
+**The key insight**: Conditional probability isn't about one event influencing another—it's about **restricting what's possible**. Once you know "at least one T", HH is impossible, which changes all the remaining probabilities.
+{{% /notice %}}
 
 Chibany kindly reminds Tanaka-san that you never stop learning and to consider taking one of Joe's classes at Chiba Tech. Chibany hears great things about them!
 
@@ -130,6 +154,22 @@ $$P(A \mid B) = P(A)$$
 In words: "Learning $B$ happened doesn't change the probability of $A$"
 
 Equivalently: $P(A, B) = P(A) \times P(B)$ (we'll see why in the next section!)
+{{% /notice %}}
+
+{{% notice style="note" title="Why This Matters: Real-World Applications" %}}
+**Conditional probability is everywhere in daily life:**
+
+**Medicine**: "What's the probability I have the disease *given that* I tested positive?" (More on this in the next chapter—prepare for a surprise!)
+
+**Machine Learning**: Recommendation systems ask "What movies will you like *given that* you liked these other movies?"
+
+**Weather**: "What's the probability of rain tomorrow *given that* it's cloudy today?"
+
+**Finance**: "What's the probability the stock goes up *given that* interest rates just fell?"
+
+**Law**: "What's the probability of guilt *given* the evidence presented?"
+
+Every time you update your beliefs based on new information, you're using conditional probability—even if you don't realize it! Understanding dependence vs. independence helps you reason correctly about whether new information should change your mind.
 {{% /notice %}}
 
 ## Marginal and joint probabilities
@@ -273,17 +313,30 @@ Since $0.53 \neq 0.19$, the events **are dependent**! Learning about the second 
 
 ---
 
-## What We've Learned
+## What You've Mastered
 
-This chapter covered some of the most important concepts in probability:
+**Congratulations!** You've just learned one of the most powerful concepts in all of probability. Let's recap what you can now do:
 
-- **Conditional probability as restriction**: Learning changes what's possible
-- **Independence vs. dependence**: Whether events influence each other
-- **Marginal vs. joint probability**: Different ways to think about the same event
-- **The sum rule**: Marginalizing out variables
-- **Weighted counting**: Handling unequal probabilities
+✅ **Calculate conditional probabilities** by restricting the outcome space
+✅ **Recognize dependence vs. independence** between events
+✅ **Work with marginal and joint probabilities** and understand their connection
+✅ **Apply the sum rule** to marginalize out variables
+✅ **Handle weighted probabilities** when outcomes aren't equally likely
+✅ **Avoid the common trap** of thinking independence means "events don't affect each other"
 
-These tools will be essential for Bayes' rule in the next chapter!
+**You now have the tools to:**
+- Update beliefs when you learn new information
+- Recognize when two events truly influence each other
+- Calculate probabilities in complex scenarios with unequal weights
+
+## Coming Up Next: The Big Surprise
+
+In the next chapter, you'll see conditional probability in action through **Bayes' theorem**. You'll discover:
+- Why a positive medical test doesn't always mean what you think
+- How the famous Taxicab Problem stumps even experts
+- Why base rates matter more than most people realize
+
+**Spoiler alert**: Your intuition will be wrong, and that's exactly what makes it fascinating! 🤯
 
 ---
 

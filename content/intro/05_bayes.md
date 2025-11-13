@@ -3,6 +3,22 @@ title = "Bayes' Theorem: Updating Beliefs"
 weight = 5
 +++
 
+## The Most Surprising Result in Probability
+
+**Prepare to have your intuition completely shattered.** 🤯
+
+You're about to discover why a positive medical test doesn't mean what you think, why eyewitness testimony is less reliable than you expect, and why one of the most famous problems in probability stumps even experts.
+
+**In this chapter, you'll learn:**
+- How Bayes' theorem updates beliefs with evidence
+- Why base rates matter more than accuracy
+- How to avoid the cognitive trap that catches almost everyone
+- Why your first answer to the Taxicab Problem is almost certainly wrong!
+
+**Fair warning**: After this chapter, you'll question your intuition about probabilities forever. Ready? Let's meet Chibany on a foggy night...
+
+---
+
 ## What is Bayes' Theorem?
 
 Imagine you have a **belief** about the world (a hypothesis), and then you **observe** something new (data). Bayes' Theorem tells you how to **update your belief** based on what you observed.
@@ -237,6 +253,22 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 **Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/bayesian_learning.ipynb)
 {{% /notice %}}
 
+{{% notice style="note" title="Why This Matters: Life-Changing Applications" %}}
+**Bayes' Theorem isn't just a math formula—it's how the world works!**
+
+**Medicine**: When you get a positive test for a rare disease, don't panic! Remember the taxicab problem: if the disease affects 1 in 1000 people, and the test is 99% accurate, a positive result still means you're more likely healthy than sick. (Your doctor should know this, but many don't!)
+
+**Machine Learning**: Every spam filter, recommendation system, and AI assistant uses Bayes' Theorem. When Netflix recommends a movie, it's updating beliefs about your preferences based on what you watched.
+
+**Criminal Justice**: Eyewitness testimony seems compelling, but the taxicab problem shows why it's dangerous to rely on alone. An 80% accurate witness identifying a rare perpetrator is less reliable than intuition suggests.
+
+**Science**: Every scientific experiment uses Bayesian thinking: "Given this data, how should I update my belief in the hypothesis?" Strong priors require strong evidence to overcome.
+
+**Daily Life**: Every time you say "Hmm, that's surprising given what I know," you're thinking Bayesian! You're implicitly comparing likelihoods against your prior beliefs.
+
+**The key lesson**: Never evaluate evidence in isolation—always consider base rates (priors). Rare things remain rare even with good evidence.
+{{% /notice %}}
+
 ### Transfer additional practice questions
 * Example with rare disease and not too diagnostic test.
 
@@ -244,17 +276,35 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 
 ---
 
-## What We've Learned
+## What You've Conquered
 
-In this chapter, we tackled one of the most important tools in probability:
+**Congratulations—you just mastered one of the most powerful and counterintuitive concepts in all of mathematics!** 🎉
 
-- **Bayes' Theorem**: How to update beliefs with new evidence
-- **The taxicab problem**: Why base rates matter
-- **Two solution methods**: Visualization vs. formula
-- **Base-rate neglect**: A common reasoning error
-- **Why set-based thinking helps**: Making abstract concepts concrete
+Let's celebrate what you now understand:
 
-You now have all the core tools of probability theory! The next chapter summarizes key definitions, and then you'll be ready for advanced topics.
+✅ **Bayes' Theorem**: You can update beliefs rationally with new evidence
+✅ **The Taxicab Problem**: You understand why 80% accuracy doesn't mean 80% certainty
+✅ **Base Rate Importance**: You'll never ignore priors again
+✅ **Two Solution Methods**: You can solve Bayesian problems by counting OR by formula
+✅ **Base-Rate Neglect**: You recognize and avoid this cognitive trap
+✅ **The Set-Based Power**: You see why visualization beats symbol manipulation
+
+**Most importantly**: You now think differently about evidence. When someone says "This test is 99% accurate!" you'll ask "But how common is the condition?" When you read "eyewitness identified the suspect!" you'll think "But what's the base rate?"
+
+**This is a superpower.** You're now reasoning more accurately than most people, including many experts!
+
+## Your Probability Journey
+
+You started with Chibany counting meals, learned about outcome spaces and events, discovered conditional probability, and now you can update beliefs with Bayes' Theorem.
+
+**That's the complete foundation of probability theory!** Everything else builds on these concepts.
+
+**What's next?**
+- **Glossary**: Consolidate all the definitions you've learned
+- **Tutorial 2**: Apply these concepts computationally with GenJAX
+- **Tutorial 3**: Explore advanced topics like Gaussian processes
+
+**But first**: Try the interactive notebook and play with the sliders! The best way to internalize Bayes' Theorem is to see how changing base rates and accuracy changes the posterior. It's surprisingly fun. 🎮
 
 ---
 
