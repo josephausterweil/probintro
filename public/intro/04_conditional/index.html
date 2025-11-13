@@ -33,27 +33,27 @@ In this chapter, you’ll discover:
 How learning something restricts the outcome space When events influence each other (dependence) How to calculate probabilities when possibilities have different weights Why your first intuition about conditional probability is often wrong! Ready for some surprising results? Let’s see what Chibany learns about dinner…">
     <meta itemprop="wordCount" content="2759">
     <title>Conditional probability as changing the possible outcomes :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763020814" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763020814" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763020814" defer></script>
-    <script src="/probintro/js/search-lunr.min.js?1763020814" defer></script>
-    <script src="/probintro/js/search.min.js?1763020814" defer></script>
+    <link href="/probintro/images/favicon.png?1763023965" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763023965" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763023965" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1763023965" defer></script>
+    <script src="/probintro/js/search.min.js?1763023965" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763020814";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763023965";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763020814" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763020814" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763020814" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763020814" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763023965" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763023965" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763023965" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763023965" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763020814" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763020814" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763020814" rel="stylesheet">
-    <link href="/probintro/css/theme.min.css?1763020814" rel="stylesheet">
-    <link href="/probintro/css/format-html.min.css?1763020814" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763023965" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763023965" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763023965" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1763023965" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1763023965" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -350,8 +350,8 @@ $$P(A \mid B) = P(A)$$</p>
 </details>
 <h2 id="marginal-and-joint-probabilities">Marginal and joint probabilities</h2>
 <h3 id="chibany-is-sad-marginalization">Chibany is sad (marginalization)</h3>
-<p><a href="#R-image-af8661f8b43342ac7c11cc88dc7d7335" class="lightbox-link"><img alt="Chibany is sad" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanysad.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-af8661f8b43342ac7c11cc88dc7d7335"><img alt="Chibany is sad" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanysad.png"></a></p>
+<p><a href="#R-image-45a185425261cd9a916bdfb05b90365a" class="lightbox-link"><img alt="Chibany is sad" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanysad.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-45a185425261cd9a916bdfb05b90365a"><img alt="Chibany is sad" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanysad.png"></a></p>
 <p>The student that normally gives Chibany his second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \{H, T\}$.</p>
 <pre class="mermaid align-center ">block-beta
     block
@@ -421,8 +421,8 @@ $$\sum_{b} P(A, B=b) = P(A, B=H) + P(A, B=T)$$</p>
 </details>
 <h2 id="weighted-possibilities">Weighted possibilities</h2>
 <h3 id="chibany-tells-students-that-he-likes-tonkatsu-more">Chibany tells students that he likes Tonkatsu more</h3>
-<p><a href="#R-image-dc730187b61e80ebc65506fa237c25d1" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-dc730187b61e80ebc65506fa237c25d1"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanyplain.png"></a></p>
+<p><a href="#R-image-db2f0a1131092f5bdf1127b2f24ff58a" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-db2f0a1131092f5bdf1127b2f24ff58a"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanyplain.png"></a></p>
 <p>Chibany is happy! He remembered that students love learning. He has important information for them: Chibany likes Tonkatsu more than Hamburgers.</p>
 <p>While wondering how to calculate probabilities taking this glorious news into account, Tanaka-san stops by. Tanaka-san lets Chibany know that the students coordinate to ensure that he gets at least one tonkatsu, but try not to make both offerings tonkatsu (that way he doesn&rsquo;t get tired of Tonkatsu). Tanaka-san shares the following chart the students use to guide their daily offerings:</p>
 <pre class="mermaid align-center ">block-beta
@@ -590,23 +590,23 @@ $$P(A=T \mid B=T) = \frac{0.10}{0.43+0.10} = \frac{0.10}{0.53} \approx 0.19$$</p
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763020814"></script>
-    <script src="/probintro/js/js-yaml/js-yaml.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-color.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-dispatch.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-drag.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-ease.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-interpolate.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-selection.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-timer.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-transition.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-zoom.min.js?1763020814" defer></script>
-    <script src="/probintro/js/mermaid/mermaid.min.js?1763020814" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763023965"></script>
+    <script src="/probintro/js/js-yaml/js-yaml.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-color.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-dispatch.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-drag.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-ease.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-interpolate.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-selection.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-timer.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-transition.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-zoom.min.js?1763023965" defer></script>
+    <script src="/probintro/js/mermaid/mermaid.min.js?1763023965" defer></script>
     <script>
       window.relearn.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763020814" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763020814" defer></script>
-    <script src="/probintro/js/theme.min.js?1763020814" defer></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763023965" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763023965" defer></script>
+    <script src="/probintro/js/theme.min.js?1763023965" defer></script>
   </body>
 </html>

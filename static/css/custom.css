@@ -1,51 +1,44 @@
 /* Custom color overrides for probintro tutorial */
 /* Change sidebar navigation from green to SDS/JPCCA blue */
-/* Keep main content area white */
+/* Use CSS custom properties (variables) that the theme actually uses */
 
-/* Target ONLY sidebar elements - do NOT change main content background */
-#body #sidebar {
-    background-color: #1565c0 !important; /* SDS/JPCCA blue */
+:root {
+    /* Override the theme's green with SDS/JPCCA blue */
+    --MAIN-THEME-color: #1565c0 !important;
+    --MAIN-BG-color: #1565c0 !important;
+
+    /* Darker blue for hover/active states */
+    --MAIN-THEME-DARK-color: #0d47a1 !important;
+
+    /* Override any green variables */
+    --PRIMARY-color: #1565c0 !important;
+    --MENU-HOME-LINK-color: #1565c0 !important;
+    --MENU-SECTIONS-BG-color: #1565c0 !important;
+    --MENU-SECTION-ACTIVE-CATEGORY-color: #0d47a1 !important;
+    --MENU-SECTION-HR-color: #1565c0 !important;
 }
 
-/* Logo/header area in sidebar - the top left green area */
-#body #sidebar #header-wrapper {
+/* Additional specific overrides for any remaining green elements */
+#sidebar,
+aside#sidebar,
+.sidebar,
+#header-wrapper,
+#logo,
+.menu-header,
+nav#TableOfContents {
     background-color: #1565c0 !important;
 }
 
-#body #sidebar #header-wrapper #logo {
+/* Menu items */
+.menu a,
+.menu li {
     background-color: #1565c0 !important;
 }
 
-/* All menu items in sidebar */
-#body #sidebar ul li {
-    background-color: #1565c0 !important;
-}
-
-#body #sidebar ul.menu li a {
-    background-color: #1565c0 !important;
-}
-
-/* Active menu items - darker blue */
-#body #sidebar ul li.active,
-#body #sidebar ul li.active > a {
+/* Active/hover states */
+.menu li.active,
+.menu li.active > a,
+.menu li:hover,
+.menu a:hover {
     background-color: #0d47a1 !important;
-}
-
-/* Hover state for menu items */
-#body #sidebar ul li:hover,
-#body #sidebar ul li a:hover {
-    background-color: #0d47a1 !important;
-}
-
-/* Ensure main content area stays white/default */
-#body #body-inner {
-    background-color: #ffffff !important;
-}
-
-#body-inner {
-    background-color: #ffffff !important;
-}
-
-main, article {
-    background-color: #ffffff !important;
 }

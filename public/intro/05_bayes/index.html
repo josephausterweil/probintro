@@ -33,27 +33,27 @@ In this chapter, you’ll learn:
 How Bayes’ theorem updates beliefs with evidence Why base rates matter more than accuracy How to avoid the cognitive trap that catches almost everyone Why your first answer to the Taxicab Problem is almost certainly wrong! Fair warning: After this chapter, you’ll question your intuition about probabilities forever. Ready? Let’s meet Chibany on a foggy night…">
     <meta itemprop="wordCount" content="2676">
     <title>Bayes&#39; Theorem: Updating Beliefs :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763020814" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763020814" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763020814" defer></script>
-    <script src="/probintro/js/search-lunr.min.js?1763020814" defer></script>
-    <script src="/probintro/js/search.min.js?1763020814" defer></script>
+    <link href="/probintro/images/favicon.png?1763023965" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763023965" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763023965" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1763023965" defer></script>
+    <script src="/probintro/js/search.min.js?1763023965" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763020814";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763023965";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763020814" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763020814" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763020814" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763020814" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763023965" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763023965" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763023965" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763023965" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763020814" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763020814" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763020814" rel="stylesheet">
-    <link href="/probintro/css/theme.min.css?1763020814" rel="stylesheet">
-    <link href="/probintro/css/format-html.min.css?1763020814" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763023965" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763023965" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763023965" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1763023965" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1763023965" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -233,8 +233,8 @@ $$\Rightarrow P(H \mid D) = \frac{P(H,D)}{P(D)} = \frac{P(D \mid H) P(H)}{P(D)}$
   </div>
 </details>
 <h2 id="the-taxicab-problem">The Taxicab Problem</h2>
-<p><a href="#R-image-b6dac18a75a3249d6aeeadf51ae2c99b" class="lightbox-link"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/foggy_night_collision.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-b6dac18a75a3249d6aeeadf51ae2c99b"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/foggy_night_collision.png"></a></p>
+<p><a href="#R-image-f1057783e6c866c762ed2b7c216d95de" class="lightbox-link"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/foggy_night_collision.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f1057783e6c866c762ed2b7c216d95de"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/foggy_night_collision.png"></a></p>
 <p>In Chibany&rsquo;s hometown, there are two taxi companies: the Green <i class="fa-fw fas fa-taxi cstyle green"></i> and the Blue <i class="fa-fw fas fa-taxi cstyle blue"></i>. All Green company&rsquo;s taxis are painted green <i class="fa-fw fas fa-taxi cstyle green"></i> and all the Blue company&rsquo;s taxis are painted blue <i class="fa-fw fas fa-taxi cstyle blue"></i>.</p>
 <p>85% of the town&rsquo;s taxis work for the Green <i class="fa-fw fas fa-taxi cstyle green"></i> company. So 15% of the town&rsquo;s taxis work for the Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> company.</p>
 <p>Late one foggy evening, Chibany saw a cab perform a hit-and-run (hit another car and leave without providing any information). Chibany saw a Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> taxi!</p>
@@ -595,23 +595,23 @@ The correct answer is <strong>41%</strong>, but most people think it is closer t
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763020814"></script>
-    <script src="/probintro/js/js-yaml/js-yaml.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-color.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-dispatch.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-drag.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-ease.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-interpolate.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-selection.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-timer.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-transition.min.js?1763020814" defer></script>
-    <script src="/probintro/js/d3/d3-zoom.min.js?1763020814" defer></script>
-    <script src="/probintro/js/mermaid/mermaid.min.js?1763020814" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763023965"></script>
+    <script src="/probintro/js/js-yaml/js-yaml.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-color.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-dispatch.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-drag.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-ease.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-interpolate.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-selection.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-timer.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-transition.min.js?1763023965" defer></script>
+    <script src="/probintro/js/d3/d3-zoom.min.js?1763023965" defer></script>
+    <script src="/probintro/js/mermaid/mermaid.min.js?1763023965" defer></script>
     <script>
       window.relearn.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763020814" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763020814" defer></script>
-    <script src="/probintro/js/theme.min.js?1763020814" defer></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763023965" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763023965" defer></script>
+    <script src="/probintro/js/theme.min.js?1763023965" defer></script>
   </body>
 </html>
