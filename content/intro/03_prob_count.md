@@ -75,7 +75,38 @@ $$P(A) = \frac{\text{circled outcomes}}{\text{total outcomes}} = \frac{3}{4} = 0
 
 ### When Outcomes Aren't Equally Likely
 
-Note that if the possible outcomes were not equally likely, we would sum their individual probabilities to calculate the cardinality. But everything works in the same way — the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this [later](./04_conditional.md#weighted-possibilities)!
+Note that if the possible outcomes were not equally likely, we would sum their individual probabilities to calculate the cardinality. But everything works in the same way: the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this [later](./04_conditional.md#weighted-possibilities)!
+
+{{% notice style="tip" title="💻 See This in Code" %}}
+**In GenJAX (Tutorial 2)**, we don't calculate $P(A) = |A|/|\Omega|$ by hand. Instead, we:
+
+1. **Simulate** the generative process many times
+2. **Count** how often the event occurs
+3. **Divide** by total simulations
+
+<details>
+<summary>Click to show code example</summary>
+
+```python
+# Generate 10,000 days
+keys = jax.random.split(key, 10000)
+days = jax.vmap(lambda k: chibany_day.simulate(k, ()).get_retval())(keys)
+
+# Check if event occurs: at least one tonkatsu
+has_tonkatsu = (days[:, 0] == 1) | (days[:, 1] == 1)
+
+# Probability ≈ fraction of times event occurred
+prob = jnp.mean(has_tonkatsu)  # Equivalent to |A| / |Ω|
+```
+
+</details>
+
+**The principle is identical**: counting favorable outcomes and dividing by total outcomes. But instead of listing Ω by hand, we generate samples!
+
+[→ See full implementation in Tutorial 2, Chapter 2](../../genjax/02_first_model/#counting-outcomes)
+
+**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/first_model.ipynb)
+{{% /notice %}}
 
 ## Another Example
 
@@ -151,12 +182,12 @@ When we ask "What's $P(f = 1)$?", we're really asking:
 
 In this chapter, we discovered:
 
-- **Probability is counting** — $P(A) = |A|/|\Omega|$
-- **Cardinality** — Using $|A|$ to denote the size of a set
-- **Random variables** — Functions that map outcomes to numbers
-- **How random variables create events** — Each value corresponds to a subset of $\Omega$
+- **Probability is counting**: $P(A) = |A|/|\Omega|$
+- **Cardinality**: Using $|A|$ to denote the size of a set
+- **Random variables**: Functions that map outcomes to numbers
+- **How random variables create events**: Each value corresponds to a subset of $\Omega$
 
-Next, we'll explore what happens when we **learn new information** — conditional probability!
+Next, we'll explore what happens when we **learn new information**: conditional probability!
 
 ---
 

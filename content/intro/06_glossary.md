@@ -106,7 +106,7 @@ Technically the output must be *measurable*. You shouldn't worry about that dist
 ## Advanced Concepts
 
 ### Bayes theorem
-{{% expand "Bayes Theorem" %}} *Bayes Theorem* (or Bayes' rule) is a formula for reversing the order that variables are conditioned — how to go from $P(A \mid B)$ to $P(B \mid A)$.
+{{% expand "Bayes Theorem" %}} *Bayes Theorem* (or Bayes' rule) is a formula for reversing the order that variables are conditioned: how to go from $P(A \mid B)$ to $P(B \mid A)$.
 
 **Formula:** $P(H \mid D) = \frac{P(D \mid H) P(H)}{P(D)}$
 

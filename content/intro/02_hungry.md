@@ -41,10 +41,10 @@ This makes probability **concrete** instead of abstract.
 
 Technically, the elements of a set are unique. So, if Chibany writes down getting a pair of hamburgers twice and a hamburger and a tonkatsu ($\\{HH, HH, HT\\}$), he's gotten the same set of possibilities as if he only got one pair of hamburgers and a hamburger and tonkatsu ($\\{HH, HT\\}$). In other words, $\\{HH, HH, HT\\} = \\{HH, HT\\}$.
 
-Think of it like a list where duplicates automatically disappear — only what's **different** matters.
+Think of it like a list where duplicates automatically disappear; only what's **different** matters.
 
 {{% notice style="tip" title="For Chibany's meals" %}}
-Each element in $\Omega = \\{HH, HT, TH, TT\\}$ is unique because **position matters** (first meal vs. second meal). $HT$ ≠ $TH$ — getting tonkatsu for lunch is different from getting it for dinner!
+Each element in $\Omega = \\{HH, HT, TH, TT\\}$ is unique because **position matters** (first meal vs. second meal). $HT$ ≠ $TH$ because getting tonkatsu for lunch is different from getting it for dinner!
 {{% /notice %}}
 
 Chibany is skeptical, but will try to keep it in mind. It can be confusing!
@@ -61,7 +61,7 @@ Any event $A$ is a **subset** of the outcome space $\Omega$. Formally, this is w
 
 This means:
 - Every element in $A$ is also in $\Omega$
-- $A$ could be empty ($\\{\\}$ — nothing happens)
+- $A$ could be empty ($\\{\\}$, meaning nothing happens)
 - $A$ could be all of $\Omega$ (something definitely happens)
 - $A$ could be anything in between
 
@@ -72,11 +72,11 @@ For Chibany's "contains tonkatsu" event: $A = \\{HT, TH, TT\\} \subseteq \Omega$
 
 Is $\Omega$ an event?
 
-{{% expand "solution" %}} Yes — it is the event that contains all possible outcomes. This is sometimes called the **certain event** because something from $\Omega$ must happen. {{% /expand %}}
+{{% expand "solution" %}} Yes, it is the event that contains all possible outcomes. This is sometimes called the **certain event** because something from $\Omega$ must happen. {{% /expand %}}
 
 Is $\Omega$ the set of all possible events?
 
-{{% expand "solution" %}} No — $\Omega$ is one particular event (the event containing everything). The set of all possible events is much larger! {{% /expand %}}
+{{% expand "solution" %}} No, $\Omega$ is one particular event (the event containing everything). The set of all possible events is much larger! {{% /expand %}}
 
 What is the set of all possible events for Chibany's situation?
 
@@ -89,7 +89,7 @@ $\\{ \\{ \\}, \\{ HH \\}, \\{ HT\\}, \\{TH \\}, \\{TT\\},
 \\{HT, TH, TT\\},
 \\{HH, HT, TH, TT\\}  \\}$
 
-Note that $\\{ \\}$ is called the empty or null set and is a special set that contains no elements. It's the **impossible event** — nothing happens. Chibany would never allow himself to not get any meals!
+Note that $\\{ \\}$ is called the empty or null set and is a special set that contains no elements. It's the **impossible event** where nothing happens. Chibany would never allow himself to not get any meals!
 
 **Counting tip:** For an outcome space with $n$ outcomes, there are $2^n$ possible events. Here: $2^4 = 16$ events.
 {{% /expand %}}
@@ -100,9 +100,9 @@ Note that $\\{ \\}$ is called the empty or null set and is a special set that co
 
 In this chapter, Chibany introduced us to the fundamental building blocks of probability:
 
-- **Sets** Collections of distinct elements
-- **Outcome spaces ($\Omega$)** All possible outcomes
-- **Events** Subsets of outcomes we're interested in
+- **Sets**: Collections of distinct elements
+- **Outcome spaces ($\Omega$)**: All possible outcomes
+- **Events**: Subsets of outcomes we're interested in
 
 Next, we'll see how to turn these into actual probabilities!
 

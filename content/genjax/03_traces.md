@@ -116,6 +116,33 @@ Log probability: $\log(0.25) = -1.386...$
 **You don't need to work with log probabilities directly** — GenJAX handles this for you. Just know they measure "how likely was this outcome."
 {{% /notice %}}
 
+{{% notice style="success" title="📐→💻 Math-to-Code Translation" %}}
+**How traces connect to probability theory:**
+
+| Math Concept | Mathematical Notation | GenJAX Trace Component |
+|--------------|----------------------|------------------------|
+| **Outcome** | $\omega \in \Omega$ | One trace (one execution) |
+| **Outcome Space** | $\Omega = \\{HH, HT, TH, TT\\}$ | All possible traces |
+| **Random Variable** | $X(\omega)$ | A choice in the choice map |
+| **Probability** | $P(\omega)$ | `jnp.exp(trace.get_score())` |
+| **Log Probability** | $\log P(\omega)$ | `trace.get_score()` |
+| **Joint Distribution** | $P(X_1, X_2)$ | Distribution over traces |
+
+**Key insights:**
+- **A trace IS an outcome** — It represents one complete way the random process unfolds
+- **Choice map = Random variables** — Named random choices like `"lunch"` and `"dinner"`
+- **get_retval() = Observable outcome** — What you can directly observe
+- **get_score() = Log probability** — How likely this particular trace is
+- **Multiple traces = Multiple outcomes** — Running `simulate()` repeatedly samples from Ω
+
+**Example mapping:**
+```
+Math: ω = HT  (outcome from Ω)
+Code: trace with choices = {'lunch': 0, 'dinner': 1}
+They're the same thing, just different representations!
+```
+{{% /notice %}}
+
 ---
 
 ## The Complete Trace Diagram

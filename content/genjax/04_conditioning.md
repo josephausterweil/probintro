@@ -43,6 +43,28 @@ Chibany's meals: $\Omega = \\{HH, HT, TH, TT\\}$
 
 **Key insight:** We **restricted the outcome space** from $\\{HH, HT, TH, TT\\}$ to just $\\{HT, TT\\}$ (outcomes where dinner = Tonkatsu).
 
+{{% notice style="info" title="📘 Foundation Concept: Conditioning as Restriction" %}}
+**Recall from Tutorial 1, Chapter 4** that conditional probability means **restricting the outcome space**:
+
+$$P(A \mid B) = \frac{|A \cap B|}{|B|}$$
+
+**The key idea:** Cross out outcomes where $B$ didn't happen, then calculate probabilities in what remains.
+
+**Tutorial 1 example:** "At least one tonkatsu" given "first meal was tonkatsu"
+- Original space: {HH, HT, TH, TT}
+- Condition: First meal is T → Restrict to {TH, TT}
+- Event: At least one T → In restricted space: {TH, TT}
+- Probability: 2/2 = 1 (both remaining outcomes have tonkatsu!)
+
+**What GenJAX does:**
+- Tutorial 1: Manually cross out outcomes and count
+- Tutorial 2: Code filters simulations or uses `ChoiceMap` to restrict
+
+**The logic is identical** — conditioning = restricting possibilities to match observations!
+
+[← Review conditional probability in Tutorial 1, Chapter 4](../../intro/04_conditional/)
+{{% /notice %}}
+
 ---
 
 ## Conditional Probability in GenJAX
@@ -74,6 +96,27 @@ GenJAX has built-in support for specifying observations. We provide a **choice m
 More advanced methods that we'll explore in Chapter 5. These are more efficient when observations are rare.
 
 **This chapter focuses on Approach 1 and 2** — the most intuitive methods.
+
+{{% notice style="success" title="📐→💻 Math-to-Code Translation" %}}
+**How conditional probability translates to GenJAX:**
+
+| Math Concept | Mathematical Notation | GenJAX Code |
+|--------------|----------------------|-------------|
+| **Conditional Probability** | $P(A \mid B)$ | `Target(model, (), observations)` |
+| **Observation** | $B$ = "dinner is T" | `ChoiceMap.d({"dinner": 1})` |
+| **Query** | $A$ = "lunch is T" | Check `trace["lunch"] == 1` |
+| **Restriction** | Cross out outcomes where $B$ is false | Filter traces or use `Target` |
+
+**The three approaches:**
+
+| Approach | Math Equivalent | GenJAX Implementation |
+|----------|----------------|----------------------|
+| **1. Filtering** | Keep only outcomes in $B$, count $A$ | `traces[condition]` + count |
+| **2. ChoiceMap** | Specify $B$ directly | `Target(model, (), observations)` |
+| **3. Inference** | Weighted sampling from $P(A\mid B)$ | `target.importance(key, ...)` |
+
+**Key insight:** All three compute the same conditional probability—they just differ in efficiency and how explicitly you specify the condition.
+{{% /notice %}}
 
 ---
 

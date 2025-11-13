@@ -3,6 +3,22 @@ title = "Bayes' Theorem: Updating Beliefs"
 weight = 5
 +++
 
+## The Most Surprising Result in Probability
+
+**Prepare to have your intuition completely shattered.** 🤯
+
+You're about to discover why a positive medical test doesn't mean what you think, why eyewitness testimony is less reliable than you expect, and why one of the most famous problems in probability stumps even experts.
+
+**In this chapter, you'll learn:**
+- How Bayes' theorem updates beliefs with evidence
+- Why base rates matter more than accuracy
+- How to avoid the cognitive trap that catches almost everyone
+- Why your first answer to the Taxicab Problem is almost certainly wrong!
+
+**Fair warning**: After this chapter, you'll question your intuition about probabilities forever. Ready? Let's meet Chibany on a foggy night...
+
+---
+
 ## What is Bayes' Theorem?
 
 Imagine you have a **belief** about the world (a hypothesis), and then you **observe** something new (data). Bayes' Theorem tells you how to **update your belief** based on what you observed.
@@ -18,10 +34,10 @@ Bayes Theorem tells us to update our beliefs in hypothesis $h$ being the way the
 $$P(H=h \mid D = d) = \frac{P(D=d\mid H=h) P(H=h)}{P(D=d)}$$
 
 where:
-- $P(H=h \mid D=d)$ is called the **posterior** — our updated belief after seeing the data
-- $P(D=d \mid H=h)$ is called the **likelihood** — the probability of observing $d$ given $h$ is the true hypothesis for how the world works
-- $P(H=h)$ is called the **prior** — how likely it is that $h$ is the way the world works before seeing any data
-- $P(D=d)$ is called the **evidence** or **marginal likelihood** — the total probability of observing $d$ across all hypotheses
+- $P(H=h \mid D=d)$ is called the **posterior**: our updated belief after seeing the data
+- $P(D=d \mid H=h)$ is called the **likelihood**: the probability of observing $d$ given $h$ is the true hypothesis for how the world works
+- $P(H=h)$ is called the **prior**: how likely it is that $h$ is the way the world works before seeing any data
+- $P(D=d)$ is called the **evidence** or **marginal likelihood**: the total probability of observing $d$ across all hypotheses
 
 {{% notice style="info" title="Understanding the Terms" %}}
 - **Prior** = What you believed before seeing data
@@ -159,8 +175,8 @@ $$P(X=B \mid W=B) = \frac{0.8 \times 0.15 }{0.8 \times 0.15 + 0.2 \times 0.85} =
 Let's identify each component:
 
 **Numerator (likelihood × prior):**
-- Likelihood: $P(W=B \mid X=B) = 0.8$ — "If it's blue, I'll probably say blue"
-- Prior: $P(X=B) = 0.15$ — "Blue taxis are rare"
+- Likelihood: $P(W=B \mid X=B) = 0.8$: "If it's blue, I'll probably say blue"
+- Prior: $P(X=B) = 0.15$: "Blue taxis are rare"
 - Product: $0.8 \times 0.15 = 0.12$
 
 **Denominator (total evidence):**
@@ -168,7 +184,7 @@ Let's identify each component:
 - Green BUT reported blue: $0.2 \times 0.85 = 0.17$
 - Total: $0.12 + 0.17 = 0.29$
 
-**Posterior:** $\frac{0.12}{0.29} \approx 0.41$ — Only 41% chance it's actually blue!
+**Posterior:** $\frac{0.12}{0.29} \approx 0.41$: Only 41% chance it's actually blue!
 {{% /notice %}}
 
 ### Why Learn the Set-Based Perspective to Probability Theory?
@@ -183,7 +199,7 @@ Here are some reasons:
 
 3. **Forces representation thinking**: It requires you to think about how events and outcomes are represented. This can be obscured at times when thinking about probabilities from the rule-based perspective.
 
-4. **Formal equivalence**: The set-based and formula-based approaches are formally equivalent — they always give the same answer.
+4. **Formal equivalence**: The set-based and formula-based approaches are formally equivalent: they always give the same answer.
 
 5. **It's more intuitive**: For many people (including this tutorial's author!), visualizing and counting feels more natural than manipulating symbols.
 
@@ -191,89 +207,103 @@ Here are some reasons:
 
 7. **It makes Chibany happy**: And that's what really matters!
 
-### Transfer additional practice questions
+{{% notice style="tip" title="💻 See This in Code" %}}
+**In GenJAX**, Bayes' Theorem becomes **automatic**! You don't calculate posteriors by hand: you:
 
-* One of your friends recently became sick. Concerned about them, you go with them to the doctor. The doctor notes that your friend may have contracted *Kyoto Syndrome*, which is a rare illness. Left untreated, someone with Kyoto Syndrome experiences distress when they leave Kyoto.
+1. **Define the generative model** (prior + likelihood)
+2. **Specify observations** (data)
+3. **Let GenJAX compute** the posterior
 
-5 in 100 people are afflicted with *Kyoto Syndrome*. 
+<details>
+<summary>Click to show code example</summary>
 
-To determine whether your friend has Kyoto Syndrome, the doctor has your friend drink some Matcha from Kyoto. 
+```python
+@gen
+def taxicab_model():
+    # Prior: 85% green taxis
+    is_blue = bernoulli(0.15) @ "true_color"  # 1=blue, 0=green
 
-*9 in 10 people afflicted with Kyoto Syndrome* drool for 20 minutes after drinking Matcha from Kyoto. 
+    # Likelihood: Chibany's accuracy (80%)
+    if is_blue:
+        reported_blue = bernoulli(0.80) @ "reported"  # P(report blue | is blue)
+    else:
+        reported_blue = bernoulli(0.20) @ "reported"  # P(report blue | is green)
 
-Only *5 in 10 people not afflicted by Kyoto Syndrome* drool for 20 minutes after drinking Matcha from Kyoto.
+    return is_blue
 
-While visiting Kyoto, you go with your friend to the doctor's office. Your friend drinks Matcha from Kyoto and drools from the mouth for 20 minutes. 
+# Observe: Chibany reported blue
+observations = ChoiceMap.d({"reported": 1})  # 1 = reported blue
 
-Given this, what is the probability that they have *Kyoto Syndrome*?
+# Posterior inference (automatic Bayes' Theorem!)
+target = Target(taxicab_model, (), observations)
+trace, log_weight = target.importance(key, ChoiceMap.empty())
 
-{{% expand "answer" %}}
+# trace now samples from P(true_color | reported=blue)
+# This is the posterior! GenJAX did all the Bayes' rule math.
+```
 
-**Step 1: Identify what we know**
+</details>
 
-Let $K$ represent having Kyoto Syndrome, and $D$ represent drooling after drinking Matcha.
+**The principle is identical**: update beliefs with evidence. But GenJAX handles all the formula manipulation!
 
-- **Prior:** $P(K) = 0.05$ (5% of people have Kyoto Syndrome)
-- **Likelihood:** $P(D \mid K) = 0.9$ (90% of people with KS drool)
-- **False positive rate:** $P(D \mid \neg K) = 0.5$ (50% of people without KS also drool)
+[→ See Bayesian learning in Tutorial 2, Chapter 5](../../genjax/05_bayesian_learning/)
 
-We want to find: $P(K \mid D)$ — the probability your friend has KS given that they drooled.
+[→ See advanced Bayesian inference in Tutorial 3, Chapter 4](../../intro2/04_bayesian_gaussian/)
 
-**Step 2: Apply Bayes' Rule**
-
-$$P(K \mid D) = \frac{P(D \mid K) P(K)}{P(D)}$$
-
-**Step 3: Calculate the denominator (total evidence)**
-
-The denominator needs to account for ALL ways drooling can happen:
-
-$$P(D) = P(D \mid K)P(K) + P(D \mid \neg K)P(\neg K)$$
-
-$$P(D) = (0.9)(0.05) + (0.5)(0.95)$$
-
-$$P(D) = 0.045 + 0.475 = 0.52$$
-
-**Step 4: Calculate the posterior**
-
-$$P(K \mid D) = \frac{(0.9)(0.05)}{0.52} = \frac{0.045}{0.52} \approx 0.087 \approx 8.7\%$$
-
-{{% notice style="warning" title="A Counterintuitive Result!" %}}
-Even though the test is 90% accurate for detecting Kyoto Syndrome, there's only an **8.7% chance** your friend actually has it!
-
-**Why?** Because Kyoto Syndrome is rare (5%) and the test has a high false positive rate (50% of healthy people drool). This means:
-
-- **True positives:** About 4.5 people out of 100 (people with KS who drool)
-- **False positives:** About 47.5 people out of 100 (people without KS who drool)
-
-The false positives massively outnumber the true positives! This is base-rate neglect in action.
+**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/bayesian_learning.ipynb)
 {{% /notice %}}
 
-**The Set-Based Perspective:**
+{{% notice style="note" title="Why This Matters: Life-Changing Applications" %}}
+**Bayes' Theorem isn't just a math formula—it's how the world works!**
 
-Imagine 100 people are tested:
-- 5 have Kyoto Syndrome → 4.5 of them drool (90%)
-- 95 don't have Kyoto Syndrome → 47.5 of them drool (50%)
-- **Total drooling:** 4.5 + 47.5 = 52 people
+**Medicine**: When you get a positive test for a rare disease, don't panic! Remember the taxicab problem: if the disease affects 1 in 1000 people, and the test is 99% accurate, a positive result still means you're more likely healthy than sick. (Your doctor should know this, but many don't!)
 
-Of the 52 people who drool, only 4.5 actually have KS: $\frac{4.5}{52} \approx 8.7\%$
+**Machine Learning**: Every spam filter, recommendation system, and AI assistant uses Bayes' Theorem. When Netflix recommends a movie, it's updating beliefs about your preferences based on what you watched.
 
-{{% /expand %}}
+**Criminal Justice**: Eyewitness testimony seems compelling, but the taxicab problem shows why it's dangerous to rely on alone. An 80% accurate witness identifying a rare perpetrator is less reliable than intuition suggests.
 
-* Example with organic fruit and made at a local place?
+**Science**: Every scientific experiment uses Bayesian thinking: "Given this data, how should I update my belief in the hypothesis?" Strong priors require strong evidence to overcome.
+
+**Daily Life**: Every time you say "Hmm, that's surprising given what I know," you're thinking Bayesian! You're implicitly comparing likelihoods against your prior beliefs.
+
+**The key lesson**: Never evaluate evidence in isolation—always consider base rates (priors). Rare things remain rare even with good evidence.
+{{% /notice %}}
+
+### Transfer additional practice questions
+
+* Example with organic fruit and made at a local place
 
 ---
 
-## What We've Learned
+## What You've Conquered
 
-In this chapter, we tackled one of the most important tools in probability:
+**Congratulations—you just mastered one of the most powerful and counterintuitive concepts in all of mathematics!** 🎉
 
-- **Bayes' Theorem** How to update beliefs with new evidence
-- **The taxicab problem** Why base rates matter
-- **Two solution methods** Visualization vs. formula
-- **Base-rate neglect** A common reasoning error
-- **Why set-based thinking helps** Making abstract concepts concrete
+Let's celebrate what you now understand:
 
-You now have all the core tools of probability theory! The next chapter summarizes key definitions, and then you'll be ready for advanced topics.
+✅ **Bayes' Theorem**: You can update beliefs rationally with new evidence
+✅ **The Taxicab Problem**: You understand why 80% accuracy doesn't mean 80% certainty
+✅ **Base Rate Importance**: You'll never ignore priors again
+✅ **Two Solution Methods**: You can solve Bayesian problems by counting OR by formula
+✅ **Base-Rate Neglect**: You recognize and avoid this cognitive trap
+✅ **The Set-Based Power**: You see why visualization beats symbol manipulation
+
+**Most importantly**: You now think differently about evidence. When someone says "This test is 99% accurate!" you'll ask "But how common is the condition?" When you read "eyewitness identified the suspect!" you'll think "But what's the base rate?"
+
+**This is a superpower.** You're now reasoning more accurately than most people, including many experts!
+
+## Your Probability Journey
+
+You started with Chibany counting meals, learned about outcome spaces and events, discovered conditional probability, and now you can update beliefs with Bayes' Theorem.
+
+**That's the complete foundation of probability theory!** Everything else builds on these concepts.
+
+**What's next?**
+- **Glossary**: Consolidate all the definitions you've learned
+- **Tutorial 2**: Apply these concepts computationally with GenJAX
+- **Tutorial 3**: Explore advanced topics like Gaussian processes
+
+**But first**: Try the interactive notebook and play with the sliders! The best way to internalize Bayes' Theorem is to see how changing base rates and accuracy changes the posterior. It's surprisingly fun. 🎮
 
 ---
 

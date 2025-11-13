@@ -96,6 +96,46 @@ def my_model(parameters):
 2. **Check extreme cases** — what if parameters are 0 or 1?
 3. **Verify inference** — do posterior results make intuitive sense?
 
+{{% notice style="success" title="📐→💻 Math-to-Code Translation" %}}
+**How model-building concepts translate to GenJAX:**
+
+| Math Concept | Mathematical Notation | GenJAX Pattern |
+|--------------|----------------------|----------------|
+| **Joint Distribution** | $P(X, Y)$ | Multiple `bernoulli()` calls in @gen function |
+| **Conditional Distribution** | $P(Y \mid X)$ | `if X: Y = bernoulli(p1)` |
+| **Independence** | $P(X, Y) = P(X) \cdot P(Y)$ | Separate random choices (no if statements) |
+| **Dependence** | $P(Y \mid X) \neq P(Y)$ | Y's distribution uses X in if statement |
+| **Hierarchical Model** | $\theta \sim \text{Prior}, X \mid \theta$ | Parameter as random variable: `theta = uniform() @ "theta"` |
+| **Mixture Model** | $\sum_k P(Z=k) P(X \mid Z=k)$ | `if category == k: X = distribution_k()` |
+| **Sequence Model** | $P(X_t \mid X_{t-1})$ | Loop with prev_state dependency |
+
+**Common modeling patterns:**
+
+| Pattern | Probability Structure | Code Structure |
+|---------|---------------------|----------------|
+| **Independent observations** | $P(X_1, \ldots, X_n) = \prod P(X_i)$ | `for i: X_i = bernoulli()` |
+| **Hierarchical** | $P(\theta) P(X \mid \theta)$ | `theta = uniform(); X = bernoulli(theta)` |
+| **Conditional** | $P(Y \mid X)$ depends on X | `if X: Y = bernoulli(p1) else: Y = bernoulli(p2)` |
+| **Time series** | $P(X_t \mid X_{t-1})$ | `for t: X[t] = bernoulli(f(X[t-1]))` |
+| **Mixture** | $\sum_k \pi_k P(X \mid k)$ | `k = categorical(pi); if k==0: ... else: ...` |
+
+**Key insights:**
+- **@gen function = Joint distribution** — Defines P(all variables)
+- **if statements = Conditional dependence** — Y depends on X
+- **for loops = Repeated structure** — Multiple observations or time steps
+- **Parameters as random variables = Hierarchical** — Uncertainty at multiple levels
+- **Your generative story = The math** — If you can describe how data is generated, you can code it
+
+**Example: Medical diagnosis**
+```
+Math: P(Disease, Fever, Cough) = P(Disease) × P(Fever|Disease) × P(Cough|Disease)
+Code: has_disease = bernoulli(0.01) @ "disease"
+      if has_disease:
+          fever = bernoulli(0.9) @ "fever"
+          cough = bernoulli(0.8) @ "cough"
+```
+{{% /notice %}}
+
 ---
 
 ## Common Patterns

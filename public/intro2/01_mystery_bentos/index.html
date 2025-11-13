@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="The Weight of the Matter It’s a new semester at the university, and Professor Chibany’s students have been bringing him bentos again. But this time, something is different.
+Last semester, Chibany could choose his bento (tonkatsu or hamburger) and he learned about probability by counting his choices. But this semester, the students have been secretly choosing for him. Every day, a mysterious bento box appears on his desk during office hours.">
+    <meta name="author" content="Joseph Austerweil">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Chibany&#39;s Mystery Bentos :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="The Weight of the Matter It’s a new semester at the university, and Professor Chibany’s students have been bringing him bentos again. But this time, something is different.
+Last semester, Chibany could choose his bento (tonkatsu or hamburger) and he learned about probability by counting his choices. But this semester, the students have been secretly choosing for him. Every day, a mysterious bento box appears on his desk during office hours.">
+    <meta property="og:url" content="https://josephausterweil.github.io/probintro/intro2/01_mystery_bentos/index.html">
+    <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Chibany&#39;s Mystery Bentos :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="The Weight of the Matter It’s a new semester at the university, and Professor Chibany’s students have been bringing him bentos again. But this time, something is different.
+Last semester, Chibany could choose his bento (tonkatsu or hamburger) and he learned about probability by counting his choices. But this semester, the students have been secretly choosing for him. Every day, a mysterious bento box appears on his desk during office hours.">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Continuous Probability and Bayesian Learning">
+    <meta itemprop="name" content="Chibany&#39;s Mystery Bentos :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="The Weight of the Matter It’s a new semester at the university, and Professor Chibany’s students have been bringing him bentos again. But this time, something is different.
+Last semester, Chibany could choose his bento (tonkatsu or hamburger) and he learned about probability by counting his choices. But this semester, the students have been secretly choosing for him. Every day, a mysterious bento box appears on his desk during office hours.">
+    <meta itemprop="wordCount" content="3793">
+    <title>Chibany&#39;s Mystery Bentos :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/images/favicon.png?1763006143" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763006143" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763006143" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1763006143" defer></script>
+    <script src="/probintro/js/search.min.js?1763006143" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763006143";
+    </script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763006143" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763006143" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763006143" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763006143" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1763006143" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1763006143" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = `.min`;
+      window.relearn.path='\/intro2\/01_mystery_bentos\/index.html';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='https:\/\/josephausterweil.github.io\/probintro';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/probintro/intro2/01_mystery_bentos/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#the-weight-of-the-matter">The Weight of the Matter</a></li>
+    <li><a href="#overheard-conversation">Overheard Conversation</a></li>
+    <li><a href="#week-one-something-strange">Week One: Something Strange</a></li>
+    <li><a href="#the-paradox-revealed">The Paradox Revealed</a></li>
+    <li><a href="#the-resolution-expected-value">The Resolution: Expected Value</a></li>
+    <li><a href="#what-is-expected-value">What Is Expected Value?</a>
+      <ul>
+        <li><a href="#three-key-insights">Three Key Insights</a></li>
+      </ul>
+    </li>
+    <li><a href="#common-misconceptions-about-expected-value">Common Misconceptions About Expected Value</a></li>
+    <li><a href="#visualizing-expected-value-as-balance-point">Visualizing Expected Value as Balance Point</a></li>
+    <li><a href="#simulation-validation">Simulation Validation</a></li>
+    <li><a href="#properties-of-expected-value">Properties of Expected Value</a>
+      <ul>
+        <li><a href="#linearity">Linearity</a></li>
+      </ul>
+    </li>
+    <li><a href="#modeling-the-mixture-with-genjax">Modeling the Mixture with GenJAX</a>
+      <ul>
+        <li><a href="#the-generative-process">The Generative Process</a></li>
+        <li><a href="#simulating-from-the-model">Simulating from the Model</a></li>
+        <li><a href="#connecting-to-expected-value">Connecting to Expected Value</a></li>
+        <li><a href="#examining-individual-traces">Examining Individual Traces</a></li>
+        <li><a href="#preview-whats-missing">Preview: What&rsquo;s Missing?</a></li>
+      </ul>
+    </li>
+    <li><a href="#but-were-not-done-yet">But We&rsquo;re Not Done Yet&hellip;</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#practice-problems">Practice Problems</a>
+      <ul>
+        <li><a href="#problem-1-menu-expansion">Problem 1: Menu Expansion</a></li>
+        <li><a href="#problem-2-multiple-bentos">Problem 2: Multiple Bentos</a></li>
+        <li><a href="#problem-3-conceptual-challenge">Problem 3: Conceptual Challenge</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/intro2/index.html"><span itemprop="name">Continuous Probability and Bayesian Learning</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Chibany&#39;s Mystery Bentos</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro2/index.html" title="Continuous Probability and Bayesian Learning (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro2/02_continuous/index.html" title="The Continuum: Continuous Probability (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable intro2" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="chibanys-mystery-bentos">Chibany&#39;s Mystery Bentos</h1>
+
+<h2 id="the-weight-of-the-matter">The Weight of the Matter</h2>
+<p>It&rsquo;s a new semester at the university, and Professor Chibany&rsquo;s students have been bringing him bentos again. But this time, something is different.</p>
+<p>Last semester, Chibany could choose his bento (tonkatsu or hamburger) and he learned about probability by counting his choices. But this semester, the students have been <strong>secretly choosing for him</strong>. Every day, a mysterious bento box appears on his desk during office hours.</p>
+<p>There&rsquo;s a problem though: it would be extremely rude to open the bento while students are watching! Japanese etiquette demands he wait until they leave. But Chibany is curious, and he&rsquo;s a probabilist.</p>
+<p>So he hatches a plan: <strong>weigh the bentos</strong>.</p>
+<p>Tonkatsu bentos are hearty and heavy. Hamburger bentos are lighter. If he records the weights, maybe he can figure out what he&rsquo;s been receiving, and even predict what&rsquo;s coming next.</p>
+<h2 id="overheard-conversation">Overheard Conversation</h2>
+<p>One afternoon, while Chibany is grading papers in his office, he overhears two students chatting in the hallway outside:</p>
+<blockquote>
+<p><strong>Student 1:</strong> &ldquo;I&rsquo;ve been bringing Professor Chibany tonkatsu most days. It&rsquo;s his favorite!&rdquo;
+<strong>Student 2:</strong> &ldquo;Me too! Though sometimes I bring hamburger when the cafeteria runs out of tonkatsu.&rdquo;
+<strong>Student 1:</strong> &ldquo;Yeah, I&rsquo;d say I bring tonkatsu like&hellip; seven times out of ten?&rdquo;
+<strong>Student 2:</strong> &ldquo;Same! About 70% tonkatsu, 30% hamburger.&rdquo;</p></blockquote>
+<p>Chibany smiles. So there <strong>is</strong> a pattern! But he decides to continue his experiment anyway. Can he discover this 70-30 split just from weighing the bentos?</p>
+<h2 id="week-one-something-strange">Week One: Something Strange</h2>
+<p>Chibany weighs his first week of bentos and records the measurements:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Monday:    520g
+Tuesday:   348g
+Wednesday: 505g
+Thursday:  362g
+Friday:    488g</code></pre></div>
+<p>He calculates the average: <strong>441 grams</strong>.</p>
+<p>&ldquo;Hmm,&rdquo; he thinks, &ldquo;that&rsquo;s odd. Last semester, tonkatsu bentos weighed about <strong>500g</strong> and hamburger bentos weighed about <strong>350g</strong>. But 441g is right in the middle! Am I getting medium-sized bentos?&rdquo;</p>
+<p>He weighs more bentos over the next few weeks:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Week 2: 355g, 510g, 492g, 345g, 515g
+Week 3: 498g, 358g, 505g, 362g, 490g
+Week 4: 352g, 488g, 508g, 355g, 495g</code></pre></div>
+<p>After a month, he has 20 measurements. The average is still around <strong>445g</strong>.</p>
+<p>But something doesn&rsquo;t add up&hellip;</p>
+<h2 id="the-paradox-revealed">The Paradox Revealed</h2>
+<p>Chibany plots his measurements on a histogram:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Chibany&#39;s actual measurements (grams)</span>
+</span></span><span style="display:flex;"><span>weights <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">520</span>, <span style="color:#ae81ff">348</span>, <span style="color:#ae81ff">505</span>, <span style="color:#ae81ff">362</span>, <span style="color:#ae81ff">488</span>,  <span style="color:#75715e"># Week 1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">355</span>, <span style="color:#ae81ff">510</span>, <span style="color:#ae81ff">492</span>, <span style="color:#ae81ff">345</span>, <span style="color:#ae81ff">515</span>,  <span style="color:#75715e"># Week 2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">498</span>, <span style="color:#ae81ff">358</span>, <span style="color:#ae81ff">505</span>, <span style="color:#ae81ff">362</span>, <span style="color:#ae81ff">490</span>,  <span style="color:#75715e"># Week 3</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">488</span>, <span style="color:#ae81ff">508</span>, <span style="color:#ae81ff">355</span>, <span style="color:#ae81ff">495</span>   <span style="color:#75715e"># Week 4</span>
+</span></span><span style="display:flex;"><span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Average weight: </span><span style="color:#e6db74">{</span>weights<span style="color:#f92672">.</span>mean()<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Weights near 350g: </span><span style="color:#e6db74">{</span>np<span style="color:#f92672">.</span>sum((weights <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">340</span>) <span style="color:#f92672">&amp;</span> (weights <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">370</span>))<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Weights near 500g: </span><span style="color:#e6db74">{</span>np<span style="color:#f92672">.</span>sum((weights <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">480</span>) <span style="color:#f92672">&amp;</span> (weights <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">520</span>))<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Weights near 445g: </span><span style="color:#e6db74">{</span>np<span style="color:#f92672">.</span>sum((weights <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">435</span>) <span style="color:#f92672">&amp;</span> (weights <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">455</span>))<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<details>
+<summary>Click to show visualization code</summary>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create histogram</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">6</span>))
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>hist(weights, bins<span style="color:#f92672">=</span><span style="color:#ae81ff">15</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;black&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.7</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;steelblue&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>axvline(weights<span style="color:#f92672">.</span>mean(), color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>            label<span style="color:#f92672">=</span><span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Average: </span><span style="color:#e6db74">{</span>weights<span style="color:#f92672">.</span>mean()<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Weight (grams)&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Frequency&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Chibany&#39;s Mystery Bentos - First Month&#34;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>legend(fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">11</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>grid(axis<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;y&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#39;mystery_bentos_histogram.png&#39;</span>, dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>, bbox_inches<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;tight&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</details>
+<p><a href="#R-image-ae683af03fc32dfdb1c4c7cd171378d4" class="lightbox-link"><img alt="Mystery Bentos - Weight Distribution" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/mystery_bentos_histogram.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-ae683af03fc32dfdb1c4c7cd171378d4"><img alt="Mystery Bentos - Weight Distribution" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/mystery_bentos_histogram.png"></a></p>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Average weight: 445.4g
+Weights near 350g: 6
+Weights near 500g: 14
+Weights near 445g: 0</code></pre></div>
+<p>He stares at the plot. <strong>Something is very wrong.</strong></p>
+<p>Most weights cluster around <strong>350g</strong> (hamburger range).
+Most others cluster around <strong>500g</strong> (tonkatsu range).
+But <strong>ZERO</strong> measurements are near 445g (the average)!</p>
+
+<details open class=" box cstyle notices warning">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-triangle"></i> 
+    The Paradox
+  </summary>
+  <div class="box-content">
+<p><strong>The average weight is a weight that almost never occurs!</strong></p>
+<p>This seems impossible. How can the average be 445g when no bento weighs anywhere near 445g?</p>
+  </div>
+</details>
+<h2 id="the-resolution-expected-value">The Resolution: Expected Value</h2>
+<p>Chibany has an insight. He&rsquo;s not receiving &ldquo;medium bentos.&rdquo; He&rsquo;s receiving a <strong>mixture</strong> of heavy tonkatsu bentos and light hamburger bentos!</p>
+<p>Looking at the data more carefully:</p>
+<ul>
+<li>About <strong>14 out of 20</strong> measurements are near 500g (tonkatsu)</li>
+<li>About <strong>6 out of 20</strong> measurements are near 350g (hamburger)</li>
+</ul>
+<p>That&rsquo;s roughly:</p>
+<ul>
+<li><strong>70% tonkatsu</strong> (θ = 0.7), just like the students said!</li>
+<li><strong>30% hamburger</strong> (θ = 0.3)</li>
+</ul>
+<p>Now the 445g average makes sense! It&rsquo;s not that individual bentos weigh 445g. It&rsquo;s that the <strong>long-run average of the mixture</strong> is:</p>
+<p>$$\text{Average weight} = (0.7 \times 500\text{g}) + (0.3 \times 350\text{g}) = 350 + 105 = 455\text{g}$$</p>
+<p>His observed average of 445g is close to the theoretical 455g. The difference is just random variation from a small sample.</p>
+<p>This is called the <strong>expected value</strong>, written $E[X]$.</p>
+<h2 id="what-is-expected-value">What Is Expected Value?</h2>
+<p><strong>In plain English:</strong> Expected value is what you&rsquo;d get &ldquo;on average&rdquo; if you repeated something many, many times.</p>
+<p>For Chibany&rsquo;s bentos:</p>
+<ul>
+<li>70% of days he gets tonkatsu (500g)</li>
+<li>30% of days he gets hamburger (350g)</li>
+<li>On average over many days, his bento weighs: (0.7 × 500) + (0.3 × 350) = 455g</li>
+</ul>
+<p><strong>The mathematical definition:</strong> Expected value is the <strong>weighted average</strong> of all possible outcomes, where the weights are the probabilities.</p>
+<p>For a discrete random variable $X$ that can take values $x_1, x_2, \ldots, x_n$ with probabilities $p_1, p_2, \ldots, p_n$:</p>
+<p>$$E[X] = \sum_{i=1}^{n} p_i \cdot x_i$$</p>
+<p><strong>Breaking this down:</strong></p>
+<ul>
+<li>$p_i$ = probability of outcome $i$</li>
+<li>$x_i$ = value of outcome $i$</li>
+<li>$\sum$ = &ldquo;add them all up&rdquo;</li>
+</ul>
+<p>In Chibany&rsquo;s case:</p>
+<ul>
+<li>$X$ = weight of a bento</li>
+<li>$x_1 = 500$ (tonkatsu weight) with probability $p_1 = 0.7$</li>
+<li>$x_2 = 350$ (hamburger weight) with probability $p_2 = 0.3$</li>
+</ul>
+<p>Therefore:
+$$E[X] = 0.7 \times 500 + 0.3 \times 350 = 455\text{g}$$</p>
+<h3 id="three-key-insights">Three Key Insights</h3>
+<p><strong>1. Expected value ≠ &ldquo;expected&rdquo; in the everyday sense</strong></p>
+<p>You shouldn&rsquo;t &ldquo;expect&rdquo; any single bento to weigh exactly 455g. In fact, almost no bento weighs 455g! The term &ldquo;expected value&rdquo; is a bit misleading. It really means &ldquo;long-run average.&rdquo;</p>
+<p><strong>2. Expected value is the center of mass</strong></p>
+<p>Imagine the histogram balanced on a seesaw. Where would you put the fulcrum so it balances? At the expected value! It&rsquo;s the distribution&rsquo;s &ldquo;center of gravity.&rdquo;</p>
+<p><strong>3. Expected value hides the structure</strong></p>
+<p>Knowing $E[X] = 455\text{g}$ doesn&rsquo;t tell you there are two distinct types of bentos. You lose the <strong>bimodal</strong> structure (two peaks). That&rsquo;s why we&rsquo;ll need more tools (like variance and mixture models) to fully understand distributions.</p>
+<h2 id="common-misconceptions-about-expected-value">Common Misconceptions About Expected Value</h2>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    Common Misconceptions
+  </summary>
+  <div class="box-content">
+<p><strong>Misconception 1: &ldquo;Expected value is the most likely value&rdquo;</strong>
+❌ <strong>False!</strong> In Chibany&rsquo;s case, E[X] = 455g, but the most likely values are 350g or 500g. Zero bentos weigh 455g!</p>
+<p>✓ <strong>Correct:</strong> Expected value is the long-run average, not the most probable outcome.</p>
+<hr>
+<p><strong>Misconception 2: &ldquo;Expected value is what I should expect to see next&rdquo;</strong>
+❌ <strong>False!</strong> The next bento will weigh ~350g or ~500g, not 455g.</p>
+<p>✓ <strong>Correct:</strong> Expected value describes the distribution&rsquo;s center, not individual outcomes.</p>
+<hr>
+<p><strong>Misconception 3: &ldquo;Expected value fully describes the distribution&rdquo;</strong>
+❌ <strong>False!</strong> Two very different distributions can have the same expected value:</p>
+<ul>
+<li>Distribution A: All bentos weigh exactly 455g</li>
+<li>Distribution B: 70% weigh 500g, 30% weigh 350g</li>
+</ul>
+<p>Both have E[X] = 455g, but they&rsquo;re completely different!</p>
+<p>✓ <strong>Correct:</strong> Expected value is just the first moment. We also need variance (spread), shape, etc.</p>
+<hr>
+<p><strong>Misconception 4: &ldquo;Expected values can&rsquo;t be impossible outcomes&rdquo;</strong>
+❌ <strong>False!</strong> Expected value can be a value that&rsquo;s impossible to observe.</p>
+<p>Example: Expected value of a fair die is $E[X] = 3.5$, but you can never roll 3.5!</p>
+<p>✓ <strong>Correct:</strong> Expected value is a mathematical average, not necessarily a realizable outcome.</p>
+  </div>
+</details>
+<h2 id="visualizing-expected-value-as-balance-point">Visualizing Expected Value as Balance Point</h2>
+<p>Let&rsquo;s see why E[X] is called the &ldquo;balance point&rdquo; by trying different fulcrum positions:</p>
+<details>
+<summary>Click to show visualization code</summary>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">120
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">121
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">122
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">123
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">124
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">125
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">126
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">127
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">128
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">129
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">130
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">131
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">132
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> matplotlib.patches <span style="color:#f92672">import</span> Circle, Polygon
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">draw_seesaw_panel</span>(ax, fulcrum_position, title, show_calculation<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Draw a single seesaw panel with given fulcrum position&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Bento positions and masses</span>
+</span></span><span style="display:flex;"><span>    pos_hamburger <span style="color:#f92672">=</span> <span style="color:#ae81ff">350</span>
+</span></span><span style="display:flex;"><span>    pos_tonkatsu <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>
+</span></span><span style="display:flex;"><span>    mass_hamburger <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>
+</span></span><span style="display:flex;"><span>    mass_tonkatsu <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Calculate distances from fulcrum</span>
+</span></span><span style="display:flex;"><span>    dist_hamburger <span style="color:#f92672">=</span> abs(pos_hamburger <span style="color:#f92672">-</span> fulcrum_position)
+</span></span><span style="display:flex;"><span>    dist_tonkatsu <span style="color:#f92672">=</span> abs(pos_tonkatsu <span style="color:#f92672">-</span> fulcrum_position)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Calculate torques</span>
+</span></span><span style="display:flex;"><span>    torque_left <span style="color:#f92672">=</span> mass_hamburger <span style="color:#f92672">*</span> dist_hamburger <span style="color:#66d9ef">if</span> pos_hamburger <span style="color:#f92672">&lt;</span> fulcrum_position <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    torque_right <span style="color:#f92672">=</span> mass_tonkatsu <span style="color:#f92672">*</span> dist_tonkatsu <span style="color:#66d9ef">if</span> pos_tonkatsu <span style="color:#f92672">&gt;</span> fulcrum_position <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> pos_hamburger <span style="color:#f92672">&gt;</span> fulcrum_position:
+</span></span><span style="display:flex;"><span>        torque_right <span style="color:#f92672">+=</span> mass_hamburger <span style="color:#f92672">*</span> dist_hamburger
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> pos_tonkatsu <span style="color:#f92672">&lt;</span> fulcrum_position:
+</span></span><span style="display:flex;"><span>        torque_left <span style="color:#f92672">+=</span> mass_tonkatsu <span style="color:#f92672">*</span> dist_tonkatsu
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    net_torque <span style="color:#f92672">=</span> torque_right <span style="color:#f92672">-</span> torque_left
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Calculate rotation angle (exaggerated for visibility)</span>
+</span></span><span style="display:flex;"><span>    max_angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>  <span style="color:#75715e"># degrees</span>
+</span></span><span style="display:flex;"><span>    rotation_angle <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>clip(net_torque <span style="color:#f92672">*</span> max_angle <span style="color:#f92672">/</span> <span style="color:#ae81ff">50</span>, <span style="color:#f92672">-</span>max_angle, max_angle)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Draw seesaw</span>
+</span></span><span style="display:flex;"><span>    seesaw_length <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>    seesaw_left <span style="color:#f92672">=</span> fulcrum_position <span style="color:#f92672">-</span> seesaw_length <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    seesaw_right <span style="color:#f92672">=</span> fulcrum_position <span style="color:#f92672">+</span> seesaw_length <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Apply rotation</span>
+</span></span><span style="display:flex;"><span>    angle_rad <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>radians(rotation_angle)
+</span></span><span style="display:flex;"><span>    left_y <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>seesaw_length <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>sin(angle_rad)
+</span></span><span style="display:flex;"><span>    right_y <span style="color:#f92672">=</span> seesaw_length <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>sin(angle_rad)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Draw the seesaw plank</span>
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>plot([seesaw_left, seesaw_right], [left_y, right_y],
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;k-&#39;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>, solid_capstyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;round&#39;</span>, zorder<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Draw fulcrum (triangle)</span>
+</span></span><span style="display:flex;"><span>    triangle_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>
+</span></span><span style="display:flex;"><span>    triangle <span style="color:#f92672">=</span> Polygon([
+</span></span><span style="display:flex;"><span>        [fulcrum_position <span style="color:#f92672">-</span> triangle_size<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, <span style="color:#f92672">-</span>triangle_size],
+</span></span><span style="display:flex;"><span>        [fulcrum_position <span style="color:#f92672">+</span> triangle_size<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, <span style="color:#f92672">-</span>triangle_size],
+</span></span><span style="display:flex;"><span>        [fulcrum_position, <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    ], facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;darkred&#39;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, zorder<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>add_patch(triangle)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Draw bento masses (circles positioned on seesaw)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Calculate actual positions on rotated seesaw</span>
+</span></span><span style="display:flex;"><span>    hamburger_offset <span style="color:#f92672">=</span> pos_hamburger <span style="color:#f92672">-</span> fulcrum_position
+</span></span><span style="display:flex;"><span>    tonkatsu_offset <span style="color:#f92672">=</span> pos_tonkatsu <span style="color:#f92672">-</span> fulcrum_position
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    hamburger_y <span style="color:#f92672">=</span> hamburger_offset <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>sin(angle_rad)
+</span></span><span style="display:flex;"><span>    tonkatsu_y <span style="color:#f92672">=</span> tonkatsu_offset <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>sin(angle_rad)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Hamburger bento</span>
+</span></span><span style="display:flex;"><span>    circle_hamburger <span style="color:#f92672">=</span> Circle((pos_hamburger, hamburger_y <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>),
+</span></span><span style="display:flex;"><span>                             radius<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;orange&#39;</span>,
+</span></span><span style="display:flex;"><span>                             edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;darkorange&#39;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, zorder<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>add_patch(circle_hamburger)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>text(pos_hamburger, hamburger_y <span style="color:#f92672">+</span> <span style="color:#ae81ff">25</span>, <span style="color:#e6db74">&#39;30%</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">(350g)&#39;</span>,
+</span></span><span style="display:flex;"><span>           ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Tonkatsu bento (larger circle to show 70%)</span>
+</span></span><span style="display:flex;"><span>    circle_tonkatsu <span style="color:#f92672">=</span> Circle((pos_tonkatsu, tonkatsu_y <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>),
+</span></span><span style="display:flex;"><span>                            radius<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;brown&#39;</span>,
+</span></span><span style="display:flex;"><span>                            edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;saddlebrown&#39;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, zorder<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>add_patch(circle_tonkatsu)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>text(pos_tonkatsu, tonkatsu_y <span style="color:#f92672">+</span> <span style="color:#ae81ff">30</span>, <span style="color:#e6db74">&#39;70%</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">(500g)&#39;</span>,
+</span></span><span style="display:flex;"><span>           ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Mark fulcrum position</span>
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>axvline(fulcrum_position, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;:&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>, zorder<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>text(fulcrum_position, <span style="color:#f92672">-</span><span style="color:#ae81ff">40</span>, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Fulcrum</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">{</span>fulcrum_position<span style="color:#e6db74">}</span><span style="color:#e6db74">g&#39;</span>,
+</span></span><span style="display:flex;"><span>           ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;top&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Show calculation if requested</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> show_calculation:
+</span></span><span style="display:flex;"><span>        calc_text <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Left torque: </span><span style="color:#e6db74">{</span>torque_left<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Right torque: </span><span style="color:#e6db74">{</span>torque_right<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        ax<span style="color:#f92672">.</span>text(<span style="color:#ae81ff">0.05</span>, <span style="color:#ae81ff">0.95</span>, calc_text, transform<span style="color:#f92672">=</span>ax<span style="color:#f92672">.</span>transAxes,
+</span></span><span style="display:flex;"><span>               fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>, va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;top&#39;</span>, bbox<span style="color:#f92672">=</span>dict(boxstyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;round&#39;</span>,
+</span></span><span style="display:flex;"><span>               facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;wheat&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.8</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Determine balance state</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> abs(rotation_angle) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        balance_state <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;⚖️ BALANCED!&#34;</span>
+</span></span><span style="display:flex;"><span>        balance_color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;green&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> rotation_angle <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        balance_state <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;↻ TIPS RIGHT&#34;</span>
+</span></span><span style="display:flex;"><span>        balance_color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;red&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        balance_state <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;↺ TIPS LEFT&#34;</span>
+</span></span><span style="display:flex;"><span>        balance_color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;blue&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Title with balance state</span>
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>text(<span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">0.98</span>, title, transform<span style="color:#f92672">=</span>ax<span style="color:#f92672">.</span>transAxes,
+</span></span><span style="display:flex;"><span>           ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;top&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>text(<span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">0.88</span>, balance_state, transform<span style="color:#f92672">=</span>ax<span style="color:#f92672">.</span>transAxes,
+</span></span><span style="display:flex;"><span>           ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;top&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>,
+</span></span><span style="display:flex;"><span>           color<span style="color:#f92672">=</span>balance_color)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Clean up axes</span>
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>set_xlim(<span style="color:#ae81ff">320</span>, <span style="color:#ae81ff">530</span>)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>set_ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">50</span>)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>set_aspect(<span style="color:#e6db74">&#39;equal&#39;</span>)
+</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>axis(<span style="color:#e6db74">&#39;off&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create figure with 3 panels</span>
+</span></span><span style="display:flex;"><span>fig, (ax1, ax2, ax3) <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">5</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Panel 1: Fulcrum too far left (tips right)</span>
+</span></span><span style="display:flex;"><span>draw_seesaw_panel(ax1, <span style="color:#ae81ff">400</span>, <span style="color:#e6db74">&#34;Fulcrum at 400g&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Panel 2: Fulcrum too far right (tips left)</span>
+</span></span><span style="display:flex;"><span>draw_seesaw_panel(ax2, <span style="color:#ae81ff">480</span>, <span style="color:#e6db74">&#34;Fulcrum at 480g&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Panel 3: Fulcrum at E[X] (balanced!)</span>
+</span></span><span style="display:flex;"><span>draw_seesaw_panel(ax3, <span style="color:#ae81ff">455</span>, <span style="color:#e6db74">&#34;Fulcrum at E[X] = 455g&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>suptitle(<span style="color:#e6db74">&#34;Why E[X] is the Balance Point&#34;</span>,
+</span></span><span style="display:flex;"><span>            fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">16</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>, y<span style="color:#f92672">=</span><span style="color:#ae81ff">1.02</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#39;seesaw_balance_point.png&#39;</span>, dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>, bbox_inches<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;tight&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</details>
+<p><a href="#R-image-19b0e4e8177f5ce36edbbe20a8f2ee2a" class="lightbox-link"><img alt="Mystery Bentos Balance on Seesaw" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/seesaw_visualization.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-19b0e4e8177f5ce36edbbe20a8f2ee2a"><img alt="Mystery Bentos Balance on Seesaw" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/seesaw_visualization.png"></a></p>
+<p><strong>The expected value E[X] = 455g is the unique position where the distribution balances.</strong></p>
+<p>Think of it like a seesaw at a playground:</p>
+<ul>
+<li>When the fulcrum is at 400g, the heavy tonkatsu side (70% probability at 500g) outweighs the hamburger side, tipping the seesaw to the right</li>
+<li>When the fulcrum is at 480g, the hamburger side (despite being only 30%) is so far away (130g!) that it has more &ldquo;leverage,&rdquo; tipping the seesaw to the left</li>
+<li>Only at E[X] = 455g does everything balance perfectly. The hamburger&rsquo;s distance (105g away) times its weight (30%) equals the tonkatsu&rsquo;s distance (45g away) times its weight (70%): both equal 31.5</li>
+</ul>
+<h2 id="simulation-validation">Simulation Validation</h2>
+<p>Let&rsquo;s verify this computationally. If Chibany&rsquo;s students are randomly choosing 70% tonkatsu and 30% hamburger, what should happen over many days?</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Simulate 1000 days of bento deliveries</span>
+</span></span><span style="display:flex;"><span>np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>n_days <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Each day: 70% chance tonkatsu (500g), 30% chance hamburger (350g)</span>
+</span></span><span style="display:flex;"><span>bento_types <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>choice([<span style="color:#e6db74">&#39;tonkatsu&#39;</span>, <span style="color:#e6db74">&#39;hamburger&#39;</span>],
+</span></span><span style="display:flex;"><span>                               size<span style="color:#f92672">=</span>n_days,
+</span></span><span style="display:flex;"><span>                               p<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0.7</span>, <span style="color:#ae81ff">0.3</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>weights <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>where(bento_types <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;tonkatsu&#39;</span>, <span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">350</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate averages</span>
+</span></span><span style="display:flex;"><span>observed_average <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(weights)
+</span></span><span style="display:flex;"><span>theoretical_expected <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">500</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.3</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">350</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Observed average: </span><span style="color:#e6db74">{</span>observed_average<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Theoretical E[X]: </span><span style="color:#e6db74">{</span>theoretical_expected<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Difference: </span><span style="color:#e6db74">{</span>abs(observed_average <span style="color:#f92672">-</span> theoretical_expected)<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Show the counts</span>
+</span></span><span style="display:flex;"><span>n_tonkatsu <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>sum(bento_types <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;tonkatsu&#39;</span>)
+</span></span><span style="display:flex;"><span>n_hamburger <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>sum(bento_types <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;hamburger&#39;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Actual counts:&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  Tonkatsu: </span><span style="color:#e6db74">{</span>n_tonkatsu<span style="color:#e6db74">}</span><span style="color:#e6db74"> (</span><span style="color:#e6db74">{</span>n_tonkatsu<span style="color:#f92672">/</span>n_days<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span><span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">%)&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  Hamburger: </span><span style="color:#e6db74">{</span>n_hamburger<span style="color:#e6db74">}</span><span style="color:#e6db74"> (</span><span style="color:#e6db74">{</span>n_hamburger<span style="color:#f92672">/</span>n_days<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span><span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">%)&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<details>
+<summary>Click to show visualization code</summary>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Plot histogram with both averages</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">6</span>))
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>hist(weights, bins<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.7</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;black&#39;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;steelblue&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>axvline(observed_average, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>            label<span style="color:#f92672">=</span><span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Observed average: </span><span style="color:#e6db74">{</span>observed_average<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>axvline(theoretical_expected, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;blue&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>            label<span style="color:#f92672">=</span><span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Theoretical E[X]: </span><span style="color:#e6db74">{</span>theoretical_expected<span style="color:#e6db74">}</span><span style="color:#e6db74">g&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Weight (g)&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Frequency&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>legend(fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">11</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;1000 Days of Mystery Bentos&#34;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>grid(axis<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;y&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#39;simulation_validation.png&#39;</span>, dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>, bbox_inches<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;tight&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</details>
+<p><a href="#R-image-6209bc3d414e69b949904977957b84b3" class="lightbox-link"><img alt="10,000 Simulated Mystery Bentos" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/simulation_validation.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-6209bc3d414e69b949904977957b84b3"><img alt="10,000 Simulated Mystery Bentos" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/simulation_validation.png"></a></p>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Observed average: 455.5g
+Theoretical E[X]: 455.0g
+Difference: 0.5g
+
+Actual counts:
+  Tonkatsu: 701 (70.1%)
+  Hamburger: 299 (29.9%)</code></pre></div>
+<p>The long-run average converges to the expected value! This is the <strong>Law of Large Numbers</strong> in action.</p>
+<h2 id="properties-of-expected-value">Properties of Expected Value</h2>
+<p>Expected value has some useful mathematical properties that will be crucial for mixture models:</p>
+<h3 id="linearity">Linearity</h3>
+<p><strong>Property 1:</strong> $E[aX + b] = aE[X] + b$</p>
+<p>If you scale and shift a random variable, its expected value scales and shifts the same way.</p>
+<p><strong>Example:</strong> Chibany switches to measuring in ounces instead of grams.
+1 gram ≈ 0.035 ounces, so weight in oz = weight in g × 0.035</p>
+<p>$$E[\text{weight in oz}] = 0.035 \times E[\text{weight in g}] = 0.035 \times 455 \approx 15.9\text{ oz}$$</p>
+<p><strong>Property 2:</strong> $E[X + Y] = E[X] + E[Y]$</p>
+<p>The expected value of a sum is the sum of expected values. This holds <strong>even if X and Y are dependent</strong>!</p>
+<p><strong>Example:</strong> If Chibany receives 5 bentos in one day, the expected total weight is:
+$$E[\text{total}] = E[X_1] + E[X_2] + E[X_3] + E[X_4] + E[X_5]$$
+$$= 5 \times E[\text{single bento}] = 5 \times 455 = 2275\text{g}$$</p>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    Why Linearity Matters
+  </summary>
+  <div class="box-content">
+<p>This <strong>linearity property</strong> is what makes mixture models work!</p>
+<p>When we have a mixture:
+$$E[X] = \theta \cdot E[X_{\text{tonkatsu}}] + (1-\theta) \cdot E[X_{\text{hamburger}}]$$</p>
+<p>We can compute the expected value of a complex mixture by just taking a weighted average of the component expected values.</p>
+<p>This will be crucial in Chapter 5 when we study Gaussian mixtures!</p>
+  </div>
+</details>
+<h2 id="modeling-the-mixture-with-genjax">Modeling the Mixture with GenJAX</h2>
+<p>Now let&rsquo;s see how to express Chibany&rsquo;s bento mixture as a <strong>generative model</strong> using GenJAX! This builds directly on what you learned in Tutorial 2.</p>
+<h3 id="the-generative-process">The Generative Process</h3>
+<p>Recall from Tutorial 2 that we express random processes using <strong>generative functions</strong>. Here&rsquo;s Chibany&rsquo;s bento selection process:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, choice_map, simulate, Plot
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bento_mixture</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Generate a single bento weight from the mixture&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Step 1: Choose the bento type</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 70% chance of tonkatsu, 30% chance of hamburger</span>
+</span></span><span style="display:flex;"><span>    is_tonkatsu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>bernoulli(<span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;type&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Step 2: Assign the weight based on type</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># (For now, we use exact weights - we&#39;ll add variation in Chapter 3!)</span>
+</span></span><span style="display:flex;"><span>    weight <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>where(is_tonkatsu, <span style="color:#ae81ff">500.0</span>, <span style="color:#ae81ff">350.0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> weight <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;weight&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>What&rsquo;s happening here?</strong></p>
+<ol>
+<li><code>jnp.bernoulli(0.7)</code> flips a weighted coin: 70% True (tonkatsu), 30% False (hamburger)</li>
+<li><code>@ &quot;type&quot;</code> gives this random choice an address (like you learned in Tutorial 2, Chapter 3)</li>
+<li><code>jnp.where(is_tonkatsu, 500.0, 350.0)</code> returns 500g if tonkatsu, 350g if hamburger</li>
+<li><code>@ &quot;weight&quot;</code> addresses the final output</li>
+</ol>
+<p>This is the <strong>generative model</strong> for Chibany&rsquo;s bentos!</p>
+<h3 id="simulating-from-the-model">Simulating from the Model</h3>
+<p>Let&rsquo;s simulate 1000 bentos and calculate the average weight, just like Chibany&rsquo;s experiment:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.random <span style="color:#66d9ef">as</span> random
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create a random key (GenJAX requires explicit randomness)</span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>PRNGKey(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Simulate 1000 bentos</span>
+</span></span><span style="display:flex;"><span>n_bentos <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>weights <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_bentos):
+</span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>split(key)
+</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> simulate(bento_mixture)(subkey)
+</span></span><span style="display:flex;"><span>    weights<span style="color:#f92672">.</span>append(trace<span style="color:#f92672">.</span>get_retval())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>weights <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array(weights)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate statistics</span>
+</span></span><span style="display:flex;"><span>mean_weight <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(weights)
+</span></span><span style="display:flex;"><span>n_tonkatsu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(weights <span style="color:#f92672">==</span> <span style="color:#ae81ff">500.0</span>)
+</span></span><span style="display:flex;"><span>n_hamburger <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(weights <span style="color:#f92672">==</span> <span style="color:#ae81ff">350.0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Simulated average weight: </span><span style="color:#e6db74">{</span>mean_weight<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Theoretical E[X]: </span><span style="color:#e6db74">{</span><span style="color:#ae81ff">0.7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">500</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.3</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">350</span><span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Counts:&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  Tonkatsu (500g): </span><span style="color:#e6db74">{</span>n_tonkatsu<span style="color:#e6db74">}</span><span style="color:#e6db74"> (</span><span style="color:#e6db74">{</span>n_tonkatsu<span style="color:#f92672">/</span>n_bentos<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span><span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">%)&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  Hamburger (350g): </span><span style="color:#e6db74">{</span>n_hamburger<span style="color:#e6db74">}</span><span style="color:#e6db74"> (</span><span style="color:#e6db74">{</span>n_hamburger<span style="color:#f92672">/</span>n_bentos<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span><span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">%)&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Simulated average weight: 454.5g
+Theoretical E[X]: 455.0g
+
+Counts:
+  Tonkatsu (500g): 691 (69.1%)
+  Hamburger (350g): 309 (30.9%)</code></pre></div>
+<p>The simulated average is very close to the theoretical expected value!</p>
+<h3 id="connecting-to-expected-value">Connecting to Expected Value</h3>
+<p>Remember the expected value formula:
+$$E[X] = 0.7 \times 500 + 0.3 \times 350 = 455\text{g}$$</p>
+<p><strong>GenJAX simulates this process:</strong></p>
+<ol>
+<li>Each simulation samples from the generative process</li>
+<li>The average of many samples <strong>approximates</strong> the expected value</li>
+<li>This is <strong>Monte Carlo estimation</strong>: using simulation to approximate mathematical expectations</li>
+</ol>
+<h3 id="examining-individual-traces">Examining Individual Traces</h3>
+<p>One power of GenJAX is that we can <strong>inspect</strong> what the model generates. Let&rsquo;s look at a few traces:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Generate and examine 5 bentos</span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>PRNGKey(<span style="color:#ae81ff">123</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+</span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>split(key)
+</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> simulate(bento_mixture)(subkey)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    bento_type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Tonkatsu&#34;</span> <span style="color:#66d9ef">if</span> trace[<span style="color:#e6db74">&#34;type&#34;</span>] <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;Hamburger&#34;</span>
+</span></span><span style="display:flex;"><span>    weight <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Bento </span><span style="color:#e6db74">{</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>bento_type<span style="color:#e6db74">:</span><span style="color:#e6db74">10s</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> → </span><span style="color:#e6db74">{</span>weight<span style="color:#e6db74">:</span><span style="color:#e6db74">.0f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Bento 1: Tonkatsu   → 500g
+Bento 2: Hamburger  → 350g
+Bento 3: Tonkatsu   → 500g
+Bento 4: Tonkatsu   → 500g
+Bento 5: Hamburger  → 350g</code></pre></div>
+<p>Each trace records both the <strong>type</strong> (the random choice) and the <strong>weight</strong> (the return value). This is the <strong>trace structure</strong> you learned about in Tutorial 2, Chapter 3!</p>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    GenJAX vs. Pure Python
+  </summary>
+  <div class="box-content">
+<p><strong>Why use GenJAX instead of pure Python/NumPy?</strong></p>
+<p>Right now, the GenJAX version might seem like overkill. But here&rsquo;s what we gain:</p>
+<ol>
+<li><strong>Explicit generative model</strong>: The code reads like the probabilistic story</li>
+<li><strong>Addressable choices</strong>: Every random decision has a name (<code>&quot;type&quot;</code>, <code>&quot;weight&quot;</code>)</li>
+<li><strong>Conditioning</strong> (coming soon!): We can ask &ldquo;What if I observe weight = 425g?&rdquo;</li>
+<li><strong>Inference</strong> (Chapters 4-6): We can learn parameters from data</li>
+<li><strong>Composability</strong>: Easy to extend (add more bento types, add weight variation, etc.)</li>
+</ol>
+<p>As the models get more complex (Chapters 3-6), GenJAX will become essential!</p>
+  </div>
+</details>
+<h3 id="preview-whats-missing">Preview: What&rsquo;s Missing?</h3>
+<p>This model captures the <strong>discrete mixture</strong> (tonkatsu vs. hamburger) but notice what it <strong>doesn&rsquo;t</strong> capture:</p>
+<ul>
+<li>Real tonkatsu bentos don&rsquo;t weigh exactly 500g - they vary (488g, 505g, 515g, etc.)</li>
+<li>Real hamburger bentos don&rsquo;t weigh exactly 350g - they vary too (348g, 358g, 362g, etc.)</li>
+</ul>
+<p>To model this <strong>within-category variation</strong>, we need:</p>
+<ol>
+<li><strong>Continuous distributions</strong> (Chapter 2)</li>
+<li><strong>Gaussian distributions</strong> (Chapter 3)</li>
+<li><strong>Gaussian mixtures</strong> (Chapter 5)</li>
+</ol>
+<p>That&rsquo;s where we&rsquo;re headed!</p>
+<h2 id="but-were-not-done-yet">But We&rsquo;re Not Done Yet&hellip;</h2>
+<p>Chibany stares at his histogram. He understands the average now. 455g makes sense as a mixture. But something still bothers him.</p>
+<p>Look at these two measurements:</p>
+<ul>
+<li><strong>488g</strong> (probably tonkatsu)</li>
+<li><strong>362g</strong> (probably hamburger)</li>
+</ul>
+<p>But what about <strong>425g</strong>? It&rsquo;s right in the middle. Is it a heavy hamburger or a light tonkatsu?</p>
+<p>And another thing: the weights aren&rsquo;t <strong>exactly</strong> 500g and 350g. They vary! Some tonkatsu bentos weigh 520g, others 485g. Why?</p>
+<p>Chibany realizes:</p>
+<blockquote>
+<p><strong>Discrete categories aren&rsquo;t enough. Weight is CONTINUOUS.</strong></p></blockquote>
+<p>There aren&rsquo;t just two possible values (350g and 500g). There are <strong>infinitely many</strong> possible weights between 340g and 520g.</p>
+<p>The histogram shows this: the data has <strong>spread</strong> within each category.</p>
+<p>To handle this, Chibany needs a new kind of probability: <strong>continuous probability distributions</strong>.</p>
+<p>And the most important continuous distribution? The <strong>Gaussian</strong> (also called the Normal distribution). That&rsquo;s what creates the bell-curve shapes within each category.</p>
+<p>But first, we need to understand the fundamental framework for handling continuous probability&hellip;</p>
+<h2 id="summary">Summary</h2>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    Chapter 1 Summary: Key Takeaways
+  </summary>
+  <div class="box-content">
+<p><strong>The Mystery:</strong></p>
+<ul>
+<li>Chibany receives mystery bentos and can only weigh them</li>
+<li>Average weight is 445g, but almost no bento weighs 445g!</li>
+<li>The histogram shows two peaks (350g and 500g), not one at 445g</li>
+</ul>
+<p><strong>The Resolution: Expected Value</strong></p>
+<ul>
+<li>Chibany receives a <strong>mixture</strong>: 70% tonkatsu (~500g), 30% hamburger (~350g)</li>
+<li><strong>Expected value</strong> is the weighted average of outcomes:
+$$E[X] = \sum_{i} p_i \cdot x_i = 0.7 \times 500 + 0.3 \times 350 = 455\text{g}$$</li>
+</ul>
+<p><strong>Key Concepts:</strong></p>
+<ol>
+<li><strong>Expected value ≠ &ldquo;expected&rdquo; outcome</strong>: It&rsquo;s the long-run average, not the most likely value</li>
+<li><strong>Balance point</strong>: E[X] is where the distribution would balance on a seesaw</li>
+<li><strong>Hides structure</strong>: E[X] alone doesn&rsquo;t tell you about the bimodal shape or spread</li>
+<li><strong>Law of Large Numbers</strong>: Sample averages converge to E[X] as sample size grows</li>
+</ol>
+<p><strong>Important Properties:</strong></p>
+<ul>
+<li><strong>Scaling:</strong> $E[aX + b] = aE[X] + b$</li>
+<li><strong>Linearity:</strong> $E[X + Y] = E[X] + E[Y]$ (works even for dependent variables!)</li>
+<li><strong>Mixture:</strong> $E[\text{mixture}] = \theta E[X_1] + (1-\theta) E[X_2]$</li>
+</ul>
+<p><strong>What We Still Need:</strong></p>
+<ul>
+<li>Measure of <strong>spread</strong> (variance/standard deviation): Coming in Chapter 4</li>
+<li><strong>Continuous probability</strong> framework: Coming next!</li>
+<li>Understanding of <strong>within-category variation</strong>: Why isn&rsquo;t every tonkatsu exactly 500g?</li>
+</ul>
+<p><strong>Looking Ahead:</strong>
+Next chapter tackles the fundamental challenge: how to handle probability when there are <strong>infinitely many possible values</strong> (continuous distributions).</p>
+  </div>
+</details>
+<h2 id="practice-problems">Practice Problems</h2>
+<h3 id="problem-1-menu-expansion">Problem 1: Menu Expansion</h3>
+<p>Chibany&rsquo;s students start bringing a third type of bento: <strong>katsu curry</strong> (600g). Now the proportions are:</p>
+<ul>
+<li>50% tonkatsu (500g)</li>
+<li>30% hamburger (350g)</li>
+<li>20% katsu curry (600g)</li>
+</ul>
+<p>What is the expected bento weight?</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Answer
+  </summary>
+  <div class="box-content">
+<p>$$E[X] = 0.5 \times 500 + 0.3 \times 350 + 0.2 \times 600$$
+$$E[X] = 250 + 105 + 120 = 475\text{g}$$</p>
+<p>The expected weight is <strong>475g</strong>.</p>
+<p>Note: This is still a weighted average, now with three components instead of two!</p>
+  </div>
+</details>
+<h3 id="problem-2-multiple-bentos">Problem 2: Multiple Bentos</h3>
+<p>If the proportions are 70% tonkatsu (500g) and 30% hamburger (350g), what is the expected <strong>total</strong> weight of 10 bentos?</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Answer
+  </summary>
+  <div class="box-content">
+<p>By linearity of expectation:
+$$E[\text{total of 10}] = 10 \times E[\text{single bento}]$$
+$$E[\text{total of 10}] = 10 \times 455 = 4550\text{g}$$</p>
+<p>Or about <strong>4.55 kg</strong> (roughly 10 pounds).</p>
+<p><strong>Key insight:</strong> We don&rsquo;t need to know which specific bentos are tonkatsu vs hamburger. Linearity lets us calculate the expected total directly!</p>
+  </div>
+</details>
+<h3 id="problem-3-conceptual-challenge">Problem 3: Conceptual Challenge</h3>
+<p>Chibany observes that his bentos have E[X] = 455g. His colleague receives bentos from a different cafeteria and also observes E[X] = 455g.</p>
+<p>Does this mean they&rsquo;re receiving the same distribution of bentos? Why or why not?</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Answer
+  </summary>
+  <div class="box-content">
+<p><strong>NO!</strong> They could have very different distributions with the same expected value.</p>
+<p><strong>Example scenarios that all have E[X] = 455g:</strong></p>
+<p><strong>Scenario 1 (Chibany):</strong></p>
+<ul>
+<li>70% tonkatsu (500g), 30% hamburger (350g)</li>
+</ul>
+<p><strong>Scenario 2 (Colleague):</strong></p>
+<ul>
+<li>All bentos weigh exactly 455g</li>
+</ul>
+<p><strong>Scenario 3 (Colleague):</strong></p>
+<ul>
+<li>50% tonkatsu (500g), 50% sushi (410g)</li>
+</ul>
+<p><strong>Scenario 4 (Colleague):</strong></p>
+<ul>
+<li>20% mega-bento (800g), 80% light-bento (368.75g)</li>
+<li>Check: 0.2 × 800 + 0.8 × 368.75 = 160 + 295 = 455g ✓</li>
+</ul>
+<p>All four scenarios have E[X] = 455g but <strong>completely different distributions</strong>!</p>
+<p><strong>What you&rsquo;d need to distinguish them:</strong></p>
+<ul>
+<li><strong>Variance/Standard Deviation</strong>: How spread out are the weights?</li>
+<li><strong>Shape</strong>: Unimodal (one peak), bimodal (two peaks), uniform?</li>
+<li><strong>Range</strong>: Min and max possible weights</li>
+<li><strong>Full histogram</strong>: See the actual distribution</li>
+</ul>
+<p><strong>Key lesson:</strong> Expected value is just the <strong>first moment</strong> of a distribution. It doesn&rsquo;t capture the full picture. This is why we&rsquo;ll need additional tools like variance and full probability density functions.</p>
+  </div>
+</details>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/probintro/index.html">
+            <div class="logo-title">Probability &amp; Probabilistic Computing Tutorial</div>
+          </a>
+        </div>
+        <search><form action="/probintro/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/probintro/index.html"><a class="padding" href="/probintro/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
+            <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
+            <li class="parent alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu">
+            <li class="active " data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
+            <li class="" data-nav-id="/probintro/intro2/02_continuous/index.html"><a class="padding" href="/probintro/intro2/02_continuous/index.html">The Continuum: Continuous Probability</a></li>
+            <li class="" data-nav-id="/probintro/intro2/03_gaussian/index.html"><a class="padding" href="/probintro/intro2/03_gaussian/index.html">The Gaussian Distribution</a></li>
+            <li class="" data-nav-id="/probintro/intro2/04_bayesian_learning/index.html"><a class="padding" href="/probintro/intro2/04_bayesian_learning/index.html">Bayesian Learning with Gaussians</a></li>
+            <li class="" data-nav-id="/probintro/intro2/05_mixture_models/index.html"><a class="padding" href="/probintro/intro2/05_mixture_models/index.html">Gaussian Mixture Models</a></li>
+            <li class="" data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li></ul></li>
+            <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763006143"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763006143" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763006143" defer></script>
+    <script src="/probintro/js/theme.min.js?1763006143" defer></script>
+  </body>
+</html>

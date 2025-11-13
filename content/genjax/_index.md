@@ -69,6 +69,30 @@ This tutorial is designed for **complete beginners** to programming. We'll:
 
 ---
 
+## Learning Path
+
+Here's your journey from theory to code:
+
+```mermaid
+graph TB
+    A[0. Getting Started] --> B[1. Python Basics]
+    B --> C[2. First Model]
+    C --> D[3. Traces]
+    D --> E[4. Conditioning]
+    E --> F[5. Inference]
+    F --> G[6. Building Models]
+
+    style C fill:#f39c12
+    style E fill:#f39c12
+    style F fill:#f39c12
+
+    classDef core fill:#f39c12,stroke:#333,stroke-width:2px,color:#fff
+```
+
+**Core Chapters** (yellow): The essential GenJAX concepts—generative models, conditioning, and inference.
+
+**Prerequisites**: Complete Tutorial 1 (Probability Fundamentals) before starting here.
+
 ## Tutorial Structure
 
 ### Chapter 0: Getting Started

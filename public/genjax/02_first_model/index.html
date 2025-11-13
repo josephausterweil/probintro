@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=45707&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -16,7 +16,7 @@ Lunch arrives — randomly H or T (equal probability) Dinner arrives — randoml
 Now we’ll teach a computer to generate those outcomes instead!
 The Generative Process Each day:
 Lunch arrives — randomly H or T (equal probability) Dinner arrives — randomly H or T (equal probability) Record the day — the pair of meals In GenJAX, we express this as a generative function.">
-    <meta property="og:url" content="http://localhost:45707/probintro/genjax/02_first_model/index.html">
+    <meta property="og:url" content="https://josephausterweil.github.io/probintro/genjax/02_first_model/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Your First GenJAX Model :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="From Sets to Simulation Remember Chibany’s daily meals? We listed out the outcome space $\Omega = \{HH, HT, TH, TT\}$ and counted possibilities.
@@ -31,37 +31,37 @@ Lunch arrives — randomly H or T (equal probability) Dinner arrives — randoml
 Now we’ll teach a computer to generate those outcomes instead!
 The Generative Process Each day:
 Lunch arrives — randomly H or T (equal probability) Dinner arrives — randomly H or T (equal probability) Record the day — the pair of meals In GenJAX, we express this as a generative function.">
-    <meta itemprop="wordCount" content="1375">
+    <meta itemprop="wordCount" content="1629">
     <title>Your First GenJAX Model :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1762763656" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762763656" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762763656" defer></script>
-    <script src="/probintro/js/search-lunr.js?1762763656" defer></script>
-    <script src="/probintro/js/search.js?1762763656" defer></script>
+    <link href="/probintro/images/favicon.png?1763006143" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763006143" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763006143" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1763006143" defer></script>
+    <script src="/probintro/js/search.min.js?1763006143" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1762763656";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763006143";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1762763656" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762763656" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1762763656" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1762763656" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763006143" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762763656" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762763656" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762763656" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1762763656" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1762763656" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763006143" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763006143" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763006143" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1763006143" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1763006143" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = ``;
+      window.relearn.min = `.min`;
       window.relearn.path='\/genjax\/02_first_model\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:45707\/probintro';
+      window.relearn.absBaseUri='https:\/\/josephausterweil.github.io\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -195,8 +195,8 @@ Lunch arrives — randomly H or T (equal probability) Dinner arrives — randoml
 <h2 id="from-sets-to-simulation">From Sets to Simulation</h2>
 <p>Remember Chibany&rsquo;s daily meals? We listed out the outcome space $\Omega = \{HH, HT, TH, TT\}$ and counted possibilities.</p>
 <p>Now we&rsquo;ll teach a computer to <strong>generate</strong> those outcomes instead!</p>
-<p><a href="#R-image-ca29cc8399f17718dded1cfd8a5e5d93" class="lightbox-link"><img alt="Chibany laying down" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-ca29cc8399f17718dded1cfd8a5e5d93"><img alt="Chibany laying down" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-7ce0f5cecae004058a6832e6dad97613" class="lightbox-link"><img alt="Chibany laying down" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-7ce0f5cecae004058a6832e6dad97613"><img alt="Chibany laying down" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="the-generative-process">The Generative Process</h2>
 <p>Each day:</p>
@@ -245,6 +245,53 @@ Lunch arrives — randomly H or T (equal probability) Dinner arrives — randoml
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)</span></span></code></pre></td></tr></table>
 </div>
 </div>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    📐→💻 Math-to-Code Translation
+  </summary>
+  <div class="box-content">
+<p><strong>How mathematical concepts translate to GenJAX:</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>Math Concept</th>
+          <th>Mathematical Notation</th>
+          <th>GenJAX Code</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Outcome Space</strong></td>
+          <td>$\Omega = \{HH, HT, TH, TT\}$</td>
+          <td><code>@gen def chibany_day(): ...</code></td>
+      </tr>
+      <tr>
+          <td><strong>Random Variable</strong></td>
+          <td>$X \sim \text{Bernoulli}(0.5)$</td>
+          <td><code>bernoulli(0.5) @ &quot;lunch&quot;</code></td>
+      </tr>
+      <tr>
+          <td><strong>Probability</strong></td>
+          <td>$P(A) = \frac{|A|}{|\Omega|}$</td>
+          <td><code>jnp.mean(condition_satisfied)</code></td>
+      </tr>
+      <tr>
+          <td><strong>Event</strong></td>
+          <td>$A = \{HT, TH, TT\}$</td>
+          <td><code>has_tonkatsu = (days[:, 0] == 1) | (days[:, 1] == 1)</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Key insights:</strong></p>
+<ul>
+<li><strong>@gen function</strong> = Generative process defining Ω</li>
+<li><strong>bernoulli(p)</strong> = Random variable with probability p</li>
+<li><strong>@ &ldquo;name&rdquo;</strong> = Label the random choice (for inference later)</li>
+<li><strong>Simulation + counting</strong> = Computing probabilities</li>
+</ul>
+  </div>
+</details>
 <h3 id="breaking-it-down">Breaking It Down</h3>
 <p><strong>Line 1: <code>@gen</code></strong></p>
 <ul>
@@ -439,6 +486,49 @@ Dinner was tonkatsu: 1</code></pre></div>
 P(at least one tonkatsu) ≈ 0.749</code></pre></div>
 <p><strong>Remember from the probability tutorial:</strong> The exact answer is $3/4 = 0.75$!</p>
 <p>With 10,000 simulations, we got very close: $0.749 \approx 0.75$</p>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    📘 Foundation Concept: Simulation vs. Counting
+  </summary>
+  <div class="box-content">
+<p><strong>Recall from Tutorial 1, Chapter 3</strong> that probability is counting:</p>
+<p>$$P(A) = \frac{|A|}{|\Omega|} = \frac{\text{outcomes in event}}{\text{total outcomes}}$$</p>
+<p>We calculated $P(\text{at least one tonkatsu}) = \frac{|{HT, TH, TT}|}{|{HH, HT, TH, TT}|} = \frac{3}{4} = 0.75$ by hand.</p>
+<p><strong>Now with GenJAX, we simulate instead of enumerate:</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>Tutorial 1 (By Hand)</th>
+          <th>Tutorial 2 (GenJAX)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>List</strong> all outcomes: {HH, HT, TH, TT}</td>
+          <td><strong>Generate</strong> 10,000 samples</td>
+      </tr>
+      <tr>
+          <td><strong>Count</strong> favorable: 3 out of 4</td>
+          <td><strong>Count</strong> favorable: ~7,500 out of 10,000</td>
+      </tr>
+      <tr>
+          <td><strong>Divide</strong>: 3/4 = 0.75</td>
+          <td><strong>Divide</strong>: 7,500/10,000 ≈ 0.75</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Why simulate?</strong></p>
+<ul>
+<li>Tutorial 1 approach breaks down with complex models (too many outcomes to list)</li>
+<li>Simulation scales: same code works whether Ω has 4 outcomes or 4 billion</li>
+<li>As simulations increase (10K → 100K → 1M), we get closer to exact answer</li>
+</ul>
+<p><strong>The principle is identical</strong> — count favorable outcomes and divide by total. But simulation lets us handle models that are impossible to enumerate by hand!</p>
+<p><a href="/probintro/intro/03_prob_count/index.html">← Review probability as counting in Tutorial 1, Chapter 3</a></p>
+  </div>
+</details>
 <hr>
 <h2 id="visualizing-the-results">Visualizing the Results</h2>
 <p>Let&rsquo;s make a bar chart showing all four outcomes:</p>
@@ -788,7 +878,8 @@ P(at least one tonkatsu) ≈ 0.749</code></pre></div>
             <li class="" data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Observations</a></li>
             <li class="" data-nav-id="/probintro/genjax/05_inference/index.html"><a class="padding" href="/probintro/genjax/05_inference/index.html">Inference in Action: The Taxicab Problem</a></li>
             <li class="" data-nav-id="/probintro/genjax/06_building_models/index.html"><a class="padding" href="/probintro/genjax/06_building_models/index.html">Building Your Own Models</a></li></ul></li>
-            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
+            <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
+            <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -817,9 +908,9 @@ P(at least one tonkatsu) ≈ 0.749</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762763656"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1762763656" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762763656" defer></script>
-    <script src="/probintro/js/theme.js?1762763656" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763006143"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763006143" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763006143" defer></script>
+    <script src="/probintro/js/theme.min.js?1763006143" defer></script>
   </body>
 </html>

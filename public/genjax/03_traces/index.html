@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=45707&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -14,7 +14,7 @@ What random choices were made What values they took What the function returned H
     <meta name="twitter:description" content="What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.
 GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:
 What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!">
-    <meta property="og:url" content="http://localhost:45707/probintro/genjax/03_traces/index.html">
+    <meta property="og:url" content="https://josephausterweil.github.io/probintro/genjax/03_traces/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Understanding Traces :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.
@@ -27,37 +27,37 @@ What random choices were made What values they took What the function returned H
     <meta itemprop="description" content="What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.
 GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:
 What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!">
-    <meta itemprop="wordCount" content="2000">
+    <meta itemprop="wordCount" content="2147">
     <title>Understanding Traces :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1762763656" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762763656" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762763656" defer></script>
-    <script src="/probintro/js/search-lunr.js?1762763656" defer></script>
-    <script src="/probintro/js/search.js?1762763656" defer></script>
+    <link href="/probintro/images/favicon.png?1763006143" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763006143" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763006143" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1763006143" defer></script>
+    <script src="/probintro/js/search.min.js?1763006143" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1762763656";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763006143";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1762763656" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762763656" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1762763656" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1762763656" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763006143" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762763656" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762763656" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762763656" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1762763656" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1762763656" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763006143" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763006143" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763006143" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1763006143" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1763006143" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = ``;
+      window.relearn.min = `.min`;
       window.relearn.path='\/genjax\/03_traces\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:45707\/probintro';
+      window.relearn.absBaseUri='https:\/\/josephausterweil.github.io\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -186,8 +186,8 @@ What random choices were made What values they took What the function returned H
 <li>How probable this execution was</li>
 </ol>
 <p>Think of it like a lab notebook that automatically records every detail of an experiment!</p>
-<p><a href="#R-image-bea59842ce937d1715a05a3589eabd42" class="lightbox-link"><img alt="Chibany investigating" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-bea59842ce937d1715a05a3589eabd42"><img alt="Chibany investigating" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-fbc14ba4c03ff68f9f110949d77fcc9f" class="lightbox-link"><img alt="Chibany investigating" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-fbc14ba4c03ff68f9f110949d77fcc9f"><img alt="Chibany investigating" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="why-traces-matter">Why Traces Matter</h2>
 <p><strong>Short answer:</strong> Traces enable <strong>inference</strong> — answering &ldquo;what if I observed this?&rdquo;</p>
@@ -309,6 +309,68 @@ What random choices were made What values they took What the function returned H
 <li>Standard in probabilistic programming</li>
 </ul>
 <p><strong>You don&rsquo;t need to work with log probabilities directly</strong> — GenJAX handles this for you. Just know they measure &ldquo;how likely was this outcome.&rdquo;</p>
+  </div>
+</details>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    📐→💻 Math-to-Code Translation
+  </summary>
+  <div class="box-content">
+<p><strong>How traces connect to probability theory:</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>Math Concept</th>
+          <th>Mathematical Notation</th>
+          <th>GenJAX Trace Component</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Outcome</strong></td>
+          <td>$\omega \in \Omega$</td>
+          <td>One trace (one execution)</td>
+      </tr>
+      <tr>
+          <td><strong>Outcome Space</strong></td>
+          <td>$\Omega = \{HH, HT, TH, TT\}$</td>
+          <td>All possible traces</td>
+      </tr>
+      <tr>
+          <td><strong>Random Variable</strong></td>
+          <td>$X(\omega)$</td>
+          <td>A choice in the choice map</td>
+      </tr>
+      <tr>
+          <td><strong>Probability</strong></td>
+          <td>$P(\omega)$</td>
+          <td><code>jnp.exp(trace.get_score())</code></td>
+      </tr>
+      <tr>
+          <td><strong>Log Probability</strong></td>
+          <td>$\log P(\omega)$</td>
+          <td><code>trace.get_score()</code></td>
+      </tr>
+      <tr>
+          <td><strong>Joint Distribution</strong></td>
+          <td>$P(X_1, X_2)$</td>
+          <td>Distribution over traces</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Key insights:</strong></p>
+<ul>
+<li><strong>A trace IS an outcome</strong> — It represents one complete way the random process unfolds</li>
+<li><strong>Choice map = Random variables</strong> — Named random choices like <code>&quot;lunch&quot;</code> and <code>&quot;dinner&quot;</code></li>
+<li><strong>get_retval() = Observable outcome</strong> — What you can directly observe</li>
+<li><strong>get_score() = Log probability</strong> — How likely this particular trace is</li>
+<li><strong>Multiple traces = Multiple outcomes</strong> — Running <code>simulate()</code> repeatedly samples from Ω</li>
+</ul>
+<p><strong>Example mapping:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Math: ω = HT  (outcome from Ω)
+Code: trace with choices = {&#39;lunch&#39;: 0, &#39;dinner&#39;: 1}
+They&#39;re the same thing, just different representations!</code></pre></div>
   </div>
 </details>
 <hr>
@@ -918,7 +980,8 @@ Day 5: HT — lunch=0, dinner=1</code></pre></div>
             <li class="" data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Observations</a></li>
             <li class="" data-nav-id="/probintro/genjax/05_inference/index.html"><a class="padding" href="/probintro/genjax/05_inference/index.html">Inference in Action: The Taxicab Problem</a></li>
             <li class="" data-nav-id="/probintro/genjax/06_building_models/index.html"><a class="padding" href="/probintro/genjax/06_building_models/index.html">Building Your Own Models</a></li></ul></li>
-            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
+            <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
+            <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -947,9 +1010,9 @@ Day 5: HT — lunch=0, dinner=1</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762763656"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1762763656" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762763656" defer></script>
-    <script src="/probintro/js/theme.js?1762763656" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763006143"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763006143" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763006143" defer></script>
+    <script src="/probintro/js/theme.min.js?1763006143" defer></script>
   </body>
 </html>

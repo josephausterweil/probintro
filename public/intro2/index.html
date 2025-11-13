@@ -1,55 +1,61 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=45707&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
     <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
-    <meta name="description" content="">
+    <meta name="description" content="From Discrete to Continuous with GenJAX In the first two tutorials, you learned:
+Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutorial 2: How to express probability in code using GenJAX Now you’ll learn to work with continuous probability distributions and perform Bayesian learning on real-valued data, all using the GenJAX tools you’ve already learned!">
     <meta name="author" content="Joseph Austerweil">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Intro2 :: Probability & Probabilistic Computing Tutorial">
-    <meta property="og:url" content="http://localhost:45707/probintro/intro2/index.html">
+    <meta name="twitter:title" content="Continuous Probability and Bayesian Learning :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="From Discrete to Continuous with GenJAX In the first two tutorials, you learned:
+Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutorial 2: How to express probability in code using GenJAX Now you’ll learn to work with continuous probability distributions and perform Bayesian learning on real-valued data, all using the GenJAX tools you’ve already learned!">
+    <meta property="og:url" content="https://josephausterweil.github.io/probintro/intro2/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
-    <meta property="og:title" content="Intro2 :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Continuous Probability and Bayesian Learning :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="From Discrete to Continuous with GenJAX In the first two tutorials, you learned:
+Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutorial 2: How to express probability in code using GenJAX Now you’ll learn to work with continuous probability distributions and perform Bayesian learning on real-valued data, all using the GenJAX tools you’ve already learned!">
     <meta property="og:locale" content="en_us">
-    <meta property="og:type" content="article">
-    <meta property="article:section" content="Probability & Probabilistic Computing Tutorial">
-    <meta property="article:published_time" content="2025-08-18T17:37:54+09:00">
-    <meta property="article:modified_time" content="2025-08-18T17:37:54+09:00">
-    <meta itemprop="name" content="Intro2 :: Probability & Probabilistic Computing Tutorial">
-    <meta itemprop="datePublished" content="2025-08-18T17:37:54+09:00">
-    <meta itemprop="dateModified" content="2025-08-18T17:37:54+09:00">
-    <title>Intro2 :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1762763656" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1762763656" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1762763656" defer></script>
-    <script src="/probintro/js/search-lunr.js?1762763656" defer></script>
-    <script src="/probintro/js/search.js?1762763656" defer></script>
+    <meta property="og:type" content="website">
+    <meta itemprop="name" content="Continuous Probability and Bayesian Learning :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="From Discrete to Continuous with GenJAX In the first two tutorials, you learned:
+Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutorial 2: How to express probability in code using GenJAX Now you’ll learn to work with continuous probability distributions and perform Bayesian learning on real-valued data, all using the GenJAX tools you’ve already learned!">
+    <meta itemprop="datePublished" content="2025-11-11T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2025-11-11T00:00:00+00:00">
+    <meta itemprop="wordCount" content="796">
+    <title>Continuous Probability and Bayesian Learning :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/intro2/index.xml" rel="alternate" type="application/rss+xml" title="Continuous Probability and Bayesian Learning :: Probability &amp; Probabilistic Computing Tutorial">
+    <link href="/probintro/images/favicon.png?1763006143" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763006143" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763006143" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1763006143" defer></script>
+    <script src="/probintro/js/search.min.js?1763006143" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1762763656";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763006143";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1762763656" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1762763656" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1762763656" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1762763656" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763006143" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763006143" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762763656" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1762763656" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1762763656" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1762763656" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1762763656" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763006143" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763006143" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763006143" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1763006143" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1763006143" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = ``;
+      window.relearn.min = `.min`;
       window.relearn.path='\/intro2\/index.html';
       window.relearn.relBasePath='..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:45707\/probintro';
+      window.relearn.absBaseUri='https:\/\/josephausterweil.github.io\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -107,17 +113,41 @@
             </div>
             <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
               <div class="topbar-content">
-                <div class="topbar-content-wrapper"> 
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#from-discrete-to-continuous-with-genjax">From Discrete to Continuous with GenJAX</a></li>
+    <li><a href="#the-new-challenge">The New Challenge</a></li>
+    <li><a href="#learning-path">Learning Path</a></li>
+    <li><a href="#what-youll-learn">What You&rsquo;ll Learn</a>
+      <ul>
+        <li><a href="#chapter-1-chibanys-mystery-bentos-expected-value">Chapter 1: Chibany&rsquo;s Mystery Bentos (Expected Value)</a></li>
+        <li><a href="#chapter-2-continuous-random-variables">Chapter 2: Continuous Random Variables</a></li>
+        <li><a href="#chapter-3-the-gaussian-distribution">Chapter 3: The Gaussian Distribution</a></li>
+        <li><a href="#chapter-4-bayesian-learning-with-gaussians">Chapter 4: Bayesian Learning with Gaussians</a></li>
+        <li><a href="#chapter-5-gaussian-mixture-models">Chapter 5: Gaussian Mixture Models</a></li>
+        <li><a href="#chapter-6-dirichlet-process-mixture-models">Chapter 6: Dirichlet Process Mixture Models</a></li>
+      </ul>
+    </li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#learning-philosophy">Learning Philosophy</a></li>
+    <li><a href="#what-makes-this-tutorial-different">What Makes This Tutorial Different</a></li>
+    <li><a href="#why-continuous-probability-matters">Why Continuous Probability Matters</a></li>
+    <li><a href="#tutorial-structure">Tutorial Structure</a></li>
+    <li><a href="#ready-to-begin">Ready to Begin?</a></li>
+    <li><a href="#a-note-on-mathematics">A Note on Mathematics</a></li>
+  </ul>
+</nav>
                 </div>
               </div>
             </div>
           </div>
-          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Intro2</span><meta itemprop="position" content="2"></li>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Continuous Probability and Bayesian Learning</span><meta itemprop="position" content="2"></li>
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
             <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/06_building_models/index.html" title="Building Your Own Models (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
-            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><span class="topbar-control"><i class="fa-fw fas fa-chevron-right"></i></span>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro2/01_mystery_bentos/index.html" title="Chibany's Mystery Bentos (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
             </div>
             <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
               <div class="topbar-content">
@@ -131,17 +161,178 @@
         </div>
       </nav>
       <div id="R-main-overlay"></div>
-      <main id="R-body-inner" class="highlightable page" tabindex="-1">
+      <main id="R-body-inner" class="highlightable intro2" tabindex="-1">
         <div class="flex-block-wrapper">
 <article class="default">
   <header class="headline">
   </header>
 
-<h1 id="intro2">Intro2</h1>
+<h1 id="continuous-probability-and-bayesian-learning">Continuous Probability and Bayesian Learning</h1>
 
+<h2 id="from-discrete-to-continuous-with-genjax">From Discrete to Continuous with GenJAX</h2>
+<p>In the first two tutorials, you learned:</p>
+<ol>
+<li><strong>Tutorial 1</strong>: Probability theory using discrete outcomes (sets and counting)</li>
+<li><strong>Tutorial 2</strong>: How to express probability in code using GenJAX</li>
+</ol>
+<p>Now you&rsquo;ll learn to work with <strong>continuous probability distributions</strong> and perform <strong>Bayesian learning</strong> on real-valued data, all using the GenJAX tools you&rsquo;ve already learned!</p>
+<p><a href="#R-image-f01f6ad4fc485c1f162ee33df3e8f4b7" class="lightbox-link"><img alt="Chibany with scale" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f01f6ad4fc485c1f162ee33df3e8f4b7"><img alt="Chibany with scale" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<h2 id="the-new-challenge">The New Challenge</h2>
+<p>In Tutorial 1, Chibany&rsquo;s lunch choices were <strong>discrete</strong>: tonkatsu OR hamburger. But what if we want to model <strong>continuous measurements</strong> like:</p>
+<ul>
+<li>The <strong>weight</strong> of his bento box</li>
+<li>The <strong>temperature</strong> of his office</li>
+<li>The <strong>time</strong> it takes students to arrive</li>
+</ul>
+<p>These aren&rsquo;t discrete choices. They&rsquo;re <strong>continuous values</strong> that can fall anywhere on a number line!</p>
+<h2 id="learning-path">Learning Path</h2>
+<p>Here&rsquo;s your journey into continuous probability and Bayesian learning:</p>
+<pre class="mermaid align-center ">graph TB
+    A[1. Mystery Bentos] --&gt; B[2. Continuous Probability]
+    B --&gt; C[3. Gaussian Distribution]
+    C --&gt; D[4. Bayesian Learning]
+    D --&gt; E[5. Mixture Models]
+    E --&gt; F[6. Dirichlet Process]
+
+    style B fill:#27ae60
+    style D fill:#27ae60
+    style E fill:#27ae60
+
+    classDef foundational fill:#27ae60,stroke:#333,stroke-width:2px,color:#fff</pre>
+<p><strong>Foundational Chapters</strong> (green): Core continuous probability concepts—PDFs, Bayesian updating, and mixture models.</p>
+<p><strong>Prerequisites</strong>: Complete Tutorial 1 (Probability) and Tutorial 2 (GenJAX) before starting here.</p>
+<h2 id="what-youll-learn">What You&rsquo;ll Learn</h2>
+<p>This tutorial builds directly on GenJAX (Tutorial 2) to explore:</p>
+<h3 id="chapter-1-chibanys-mystery-bentos-expected-value">Chapter 1: Chibany&rsquo;s Mystery Bentos (Expected Value)</h3>
+<ul>
+<li>The paradox of averages in mixtures</li>
+<li>Expected value and balance points</li>
+<li>Why averages can be misleading</li>
+<li><strong>GenJAX</strong>: Simulating mixture distributions</li>
+</ul>
+<h3 id="chapter-2-continuous-random-variables">Chapter 2: Continuous Random Variables</h3>
+<ul>
+<li>Probability density functions (PDFs)</li>
+<li>Cumulative distribution functions (CDFs)</li>
+<li>The uniform distribution</li>
+<li><strong>GenJAX</strong>: Sampling from and conditioning on continuous distributions</li>
+</ul>
+<h3 id="chapter-3-the-gaussian-distribution">Chapter 3: The Gaussian Distribution</h3>
+<ul>
+<li>The bell curve and its properties</li>
+<li>Mean and variance parameters</li>
+<li>The 68-95-99.7 rule</li>
+<li><strong>GenJAX</strong>: Working with Normal distributions</li>
+</ul>
+<h3 id="chapter-4-bayesian-learning-with-gaussians">Chapter 4: Bayesian Learning with Gaussians</h3>
+<ul>
+<li>Prior beliefs about parameters</li>
+<li>Updating beliefs with data (conjugate priors)</li>
+<li>Posterior and predictive distributions</li>
+<li><strong>GenJAX</strong>: Implementing Gaussian-Gaussian models</li>
+</ul>
+<h3 id="chapter-5-gaussian-mixture-models">Chapter 5: Gaussian Mixture Models</h3>
+<ul>
+<li>Combining multiple distributions</li>
+<li>Clustering with mixtures</li>
+<li>The complete bento model</li>
+<li><strong>GenJAX</strong>: Building and inferring mixture models</li>
+</ul>
+<h3 id="chapter-6-dirichlet-process-mixture-models">Chapter 6: Dirichlet Process Mixture Models</h3>
+<ul>
+<li>Infinite mixture models</li>
+<li>The Dirichlet Process prior</li>
+<li>Automatic model selection</li>
+<li><strong>GenJAX</strong>: Implementing DPMM for clustering</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p><strong>Required:</strong></p>
+<ul>
+<li>✅ Completed &ldquo;A Narrative Introduction to Probability&rdquo; (Tutorial 1)</li>
+<li>✅ Completed &ldquo;Probabilistic Programming with GenJAX&rdquo; (Tutorial 2)</li>
+<li>✅ Comfortable writing and running GenJAX generative functions</li>
+<li>✅ Understand traces, conditioning, and inference in GenJAX</li>
+</ul>
+<p><strong>Not Required:</strong></p>
+<ul>
+<li>❌ Calculus (we provide intuition and use GenJAX for computation)</li>
+<li>❌ Advanced statistics</li>
+<li>❌ Mathematical proofs</li>
+</ul>
+<h2 id="learning-philosophy">Learning Philosophy</h2>
+<p><strong>You already know</strong> how to think probabilistically (Tutorial 1) and how to express probability in GenJAX code (Tutorial 2). This tutorial shows you how those same ideas extend to the continuous case!</p>
+<p><strong>Key insight:</strong> Moving from discrete to continuous isn&rsquo;t about learning entirely new concepts. It&rsquo;s about adapting what you know:</p>
+<ul>
+<li><strong>Probabilities</strong> become <strong>probability densities</strong></li>
+<li><strong>Sums</strong> become <strong>integrals</strong> (but GenJAX handles this for you!)</li>
+<li><strong>Counting</strong> becomes <strong>measuring area under curves</strong></li>
+</ul>
+<h2 id="what-makes-this-tutorial-different">What Makes This Tutorial Different</h2>
+<p>Unlike traditional probability courses, we:</p>
+<ol>
+<li><strong>Use GenJAX throughout</strong>: Every concept is illustrated with runnable code</li>
+<li><strong>Leverage simulation</strong>: When math gets complex, we approximate with samples</li>
+<li><strong>Build intuition first</strong>: Visual understanding before mathematical details</li>
+<li><strong>Connect to Tutorial 1</strong>: Every concept links back to discrete probability</li>
+<li><strong>Interactive notebooks</strong>: Adjust parameters and see results update live</li>
+</ol>
+<h2 id="why-continuous-probability-matters">Why Continuous Probability Matters</h2>
+<p>Many real-world phenomena are naturally continuous:</p>
+<ul>
+<li><strong>Scientific measurements</strong>: Temperature, weight, time, distance</li>
+<li><strong>Financial data</strong>: Stock prices, returns, volatility</li>
+<li><strong>Machine learning</strong>: Most input features are continuous</li>
+<li><strong>Natural phenomena</strong>: Heights, speeds, concentrations</li>
+</ul>
+<p>Understanding continuous probability lets you model the real world more accurately!</p>
+<h2 id="tutorial-structure">Tutorial Structure</h2>
+<p>Each chapter includes:</p>
+<ul>
+<li>📖 <strong>Concept explanation</strong> connecting to discrete probability</li>
+<li>💻 <strong>GenJAX implementation</strong> with runnable code</li>
+<li>🎮 <strong>Interactive Colab notebooks</strong> to explore parameters</li>
+<li>📊 <strong>Visualizations</strong> showing PDFs, posteriors, and predictions</li>
+<li>✅ <strong>Exercises</strong> with solutions</li>
+</ul>
+<h2 id="ready-to-begin">Ready to Begin?</h2>
+<p>Let&rsquo;s start with Chibany&rsquo;s mystery: why does the average weight of his bentos seem impossible?</p>
+<p><a href="/probintro/intro2/01_mystery_bentos/index.html">Next: Chapter 1 - Chibany&rsquo;s Mystery Bentos →</a></p>
+<hr>
+<h2 id="a-note-on-mathematics">A Note on Mathematics</h2>
+<p>This tutorial includes some mathematical notation (PDFs, integrals, etc.), but <strong>you don&rsquo;t need to be a math expert!</strong></p>
+<p><strong>When you see an integral</strong> (∫): Think &ldquo;area under the curve&rdquo; (GenJAX computes it for you)
+<strong>When you see a derivative</strong>: Think &ldquo;rate of change&rdquo; (rarely needed, GenJAX handles it)
+<strong>When you see Σ vs ∫</strong>: Think &ldquo;sum vs continuous sum&rdquo; (same idea, different notation)</p>
+<p><strong>Focus on:</strong></p>
+<ul>
+<li>What the code does (run it and see!)</li>
+<li>What the plots show (visual intuition)</li>
+<li>How it connects to discrete probability (concepts you know)</li>
+</ul>
+<p>Mathematics provides precise definitions, but GenJAX lets you <strong>compute without deriving</strong>!</p>
+<hr>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    Learning Tip
+  </summary>
+  <div class="box-content">
+<p><strong>Start with visuals, then code, then math.</strong> When you see a new concept:</p>
+<ol>
+<li>Look at the plots first (what does it look like?)</li>
+<li>Run the GenJAX code (what happens?)</li>
+<li>Read the math (why does it work?)</li>
+</ol>
+<p>Understanding beats memorization. You can always reference the math later!</p>
+  </div>
+</details>
+<hr>
+<p>Special thanks to <a href="https://jpcca.org/" rel="external" target="_blank">JPPCA</a> for their generous support of this tutorial series.</p>
 
   <footer class="footline">
-              <i class='fa-fw fas fa-calendar'></i> Aug 18, 2025
+              <i class='fa-fw fas fa-calendar'></i> Nov 11, 2025
   </footer>
 </article>
         </div>
@@ -189,7 +380,14 @@
           <ul class="enlarge morespace collapsible-menu">
             <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
             <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
-            <li class="active " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
+            <li class="active parent alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu">
+            <li class="" data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
+            <li class="" data-nav-id="/probintro/intro2/02_continuous/index.html"><a class="padding" href="/probintro/intro2/02_continuous/index.html">The Continuum: Continuous Probability</a></li>
+            <li class="" data-nav-id="/probintro/intro2/03_gaussian/index.html"><a class="padding" href="/probintro/intro2/03_gaussian/index.html">The Gaussian Distribution</a></li>
+            <li class="" data-nav-id="/probintro/intro2/04_bayesian_learning/index.html"><a class="padding" href="/probintro/intro2/04_bayesian_learning/index.html">Bayesian Learning with Gaussians</a></li>
+            <li class="" data-nav-id="/probintro/intro2/05_mixture_models/index.html"><a class="padding" href="/probintro/intro2/05_mixture_models/index.html">Gaussian Mixture Models</a></li>
+            <li class="" data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li></ul></li>
+            <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
           </ul>
         </div>
         <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
@@ -218,9 +416,23 @@
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1762763656"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1762763656" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1762763656" defer></script>
-    <script src="/probintro/js/theme.js?1762763656" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763006143"></script>
+    <script src="/probintro/js/js-yaml/js-yaml.min.js?1763006143" defer></script>
+    <script src="/probintro/js/d3/d3-color.min.js?1763006143" defer></script>
+    <script src="/probintro/js/d3/d3-dispatch.min.js?1763006143" defer></script>
+    <script src="/probintro/js/d3/d3-drag.min.js?1763006143" defer></script>
+    <script src="/probintro/js/d3/d3-ease.min.js?1763006143" defer></script>
+    <script src="/probintro/js/d3/d3-interpolate.min.js?1763006143" defer></script>
+    <script src="/probintro/js/d3/d3-selection.min.js?1763006143" defer></script>
+    <script src="/probintro/js/d3/d3-timer.min.js?1763006143" defer></script>
+    <script src="/probintro/js/d3/d3-transition.min.js?1763006143" defer></script>
+    <script src="/probintro/js/d3/d3-zoom.min.js?1763006143" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js" defer></script>
+    <script>
+      window.relearn.themeUseMermaid = JSON.parse("{\n      \"startOnLoad\": true,\n      \"theme\": \"base\",\n      \"securityLevel\": \"loose\",\n      \"themeVariables\": {\n        \"primaryColor\": \"#fff\",\n        \"primaryTextColor\": \"#000\",\n        \"primaryBorderColor\": \"#000\",\n        \"lineColor\": \"#000\",\n        \"secondaryColor\": \"#fff\",\n        \"tertiaryColor\": \"#fff\"\n      },\n      \"flowchart\": {\n        \"htmlLabels\": true,\n        \"curve\": \"basis\"\n      },\n      \"block\": {\n        \"padding\": 8\n      }\n    }");
+    </script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763006143" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763006143" defer></script>
+    <script src="/probintro/js/theme.min.js?1763006143" defer></script>
   </body>
 </html>

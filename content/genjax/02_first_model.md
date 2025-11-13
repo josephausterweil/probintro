@@ -46,6 +46,23 @@ def chibany_day():
     return (lunch_is_tonkatsu, dinner_is_tonkatsu)
 ```
 
+{{% notice style="success" title="📐→💻 Math-to-Code Translation" %}}
+**How mathematical concepts translate to GenJAX:**
+
+| Math Concept | Mathematical Notation | GenJAX Code |
+|--------------|----------------------|-------------|
+| **Outcome Space** | $\Omega = \\{HH, HT, TH, TT\\}$ | `@gen def chibany_day(): ...` |
+| **Random Variable** | $X \sim \text{Bernoulli}(0.5)$ | `bernoulli(0.5) @ "lunch"` |
+| **Probability** | $P(A) = \frac{\|A\|}{\|\Omega\|}$ | `jnp.mean(condition_satisfied)` |
+| **Event** | $A = \\{HT, TH, TT\\}$ | `has_tonkatsu = (days[:, 0] == 1) \| (days[:, 1] == 1)` |
+
+**Key insights:**
+- **@gen function** = Generative process defining Ω
+- **bernoulli(p)** = Random variable with probability p
+- **@ "name"** = Label the random choice (for inference later)
+- **Simulation + counting** = Computing probabilities
+{{% /notice %}}
+
 ### Breaking It Down
 
 **Line 1: `@gen`**
@@ -180,6 +197,31 @@ P(at least one tonkatsu) ≈ 0.749
 **Remember from the probability tutorial:** The exact answer is $3/4 = 0.75$!
 
 With 10,000 simulations, we got very close: $0.749 \approx 0.75$
+
+{{% notice style="info" title="📘 Foundation Concept: Simulation vs. Counting" %}}
+**Recall from Tutorial 1, Chapter 3** that probability is counting:
+
+$$P(A) = \frac{|A|}{|\Omega|} = \frac{\text{outcomes in event}}{\text{total outcomes}}$$
+
+We calculated $P(\text{at least one tonkatsu}) = \frac{|\{HT, TH, TT\}|}{|\{HH, HT, TH, TT\}|} = \frac{3}{4} = 0.75$ by hand.
+
+**Now with GenJAX, we simulate instead of enumerate:**
+
+| Tutorial 1 (By Hand) | Tutorial 2 (GenJAX) |
+|---------------------|---------------------|
+| **List** all outcomes: {HH, HT, TH, TT} | **Generate** 10,000 samples |
+| **Count** favorable: 3 out of 4 | **Count** favorable: ~7,500 out of 10,000 |
+| **Divide**: 3/4 = 0.75 | **Divide**: 7,500/10,000 ≈ 0.75 |
+
+**Why simulate?**
+- Tutorial 1 approach breaks down with complex models (too many outcomes to list)
+- Simulation scales: same code works whether Ω has 4 outcomes or 4 billion
+- As simulations increase (10K → 100K → 1M), we get closer to exact answer
+
+**The principle is identical** — count favorable outcomes and divide by total. But simulation lets us handle models that are impossible to enumerate by hand!
+
+[← Review probability as counting in Tutorial 1, Chapter 3](../../intro/03_prob_count/)
+{{% /notice %}}
 
 ---
 
