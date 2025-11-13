@@ -1,35 +1,496 @@
-<!doctype html><html lang=en-us dir=ltr itemscope itemtype=http://schema.org/Article data-r-output-format=html><head><meta charset=utf-8><meta name=viewport content="height=device-height,width=device-width,initial-scale=1,minimum-scale=1"><meta name=generator content="Hugo 0.148.2"><meta name=generator content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862"><meta name=description content="What is Google Colab? Google Colab (short for “Colaboratory”) is a free online tool that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="What is Google Colab? Google Colab (short for “Colaboratory”) is a free online tool that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!
 Why we love it for beginners:
-✅ No installation needed ✅ No setup required ✅ Pre-installed with common libraries ✅ Free GPU access (for fast computation) ✅ Easy sharing with others ✅ Automatic saving to Google Drive Step 1: Open Your First Notebook Click this link to open the first GenJAX notebook:"><meta name=author content="Joseph Austerweil"><meta name=twitter:card content="summary"><meta name=twitter:title content="Getting Started with Google Colab :: Probability & Probabilistic Computing Tutorial"><meta name=twitter:description content="What is Google Colab? Google Colab (short for “Colaboratory”) is a free online tool that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!
+✅ No installation needed ✅ No setup required ✅ Pre-installed with common libraries ✅ Free GPU access (for fast computation) ✅ Easy sharing with others ✅ Automatic saving to Google Drive Step 1: Open Your First Notebook Click this link to open the first GenJAX notebook:">
+    <meta name="author" content="Joseph Austerweil">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Getting Started with Google Colab :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="What is Google Colab? Google Colab (short for “Colaboratory”) is a free online tool that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!
 Why we love it for beginners:
-✅ No installation needed ✅ No setup required ✅ Pre-installed with common libraries ✅ Free GPU access (for fast computation) ✅ Easy sharing with others ✅ Automatic saving to Google Drive Step 1: Open Your First Notebook Click this link to open the first GenJAX notebook:"><meta property="og:url" content="https://josephausterweil.github.io/probintro/genjax/00_getting_started/index.html"><meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial"><meta property="og:title" content="Getting Started with Google Colab :: Probability & Probabilistic Computing Tutorial"><meta property="og:description" content="What is Google Colab? Google Colab (short for “Colaboratory”) is a free online tool that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!
+✅ No installation needed ✅ No setup required ✅ Pre-installed with common libraries ✅ Free GPU access (for fast computation) ✅ Easy sharing with others ✅ Automatic saving to Google Drive Step 1: Open Your First Notebook Click this link to open the first GenJAX notebook:">
+    <meta property="og:url" content="https://josephausterweil.github.io/probintro/genjax/00_getting_started/index.html">
+    <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Getting Started with Google Colab :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="What is Google Colab? Google Colab (short for “Colaboratory”) is a free online tool that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!
 Why we love it for beginners:
-✅ No installation needed ✅ No setup required ✅ Pre-installed with common libraries ✅ Free GPU access (for fast computation) ✅ Easy sharing with others ✅ Automatic saving to Google Drive Step 1: Open Your First Notebook Click this link to open the first GenJAX notebook:"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="Probabilistic Programming with GenJAX"><meta itemprop=name content="Getting Started with Google Colab :: Probability & Probabilistic Computing Tutorial"><meta itemprop=description content="What is Google Colab? Google Colab (short for “Colaboratory”) is a free online tool that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!
+✅ No installation needed ✅ No setup required ✅ Pre-installed with common libraries ✅ Free GPU access (for fast computation) ✅ Easy sharing with others ✅ Automatic saving to Google Drive Step 1: Open Your First Notebook Click this link to open the first GenJAX notebook:">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Probabilistic Programming with GenJAX">
+    <meta itemprop="name" content="Getting Started with Google Colab :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="What is Google Colab? Google Colab (short for “Colaboratory”) is a free online tool that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!
 Why we love it for beginners:
-✅ No installation needed ✅ No setup required ✅ Pre-installed with common libraries ✅ Free GPU access (for fast computation) ✅ Easy sharing with others ✅ Automatic saving to Google Drive Step 1: Open Your First Notebook Click this link to open the first GenJAX notebook:"><meta itemprop=wordCount content="759"><title>Getting Started with Google Colab :: Probability & Probabilistic Computing Tutorial</title><link href=/probintro/images/favicon.png?1763003703 rel=icon type=image/png><link href=/probintro/css/auto-complete/auto-complete.min.css?1763003703 rel=stylesheet><script src=/probintro/js/auto-complete/auto-complete.min.js?1763003703 defer></script><script src=/probintro/js/search-lunr.min.js?1763003703 defer></script><script src=/probintro/js/search.min.js?1763003703 defer></script><script>window.relearn=window.relearn||{},window.relearn.index_js_url="/probintro/searchindex.en.js?1763003703"</script><script src=/probintro/js/lunr/lunr.min.js?1763003703 defer></script><script src=/probintro/js/lunr/lunr.stemmer.support.min.js?1763003703 defer></script><script src=/probintro/js/lunr/lunr.multi.min.js?1763003703 defer></script><script src=/probintro/js/lunr/lunr.en.min.js?1763003703 defer></script><script>window.relearn=window.relearn||{},window.relearn.contentLangs=["en"]</script><link href=/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763003703 rel=stylesheet media=print onload='this.media="all",this.onload=null'><noscript><link href=/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763003703 rel=stylesheet></noscript><link href=/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763003703 rel=stylesheet><link href=/probintro/css/theme.min.css?1763003703 rel=stylesheet><link href=/probintro/css/format-html.min.css?1763003703 rel=stylesheet id=R-format-style><script>window.relearn=window.relearn||{},window.relearn.min=`.min`,window.relearn.path="/genjax/00_getting_started/index.html",window.relearn.relBasePath="../..",window.relearn.relBaseUri="../../..",window.relearn.absBaseUri="https://josephausterweil.github.io/probintro",window.relearn.disableAnchorCopy=!1,window.relearn.disableAnchorScrolling=!1,window.relearn.disableInlineCopyToClipboard=!1,window.relearn.enableBlockCodeWrap=!0,window.relearn.getItem=(e,t)=>e.getItem(t),window.relearn.setItem=(e,t,n)=>e.setItem(t,n),window.relearn.removeItem=(e,t)=>e.removeItem(t),window.T_Copy_to_clipboard=`Copy to clipboard`,window.T_Copied_to_clipboard=`Copied to clipboard!`,window.T_Copy_link_to_clipboard=`Copy link to clipboard`,window.T_Link_copied_to_clipboard=`Copied link to clipboard!`,window.T_Reset_view=`Reset view`,window.T_View_reset=`View reset!`,window.T_No_results_found=`No results found for "{0}"`,window.T_N_results_found=`{1} results found for "{0}"`,window.relearn.themevariants=["auto"],window.relearn.customvariantname="my-custom-variant",window.relearn.changeVariant=function(e){var t=document.documentElement.dataset.rThemeVariant;window.relearn.setItem(window.localStorage,window.relearn.absBaseUri+"/variant",e),document.documentElement.dataset.rThemeVariant=e,t!=e&&(document.dispatchEvent(new CustomEvent("themeVariantLoaded",{detail:{variant:e,oldVariant:t}})),window.relearn.markVariant())},window.relearn.markVariant=function(){var e=window.relearn.getItem(window.localStorage,window.relearn.absBaseUri+"/variant");document.querySelectorAll(".R-variantswitcher select").forEach(t=>{t.value=e})},window.relearn.initVariant=function(){var e=window.relearn.getItem(window.localStorage,window.relearn.absBaseUri+"/variant")??"";e==window.relearn.customvariantname||(!e||!window.relearn.themevariants.includes(e))&&(e=window.relearn.themevariants[0],window.relearn.setItem(window.localStorage,window.relearn.absBaseUri+"/variant",e)),document.documentElement.dataset.rThemeVariant=e},window.relearn.initVariant(),window.relearn.markVariant()</script></head><body class="mobile-support html" data-url=/probintro/genjax/00_getting_started/index.html><div id=R-body class=default-animation><div id=R-body-overlay></div><nav id=R-topbar><div class=topbar-wrapper><div class=topbar-sidebar-divider></div><div class="topbar-area topbar-area-start" data-area=start><div class="topbar-button topbar-button-sidebar" data-content-empty=disable data-width-s=show data-width-m=hide data-width-l=hide><button class=topbar-control onclick=toggleNav() type=button title="Menu (CTRL+ALT+n)"><i class="fa-fw fas fa-bars"></i></button></div><div class="topbar-button topbar-button-toc" data-content-empty=hide data-width-s=show data-width-m=show data-width-l=show><button class=topbar-control onclick=toggleTopbarFlyout(this) type=button title="Table of Contents (CTRL+ALT+t)"><i class="fa-fw fas fa-list-alt"></i></button><div class=topbar-content><div class=topbar-content-wrapper><nav class=TableOfContents><ul><li><a href=#what-is-google-colab>What is Google Colab?</a></li><li><a href=#step-1-open-your-first-notebook>Step 1: Open Your First Notebook</a></li><li><a href=#step-2-make-a-copy-so-you-can-edit>Step 2: Make a Copy (So You Can Edit)</a></li><li><a href=#step-3-understanding-the-interface>Step 3: Understanding the Interface</a><ul><li><a href=#the-notebook-structure>The Notebook Structure</a></li><li><a href=#running-code-cells>Running Code Cells</a></li><li><a href=#interactive-widgets>Interactive Widgets</a></li></ul></li><li><a href=#step-4-install-genjax>Step 4: Install GenJAX</a></li><li><a href=#step-5-import-required-libraries>Step 5: Import Required Libraries</a></li><li><a href=#step-6-your-first-code>Step 6: Your First Code!</a></li><li><a href=#common-issues--solutions>Common Issues & Solutions</a><ul><li><a href=#runtime-disconnected>&ldquo;Runtime disconnected&rdquo;</a></li><li><a href=#restart-runtime-button>&ldquo;Restart Runtime&rdquo; button</a></li><li><a href=#code-wont-run>Code won&rsquo;t run</a></li></ul></li><li><a href=#keyboard-shortcuts-optional>Keyboard Shortcuts (Optional)</a></li><li><a href=#quick-reference-card>Quick Reference Card</a></li><li><a href=#youre-ready>You&rsquo;re Ready!</a></li></ul></nav></div></div></div></div><ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype=http://schema.org/BreadcrumbList><li itemscope itemtype=https://schema.org/ListItem itemprop=itemListElement><a itemprop=item href=/probintro/index.html><span itemprop=name>Probability & Probabilistic Computing Tutorial</span></a><meta itemprop=position content="1">&nbsp;>&nbsp;</li><li itemscope itemtype=https://schema.org/ListItem itemprop=itemListElement><a itemprop=item href=/probintro/genjax/index.html><span itemprop=name>Probabilistic Programming with GenJAX</span></a><meta itemprop=position content="2">&nbsp;>&nbsp;</li><li itemscope itemtype=https://schema.org/ListItem itemprop=itemListElement><span itemprop=name>Getting Started with Google Colab</span><meta itemprop=position content="3"></li></ol><div class="topbar-area topbar-area-end" data-area=end><div class="topbar-button topbar-button-prev" data-content-empty=disable data-width-s=show data-width-m=show data-width-l=show><a class=topbar-control href=/probintro/genjax/index.html title="Probabilistic Programming with GenJAX (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a></div><div class="topbar-button topbar-button-next" data-content-empty=disable data-width-s=show data-width-m=show data-width-l=show><a class=topbar-control href=/probintro/genjax/01_python_basics/index.html title="Python Essentials for GenJAX (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a></div><div class="topbar-button topbar-button-more" data-content-empty=hide data-width-s=show data-width-m=show data-width-l=show><button class=topbar-control onclick=toggleTopbarFlyout(this) type=button title=More><i class="fa-fw fas fa-ellipsis-v"></i></button><div class=topbar-content><div class=topbar-content-wrapper><div class="topbar-area topbar-area-more" data-area=more></div></div></div></div></div></div></nav><div id=R-main-overlay></div><main id=R-body-inner class="highlightable genjax" tabindex=-1><div class=flex-block-wrapper><article class=default><header class=headline></header><h1 id=getting-started-with-google-colab>Getting Started with Google Colab</h1><h2 id=what-is-google-colab>What is Google Colab?</h2><p>Google Colab (short for &ldquo;Colaboratory&rdquo;) is a <strong>free online tool</strong> that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!</p><p><strong>Why we love it for beginners:</strong></p><ul><li>✅ No installation needed</li><li>✅ No setup required</li><li>✅ Pre-installed with common libraries</li><li>✅ Free GPU access (for fast computation)</li><li>✅ Easy sharing with others</li><li>✅ Automatic saving to Google Drive</li></ul><h2 id=step-1-open-your-first-notebook>Step 1: Open Your First Notebook</h2><p>Click this link to open the first GenJAX notebook:</p><p><strong><a href=https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/02_first_genjax_model.ipynb rel=external target=_blank>📓 Open: Chapter 2 - Your First GenJAX Model</a></strong></p><details open class="box cstyle notices info"><summary class=box-label tabindex=-1><i class="fa-fw fas fa-info-circle"></i>
-What just happened?</summary><div class=box-content><p>You opened a <strong>Jupyter notebook</strong> — an interactive document that mixes:</p><ul><li><strong>Text</strong> (explanations, like this)</li><li><strong>Code</strong> (that you can run)</li><li><strong>Visualizations</strong> (graphs and plots)</li></ul><p>Think of it as a lab notebook for probability experiments!</p></div></details><h2 id=step-2-make-a-copy-so-you-can-edit>Step 2: Make a Copy (So You Can Edit)</h2><p>When the notebook opens, you&rsquo;ll see a yellow banner that says &ldquo;You are using Colab in playground mode.&rdquo;</p><p><strong>Click: &ldquo;Copy to Drive&rdquo;</strong> (top right, or in the banner)</p><p>This creates your own copy that you can edit and save!</p><details open class="box cstyle notices warning"><summary class=box-label tabindex=-1><i class="fa-fw fas fa-exclamation-triangle"></i>
-Important!</summary><div class=box-content><p>Without copying to Drive, your changes <strong>won&rsquo;t be saved</strong> when you close the browser!</p></div></details><h2 id=step-3-understanding-the-interface>Step 3: Understanding the Interface</h2><p>Let me show you around:</p><h3 id=the-notebook-structure>The Notebook Structure</h3><p>A Colab notebook has <strong>cells</strong> — little boxes that contain either:</p><ul><li><strong>Text cells</strong> (like this explanation)</li><li><strong>Code cells</strong> (Python code you can run)</li></ul><h3 id=running-code-cells>Running Code Cells</h3><p>See a cell with code like this?</p><div class="highlight wrap-code" dir=auto><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>print(<span style=color:#e6db74>&#34;Hello, Chibany!&#34;</span>)</span></span></code></pre></td></tr></table></div></div><p><strong>To run it:</strong></p><ol><li>Click on the cell</li><li>Press <strong>Shift + Enter</strong> (or click the ▶️ play button on the left)</li></ol><p>Try it! You should see &ldquo;Hello, Chibany!&rdquo; appear below the cell.</p><h3 id=interactive-widgets>Interactive Widgets</h3><p>Throughout the notebooks, you&rsquo;ll see <strong>sliders and controls</strong> that let you change values and instantly see updated results. We&rsquo;ll use these to explore probability!</p><h2 id=step-4-install-genjax>Step 4: Install GenJAX</h2><p>The first code cell in each notebook will look like this:</p><div class="highlight wrap-code" dir=auto><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Install GenJAX (this takes about 1-2 minutes the first time)</span>
-</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>!</span>pip install genjax</span></span></code></pre></td></tr></table></div></div><p><strong>What this does:</strong></p><ul><li>The <code>!</code> tells Colab &ldquo;run this as a system command&rdquo;</li><li><code>pip install</code> means &ldquo;download and install&rdquo;</li><li><code>genjax</code> is the library we&rsquo;re installing</li></ul><p><strong>To run it:</strong></p><ol><li>Click the cell</li><li>Press Shift + Enter</li><li>Wait for it to finish (you&rsquo;ll see progress messages)</li></ol><details open class="box cstyle notices tip"><summary class=box-label tabindex=-1><i class="fa-fw fas fa-lightbulb"></i>
-Tip</summary><div class=box-content><p>You only need to install GenJAX <strong>once per session</strong>. If you come back later and restart the notebook, you&rsquo;ll need to run this cell again.</p></div></details><h2 id=step-5-import-required-libraries>Step 5: Import Required Libraries</h2><p>After installation, you&rsquo;ll typically see a cell like:</p><div class="highlight wrap-code" dir=auto><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> jax
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> jax.numpy <span style=color:#66d9ef>as</span> jnp
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> genjax
-</span></span><span style=display:flex><span><span style=color:#f92672>from</span> genjax <span style=color:#f92672>import</span> gen, bernoulli
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> matplotlib.pyplot <span style=color:#66d9ef>as</span> plt</span></span></code></pre></td></tr></table></div></div><p><strong>What this does:</strong></p><ul><li><code>import</code> means &ldquo;load this library so we can use it&rdquo;</li><li>We&rsquo;re loading JAX (for computation), GenJAX (for probability), and matplotlib (for plotting)</li></ul><p><strong>Just run it!</strong> You don&rsquo;t need to understand every line. Think of it like turning on the lights before you start working.</p><h2 id=step-6-your-first-code>Step 6: Your First Code!</h2><p>Now you&rsquo;re ready to run real GenJAX code! In the next chapter, you&rsquo;ll:</p><ul><li>Write a generative function for Chibany&rsquo;s meals</li><li>Generate thousands of random days</li><li>Visualize the results</li><li>Use sliders to change probabilities and see what happens</li></ul><h2 id=common-issues--solutions>Common Issues & Solutions</h2><h3 id=runtime-disconnected>&ldquo;Runtime disconnected&rdquo;</h3><p><strong>Problem:</strong> Colab disconnects after ~90 minutes of inactivity
-<strong>Solution:</strong> Just reconnect and re-run the cells (start to finish)</p><h3 id=restart-runtime-button>&ldquo;Restart Runtime&rdquo; button</h3><p><strong>Problem:</strong> Something went wrong and you need a fresh start
-<strong>Solution:</strong> Click Runtime → Restart runtime → Re-run all cells</p><h3 id=code-wont-run>Code won&rsquo;t run</h3><p><strong>Problem:</strong> Cells need to be run in order
-<strong>Solution:</strong> Click Runtime → Run all (to run from top to bottom)</p><h2 id=keyboard-shortcuts-optional>Keyboard Shortcuts (Optional)</h2><p>These can make you faster, but they&rsquo;re optional:</p><table><thead><tr><th>Action</th><th>Shortcut</th></tr></thead><tbody><tr><td>Run current cell</td><td>Shift + Enter</td></tr><tr><td>Insert cell below</td><td>Ctrl + M, B</td></tr><tr><td>Delete cell</td><td>Ctrl + M, D</td></tr><tr><td>Comment/uncomment line</td><td>Ctrl + /</td></tr></tbody></table><hr><h2 id=quick-reference-card>Quick Reference Card</h2><p>Save this for later:</p><p><strong>Running Code:</strong></p><ol><li>Click cell</li><li>Shift + Enter</li></ol><p><strong>Saving Work:</strong></p><ul><li>Auto-saves to Google Drive (if you copied to Drive)</li><li>Manual save: File → Save</li></ul><p><strong>Fresh Start:</strong></p><ul><li>Runtime → Restart runtime</li></ul><p><strong>Getting Help:</strong></p><ul><li>In code cell, type <code>?function_name</code> and run to see documentation</li><li>Or just Google your question!</li></ul><hr><h2 id=youre-ready>You&rsquo;re Ready!</h2><p>Now you have:
+✅ No installation needed ✅ No setup required ✅ Pre-installed with common libraries ✅ Free GPU access (for fast computation) ✅ Easy sharing with others ✅ Automatic saving to Google Drive Step 1: Open Your First Notebook Click this link to open the first GenJAX notebook:">
+    <meta itemprop="wordCount" content="759">
+    <title>Getting Started with Google Colab :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/images/favicon.png?1763005722" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763005722" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763005722" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1763005722" defer></script>
+    <script src="/probintro/js/search.min.js?1763005722" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763005722";
+    </script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763005722" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763005722" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763005722" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763005722" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763005722" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763005722" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763005722" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1763005722" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1763005722" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = `.min`;
+      window.relearn.path='\/genjax\/00_getting_started\/index.html';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='https:\/\/josephausterweil.github.io\/probintro';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'auto' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+  </head>
+  <body class="mobile-support html" data-url="/probintro/genjax/00_getting_started/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#what-is-google-colab">What is Google Colab?</a></li>
+    <li><a href="#step-1-open-your-first-notebook">Step 1: Open Your First Notebook</a></li>
+    <li><a href="#step-2-make-a-copy-so-you-can-edit">Step 2: Make a Copy (So You Can Edit)</a></li>
+    <li><a href="#step-3-understanding-the-interface">Step 3: Understanding the Interface</a>
+      <ul>
+        <li><a href="#the-notebook-structure">The Notebook Structure</a></li>
+        <li><a href="#running-code-cells">Running Code Cells</a></li>
+        <li><a href="#interactive-widgets">Interactive Widgets</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-4-install-genjax">Step 4: Install GenJAX</a></li>
+    <li><a href="#step-5-import-required-libraries">Step 5: Import Required Libraries</a></li>
+    <li><a href="#step-6-your-first-code">Step 6: Your First Code!</a></li>
+    <li><a href="#common-issues--solutions">Common Issues &amp; Solutions</a>
+      <ul>
+        <li><a href="#runtime-disconnected">&ldquo;Runtime disconnected&rdquo;</a></li>
+        <li><a href="#restart-runtime-button">&ldquo;Restart Runtime&rdquo; button</a></li>
+        <li><a href="#code-wont-run">Code won&rsquo;t run</a></li>
+      </ul>
+    </li>
+    <li><a href="#keyboard-shortcuts-optional">Keyboard Shortcuts (Optional)</a></li>
+    <li><a href="#quick-reference-card">Quick Reference Card</a></li>
+    <li><a href="#youre-ready">You&rsquo;re Ready!</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/genjax/index.html"><span itemprop="name">Probabilistic Programming with GenJAX</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Getting Started with Google Colab</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/index.html" title="Probabilistic Programming with GenJAX (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/01_python_basics/index.html" title="Python Essentials for GenJAX (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable genjax" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="getting-started-with-google-colab">Getting Started with Google Colab</h1>
+
+<h2 id="what-is-google-colab">What is Google Colab?</h2>
+<p>Google Colab (short for &ldquo;Colaboratory&rdquo;) is a <strong>free online tool</strong> that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!</p>
+<p><strong>Why we love it for beginners:</strong></p>
+<ul>
+<li>✅ No installation needed</li>
+<li>✅ No setup required</li>
+<li>✅ Pre-installed with common libraries</li>
+<li>✅ Free GPU access (for fast computation)</li>
+<li>✅ Easy sharing with others</li>
+<li>✅ Automatic saving to Google Drive</li>
+</ul>
+<h2 id="step-1-open-your-first-notebook">Step 1: Open Your First Notebook</h2>
+<p>Click this link to open the first GenJAX notebook:</p>
+<p><strong><a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/02_first_genjax_model.ipynb" rel="external" target="_blank">📓 Open: Chapter 2 - Your First GenJAX Model</a></strong></p>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    What just happened?
+  </summary>
+  <div class="box-content">
+<p>You opened a <strong>Jupyter notebook</strong> — an interactive document that mixes:</p>
+<ul>
+<li><strong>Text</strong> (explanations, like this)</li>
+<li><strong>Code</strong> (that you can run)</li>
+<li><strong>Visualizations</strong> (graphs and plots)</li>
+</ul>
+<p>Think of it as a lab notebook for probability experiments!</p>
+  </div>
+</details>
+<h2 id="step-2-make-a-copy-so-you-can-edit">Step 2: Make a Copy (So You Can Edit)</h2>
+<p>When the notebook opens, you&rsquo;ll see a yellow banner that says &ldquo;You are using Colab in playground mode.&rdquo;</p>
+<p><strong>Click: &ldquo;Copy to Drive&rdquo;</strong> (top right, or in the banner)</p>
+<p>This creates your own copy that you can edit and save!</p>
+
+<details open class=" box cstyle notices warning">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-triangle"></i> 
+    Important!
+  </summary>
+  <div class="box-content">
+<p>Without copying to Drive, your changes <strong>won&rsquo;t be saved</strong> when you close the browser!</p>
+  </div>
+</details>
+<h2 id="step-3-understanding-the-interface">Step 3: Understanding the Interface</h2>
+<p>Let me show you around:</p>
+<h3 id="the-notebook-structure">The Notebook Structure</h3>
+<p>A Colab notebook has <strong>cells</strong> — little boxes that contain either:</p>
+<ul>
+<li><strong>Text cells</strong> (like this explanation)</li>
+<li><strong>Code cells</strong> (Python code you can run)</li>
+</ul>
+<h3 id="running-code-cells">Running Code Cells</h3>
+<p>See a cell with code like this?</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Hello, Chibany!&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>To run it:</strong></p>
+<ol>
+<li>Click on the cell</li>
+<li>Press <strong>Shift + Enter</strong> (or click the ▶️ play button on the left)</li>
+</ol>
+<p>Try it! You should see &ldquo;Hello, Chibany!&rdquo; appear below the cell.</p>
+<h3 id="interactive-widgets">Interactive Widgets</h3>
+<p>Throughout the notebooks, you&rsquo;ll see <strong>sliders and controls</strong> that let you change values and instantly see updated results. We&rsquo;ll use these to explore probability!</p>
+<h2 id="step-4-install-genjax">Step 4: Install GenJAX</h2>
+<p>The first code cell in each notebook will look like this:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Install GenJAX (this takes about 1-2 minutes the first time)</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install genjax</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>What this does:</strong></p>
+<ul>
+<li>The <code>!</code> tells Colab &ldquo;run this as a system command&rdquo;</li>
+<li><code>pip install</code> means &ldquo;download and install&rdquo;</li>
+<li><code>genjax</code> is the library we&rsquo;re installing</li>
+</ul>
+<p><strong>To run it:</strong></p>
+<ol>
+<li>Click the cell</li>
+<li>Press Shift + Enter</li>
+<li>Wait for it to finish (you&rsquo;ll see progress messages)</li>
+</ol>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    Tip
+  </summary>
+  <div class="box-content">
+<p>You only need to install GenJAX <strong>once per session</strong>. If you come back later and restart the notebook, you&rsquo;ll need to run this cell again.</p>
+  </div>
+</details>
+<h2 id="step-5-import-required-libraries">Step 5: Import Required Libraries</h2>
+<p>After installation, you&rsquo;ll typically see a cell like:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> genjax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>What this does:</strong></p>
+<ul>
+<li><code>import</code> means &ldquo;load this library so we can use it&rdquo;</li>
+<li>We&rsquo;re loading JAX (for computation), GenJAX (for probability), and matplotlib (for plotting)</li>
+</ul>
+<p><strong>Just run it!</strong> You don&rsquo;t need to understand every line. Think of it like turning on the lights before you start working.</p>
+<h2 id="step-6-your-first-code">Step 6: Your First Code!</h2>
+<p>Now you&rsquo;re ready to run real GenJAX code! In the next chapter, you&rsquo;ll:</p>
+<ul>
+<li>Write a generative function for Chibany&rsquo;s meals</li>
+<li>Generate thousands of random days</li>
+<li>Visualize the results</li>
+<li>Use sliders to change probabilities and see what happens</li>
+</ul>
+<h2 id="common-issues--solutions">Common Issues &amp; Solutions</h2>
+<h3 id="runtime-disconnected">&ldquo;Runtime disconnected&rdquo;</h3>
+<p><strong>Problem:</strong> Colab disconnects after ~90 minutes of inactivity
+<strong>Solution:</strong> Just reconnect and re-run the cells (start to finish)</p>
+<h3 id="restart-runtime-button">&ldquo;Restart Runtime&rdquo; button</h3>
+<p><strong>Problem:</strong> Something went wrong and you need a fresh start
+<strong>Solution:</strong> Click Runtime → Restart runtime → Re-run all cells</p>
+<h3 id="code-wont-run">Code won&rsquo;t run</h3>
+<p><strong>Problem:</strong> Cells need to be run in order
+<strong>Solution:</strong> Click Runtime → Run all (to run from top to bottom)</p>
+<h2 id="keyboard-shortcuts-optional">Keyboard Shortcuts (Optional)</h2>
+<p>These can make you faster, but they&rsquo;re optional:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Action</th>
+          <th>Shortcut</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Run current cell</td>
+          <td>Shift + Enter</td>
+      </tr>
+      <tr>
+          <td>Insert cell below</td>
+          <td>Ctrl + M, B</td>
+      </tr>
+      <tr>
+          <td>Delete cell</td>
+          <td>Ctrl + M, D</td>
+      </tr>
+      <tr>
+          <td>Comment/uncomment line</td>
+          <td>Ctrl + /</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="quick-reference-card">Quick Reference Card</h2>
+<p>Save this for later:</p>
+<p><strong>Running Code:</strong></p>
+<ol>
+<li>Click cell</li>
+<li>Shift + Enter</li>
+</ol>
+<p><strong>Saving Work:</strong></p>
+<ul>
+<li>Auto-saves to Google Drive (if you copied to Drive)</li>
+<li>Manual save: File → Save</li>
+</ul>
+<p><strong>Fresh Start:</strong></p>
+<ul>
+<li>Runtime → Restart runtime</li>
+</ul>
+<p><strong>Getting Help:</strong></p>
+<ul>
+<li>In code cell, type <code>?function_name</code> and run to see documentation</li>
+<li>Or just Google your question!</li>
+</ul>
+<hr>
+<h2 id="youre-ready">You&rsquo;re Ready!</h2>
+<p>Now you have:
 ✅ Google Colab open
 ✅ Your own copy of the notebook
 ✅ GenJAX installed
-✅ Basic understanding of the interface</p><p><strong>Next steps:</strong></p><ul><li><a href=/probintro/genjax/01_python_basics/index.html>Chapter 1: Python Essentials →</a> - Learn just enough Python</li><li><a href=/probintro/genjax/02_first_model/index.html>Chapter 2: Your First GenJAX Model →</a> - Jump right into coding!</li></ul><details open class="box cstyle notices" style=--VARIABLE-BOX-color:success><summary class="box-label a11y-only" tabindex=-1><span class=a11y-only>Details</span></summary><div class=box-content><p><strong>Pro tip:</strong> Keep this tab open as a reference while you work through the notebooks!</p></div></details><hr><table><thead><tr><th style=text-align:left><a href=/probintro/genjax/index.html>← Previous: Introduction</a></th><th style=text-align:right><a href=/probintro/genjax/01_python_basics/index.html>Next: Python Essentials →</a></th></tr></thead><tbody></tbody></table><footer class=footline></footer></article></div></main></div><aside id=R-sidebar class=default-animation><div id=R-header-topbar class=default-animation></div><div id=R-header-wrapper class=default-animation><div id=R-header class=default-animation><a id=R-logo class=R-default href=/probintro/index.html><div class=logo-title>Probability & Probabilistic Computing Tutorial</div></a></div><search><form action=/probintro/search/index.html method=get><div class="searchbox default-animation"><button class=search-detail type=submit title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
-<label class=a11y-only for=R-search-by>Search</label>
-<input data-search-input id=R-search-by name=search-by class=search-by type=search placeholder=Search...>
-<button class=search-clear type=button data-search-clear title="Clear search"><i class="fas fa-times" title="Clear search"></i></button></div></form></search></div><div id=R-homelinks class="default-animation homelinks"><div class="R-menu-divider default-animation"><hr class=padding></div><div class="R-sidebarmenu R-shortcutmenu-homelinks"><ul class="space collapsible-menu"><li data-nav-id=/probintro/index.html><a class=padding href=/probintro/index.html><i class="fa-fw fas fa-home"></i> Home</a></li></ul></div><div class="R-menu-divider default-animation"><hr class=padding></div><div class="R-sidebarmenu R-shortcutmenu-headercontrols"><ul></ul></div><div class="R-menu-divider default-animation"><hr class=padding></div></div><div id=R-content-wrapper class=highlightable><div class="R-sidebarmenu R-shortcutmenu-main"><ul class="enlarge morespace collapsible-menu"><li class=alwaysopen data-nav-id=/probintro/intro/index.html><a class=padding href=/probintro/intro/index.html>A Narrative Introduction to Probability</a><ul id=R-subsections-58f2a84c91d5deefe8bdd3a21213404a class=collapsible-menu></ul></li><li class="parent alwaysopen" data-nav-id=/probintro/genjax/index.html><a class=padding href=/probintro/genjax/index.html>Probabilistic Programming with GenJAX</a><ul id=R-subsections-40a5f3b764be01351a755ea2f58fc4ae class=collapsible-menu><li class=active data-nav-id=/probintro/genjax/00_getting_started/index.html><a class=padding href=/probintro/genjax/00_getting_started/index.html>Getting Started with Google Colab</a></li><li data-nav-id=/probintro/genjax/01_python_basics/index.html><a class=padding href=/probintro/genjax/01_python_basics/index.html>Python Essentials for GenJAX</a></li><li data-nav-id=/probintro/genjax/02_first_model/index.html><a class=padding href=/probintro/genjax/02_first_model/index.html>Your First GenJAX Model</a></li><li data-nav-id=/probintro/genjax/03_traces/index.html><a class=padding href=/probintro/genjax/03_traces/index.html>Understanding Traces</a></li><li data-nav-id=/probintro/genjax/04_conditioning/index.html><a class=padding href=/probintro/genjax/04_conditioning/index.html>Conditioning and Observations</a></li><li data-nav-id=/probintro/genjax/05_inference/index.html><a class=padding href=/probintro/genjax/05_inference/index.html>Inference in Action: The Taxicab Problem</a></li><li data-nav-id=/probintro/genjax/06_building_models/index.html><a class=padding href=/probintro/genjax/06_building_models/index.html>Building Your Own Models</a></li></ul></li><li class=alwaysopen data-nav-id=/probintro/intro2/index.html><a class=padding href=/probintro/intro2/index.html>Continuous Probability and Bayesian Learning</a><ul id=R-subsections-6e37e5026001eb89123afab26613c1bf class=collapsible-menu></ul></li><li data-nav-id=/probintro/glossary/index.html><a class=padding href=/probintro/glossary/index.html>Glossary - All Tutorials</a></li></ul></div><div class="R-sidebarmenu R-shortcutmenu-shortcuts"><ul class="space collapsible-menu"></ul></div><div id=R-footer-margin></div><div class="R-menu-divider default-animation"><hr class=padding></div><div class="R-sidebarmenu R-shortcutmenu-footercontrols"><ul></ul></div><div id=R-footer><p>Built with <a href=https://github.com/McShelby/hugo-theme-relearn title=love><i class="fas fa-heart"></i></a> by <a href=https://gohugo.io/>Hugo</a></p></div></div></aside><script>window.MathJax=Object.assign(window.MathJax||{},{tex:{inlineMath:[["\\(","\\)"],["$","$"]],displayMath:[["\\[","\\]"],["$$","$$"]]},options:{enableMenu:!1}},JSON.parse("{}"))</script><script id=MathJax-script async src=/probintro/js/mathjax/tex-mml-chtml.js?1763003703></script><script src=/probintro/js/clipboard/clipboard.min.js?1763003703 defer></script><script src=/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763003703 defer></script><script src=/probintro/js/theme.min.js?1763003703 defer></script></body></html>
+✅ Basic understanding of the interface</p>
+<p><strong>Next steps:</strong></p>
+<ul>
+<li><a href="/probintro/genjax/01_python_basics/index.html">Chapter 1: Python Essentials →</a> - Learn just enough Python</li>
+<li><a href="/probintro/genjax/02_first_model/index.html">Chapter 2: Your First GenJAX Model →</a> - Jump right into coding!</li>
+</ul>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label a11y-only" tabindex="-1">
+    <span class="a11y-only">Details</span>
+  </summary>
+  <div class="box-content">
+<p><strong>Pro tip:</strong> Keep this tab open as a reference while you work through the notebooks!</p>
+  </div>
+</details>
+<hr>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><a href="/probintro/genjax/index.html">← Previous: Introduction</a></th>
+          <th style="text-align: right"><a href="/probintro/genjax/01_python_basics/index.html">Next: Python Essentials →</a></th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/probintro/index.html">
+            <div class="logo-title">Probability &amp; Probabilistic Computing Tutorial</div>
+          </a>
+        </div>
+        <search><form action="/probintro/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/probintro/index.html"><a class="padding" href="/probintro/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
+            <li class="parent alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu">
+            <li class="active " data-nav-id="/probintro/genjax/00_getting_started/index.html"><a class="padding" href="/probintro/genjax/00_getting_started/index.html">Getting Started with Google Colab</a></li>
+            <li class="" data-nav-id="/probintro/genjax/01_python_basics/index.html"><a class="padding" href="/probintro/genjax/01_python_basics/index.html">Python Essentials for GenJAX</a></li>
+            <li class="" data-nav-id="/probintro/genjax/02_first_model/index.html"><a class="padding" href="/probintro/genjax/02_first_model/index.html">Your First GenJAX Model</a></li>
+            <li class="" data-nav-id="/probintro/genjax/03_traces/index.html"><a class="padding" href="/probintro/genjax/03_traces/index.html">Understanding Traces</a></li>
+            <li class="" data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Observations</a></li>
+            <li class="" data-nav-id="/probintro/genjax/05_inference/index.html"><a class="padding" href="/probintro/genjax/05_inference/index.html">Inference in Action: The Taxicab Problem</a></li>
+            <li class="" data-nav-id="/probintro/genjax/06_building_models/index.html"><a class="padding" href="/probintro/genjax/06_building_models/index.html">Building Your Own Models</a></li></ul></li>
+            <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
+            <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763005722"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763005722" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763005722" defer></script>
+    <script src="/probintro/js/theme.min.js?1763005722" defer></script>
+  </body>
+</html>
