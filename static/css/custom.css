@@ -1,0 +1,36 @@
+/* Custom color overrides for probintro tutorial */
+/* Change navigation header from green to SDS/JPCCA blue */
+
+:root {
+    --MAIN-THEME-color: #1565c0; /* SDS/JPCCA blue - replaces default green */
+    --MAIN-BG-color: #1565c0; /* Background for header */
+}
+
+/* Override specific header elements */
+#header-wrapper {
+    background-color: #1565c0 !important;
+}
+
+#header {
+    background-color: #1565c0 !important;
+}
+
+/* Logo area background */
+#logo {
+    background-color: #1565c0 !important;
+}
+
+/* Sidebar background */
+#sidebar {
+    background-color: #1565c0 !important;
+}
+
+/* Active menu item */
+.menu-item.active {
+    background-color: #0d47a1 !important; /* Darker blue for active state */
+}
+
+/* Menu item hover */
+.menu-item:hover {
+    background-color: #0d47a1 !important; /* Darker blue for hover */
+}
