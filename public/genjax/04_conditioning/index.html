@@ -41,27 +41,27 @@ Recall: Conditional Probability From the probability tutorial, remember conditio
 Written: $P(A \mid B)$">
     <meta itemprop="wordCount" content="2628">
     <title>Conditioning and Observations :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763024254" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763024254" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763024254" defer></script>
-    <script src="/probintro/js/search-lunr.min.js?1763024254" defer></script>
-    <script src="/probintro/js/search.min.js?1763024254" defer></script>
+    <link href="/probintro/images/favicon.png?1763024417" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763024417" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763024417" defer></script>
+    <script src="/probintro/js/search-lunr.min.js?1763024417" defer></script>
+    <script src="/probintro/js/search.min.js?1763024417" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763024254";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763024417";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763024254" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763024254" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763024254" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763024254" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763024417" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763024417" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763024417" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763024417" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763024254" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763024254" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763024254" rel="stylesheet">
-    <link href="/probintro/css/theme.min.css?1763024254" rel="stylesheet">
-    <link href="/probintro/css/format-html.min.css?1763024254" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763024417" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763024417" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763024417" rel="stylesheet">
+    <link href="/probintro/css/theme.min.css?1763024417" rel="stylesheet">
+    <link href="/probintro/css/format-html.min.css?1763024417" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -88,7 +88,7 @@ Written: $P(A \mid B)$">
       window.T_No_results_found = `No results found for "{0}"`;
       window.T_N_results_found = `{1} results found for "{0}"`;
       // variant stuff
-      window.relearn.themevariants = [ 'relearn-light' ];
+      window.relearn.themevariants = [ 'relearn-dark' ];
       window.relearn.customvariantname = "my-custom-variant";
       window.relearn.changeVariant = function(variant) {
         var oldVariant = document.documentElement.dataset.rThemeVariant;
@@ -220,8 +220,8 @@ Written: $P(A \mid B)$">
 <p>So far, we&rsquo;ve used GenJAX to <strong>generate</strong> outcomes — simulating what could happen.</p>
 <p>Now we&rsquo;ll learn to <strong>infer</strong> — reasoning backwards from observations to causes.</p>
 <p>This is the heart of probabilistic programming!</p>
-<p><a href="#R-image-f2d97366ca4a9b23f2c81f8ec6c8c058" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-f2d97366ca4a9b23f2c81f8ec6c8c058"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-a126dfa5a866a522950a450d8942f27f" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-a126dfa5a866a522950a450d8942f27f"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="recall-conditional-probability">Recall: Conditional Probability</h2>
 <p>From the probability tutorial, remember <strong>conditional probability</strong>:</p>
@@ -1323,9 +1323,9 @@ Independent: False</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763024254"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763024254" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763024254" defer></script>
-    <script src="/probintro/js/theme.min.js?1763024254" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763024417"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763024417" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763024417" defer></script>
+    <script src="/probintro/js/theme.min.js?1763024417" defer></script>
   </body>
 </html>

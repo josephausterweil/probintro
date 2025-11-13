@@ -16,10 +16,8 @@ images = ['images/chibanyplain.png']
     author = "Joseph Austerweil"
 
     # Theme color customization - SDS/JPCCA blue instead of default green
-    themeVariant = "relearn-light"
-    [params.themeVariantOverrides]
-        MAIN-THEME-color = "#1565c0"
-        MAIN-BG-color = "#1565c0"
+    # Using relearn-dark for dark main content area
+    themeVariant = "relearn-dark"
 
     # Mermaid diagram configuration for better rendering reliability
     # Using v10.9.3 which has better block-beta support

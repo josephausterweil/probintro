@@ -1,29 +1,29 @@
 @media screen {
-:root:not([data-r-output-format='print']):not([data-r-theme-variant='my-custom-variant']):not([data-r-theme-variant='relearn-light']),
-:root:not([data-r-output-format='print'])[data-r-theme-variant='relearn-light'] {
+:root:not([data-r-output-format='print']):not([data-r-theme-variant='my-custom-variant']):not([data-r-theme-variant='relearn-dark']),
+:root:not([data-r-output-format='print'])[data-r-theme-variant='relearn-dark'] {
 &:root {
-  /* relearn-light */
+  /* relearn-dark */
   --PRIMARY-color: rgba(125, 201, 3, 1); /* brand primary color */
-  --SECONDARY-color: rgba(72, 106, 201, 1); /* brand secondary color */
-  --ACCENT-color: rgb(255, 102, 78); /* brand accent color, used for search highlights */
+  --SECONDARY-color: rgba(108, 140, 227, 1); /* brand secondary color */
+  --ACCENT-color: rgb(255, 102, 78, 1); /* brand accent color, used for search highlights */
 
-  --MAIN-TEXT-color: rgba(0, 0, 0, 1); /* text color of content and titles */
-  --MAIN-LINK-HOVER-color: rgba(32, 40, 145, 1); /* hovered link color of content */
-  --MAIN-BG-color: rgba(255, 255, 255, 1); /* background color of content */
-  --MAIN-TITLES-TEXT-color: rgba(16, 16, 16, 1); /* text color of titles and transparent box titles */
+  --MAIN-TEXT-color: rgba(224, 224, 224, 1); /* text color of content and titles */
+  --MAIN-LINK-HOVER-color: rgba(147, 176, 255, 1); /* hovered link color of content */
+  --MAIN-BG-color: rgba(32, 32, 32, 1); /* background color of content */
+  --MAIN-TITLES-TEXT-color: rgba(255, 255, 255, 1); /* text color of titles and transparent box titles */
 
-  --CODE-theme: relearn-light; /* name of the chroma stylesheet file */
-  --CODE-BLOCK-color: rgba(39, 40, 34, 1); /* fallback text color of block code; should be adjusted to your selected chroma style */
-  --CODE-BLOCK-BG-color: rgba(250, 250, 250, 1); /* fallback background color of block code; should be adjusted to your selected chroma style */
-  --CODE-BLOCK-BORDER-color: rgba(216, 216, 216, 1); /* border color of block code */
-  --CODE-INLINE-color: rgba(94, 94, 94, 1); /* text color of inline code */
-  --CODE-INLINE-BG-color: rgba(255, 250, 233, 1); /* background color of inline code */
-  --CODE-INLINE-BORDER-color: rgba(248, 232, 200, 1); /* border color of inline code */
+  --CODE-theme: relearn-dark; /* name of the chroma stylesheet file */
+  --CODE-BLOCK-color: rgba(248, 248, 242, 1); /* fallback text color of block code; should be adjusted to your selected chroma style */
+  --CODE-BLOCK-BG-color: rgba(43, 43, 43, 1); /* fallback background color of block code; should be adjusted to your selected chroma style */
+  --CODE-BLOCK-BORDER-color: rgba(71, 71, 71, 1); /* border color of block code */
+  --CODE-INLINE-color: rgba(130, 229, 80, 1); /* text color of inline code */
+  --CODE-INLINE-BG-color: rgba(45, 45, 45, 1); /* background color of inline code */
+  --CODE-INLINE-BORDER-color: rgba(70, 70, 70, 1); /* border color of inline code */
 
-  --BROWSER-theme: light; /* name of the theme for browser scrollbars of the main section */
-  --MERMAID-theme: default; /* name of the default Mermaid theme for this variant, can be overridden in hugo.toml */
-  --OPENAPI-theme: light; /* name of the default OpenAPI theme for this variant, can be overridden in hugo.toml */
-  --OPENAPI-CODE-theme: idea; /* name of the default OpenAPI code theme for this variant, can be overridden in hugo.toml */
+  --BROWSER-theme: dark; /* name of the theme for browser scrollbars of the main section */
+  --MERMAID-theme: dark; /* name of the default Mermaid theme for this variant, can be overridden in hugo.toml */
+  --OPENAPI-theme: dark; /* name of the default OpenAPI theme for this variant, can be overridden in hugo.toml */
+  --OPENAPI-CODE-theme: obsidian; /* name of the default OpenAPI code theme for this variant, can be overridden in hugo.toml */
 
   --MENU-HEADER-color: rgba(40, 40, 40, 1); /* color of menu header */
 
@@ -34,75 +34,77 @@
   --MENU-HOME-LINK-color: rgba(64, 64, 64, 1); /* home button color if configured */
   --MENU-HOME-LINK-HOVER-color: rgba(0, 0, 0, 1); /* hovered home button color if configured */
 
-  --MENU-SECTIONS-BG-color: rgba(40, 40, 40, 1); /* background of the menu; this is NOT just a color value but can be a complete CSS background definition including gradients, etc. */
-  --MENU-SECTIONS-ACTIVE-BG-color: rgba(0, 0, 0, 0.166); /* background color of the active menu section */
+  --MENU-SECTIONS-BG-color: rgba(43, 43, 43, 1); /* background of the menu; this is NOT just a color value but can be a complete CSS background definition including gradients, etc. */
   --MENU-SECTIONS-LINK-color: rgba(186, 186, 186, 1); /* link color of menu topics */
   --MENU-SECTIONS-LINK-HOVER-color: rgba(255, 255, 255, 1); /* hovered link color of menu topics */
-  --MENU-SECTION-ACTIVE-CATEGORY-color: rgba(68, 68, 68, 1); /* text color of the displayed menu topic */
+  --MENU-SECTIONS-ACTIVE-BG-color: rgba(50, 50, 50, 1); /* background color of the active menu section */
+  --MENU-SECTION-ACTIVE-CATEGORY-color: rgba(130, 229, 80, 1); /* text color of the displayed menu topic */
   --MENU-SECTION-SEPARATOR-color: rgba(96, 96, 96, 1); /* separator color between menu sections and menu footer */
 
-  --BOX-CAPTION-color: rgba(255, 255, 255, 1); /* text color of colored box titles */
-  --BOX-BG-color: rgba(255, 255, 255, 0.833); /* background color of colored boxes */
-  --BOX-TEXT-color: rgba(16, 16, 16, 1); /* text color of colored box content */
+  --MENU-VISITED-color: rgba(72, 106, 201, 1); /* icon color of visited menu topics if configured */
+
+  --BOX-CAPTION-color: rgba(240, 240, 240, 1); /* text color of colored box titles */
+  --BOX-BG-color: rgba(20, 20, 20, 1); /* background color of colored boxes */
+  --BOX-TEXT-color: rgba(224, 224, 224, 1); /* text color of colored box content */
 }
 
-/* based on monokailight */
-/* Background */ .bg { color: #272822; background-color: #fafafa; }
-/* PreWrapper */ .chroma { color: #272822; background-color: #fafafa; }
+/* based on monokai */
+/* Background */ .bg { color: #f8f8f2; background-color: #2b2b2b; }
+/* PreWrapper */ .chroma { color: #f8f8f2; background-color: #2b2b2b; }
 /* Other */ .chroma .x {  }
-/* Error */ .chroma .err { color: #960050; }
+/* Error */ .chroma .err { color: #cc66cc; }
 /* CodeLine */ .chroma .cl {  }
 /* LineLink */ .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
 /* LineTableTD */ .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
 /* LineTable */ .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
-/* LineHighlight */ .chroma .hl { background-color: #e1e1e1 }
+/* LineHighlight */ .chroma .hl { background-color: #404042 }
 /* LineNumbersTable */ .chroma .lnt { white-space: pre; -webkit-user-select: none; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
 /* LineNumbers */ .chroma .ln { white-space: pre; -webkit-user-select: none; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
 /* Line */ .chroma .line { display: flex; }
-/* Keyword */ .chroma .k { color: #00a8c8 }
-/* KeywordConstant */ .chroma .kc { color: #00a8c8 }
-/* KeywordDeclaration */ .chroma .kd { color: #00a8c8 }
+/* Keyword */ .chroma .k { color: #66d9ef }
+/* KeywordConstant */ .chroma .kc { color: #66d9ef }
+/* KeywordDeclaration */ .chroma .kd { color: #66d9ef }
 /* KeywordNamespace */ .chroma .kn { color: #f92672 }
-/* KeywordPseudo */ .chroma .kp { color: #00a8c8 }
-/* KeywordReserved */ .chroma .kr { color: #00a8c8 }
-/* KeywordType */ .chroma .kt { color: #00a8c8 }
-/* Name */ .chroma .n { color: #111111 }
-/* NameAttribute */ .chroma .na { color: #75af00 }
-/* NameBuiltin */ .chroma .nb { color: #111111 }
-/* NameBuiltinPseudo */ .chroma .bp { color: #111111 }
-/* NameClass */ .chroma .nc { color: #75af00 }
-/* NameConstant */ .chroma .no { color: #00a8c8 }
-/* NameDecorator */ .chroma .nd { color: #75af00 }
-/* NameEntity */ .chroma .ni { color: #111111 }
-/* NameException */ .chroma .ne { color: #75af00 }
-/* NameFunction */ .chroma .nf { color: #75af00 }
-/* NameFunctionMagic */ .chroma .fm { color: #111111 }
-/* NameLabel */ .chroma .nl { color: #111111 }
-/* NameNamespace */ .chroma .nn { color: #111111 }
-/* NameOther */ .chroma .nx { color: #75af00 }
-/* NameProperty */ .chroma .py { color: #111111 }
+/* KeywordPseudo */ .chroma .kp { color: #66d9ef }
+/* KeywordReserved */ .chroma .kr { color: #66d9ef }
+/* KeywordType */ .chroma .kt { color: #66d9ef }
+/* Name */ .chroma .n {  }
+/* NameAttribute */ .chroma .na { color: #a6e22e }
+/* NameBuiltin */ .chroma .nb {  }
+/* NameBuiltinPseudo */ .chroma .bp {  }
+/* NameClass */ .chroma .nc { color: #a6e22e }
+/* NameConstant */ .chroma .no { color: #66d9ef }
+/* NameDecorator */ .chroma .nd { color: #a6e22e }
+/* NameEntity */ .chroma .ni {  }
+/* NameException */ .chroma .ne { color: #a6e22e }
+/* NameFunction */ .chroma .nf { color: #a6e22e }
+/* NameFunctionMagic */ .chroma .fm {  }
+/* NameLabel */ .chroma .nl {  }
+/* NameNamespace */ .chroma .nn {  }
+/* NameOther */ .chroma .nx { color: #a6e22e }
+/* NameProperty */ .chroma .py {  }
 /* NameTag */ .chroma .nt { color: #f92672 }
-/* NameVariable */ .chroma .nv { color: #111111 }
-/* NameVariableClass */ .chroma .vc { color: #111111 }
-/* NameVariableGlobal */ .chroma .vg { color: #111111 }
-/* NameVariableInstance */ .chroma .vi { color: #111111 }
-/* NameVariableMagic */ .chroma .vm { color: #111111 }
+/* NameVariable */ .chroma .nv {  }
+/* NameVariableClass */ .chroma .vc {  }
+/* NameVariableGlobal */ .chroma .vg {  }
+/* NameVariableInstance */ .chroma .vi {  }
+/* NameVariableMagic */ .chroma .vm {  }
 /* Literal */ .chroma .l { color: #ae81ff }
-/* LiteralDate */ .chroma .ld { color: #d88200 }
-/* LiteralString */ .chroma .s { color: #d88200 }
-/* LiteralStringAffix */ .chroma .sa { color: #d88200 }
-/* LiteralStringBacktick */ .chroma .sb { color: #d88200 }
-/* LiteralStringChar */ .chroma .sc { color: #d88200 }
-/* LiteralStringDelimiter */ .chroma .dl { color: #d88200 }
-/* LiteralStringDoc */ .chroma .sd { color: #d88200 }
-/* LiteralStringDouble */ .chroma .s2 { color: #d88200 }
-/* LiteralStringEscape */ .chroma .se { color: #8045ff }
-/* LiteralStringHeredoc */ .chroma .sh { color: #d88200 }
-/* LiteralStringInterpol */ .chroma .si { color: #d88200 }
-/* LiteralStringOther */ .chroma .sx { color: #d88200 }
-/* LiteralStringRegex */ .chroma .sr { color: #d88200 }
-/* LiteralStringSingle */ .chroma .s1 { color: #d88200 }
-/* LiteralStringSymbol */ .chroma .ss { color: #d88200 }
+/* LiteralDate */ .chroma .ld { color: #e6db74 }
+/* LiteralString */ .chroma .s { color: #e6db74 }
+/* LiteralStringAffix */ .chroma .sa { color: #e6db74 }
+/* LiteralStringBacktick */ .chroma .sb { color: #e6db74 }
+/* LiteralStringChar */ .chroma .sc { color: #e6db74 }
+/* LiteralStringDelimiter */ .chroma .dl { color: #e6db74 }
+/* LiteralStringDoc */ .chroma .sd { color: #e6db74 }
+/* LiteralStringDouble */ .chroma .s2 { color: #e6db74 }
+/* LiteralStringEscape */ .chroma .se { color: #ae81ff }
+/* LiteralStringHeredoc */ .chroma .sh { color: #e6db74 }
+/* LiteralStringInterpol */ .chroma .si { color: #e6db74 }
+/* LiteralStringOther */ .chroma .sx { color: #e6db74 }
+/* LiteralStringRegex */ .chroma .sr { color: #e6db74 }
+/* LiteralStringSingle */ .chroma .s1 { color: #e6db74 }
+/* LiteralStringSymbol */ .chroma .ss { color: #e6db74 }
 /* LiteralNumber */ .chroma .m { color: #ae81ff }
 /* LiteralNumberBin */ .chroma .mb { color: #ae81ff }
 /* LiteralNumberFloat */ .chroma .mf { color: #ae81ff }
@@ -112,24 +114,24 @@
 /* LiteralNumberOct */ .chroma .mo { color: #ae81ff }
 /* Operator */ .chroma .o { color: #f92672 }
 /* OperatorWord */ .chroma .ow { color: #f92672 }
-/* Punctuation */ .chroma .p { color: #111111 }
-/* Comment */ .chroma .c { color: #a7a187 }
-/* CommentHashbang */ .chroma .ch { color: #a7a187 }
-/* CommentMultiline */ .chroma .cm { color: #a7a187 }
-/* CommentSingle */ .chroma .c1 { color: #a7a187 }
-/* CommentSpecial */ .chroma .cs { color: #a7a187 }
-/* CommentPreproc */ .chroma .cp { color: #a7a187 }
-/* CommentPreprocFile */ .chroma .cpf { color: #a7a187 }
+/* Punctuation */ .chroma .p {  }
+/* Comment */ .chroma .c { color: #75715e }
+/* CommentHashbang */ .chroma .ch { color: #75715e }
+/* CommentMultiline */ .chroma .cm { color: #75715e }
+/* CommentSingle */ .chroma .c1 { color: #75715e }
+/* CommentSpecial */ .chroma .cs { color: #75715e }
+/* CommentPreproc */ .chroma .cp { color: #75715e }
+/* CommentPreprocFile */ .chroma .cpf { color: #75715e }
 /* Generic */ .chroma .g {  }
-/* GenericDeleted */ .chroma .gd {  }
+/* GenericDeleted */ .chroma .gd { color: #f92672 }
 /* GenericEmph */ .chroma .ge { font-style: italic }
 /* GenericError */ .chroma .gr {  }
 /* GenericHeading */ .chroma .gh {  }
-/* GenericInserted */ .chroma .gi {  }
+/* GenericInserted */ .chroma .gi { color: #a6e22e }
 /* GenericOutput */ .chroma .go {  }
 /* GenericPrompt */ .chroma .gp {  }
 /* GenericStrong */ .chroma .gs { font-weight: bold }
-/* GenericSubheading */ .chroma .gu {  }
+/* GenericSubheading */ .chroma .gu { color: #75715e }
 /* GenericTraceback */ .chroma .gt {  }
 /* GenericUnderline */ .chroma .gl {  }
 /* TextWhitespace */ .chroma .w {  }
