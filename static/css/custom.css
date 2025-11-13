@@ -12,11 +12,18 @@
     /* MENU-SECTIONS-BG-color is used by --INTERNAL-MENU-SECTIONS-BG-color for sidebar */
     --MENU-SECTIONS-BG-color: #1565c0 !important;
 
-    /* Active/hover states */
-    --MENU-SECTION-ACTIVE-CATEGORY-color: #0d47a1 !important;
+    /* Menu text colors - white/light for readability on blue background */
+    --MENU-SECTIONS-LINK-color: rgba(255, 255, 255, 0.95) !important;
+    --MENU-SECTIONS-LINK-HOVER-color: rgba(255, 255, 255, 1) !important;
+
+    /* Active/expanded menu item colors */
+    --MENU-SECTION-ACTIVE-CATEGORY-color: rgba(255, 255, 255, 1) !important;
     --MENU-SECTION-ACTIVE-CATEGORY-BG-color: #0d47a1 !important;
 
-    /* Additional related variables */
-    --MENU-HOME-LINK-color: #1565c0 !important;
-    --MENU-HOME-LINK-HOVER-color: #0d47a1 !important;
+    /* Home link colors */
+    --MENU-HOME-LINK-color: rgba(255, 255, 255, 0.95) !important;
+    --MENU-HOME-LINK-HOVER-color: rgba(255, 255, 255, 1) !important;
+
+    /* Search text color */
+    --MENU-SEARCH-color: rgba(255, 255, 255, 0.9) !important;
 }
