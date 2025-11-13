@@ -1,44 +1,72 @@
 /* Custom color overrides for probintro tutorial */
-/* Change sidebar navigation from green to SDS/JPCCA blue */
-/* Use CSS custom properties (variables) that the theme actually uses */
+/* Change sidebar and header from green to SDS/JPCCA blue */
 
-:root {
-    /* Override the theme's green with SDS/JPCCA blue */
-    --MAIN-THEME-color: #1565c0 !important;
-    --MAIN-BG-color: #1565c0 !important;
+/* Target the actual IDs used by hugo-theme-relearn (they have R- prefix) */
 
-    /* Darker blue for hover/active states */
-    --MAIN-THEME-DARK-color: #0d47a1 !important;
-
-    /* Override any green variables */
-    --PRIMARY-color: #1565c0 !important;
-    --MENU-HOME-LINK-color: #1565c0 !important;
-    --MENU-SECTIONS-BG-color: #1565c0 !important;
-    --MENU-SECTION-ACTIVE-CATEGORY-color: #0d47a1 !important;
-    --MENU-SECTION-HR-color: #1565c0 !important;
+/* The entire sidebar including the green header area with title and search */
+#R-sidebar {
+    background-color: #1565c0 !important;
 }
 
-/* Additional specific overrides for any remaining green elements */
-#sidebar,
-aside#sidebar,
-.sidebar,
-#header-wrapper,
-#logo,
-.menu-header,
-nav#TableOfContents {
+/* The header wrapper containing title and search bar - THIS IS THE TOP LEFT GREEN AREA */
+#R-header-wrapper,
+#R-header-topbar {
+    background-color: #1565c0 !important;
+}
+
+/* The header itself */
+#R-header {
+    background-color: #1565c0 !important;
+}
+
+/* The logo/title area */
+#R-logo {
+    background-color: #1565c0 !important;
+}
+
+/* All homelinks and menu sections */
+#R-homelinks,
+.R-sidebarmenu,
+.R-shortcutmenu-homelinks,
+.R-shortcutmenu-headercontrols {
+    background-color: #1565c0 !important;
+}
+
+/* Menu dividers and HR lines */
+.R-menu-divider,
+.R-menu-divider hr {
+    background-color: #1565c0 !important;
+    border-color: #0d47a1 !important;
+}
+
+/* Search box */
+.searchbox {
     background-color: #1565c0 !important;
 }
 
 /* Menu items */
-.menu a,
-.menu li {
+.R-sidebarmenu ul li,
+.R-sidebarmenu ul li a {
     background-color: #1565c0 !important;
 }
 
-/* Active/hover states */
-.menu li.active,
-.menu li.active > a,
-.menu li:hover,
-.menu a:hover {
+/* Active menu items - darker blue */
+.R-sidebarmenu ul li.active,
+.R-sidebarmenu ul li.active > a {
     background-color: #0d47a1 !important;
+}
+
+/* Hover states - darker blue */
+.R-sidebarmenu ul li:hover,
+.R-sidebarmenu ul li a:hover {
+    background-color: #0d47a1 !important;
+}
+
+/* Override CSS variables as well */
+:root {
+    --MAIN-THEME-color: #1565c0 !important;
+    --MAIN-BG-color: #1565c0 !important;
+    --MENU-HOME-LINK-color: #1565c0 !important;
+    --MENU-SECTIONS-BG-color: #1565c0 !important;
+    --MENU-SECTION-ACTIVE-CATEGORY-color: #0d47a1 !important;
 }
