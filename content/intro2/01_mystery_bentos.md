@@ -5,30 +5,28 @@ weight = 1
 
 ## The Weight of the Matter
 
-It's a new semester at the university, and Professor Chibany's students have been bringing him bentos again. But this time, something is different.
+It's a new semester at the university, and Chibany's students have been bringing them bentos again. But this time, something is different.
 
-Last semester, Chibany could choose his bento (tonkatsu or hamburger) and he learned about probability by counting his choices. But this semester, the students have been **secretly choosing for him**. Every day, a mysterious bento box appears on his desk during office hours.
+Last semester, the bento boxes were transparent. So Chibany could see whether there was tonkatsu or hamburger inside. But this semester, the bento boxes are **opaque**. Thus, Chibany can't see what is inside when they receive the bento. They want to know IMMEDIATELY what the meal is, but it would be extremely rude to open the bento box as the students are watching. Thankfully, Chibany is curious, and they're a probabilist.
 
-There's a problem though: it would be extremely rude to open the bento while students are watching! Japanese etiquette demands he wait until they leave. But Chibany is curious, and he's a probabilist.
+So they hatch a plan: **weigh the bentos**.
 
-So he hatches a plan: **weigh the bentos**.
-
-Tonkatsu bentos are hearty and heavy. Hamburger bentos are lighter. If he records the weights, maybe he can figure out what he's been receiving, and even predict what's coming next.
+Tonkatsu bentos are hearty and heavy. Hamburger bentos are lighter. If they record the weights, maybe they can figure out what they've been receiving, and even predict what's coming next.
 
 ## Overheard Conversation
 
-One afternoon, while Chibany is grading papers in his office, he overhears two students chatting in the hallway outside:
+One afternoon, while Chibany is napping, they overhear two students chatting nearby:
 
-> **Student 1:** "I've been bringing Professor Chibany tonkatsu most days. It's his favorite!"
+> **Student 1:** "I've been bringing Chibany tonkatsu most days. It's their favorite!"
 > **Student 2:** "Me too! Though sometimes I bring hamburger when the cafeteria runs out of tonkatsu."
 > **Student 1:** "Yeah, I'd say I bring tonkatsu like... seven times out of ten?"
 > **Student 2:** "Same! About 70% tonkatsu, 30% hamburger."
 
-Chibany smiles. So there **is** a pattern! But he decides to continue his experiment anyway. Can he discover this 70-30 split just from weighing the bentos?
+Chibany smiles. So there **is** a pattern! But they decide to continue their experiment anyway. Can they discover this 70-30 split just from weighing the bentos?
 
 ## Week One: Something Strange
 
-Chibany weighs his first week of bentos and records the measurements:
+Chibany weighs their first week of bentos and records the measurements:
 
 ```
 Monday:    520g
@@ -38,11 +36,11 @@ Thursday:  362g
 Friday:    488g
 ```
 
-He calculates the average: **441 grams**.
+They calculate the average: **441 grams**.
 
-"Hmm," he thinks, "that's odd. Last semester, tonkatsu bentos weighed about **500g** and hamburger bentos weighed about **350g**. But 441g is right in the middle! Am I getting medium-sized bentos?"
+"Hmm," they think, "that's odd. Last semester, tonkatsu bentos weighed about **500g** and hamburger bentos weighed about **350g**. But 441g is right in the middle! Am I getting medium-sized bentos?"
 
-He weighs more bentos over the next few weeks:
+They weigh more bentos over the next few weeks:
 
 ```
 Week 2: 355g, 510g, 492g, 345g, 515g
@@ -50,13 +48,13 @@ Week 3: 498g, 358g, 505g, 362g, 490g
 Week 4: 352g, 488g, 508g, 355g, 495g
 ```
 
-After a month, he has 20 measurements. The average is still around **445g**.
+After a month, they have 20 measurements. The average is still around **445g**.
 
 But something doesn't add up...
 
 ## The Paradox Revealed
 
-Chibany plots his measurements on a histogram:
+Chibany plots their measurements on a histogram:
 
 ```python
 import numpy as np
@@ -108,7 +106,7 @@ Weights near 500g: 14
 Weights near 445g: 0
 ```
 
-He stares at the plot. **Something is very wrong.**
+They stare at the plot. **Something is very wrong.**
 
 Most weights cluster around **350g** (hamburger range).
 Most others cluster around **500g** (tonkatsu range).
@@ -122,7 +120,7 @@ This seems impossible. How can the average be 445g when no bento weighs anywhere
 
 ## The Resolution: Expected Value
 
-Chibany has an insight. He's not receiving "medium bentos." He's receiving a **mixture** of heavy tonkatsu bentos and light hamburger bentos!
+Chibany has an insight. They're not receiving "medium bentos." They're receiving a **mixture** of heavy tonkatsu bentos and light hamburger bentos!
 
 Looking at the data more carefully:
 - About **14 out of 20** measurements are near 500g (tonkatsu)
@@ -136,7 +134,7 @@ Now the 445g average makes sense! It's not that individual bentos weigh 445g. It
 
 $$\text{Average weight} = (0.7 \times 500\text{g}) + (0.3 \times 350\text{g}) = 350 + 105 = 455\text{g}$$
 
-His observed average of 445g is close to the theoretical 455g. The difference is just random variation from a small sample.
+Their observed average of 445g is close to the theoretical 455g. The difference is just random variation from a small sample.
 
 This is called the **expected value**, written $E[X]$.
 
@@ -635,7 +633,7 @@ That's where we're headed!
 
 ## But We're Not Done Yet...
 
-Chibany stares at his histogram. He understands the average now. 455g makes sense as a mixture. But something still bothers him.
+Chibany stares at their histogram. They understand the average now. 455g makes sense as a mixture. But something still bothers them.
 
 Look at these two measurements:
 - **488g** (probably tonkatsu)
@@ -732,7 +730,7 @@ Or about **4.55 kg** (roughly 10 pounds).
 
 ### Problem 3: Conceptual Challenge
 
-Chibany observes that his bentos have E[X] = 455g. His colleague receives bentos from a different cafeteria and also observes E[X] = 455g.
+Chibany observes that their bentos have E[X] = 455g. Their colleague receives bentos from a different cafeteria and also observes E[X] = 455g.
 
 Does this mean they're receiving the same distribution of bentos? Why or why not?
 

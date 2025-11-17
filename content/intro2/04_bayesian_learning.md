@@ -5,9 +5,9 @@ weight = 4
 
 ## The Learning Problem
 
-Chibany has a new challenge. He receives shipments from a new supplier, but doesn't know the mean weight of their tonkatsu bentos. He believes they're trying to hit 500g (like his usual supplier), but he's not certain. Maybe they aim for 495g? Or 505g?
+Chibany has a new challenge. They receive shipments from a new supplier, but don't know the mean weight of their tonkatsu bentos. They believe the supplier is trying to hit 500g (like their usual supplier), but they're not certain. Maybe the supplier aims for 495g? Or 505g?
 
-**The question**: How can he learn the true mean weight from observations?
+**The question**: How can they learn the true mean weight from observations?
 
 This is **Bayesian learning**: starting with a prior belief, observing data, and updating to a posterior belief.
 
@@ -21,8 +21,8 @@ Let's start simple. Assume:
 - We **don't know** the mean μ [what we want to learn]
 
 **Prior belief**: Before seeing any data, Chibany thinks μ ~ N(500, 25)
-- His best guess: 500g (the mean of his prior)
-- His uncertainty: std dev of 5g (so variance = 25)
+- Their best guess: 500g (the mean of their prior)
+- Their uncertainty: std dev of 5g (so variance = 25)
 
 This says: "I think the mean is around 500g, but I'm uncertain by about ±5g."
 

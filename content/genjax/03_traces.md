@@ -321,7 +321,7 @@ Let's connect traces back to set-based probability:
 
 Consider this question:
 
-> **"Given that Chibany got Tonkatsu for dinner, what's the probability he also got Tonkatsu for lunch?"**
+> **"Given that Chibany got Tonkatsu for dinner, what's the probability they also got Tonkatsu for lunch?"**
 
 **Set-based approach:**
 1. Define event $D$ = "dinner is Tonkatsu" = $\{HT, TT\}$

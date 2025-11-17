@@ -21,7 +21,7 @@ Ready for some surprising results? Let's see what Chibany learns about dinner...
 
 ## Chibany wants a tonkatsu dinner
 
-A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chibany that he knows that there will be at least one tonkatsu in tomorrow's offering. Chibany is excited. He wants to know how likely it is that the second meal is a Tonkatsu. He quizzes Tanaka-san. Tanaka-san says it's just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says "I learned something because I know I will get at least one tonkatsu". Also, Chibany is an optimist and deserves to have all the tonkatsu. Who's right!? Let's check the chart...
+A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chibany that they know that there will be at least one tonkatsu in tomorrow's offering. Chibany is excited. They want to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. Tanaka-san says it's just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says "I learned something because I know I will get at least one tonkatsu". Also, Chibany is an optimist and deserves to have all the tonkatsu. Who's right!? Let's check the chart...
 
 ```mermaid
 block-beta
@@ -39,7 +39,7 @@ block-beta
     style d stroke: #f33, stroke-width: 4px
 ```
 
-In the case where there is at least one tonkatsu, the space of possible outcomes is $\\{HT, TH, TT\\}$, which is outlined in blue. The event of interest for Chibany is outlined in red. It turns out Chibany is right! There is a two in three chance that he gets a tonkatsu dinner. That's larger than one in two.
+In the case where there is at least one tonkatsu, the space of possible outcomes is $\\{HT, TH, TT\\}$, which is outlined in blue. The event of interest for Chibany is outlined in red. It turns out Chibany is right! There is a two in three chance that they get a tonkatsu dinner. That's larger than one in two.
 
 {{% notice style="warning" title="Common Pitfall: The Intuition Trap" %}}
 **Many students (and Tanaka-san!) think**: "If each meal is 50/50, learning about one meal shouldn't change the other. So it's still 1/2, right?"
@@ -105,7 +105,7 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 
 ## Dependence and independence
 
-Tanaka-san explains to Chibany his reasoning: He did not think whether Chibany received a tonkatsu (T) for his first offering influenced whether he receives a tonkatsu (T) for his second offering.
+Tanaka-san explains to Chibany his reasoning: He did not think whether Chibany received a tonkatsu (T) for their first offering influenced whether they receive a tonkatsu (T) for their second offering.
 
 Chibany is curious. Tanaka-san's logic seems sound, but it sounds like a slightly different question. Chibany asks Tanaka-san to draw out the outcome space and events for this question to help clarify what is different. Tanaka-san states his question formally: What is the probability of getting a second tonkatsu ($\\{HT, TT\\}$) given the first offering was a tonkatsu ($\\{TH, TT\\}$) or $P(\\{HT, TT\\} \mid \\{TH, TT\\})$
 
@@ -141,7 +141,7 @@ block-beta
     style d stroke: #f33, stroke-width: 4px
 ```
 
-Look at that: It's one half! Chibany prefers learning that there will be at least one tonkatsu because it makes it more likely that he will get a tonkatsu for his second offering.
+Look at that: It's one half! Chibany prefers learning that there will be at least one tonkatsu because it makes it more likely that they will get a tonkatsu for their second offering.
 
 We saw in one case that conditioning on an event (that there will be one tonkatsu) influenced the probability of another event (that the second offering will be tonkatsu). But in a different case, conditioning on a slightly different event (that the first meal will be a tonkatsu) did not influence the probability of another event (again, that the second offering will be a tonkatsu).
 
@@ -178,7 +178,7 @@ Every time you update your beliefs based on new information, you're using condit
 
 ![Chibany is sad](images/chibanysad.png)
 
-The student that normally gives Chibany his second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \\{H, T\\}$.
+The student that normally gives Chibany their second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \\{H, T\\}$.
 
 ```mermaid
 block-beta
@@ -190,9 +190,9 @@ block-beta
 
 ```
 
-He notes this is a much sadder set of possibilities. At least the probability of getting Tonkatsu isn't too low! It's one of two possibilities.
+They note this is a much sadder set of possibilities. At least the probability of getting Tonkatsu isn't too low! It's one of two possibilities.
 
-Thankfully, on the next day, the student is healthy again and Chibany is back to getting two offerings each day. This changes the set of possibilities back to the original one $\Omega_2 = \\{HH,HT, TH, TT \\}$. Chibany realizes he can calculate the probability of the first offering being Tonkatsu. Getting his second meal shouldn't influence the chance the first one is Tonkatsu, right? Let's check!
+Thankfully, on the next day, the student is healthy again and Chibany is back to getting two offerings each day. This changes the set of possibilities back to the original one $\Omega_2 = \\{HH,HT, TH, TT \\}$. Chibany realizes they can calculate the probability of the first offering being Tonkatsu. Getting their second meal shouldn't influence the chance the first one is Tonkatsu, right? Let's check!
 
 ```mermaid
 block-beta
@@ -205,7 +205,7 @@ block-beta
     style d stroke: #f33, stroke-width:4px
 ```
 
-In this case, he is interested in $P(\\{TH, TT \\}) = 2/4 = 1/2$. Phew!
+In this case, they are interested in $P(\\{TH, TT \\}) = 2/4 = 1/2$. Phew!
 
 What happened here? In both cases, we are interested in the same *event*: the probability the first meal is a Tonkatsu. In the first case, we did not include the second meal. This is called using [marginal probability](./06_glossary.md/#marginal-probability). In the second case, we did include the second meal. This is called using [joint probability](./06_glossary.md/#joint-probability). Technically it counts the number of outcomes in the intersection of the different events being considered jointly. This means the number of outcomes that are in all the events under consideration.
 
@@ -238,13 +238,13 @@ Using joint and marginal probabilities, we can define conditional probability in
 
 $$P(A \mid B) = \frac{P(A,B)}{P(B)}$$
 
-Note that the probability of $B$ must be greater than zero ($P(B) > 0$). This makes sense to Chibany. How could he be given information that had zero chance of happening?
+Note that the probability of $B$ must be greater than zero ($P(B) > 0$). This makes sense to Chibany. How could they be given information that had zero chance of happening?
 
-Chibany is no fan of this other way of calculating conditional probabilities, but he decides to practice using it. He goes back to his favorite example so far: the one where he had better than a one-half chance of getting two Tonkatsus. In that example, he learned he was going to get at least one Tonkatsu and was interested in finding the probability that there would be two Tonkatsus. So, $A$ is getting a tonkatsu dinner (second meal is tonkatsu) and $B$ is that there is at least one tonkatsu. So $A = \\{HT, TT\\}$ and $B=\\{HT, TH, TT\\}$. The intersection or common possibilities in $A$ and $B$ is $\\{HT,TT\\}$. Remember that there are four possible outcomes in the larger outcome space $\Omega = \\{HH,HT,TH,TT\\}$. This means $P(A,B) = |\\{HT,TT\\}|/ | \\{HH,HT,TH,TT\\}| = 2/4$. $P(B) = |\\{HT,TH,TT\\}|/|\\{HH,HT,TH,TT\\}| = 3/4$. Putting these together we get:
+Chibany is no fan of this other way of calculating conditional probabilities, but they decide to practice using it. They go back to their favorite example so far: the one where they had better than a one-half chance of getting two Tonkatsus. In that example, they learned they were going to get at least one Tonkatsu and were interested in finding the probability that there would be two Tonkatsus. So, $A$ is getting a tonkatsu dinner (second meal is tonkatsu) and $B$ is that there is at least one tonkatsu. So $A = \\{HT, TT\\}$ and $B=\\{HT, TH, TT\\}$. The intersection or common possibilities in $A$ and $B$ is $\\{HT,TT\\}$. Remember that there are four possible outcomes in the larger outcome space $\Omega = \\{HH,HT,TH,TT\\}$. This means $P(A,B) = |\\{HT,TT\\}|/ | \\{HH,HT,TH,TT\\}| = 2/4$. $P(B) = |\\{HT,TH,TT\\}|/|\\{HH,HT,TH,TT\\}| = 3/4$. Putting these together we get:
 
 $$P(A \mid B) = \frac{P(A,B)}{P(B)} = \frac{2/4}{3/4} = \frac{2}{3}$$
 
-Although Chibany is happy to see the same result of it being more likely than not he'll have a second meal of Tonkatsu if he learns he gets at least one Tonkatsu, this felt a lot harder to him than the first way of doing things. It may have felt that way for you too (it does for me!). That's why Chibany wants everyone to know the set-based perspective to probability.
+Although Chibany is happy to see the same result of it being more likely than not they'll have a second meal of Tonkatsu if they learn they get at least one Tonkatsu, this felt a lot harder to them than the first way of doing things. It may have felt that way for you too (it does for me!). That's why Chibany wants everyone to know the set-based perspective to probability.
 
 {{% notice style="tip" title="Two Perspectives, Same Answer" %}}
 **Set-based perspective:** $P(A \mid B) = \frac{|A \cap B|}{|B|}$
@@ -258,13 +258,13 @@ Both give the same answer! Use whichever feels more intuitive.
 
 ## Weighted possibilities
 
-### Chibany tells students that he likes Tonkatsu more
+### Chibany tells students that they like Tonkatsu more
 
 ![Chibany is happy](images/chibanyplain.png)
 
-Chibany is happy! He remembered that students love learning. He has important information for them: Chibany likes Tonkatsu more than Hamburgers.
+Chibany is happy! They remembered that students love learning. They have important information for them: Chibany likes Tonkatsu more than Hamburgers.
 
-While wondering how to calculate probabilities taking this glorious news into account, Tanaka-san stops by. Tanaka-san lets Chibany know that the students coordinate to ensure that he gets at least one tonkatsu, but try not to make both offerings tonkatsu (that way he doesn't get tired of Tonkatsu). Tanaka-san shares the following chart the students use to guide their daily offerings:
+While wondering how to calculate probabilities taking this glorious news into account, Tanaka-san stops by. Tanaka-san lets Chibany know that the students coordinate to ensure that they get at least one tonkatsu, but try not to make both offerings tonkatsu (that way they don't get tired of Tonkatsu). Tanaka-san shares the following chart the students use to guide their daily offerings:
 
 ```mermaid
 block-beta
@@ -278,13 +278,13 @@ block-beta
     end
 ```
 
-Chibany is confused at first, but he sticks with the rules he learned. He follows the same procedure as before, but adds the weighted versions of each outcome rather than each outcome counting 1 automatically.
+Chibany is confused at first, but they stick with the rules they learned. They follow the same procedure as before, but add the weighted versions of each outcome rather than each outcome counting 1 automatically.
 
-So he adds up the outcomes containing Tonkatsu (outlined in red) and divides it by the total amount:
+So they add up the outcomes containing Tonkatsu (outlined in red) and divide it by the total amount:
 
 $$P(\textrm{Tonkatsu}) = \frac{0.43+0.43+0.10}{0.04+0.43+0.43+0.10} = \frac{0.96}{1}=0.96$$
 
-He gets a lot more Tonkatsu: Tonkatsu 96% of the time. Joyous times!
+They get a lot more Tonkatsu: Tonkatsu 96% of the time. Joyous times!
 
 {{% notice style="success" title="Weighted Counting" %}}
 When outcomes aren't equally likely:

@@ -33,27 +33,27 @@ In this chapter, you’ll discover:
 How learning something restricts the outcome space When events influence each other (dependence) How to calculate probabilities when possibilities have different weights Why your first intuition about conditional probability is often wrong! Ready for some surprising results? Let’s see what Chibany learns about dinner…">
     <meta itemprop="wordCount" content="2759">
     <title>Conditional probability as changing the possible outcomes :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763360784" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763360784" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763360784" defer></script>
-    <script src="/probintro/js/search-lunr.js?1763360784" defer></script>
-    <script src="/probintro/js/search.js?1763360784" defer></script>
+    <link href="/probintro/images/favicon.png?1763362280" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763362280" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763362280" defer></script>
+    <script src="/probintro/js/search-lunr.js?1763362280" defer></script>
+    <script src="/probintro/js/search.js?1763362280" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763360784";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763362280";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763360784" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763360784" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763360784" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763360784" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763362280" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763362280" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763362280" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763362280" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763360784" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763360784" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763360784" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1763360784" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1763360784" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763362280" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763362280" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763362280" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1763362280" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1763362280" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -138,7 +138,7 @@ How learning something restricts the outcome space When events influence each ot
     </li>
     <li><a href="#weighted-possibilities">Weighted possibilities</a>
       <ul>
-        <li><a href="#chibany-tells-students-that-he-likes-tonkatsu-more">Chibany tells students that he likes Tonkatsu more</a></li>
+        <li><a href="#chibany-tells-students-that-they-like-tonkatsu-more">Chibany tells students that they like Tonkatsu more</a></li>
         <li><a href="#practice-question">Practice question</a></li>
       </ul>
     </li>
@@ -190,7 +190,7 @@ How learning something restricts the outcome space When events influence each ot
 <p>Ready for some surprising results? Let&rsquo;s see what Chibany learns about dinner&hellip;</p>
 <hr>
 <h2 id="chibany-wants-a-tonkatsu-dinner">Chibany wants a tonkatsu dinner</h2>
-<p>A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chibany that he knows that there will be at least one tonkatsu in tomorrow&rsquo;s offering. Chibany is excited. He wants to know how likely it is that the second meal is a Tonkatsu. He quizzes Tanaka-san. Tanaka-san says it&rsquo;s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says &ldquo;I learned something because I know I will get at least one tonkatsu&rdquo;. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who&rsquo;s right!? Let&rsquo;s check the chart&hellip;</p>
+<p>A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chibany that they know that there will be at least one tonkatsu in tomorrow&rsquo;s offering. Chibany is excited. They want to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. Tanaka-san says it&rsquo;s just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says &ldquo;I learned something because I know I will get at least one tonkatsu&rdquo;. Also, Chibany is an optimist and deserves to have all the tonkatsu. Who&rsquo;s right!? Let&rsquo;s check the chart&hellip;</p>
 <pre class="mermaid align-center ">block-beta
     block
         columns 1
@@ -204,7 +204,7 @@ How learning something restricts the outcome space When events influence each ot
     style group1 stroke: #33f, stroke-width: 6px
     style c stroke: #f33, stroke-width: 4px
     style d stroke: #f33, stroke-width: 4px</pre>
-<p>In the case where there is at least one tonkatsu, the space of possible outcomes is $\{HT, TH, TT\}$, which is outlined in blue. The event of interest for Chibany is outlined in red. It turns out Chibany is right! There is a two in three chance that he gets a tonkatsu dinner. That&rsquo;s larger than one in two.</p>
+<p>In the case where there is at least one tonkatsu, the space of possible outcomes is $\{HT, TH, TT\}$, which is outlined in blue. The event of interest for Chibany is outlined in red. It turns out Chibany is right! There is a two in three chance that they get a tonkatsu dinner. That&rsquo;s larger than one in two.</p>
 
 <details open class=" box cstyle notices warning">
   <summary class="box-label" tabindex="-1">
@@ -290,7 +290,7 @@ $$P(A \mid B) = \frac{|A \cap B|}{|B|}$$</p>
   </div>
 </details>
 <h2 id="dependence-and-independence">Dependence and independence</h2>
-<p>Tanaka-san explains to Chibany his reasoning: He did not think whether Chibany received a tonkatsu (T) for his first offering influenced whether he receives a tonkatsu (T) for his second offering.</p>
+<p>Tanaka-san explains to Chibany his reasoning: He did not think whether Chibany received a tonkatsu (T) for their first offering influenced whether they receive a tonkatsu (T) for their second offering.</p>
 <p>Chibany is curious. Tanaka-san&rsquo;s logic seems sound, but it sounds like a slightly different question. Chibany asks Tanaka-san to draw out the outcome space and events for this question to help clarify what is different. Tanaka-san states his question formally: What is the probability of getting a second tonkatsu ($\{HT, TT\}$) given the first offering was a tonkatsu ($\{TH, TT\}$) or $P(\{HT, TT\} \mid \{TH, TT\})$</p>
 <pre class="mermaid align-center ">block-beta
     block
@@ -316,7 +316,7 @@ $$P(A \mid B) = \frac{|A \cap B|}{|B|}$$</p>
     end
     style group2 stroke: #33f, stroke-width: 6px
     style d stroke: #f33, stroke-width: 4px</pre>
-<p>Look at that: It&rsquo;s one half! Chibany prefers learning that there will be at least one tonkatsu because it makes it more likely that he will get a tonkatsu for his second offering.</p>
+<p>Look at that: It&rsquo;s one half! Chibany prefers learning that there will be at least one tonkatsu because it makes it more likely that they will get a tonkatsu for their second offering.</p>
 <p>We saw in one case that conditioning on an event (that there will be one tonkatsu) influenced the probability of another event (that the second offering will be tonkatsu). But in a different case, conditioning on a slightly different event (that the first meal will be a tonkatsu) did not influence the probability of another event (again, that the second offering will be a tonkatsu).</p>
 <p>When conditioning on one event $A$ influences the probability of another event $B$, those two events are called <a href="/probintro/intro/06_glossary/index.html#dependence">dependent</a>. This is denoted as $A \not\perp B$. If they do not influence each other they are called independent, which is denoted as $A \perp B$.</p>
 
@@ -350,17 +350,17 @@ $$P(A \mid B) = P(A)$$</p>
 </details>
 <h2 id="marginal-and-joint-probabilities">Marginal and joint probabilities</h2>
 <h3 id="chibany-is-sad-marginalization">Chibany is sad (marginalization)</h3>
-<p><a href="#R-image-09dbbba2161fe185f5d5cc0d1b7a094b" class="lightbox-link"><img alt="Chibany is sad" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanysad.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-09dbbba2161fe185f5d5cc0d1b7a094b"><img alt="Chibany is sad" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanysad.png"></a></p>
-<p>The student that normally gives Chibany his second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \{H, T\}$.</p>
+<p><a href="#R-image-81fc727204001e7912d5ad8bd154e3dd" class="lightbox-link"><img alt="Chibany is sad" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanysad.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-81fc727204001e7912d5ad8bd154e3dd"><img alt="Chibany is sad" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanysad.png"></a></p>
+<p>The student that normally gives Chibany their second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \{H, T\}$.</p>
 <pre class="mermaid align-center ">block-beta
     block
         columns 2
         a[&#34;H(amburger)&#34;] b[&#34;T(onkatsu)&#34;]
     end
         style b stroke: #f33, stroke-width:4px</pre>
-<p>He notes this is a much sadder set of possibilities. At least the probability of getting Tonkatsu isn&rsquo;t too low! It&rsquo;s one of two possibilities.</p>
-<p>Thankfully, on the next day, the student is healthy again and Chibany is back to getting two offerings each day. This changes the set of possibilities back to the original one $\Omega_2 = \{HH,HT, TH, TT \}$. Chibany realizes he can calculate the probability of the first offering being Tonkatsu. Getting his second meal shouldn&rsquo;t influence the chance the first one is Tonkatsu, right? Let&rsquo;s check!</p>
+<p>They note this is a much sadder set of possibilities. At least the probability of getting Tonkatsu isn&rsquo;t too low! It&rsquo;s one of two possibilities.</p>
+<p>Thankfully, on the next day, the student is healthy again and Chibany is back to getting two offerings each day. This changes the set of possibilities back to the original one $\Omega_2 = \{HH,HT, TH, TT \}$. Chibany realizes they can calculate the probability of the first offering being Tonkatsu. Getting their second meal shouldn&rsquo;t influence the chance the first one is Tonkatsu, right? Let&rsquo;s check!</p>
 <pre class="mermaid align-center ">block-beta
     block
         columns 2
@@ -369,7 +369,7 @@ $$P(A \mid B) = P(A)$$</p>
     end
     style c stroke: #f33, stroke-width:4px
     style d stroke: #f33, stroke-width:4px</pre>
-<p>In this case, he is interested in $P(\{TH, TT \}) = 2/4 = 1/2$. Phew!</p>
+<p>In this case, they are interested in $P(\{TH, TT \}) = 2/4 = 1/2$. Phew!</p>
 <p>What happened here? In both cases, we are interested in the same <em>event</em>: the probability the first meal is a Tonkatsu. In the first case, we did not include the second meal. This is called using <a href="/probintro/intro/06_glossary/index.html#marginal-probability">marginal probability</a>. In the second case, we did include the second meal. This is called using <a href="/probintro/intro/06_glossary/index.html#joint-probability">joint probability</a>. Technically it counts the number of outcomes in the intersection of the different events being considered jointly. This means the number of outcomes that are in all the events under consideration.</p>
 <h3 id="the-sum-rule-more-on-marginalization-and-marginal-probabilities">The Sum Rule: More on Marginalization and Marginal Probabilities</h3>
 <p>Intuitively, the following two ways of calculating the probability a variable takes a value should give the same answer: (1) list the possible outcomes containing only that variable and count those where it has the specified value (<a href="/probintro/intro/06_glossary/index.html#marginal-probability">marginal probability</a>), and (2) enumerate the possible outcomes containing that variable and another variable and count all of those where the first variable has the value of interest (<a href="/probintro/intro/06_glossary/index.html#joint-probability">joint probability</a>).</p>
@@ -397,10 +397,10 @@ $$\sum_{b} P(A, B=b) = P(A, B=H) + P(A, B=T)$$</p>
 <h3 id="the-other-definition-of-conditional-probability">The other definition of conditional probability</h3>
 <p>Using joint and marginal probabilities, we can define conditional probability in a different manner: as the ratio of the joint probability to the marginal probability of the conditioned information. Or:</p>
 <p>$$P(A \mid B) = \frac{P(A,B)}{P(B)}$$</p>
-<p>Note that the probability of $B$ must be greater than zero ($P(B) &gt; 0$). This makes sense to Chibany. How could he be given information that had zero chance of happening?</p>
-<p>Chibany is no fan of this other way of calculating conditional probabilities, but he decides to practice using it. He goes back to his favorite example so far: the one where he had better than a one-half chance of getting two Tonkatsus. In that example, he learned he was going to get at least one Tonkatsu and was interested in finding the probability that there would be two Tonkatsus. So, $A$ is getting a tonkatsu dinner (second meal is tonkatsu) and $B$ is that there is at least one tonkatsu. So $A = \{HT, TT\}$ and $B=\{HT, TH, TT\}$. The intersection or common possibilities in $A$ and $B$ is $\{HT,TT\}$. Remember that there are four possible outcomes in the larger outcome space $\Omega = \{HH,HT,TH,TT\}$. This means $P(A,B) = |\{HT,TT\}|/ | \{HH,HT,TH,TT\}| = 2/4$. $P(B) = |\{HT,TH,TT\}|/|\{HH,HT,TH,TT\}| = 3/4$. Putting these together we get:</p>
+<p>Note that the probability of $B$ must be greater than zero ($P(B) &gt; 0$). This makes sense to Chibany. How could they be given information that had zero chance of happening?</p>
+<p>Chibany is no fan of this other way of calculating conditional probabilities, but they decide to practice using it. They go back to their favorite example so far: the one where they had better than a one-half chance of getting two Tonkatsus. In that example, they learned they were going to get at least one Tonkatsu and were interested in finding the probability that there would be two Tonkatsus. So, $A$ is getting a tonkatsu dinner (second meal is tonkatsu) and $B$ is that there is at least one tonkatsu. So $A = \{HT, TT\}$ and $B=\{HT, TH, TT\}$. The intersection or common possibilities in $A$ and $B$ is $\{HT,TT\}$. Remember that there are four possible outcomes in the larger outcome space $\Omega = \{HH,HT,TH,TT\}$. This means $P(A,B) = |\{HT,TT\}|/ | \{HH,HT,TH,TT\}| = 2/4$. $P(B) = |\{HT,TH,TT\}|/|\{HH,HT,TH,TT\}| = 3/4$. Putting these together we get:</p>
 <p>$$P(A \mid B) = \frac{P(A,B)}{P(B)} = \frac{2/4}{3/4} = \frac{2}{3}$$</p>
-<p>Although Chibany is happy to see the same result of it being more likely than not he&rsquo;ll have a second meal of Tonkatsu if he learns he gets at least one Tonkatsu, this felt a lot harder to him than the first way of doing things. It may have felt that way for you too (it does for me!). That&rsquo;s why Chibany wants everyone to know the set-based perspective to probability.</p>
+<p>Although Chibany is happy to see the same result of it being more likely than not they&rsquo;ll have a second meal of Tonkatsu if they learn they get at least one Tonkatsu, this felt a lot harder to them than the first way of doing things. It may have felt that way for you too (it does for me!). That&rsquo;s why Chibany wants everyone to know the set-based perspective to probability.</p>
 
 <details open class=" box cstyle notices tip">
   <summary class="box-label" tabindex="-1">
@@ -420,11 +420,11 @@ $$\sum_{b} P(A, B=b) = P(A, B=H) + P(A, B=T)$$</p>
   </div>
 </details>
 <h2 id="weighted-possibilities">Weighted possibilities</h2>
-<h3 id="chibany-tells-students-that-he-likes-tonkatsu-more">Chibany tells students that he likes Tonkatsu more</h3>
-<p><a href="#R-image-03abc37c844ff0a760ce3b05556043ac" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-03abc37c844ff0a760ce3b05556043ac"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanyplain.png"></a></p>
-<p>Chibany is happy! He remembered that students love learning. He has important information for them: Chibany likes Tonkatsu more than Hamburgers.</p>
-<p>While wondering how to calculate probabilities taking this glorious news into account, Tanaka-san stops by. Tanaka-san lets Chibany know that the students coordinate to ensure that he gets at least one tonkatsu, but try not to make both offerings tonkatsu (that way he doesn&rsquo;t get tired of Tonkatsu). Tanaka-san shares the following chart the students use to guide their daily offerings:</p>
+<h3 id="chibany-tells-students-that-they-like-tonkatsu-more">Chibany tells students that they like Tonkatsu more</h3>
+<p><a href="#R-image-c28d7ca55b4cdd9fd5843c83a2b10fae" class="lightbox-link"><img alt="Chibany is happy" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-c28d7ca55b4cdd9fd5843c83a2b10fae"><img alt="Chibany is happy" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanyplain.png"></a></p>
+<p>Chibany is happy! They remembered that students love learning. They have important information for them: Chibany likes Tonkatsu more than Hamburgers.</p>
+<p>While wondering how to calculate probabilities taking this glorious news into account, Tanaka-san stops by. Tanaka-san lets Chibany know that the students coordinate to ensure that they get at least one tonkatsu, but try not to make both offerings tonkatsu (that way they don&rsquo;t get tired of Tonkatsu). Tanaka-san shares the following chart the students use to guide their daily offerings:</p>
 <pre class="mermaid align-center ">block-beta
     block
         columns 2
@@ -434,10 +434,10 @@ $$\sum_{b} P(A, B=b) = P(A, B=H) + P(A, B=T)$$</p>
     style c stroke: #f33, stroke-width:4px
     style d stroke: #f33, stroke-width:4px
     end</pre>
-<p>Chibany is confused at first, but he sticks with the rules he learned. He follows the same procedure as before, but adds the weighted versions of each outcome rather than each outcome counting 1 automatically.</p>
-<p>So he adds up the outcomes containing Tonkatsu (outlined in red) and divides it by the total amount:</p>
+<p>Chibany is confused at first, but they stick with the rules they learned. They follow the same procedure as before, but add the weighted versions of each outcome rather than each outcome counting 1 automatically.</p>
+<p>So they add up the outcomes containing Tonkatsu (outlined in red) and divide it by the total amount:</p>
 <p>$$P(\textrm{Tonkatsu}) = \frac{0.43+0.43+0.10}{0.04+0.43+0.43+0.10} = \frac{0.96}{1}=0.96$$</p>
-<p>He gets a lot more Tonkatsu: Tonkatsu 96% of the time. Joyous times!</p>
+<p>They get a lot more Tonkatsu: Tonkatsu 96% of the time. Joyous times!</p>
 
 <details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
   <summary class="box-label" tabindex="-1">
@@ -559,8 +559,14 @@ $$P(A=T \mid B=T) = \frac{0.10}{0.43+0.10} = \frac{0.10}{0.53} \approx 0.19$$</p
             <li class="" data-nav-id="/probintro/intro/05_bayes/index.html"><a class="padding" href="/probintro/intro/05_bayes/index.html">Bayes&#39; Theorem: Updating Beliefs</a></li>
             <li class="" data-nav-id="/probintro/intro/06_glossary/index.html"><a class="padding" href="/probintro/intro/06_glossary/index.html">Glossary</a></li>
             <li class="" data-nav-id="/probintro/intro/07_ack/index.html"><a class="padding" href="/probintro/intro/07_ack/index.html">Acknowledgements</a></li></ul></li>
+            <li class="" data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
             <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
-            <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
+            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
+            <li class="" data-nav-id="/probintro/intro2/02_continuous/index.html"><a class="padding" href="/probintro/intro2/02_continuous/index.html">The Continuum: Continuous Probability</a></li>
+            <li class="" data-nav-id="/probintro/intro2/03_gaussian/index.html"><a class="padding" href="/probintro/intro2/03_gaussian/index.html">The Gaussian Distribution</a></li>
+            <li class="" data-nav-id="/probintro/intro2/04_bayesian_learning/index.html"><a class="padding" href="/probintro/intro2/04_bayesian_learning/index.html">Bayesian Learning with Gaussians</a></li>
+            <li class="" data-nav-id="/probintro/intro2/05_mixture_models/index.html"><a class="padding" href="/probintro/intro2/05_mixture_models/index.html">Gaussian Mixture Models</a></li>
+            <li class="" data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li>
             <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
           </ul>
         </div>
@@ -590,23 +596,23 @@ $$P(A=T \mid B=T) = \frac{0.10}{0.43+0.10} = \frac{0.10}{0.53} \approx 0.19$$</p
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763360784"></script>
-    <script src="/probintro/js/js-yaml/js-yaml.min.js?1763360784" defer></script>
-    <script src="/probintro/js/d3/d3-color.min.js?1763360784" defer></script>
-    <script src="/probintro/js/d3/d3-dispatch.min.js?1763360784" defer></script>
-    <script src="/probintro/js/d3/d3-drag.min.js?1763360784" defer></script>
-    <script src="/probintro/js/d3/d3-ease.min.js?1763360784" defer></script>
-    <script src="/probintro/js/d3/d3-interpolate.min.js?1763360784" defer></script>
-    <script src="/probintro/js/d3/d3-selection.min.js?1763360784" defer></script>
-    <script src="/probintro/js/d3/d3-timer.min.js?1763360784" defer></script>
-    <script src="/probintro/js/d3/d3-transition.min.js?1763360784" defer></script>
-    <script src="/probintro/js/d3/d3-zoom.min.js?1763360784" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763362280"></script>
+    <script src="/probintro/js/js-yaml/js-yaml.min.js?1763362280" defer></script>
+    <script src="/probintro/js/d3/d3-color.min.js?1763362280" defer></script>
+    <script src="/probintro/js/d3/d3-dispatch.min.js?1763362280" defer></script>
+    <script src="/probintro/js/d3/d3-drag.min.js?1763362280" defer></script>
+    <script src="/probintro/js/d3/d3-ease.min.js?1763362280" defer></script>
+    <script src="/probintro/js/d3/d3-interpolate.min.js?1763362280" defer></script>
+    <script src="/probintro/js/d3/d3-selection.min.js?1763362280" defer></script>
+    <script src="/probintro/js/d3/d3-timer.min.js?1763362280" defer></script>
+    <script src="/probintro/js/d3/d3-transition.min.js?1763362280" defer></script>
+    <script src="/probintro/js/d3/d3-zoom.min.js?1763362280" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js" defer></script>
     <script>
       window.relearn.themeUseMermaid = JSON.parse("{\n      \"startOnLoad\": true,\n      \"theme\": \"base\",\n      \"securityLevel\": \"loose\",\n      \"themeVariables\": {\n        \"primaryColor\": \"#fff\",\n        \"primaryTextColor\": \"#000\",\n        \"primaryBorderColor\": \"#000\",\n        \"lineColor\": \"#000\",\n        \"secondaryColor\": \"#fff\",\n        \"tertiaryColor\": \"#fff\"\n      },\n      \"flowchart\": {\n        \"htmlLabels\": true,\n        \"curve\": \"basis\"\n      },\n      \"block\": {\n        \"padding\": 8\n      }\n    }");
     </script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763360784" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763360784" defer></script>
-    <script src="/probintro/js/theme.js?1763360784" defer></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763362280" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763362280" defer></script>
+    <script src="/probintro/js/theme.js?1763362280" defer></script>
   </body>
 </html>

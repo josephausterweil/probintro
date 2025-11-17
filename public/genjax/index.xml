@@ -48,7 +48,7 @@
       <link>http://localhost:1313/probintro/genjax/05_inference/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/probintro/genjax/05_inference/index.html</guid>
-      <description>Solving Real Problems with Probabilistic Code Remember the taxicab problem from the probability tutorial?&#xA;Scenario: Chibany witnesses a hit-and-run at night. He says the taxi was blue. But:&#xA;85% of taxis are green, 15% are blue Chibany identifies colors correctly 80% of the time Question: What’s the probability it was actually a blue taxi?&#xA;In the probability tutorial, we solved this with sets and Bayes’ theorem. Now we’ll solve it with GenJAX!</description>
+      <description>Solving Real Problems with Probabilistic Code Remember the taxicab problem from the probability tutorial?&#xA;Scenario: Chibany witnesses a hit-and-run at night. They say the taxi was blue. But:&#xA;85% of taxis are green, 15% are blue Chibany identifies colors correctly 80% of the time Question: What’s the probability it was actually a blue taxi?&#xA;In the probability tutorial, we solved this with sets and Bayes’ theorem. Now we’ll solve it with GenJAX!</description>
     </item>
     <item>
       <title>Building Your Own Models</title>

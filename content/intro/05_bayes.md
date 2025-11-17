@@ -71,7 +71,7 @@ In Chibany's hometown, there are two taxi companies: the Green {{% icon taxi gre
 
 Late one foggy evening, Chibany saw a cab perform a hit-and-run (hit another car and leave without providing any information). Chibany saw a Blue {{% icon taxi blue %}} taxi!
 
-Chibany is an outstanding citizen and so he goes to the police with this information. The police know it was foggy and dark, so it's possible Chibany might not have seen the taxi's color correctly. They test Chibany several times and find that Chibany reports the correct taxi color 80% of the time!
+Chibany is an outstanding citizen and so they go to the police with this information. The police know it was foggy and dark, so it's possible Chibany might not have seen the taxi's color correctly. They test Chibany several times and find that Chibany reports the correct taxi color 80% of the time!
 
 Taking all of this information into account, how likely do you think it is that the cab involved in the hit-and-run was a Blue taxi {{% icon taxi blue %}}?
 

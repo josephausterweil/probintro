@@ -5,7 +5,7 @@ weight = 3
 
 ## The Bell Curve
 
-After learning about the uniform distribution in Chapter 2, Chibany realizes something: **real measurements rarely spread evenly across a range**. When he measures 1000 tonkatsu bentos carefully, the weights don't spread uniformly between 495g and 505g. Instead, most cluster near 500g, with fewer and fewer measurements appearing as you move away from that center value.
+After learning about the uniform distribution in Chapter 2, Chibany realizes something: **real measurements rarely spread evenly across a range**. When they measure 1000 tonkatsu bentos carefully, the weights don't spread uniformly between 495g and 505g. Instead, most cluster near 500g, with fewer and fewer measurements appearing as you move away from that center value.
 
 This pattern appears everywhere in nature:
 - Heights of people

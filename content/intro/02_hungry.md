@@ -6,8 +6,8 @@ weight = 2
 
 ![chibany laying down](images/chibanylayingdown.png)
 
-Chibany wakes up from dreaming of the delicious meals he will get later today. Twice per day, a student brings him a bento box with a meal as an offering to Chibany. One student brings him a bento box in the early afternoon for lunch and a different student brings him a bento box in the evening for dinner. The meal is either a Hamburger {{% icon burger white %}}
- or a Tonkatsu (pork cutlet) {{% icon piggy-bank white %}}. To keep track of his meal possibilities, he lists out the four possibilities:
+Chibany wakes up from dreaming of the delicious meals they will get later today. Twice per day, a student brings them a bento box with a meal as an offering to Chibany. One student brings them a bento box in the early afternoon for lunch and a different student brings them a bento box in the evening for dinner. The meal is either a Hamburger {{% icon burger white %}}
+ or a Tonkatsu (pork cutlet) {{% icon piggy-bank white %}}. To keep track of their meal possibilities, they list out the four possibilities:
 
 ```mermaid
 block-beta
@@ -24,7 +24,7 @@ This forms a [set](./06_glossary.md/#set) of four elements. A set is a collectio
 
 ## Outcome Space
 
-In the context of probability theory, the basic elements of what can occur are called *outcomes*. Outcomes are the fundamental building blocks that probabilities are built from. As they are fundamental, the Greek letter $\Omega$ is frequently used to refer to this set of possible *outcomes*. Diligently noting his daily offerings, Chibany defines $\Omega = \\{HH, HT, TH, TT \\}$. The first letter defines his lunch offering, and the second letter defines his dinner offering. He notes that $H$ now always refers to hamburgers and $T$ to tonkatsu.
+In the context of probability theory, the basic elements of what can occur are called *outcomes*. Outcomes are the fundamental building blocks that probabilities are built from. As they are fundamental, the Greek letter $\Omega$ is frequently used to refer to this set of possible *outcomes*. Diligently noting their daily offerings, Chibany defines $\Omega = \\{HH, HT, TH, TT \\}$. The first letter defines their lunch offering, and the second letter defines their dinner offering. They note that $H$ now always refers to hamburgers and $T$ to tonkatsu.
 
 {{% notice style="note" title="Why Sets?" %}}
 Sets are perfect for probability because they let us **visualize and count** possibilities. Every probability question becomes:
@@ -39,7 +39,7 @@ This makes probability **concrete** instead of abstract.
 
 ### A Note on Unique Elements
 
-Technically, the elements of a set are unique. So, if Chibany writes down getting a pair of hamburgers twice and a hamburger and a tonkatsu ($\\{HH, HH, HT\\}$), he's gotten the same set of possibilities as if he only got one pair of hamburgers and a hamburger and tonkatsu ($\\{HH, HT\\}$). In other words, $\\{HH, HH, HT\\} = \\{HH, HT\\}$.
+Technically, the elements of a set are unique. So, if Chibany writes down getting a pair of hamburgers twice and a hamburger and a tonkatsu ($\\{HH, HH, HT\\}$), they've gotten the same set of possibilities as if they only got one pair of hamburgers and a hamburger and tonkatsu ($\\{HH, HT\\}$). In other words, $\\{HH, HH, HT\\} = \\{HH, HT\\}$.
 
 Think of it like a list where duplicates automatically disappear; only what's **different** matters.
 

@@ -5,7 +5,7 @@ weight = 5
 
 ## Returning to the Mystery
 
-Remember Chibany's original puzzle from Chapter 1? He had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
+Remember Chibany's original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
 
 We now have all the tools to solve this completely:
 - **Chapter 1**: Expected value paradox in mixtures
@@ -21,14 +21,14 @@ This is a **Gaussian Mixture Model (GMM)**.
 
 ## The Complete Problem
 
-Chibany receives 20 mystery bentos. He measures their weights:
+Chibany receives 20 mystery bentos. They measure their weights:
 
 ```
 [498, 352, 501, 349, 497, 503, 351, 500, 348, 502,
  499, 350, 498, 353, 501, 347, 499, 502, 352, 500]
 ```
 
-Looking at the histogram, he sees two clear clusters around 350g and 500g.
+Looking at the histogram, they see two clear clusters around 350g and 500g.
 
 **The questions**:
 1. **How many types** of bentos are there? (We'll assume 2 for now)

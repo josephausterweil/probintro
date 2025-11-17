@@ -5,11 +5,11 @@ weight = 2
 
 ## From Counting to Measuring
 
-Chibany stares at his histogram. He understands expected value now. The 455g average makes sense as a mixture of 500g tonkatsu and 350g hamburger bentos.
+Chibany stares at their histogram. They understand expected value now. The 455g average makes sense as a mixture of 500g tonkatsu and 350g hamburger bentos.
 
-But something still bothers him.
+But something still bothers them.
 
-Look at these actual measurements from his first week:
+Look at these actual measurements from their first week:
 ```
 Monday:    520g  (tonkatsu)
 Tuesday:   348g  (hamburger)
@@ -22,7 +22,7 @@ The weights aren't exactly 500g and 350g! They vary.
 
 And here's the deeper question: **What's the probability that a bento weighs exactly 505.000000... grams?**
 
-Chibany realizes: in Tutorial 1, he learned probability by **counting** discrete outcomes. But weight isn't discrete. It's **continuous**. There are infinitely many possible values between 340g and 520g.
+Chibany realizes: in Tutorial 1, they learned probability by **counting** discrete outcomes. But weight isn't discrete. It's **continuous**. There are infinitely many possible values between 340g and 520g.
 
 How do you assign probabilities when there are infinitely many possibilities?
 
@@ -188,7 +188,7 @@ $$p(x) = \begin{cases}
 
 ### Example: Uniform Coffee Temperature
 
-Chibany's office coffee machine is unreliable. The temperature of his morning coffee is uniformly distributed between 60°C and 80°C.
+Chibany's office coffee machine is unreliable. The temperature of their morning coffee is uniformly distributed between 60°C and 80°C.
 
 ```python
 from genjax import gen
@@ -503,7 +503,7 @@ If $P(X = 505.0 \text{ exactly}) = 0$, how is it possible that Chibany observed 
 1. In theory, weight is a **real number** with infinite precision
 2. $P(X = 505.00000...)= 0$ because it's one point among infinitely many
 3. In practice, Chibany's scale has **finite precision** (e.g., ±0.1g)
-4. What he actually observed: $P(504.95 \leq X \leq 505.05) > 0$ (a small range!)
+4. What they actually observed: $P(504.95 \leq X \leq 505.05) > 0$ (a small range!)
 
 **Analogy:** Throwing a dart at a dartboard
 - $P(\text{hit exact point (x,y)}) = 0$ (infinite precision)

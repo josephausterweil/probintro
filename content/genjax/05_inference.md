@@ -7,7 +7,7 @@ weight = 6
 
 Remember the taxicab problem from the probability tutorial?
 
-**Scenario:** Chibany witnesses a hit-and-run at night. He says the taxi was blue. But:
+**Scenario:** Chibany witnesses a hit-and-run at night. They say the taxi was blue. But:
 - 85% of taxis are green, 15% are blue
 - Chibany identifies colors correctly 80% of the time
 
@@ -199,7 +199,7 @@ Scenarios where Chibany says blue: 29017 / 100000
 
 ### Step 3: Count True Positives
 
-Among scenarios where he says "blue", how many are actually blue?
+Among scenarios where they say "blue", how many are actually blue?
 
 ```python
 # Both says blue AND is blue

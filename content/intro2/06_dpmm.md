@@ -18,7 +18,7 @@ What if:
 
 ## The Intuition: Infinite Clusters
 
-Imagine Chibany's supplier keeps adding new bento types over time. With a fixed-K GMM, he'd have to:
+Imagine Chibany's supplier keeps adding new bento types over time. With a fixed-K GMM, they'd have to:
 1. Notice a new type appeared
 2. Re-run model selection (BIC) to choose new K
 3. Refit the entire model

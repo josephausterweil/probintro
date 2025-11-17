@@ -365,7 +365,7 @@ Among 1000 days where dinner=Tonkatsu:
 
 Let's revisit the exact example from Chapter 4 of the probability tutorial!
 
-**Scenario:** Chibany observes that the student bringing his lunch said "He says it's from a place starting with T."
+**Scenario:** Chibany observes that the student bringing their lunch said "He says it's from a place starting with T."
 
 - If it's Tonkatsu, they'd definitely say "T" (P = 1.0)
 - If it's Hamburger, they might still say "T" for "The Burger Place" (P = 0.3)
@@ -576,7 +576,7 @@ Independent: True
 
 Create a model where lunch and dinner are **not** independent:
 
-**Scenario:** If lunch is Tonkatsu, Chibany wants variety for dinner (only 20% chance of Tonkatsu again). If lunch is Hamburger, he craves Tonkatsu for dinner (80% chance).
+**Scenario:** If lunch is Tonkatsu, Chibany wants variety for dinner (only 20% chance of Tonkatsu again). If lunch is Hamburger, they crave Tonkatsu for dinner (80% chance).
 
 ```python
 @gen

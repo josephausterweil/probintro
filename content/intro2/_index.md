@@ -19,8 +19,8 @@ Now you'll learn to work with **continuous probability distributions** and perfo
 
 In Tutorial 1, Chibany's lunch choices were **discrete**: tonkatsu OR hamburger. But what if we want to model **continuous measurements** like:
 
-- The **weight** of his bento box
-- The **temperature** of his office
+- The **weight** of their bento box
+- The **temperature** of their office
 - The **time** it takes students to arrive
 
 These aren't discrete choices. They're **continuous values** that can fall anywhere on a number line!
@@ -142,7 +142,7 @@ Each chapter includes:
 
 ## Ready to Begin?
 
-Let's start with Chibany's mystery: why does the average weight of his bentos seem impossible?
+Let's start with Chibany's mystery: why does the average weight of their bentos seem impossible?
 
 [Next: Chapter 1 - Chibany's Mystery Bentos →](./01_mystery_bentos.md)
 

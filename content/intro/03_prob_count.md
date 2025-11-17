@@ -22,9 +22,9 @@ For example, the set of Chibany's lunch options is $\\{H,T\\}$. Counting the num
 
 ## Chibany is still hungry... and desires Tonkatsu
 
-Chibany is still hungry and wondering what his meal possibilities are for the day. He wonders, what is the probability that students appease him today by giving him Tonkatsu?
+Chibany is still hungry and wondering what their meal possibilities are for the day. They wonder, what is the probability that students appease them today by giving them Tonkatsu?
 
-To make this calculation, Chibany lists out the outcome space $\Omega$ again. He then forms the event "Tonkatsu offering today". He defines the set of possible outcomes with a Tonkatsu as $A = \\{HT, TH, TT\\}$ to encode the event. He highlights those in red. Chibany thinks "wow... three of the four possible outcomes are red. Fortune must favor me today, right?"
+To make this calculation, Chibany lists out the outcome space $\Omega$ again. They then form the event "Tonkatsu offering today". They define the set of possible outcomes with a Tonkatsu as $A = \\{HT, TH, TT\\}$ to encode the event. They highlight those in red. Chibany thinks "wow... three of the four possible outcomes are red. Fortune must favor me today, right?"
 
 ```mermaid
 block-beta
@@ -38,7 +38,7 @@ block-beta
     style d stroke: #f33, stroke-width:4px
 ```
 
-Yes, Chibany, it does as it always should. Your chance of getting Tonkatsu is three out of four or 0.75. He calculated the probability exactly as he should!
+Yes, Chibany, it does as it always should. Your chance of getting Tonkatsu is three out of four or 0.75. They calculated the probability exactly as they should!
 
 ## Probability as Counting
 
@@ -110,7 +110,7 @@ prob = jnp.mean(has_tonkatsu)  # Equivalent to |A| / |Ω|
 
 ## Another Example
 
-What is the probability that Chibany gets Tonkatsu for his first offering? Well the possible outcomes with Tonkatsu for lunch are $\\{TH, TT\\}$. There are four possible outcomes for his offerings $\Omega = \\{HH,HT, TH, TT\\}$. So the probability he gets Tonkatsu for his first offering is $|\\{TH, TT\\}|/|\\{HH,HT, TH, TT\\}| = 2/4=1/2$. Chibany draws the following table to illustrate his counting:
+What is the probability that Chibany gets Tonkatsu for their first offering? Well the possible outcomes with Tonkatsu for lunch are $\\{TH, TT\\}$. There are four possible outcomes for their offerings $\Omega = \\{HH,HT, TH, TT\\}$. So the probability they get Tonkatsu for their first offering is $|\\{TH, TT\\}|/|\\{HH,HT, TH, TT\\}| = 2/4=1/2$. Chibany draws the following table to illustrate their counting:
 
 ```mermaid
 block-beta
@@ -127,7 +127,7 @@ block-beta
 
 ### Chibany wants to know... how much Tonkatsu?
 
-Chibany wants to know how much Tonkatsu he gets each day. To do so, he converts each possibility to a whole number: the number of Tonkatsu in that possibility. He calls this a function $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$, meaning it takes a possibility out of the outcome space and maps it (changes it into) a number.
+Chibany wants to know how much Tonkatsu they get each day. To do so, they convert each possibility to a whole number: the number of Tonkatsu in that possibility. They call this a function $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$, meaning it takes a possibility out of the outcome space and maps it (changes it into) a number.
 
 {{% notice style="info" title="Functions and Mappings" %}}
 A **function** $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$ is like a machine:
@@ -138,7 +138,7 @@ A **function** $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$ is like a machine:
 The arrow "$\rightarrow$" means "maps to" or "produces".
 {{% /notice %}}
 
-He notes: mapping every possibility to a whole number is like making each whole number an event! His Tonkatsu counter $f$ is defined as $f(HH) = 0$, $f(HT) = 1$, $f(TH)=1$, and $f(TT) = 2$. Chibany defined his first [random variable](./06_glossary.md/#random-variable).
+They note: mapping every possibility to a whole number is like making each whole number an event! Their Tonkatsu counter $f$ is defined as $f(HH) = 0$, $f(HT) = 1$, $f(TH)=1$, and $f(TT) = 2$. Chibany defined their first [random variable](./06_glossary.md/#random-variable).
 
 ```mermaid
 block-beta
