@@ -695,10 +695,10 @@ Next chapter tackles the fundamental challenge: how to handle probability when t
 ## Practice Problems
 
 ### Problem 1: Menu Expansion
-Chibany's students start bringing a third type of bento: **katsu curry** (600g). Now the proportions are:
+Chibany's students start bringing a third type of bento: **sushi** (600g). Now the proportions are:
 - 50% tonkatsu (500g)
 - 30% hamburger (350g)
-- 20% katsu curry (600g)
+- 20% sushi (600g)
 
 What is the expected bento weight?
 

@@ -33,27 +33,27 @@ Scenario: Chibany witnesses a hit-and-run at night. They say the taxi was blue. 
 In the probability tutorial, we solved this with sets and Bayes’ theorem. Now we’ll solve it with GenJAX!">
     <meta itemprop="wordCount" content="2633">
     <title>Inference in Action: The Taxicab Problem :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763362280" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763362280" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763362280" defer></script>
-    <script src="/probintro/js/search-lunr.js?1763362280" defer></script>
-    <script src="/probintro/js/search.js?1763362280" defer></script>
+    <link href="/probintro/images/favicon.png?1763362565" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763362565" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763362565" defer></script>
+    <script src="/probintro/js/search-lunr.js?1763362565" defer></script>
+    <script src="/probintro/js/search.js?1763362565" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763362280";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763362565";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763362280" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763362280" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763362280" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763362280" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763362565" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763362565" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763362565" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763362565" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763362280" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763362280" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763362280" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1763362280" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1763362280" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763362565" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763362565" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763362565" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1763362565" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1763362565" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -201,8 +201,8 @@ In the probability tutorial, we solved this with sets and Bayes’ theorem. Now 
 </ul>
 <p><strong>Question:</strong> What&rsquo;s the probability it was actually a blue taxi?</p>
 <p>In the probability tutorial, we solved this with sets and Bayes&rsquo; theorem. <strong>Now we&rsquo;ll solve it with GenJAX!</strong></p>
-<p><a href="#R-image-c60c14ec8d0ef4caf66c469d55e98efb" class="lightbox-link"><img alt="Chibany investigating" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-c60c14ec8d0ef4caf66c469d55e98efb"><img alt="Chibany investigating" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-b51e5bec4b3300bbe478089ca59c3f66" class="lightbox-link"><img alt="Chibany investigating" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-b51e5bec4b3300bbe478089ca59c3f66"><img alt="Chibany investigating" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="the-taxicab-problem-quick-recap">The Taxicab Problem: Quick Recap</h2>
 <h3 id="the-setup">The Setup</h3>
@@ -1244,7 +1244,6 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
         <div class="R-sidebarmenu R-shortcutmenu-main">
           <ul class="enlarge morespace collapsible-menu">
             <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
-            <li class="" data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
             <li class="parent alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu">
             <li class="" data-nav-id="/probintro/genjax/00_getting_started/index.html"><a class="padding" href="/probintro/genjax/00_getting_started/index.html">Getting Started with Google Colab</a></li>
             <li class="" data-nav-id="/probintro/genjax/01_python_basics/index.html"><a class="padding" href="/probintro/genjax/01_python_basics/index.html">Python Essentials for GenJAX</a></li>
@@ -1253,12 +1252,7 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
             <li class="" data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Observations</a></li>
             <li class="active " data-nav-id="/probintro/genjax/05_inference/index.html"><a class="padding" href="/probintro/genjax/05_inference/index.html">Inference in Action: The Taxicab Problem</a></li>
             <li class="" data-nav-id="/probintro/genjax/06_building_models/index.html"><a class="padding" href="/probintro/genjax/06_building_models/index.html">Building Your Own Models</a></li></ul></li>
-            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
-            <li class="" data-nav-id="/probintro/intro2/02_continuous/index.html"><a class="padding" href="/probintro/intro2/02_continuous/index.html">The Continuum: Continuous Probability</a></li>
-            <li class="" data-nav-id="/probintro/intro2/03_gaussian/index.html"><a class="padding" href="/probintro/intro2/03_gaussian/index.html">The Gaussian Distribution</a></li>
-            <li class="" data-nav-id="/probintro/intro2/04_bayesian_learning/index.html"><a class="padding" href="/probintro/intro2/04_bayesian_learning/index.html">Bayesian Learning with Gaussians</a></li>
-            <li class="" data-nav-id="/probintro/intro2/05_mixture_models/index.html"><a class="padding" href="/probintro/intro2/05_mixture_models/index.html">Gaussian Mixture Models</a></li>
-            <li class="" data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li>
+            <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
             <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
           </ul>
         </div>
@@ -1288,9 +1282,9 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763362280"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763362280" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763362280" defer></script>
-    <script src="/probintro/js/theme.js?1763362280" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763362565"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763362565" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763362565" defer></script>
+    <script src="/probintro/js/theme.js?1763362565" defer></script>
   </body>
 </html>
