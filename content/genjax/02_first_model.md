@@ -30,21 +30,33 @@ Here's Chibany's meals in GenJAX:
 
 ```python
 import jax
-from genjax import gen, bernoulli
+from genjax import gen, flip
 
 @gen
 def chibany_day():
     """Generate one day of Chibany's meals."""
 
     # Lunch: flip a coin (0=Hamburger, 1=Tonkatsu)
-    lunch_is_tonkatsu = bernoulli(0.5) @ "lunch"
+    lunch_is_tonkatsu = flip(0.5) @ "lunch"
 
     # Dinner: flip another coin
-    dinner_is_tonkatsu = bernoulli(0.5) @ "dinner"
+    dinner_is_tonkatsu = flip(0.5) @ "dinner"
 
     # Return the pair
     return (lunch_is_tonkatsu, dinner_is_tonkatsu)
 ```
+
+{{% notice style="warning" title="Important: Use flip(), not bernoulli()" %}}
+GenJAX has two functions for Bernoulli distributions: `flip(p)` and `bernoulli(p)`. **Always use `flip(p)`** - it works correctly!
+
+The `bernoulli(p)` function has a bug in GenJAX versions 0.9.3 and 0.10.3 that causes it to ignore the probability parameter and produce incorrect results. The `flip(p)` function works as expected and is what the official GenJAX examples use.
+
+**Example of the bug:**
+- `bernoulli(0.9)` produces ~71% instead of 90% ❌
+- `flip(0.9)` produces ~90% as expected ✅
+
+This tutorial uses `flip()` throughout to ensure correct behavior.
+{{% /notice %}}
 
 {{% notice style="success" title="📐→💻 Math-to-Code Translation" %}}
 **How mathematical concepts translate to GenJAX:**
@@ -52,13 +64,13 @@ def chibany_day():
 | Math Concept | Mathematical Notation | GenJAX Code |
 |--------------|----------------------|-------------|
 | **Outcome Space** | $\Omega = \\{HH, HT, TH, TT\\}$ | `@gen def chibany_day(): ...` |
-| **Random Variable** | $X \sim \text{Bernoulli}(0.5)$ | `bernoulli(0.5) @ "lunch"` |
+| **Random Variable** | $X \sim \text{Bernoulli}(0.5)$ | `flip(0.5) @ "lunch"` |
 | **Probability** | $P(A) = \frac{\|A\|}{\|\Omega\|}$ | `jnp.mean(condition_satisfied)` |
 | **Event** | $A = \\{HT, TH, TT\\}$ | `has_tonkatsu = (days[:, 0] == 1) \| (days[:, 1] == 1)` |
 
 **Key insights:**
 - **@gen function** = Generative process defining Ω
-- **bernoulli(p)** = Random variable with probability p
+- **flip(p)** = Random variable with probability p (Bernoulli distribution)
 - **@ "name"** = Label the random choice (for inference later)
 - **Simulation + counting** = Computing probabilities
 {{% /notice %}}
@@ -75,15 +87,15 @@ def chibany_day():
 
 **Line 6: First random choice**
 ```python
-lunch_is_tonkatsu = bernoulli(0.5) @ "lunch"
+lunch_is_tonkatsu = flip(0.5) @ "lunch"
 ```
-- `bernoulli(0.5)` — Flip a fair coin (50% chance of 1, 50% chance of 0)
+- `flip(0.5)` — Flip a fair coin (50% chance of 1, 50% chance of 0)
 - `@ "lunch"` — **Name** this random choice "lunch"
 - Store the result in `lunch_is_tonkatsu`
 
 **Line 9: Second random choice**
 ```python
-dinner_is_tonkatsu = bernoulli(0.5) @ "dinner"
+dinner_is_tonkatsu = flip(0.5) @ "dinner"
 ```
 - Another coin flip, named "dinner"
 
@@ -349,14 +361,14 @@ Modify the code so:
 - Lunch is 70% likely to be tonkatsu
 - Dinner is 30% likely to be tonkatsu
 
-**Hint:** Change the `bernoulli(0.5)` values!
+**Hint:** Change the `flip(0.5)` values!
 
 {{% expand "Solution" %}}
 ```python
 @gen
 def chibany_day_weighted():
-    lunch_is_tonkatsu = bernoulli(0.7) @ "lunch"
-    dinner_is_tonkatsu = bernoulli(0.3) @ "dinner"
+    lunch_is_tonkatsu = flip(0.7) @ "lunch"
+    dinner_is_tonkatsu = flip(0.3) @ "dinner"
     return (lunch_is_tonkatsu, dinner_is_tonkatsu)
 ```
 {{% /expand %}}
@@ -387,9 +399,9 @@ Extend the model to include breakfast! Now Chibany gets three meals per day.
 ```python
 @gen
 def chibany_three_meals():
-    breakfast_is_tonkatsu = bernoulli(0.5) @ "breakfast"
-    lunch_is_tonkatsu = bernoulli(0.5) @ "lunch"
-    dinner_is_tonkatsu = bernoulli(0.5) @ "dinner"
+    breakfast_is_tonkatsu = flip(0.5) @ "breakfast"
+    lunch_is_tonkatsu = flip(0.5) @ "lunch"
+    dinner_is_tonkatsu = flip(0.5) @ "dinner"
     return (breakfast_is_tonkatsu, lunch_is_tonkatsu, dinner_is_tonkatsu)
 ```
 

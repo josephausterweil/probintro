@@ -6,10 +6,6 @@
     "id": "header"
    },
    "source": [
-    "**CORRECTED VERSION:** This notebook has been fixed to use GenJAX's `flip()` function instead of the broken `bernoulli()` function, and uses time-based random seeds for proper convergence.\n",
-    "\n",
-    "---\n",
-    "\n",
     "# Your First GenJAX Model: Chibany's Meals\n",
     "\n",
     "This notebook accompanies Chapter 2 of the GenJAX tutorial. You'll:\n",
@@ -59,7 +55,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 3,
    "metadata": {
     "id": "imports"
    },
@@ -75,7 +71,7 @@
    "source": [
     "import jax\n",
     "import jax.numpy as jnp\n",
-    "from genjax import gen, flip\n",
+    "from genjax import gen, bernoulli\n",
     "import matplotlib.pyplot as plt\n",
     "import ipywidgets as widgets\n",
     "from IPython.display import display, clear_output\n",
@@ -104,7 +100,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 4,
    "metadata": {
     "id": "model"
    },
@@ -130,10 +126,10 @@
     "        Tuple of (lunch_is_tonkatsu, dinner_is_tonkatsu)\n",
     "    \"\"\"\n",
     "    # Lunch: flip a coin (0=Hamburger, 1=Tonkatsu)\n",
-    "    lunch_is_tonkatsu = flip(lunch_prob) @ \"lunch\"\n",
+    "    lunch_is_tonkatsu = bernoulli(lunch_prob) @ \"lunch\"\n",
     "    \n",
     "    # Dinner: flip another coin\n",
-    "    dinner_is_tonkatsu = flip(dinner_prob) @ \"dinner\"\n",
+    "    dinner_is_tonkatsu = bernoulli(dinner_prob) @ \"dinner\"\n",
     "    \n",
     "    # Return the pair\n",
     "    return (lunch_is_tonkatsu, dinner_is_tonkatsu)\n",
@@ -154,7 +150,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 5,
    "metadata": {
     "id": "test"
    },
@@ -163,11 +159,11 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Today's meals: (Array(False, dtype=bool), Array(False, dtype=bool))\n",
-      "  Lunch was tonkatsu: False\n",
-      "  Dinner was tonkatsu: False\n",
+      "Today's meals: (Array(0, dtype=int32), Array(1, dtype=int32))\n",
+      "  Lunch was tonkatsu: 0\n",
+      "  Dinner was tonkatsu: 1\n",
       "\n",
-      "Outcome: HH\n"
+      "Outcome: HT\n"
      ]
     }
    ],
@@ -215,7 +211,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 6,
    "metadata": {
     "id": "interactive"
    },
@@ -223,7 +219,7 @@
     {
      "data": {
       "application/vnd.jupyter.widget-view+json": {
-       "model_id": "65d1395f8a124dda8f18047797d909b6",
+       "model_id": "41516cf5e89240b1a4fed3e0e2224e17",
        "version_major": 2,
        "version_minor": 0
       },
@@ -237,7 +233,7 @@
     {
      "data": {
       "application/vnd.jupyter.widget-view+json": {
-       "model_id": "00c7761d33124d6fa53b0c1dbe308370",
+       "model_id": "790cd415811f4c65930232c38b281533",
        "version_major": 2,
        "version_minor": 0
       },
@@ -517,8 +513,8 @@
     "    # TODO: Add breakfast!\n",
     "    # breakfast_is_tonkatsu = ...\n",
     "    \n",
-    "    lunch_is_tonkatsu = flip(lunch_prob) @ \"lunch\"\n",
-    "    dinner_is_tonkatsu = flip(dinner_prob) @ \"dinner\"\n",
+    "    lunch_is_tonkatsu = bernoulli(lunch_prob) @ \"lunch\"\n",
+    "    dinner_is_tonkatsu = bernoulli(dinner_prob) @ \"dinner\"\n",
     "    \n",
     "    # TODO: Return all three meals\n",
     "    # return (...)\n",
@@ -539,9 +535,9 @@
     "@gen\n",
     "def chibany_three_meals(breakfast_prob=0.5, lunch_prob=0.5, dinner_prob=0.5):\n",
     "    \"\"\"Generate one day of Chibany's meals including breakfast.\"\"\"\n",
-    "    breakfast_is_tonkatsu = flip(breakfast_prob) @ \"breakfast\"\n",
-    "    lunch_is_tonkatsu = flip(lunch_prob) @ \"lunch\"\n",
-    "    dinner_is_tonkatsu = flip(dinner_prob) @ \"dinner\"\n",
+    "    breakfast_is_tonkatsu = bernoulli(breakfast_prob) @ \"breakfast\"\n",
+    "    lunch_is_tonkatsu = bernoulli(lunch_prob) @ \"lunch\"\n",
+    "    dinner_is_tonkatsu = bernoulli(dinner_prob) @ \"dinner\"\n",
     "    return (breakfast_is_tonkatsu, lunch_is_tonkatsu, dinner_is_tonkatsu)\n",
     "```\n",
     "\n",
