@@ -7,7 +7,9 @@ toc = true
 
 ## Welcome!
 
-This tutorial teaches probability theory through the story of Chibany (pictured below) who loves tonkatsu and wants to understand how likely he will get it in his daily meals. Along the way, you'll learn to think about probability using **sets**: a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.
+This tutorial teaches probability theory through the story of [Chibany](https://admission.chibatech.ac.jp/about/chibany/) (pictured below) who loves tonkatsu and wants to understand how likely they will get it in his daily meals. They hang out at the University cafeteria. Students offer him meals in bento boxes in the hopes that it will help them on their upcoming tests.
+
+Along the way, you'll learn to think about probability using **sets**: a perspective that makes complex concepts intuitive and prepares you for probabilistic programming and advanced applications.
 
 ![Chibany laying down](images/chibanylayingdown.png)
 

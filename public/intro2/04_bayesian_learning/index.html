@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head>
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -14,7 +14,7 @@ This is Bayesian learning: starting with a prior belief, observing data, and upd
     <meta name="twitter:description" content="The Learning Problem Chibany has a new challenge. He receives shipments from a new supplier, but doesn’t know the mean weight of their tonkatsu bentos. He believes they’re trying to hit 500g (like his usual supplier), but he’s not certain. Maybe they aim for 495g? Or 505g?
 The question: How can he learn the true mean weight from observations?
 This is Bayesian learning: starting with a prior belief, observing data, and updating to a posterior belief.">
-    <meta property="og:url" content="https://josephausterweil.github.io/probintro/intro2/04_bayesian_learning/index.html">
+    <meta property="og:url" content="http://localhost:1313/probintro/intro2/04_bayesian_learning/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Bayesian Learning with Gaussians :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="The Learning Problem Chibany has a new challenge. He receives shipments from a new supplier, but doesn’t know the mean weight of their tonkatsu bentos. He believes they’re trying to hit 500g (like his usual supplier), but he’s not certain. Maybe they aim for 495g? Or 505g?
@@ -29,35 +29,35 @@ The question: How can he learn the true mean weight from observations?
 This is Bayesian learning: starting with a prior belief, observing data, and updating to a posterior belief.">
     <meta itemprop="wordCount" content="2768">
     <title>Bayesian Learning with Gaussians :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763027978" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763027978" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763027978" defer></script>
-    <script src="/probintro/js/search-lunr.min.js?1763027978" defer></script>
-    <script src="/probintro/js/search.min.js?1763027978" defer></script>
+    <link href="/probintro/images/favicon.png?1763360529" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763360529" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763360529" defer></script>
+    <script src="/probintro/js/search-lunr.js?1763360529" defer></script>
+    <script src="/probintro/js/search.js?1763360529" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763027978";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763360529";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763027978" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763027978" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763027978" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763027978" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763360529" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763360529" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763360529" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763360529" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763027978" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763027978" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763027978" rel="stylesheet">
-    <link href="/probintro/css/theme.min.css?1763027978" rel="stylesheet">
-    <link href="/probintro/css/format-html.min.css?1763027978" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763360529" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763360529" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763360529" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1763360529" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1763360529" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
-      window.relearn.min = `.min`;
+      window.relearn.min = ``;
       window.relearn.path='\/intro2\/04_bayesian_learning\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='https:\/\/josephausterweil.github.io\/probintro';
+      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -678,8 +678,8 @@ After observation 10 (x=497.5g):
 </div>
 </div>
 </details>
-<p><a href="#R-image-e3fac9ecc550be0df3af27bada6841c7" class="lightbox-link"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/posterior_updates.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-e3fac9ecc550be0df3af27bada6841c7"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/posterior_updates.png"></a></p>
+<p><a href="#R-image-a9ac7712a7d839af5ea9407202ba00db" class="lightbox-link"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/posterior_updates.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-a9ac7712a7d839af5ea9407202ba00db"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/posterior_updates.png"></a></p>
 <p><strong>The story in the plot</strong>:</p>
 <ul>
 <li><strong>Black dashed</strong>: Prior belief (wide, centered at 500g)</li>
@@ -1137,9 +1137,9 @@ c) Need n &gt; 4 observations for data to dominate
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763027978"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763027978" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763027978" defer></script>
-    <script src="/probintro/js/theme.min.js?1763027978" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763360529"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763360529" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763360529" defer></script>
+    <script src="/probintro/js/theme.js?1763360529" defer></script>
   </body>
 </html>
