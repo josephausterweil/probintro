@@ -27,29 +27,29 @@ Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability 
     <meta itemprop="description" content="Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
 We now have all the tools to solve this completely:
 Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability (PDFs, CDFs) Chapter 3: Gaussian distributions Chapter 4: Bayesian learning for parameters Now we combine them: What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?">
-    <meta itemprop="wordCount" content="2803">
+    <meta itemprop="wordCount" content="1892">
     <title>Gaussian Mixture Models :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763362565" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763362565" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763362565" defer></script>
-    <script src="/probintro/js/search-lunr.js?1763362565" defer></script>
-    <script src="/probintro/js/search.js?1763362565" defer></script>
+    <link href="/probintro/images/favicon.png?1763363141" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763363141" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763363141" defer></script>
+    <script src="/probintro/js/search-lunr.js?1763363141" defer></script>
+    <script src="/probintro/js/search.js?1763363141" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763362565";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763363141";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763362565" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763362565" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763362565" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763362565" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763363141" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763363141" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763363141" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763363141" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763362565" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763362565" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763362565" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1763362565" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1763362565" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763363141" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763363141" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763363141" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1763363141" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1763363141" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -130,21 +130,9 @@ Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability 
     </li>
     <li><a href="#two-component-bento-model">Two-Component Bento Model</a></li>
     <li><a href="#the-inference-problem">The Inference Problem</a></li>
-    <li><a href="#solution-1-if-we-know-component-labels">Solution 1: If We Know Component Labels</a></li>
-    <li><a href="#solution-2-em-algorithm-conceptual-overview">Solution 2: EM Algorithm (Conceptual Overview)</a>
-      <ul>
-        <li><a href="#soft-assignments-responsibilities">Soft Assignments (Responsibilities)</a></li>
-        <li><a href="#parameter-updates">Parameter Updates</a></li>
-      </ul>
-    </li>
-    <li><a href="#implementing-em-for-gmm">Implementing EM for GMM</a></li>
-    <li><a href="#visualizing-the-mixture">Visualizing the Mixture</a></li>
+    <li><a href="#understanding-the-inference-challenge">Understanding the Inference Challenge</a></li>
     <li><a href="#bayesian-gmm-with-genjax">Bayesian GMM with GenJAX</a></li>
-    <li><a href="#model-selection-how-many-components">Model Selection: How Many Components?</a>
-      <ul>
-        <li><a href="#bayesian-information-criterion-bic">Bayesian Information Criterion (BIC)</a></li>
-      </ul>
-    </li>
+    <li><a href="#model-selection-how-many-components">Model Selection: How Many Components?</a></li>
     <li><a href="#real-world-applications">Real-World Applications</a>
       <ul>
         <li><a href="#image-segmentation">Image Segmentation</a></li>
@@ -156,7 +144,7 @@ Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability 
     <li><a href="#practice-problems">Practice Problems</a>
       <ul>
         <li><a href="#problem-1-three-coffee-blends">Problem 1: Three Coffee Blends</a></li>
-        <li><a href="#problem-2-label-switching">Problem 2: Label Switching</a></li>
+        <li><a href="#problem-2-understanding-uncertainty">Problem 2: Understanding Uncertainty</a></li>
       </ul>
     </li>
     <li><a href="#whats-next">What&rsquo;s Next?</a></li>
@@ -397,333 +385,9 @@ Weights: [501.2 349.8 499.5 351.3 498.7 502.1 350.5 ...]</code></pre></div>
 </ul>
 <p>Classic chicken-and-egg problem!</p>
 <hr>
-<h2 id="solution-1-if-we-know-component-labels">Solution 1: If We Know Component Labels</h2>
-<p>Suppose Chibany could magically see labels on the bentos. Then learning is straightforward:</p>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Example: observed weights with known labels</span>
-</span></span><span style="display:flex;"><span>weights <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">498</span>, <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">501</span>, <span style="color:#ae81ff">349</span>, <span style="color:#ae81ff">497</span>, <span style="color:#ae81ff">503</span>, <span style="color:#ae81ff">351</span>, <span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">348</span>, <span style="color:#ae81ff">502</span>,
-</span></span><span style="display:flex;"><span>                     <span style="color:#ae81ff">499</span>, <span style="color:#ae81ff">350</span>, <span style="color:#ae81ff">498</span>, <span style="color:#ae81ff">353</span>, <span style="color:#ae81ff">501</span>, <span style="color:#ae81ff">347</span>, <span style="color:#ae81ff">499</span>, <span style="color:#ae81ff">502</span>, <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">500</span>])
-</span></span><span style="display:flex;"><span>labels <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>])  <span style="color:#75715e"># 0=tonkatsu, 1=hamburger</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Estimate parameters for each component</span>
-</span></span><span style="display:flex;"><span>tonkatsu_weights <span style="color:#f92672">=</span> weights[labels <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>]
-</span></span><span style="display:flex;"><span>hamburger_weights <span style="color:#f92672">=</span> weights[labels <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>mu1 <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(tonkatsu_weights)
-</span></span><span style="display:flex;"><span>sigma1 <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>std(tonkatsu_weights)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>mu2 <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(hamburger_weights)
-</span></span><span style="display:flex;"><span>sigma2 <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>std(hamburger_weights)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>pi1 <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(labels <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-</span></span><span style="display:flex;"><span>pi2 <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(labels <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Tonkatsu: μ=</span><span style="color:#e6db74">{</span>mu1<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g, σ=</span><span style="color:#e6db74">{</span>sigma1<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g, π=</span><span style="color:#e6db74">{</span>pi1<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Hamburger: μ=</span><span style="color:#e6db74">{</span>mu2<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g, σ=</span><span style="color:#e6db74">{</span>sigma2<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g, π=</span><span style="color:#e6db74">{</span>pi2<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Tonkatsu: μ=499.9g, σ=1.95g, π=0.65
-Hamburger: μ=350.4g, σ=1.83g, π=0.35</code></pre></div>
-<p>Perfect! But we don&rsquo;t have labels&hellip;</p>
-<hr>
-<h2 id="solution-2-em-algorithm-conceptual-overview">Solution 2: EM Algorithm (Conceptual Overview)</h2>
-<p>The <strong>Expectation-Maximization (EM) algorithm</strong> solves the chicken-and-egg problem by iterating:</p>
-<p><strong>E-step (Expectation)</strong>: Given current parameters, compute the probability that each observation belongs to each component (soft assignments)</p>
-<p><strong>M-step (Maximization)</strong>: Given soft assignments, update the parameters to maximize likelihood</p>
-<p>Repeat until convergence.</p>
-<h3 id="soft-assignments-responsibilities">Soft Assignments (Responsibilities)</h3>
-<p>For each observation xᵢ and component k, compute:</p>
-<p>$$\gamma_{ik} = \frac{\pi_k \cdot \mathcal{N}(x_i | \mu_k, \sigma_k^2)}{\sum_{j=1}^{K} \pi_j \cdot \mathcal{N}(x_i | \mu_j, \sigma_j^2)}$$</p>
-<p>This is the <strong>posterior probability</strong> that observation i belongs to component k.</p>
-<p><strong>In plain English</strong>: &ldquo;How likely is it that this bento is tonkatsu vs. hamburger, given its weight and our current parameter estimates?&rdquo;</p>
-<h3 id="parameter-updates">Parameter Updates</h3>
-<p><strong>Mixing proportions</strong>:
-$$\pi_k = \frac{1}{N} \sum_{i=1}^{N} \gamma_{ik}$$</p>
-<p><strong>Means</strong>:
-$$\mu_k = \frac{\sum_{i=1}^{N} \gamma_{ik} \cdot x_i}{\sum_{i=1}^{N} \gamma_{ik}}$$</p>
-<p><strong>Variances</strong>:
-$$\sigma_k^2 = \frac{\sum_{i=1}^{N} \gamma_{ik} \cdot (x_i - \mu_k)^2}{\sum_{i=1}^{N} \gamma_{ik}}$$</p>
-<p>These are <strong>weighted</strong> versions of the formulas from Solution 1, where the weights are the soft assignments γᵢₖ.</p>
-<hr>
-<h2 id="implementing-em-for-gmm">Implementing EM for GMM</h2>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">79
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> norm <span style="color:#66d9ef">as</span> scipy_norm
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">em_gmm</span>(data, K<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, max_iters<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>, tol<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-6</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    EM algorithm for Gaussian Mixture Model
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Args:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        data: Observations (1D array)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        K: Number of components
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        max_iters: Maximum iterations
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        tol: Convergence tolerance
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        pi, mu, sigma (mixing proportions, means, std devs)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    N <span style="color:#f92672">=</span> len(data)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Initialize parameters randomly</span>
-</span></span><span style="display:flex;"><span>    pi <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>ones(K) <span style="color:#f92672">/</span> K
-</span></span><span style="display:flex;"><span>    mu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([jnp<span style="color:#f92672">.</span>min(data), jnp<span style="color:#f92672">.</span>max(data)])  <span style="color:#75715e"># Spread initial means</span>
-</span></span><span style="display:flex;"><span>    sigma <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>ones(K) <span style="color:#f92672">*</span> jnp<span style="color:#f92672">.</span>std(data)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    log_likelihood_old <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>jnp<span style="color:#f92672">.</span>inf
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> iteration <span style="color:#f92672">in</span> range(max_iters):
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># E-step: Compute responsibilities</span>
-</span></span><span style="display:flex;"><span>        gamma <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>zeros((N, K))
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(K):
-</span></span><span style="display:flex;"><span>            gamma <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>at[:, k]<span style="color:#f92672">.</span>set(
-</span></span><span style="display:flex;"><span>                pi[k] <span style="color:#f92672">*</span> scipy_norm<span style="color:#f92672">.</span>pdf(data, mu[k], sigma[k])
-</span></span><span style="display:flex;"><span>            )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Normalize responsibilities</span>
-</span></span><span style="display:flex;"><span>        gamma <span style="color:#f92672">=</span> gamma <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(gamma, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, keepdims<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># M-step: Update parameters</span>
-</span></span><span style="display:flex;"><span>        N_k <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(gamma, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Effective number of points in each component</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        pi <span style="color:#f92672">=</span> N_k <span style="color:#f92672">/</span> N
-</span></span><span style="display:flex;"><span>        mu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(gamma <span style="color:#f92672">*</span> data[:, <span style="color:#66d9ef">None</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>) <span style="color:#f92672">/</span> N_k
-</span></span><span style="display:flex;"><span>        sigma <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sqrt(
-</span></span><span style="display:flex;"><span>            jnp<span style="color:#f92672">.</span>sum(gamma <span style="color:#f92672">*</span> (data[:, <span style="color:#66d9ef">None</span>] <span style="color:#f92672">-</span> mu[<span style="color:#66d9ef">None</span>, :]) <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span>, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>) <span style="color:#f92672">/</span> N_k
-</span></span><span style="display:flex;"><span>        )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Check convergence</span>
-</span></span><span style="display:flex;"><span>        log_likelihood <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(
-</span></span><span style="display:flex;"><span>            jnp<span style="color:#f92672">.</span>log(jnp<span style="color:#f92672">.</span>sum(
-</span></span><span style="display:flex;"><span>                pi[k] <span style="color:#f92672">*</span> scipy_norm<span style="color:#f92672">.</span>pdf(data, mu[k], sigma[k])
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(K)
-</span></span><span style="display:flex;"><span>            ))
-</span></span><span style="display:flex;"><span>        )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> jnp<span style="color:#f92672">.</span>abs(log_likelihood <span style="color:#f92672">-</span> log_likelihood_old) <span style="color:#f92672">&lt;</span> tol:
-</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Converged after </span><span style="color:#e6db74">{</span>iteration <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> iterations&#34;</span>)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        log_likelihood_old <span style="color:#f92672">=</span> log_likelihood
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pi, mu, sigma, gamma
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Apply to Chibany&#39;s mystery bentos</span>
-</span></span><span style="display:flex;"><span>mystery_weights <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">498</span>, <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">501</span>, <span style="color:#ae81ff">349</span>, <span style="color:#ae81ff">497</span>, <span style="color:#ae81ff">503</span>, <span style="color:#ae81ff">351</span>, <span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">348</span>, <span style="color:#ae81ff">502</span>,
-</span></span><span style="display:flex;"><span>                             <span style="color:#ae81ff">499</span>, <span style="color:#ae81ff">350</span>, <span style="color:#ae81ff">498</span>, <span style="color:#ae81ff">353</span>, <span style="color:#ae81ff">501</span>, <span style="color:#ae81ff">347</span>, <span style="color:#ae81ff">499</span>, <span style="color:#ae81ff">502</span>, <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">500</span>])
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>pi, mu, sigma, gamma <span style="color:#f92672">=</span> em_gmm(mystery_weights, K<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Sort by mean (so component 0 is hamburger, 1 is tonkatsu)</span>
-</span></span><span style="display:flex;"><span>order <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>argsort(mu)
-</span></span><span style="display:flex;"><span>pi <span style="color:#f92672">=</span> pi[order]
-</span></span><span style="display:flex;"><span>mu <span style="color:#f92672">=</span> mu[order]
-</span></span><span style="display:flex;"><span>sigma <span style="color:#f92672">=</span> sigma[order]
-</span></span><span style="display:flex;"><span>gamma <span style="color:#f92672">=</span> gamma[:, order]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Component 1 (Hamburger): π=</span><span style="color:#e6db74">{</span>pi[<span style="color:#ae81ff">0</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">, μ=</span><span style="color:#e6db74">{</span>mu[<span style="color:#ae81ff">0</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g, σ=</span><span style="color:#e6db74">{</span>sigma[<span style="color:#ae81ff">0</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Component 2 (Tonkatsu): π=</span><span style="color:#e6db74">{</span>pi[<span style="color:#ae81ff">1</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">, μ=</span><span style="color:#e6db74">{</span>mu[<span style="color:#ae81ff">1</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g, σ=</span><span style="color:#e6db74">{</span>sigma[<span style="color:#ae81ff">1</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Hard assignments (assign to most probable component)</span>
-</span></span><span style="display:flex;"><span>assignments <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>argmax(gamma, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Assignments: </span><span style="color:#e6db74">{</span>assignments<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Converged after 12 iterations
-Component 1 (Hamburger): π=0.35, μ=350.4g, σ=1.85g
-Component 2 (Tonkatsu): π=0.65, μ=499.9g, σ=1.92g
-
-Assignments: [1 0 1 0 1 1 0 1 0 1 1 0 1 0 1 0 1 1 0 1]</code></pre></div>
-<p>Perfect! The EM algorithm recovered the true parameters and correctly classified each bento.</p>
-<hr>
-<h2 id="visualizing-the-mixture">Visualizing the Mixture</h2>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create histogram of data</span></span></span></code></pre></td></tr></table>
-</div>
-</div>
-<details>
-<summary>Click to show visualization code</summary>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">6</span>))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>hist(mystery_weights, bins<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>, density<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.6</span>,
-</span></span><span style="display:flex;"><span>        edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;black&#39;</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Observed data&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Overlay fitted Gaussians</span>
-</span></span><span style="display:flex;"><span>x_range <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">340</span>, <span style="color:#ae81ff">510</span>, <span style="color:#ae81ff">1000</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">2</span>):
-</span></span><span style="display:flex;"><span>    component_pdf <span style="color:#f92672">=</span> pi[k] <span style="color:#f92672">*</span> scipy_norm<span style="color:#f92672">.</span>pdf(x_range, mu[k], sigma[k])
-</span></span><span style="display:flex;"><span>    label <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Component </span><span style="color:#e6db74">{</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: N(</span><span style="color:#e6db74">{</span>mu[k]<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">, </span><span style="color:#e6db74">{</span>sigma[k]<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span><span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">)&#39;</span>
-</span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>plot(x_range, component_pdf, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, label<span style="color:#f92672">=</span>label)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Overall mixture</span>
-</span></span><span style="display:flex;"><span>mixture_pdf <span style="color:#f92672">=</span> sum(pi[k] <span style="color:#f92672">*</span> scipy_norm<span style="color:#f92672">.</span>pdf(x_range, mu[k], sigma[k])
-</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">2</span>))
-</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>plot(x_range, mixture_pdf, <span style="color:#e6db74">&#39;k--&#39;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Mixture&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;Weight (g)&#39;</span>)
-</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;Probability Density&#39;</span>)
-</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Gaussian Mixture Model: Fitted Components&#39;</span>)
-</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>legend()
-</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>grid(<span style="color:#66d9ef">True</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>)
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>savefig(<span style="color:#e6db74">&#39;gmm_fitted.png&#39;</span>, dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>, bbox_inches<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;tight&#39;</span>)
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()</span></span></code></pre></td></tr></table>
-</div>
-</div>
-</details>
-<p><a href="#R-image-33ca989ac4ba99accb5efe11edba77f5" class="lightbox-link"><img alt="GMM: Fitted Components" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/gmm_fitted_components.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-33ca989ac4ba99accb5efe11edba77f5"><img alt="GMM: Fitted Components" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/gmm_fitted_components.png"></a></p>
-<p><strong>The visualization shows</strong>:</p>
-<ul>
-<li>Two distinct Gaussian components (blue and orange)</li>
-<li>The overall mixture (black dashed) captures both peaks</li>
-<li>The mixture average (around 450g) falls in the valley</li>
-</ul>
+<h2 id="understanding-the-inference-challenge">Understanding the Inference Challenge</h2>
+<p>If we knew which type each bento was, learning would be straightforward - just compute the mean and variance for each group. Conversely, if we knew the true parameters, we could compute which component each observation likely came from.</p>
+<p>This chicken-and-egg problem is exactly what probabilistic inference is designed to solve. Instead of point estimates, we&rsquo;ll use GenJAX to reason about the full posterior distribution over both parameters and assignments.</p>
 <hr>
 <h2 id="bayesian-gmm-with-genjax">Bayesian GMM with GenJAX</h2>
 <p>Now let&rsquo;s implement a fully Bayesian version using GenJAX, where we treat component assignments as latent variables to infer:</p>
@@ -843,79 +507,12 @@ Assignments: [1 0 1 0 1 1 0 1 0 1 1 0 1 0 1 0 1 1 0 1]</code></pre></div>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Posterior mean for σ: </span><span style="color:#e6db74">{</span>jnp<span style="color:#f92672">.</span>mean(sigma_samples, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
-<p><strong>Note</strong>: The above shows the conceptual structure. In practice, importance resampling for GMMs requires careful implementation with reweighting. The EM approach is often more practical for GMMs, while the Bayesian approach shines for more complex models (like DPMM in Chapter 6).</p>
+<p><strong>Note</strong>: The above shows the conceptual structure. In practice, GMM inference with GenJAX requires careful implementation of inference algorithms. We&rsquo;ll explore more sophisticated inference techniques including MCMC and variational methods in later chapters. The Bayesian approach becomes particularly powerful for more complex models like DPMM (Chapter 6), where we want to reason about uncertainty in the number of components.</p>
 <hr>
 <h2 id="model-selection-how-many-components">Model Selection: How Many Components?</h2>
 <p>How do we know K=2? What if there are 3 types of bentos, or 5?</p>
-<h3 id="bayesian-information-criterion-bic">Bayesian Information Criterion (BIC)</h3>
-<p>BIC balances model fit against complexity:</p>
-<p>$$BIC = -2 \log \mathcal{L} + k \log N$$</p>
-<p>Where:</p>
-<ul>
-<li>$\mathcal{L}$: Likelihood of the data given the model</li>
-<li>k: Number of parameters</li>
-<li>N: Number of observations</li>
-</ul>
-<p><strong>Lower BIC is better</strong> (we want high likelihood but few parameters).</p>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">compute_bic</span>(data, K, pi, mu, sigma):
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Compute BIC for a GMM&#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    N <span style="color:#f92672">=</span> len(data)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Log-likelihood</span>
-</span></span><span style="display:flex;"><span>    log_likelihood <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(
-</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>log(jnp<span style="color:#f92672">.</span>sum(
-</span></span><span style="display:flex;"><span>            pi[k] <span style="color:#f92672">*</span> scipy_norm<span style="color:#f92672">.</span>pdf(data, mu[k], sigma[k])
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(K)
-</span></span><span style="display:flex;"><span>        ))
-</span></span><span style="display:flex;"><span>    )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Number of parameters: K-1 mixing weights + K means + K variances</span>
-</span></span><span style="display:flex;"><span>    num_params <span style="color:#f92672">=</span> (K <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> K <span style="color:#f92672">+</span> K
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    bic <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> log_likelihood <span style="color:#f92672">+</span> num_params <span style="color:#f92672">*</span> jnp<span style="color:#f92672">.</span>log(N)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> bic
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Try different numbers of components</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> K <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">6</span>):
-</span></span><span style="display:flex;"><span>    pi_k, mu_k, sigma_k, _ <span style="color:#f92672">=</span> em_gmm(mystery_weights, K<span style="color:#f92672">=</span>K)
-</span></span><span style="display:flex;"><span>    bic <span style="color:#f92672">=</span> compute_bic(mystery_weights, K, pi_k, mu_k, sigma_k)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;K=</span><span style="color:#e6db74">{</span>K<span style="color:#e6db74">}</span><span style="color:#e6db74">: BIC=</span><span style="color:#e6db74">{</span>bic<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>K=1: BIC=542.31
-K=2: BIC=398.75  ← Minimum (best)
-K=3: BIC=415.82
-K=4: BIC=438.91
-K=5: BIC=465.28</code></pre></div>
-<p>K=2 has the lowest BIC, confirming two components is the right choice!</p>
+<p>In traditional approaches, you would fit multiple models with different K values and use criteria like BIC (Bayesian Information Criterion) to select the best one.</p>
+<p>However, in fully Bayesian inference (which we&rsquo;ll explore more in Chapter 6), we can treat K itself as a random variable and let the data inform us about the likely number of components through the posterior distribution.</p>
 <hr>
 <h2 id="real-world-applications">Real-World Applications</h2>
 <p>GMMs aren&rsquo;t just for bentos. They appear everywhere:</p>
@@ -946,9 +543,9 @@ K=5: BIC=465.28</code></pre></div>
 <div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>[82, 118, 155, 80, 120, 158, 79, 115, 160, 83, 121, 157,
  81, 119, 156, 84, 117, 159, 78, 122, 154, 82, 116, 158,
  80, 120, 155, 81, 118, 157]</code></pre></div>
-<p><strong>a)</strong> Fit a 3-component GMM using EM.</p>
-<p><strong>b)</strong> What are the estimated means for each blend?</p>
-<p><strong>c)</strong> Compute BIC for K=1,2,3,4 to verify K=3 is optimal.</p>
+<p><strong>a)</strong> Extend the Bayesian GMM code to K=3 components.</p>
+<p><strong>b)</strong> What prior distributions would be appropriate for the means if you know caffeine levels range from 50-200mg?</p>
+<p><strong>c)</strong> How would you interpret the posterior distribution over component assignments?</p>
 <details>
 <summary>Show Solution</summary>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -975,112 +572,88 @@ K=5: BIC=465.28</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>coffee_data <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">82</span>, <span style="color:#ae81ff">118</span>, <span style="color:#ae81ff">155</span>, <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">158</span>, <span style="color:#ae81ff">79</span>, <span style="color:#ae81ff">115</span>, <span style="color:#ae81ff">160</span>, <span style="color:#ae81ff">83</span>, <span style="color:#ae81ff">121</span>, <span style="color:#ae81ff">157</span>,
-</span></span><span style="display:flex;"><span>                         <span style="color:#ae81ff">81</span>, <span style="color:#ae81ff">119</span>, <span style="color:#ae81ff">156</span>, <span style="color:#ae81ff">84</span>, <span style="color:#ae81ff">117</span>, <span style="color:#ae81ff">159</span>, <span style="color:#ae81ff">78</span>, <span style="color:#ae81ff">122</span>, <span style="color:#ae81ff">154</span>, <span style="color:#ae81ff">82</span>, <span style="color:#ae81ff">116</span>, <span style="color:#ae81ff">158</span>,
-</span></span><span style="display:flex;"><span>                         <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">155</span>, <span style="color:#ae81ff">81</span>, <span style="color:#ae81ff">118</span>, <span style="color:#ae81ff">157</span>])
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">coffee_gmm</span>(data):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;3-component GMM for coffee blends&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    K <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Part a &amp; b: Fit K=3 GMM</span>
-</span></span><span style="display:flex;"><span>pi, mu, sigma, gamma <span style="color:#f92672">=</span> em_gmm(coffee_data, K<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Prior on mixing proportions</span>
+</span></span><span style="display:flex;"><span>    pi <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>dirichlet(jnp<span style="color:#f92672">.</span>ones(K)) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;pi&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Sort by mean</span>
-</span></span><span style="display:flex;"><span>order <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>argsort(mu)
-</span></span><span style="display:flex;"><span>pi, mu, sigma <span style="color:#f92672">=</span> pi[order], mu[order], sigma[order]
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Priors on means - centered around expected range</span>
+</span></span><span style="display:flex;"><span>    mu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">80.0</span>, <span style="color:#ae81ff">20.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;mu_0&#34;</span>,   <span style="color:#75715e"># Low caffeine</span>
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">120.0</span>, <span style="color:#ae81ff">20.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;mu_1&#34;</span>,  <span style="color:#75715e"># Medium caffeine</span>
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">160.0</span>, <span style="color:#ae81ff">20.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;mu_2&#34;</span>   <span style="color:#75715e"># High caffeine</span>
+</span></span><span style="display:flex;"><span>    ])
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;a &amp; b) Fitted 3-component GMM:&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>):
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  Blend </span><span style="color:#e6db74">{</span>k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: μ=</span><span style="color:#e6db74">{</span>mu[k]<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">mg, σ=</span><span style="color:#e6db74">{</span>sigma[k]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">mg, π=</span><span style="color:#e6db74">{</span>pi[k]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Priors on standard deviations</span>
+</span></span><span style="display:flex;"><span>    sigma <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>gamma(<span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;sigma_0&#34;</span>,
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>gamma(<span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;sigma_1&#34;</span>,
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>gamma(<span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;sigma_2&#34;</span>
+</span></span><span style="display:flex;"><span>    ])
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Part c: BIC comparison</span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">c) BIC for different K:&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> K <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5</span>):
-</span></span><span style="display:flex;"><span>    pi_k, mu_k, sigma_k, _ <span style="color:#f92672">=</span> em_gmm(coffee_data, K<span style="color:#f92672">=</span>K)
-</span></span><span style="display:flex;"><span>    bic <span style="color:#f92672">=</span> compute_bic(coffee_data, K, pi_k, mu_k, sigma_k)
-</span></span><span style="display:flex;"><span>    marker <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34; ← Best&#34;</span> <span style="color:#66d9ef">if</span> K <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  K=</span><span style="color:#e6db74">{</span>K<span style="color:#e6db74">}</span><span style="color:#e6db74">: BIC=</span><span style="color:#e6db74">{</span>bic<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}{</span>marker<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Generate observations with component assignments</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, obs <span style="color:#f92672">in</span> enumerate(data):
+</span></span><span style="display:flex;"><span>        z_i <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>categorical(jnp<span style="color:#f92672">.</span>log(pi)) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;z_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        x_i <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>normal(mu[z_i], sigma[z_i]) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;x_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pi, mu, sigma
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># b) The priors above use Normal(expected_mean, 20.0) which allows</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># reasonable variation while keeping means in sensible ranges</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># c) The posterior over z_i tells us the probability each cup</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># belongs to each blend, accounting for uncertainty in both</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># assignments and parameters</span></span></span></code></pre></td></tr></table>
 </div>
 </div>
-<p><strong>Output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>a &amp; b) Fitted 3-component GMM:
-  Blend 1: μ=80.5mg, σ=1.52mg, π=0.33
-  Blend 2: μ=118.5mg, σ=1.98mg, π=0.33
-  Blend 3: μ=157.0mg, σ=2.12mg, π=0.33
-
-c) BIC for different K:
-  K=1: BIC=856.42
-  K=2: BIC=654.31
-  K=3: BIC=412.58 ← Best
-  K=4: BIC=438.72</code></pre></div>
 </details>
 <hr>
-<h3 id="problem-2-label-switching">Problem 2: Label Switching</h3>
-<p>Run the EM algorithm multiple times with different random initializations on the bento data.</p>
-<p><strong>a)</strong> Do you always get the same solution?</p>
-<p><strong>b)</strong> What happens if you initialize with poor starting values?</p>
+<h3 id="problem-2-understanding-uncertainty">Problem 2: Understanding Uncertainty</h3>
+<p>Using the Bayesian GMM for the bento data:</p>
+<p><strong>a)</strong> How would you quantify uncertainty about which component a particular observation belongs to?</p>
+<p><strong>b)</strong> How is this different from a point estimate of the assignment?</p>
 <details>
 <summary>Show Solution</summary>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Part a: Multiple random initializations</span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;a) Multiple runs with random initializations:&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> run <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
-</span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>split(key)
-</span></span><span style="display:flex;"><span>    pi, mu, sigma, _ <span style="color:#f92672">=</span> em_gmm(mystery_weights, K<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Sort by mean</span>
-</span></span><span style="display:flex;"><span>    order <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>argsort(mu)
-</span></span><span style="display:flex;"><span>    pi, mu, sigma <span style="color:#f92672">=</span> pi[order], mu[order], sigma[order]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  Run </span><span style="color:#e6db74">{</span>run<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: μ=[</span><span style="color:#e6db74">{</span>mu[<span style="color:#ae81ff">0</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">, </span><span style="color:#e6db74">{</span>mu[<span style="color:#ae81ff">1</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">], &#34;</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;π=[</span><span style="color:#e6db74">{</span>pi[<span style="color:#ae81ff">0</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">, </span><span style="color:#e6db74">{</span>pi[<span style="color:#ae81ff">1</span>]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">]&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Part b: Poor initialization</span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">b) Effect of poor initialization:&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Try starting with means very close together</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (Modify em_gmm to accept initial parameters)</span></span></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>a) Multiple runs with random initializations:
-  Run 1: μ=[350.4, 499.9], π=[0.35, 0.65]
-  Run 2: μ=[350.4, 499.9], π=[0.35, 0.65]
-  Run 3: μ=[350.4, 499.9], π=[0.35, 0.65]
-  Run 4: μ=[350.4, 499.9], π=[0.35, 0.65]
-  Run 5: μ=[350.4, 499.9], π=[0.35, 0.65]
-
-b) With poor initialization (both means near 425):
-  - May converge to local optimum
-  - Or may fail to separate components
-  - Multiple random starts help avoid this!</code></pre></div>
+<p><strong>a)</strong> In the Bayesian approach, we get a full posterior distribution over component assignments. For each observation i, we can compute:</p>
+<ul>
+<li>P(z_i = 0 | data) - probability it&rsquo;s component 0</li>
+<li>P(z_i = 1 | data) - probability it&rsquo;s component 1</li>
+</ul>
+<p>An observation near the decision boundary might have P(z_i = 0) ≈ 0.5, showing high uncertainty.</p>
+<p><strong>b)</strong> A point estimate would simply assign each observation to its most likely component, discarding information about confidence. The Bayesian approach preserves this uncertainty, which is crucial for:</p>
+<ul>
+<li>Identifying ambiguous cases</li>
+<li>Propagating uncertainty to downstream tasks</li>
+<li>Making better decisions under uncertainty</li>
+</ul>
+<p>For example, a bento weighing 425g (right between the two clusters) would have high assignment uncertainty that we shouldn&rsquo;t ignore.</p>
 </details>
 <hr>
 <h2 id="whats-next">What&rsquo;s Next?</h2>
 <p>We now understand:</p>
 <ul>
 <li>Gaussian Mixture Models combine multiple Gaussians</li>
-<li>EM algorithm solves the inference problem iteratively</li>
-<li>Model selection (BIC) helps choose the number of components</li>
-<li>GenJAX can express GMMs as generative models</li>
+<li>GMMs elegantly combine discrete choices (component assignments) with continuous observations</li>
+<li>GenJAX naturally expresses the generative process as a probabilistic program</li>
+<li>Bayesian inference preserves uncertainty over both parameters and assignments</li>
 </ul>
 <p>But we had to <strong>specify K</strong> (number of components) in advance. What if we don&rsquo;t know how many clusters exist?</p>
 <p>In Chapter 6, we&rsquo;ll learn about <strong>Dirichlet Process Mixture Models (DPMM)</strong>: a Bayesian approach that learns the number of components automatically from the data!</p>
@@ -1094,9 +667,10 @@ b) With poor initialization (both means near 425):
   <div class="box-content">
 <ol>
 <li><strong>GMM</strong>: Mixture of K Gaussians with mixing proportions π</li>
-<li><strong>Inference</strong>: EM algorithm alternates E-step (soft assignments) and M-step (parameter updates)</li>
-<li><strong>Model selection</strong>: BIC balances fit and complexity</li>
-<li><strong>GenJAX</strong>: Express GMMs as generative models with latent assignments</li>
+<li><strong>Generative process</strong>: First choose component (discrete), then generate observation (continuous)</li>
+<li><strong>Bayesian inference</strong>: Reason about full posterior over parameters and assignments</li>
+<li><strong>GenJAX</strong>: Express GMMs declaratively as probabilistic programs</li>
+<li><strong>Uncertainty</strong>: Preserve and quantify uncertainty about component membership</li>
 <li><strong>Applications</strong>: Clustering, segmentation, anomaly detection</li>
 </ol>
   </div>
@@ -1188,9 +762,9 @@ b) With poor initialization (both means near 425):
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763362565"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763362565" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763362565" defer></script>
-    <script src="/probintro/js/theme.js?1763362565" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763363141"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763363141" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763363141" defer></script>
+    <script src="/probintro/js/theme.js?1763363141" defer></script>
   </body>
 </html>
