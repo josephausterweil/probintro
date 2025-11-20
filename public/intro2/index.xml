@@ -2,52 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Continuous Probability and Bayesian Learning :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link>http://localhost:1313/probintro/intro2/index.html</link>
+    <link>http://localhost:36417/probintro/intro2/index.html</link>
     <description>From Discrete to Continuous with GenJAX In the first two tutorials, you learned:&#xA;Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutorial 2: How to express probability in code using GenJAX Now you’ll learn to work with continuous probability distributions and perform Bayesian learning on real-valued data, all using the GenJAX tools you’ve already learned!</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/probintro/intro2/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:36417/probintro/intro2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Chibany&#39;s Mystery Bentos</title>
-      <link>http://localhost:1313/probintro/intro2/01_mystery_bentos/index.html</link>
+      <link>http://localhost:36417/probintro/intro2/01_mystery_bentos/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/probintro/intro2/01_mystery_bentos/index.html</guid>
+      <guid>http://localhost:36417/probintro/intro2/01_mystery_bentos/index.html</guid>
       <description>The Weight of the Matter It’s a new semester at the university, and Chibany’s students have been bringing them bentos again. But this time, something is different.&#xA;Last semester, the bento boxes were transparent. So Chibany could see whether there was tonkatsu or hamburger inside. But this semester, the bento boxes are opaque. Thus, Chibany can’t see what is inside when they receive the bento. They want to know IMMEDIATELY what the meal is, but it would be extremely rude to open the bento box as the students are watching. Thankfully, Chibany is curious, and they’re a probabilist.</description>
     </item>
     <item>
       <title>The Continuum: Continuous Probability</title>
-      <link>http://localhost:1313/probintro/intro2/02_continuous/index.html</link>
+      <link>http://localhost:36417/probintro/intro2/02_continuous/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/probintro/intro2/02_continuous/index.html</guid>
+      <guid>http://localhost:36417/probintro/intro2/02_continuous/index.html</guid>
       <description>From Counting to Measuring Chibany stares at their histogram. They understand expected value now. The 455g average makes sense as a mixture of 500g tonkatsu and 350g hamburger bentos.&#xA;But something still bothers them.&#xA;Look at these actual measurements from their first week:&#xA;Monday: 520g (tonkatsu) Tuesday: 348g (hamburger) Wednesday: 505g (tonkatsu) Thursday: 362g (hamburger) Friday: 488g (tonkatsu) The weights aren’t exactly 500g and 350g! They vary.&#xA;And here’s the deeper question: What’s the probability that a bento weighs exactly 505.000000… grams?</description>
     </item>
     <item>
       <title>The Gaussian Distribution</title>
-      <link>http://localhost:1313/probintro/intro2/03_gaussian/index.html</link>
+      <link>http://localhost:36417/probintro/intro2/03_gaussian/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/probintro/intro2/03_gaussian/index.html</guid>
+      <guid>http://localhost:36417/probintro/intro2/03_gaussian/index.html</guid>
       <description>The Bell Curve After learning about the uniform distribution in Chapter 2, Chibany realizes something: real measurements rarely spread evenly across a range. When they measure 1000 tonkatsu bentos carefully, the weights don’t spread uniformly between 495g and 505g. Instead, most cluster near 500g, with fewer and fewer measurements appearing as you move away from that center value.&#xA;This pattern appears everywhere in nature:&#xA;Heights of people Measurement errors Test scores Daily temperatures And yes, bento weights! This is the Gaussian distribution (also called the Normal distribution), and it’s arguably the most important probability distribution in statistics.</description>
     </item>
     <item>
       <title>Bayesian Learning with Gaussians</title>
-      <link>http://localhost:1313/probintro/intro2/04_bayesian_learning/index.html</link>
+      <link>http://localhost:36417/probintro/intro2/04_bayesian_learning/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/probintro/intro2/04_bayesian_learning/index.html</guid>
+      <guid>http://localhost:36417/probintro/intro2/04_bayesian_learning/index.html</guid>
       <description>The Learning Problem Chibany has a new challenge. They receive shipments from a new supplier, but don’t know the mean weight of their tonkatsu bentos. They believe the supplier is trying to hit 500g (like their usual supplier), but they’re not certain. Maybe the supplier aims for 495g? Or 505g?&#xA;The question: How can they learn the true mean weight from observations?&#xA;This is Bayesian learning: starting with a prior belief, observing data, and updating to a posterior belief.</description>
     </item>
     <item>
       <title>Gaussian Mixture Models</title>
-      <link>http://localhost:1313/probintro/intro2/05_mixture_models/index.html</link>
+      <link>http://localhost:36417/probintro/intro2/05_mixture_models/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/probintro/intro2/05_mixture_models/index.html</guid>
+      <guid>http://localhost:36417/probintro/intro2/05_mixture_models/index.html</guid>
       <description>Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.&#xA;We now have all the tools to solve this completely:&#xA;Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability (PDFs, CDFs) Chapter 3: Gaussian distributions Chapter 4: Bayesian learning for parameters Now we combine them: What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?</description>
     </item>
     <item>
       <title>Dirichlet Process Mixture Models</title>
-      <link>http://localhost:1313/probintro/intro2/06_dpmm/index.html</link>
+      <link>http://localhost:36417/probintro/intro2/06_dpmm/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/probintro/intro2/06_dpmm/index.html</guid>
+      <guid>http://localhost:36417/probintro/intro2/06_dpmm/index.html</guid>
       <description>The Problem with Fixed K In Chapter 5, we solved Chibany’s bento mystery using a Gaussian Mixture Model (GMM) with K=2 components. But we had to specify K in advance and use BIC to validate our choice.&#xA;What if:&#xA;We don’t know how many types exist? The number of types changes over time? We want the model to discover the number of clusters automatically? Enter the Dirichlet Process Mixture Model (DPMM): A Bayesian nonparametric approach that learns the number of components from the data.</description>
     </item>
   </channel>
