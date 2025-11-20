@@ -371,6 +371,57 @@ As data accumulates, the posterior converges to the truth!
 
 ---
 
+## 🔬 Exploration Exercise: How Parameters Affect Learning
+
+Now that you understand the mechanics of Bayesian updates, let's systematically explore how key parameters affect the learning process:
+
+1. **Likelihood variance** (σ²_x): How precise are our measurements?
+2. **Number of observations** (N): How much data do we have?
+
+### Interactive Exploration
+
+**📓 Open the interactive notebook**: [`gaussian_bayesian_interactive_exploration.ipynb`](../../../notebooks/gaussian_bayesian_interactive_exploration.ipynb)
+
+This notebook provides:
+- **Interactive sliders** to adjust parameters in real-time
+- **Visual comparisons** of prior → posterior → predictive evolution
+- **Sequential learning visualization** showing convergence
+- **GenJAX implementations** for hands-on experience
+
+**Key questions to explore**:
+- What happens when σ²_x is very small (precise measurements) vs. very large (noisy measurements)?
+- How does the posterior change as N increases from 1 to 10 observations?
+- When does the data "overpower" the prior?
+- Why is the predictive distribution always wider than the posterior?
+
+### Assignment Problems
+
+**📝 Work through the detailed solutions**: [`solution_1_gaussian_bayesian_update.ipynb`](../../../notebooks/solution_1_gaussian_bayesian_update.ipynb)
+
+This assignment systematically explores:
+- **Part (a)**: Visualizing the prior distribution
+- **Part (b)**: Effect of likelihood variance (σ²_x = 0.25 vs. 4)
+- **Part (c)**: Effect of number of observations (N=1 vs. N=5)
+- **GenJAX verification**: Comparing analytical formulas with simulations
+
+**Learning goals**:
+- Build intuition for precision-weighted averaging
+- Understand how variance and sample size trade off
+- See the Law of Large Numbers in action (posterior → sample mean as N → ∞)
+- Practice translating mathematical formulas into code
+
+{{% notice style="success" title="💡 Why This Matters" %}}
+Understanding these parameter effects is crucial for:
+- **Experimental design**: How many samples do you need?
+- **Sensor calibration**: How does measurement noise affect inference?
+- **Prior selection**: When does your prior dominate vs. get overwhelmed?
+- **Uncertainty quantification**: How confident should you be in your estimates?
+
+These notebooks give you hands-on experience with concepts that appear in every real-world Bayesian application!
+{{% /notice %}}
+
+---
+
 ## The Predictive Distribution
 
 Chibany now asks: **"What weight should I expect for the next bento?"**
@@ -638,6 +689,66 @@ c) Need n > 4 observations for data to dominate
 
 ---
 
+## 🎯 Preview: Categorization with Gaussian Mixtures
+
+We've learned how to update beliefs about a **single Gaussian**. But remember Chibany's mystery bentos from Chapter 1? They came from a **mixture** of two types (tonkatsu and hamburger).
+
+### The Categorization Problem
+
+Imagine Chibany receives an opaque bento weighing 425g. Which type is it?
+- **Tonkatsu bentos**: Weights ~ N(500, 100)
+- **Hamburger bentos**: Weights ~ N(350, 100)
+- **Prior belief**: 70% tonkatsu, 30% hamburger
+
+This is a **mixture model** problem where we need to:
+1. **Infer category** given observed weight: P(category | weight)
+2. **Use Bayes' rule** with continuous likelihoods
+3. **Understand decision boundaries**: Where does P(tonkatsu | x) = 0.5?
+
+### Interactive Exploration
+
+**📓 Explore mixture models**: [`gaussian_bayesian_interactive_exploration.ipynb`](../../../notebooks/gaussian_bayesian_interactive_exploration.ipynb) (Part 2)
+
+This section provides:
+- **Interactive categorization**: See how P(c=1|x) changes with x
+- **Effect of priors**: How does θ (prior probability) shift decision boundaries?
+- **Effect of variance**: What happens when categories have different spreads?
+- **Marginal distribution**: Visualize the weighted mixture p(x)
+
+**📝 Detailed solutions**: [`solution_2_gaussian_clusters.ipynb`](../../../notebooks/solution_2_gaussian_clusters.ipynb)
+
+This assignment covers:
+- **Part (a)**: Deriving P(c=1|x) using Bayes' rule
+- **Part (b)**: How priors and variances affect categorization
+- **Part (c)**: Deriving the marginal distribution p(x)
+- **Part (d)**: Understanding bimodal vs. unimodal mixtures
+
+{{% notice style="info" title="🔗 Connecting the Concepts" %}}
+**From Chapter 1**: We computed E[X] for discrete mixtures (70% × 500g + 30% × 350g)
+
+**Now**: We're computing P(category | observation) for continuous mixtures!
+
+**The progression**:
+1. **Chapter 1**: Discrete mixture, known categories → compute expected value
+2. **Chapter 4 (this chapter)**: Single Gaussian → learn parameters from data
+3. **Preview (Problem 2)**: Known mixture parameters → infer hidden category
+4. **Chapter 5** (coming): Unknown mixture parameters → learn everything!
+
+This preview problem bridges single-component learning to full mixture model inference.
+{{% /notice %}}
+
+### Why This Matters
+
+Mixture models appear everywhere:
+- **Biology**: Classifying cell types from measurements
+- **Finance**: Identifying market regimes (bull vs. bear)
+- **Computer Vision**: Segmenting images by color clusters
+- **Natural Language**: Topic modeling in documents
+
+Understanding categorization with Gaussians is the foundation for clustering, classification, and unsupervised learning!
+
+---
+
 ## What's Next?
 
 We now understand:
@@ -645,10 +756,11 @@ We now understand:
 - How to update beliefs as data arrives
 - The posterior predictive distribution
 - Why conjugacy makes computation elegant
+- **Preview**: How to categorize observations in mixture models
 
-But we've only learned about **one component** (a single Gaussian). What if we have **multiple components**?
+But we've only learned about **one component** (a single Gaussian) OR **known mixture parameters**. What if we have **multiple components with unknown parameters**?
 
-In Chapter 5, we'll return to the bento mixture problem: learning which bentos are tonkatsu vs. hamburger AND learning the mean weight of each type!
+In Chapter 5, we'll tackle the full problem: learning which bentos are tonkatsu vs. hamburger AND learning the mean weight of each type simultaneously!
 
 ---
 

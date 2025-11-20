@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=36417&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -14,7 +14,7 @@ Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability 
     <meta name="twitter:description" content="Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
 We now have all the tools to solve this completely:
 Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability (PDFs, CDFs) Chapter 3: Gaussian distributions Chapter 4: Bayesian learning for parameters Now we combine them: What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?">
-    <meta property="og:url" content="http://localhost:1313/probintro/intro2/05_mixture_models/index.html">
+    <meta property="og:url" content="http://localhost:36417/probintro/intro2/05_mixture_models/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Gaussian Mixture Models :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
@@ -27,29 +27,29 @@ Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability 
     <meta itemprop="description" content="Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
 We now have all the tools to solve this completely:
 Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability (PDFs, CDFs) Chapter 3: Gaussian distributions Chapter 4: Bayesian learning for parameters Now we combine them: What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?">
-    <meta itemprop="wordCount" content="1892">
+    <meta itemprop="wordCount" content="2121">
     <title>Gaussian Mixture Models :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763363141" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763363141" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763363141" defer></script>
-    <script src="/probintro/js/search-lunr.js?1763363141" defer></script>
-    <script src="/probintro/js/search.js?1763363141" defer></script>
+    <link href="/probintro/images/favicon.png?1763604310" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763604310" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763604310" defer></script>
+    <script src="/probintro/js/search-lunr.js?1763604310" defer></script>
+    <script src="/probintro/js/search.js?1763604310" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763363141";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763604310";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763363141" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763363141" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763363141" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763363141" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763604310" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763604310" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763604310" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763604310" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763363141" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763363141" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763363141" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1763363141" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1763363141" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763604310" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763604310" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763604310" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1763604310" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1763604310" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -57,7 +57,7 @@ Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability 
       window.relearn.path='\/intro2\/05_mixture_models\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.absBaseUri='http:\/\/localhost:36417\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -122,6 +122,11 @@ Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability 
 <nav class="TableOfContents">
   <ul>
     <li><a href="#returning-to-the-mystery">Returning to the Mystery</a></li>
+    <li><a href="#-prerequisite-understanding-categorization">📚 Prerequisite: Understanding Categorization</a>
+      <ul>
+        <li><a href="#the-bridge-known-parameters--unknown-parameters">The Bridge: Known Parameters → Unknown Parameters</a></li>
+      </ul>
+    </li>
     <li><a href="#the-complete-problem">The Complete Problem</a></li>
     <li><a href="#gaussian-mixture-model-the-math">Gaussian Mixture Model: The Math</a>
       <ul>
@@ -192,6 +197,52 @@ Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability 
 </ul>
 <p>Now we combine them: <strong>What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?</strong></p>
 <p>This is a <strong>Gaussian Mixture Model (GMM)</strong>.</p>
+<hr>
+<h2 id="-prerequisite-understanding-categorization">📚 Prerequisite: Understanding Categorization</h2>
+<p>Before tackling the full GMM learning problem, make sure you understand <strong>categorization</strong> in mixture models with <strong>known parameters</strong>.</p>
+
+<details open class=" box cstyle notices warning">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-triangle"></i> 
+    ⚠️ Recommended Preparation
+  </summary>
+  <div class="box-content">
+<p>If you haven&rsquo;t already, work through the <strong>Gaussian Clusters</strong> assignment from Chapter 4:</p>
+<p><strong>📝 Assignment</strong>: <a href="../../../notebooks/solution_2_gaussian_clusters.ipynb"><code>solution_2_gaussian_clusters.ipynb</code></a></p>
+<p><strong>📓 Interactive exploration</strong>: <a href="../../../notebooks/gaussian_bayesian_interactive_exploration.ipynb"><code>gaussian_bayesian_interactive_exploration.ipynb</code></a> (Part 2)</p>
+<p><strong>Why this matters</strong>:</p>
+<ul>
+<li><strong>Chapter 4 Problem 2</strong> teaches you how to compute P(category | observation) when parameters are <strong>known</strong></li>
+<li><strong>This chapter (5)</strong> extends that to learning parameters when they are <strong>unknown</strong></li>
+<li>Understanding categorization with known parameters is essential before attempting to learn them!</li>
+</ul>
+<p><strong>What you&rsquo;ll practice</strong>:</p>
+<ul>
+<li>Using Bayes&rsquo; rule: P(c|x) = p(x|c)P(c) / p(x)</li>
+<li>Computing marginal distributions: p(x) = Σ_c p(x|c)P(c)</li>
+<li>Understanding decision boundaries and how priors/variances affect them</li>
+<li>Visualizing bimodal vs. unimodal mixture distributions</li>
+</ul>
+  </div>
+</details>
+<h3 id="the-bridge-known-parameters--unknown-parameters">The Bridge: Known Parameters → Unknown Parameters</h3>
+<p><strong>In Chapter 4 Problem 2</strong>, you learned:</p>
+<ul>
+<li>Given: μ₁, μ₂, σ₁², σ₂², θ (all known)</li>
+<li>Infer: Which category for each observation?</li>
+<li>Formula: P(c=1|x) = θ·N(x;μ₁,σ₁²) / [θ·N(x;μ₁,σ₁²) + (1-θ)·N(x;μ₂,σ₂²)]</li>
+</ul>
+<p><strong>In this chapter</strong>, we tackle the harder problem:</p>
+<ul>
+<li>Given: Only observations x₁, x₂, &hellip;, xₙ</li>
+<li>Infer: Categories <strong>AND</strong> parameters μ₁, μ₂, σ₁², σ₂², θ</li>
+<li>Method: Expectation-Maximization (EM) algorithm</li>
+</ul>
+<p>Think of it as:</p>
+<ol>
+<li><strong>First</strong> (Chapter 4 Problem 2): &ldquo;I know the recipe for tonkatsu (μ₁, σ₁²) and hamburger (μ₂, σ₂²). Given a weight, which is it?&rdquo;</li>
+<li><strong>Now</strong> (Chapter 5): &ldquo;I don&rsquo;t know the recipes! Can I figure them out from weights alone?&rdquo;</li>
+</ol>
 <hr>
 <h2 id="the-complete-problem">The Complete Problem</h2>
 <p>Chibany receives 20 mystery bentos. They measure their weights:</p>
@@ -762,9 +813,9 @@ Weights: [501.2 349.8 499.5 351.3 498.7 502.1 350.5 ...]</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763363141"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763363141" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763363141" defer></script>
-    <script src="/probintro/js/theme.js?1763363141" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763604310"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763604310" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763604310" defer></script>
+    <script src="/probintro/js/theme.js?1763604310" defer></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=36417&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -12,7 +12,7 @@ Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutor
     <meta name="twitter:title" content="Continuous Probability and Bayesian Learning :: Probability & Probabilistic Computing Tutorial">
     <meta name="twitter:description" content="From Discrete to Continuous with GenJAX In the first two tutorials, you learned:
 Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutorial 2: How to express probability in code using GenJAX Now you’ll learn to work with continuous probability distributions and perform Bayesian learning on real-valued data, all using the GenJAX tools you’ve already learned!">
-    <meta property="og:url" content="http://localhost:1313/probintro/intro2/index.html">
+    <meta property="og:url" content="http://localhost:36417/probintro/intro2/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Continuous Probability and Bayesian Learning :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="From Discrete to Continuous with GenJAX In the first two tutorials, you learned:
@@ -24,30 +24,30 @@ Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutor
 Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutorial 2: How to express probability in code using GenJAX Now you’ll learn to work with continuous probability distributions and perform Bayesian learning on real-valued data, all using the GenJAX tools you’ve already learned!">
     <meta itemprop="datePublished" content="2025-11-11T00:00:00+00:00">
     <meta itemprop="dateModified" content="2025-11-11T00:00:00+00:00">
-    <meta itemprop="wordCount" content="796">
+    <meta itemprop="wordCount" content="1102">
     <title>Continuous Probability and Bayesian Learning :: Probability &amp; Probabilistic Computing Tutorial</title>
     <link href="/probintro/intro2/index.xml" rel="alternate" type="application/rss+xml" title="Continuous Probability and Bayesian Learning :: Probability &amp; Probabilistic Computing Tutorial">
-    <link href="/probintro/images/favicon.png?1763363141" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763363141" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763363141" defer></script>
-    <script src="/probintro/js/search-lunr.js?1763363141" defer></script>
-    <script src="/probintro/js/search.js?1763363141" defer></script>
+    <link href="/probintro/images/favicon.png?1763604310" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763604310" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763604310" defer></script>
+    <script src="/probintro/js/search-lunr.js?1763604310" defer></script>
+    <script src="/probintro/js/search.js?1763604310" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763363141";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763604310";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763363141" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763363141" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763363141" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763363141" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763604310" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763604310" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763604310" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763604310" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763363141" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763363141" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763363141" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1763363141" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1763363141" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763604310" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763604310" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763604310" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1763604310" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1763604310" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -55,7 +55,7 @@ Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutor
       window.relearn.path='\/intro2\/index.html';
       window.relearn.relBasePath='..';
       window.relearn.relBaseUri='..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.absBaseUri='http:\/\/localhost:36417\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -137,6 +137,18 @@ Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutor
     <li><a href="#what-makes-this-tutorial-different">What Makes This Tutorial Different</a></li>
     <li><a href="#why-continuous-probability-matters">Why Continuous Probability Matters</a></li>
     <li><a href="#tutorial-structure">Tutorial Structure</a></li>
+    <li><a href="#-interactive-notebooks--assignments">📓 Interactive Notebooks &amp; Assignments</a>
+      <ul>
+        <li><a href="#1-interactive-exploration-notebook">1. Interactive Exploration Notebook</a></li>
+        <li><a href="#2-assignment-solution-notebooks">2. Assignment Solution Notebooks</a>
+          <ul>
+            <li><a href="#problem-1-gaussian-bayesian-update">Problem 1: Gaussian Bayesian Update</a></li>
+            <li><a href="#problem-2-gaussian-clusters">Problem 2: Gaussian Clusters</a></li>
+          </ul>
+        </li>
+        <li><a href="#how-to-use-the-notebooks">How to Use the Notebooks</a></li>
+      </ul>
+    </li>
     <li><a href="#ready-to-begin">Ready to Begin?</a></li>
     <li><a href="#a-note-on-mathematics">A Note on Mathematics</a></li>
   </ul>
@@ -179,8 +191,8 @@ Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutor
 <li><strong>Tutorial 2</strong>: How to express probability in code using GenJAX</li>
 </ol>
 <p>Now you&rsquo;ll learn to work with <strong>continuous probability distributions</strong> and perform <strong>Bayesian learning</strong> on real-valued data, all using the GenJAX tools you&rsquo;ve already learned!</p>
-<p><a href="#R-image-958d4cc62f218b46e8fdcfb7c7bc5c38" class="lightbox-link"><img alt="Chibany with scale" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-958d4cc62f218b46e8fdcfb7c7bc5c38"><img alt="Chibany with scale" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-5bc40aea217e90e306db56357c4cbf5f" class="lightbox-link"><img alt="Chibany with scale" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-5bc40aea217e90e306db56357c4cbf5f"><img alt="Chibany with scale" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <h2 id="the-new-challenge">The New Challenge</h2>
 <p>In Tutorial 1, Chibany&rsquo;s lunch choices were <strong>discrete</strong>: tonkatsu OR hamburger. But what if we want to model <strong>continuous measurements</strong> like:</p>
 <ul>
@@ -234,6 +246,7 @@ Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutor
 <li>Updating beliefs with data (conjugate priors)</li>
 <li>Posterior and predictive distributions</li>
 <li><strong>GenJAX</strong>: Implementing Gaussian-Gaussian models</li>
+<li><strong>📓 Interactive Assignments</strong>: Hands-on exploration of parameter effects</li>
 </ul>
 <h3 id="chapter-5-gaussian-mixture-models">Chapter 5: Gaussian Mixture Models</h3>
 <ul>
@@ -298,6 +311,83 @@ Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutor
 <li>📊 <strong>Visualizations</strong> showing PDFs, posteriors, and predictions</li>
 <li>✅ <strong>Exercises</strong> with solutions</li>
 </ul>
+<hr>
+<h2 id="-interactive-notebooks--assignments">📓 Interactive Notebooks &amp; Assignments</h2>
+<p>This tutorial includes <strong>three comprehensive Jupyter notebooks</strong> for hands-on learning:</p>
+<h3 id="1-interactive-exploration-notebook">1. Interactive Exploration Notebook</h3>
+<p><strong>File</strong>: <a href="../../notebooks/gaussian_bayesian_interactive_exploration.ipynb"><code>gaussian_bayesian_interactive_exploration.ipynb</code></a></p>
+<p><strong>What it does</strong>: Provides interactive widgets to explore concepts in real-time</p>
+<ul>
+<li><strong>Part 1</strong>: Gaussian-Gaussian Bayesian updates
+<ul>
+<li>Adjust likelihood variance and see posterior change</li>
+<li>Add observations sequentially and watch learning happen</li>
+<li>Compare posterior vs. predictive distributions</li>
+</ul>
+</li>
+<li><strong>Part 2</strong>: Gaussian mixture categorization
+<ul>
+<li>Explore how priors affect decision boundaries</li>
+<li>See effect of variance ratios on categorization</li>
+<li>Visualize marginal (mixture) distributions</li>
+</ul>
+</li>
+</ul>
+<p><strong>When to use</strong>:</p>
+<ul>
+<li>While reading Chapter 4 (to build intuition)</li>
+<li>Before attempting the assignments (to see concepts visually)</li>
+<li>When reviewing (to refresh understanding)</li>
+</ul>
+<h3 id="2-assignment-solution-notebooks">2. Assignment Solution Notebooks</h3>
+<h4 id="problem-1-gaussian-bayesian-update">Problem 1: Gaussian Bayesian Update</h4>
+<p><strong>File</strong>: <a href="../../notebooks/solution_1_gaussian_bayesian_update.ipynb"><code>solution_1_gaussian_bayesian_update.ipynb</code></a></p>
+<p><strong>Linked from</strong>: Chapter 4, Section &ldquo;Exploration Exercise&rdquo;</p>
+<p><strong>Topics covered</strong>:</p>
+<ul>
+<li>Effect of likelihood variance (σ²_x) on learning</li>
+<li>Effect of number of observations (N) on posterior concentration</li>
+<li>Precision-weighted averaging in action</li>
+<li>Posterior vs. predictive distributions</li>
+<li>GenJAX verification of analytical formulas</li>
+</ul>
+<h4 id="problem-2-gaussian-clusters">Problem 2: Gaussian Clusters</h4>
+<p><strong>File</strong>: <a href="../../notebooks/solution_2_gaussian_clusters.ipynb"><code>solution_2_gaussian_clusters.ipynb</code></a></p>
+<p><strong>Linked from</strong>: Chapter 4 (Preview section) and Chapter 5 (Prerequisite section)</p>
+<p><strong>Topics covered</strong>:</p>
+<ul>
+<li>Deriving P(category|observation) using Bayes&rsquo; rule</li>
+<li>Effect of priors on decision boundaries</li>
+<li>Effect of variance ratios on categorization</li>
+<li>Computing marginal distributions</li>
+<li>Understanding bimodal vs. unimodal mixtures</li>
+<li>GenJAX simulation of mixture models</li>
+</ul>
+<h3 id="how-to-use-the-notebooks">How to Use the Notebooks</h3>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    📚 Recommended Learning Path
+  </summary>
+  <div class="box-content">
+<ol>
+<li><strong>Read Chapter 4</strong> up to &ldquo;Sequential Learning&rdquo; section</li>
+<li><strong>Open the interactive exploration notebook</strong> and experiment with parameters</li>
+<li><strong>Work through Assignment 1</strong> (Gaussian Bayesian Update)</li>
+<li><strong>Continue reading Chapter 4</strong> through the end</li>
+<li><strong>Work through Assignment 2</strong> (Gaussian Clusters) as preparation for Chapter 5</li>
+<li><strong>Read Chapter 5</strong> with confidence in your understanding of categorization!</li>
+</ol>
+  </div>
+</details>
+<p><strong>Tips</strong>:</p>
+<ul>
+<li>Run all cells in order first, then go back and modify parameters</li>
+<li>Compare your intuition with the printed interpretations</li>
+<li>Try extreme parameter values to see edge cases</li>
+<li>Use the GenJAX implementations as templates for your own models</li>
+</ul>
+<hr>
 <h2 id="ready-to-begin">Ready to Begin?</h2>
 <p>Let&rsquo;s start with Chibany&rsquo;s mystery: why does the average weight of their bentos seem impossible?</p>
 <p><a href="/probintro/intro2/01_mystery_bentos/index.html">Next: Chapter 1 - Chibany&rsquo;s Mystery Bentos →</a></p>
@@ -419,23 +509,23 @@ Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutor
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763363141"></script>
-    <script src="/probintro/js/js-yaml/js-yaml.min.js?1763363141" defer></script>
-    <script src="/probintro/js/d3/d3-color.min.js?1763363141" defer></script>
-    <script src="/probintro/js/d3/d3-dispatch.min.js?1763363141" defer></script>
-    <script src="/probintro/js/d3/d3-drag.min.js?1763363141" defer></script>
-    <script src="/probintro/js/d3/d3-ease.min.js?1763363141" defer></script>
-    <script src="/probintro/js/d3/d3-interpolate.min.js?1763363141" defer></script>
-    <script src="/probintro/js/d3/d3-selection.min.js?1763363141" defer></script>
-    <script src="/probintro/js/d3/d3-timer.min.js?1763363141" defer></script>
-    <script src="/probintro/js/d3/d3-transition.min.js?1763363141" defer></script>
-    <script src="/probintro/js/d3/d3-zoom.min.js?1763363141" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763604310"></script>
+    <script src="/probintro/js/js-yaml/js-yaml.min.js?1763604310" defer></script>
+    <script src="/probintro/js/d3/d3-color.min.js?1763604310" defer></script>
+    <script src="/probintro/js/d3/d3-dispatch.min.js?1763604310" defer></script>
+    <script src="/probintro/js/d3/d3-drag.min.js?1763604310" defer></script>
+    <script src="/probintro/js/d3/d3-ease.min.js?1763604310" defer></script>
+    <script src="/probintro/js/d3/d3-interpolate.min.js?1763604310" defer></script>
+    <script src="/probintro/js/d3/d3-selection.min.js?1763604310" defer></script>
+    <script src="/probintro/js/d3/d3-timer.min.js?1763604310" defer></script>
+    <script src="/probintro/js/d3/d3-transition.min.js?1763604310" defer></script>
+    <script src="/probintro/js/d3/d3-zoom.min.js?1763604310" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js" defer></script>
     <script>
       window.relearn.themeUseMermaid = JSON.parse("{\n      \"startOnLoad\": true,\n      \"theme\": \"base\",\n      \"securityLevel\": \"loose\",\n      \"themeVariables\": {\n        \"primaryColor\": \"#fff\",\n        \"primaryTextColor\": \"#000\",\n        \"primaryBorderColor\": \"#000\",\n        \"lineColor\": \"#000\",\n        \"secondaryColor\": \"#fff\",\n        \"tertiaryColor\": \"#fff\"\n      },\n      \"flowchart\": {\n        \"htmlLabels\": true,\n        \"curve\": \"basis\"\n      },\n      \"block\": {\n        \"padding\": 8\n      }\n    }");
     </script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763363141" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763363141" defer></script>
-    <script src="/probintro/js/theme.js?1763363141" defer></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763604310" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763604310" defer></script>
+    <script src="/probintro/js/theme.js?1763604310" defer></script>
   </body>
 </html>

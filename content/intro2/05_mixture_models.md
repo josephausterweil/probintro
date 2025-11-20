@@ -19,6 +19,47 @@ This is a **Gaussian Mixture Model (GMM)**.
 
 ---
 
+## 📚 Prerequisite: Understanding Categorization
+
+Before tackling the full GMM learning problem, make sure you understand **categorization** in mixture models with **known parameters**.
+
+{{% notice style="warning" title="⚠️ Recommended Preparation" %}}
+If you haven't already, work through the **Gaussian Clusters** assignment from Chapter 4:
+
+**📝 Assignment**: [`solution_2_gaussian_clusters.ipynb`](../../../notebooks/solution_2_gaussian_clusters.ipynb)
+
+**📓 Interactive exploration**: [`gaussian_bayesian_interactive_exploration.ipynb`](../../../notebooks/gaussian_bayesian_interactive_exploration.ipynb) (Part 2)
+
+**Why this matters**:
+- **Chapter 4 Problem 2** teaches you how to compute P(category | observation) when parameters are **known**
+- **This chapter (5)** extends that to learning parameters when they are **unknown**
+- Understanding categorization with known parameters is essential before attempting to learn them!
+
+**What you'll practice**:
+- Using Bayes' rule: P(c|x) = p(x|c)P(c) / p(x)
+- Computing marginal distributions: p(x) = Σ_c p(x|c)P(c)
+- Understanding decision boundaries and how priors/variances affect them
+- Visualizing bimodal vs. unimodal mixture distributions
+{{% /notice %}}
+
+### The Bridge: Known Parameters → Unknown Parameters
+
+**In Chapter 4 Problem 2**, you learned:
+- Given: μ₁, μ₂, σ₁², σ₂², θ (all known)
+- Infer: Which category for each observation?
+- Formula: P(c=1|x) = θ·N(x;μ₁,σ₁²) / [θ·N(x;μ₁,σ₁²) + (1-θ)·N(x;μ₂,σ₂²)]
+
+**In this chapter**, we tackle the harder problem:
+- Given: Only observations x₁, x₂, ..., xₙ
+- Infer: Categories **AND** parameters μ₁, μ₂, σ₁², σ₂², θ
+- Method: Expectation-Maximization (EM) algorithm
+
+Think of it as:
+1. **First** (Chapter 4 Problem 2): "I know the recipe for tonkatsu (μ₁, σ₁²) and hamburger (μ₂, σ₂²). Given a weight, which is it?"
+2. **Now** (Chapter 5): "I don't know the recipes! Can I figure them out from weights alone?"
+
+---
+
 ## The Complete Problem
 
 Chibany receives 20 mystery bentos. They measure their weights:

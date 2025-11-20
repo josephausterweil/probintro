@@ -75,6 +75,7 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - Updating beliefs with data (conjugate priors)
 - Posterior and predictive distributions
 - **GenJAX**: Implementing Gaussian-Gaussian models
+- **📓 Interactive Assignments**: Hands-on exploration of parameter effects
 
 ### Chapter 5: Gaussian Mixture Models
 - Combining multiple distributions
@@ -139,6 +140,77 @@ Each chapter includes:
 - 🎮 **Interactive Colab notebooks** to explore parameters
 - 📊 **Visualizations** showing PDFs, posteriors, and predictions
 - ✅ **Exercises** with solutions
+
+---
+
+## 📓 Interactive Notebooks & Assignments
+
+This tutorial includes **three comprehensive Jupyter notebooks** for hands-on learning:
+
+### 1. Interactive Exploration Notebook
+
+**File**: [`gaussian_bayesian_interactive_exploration.ipynb`](../../notebooks/gaussian_bayesian_interactive_exploration.ipynb)
+
+**What it does**: Provides interactive widgets to explore concepts in real-time
+- **Part 1**: Gaussian-Gaussian Bayesian updates
+  - Adjust likelihood variance and see posterior change
+  - Add observations sequentially and watch learning happen
+  - Compare posterior vs. predictive distributions
+- **Part 2**: Gaussian mixture categorization
+  - Explore how priors affect decision boundaries
+  - See effect of variance ratios on categorization
+  - Visualize marginal (mixture) distributions
+
+**When to use**:
+- While reading Chapter 4 (to build intuition)
+- Before attempting the assignments (to see concepts visually)
+- When reviewing (to refresh understanding)
+
+### 2. Assignment Solution Notebooks
+
+#### Problem 1: Gaussian Bayesian Update
+**File**: [`solution_1_gaussian_bayesian_update.ipynb`](../../notebooks/solution_1_gaussian_bayesian_update.ipynb)
+
+**Linked from**: Chapter 4, Section "Exploration Exercise"
+
+**Topics covered**:
+- Effect of likelihood variance (σ²_x) on learning
+- Effect of number of observations (N) on posterior concentration
+- Precision-weighted averaging in action
+- Posterior vs. predictive distributions
+- GenJAX verification of analytical formulas
+
+#### Problem 2: Gaussian Clusters
+**File**: [`solution_2_gaussian_clusters.ipynb`](../../notebooks/solution_2_gaussian_clusters.ipynb)
+
+**Linked from**: Chapter 4 (Preview section) and Chapter 5 (Prerequisite section)
+
+**Topics covered**:
+- Deriving P(category|observation) using Bayes' rule
+- Effect of priors on decision boundaries
+- Effect of variance ratios on categorization
+- Computing marginal distributions
+- Understanding bimodal vs. unimodal mixtures
+- GenJAX simulation of mixture models
+
+### How to Use the Notebooks
+
+{{% notice style="success" title="📚 Recommended Learning Path" %}}
+1. **Read Chapter 4** up to "Sequential Learning" section
+2. **Open the interactive exploration notebook** and experiment with parameters
+3. **Work through Assignment 1** (Gaussian Bayesian Update)
+4. **Continue reading Chapter 4** through the end
+5. **Work through Assignment 2** (Gaussian Clusters) as preparation for Chapter 5
+6. **Read Chapter 5** with confidence in your understanding of categorization!
+{{% /notice %}}
+
+**Tips**:
+- Run all cells in order first, then go back and modify parameters
+- Compare your intuition with the printed interpretations
+- Try extreme parameter values to see edge cases
+- Use the GenJAX implementations as templates for your own models
+
+---
 
 ## Ready to Begin?
 

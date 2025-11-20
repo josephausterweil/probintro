@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=36417&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -14,7 +14,7 @@ This is Bayesian learning: starting with a prior belief, observing data, and upd
     <meta name="twitter:description" content="The Learning Problem Chibany has a new challenge. They receive shipments from a new supplier, but don’t know the mean weight of their tonkatsu bentos. They believe the supplier is trying to hit 500g (like their usual supplier), but they’re not certain. Maybe the supplier aims for 495g? Or 505g?
 The question: How can they learn the true mean weight from observations?
 This is Bayesian learning: starting with a prior belief, observing data, and updating to a posterior belief.">
-    <meta property="og:url" content="http://localhost:1313/probintro/intro2/04_bayesian_learning/index.html">
+    <meta property="og:url" content="http://localhost:36417/probintro/intro2/04_bayesian_learning/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Bayesian Learning with Gaussians :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="The Learning Problem Chibany has a new challenge. They receive shipments from a new supplier, but don’t know the mean weight of their tonkatsu bentos. They believe the supplier is trying to hit 500g (like their usual supplier), but they’re not certain. Maybe the supplier aims for 495g? Or 505g?
@@ -27,29 +27,29 @@ This is Bayesian learning: starting with a prior belief, observing data, and upd
     <meta itemprop="description" content="The Learning Problem Chibany has a new challenge. They receive shipments from a new supplier, but don’t know the mean weight of their tonkatsu bentos. They believe the supplier is trying to hit 500g (like their usual supplier), but they’re not certain. Maybe the supplier aims for 495g? Or 505g?
 The question: How can they learn the true mean weight from observations?
 This is Bayesian learning: starting with a prior belief, observing data, and updating to a posterior belief.">
-    <meta itemprop="wordCount" content="2771">
+    <meta itemprop="wordCount" content="3374">
     <title>Bayesian Learning with Gaussians :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1763363141" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763363141" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763363141" defer></script>
-    <script src="/probintro/js/search-lunr.js?1763363141" defer></script>
-    <script src="/probintro/js/search.js?1763363141" defer></script>
+    <link href="/probintro/images/favicon.png?1763604310" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1763604310" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1763604310" defer></script>
+    <script src="/probintro/js/search-lunr.js?1763604310" defer></script>
+    <script src="/probintro/js/search.js?1763604310" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1763363141";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1763604310";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1763363141" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763363141" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1763363141" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1763363141" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1763604310" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1763604310" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1763604310" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1763604310" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763363141" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763363141" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763363141" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1763363141" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1763363141" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763604310" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1763604310" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1763604310" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1763604310" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1763604310" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -57,7 +57,7 @@ This is Bayesian learning: starting with a prior belief, observing data, and upd
       window.relearn.path='\/intro2\/04_bayesian_learning\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.absBaseUri='http:\/\/localhost:36417\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -138,6 +138,12 @@ This is Bayesian learning: starting with a prior belief, observing data, and upd
     <li><a href="#implementing-in-genjax">Implementing in GenJAX</a></li>
     <li><a href="#sequential-learning-more-data">Sequential Learning: More Data</a></li>
     <li><a href="#visualizing-the-learning-process">Visualizing the Learning Process</a></li>
+    <li><a href="#-exploration-exercise-how-parameters-affect-learning">🔬 Exploration Exercise: How Parameters Affect Learning</a>
+      <ul>
+        <li><a href="#interactive-exploration">Interactive Exploration</a></li>
+        <li><a href="#assignment-problems">Assignment Problems</a></li>
+      </ul>
+    </li>
     <li><a href="#the-predictive-distribution">The Predictive Distribution</a>
       <ul>
         <li><a href="#the-math">The Math</a></li>
@@ -151,6 +157,13 @@ This is Bayesian learning: starting with a prior belief, observing data, and upd
       <ul>
         <li><a href="#problem-1-new-coffee-shop">Problem 1: New Coffee Shop</a></li>
         <li><a href="#problem-2-learning-from-contradictory-data">Problem 2: Learning from Contradictory Data</a></li>
+      </ul>
+    </li>
+    <li><a href="#-preview-categorization-with-gaussian-mixtures">🎯 Preview: Categorization with Gaussian Mixtures</a>
+      <ul>
+        <li><a href="#the-categorization-problem">The Categorization Problem</a></li>
+        <li><a href="#interactive-exploration-1">Interactive Exploration</a></li>
+        <li><a href="#why-this-matters">Why This Matters</a></li>
       </ul>
     </li>
     <li><a href="#whats-next">What&rsquo;s Next?</a></li>
@@ -678,8 +691,8 @@ After observation 10 (x=497.5g):
 </div>
 </div>
 </details>
-<p><a href="#R-image-763aa40a1be77fb973686394545ccf31" class="lightbox-link"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/posterior_updates.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-763aa40a1be77fb973686394545ccf31"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/posterior_updates.png"></a></p>
+<p><a href="#R-image-2b8f113f10f92024d0f6f11c9047e162" class="lightbox-link"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/posterior_updates.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-2b8f113f10f92024d0f6f11c9047e162"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/posterior_updates.png"></a></p>
 <p><strong>The story in the plot</strong>:</p>
 <ul>
 <li><strong>Black dashed</strong>: Prior belief (wide, centered at 500g)</li>
@@ -689,6 +702,61 @@ After observation 10 (x=497.5g):
 <li><strong>Purple dotted</strong>: True sample mean (497.65g)</li>
 </ul>
 <p>As data accumulates, the posterior converges to the truth!</p>
+<hr>
+<h2 id="-exploration-exercise-how-parameters-affect-learning">🔬 Exploration Exercise: How Parameters Affect Learning</h2>
+<p>Now that you understand the mechanics of Bayesian updates, let&rsquo;s systematically explore how key parameters affect the learning process:</p>
+<ol>
+<li><strong>Likelihood variance</strong> (σ²_x): How precise are our measurements?</li>
+<li><strong>Number of observations</strong> (N): How much data do we have?</li>
+</ol>
+<h3 id="interactive-exploration">Interactive Exploration</h3>
+<p><strong>📓 Open the interactive notebook</strong>: <a href="../../../notebooks/gaussian_bayesian_interactive_exploration.ipynb"><code>gaussian_bayesian_interactive_exploration.ipynb</code></a></p>
+<p>This notebook provides:</p>
+<ul>
+<li><strong>Interactive sliders</strong> to adjust parameters in real-time</li>
+<li><strong>Visual comparisons</strong> of prior → posterior → predictive evolution</li>
+<li><strong>Sequential learning visualization</strong> showing convergence</li>
+<li><strong>GenJAX implementations</strong> for hands-on experience</li>
+</ul>
+<p><strong>Key questions to explore</strong>:</p>
+<ul>
+<li>What happens when σ²_x is very small (precise measurements) vs. very large (noisy measurements)?</li>
+<li>How does the posterior change as N increases from 1 to 10 observations?</li>
+<li>When does the data &ldquo;overpower&rdquo; the prior?</li>
+<li>Why is the predictive distribution always wider than the posterior?</li>
+</ul>
+<h3 id="assignment-problems">Assignment Problems</h3>
+<p><strong>📝 Work through the detailed solutions</strong>: <a href="../../../notebooks/solution_1_gaussian_bayesian_update.ipynb"><code>solution_1_gaussian_bayesian_update.ipynb</code></a></p>
+<p>This assignment systematically explores:</p>
+<ul>
+<li><strong>Part (a)</strong>: Visualizing the prior distribution</li>
+<li><strong>Part (b)</strong>: Effect of likelihood variance (σ²_x = 0.25 vs. 4)</li>
+<li><strong>Part (c)</strong>: Effect of number of observations (N=1 vs. N=5)</li>
+<li><strong>GenJAX verification</strong>: Comparing analytical formulas with simulations</li>
+</ul>
+<p><strong>Learning goals</strong>:</p>
+<ul>
+<li>Build intuition for precision-weighted averaging</li>
+<li>Understand how variance and sample size trade off</li>
+<li>See the Law of Large Numbers in action (posterior → sample mean as N → ∞)</li>
+<li>Practice translating mathematical formulas into code</li>
+</ul>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    💡 Why This Matters
+  </summary>
+  <div class="box-content">
+<p>Understanding these parameter effects is crucial for:</p>
+<ul>
+<li><strong>Experimental design</strong>: How many samples do you need?</li>
+<li><strong>Sensor calibration</strong>: How does measurement noise affect inference?</li>
+<li><strong>Prior selection</strong>: When does your prior dominate vs. get overwhelmed?</li>
+<li><strong>Uncertainty quantification</strong>: How confident should you be in your estimates?</li>
+</ul>
+<p>These notebooks give you hands-on experience with concepts that appear in every real-world Bayesian application!</p>
+  </div>
+</details>
 <hr>
 <h2 id="the-predictive-distribution">The Predictive Distribution</h2>
 <p>Chibany now asks: <strong>&ldquo;What weight should I expect for the next bento?&rdquo;</strong></p>
@@ -1022,6 +1090,67 @@ c) Need n &gt; 4 observations for data to dominate
    With n=5: Posterior mean = 493.81g (shifted more)</code></pre></div>
 </details>
 <hr>
+<h2 id="-preview-categorization-with-gaussian-mixtures">🎯 Preview: Categorization with Gaussian Mixtures</h2>
+<p>We&rsquo;ve learned how to update beliefs about a <strong>single Gaussian</strong>. But remember Chibany&rsquo;s mystery bentos from Chapter 1? They came from a <strong>mixture</strong> of two types (tonkatsu and hamburger).</p>
+<h3 id="the-categorization-problem">The Categorization Problem</h3>
+<p>Imagine Chibany receives an opaque bento weighing 425g. Which type is it?</p>
+<ul>
+<li><strong>Tonkatsu bentos</strong>: Weights ~ N(500, 100)</li>
+<li><strong>Hamburger bentos</strong>: Weights ~ N(350, 100)</li>
+<li><strong>Prior belief</strong>: 70% tonkatsu, 30% hamburger</li>
+</ul>
+<p>This is a <strong>mixture model</strong> problem where we need to:</p>
+<ol>
+<li><strong>Infer category</strong> given observed weight: P(category | weight)</li>
+<li><strong>Use Bayes&rsquo; rule</strong> with continuous likelihoods</li>
+<li><strong>Understand decision boundaries</strong>: Where does P(tonkatsu | x) = 0.5?</li>
+</ol>
+<h3 id="interactive-exploration-1">Interactive Exploration</h3>
+<p><strong>📓 Explore mixture models</strong>: <a href="../../../notebooks/gaussian_bayesian_interactive_exploration.ipynb"><code>gaussian_bayesian_interactive_exploration.ipynb</code></a> (Part 2)</p>
+<p>This section provides:</p>
+<ul>
+<li><strong>Interactive categorization</strong>: See how P(c=1|x) changes with x</li>
+<li><strong>Effect of priors</strong>: How does θ (prior probability) shift decision boundaries?</li>
+<li><strong>Effect of variance</strong>: What happens when categories have different spreads?</li>
+<li><strong>Marginal distribution</strong>: Visualize the weighted mixture p(x)</li>
+</ul>
+<p><strong>📝 Detailed solutions</strong>: <a href="../../../notebooks/solution_2_gaussian_clusters.ipynb"><code>solution_2_gaussian_clusters.ipynb</code></a></p>
+<p>This assignment covers:</p>
+<ul>
+<li><strong>Part (a)</strong>: Deriving P(c=1|x) using Bayes&rsquo; rule</li>
+<li><strong>Part (b)</strong>: How priors and variances affect categorization</li>
+<li><strong>Part (c)</strong>: Deriving the marginal distribution p(x)</li>
+<li><strong>Part (d)</strong>: Understanding bimodal vs. unimodal mixtures</li>
+</ul>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    🔗 Connecting the Concepts
+  </summary>
+  <div class="box-content">
+<p><strong>From Chapter 1</strong>: We computed E[X] for discrete mixtures (70% × 500g + 30% × 350g)</p>
+<p><strong>Now</strong>: We&rsquo;re computing P(category | observation) for continuous mixtures!</p>
+<p><strong>The progression</strong>:</p>
+<ol>
+<li><strong>Chapter 1</strong>: Discrete mixture, known categories → compute expected value</li>
+<li><strong>Chapter 4 (this chapter)</strong>: Single Gaussian → learn parameters from data</li>
+<li><strong>Preview (Problem 2)</strong>: Known mixture parameters → infer hidden category</li>
+<li><strong>Chapter 5</strong> (coming): Unknown mixture parameters → learn everything!</li>
+</ol>
+<p>This preview problem bridges single-component learning to full mixture model inference.</p>
+  </div>
+</details>
+<h3 id="why-this-matters">Why This Matters</h3>
+<p>Mixture models appear everywhere:</p>
+<ul>
+<li><strong>Biology</strong>: Classifying cell types from measurements</li>
+<li><strong>Finance</strong>: Identifying market regimes (bull vs. bear)</li>
+<li><strong>Computer Vision</strong>: Segmenting images by color clusters</li>
+<li><strong>Natural Language</strong>: Topic modeling in documents</li>
+</ul>
+<p>Understanding categorization with Gaussians is the foundation for clustering, classification, and unsupervised learning!</p>
+<hr>
 <h2 id="whats-next">What&rsquo;s Next?</h2>
 <p>We now understand:</p>
 <ul>
@@ -1029,9 +1158,10 @@ c) Need n &gt; 4 observations for data to dominate
 <li>How to update beliefs as data arrives</li>
 <li>The posterior predictive distribution</li>
 <li>Why conjugacy makes computation elegant</li>
+<li><strong>Preview</strong>: How to categorize observations in mixture models</li>
 </ul>
-<p>But we&rsquo;ve only learned about <strong>one component</strong> (a single Gaussian). What if we have <strong>multiple components</strong>?</p>
-<p>In Chapter 5, we&rsquo;ll return to the bento mixture problem: learning which bentos are tonkatsu vs. hamburger AND learning the mean weight of each type!</p>
+<p>But we&rsquo;ve only learned about <strong>one component</strong> (a single Gaussian) OR <strong>known mixture parameters</strong>. What if we have <strong>multiple components with unknown parameters</strong>?</p>
+<p>In Chapter 5, we&rsquo;ll tackle the full problem: learning which bentos are tonkatsu vs. hamburger AND learning the mean weight of each type simultaneously!</p>
 <hr>
 
 <details open class=" box cstyle notices tip">
@@ -1137,9 +1267,9 @@ c) Need n &gt; 4 observations for data to dominate
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763363141"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1763363141" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763363141" defer></script>
-    <script src="/probintro/js/theme.js?1763363141" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1763604310"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1763604310" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1763604310" defer></script>
+    <script src="/probintro/js/theme.js?1763604310" defer></script>
   </body>
 </html>
