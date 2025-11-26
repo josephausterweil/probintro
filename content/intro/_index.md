@@ -1,5 +1,5 @@
 +++
-date = "2025-11-07"
+date = "2025-11-26"
 title = "A Narrative Introduction to Probability"
 weight = 1
 toc = true

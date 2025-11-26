@@ -46,7 +46,7 @@ In the case where there is at least one tonkatsu, the space of possible outcomes
 
 **Why this is wrong**: Learning "at least one T" doesn't just tell you about one specific meal—it **eliminates the HH outcome entirely**. When you cross out HH from the outcome space, you're left with {HT, TH, TT}, and now 2 out of 3 have T for dinner!
 
-**The key insight**: Conditional probability isn't about one event influencing another—it's about **restricting what's possible**. Once you know "at least one T", HH is impossible, which changes all the remaining probabilities.
+**The key insight**: Conditional probability isn't *just* about one event influencing another—it's about **restricting what's possible**. Once you know "at least one T", HH is impossible, which changes all the remaining probabilities.
 {{% /notice %}}
 
 Chibany kindly reminds Tanaka-san that you never stop learning and to consider taking one of Joe's classes at Chiba Tech. Chibany hears great things about them!
