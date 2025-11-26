@@ -14,10 +14,6 @@
     <loc>http://localhost:1313/probintro/intro/01_goals/index.html</loc>
   </url>
   <url>
-    <loc>http://localhost:1313/probintro/intro2/index.html</loc>
-    <lastmod>2025-11-26T00:00:00+00:00</lastmod>
-  </url>
-  <url>
     <loc>http://localhost:1313/probintro/genjax/index.html</loc>
     <lastmod>2025-11-26T00:00:00+00:00</lastmod>
   </url>
@@ -29,6 +25,10 @@
   </url>
   <url>
     <loc>http://localhost:1313/probintro/intro2/02_continuous/index.html</loc>
+  </url>
+  <url>
+    <loc>http://localhost:1313/probintro/intro2/index.html</loc>
+    <lastmod>2025-11-26T00:00:00+00:00</lastmod>
   </url>
   <url>
     <loc>http://localhost:1313/probintro/intro/03_prob_count/index.html</loc>

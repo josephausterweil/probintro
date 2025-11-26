@@ -22,34 +22,34 @@ What if:
 We don’t know how many types exist? The number of types changes over time? We want the model to discover the number of clusters automatically? Enter the Dirichlet Process Mixture Model (DPMM): A Bayesian nonparametric approach that learns the number of components from the data.">
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
-    <meta property="article:section" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="article:section" content="Continuous Probability and Bayesian Learning">
     <meta itemprop="name" content="Dirichlet Process Mixture Models :: Probability & Probabilistic Computing Tutorial">
     <meta itemprop="description" content="The Problem with Fixed K In Chapter 5, we solved Chibany’s bento mystery using a Gaussian Mixture Model (GMM) with K=2 components. But we had to specify K in advance and use BIC to validate our choice.
 What if:
 We don’t know how many types exist? The number of types changes over time? We want the model to discover the number of clusters automatically? Enter the Dirichlet Process Mixture Model (DPMM): A Bayesian nonparametric approach that learns the number of components from the data.">
     <meta itemprop="wordCount" content="3001">
     <title>Dirichlet Process Mixture Models :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764158763" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764158763" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764158763" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764158763" defer></script>
-    <script src="/probintro/js/search.js?1764158763" defer></script>
+    <link href="/probintro/images/favicon.png?1764158956" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764158956" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764158956" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764158956" defer></script>
+    <script src="/probintro/js/search.js?1764158956" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764158763";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764158956";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764158763" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764158763" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764158763" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764158763" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764158956" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764158956" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764158956" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764158956" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158763" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158763" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764158763" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764158763" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764158763" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158956" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158956" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764158956" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764158956" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764158956" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -179,7 +179,7 @@ We don’t know how many types exist? The number of types changes over time? We 
               </div>
             </div>
           </div>
-          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Dirichlet Process Mixture Models</span><meta itemprop="position" content="2"></li>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/intro2/index.html"><span itemprop="name">Continuous Probability and Bayesian Learning</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Dirichlet Process Mixture Models</span><meta itemprop="position" content="3"></li>
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
             <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro2/05_mixture_models/index.html" title="Gaussian Mixture Models (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
@@ -897,8 +897,8 @@ Posterior predictive std: 8.52</code></pre></div>
 </div>
 </div>
 </details>
-<p><a href="#R-image-3a84b51459f050f819b410d96af812f8" class="lightbox-link"><img alt="DPMM: Discovered 3 Clusters" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/dpmm_results.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-3a84b51459f050f819b410d96af812f8"><img alt="DPMM: Discovered 3 Clusters" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/dpmm_results.png"></a></p>
+<p><a href="#R-image-6e3f3fcf079ce14ff984c76ed34441ca" class="lightbox-link"><img alt="DPMM: Discovered 3 Clusters" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/dpmm_results.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-6e3f3fcf079ce14ff984c76ed34441ca"><img alt="DPMM: Discovered 3 Clusters" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/dpmm_results.png"></a></p>
 <p><strong>The visualization shows</strong>:</p>
 <ul>
 <li><strong>Left</strong>: Observed data points with posterior cluster centers and uncertainties</li>
@@ -1035,8 +1035,8 @@ Posterior predictive std: 8.52</code></pre></div>
 </div>
 </div>
 </details>
-<p><a href="#R-image-c4a53e8e88be21efe1ed3eb214c0a5ac" class="lightbox-link"><img alt="Stick-Breaking Process with Different α Values" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/stick_breaking_alpha.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-c4a53e8e88be21efe1ed3eb214c0a5ac"><img alt="Stick-Breaking Process with Different α Values" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/stick_breaking_alpha.png"></a></p>
+<p><a href="#R-image-9f8b3118d724986c4687f7be7814d0ec" class="lightbox-link"><img alt="Stick-Breaking Process with Different α Values" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/stick_breaking_alpha.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-9f8b3118d724986c4687f7be7814d0ec"><img alt="Stick-Breaking Process with Different α Values" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/stick_breaking_alpha.png"></a></p>
 <p><strong>Interpretation</strong>:</p>
 <ul>
 <li><strong>α = 0.1</strong>: First component dominates (few clusters)</li>
@@ -1327,14 +1327,14 @@ Posterior predictive std: 8.52</code></pre></div>
         <div class="R-sidebarmenu R-shortcutmenu-main">
           <ul class="enlarge morespace collapsible-menu">
             <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
-            <li class="" data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
-            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
             <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
+            <li class="parent alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu">
+            <li class="" data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
             <li class="" data-nav-id="/probintro/intro2/02_continuous/index.html"><a class="padding" href="/probintro/intro2/02_continuous/index.html">The Continuum: Continuous Probability</a></li>
             <li class="" data-nav-id="/probintro/intro2/03_gaussian/index.html"><a class="padding" href="/probintro/intro2/03_gaussian/index.html">The Gaussian Distribution</a></li>
             <li class="" data-nav-id="/probintro/intro2/04_bayesian_learning/index.html"><a class="padding" href="/probintro/intro2/04_bayesian_learning/index.html">Bayesian Learning with Gaussians</a></li>
             <li class="" data-nav-id="/probintro/intro2/05_mixture_models/index.html"><a class="padding" href="/probintro/intro2/05_mixture_models/index.html">Gaussian Mixture Models</a></li>
-            <li class="active " data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li>
+            <li class="active " data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li></ul></li>
             <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
           </ul>
         </div>
@@ -1364,9 +1364,9 @@ Posterior predictive std: 8.52</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764158763"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764158763" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764158763" defer></script>
-    <script src="/probintro/js/theme.js?1764158763" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764158956"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764158956" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764158956" defer></script>
+    <script src="/probintro/js/theme.js?1764158956" defer></script>
   </body>
 </html>

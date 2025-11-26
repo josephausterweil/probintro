@@ -28,7 +28,7 @@ Monday: 520g (tonkatsu) Tuesday: 348g (hamburger) Wednesday: 505g (tonkatsu) Thu
 And here’s the deeper question: What’s the probability that a bento weighs exactly 505.000000… grams?">
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
-    <meta property="article:section" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="article:section" content="Continuous Probability and Bayesian Learning">
     <meta itemprop="name" content="The Continuum: Continuous Probability :: Probability & Probabilistic Computing Tutorial">
     <meta itemprop="description" content="From Counting to Measuring Chibany stares at their histogram. They understand expected value now. The 455g average makes sense as a mixture of 500g tonkatsu and 350g hamburger bentos.
 But something still bothers them.
@@ -37,27 +37,27 @@ Monday: 520g (tonkatsu) Tuesday: 348g (hamburger) Wednesday: 505g (tonkatsu) Thu
 And here’s the deeper question: What’s the probability that a bento weighs exactly 505.000000… grams?">
     <meta itemprop="wordCount" content="2312">
     <title>The Continuum: Continuous Probability :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764158763" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764158763" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764158763" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764158763" defer></script>
-    <script src="/probintro/js/search.js?1764158763" defer></script>
+    <link href="/probintro/images/favicon.png?1764158956" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764158956" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764158956" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764158956" defer></script>
+    <script src="/probintro/js/search.js?1764158956" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764158763";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764158956";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764158763" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764158763" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764158763" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764158763" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764158956" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764158956" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764158956" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764158956" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158763" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158763" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764158763" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764158763" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764158763" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158956" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158956" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764158956" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764158956" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764158956" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -162,10 +162,10 @@ And here’s the deeper question: What’s the probability that a bento weighs e
               </div>
             </div>
           </div>
-          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">The Continuum: Continuous Probability</span><meta itemprop="position" content="2"></li>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/intro2/index.html"><span itemprop="name">Continuous Probability and Bayesian Learning</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">The Continuum: Continuous Probability</span><meta itemprop="position" content="3"></li>
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
-            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/06_building_models/index.html" title="Building Your Own Models (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro2/01_mystery_bentos/index.html" title="Chibany's Mystery Bentos (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
             <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro2/03_gaussian/index.html" title="The Gaussian Distribution (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
             </div>
@@ -383,8 +383,8 @@ $$P(\text{event}) = \frac{\text{# of outcomes in event}}{\text{# of total outcom
 </div>
 </div>
 </details>
-<p><a href="#R-image-4c4d108ba826cfa636dd7e03a8baefc8" class="lightbox-link"><img alt="Coffee Temperature Distribution" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/coffee_temperature_histogram.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-4c4d108ba826cfa636dd7e03a8baefc8"><img alt="Coffee Temperature Distribution" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/coffee_temperature_histogram.png"></a></p>
+<p><a href="#R-image-e8eb130eac4a1ea37e2f5fcd50996515" class="lightbox-link"><img alt="Coffee Temperature Distribution" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/coffee_temperature_histogram.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-e8eb130eac4a1ea37e2f5fcd50996515"><img alt="Coffee Temperature Distribution" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/coffee_temperature_histogram.png"></a></p>
 <p><strong>Key observations:</strong></p>
 <ul>
 <li>The PDF is flat at height 1.0 (uniform density)</li>
@@ -480,8 +480,8 @@ $$p(x) = \begin{cases}
 </div>
 </div>
 </details>
-<p><a href="#R-image-22d37f07583baa510e130dd4a9278652" class="lightbox-link"><img alt="PDF vs CDF for Uniform Distribution" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/pdf_vs_cdf.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-22d37f07583baa510e130dd4a9278652"><img alt="PDF vs CDF for Uniform Distribution" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/pdf_vs_cdf.png"></a></p>
+<p><a href="#R-image-4ac17722f103829cbb772ada156e7b56" class="lightbox-link"><img alt="PDF vs CDF for Uniform Distribution" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/pdf_vs_cdf.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4ac17722f103829cbb772ada156e7b56"><img alt="PDF vs CDF for Uniform Distribution" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/pdf_vs_cdf.png"></a></p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -630,8 +630,8 @@ $$F_X(x) = P(X \leq x) = \int_{-\infty}^x p(t) , dt$$</p>
 </div>
 </div>
 </details>
-<p><a href="#R-image-a19069663ed532b4c5fbfe372059aaa1" class="lightbox-link"><img alt="Probability as Area Under PDF Curve" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/area_under_pdf.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-a19069663ed532b4c5fbfe372059aaa1"><img alt="Probability as Area Under PDF Curve" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/area_under_pdf.png"></a></p>
+<p><a href="#R-image-b1d6d9414985cdb2e04421696667db05" class="lightbox-link"><img alt="Probability as Area Under PDF Curve" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/area_under_pdf.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-b1d6d9414985cdb2e04421696667db05"><img alt="Probability as Area Under PDF Curve" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/area_under_pdf.png"></a></p>
 <p><strong>Reading the CDF:</strong></p>
 <ul>
 <li>At x = 70°C, F(70) = 0.5: &ldquo;50% of coffees are ≤ 70°C&rdquo;</li>
@@ -903,14 +903,14 @@ c) P(after 8:18): 0.099 (theoretical: 0.100)</code></pre></div>
         <div class="R-sidebarmenu R-shortcutmenu-main">
           <ul class="enlarge morespace collapsible-menu">
             <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
-            <li class="" data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
-            <li class="" data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Intro2</a></li>
             <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
+            <li class="parent alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu">
+            <li class="" data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
             <li class="active " data-nav-id="/probintro/intro2/02_continuous/index.html"><a class="padding" href="/probintro/intro2/02_continuous/index.html">The Continuum: Continuous Probability</a></li>
             <li class="" data-nav-id="/probintro/intro2/03_gaussian/index.html"><a class="padding" href="/probintro/intro2/03_gaussian/index.html">The Gaussian Distribution</a></li>
             <li class="" data-nav-id="/probintro/intro2/04_bayesian_learning/index.html"><a class="padding" href="/probintro/intro2/04_bayesian_learning/index.html">Bayesian Learning with Gaussians</a></li>
             <li class="" data-nav-id="/probintro/intro2/05_mixture_models/index.html"><a class="padding" href="/probintro/intro2/05_mixture_models/index.html">Gaussian Mixture Models</a></li>
-            <li class="" data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li>
+            <li class="" data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li></ul></li>
             <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
           </ul>
         </div>
@@ -940,9 +940,9 @@ c) P(after 8:18): 0.099 (theoretical: 0.100)</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764158763"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764158763" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764158763" defer></script>
-    <script src="/probintro/js/theme.js?1764158763" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764158956"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764158956" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764158956" defer></script>
+    <script src="/probintro/js/theme.js?1764158956" defer></script>
   </body>
 </html>
