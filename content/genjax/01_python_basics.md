@@ -227,12 +227,14 @@ def my_function():
 In GenJAX, we use `@` to **name random choices**:
 
 ```python
-lunch = bernoulli(0.5) @ "lunch"
+lunch = flip(0.5) @ "lunch"
 ```
 
-**How to read it:** "Generate a random Bernoulli value with probability 0.5, and call this choice 'lunch'"
+**How to read it:** "Flip a coin with 50% chance of heads (true/1/tonkatsu), and call this choice 'lunch'"
 
-**Connection to probability:** This is like saying "let $L$ be the random variable for lunch"
+**What is a Bernoulli random variable?** A Bernoulli random variable represents a single yes/no outcome, like a coin flip. It can be either 0 (failure/false/tails/tonkatsu) or 1 (success/true/heads/hamburger), with probability $p$ of being 1. In GenJAX, we use `flip(p)` to sample from a Bernoulli distribution—it's named after the coin flip metaphor!
+
+**Connection to probability:** This is like saying "let $L$ be the random variable for lunch" where $L$ follows a Bernoulli distribution with $p=0.5$
 
 ---
 
@@ -243,13 +245,13 @@ Libraries are collections of pre-written code we can use:
 ```python
 import jax
 import matplotlib.pyplot as plt
-from genjax import gen, bernoulli
+from genjax import gen, flip
 ```
 
 **What this means:**
 - `import jax` — Load the JAX library (for computation)
 - `import matplotlib.pyplot as plt` — Load plotting tools, call them `plt`
-- `from genjax import gen, bernoulli` — From GenJAX, load these specific tools
+- `from genjax import gen, flip` — From GenJAX, load these specific tools
 
 **You don't need to memorize these.** Just run the import cells at the start of each notebook!
 
@@ -304,10 +306,10 @@ def chibany_meals():                    # Function name
     """Generate one day of meals."""   # Docstring: what it does
 
     # Random choice: lunch
-    lunch = bernoulli(0.5) @ "lunch"    # @ names the choice
+    lunch = flip(0.5) @ "lunch"         # @ names the choice
 
     # Random choice: dinner
-    dinner = bernoulli(0.5) @ "dinner"  # Another named choice
+    dinner = flip(0.5) @ "dinner"       # Another named choice
 
     # Return both meals as a pair
     return (lunch, dinner)              # Return value
@@ -330,8 +332,8 @@ def coin_flips(n):
     heads_count = 0
 
     for i in range(n):
-        flip = bernoulli(0.5) @ f"flip_{i}"
-        if flip == 1:
+        coin = flip(0.5) @ f"flip_{i}"
+        if coin == 1:
             heads_count = heads_count + 1
 
     return heads_count
@@ -343,8 +345,8 @@ def coin_flips(n):
 2. `def coin_flips(n):` — Takes a number `n` as input
 3. `heads_count = 0` — Start counting at 0
 4. `for i in range(n):` — Repeat n times
-5. `flip = bernoulli(0.5) @ f"flip_{i}"` — Flip a fair coin, name it "flip_0", "flip_1", etc.
-6. `if flip == 1:` — If it's heads (1)
+5. `coin = flip(0.5) @ f"flip_{i}"` — Flip a fair coin (Bernoulli with p=0.5), name it "flip_0", "flip_1", etc.
+6. `if coin == 1:` — If it's heads (1)
 7. `heads_count = heads_count + 1` — Add one to the count
 8. `return heads_count` — Return how many heads we got
 

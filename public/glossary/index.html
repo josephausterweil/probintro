@@ -27,29 +27,29 @@ Core Concepts (Tutorial 1) Bayes Theorem 📘 Bayes Theorem Bayes Theorem (or Ba
     <meta itemprop="description" content="How to Use This Glossary This glossary covers all three tutorials in the Probability with GenJAX series. Terms are tagged to show which tutorial introduces them:
 📘 Tutorial 1 (Discrete Probability) - Sets and counting approach 💻 Tutorial 2 (GenJAX Programming) - Probabilistic programming basics 📊 Tutorial 3 (Continuous Probability) - Advanced topics and Bayesian learning Click on any term to expand its definition with examples and code.
 Core Concepts (Tutorial 1) Bayes Theorem 📘 Bayes Theorem Bayes Theorem (or Bayes’ rule) is a formula for reversing the order that variables are conditioned — how to go from $P(A \mid B)$ to $P(B \mid A)$.">
-    <meta itemprop="wordCount" content="5154">
+    <meta itemprop="wordCount" content="5367">
     <title>Glossary - All Tutorials :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764158956" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764158956" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764158956" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764158956" defer></script>
-    <script src="/probintro/js/search.js?1764158956" defer></script>
+    <link href="/probintro/images/favicon.png?1764159389" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764159389" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764159389" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764159389" defer></script>
+    <script src="/probintro/js/search.js?1764159389" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764158956";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764159389";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764158956" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764158956" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764158956" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764158956" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764159389" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764159389" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764159389" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764159389" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158956" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158956" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764158956" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764158956" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764158956" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764159389" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764159389" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764159389" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764159389" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764159389" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -142,6 +142,7 @@ Core Concepts (Tutorial 1) Bayes Theorem 📘 Bayes Theorem Bayes Theorem (or Ba
       <ul>
         <li><a href="#gen-decorator-">@gen Decorator 💻</a></li>
         <li><a href="#bernoulli-distribution-">Bernoulli Distribution 💻</a></li>
+        <li><a href="#flip-">flip() 💻</a></li>
         <li><a href="#categorical-distribution-">Categorical Distribution 💻📊</a></li>
         <li><a href="#choicemap-">ChoiceMap 💻</a></li>
         <li><a href="#generative-function-">Generative Function 💻</a></li>
@@ -323,8 +324,8 @@ Core Concepts (Tutorial 1) Bayes Theorem 📘 Bayes Theorem Bayes Theorem (or Ba
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day</span>():
-</span></span><span style="display:flex;"><span>    lunch <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
-</span></span><span style="display:flex;"><span>    dinner <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
+</span></span><span style="display:flex;"><span>    lunch <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
+</span></span><span style="display:flex;"><span>    dinner <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch, dinner)</span></span></code></pre></td></tr></table>
 </div>
 </div>
@@ -456,8 +457,9 @@ Core Concepts (Tutorial 1) Bayes Theorem 📘 Bayes Theorem Bayes Theorem (or Ba
     Bernoulli Distribution
   </summary>
   <div class="box-content">
-<p>A probability distribution representing a single binary trial (success/failure, 1/0, true/false).</p>
+<p>A probability distribution representing a single binary trial (success/failure, 1/0, true/false). Named after mathematician Jacob Bernoulli.</p>
 <p><strong>Parameter</strong>: $p$ = probability of success (returning 1)</p>
+<p><strong>What it represents</strong>: A single yes/no outcome. Think of it as a biased coin flip where the coin comes up heads with probability $p$ and tails with probability $1-p$.</p>
 <p><strong>In GenJAX</strong>:</p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -469,13 +471,59 @@ Core Concepts (Tutorial 1) Bayes Theorem 📘 Bayes Theorem Bayes Theorem (or Ba
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">coin_flip</span>():
-</span></span><span style="display:flex;"><span>    is_heads <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;coin&#34;</span>  <span style="color:#75715e"># 50% chance of 1 (heads)</span>
+</span></span><span style="display:flex;"><span>    is_heads <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;coin&#34;</span>  <span style="color:#75715e"># 50% chance of 1 (heads)</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_heads</span></span></code></pre></td></tr></table>
 </div>
 </div>
-<p><strong>Returns</strong>: 0 or 1</p>
-<p><strong>Example uses</strong>: Coin flips, yes/no questions, on/off states</p>
-<p><strong>See also</strong>: Categorical distribution (generalization to multiple outcomes)</p>
+<p><strong>Note</strong>: In GenJAX, we use <code>flip(p)</code> instead of <code>bernoulli(p)</code> — the name reflects the coin flip metaphor!</p>
+<p><strong>Returns</strong>: <code>True</code>/<code>1</code> (success) or <code>False</code>/<code>0</code> (failure)</p>
+<p><strong>Example uses</strong>: Coin flips, yes/no questions, on/off states, binary decisions</p>
+<p><strong>See also</strong>: flip(), Categorical distribution (generalization to multiple outcomes)</p>
+  </div>
+</details>
+<h3 id="flip-">flip() 💻</h3>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    flip()
+  </summary>
+  <div class="box-content">
+<p>GenJAX&rsquo;s function for sampling from a Bernoulli distribution. The name reflects the coin flip metaphor.</p>
+<p><strong>Signature</strong>: <code>flip(p)</code></p>
+<p><strong>Parameter</strong>:</p>
+<ul>
+<li><code>p</code> - probability of returning <code>True</code>/<code>1</code> (like getting heads)</li>
+</ul>
+<p><strong>Returns</strong>: <code>True</code> or <code>False</code> (represented as <code>1</code> or <code>0</code> in JAX arrays)</p>
+<p><strong>In GenJAX</strong>:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">coin_flip</span>():
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;coin&#34;</span>  <span style="color:#75715e"># 70% chance of True (heads)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Common values</strong>:</p>
+<ul>
+<li><code>flip(0.5)</code> - Fair coin flip (50/50)</li>
+<li><code>flip(0.8)</code> - Biased toward True (80% chance)</li>
+<li><code>flip(0.2)</code> - Biased toward False (80% chance of False)</li>
+</ul>
+<p><strong>Why &ldquo;flip&rdquo; instead of &ldquo;bernoulli&rdquo;?</strong> GenJAX has both functions, but they take different arguments:</p>
+<ul>
+<li><code>flip(p)</code> - takes a <strong>probability</strong> (0 to 1) - more intuitive for most users</li>
+<li><code>bernoulli(logit)</code> - takes a <strong>logit</strong> (log-odds, -∞ to +∞) - inherited from TensorFlow conventions</li>
+</ul>
+<p>Most users should use <code>flip()</code> as it works the way you&rsquo;d expect from probability theory (pass in 0.7 for 70% chance of true).</p>
+<p><strong>See also</strong>: Bernoulli Distribution</p>
   </div>
 </details>
 <h3 id="categorical-distribution-">Categorical Distribution 💻📊</h3>
@@ -849,12 +897,12 @@ Core Concepts (Tutorial 1) Bayes Theorem 📘 Bayes Theorem Bayes Theorem (or Ba
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">example</span>():
-</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;x&#34;</span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;x&#34;</span>
 </span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> normal(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;y&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>trace <span style="color:#f92672">=</span> example<span style="color:#f92672">.</span>simulate(key, ())
-</span></span><span style="display:flex;"><span>print(trace<span style="color:#f92672">.</span>get_choices()[<span style="color:#e6db74">&#34;x&#34;</span>])  <span style="color:#75715e"># e.g., 0 or 1</span>
+</span></span><span style="display:flex;"><span>print(trace<span style="color:#f92672">.</span>get_choices()[<span style="color:#e6db74">&#34;x&#34;</span>])  <span style="color:#75715e"># e.g., True or False</span>
 </span></span><span style="display:flex;"><span>print(trace<span style="color:#f92672">.</span>get_choices()[<span style="color:#e6db74">&#34;y&#34;</span>])  <span style="color:#75715e"># e.g., 0.234</span>
 </span></span><span style="display:flex;"><span>print(trace<span style="color:#f92672">.</span>get_retval())        <span style="color:#75715e"># e.g., 1.234</span></span></span></code></pre></td></tr></table>
 </div>
@@ -2025,9 +2073,9 @@ $$p(x) = \begin{cases}
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764158956"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764158956" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764158956" defer></script>
-    <script src="/probintro/js/theme.js?1764158956" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764159389"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764159389" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764159389" defer></script>
+    <script src="/probintro/js/theme.js?1764159389" defer></script>
   </body>
 </html>

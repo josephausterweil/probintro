@@ -85,8 +85,8 @@ A *generative process* defines the probabilities for possible outcomes according
 ```python
 @gen
 def chibany_day():
-    lunch = bernoulli(0.5) @ "lunch"
-    dinner = bernoulli(0.5) @ "dinner"
+    lunch = flip(0.5) @ "lunch"
+    dinner = flip(0.5) @ "dinner"
     return (lunch, dinner)
 ```
 
@@ -181,23 +181,60 @@ def my_model():
 
 ### Bernoulli Distribution 💻
 {{% expand "Bernoulli Distribution" %}}
-A probability distribution representing a single binary trial (success/failure, 1/0, true/false).
+A probability distribution representing a single binary trial (success/failure, 1/0, true/false). Named after mathematician Jacob Bernoulli.
 
 **Parameter**: $p$ = probability of success (returning 1)
+
+**What it represents**: A single yes/no outcome. Think of it as a biased coin flip where the coin comes up heads with probability $p$ and tails with probability $1-p$.
 
 **In GenJAX**:
 ```python
 @gen
 def coin_flip():
-    is_heads = bernoulli(0.5) @ "coin"  # 50% chance of 1 (heads)
+    is_heads = flip(0.5) @ "coin"  # 50% chance of 1 (heads)
     return is_heads
 ```
 
-**Returns**: 0 or 1
+**Note**: In GenJAX, we use `flip(p)` instead of `bernoulli(p)` — the name reflects the coin flip metaphor!
 
-**Example uses**: Coin flips, yes/no questions, on/off states
+**Returns**: `True`/`1` (success) or `False`/`0` (failure)
 
-**See also**: Categorical distribution (generalization to multiple outcomes)
+**Example uses**: Coin flips, yes/no questions, on/off states, binary decisions
+
+**See also**: flip(), Categorical distribution (generalization to multiple outcomes)
+{{% /expand %}}
+
+### flip() 💻
+{{% expand "flip()" %}}
+GenJAX's function for sampling from a Bernoulli distribution. The name reflects the coin flip metaphor.
+
+**Signature**: `flip(p)`
+
+**Parameter**:
+- `p` - probability of returning `True`/`1` (like getting heads)
+
+**Returns**: `True` or `False` (represented as `1` or `0` in JAX arrays)
+
+**In GenJAX**:
+```python
+@gen
+def coin_flip():
+    result = flip(0.7) @ "coin"  # 70% chance of True (heads)
+    return result
+```
+
+**Common values**:
+- `flip(0.5)` - Fair coin flip (50/50)
+- `flip(0.8)` - Biased toward True (80% chance)
+- `flip(0.2)` - Biased toward False (80% chance of False)
+
+**Why "flip" instead of "bernoulli"?** GenJAX has both functions, but they take different arguments:
+- `flip(p)` - takes a **probability** (0 to 1) - more intuitive for most users
+- `bernoulli(logit)` - takes a **logit** (log-odds, -∞ to +∞) - inherited from TensorFlow conventions
+
+Most users should use `flip()` as it works the way you'd expect from probability theory (pass in 0.7 for 70% chance of true).
+
+**See also**: Bernoulli Distribution
 {{% /expand %}}
 
 ### Categorical Distribution 💻📊
@@ -423,12 +460,12 @@ log_prob = trace.get_score()         # Log probability of this trace
 ```python
 @gen
 def example():
-    x = bernoulli(0.5) @ "x"
+    x = flip(0.5) @ "x"
     y = normal(0, 1) @ "y"
     return x + y
 
 trace = example.simulate(key, ())
-print(trace.get_choices()["x"])  # e.g., 0 or 1
+print(trace.get_choices()["x"])  # e.g., True or False
 print(trace.get_choices()["y"])  # e.g., 0.234
 print(trace.get_retval())        # e.g., 1.234
 ```

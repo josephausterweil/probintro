@@ -27,29 +27,29 @@ Understand what the code is doing Modify values to experiment Run examples and s
     <meta itemprop="description" content="You Don’t Need to Become a Programmer! This chapter teaches you just enough Python to read and run GenJAX code. You won’t become a software developer, but you’ll be able to:
 Understand what the code is doing Modify values to experiment Run examples and see results Think of it like learning enough Italian to order food in a restaurant — you don’t need fluency, just practical knowledge!
 1. Variables: Giving Names to Things In Python, we give names to values so we can use them later.">
-    <meta itemprop="wordCount" content="1369">
+    <meta itemprop="wordCount" content="1432">
     <title>Python Essentials for GenJAX :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764158956" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764158956" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764158956" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764158956" defer></script>
-    <script src="/probintro/js/search.js?1764158956" defer></script>
+    <link href="/probintro/images/favicon.png?1764159389" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764159389" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764159389" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764159389" defer></script>
+    <script src="/probintro/js/search.js?1764159389" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764158956";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764159389";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764158956" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764158956" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764158956" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764158956" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764159389" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764159389" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764159389" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764159389" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158956" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764158956" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764158956" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764158956" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764158956" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764159389" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764159389" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764159389" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764159389" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764159389" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -485,11 +485,12 @@ Day 4</code></pre></div>
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>lunch <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span></span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>lunch <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span></span></span></code></pre></td></tr></table>
 </div>
 </div>
-<p><strong>How to read it:</strong> &ldquo;Generate a random Bernoulli value with probability 0.5, and call this choice &rsquo;lunch'&rdquo;</p>
-<p><strong>Connection to probability:</strong> This is like saying &ldquo;let $L$ be the random variable for lunch&rdquo;</p>
+<p><strong>How to read it:</strong> &ldquo;Flip a coin with 50% chance of heads (true/1/tonkatsu), and call this choice &rsquo;lunch'&rdquo;</p>
+<p><strong>What is a Bernoulli random variable?</strong> A Bernoulli random variable represents a single yes/no outcome, like a coin flip. It can be either 0 (failure/false/tails/tonkatsu) or 1 (success/true/heads/hamburger), with probability $p$ of being 1. In GenJAX, we use <code>flip(p)</code> to sample from a Bernoulli distribution—it&rsquo;s named after the coin flip metaphor!</p>
+<p><strong>Connection to probability:</strong> This is like saying &ldquo;let $L$ be the random variable for lunch&rdquo; where $L$ follows a Bernoulli distribution with $p=0.5$</p>
 <hr>
 <h2 id="8-libraries-and-imports">8. Libraries and Imports</h2>
 <p>Libraries are collections of pre-written code we can use:</p>
@@ -502,14 +503,14 @@ Day 4</code></pre></div>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, flip</span></span></code></pre></td></tr></table>
 </div>
 </div>
 <p><strong>What this means:</strong></p>
 <ul>
 <li><code>import jax</code> — Load the JAX library (for computation)</li>
 <li><code>import matplotlib.pyplot as plt</code> — Load plotting tools, call them <code>plt</code></li>
-<li><code>from genjax import gen, bernoulli</code> — From GenJAX, load these specific tools</li>
+<li><code>from genjax import gen, flip</code> — From GenJAX, load these specific tools</li>
 </ul>
 <p><strong>You don&rsquo;t need to memorize these.</strong> Just run the import cells at the start of each notebook!</p>
 <hr>
@@ -584,10 +585,10 @@ Day 4</code></pre></div>
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Generate one day of meals.&#34;&#34;&#34;</span>   <span style="color:#75715e"># Docstring: what it does</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Random choice: lunch</span>
-</span></span><span style="display:flex;"><span>    lunch <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>    <span style="color:#75715e"># @ names the choice</span>
+</span></span><span style="display:flex;"><span>    lunch <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>         <span style="color:#75715e"># @ names the choice</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Random choice: dinner</span>
-</span></span><span style="display:flex;"><span>    dinner <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>  <span style="color:#75715e"># Another named choice</span>
+</span></span><span style="display:flex;"><span>    dinner <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>       <span style="color:#75715e"># Another named choice</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Return both meals as a pair</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch, dinner)              <span style="color:#75715e"># Return value</span></span></span></code></pre></td></tr></table>
@@ -623,8 +624,8 @@ Day 4</code></pre></div>
 </span></span><span style="display:flex;"><span>    heads_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n):
-</span></span><span style="display:flex;"><span>        flip <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;flip_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> flip <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        coin <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;flip_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> coin <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
 </span></span><span style="display:flex;"><span>            heads_count <span style="color:#f92672">=</span> heads_count <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> heads_count</span></span></code></pre></td></tr></table>
@@ -643,8 +644,8 @@ Day 4</code></pre></div>
 <li><code>def coin_flips(n):</code> — Takes a number <code>n</code> as input</li>
 <li><code>heads_count = 0</code> — Start counting at 0</li>
 <li><code>for i in range(n):</code> — Repeat n times</li>
-<li><code>flip = bernoulli(0.5) @ f&quot;flip_{i}&quot;</code> — Flip a fair coin, name it &ldquo;flip_0&rdquo;, &ldquo;flip_1&rdquo;, etc.</li>
-<li><code>if flip == 1:</code> — If it&rsquo;s heads (1)</li>
+<li><code>coin = flip(0.5) @ f&quot;flip_{i}&quot;</code> — Flip a fair coin (Bernoulli with p=0.5), name it &ldquo;flip_0&rdquo;, &ldquo;flip_1&rdquo;, etc.</li>
+<li><code>if coin == 1:</code> — If it&rsquo;s heads (1)</li>
 <li><code>heads_count = heads_count + 1</code> — Add one to the count</li>
 <li><code>return heads_count</code> — Return how many heads we got</li>
 </ol>
@@ -791,9 +792,9 @@ Day 4</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764158956"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764158956" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764158956" defer></script>
-    <script src="/probintro/js/theme.js?1764158956" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764159389"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764159389" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764159389" defer></script>
+    <script src="/probintro/js/theme.js?1764159389" defer></script>
   </body>
 </html>
