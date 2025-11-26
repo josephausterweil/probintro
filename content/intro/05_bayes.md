@@ -269,10 +269,6 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 **The key lesson**: Never evaluate evidence in isolation—always consider base rates (priors). Rare things remain rare even with good evidence.
 {{% /notice %}}
 
-### Transfer additional practice questions
-
-* Example with organic fruit and made at a local place
-
 ---
 
 ## What You've Conquered
