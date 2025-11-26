@@ -317,12 +317,12 @@ Since $0.53 \neq 0.19$, the events **are dependent**! Learning about the second 
 
 **Congratulations!** You've just learned one of the most powerful concepts in all of probability. Let's recap what you can now do:
 
-✅ **Calculate conditional probabilities** by restricting the outcome space
-✅ **Recognize dependence vs. independence** between events
-✅ **Work with marginal and joint probabilities** and understand their connection
-✅ **Apply the sum rule** to marginalize out variables
-✅ **Handle weighted probabilities** when outcomes aren't equally likely
-✅ **Avoid the common trap** of thinking independence means "events don't affect each other"
+* ✅ **Calculate conditional probabilities** by restricting the outcome space
+* ✅ **Recognize dependence vs. independence** between events
+* ✅ **Work with marginal and joint probabilities** and understand their connection
+* ✅ **Apply the sum rule** to marginalize out variables
+* ✅ **Handle weighted probabilities** when outcomes aren't equally likely
+* ✅ **Avoid the common trap** of thinking independence means "events don't affect each other"
 
 **You now have the tools to:**
 - Update beliefs when you learn new information

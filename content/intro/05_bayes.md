@@ -282,10 +282,15 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 Let's celebrate what you now understand:
 
 ✅ **Bayes' Theorem**: You can update beliefs rationally with new evidence
+
 ✅ **The Taxicab Problem**: You understand why 80% accuracy doesn't mean 80% certainty
+
 ✅ **Base Rate Importance**: You'll never ignore priors again
+
 ✅ **Two Solution Methods**: You can solve Bayesian problems by counting OR by formula
+
 ✅ **Base-Rate Neglect**: You recognize and avoid this cognitive trap
+
 ✅ **The Set-Based Power**: You see why visualization beats symbol manipulation
 
 **Most importantly**: You now think differently about evidence. When someone says "This test is 99% accurate!" you'll ask "But how common is the condition?" When you read "eyewitness identified the suspect!" you'll think "But what's the base rate?"
