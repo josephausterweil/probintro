@@ -31,29 +31,29 @@ What am I trying to predict or understand? (The question) What do I observe? (Th
 This chapter shows you how to think about building generative models — turning real-world problems into code.
 The Model-Building Process Step 1: Understand the Problem Before writing any code, answer:
 What am I trying to predict or understand? (The question) What do I observe? (The data/evidence) What’s hidden? (The unknown variables) How are they related? (The causal structure) Example: Spam detection">
-    <meta itemprop="wordCount" content="2807">
+    <meta itemprop="wordCount" content="2887">
     <title>Building Your Own Models :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764237447" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764237447" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764237447" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764237447" defer></script>
-    <script src="/probintro/js/search.js?1764237447" defer></script>
+    <link href="/probintro/images/favicon.png?1764245646" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764245646" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764245646" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764245646" defer></script>
+    <script src="/probintro/js/search.js?1764245646" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764237447";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764245646";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764237447" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764237447" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764237447" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764237447" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764245646" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764245646" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764245646" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764245646" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764237447" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764237447" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764237447" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764237447" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764237447" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764245646" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764245646" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764245646" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764245646" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764245646" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -214,8 +214,8 @@ What am I trying to predict or understand? (The question) What do I observe? (Th
 <h2 id="from-following-recipes-to-creating-your-own">From Following Recipes to Creating Your Own</h2>
 <p>You&rsquo;ve learned to use GenJAX through examples. Now it&rsquo;s time to build your <strong>own</strong> probabilistic models!</p>
 <p>This chapter shows you <strong>how to think</strong> about building generative models — turning real-world problems into code.</p>
-<p><a href="#R-image-f72c3448026a83b137c0c523d026fcf7" class="lightbox-link"><img alt="Chibany ready to build" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-f72c3448026a83b137c0c523d026fcf7"><img alt="Chibany ready to build" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanyplain.png"></a></p>
+<p><a href="#R-image-8fd491079c9ffab49e89d969603cc0d2" class="lightbox-link"><img alt="Chibany ready to build" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanyplain.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-8fd491079c9ffab49e89d969603cc0d2"><img alt="Chibany ready to build" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanyplain.png"></a></p>
 <hr>
 <h2 id="the-model-building-process">The Model-Building Process</h2>
 <h3 id="step-1-understand-the-problem">Step 1: Understand the Problem</h3>
@@ -257,7 +257,7 @@ What am I trying to predict or understand? (The question) What do I observe? (Th
   <tbody>
       <tr>
           <td>Binary (yes/no)</td>
-          <td><code>bernoulli(p)</code></td>
+          <td><code>flip(p)</code></td>
       </tr>
       <tr>
           <td>Categorical (A/B/C)</td>
@@ -273,7 +273,7 @@ What am I trying to predict or understand? (The question) What do I observe? (Th
       </tr>
   </tbody>
 </table>
-<p><strong>Start simple!</strong> Use <code>bernoulli</code> for most binary choices.</p>
+<p><strong>Start simple!</strong> Use <code>flip</code> for most binary choices.</p>
 <hr>
 <h3 id="step-4-write-the-code">Step 4: Write the Code</h3>
 <p><strong>Pattern:</strong></p>
@@ -342,12 +342,12 @@ What am I trying to predict or understand? (The question) What do I observe? (Th
       <tr>
           <td><strong>Joint Distribution</strong></td>
           <td>$P(X, Y)$</td>
-          <td>Multiple <code>bernoulli()</code> calls in @gen function</td>
+          <td>Multiple <code>flip()</code> calls in @gen function</td>
       </tr>
       <tr>
           <td><strong>Conditional Distribution</strong></td>
           <td>$P(Y \mid X)$</td>
-          <td><code>if X: Y = bernoulli(p1)</code></td>
+          <td><code>if X: Y = flip(p1)</code></td>
       </tr>
       <tr>
           <td><strong>Independence</strong></td>
@@ -389,22 +389,22 @@ What am I trying to predict or understand? (The question) What do I observe? (Th
       <tr>
           <td><strong>Independent observations</strong></td>
           <td>$P(X_1, \ldots, X_n) = \prod P(X_i)$</td>
-          <td><code>for i: X_i = bernoulli()</code></td>
+          <td><code>for i: X_i = flip()</code></td>
       </tr>
       <tr>
           <td><strong>Hierarchical</strong></td>
           <td>$P(\theta) P(X \mid \theta)$</td>
-          <td><code>theta = uniform(); X = bernoulli(theta)</code></td>
+          <td><code>theta = uniform(); X = flip(theta)</code></td>
       </tr>
       <tr>
           <td><strong>Conditional</strong></td>
           <td>$P(Y \mid X)$ depends on X</td>
-          <td><code>if X: Y = bernoulli(p1) else: Y = bernoulli(p2)</code></td>
+          <td><code>if X: Y = flip(p1) else: Y = flip(p2)</code></td>
       </tr>
       <tr>
           <td><strong>Time series</strong></td>
           <td>$P(X_t \mid X_{t-1})$</td>
-          <td><code>for t: X[t] = bernoulli(f(X[t-1]))</code></td>
+          <td><code>for t: X[t] = flip(f(X[t-1]))</code></td>
       </tr>
       <tr>
           <td><strong>Mixture</strong></td>
@@ -423,10 +423,10 @@ What am I trying to predict or understand? (The question) What do I observe? (Th
 </ul>
 <p><strong>Example: Medical diagnosis</strong></p>
 <div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Math: P(Disease, Fever, Cough) = P(Disease) × P(Fever|Disease) × P(Cough|Disease)
-Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
+Code: has_disease = flip(0.01) @ &#34;disease&#34;
       if has_disease:
-          fever = bernoulli(0.9) @ &#34;fever&#34;
-          cough = bernoulli(0.8) @ &#34;cough&#34;</code></pre></div>
+          fever = flip(0.9) @ &#34;fever&#34;
+          cough = flip(0.8) @ &#34;cough&#34;</code></pre></div>
   </div>
 </details>
 <hr>
@@ -456,8 +456,8 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>    results <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_flips):
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Each flip is independent</span>
-</span></span><span style="display:flex;"><span>        flip <span style="color:#f92672">=</span> bernoulli(bias) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;flip_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>        results<span style="color:#f92672">.</span>append(flip)
+</span></span><span style="display:flex;"><span>        result <span style="color:#f92672">=</span> flip(bias) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;flip_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        results<span style="color:#f92672">.</span>append(result)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> jnp<span style="color:#f92672">.</span>array(results)</span></span></code></pre></td></tr></table>
 </div>
@@ -477,6 +477,8 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Flips: </span><span style="color:#e6db74">{</span>flips<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
+<p><strong>Output (example):</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Flips: [1 0 1 1 1 0 1 1 1 0]</code></pre></div>
 <hr>
 <h3 id="pattern-2-hierarchical-structure">Pattern 2: Hierarchical Structure</h3>
 <p><strong>Scenario:</strong> Parameters have their own distributions</p>
@@ -509,8 +511,8 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Observations: flip outcomes</span>
 </span></span><span style="display:flex;"><span>    flips <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_flips):
-</span></span><span style="display:flex;"><span>        flip <span style="color:#f92672">=</span> bernoulli(bias) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;flip_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>        flips<span style="color:#f92672">.</span>append(flip)
+</span></span><span style="display:flex;"><span>        result <span style="color:#f92672">=</span> flip(bias) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;flip_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        flips<span style="color:#f92672">.</span>append(result)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> bias  <span style="color:#75715e"># Want to infer this!</span></span></span></code></pre></td></tr></table>
 </div>
@@ -566,6 +568,8 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Should be around 0.70 (7 heads / 10 flips)</span></span></span></code></pre></td></tr></table>
 </div>
 </div>
+<p><strong>Output (example):</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Estimated bias: 0.69</code></pre></div>
 <hr>
 <h3 id="pattern-3-conditional-dependencies">Pattern 3: Conditional Dependencies</h3>
 <p><strong>Scenario:</strong> Observations depend on hidden state</p>
@@ -595,15 +599,15 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Weather affects Chibany&#39;s mood.&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Hidden: today&#39;s weather</span>
-</span></span><span style="display:flex;"><span>    is_sunny <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_sunny&#34;</span>  <span style="color:#75715e"># 70% sunny days</span>
+</span></span><span style="display:flex;"><span>    is_sunny <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_sunny&#34;</span>  <span style="color:#75715e"># 70% sunny days</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Observable: Chibany&#39;s mood depends on weather</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_sunny:
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Sunny → happy 90% of the time</span>
-</span></span><span style="display:flex;"><span>        is_happy <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.9</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_happy&#34;</span>
+</span></span><span style="display:flex;"><span>        is_happy <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.9</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_happy&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Rainy → happy only 30% of the time</span>
-</span></span><span style="display:flex;"><span>        is_happy <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_happy&#34;</span>
+</span></span><span style="display:flex;"><span>        is_happy <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_happy&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_sunny</span></span></code></pre></td></tr></table>
 </div>
@@ -637,6 +641,8 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Sunny | Happy) ≈ </span><span style="color:#e6db74">{</span>prob_sunny<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
+<p><strong>Output (example):</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>P(Sunny | Happy) ≈ 0.875</code></pre></div>
 
 <details class=" box cstyle notices transparent expand">
   <summary class="box-label">
@@ -694,17 +700,17 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>    meals <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># First day is random</span>
-</span></span><span style="display:flex;"><span>    prev_meal <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;day_0&#34;</span>
+</span></span><span style="display:flex;"><span>    prev_meal <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;day_0&#34;</span>
 </span></span><span style="display:flex;"><span>    meals<span style="color:#f92672">.</span>append(prev_meal)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Each subsequent day depends on previous day</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> day <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, days):
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> prev_meal <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:  <span style="color:#75715e"># Had tonkatsu yesterday</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Want variety → lower probability</span>
-</span></span><span style="display:flex;"><span>            current_meal <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;day_</span><span style="color:#e6db74">{</span>day<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>            current_meal <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;day_</span><span style="color:#e6db74">{</span>day<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:  <span style="color:#75715e"># Had hamburger yesterday</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Craving tonkatsu → higher probability</span>
-</span></span><span style="display:flex;"><span>            current_meal <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;day_</span><span style="color:#e6db74">{</span>day<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>            current_meal <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;day_</span><span style="color:#e6db74">{</span>day<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        meals<span style="color:#f92672">.</span>append(current_meal)
 </span></span><span style="display:flex;"><span>        prev_meal <span style="color:#f92672">=</span> current_meal
@@ -715,8 +721,8 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 <p><strong>This models dependence through time!</strong></p>
 <hr>
 <h3 id="pattern-5-mixture-models">Pattern 5: Mixture Models</h3>
-<p><strong>Scenario:</strong> Data comes from multiple sources</p>
-<p><strong>Example:</strong> Two types of days (weekday vs weekend)</p>
+<p><strong>Scenario:</strong> Data comes from multiple sources, but which source is not observed</p>
+<p><strong>Example:</strong> Two types of days (weekday vs weekend). Chibany doesn&rsquo;t know what day it is. Bentos on the weekend are much more likely to have tonkatsu.</p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -743,7 +749,7 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Different behavior on weekends vs weekdays.&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Hidden: is it a weekend?</span>
-</span></span><span style="display:flex;"><span>    is_weekend <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">2</span><span style="color:#f92672">/</span><span style="color:#ae81ff">7</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_weekend&#34;</span>  <span style="color:#75715e"># 2 out of 7 days</span>
+</span></span><span style="display:flex;"><span>    is_weekend <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">2</span><span style="color:#f92672">/</span><span style="color:#ae81ff">7</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_weekend&#34;</span>  <span style="color:#75715e"># 2 out of 7 days</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_weekend:
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Weekend: high chance of tonkatsu (relaxed)</span>
@@ -752,7 +758,7 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Weekday: lower chance (busy)</span>
 </span></span><span style="display:flex;"><span>        tonkatsu_prob <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    lunch <span style="color:#f92672">=</span> bernoulli(tonkatsu_prob) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
+</span></span><span style="display:flex;"><span>    lunch <span style="color:#f92672">=</span> flip(tonkatsu_prob) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_weekend</span></span></code></pre></td></tr></table>
 </div>
@@ -811,15 +817,15 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Medical diagnosis model.&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Hidden: disease status</span>
-</span></span><span style="display:flex;"><span>    has_disease <span style="color:#f92672">=</span> bernoulli(prevalence) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;has_disease&#34;</span>
+</span></span><span style="display:flex;"><span>    has_disease <span style="color:#f92672">=</span> flip(prevalence) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;has_disease&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Symptoms depend on disease</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> has_disease:
-</span></span><span style="display:flex;"><span>        fever <span style="color:#f92672">=</span> bernoulli(fever_if_disease) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fever&#34;</span>
-</span></span><span style="display:flex;"><span>        cough <span style="color:#f92672">=</span> bernoulli(cough_if_disease) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;cough&#34;</span>
+</span></span><span style="display:flex;"><span>        fever <span style="color:#f92672">=</span> flip(fever_if_disease) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fever&#34;</span>
+</span></span><span style="display:flex;"><span>        cough <span style="color:#f92672">=</span> flip(cough_if_disease) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;cough&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        fever <span style="color:#f92672">=</span> bernoulli(fever_if_healthy) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fever&#34;</span>
-</span></span><span style="display:flex;"><span>        cough <span style="color:#f92672">=</span> bernoulli(cough_if_healthy) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;cough&#34;</span>
+</span></span><span style="display:flex;"><span>        fever <span style="color:#f92672">=</span> flip(fever_if_healthy) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fever&#34;</span>
+</span></span><span style="display:flex;"><span>        cough <span style="color:#f92672">=</span> flip(cough_if_healthy) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;cough&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> has_disease</span></span></code></pre></td></tr></table>
 </div>
@@ -861,7 +867,12 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Disease | Symptoms) ≈ </span><span style="color:#e6db74">{</span>prob_disease<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
-<p><strong>Expected output:</strong> ≈ 0.265 (26.5%)</p>
+<p><strong>Output (example):</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>=== MEDICAL DIAGNOSIS ===
+Prevalence: 1%
+Symptoms: Fever + Cough
+P(Disease | Symptoms) ≈ 0.266</code></pre></div>
+<p><strong>Expected:</strong> ≈ 0.265 (26.5%)</p>
 <p><strong>Interpretation:</strong> Even with both symptoms, only 26.5% chance of disease because it&rsquo;s so rare!</p>
 
 <details open class=" box cstyle notices warning">
@@ -896,10 +907,10 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Good</span>
-</span></span><span style="display:flex;"><span>is_diseased <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.01</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_diseased&#34;</span>
+</span></span><span style="display:flex;"><span>is_diseased <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.01</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_diseased&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Bad</span>
-</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.01</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;x&#34;</span></span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.01</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;x&#34;</span></span></span></code></pre></td></tr></table>
 </div>
 </div>
 </li>
@@ -991,10 +1002,10 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Bad — can&#39;t condition on this!</span>
-</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Good</span>
-</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;x&#34;</span></span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;x&#34;</span></span></span></code></pre></td></tr></table>
 </div>
 </div>
 </li>
@@ -1012,19 +1023,19 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Bad — name collision!</span>
-</span></span><span style="display:flex;"><span>flip1 <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;flip&#34;</span>
-</span></span><span style="display:flex;"><span>flip2 <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;flip&#34;</span>  <span style="color:#75715e"># ERROR!</span>
+</span></span><span style="display:flex;"><span>flip1 <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;flip&#34;</span>
+</span></span><span style="display:flex;"><span>flip2 <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;flip&#34;</span>  <span style="color:#75715e"># ERROR!</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Good — unique names</span>
-</span></span><span style="display:flex;"><span>flip1 <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;flip_1&#34;</span>
-</span></span><span style="display:flex;"><span>flip2 <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;flip_2&#34;</span></span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>flip1 <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;flip_1&#34;</span>
+</span></span><span style="display:flex;"><span>flip2 <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;flip_2&#34;</span></span></span></code></pre></td></tr></table>
 </div>
 </div>
 </li>
 <li>
 <p><strong>Don&rsquo;t overthink distributions</strong></p>
 <ul>
-<li><code>bernoulli</code> covers most binary cases</li>
+<li><code>flip</code> covers most binary cases</li>
 <li><code>normal</code> for continuous</li>
 <li><code>categorical</code> for multiple choices</li>
 <li>You don&rsquo;t need exotic distributions to start!</li>
@@ -1093,13 +1104,13 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Simple spam filter based on keyword.&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Hidden: is it spam?</span>
-</span></span><span style="display:flex;"><span>    is_spam <span style="color:#f92672">=</span> bernoulli(spam_rate) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_spam&#34;</span>
+</span></span><span style="display:flex;"><span>    is_spam <span style="color:#f92672">=</span> flip(spam_rate) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_spam&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Observation: contains &#34;FREE&#34;?</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_spam:
-</span></span><span style="display:flex;"><span>        contains_free <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.80</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;contains_free&#34;</span>
+</span></span><span style="display:flex;"><span>        contains_free <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.80</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;contains_free&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        contains_free <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.10</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;contains_free&#34;</span>
+</span></span><span style="display:flex;"><span>        contains_free <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.10</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;contains_free&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_spam
 </span></span><span style="display:flex;"><span>
@@ -1117,6 +1128,8 @@ Code: has_disease = bernoulli(0.01) @ &#34;disease&#34;
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Spam | contains &#39;FREE&#39;) ≈ </span><span style="color:#e6db74">{</span>prob_spam<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
+<p><strong>Output (example):</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>P(Spam | contains &#39;FREE&#39;) ≈ 0.773</code></pre></div>
 <p><strong>Expected:</strong> ≈ 0.774 (77.4%)</p>
 <p><strong>Theoretical:</strong>
 $$P = \frac{0.80 \times 0.30}{0.80 \times 0.30 + 0.10 \times 0.70} = \frac{0.24}{0.31} \approx 0.774$$</p>
@@ -1174,7 +1187,7 @@ $$P = \frac{0.80 \times 0.30}{0.80 \times 0.30 + 0.10 \times 0.70} = \frac{0.24}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Observations: flips</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_flips):
-</span></span><span style="display:flex;"><span>        flip <span style="color:#f92672">=</span> bernoulli(bias) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;flip_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        result <span style="color:#f92672">=</span> flip(bias) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;flip_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> bias
 </span></span><span style="display:flex;"><span>
@@ -1195,6 +1208,8 @@ $$P = \frac{0.80 \times 0.30}{0.80 \times 0.30 + 0.10 \times 0.70} = \frac{0.24}
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Should be around 0.80 (16/20)</span></span></span></code></pre></td></tr></table>
 </div>
 </div>
+<p><strong>Output (example):</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Estimated bias: 0.79 ± 0.09</code></pre></div>
 <p><strong>Expected:</strong> Mean ≈ 0.80, with some uncertainty</p>
 <p><strong>Plot the posterior:</strong></p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -1289,16 +1304,16 @@ $$P = \frac{0.80 \times 0.30}{0.80 \times 0.30 + 0.10 \times 0.70} = \frac{0.24}
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">disease_three_symptoms</span>(prevalence<span style="color:#f92672">=</span><span style="color:#ae81ff">0.02</span>):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Disease model with three symptoms.&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    has_disease <span style="color:#f92672">=</span> bernoulli(prevalence) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;has_disease&#34;</span>
+</span></span><span style="display:flex;"><span>    has_disease <span style="color:#f92672">=</span> flip(prevalence) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;has_disease&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> has_disease:
-</span></span><span style="display:flex;"><span>        fever <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.90</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fever&#34;</span>
-</span></span><span style="display:flex;"><span>        cough <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.80</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;cough&#34;</span>
-</span></span><span style="display:flex;"><span>        fatigue <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.95</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fatigue&#34;</span>
+</span></span><span style="display:flex;"><span>        fever <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.90</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fever&#34;</span>
+</span></span><span style="display:flex;"><span>        cough <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.80</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;cough&#34;</span>
+</span></span><span style="display:flex;"><span>        fatigue <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.95</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fatigue&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        fever <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.10</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fever&#34;</span>
-</span></span><span style="display:flex;"><span>        cough <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.20</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;cough&#34;</span>
-</span></span><span style="display:flex;"><span>        fatigue <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.30</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fatigue&#34;</span>
+</span></span><span style="display:flex;"><span>        fever <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.10</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fever&#34;</span>
+</span></span><span style="display:flex;"><span>        cough <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.20</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;cough&#34;</span>
+</span></span><span style="display:flex;"><span>        fatigue <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.30</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;fatigue&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> has_disease
 </span></span><span style="display:flex;"><span>
@@ -1350,7 +1365,7 @@ Scenario 3: P(Disease) ≈ 0.774  # All three symptoms</code></pre></div>
 </ul>
 <p><strong>Where to go from here:</strong></p>
 <h3 id="1-explore-more-distributions">1. Explore More Distributions</h3>
-<p>GenJAX supports many distributions beyond <code>bernoulli</code>:</p>
+<p>GenJAX supports many distributions beyond <code>flip</code>:</p>
 <ul>
 <li><code>normal(mean, std)</code> — Continuous values (heights, weights, temperatures)</li>
 <li><code>categorical(probs)</code> — Multiple discrete choices (A, B, C, D)</li>
@@ -1514,9 +1529,9 @@ Scenario 3: P(Disease) ≈ 0.774  # All three symptoms</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764237447"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764237447" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764237447" defer></script>
-    <script src="/probintro/js/theme.js?1764237447" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764245646"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764245646" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764245646" defer></script>
+    <script src="/probintro/js/theme.js?1764245646" defer></script>
   </body>
 </html>

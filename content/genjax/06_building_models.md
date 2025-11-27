@@ -53,12 +53,12 @@ This chapter shows you **how to think** about building generative models — tur
 
 | Type of Variable | Common Distributions |
 |------------------|---------------------|
-| Binary (yes/no) | `bernoulli(p)` |
+| Binary (yes/no) | `flip(p)` |
 | Categorical (A/B/C) | `categorical(probs)` |
 | Count (0, 1, 2, ...) | `poisson(rate)` |
 | Continuous | `normal(mean, std)`, `uniform(low, high)` |
 
-**Start simple!** Use `bernoulli` for most binary choices.
+**Start simple!** Use `flip` for most binary choices.
 
 ---
 
@@ -101,8 +101,8 @@ def my_model(parameters):
 
 | Math Concept | Mathematical Notation | GenJAX Pattern |
 |--------------|----------------------|----------------|
-| **Joint Distribution** | $P(X, Y)$ | Multiple `bernoulli()` calls in @gen function |
-| **Conditional Distribution** | $P(Y \mid X)$ | `if X: Y = bernoulli(p1)` |
+| **Joint Distribution** | $P(X, Y)$ | Multiple `flip()` calls in @gen function |
+| **Conditional Distribution** | $P(Y \mid X)$ | `if X: Y = flip(p1)` |
 | **Independence** | $P(X, Y) = P(X) \cdot P(Y)$ | Separate random choices (no if statements) |
 | **Dependence** | $P(Y \mid X) \neq P(Y)$ | Y's distribution uses X in if statement |
 | **Hierarchical Model** | $\theta \sim \text{Prior}, X \mid \theta$ | Parameter as random variable: `theta = uniform() @ "theta"` |
@@ -113,10 +113,10 @@ def my_model(parameters):
 
 | Pattern | Probability Structure | Code Structure |
 |---------|---------------------|----------------|
-| **Independent observations** | $P(X_1, \ldots, X_n) = \prod P(X_i)$ | `for i: X_i = bernoulli()` |
-| **Hierarchical** | $P(\theta) P(X \mid \theta)$ | `theta = uniform(); X = bernoulli(theta)` |
-| **Conditional** | $P(Y \mid X)$ depends on X | `if X: Y = bernoulli(p1) else: Y = bernoulli(p2)` |
-| **Time series** | $P(X_t \mid X_{t-1})$ | `for t: X[t] = bernoulli(f(X[t-1]))` |
+| **Independent observations** | $P(X_1, \ldots, X_n) = \prod P(X_i)$ | `for i: X_i = flip()` |
+| **Hierarchical** | $P(\theta) P(X \mid \theta)$ | `theta = uniform(); X = flip(theta)` |
+| **Conditional** | $P(Y \mid X)$ depends on X | `if X: Y = flip(p1) else: Y = flip(p2)` |
+| **Time series** | $P(X_t \mid X_{t-1})$ | `for t: X[t] = flip(f(X[t-1]))` |
 | **Mixture** | $\sum_k \pi_k P(X \mid k)$ | `k = categorical(pi); if k==0: ... else: ...` |
 
 **Key insights:**
@@ -129,10 +129,10 @@ def my_model(parameters):
 **Example: Medical diagnosis**
 ```
 Math: P(Disease, Fever, Cough) = P(Disease) × P(Fever|Disease) × P(Cough|Disease)
-Code: has_disease = bernoulli(0.01) @ "disease"
+Code: has_disease = flip(0.01) @ "disease"
       if has_disease:
-          fever = bernoulli(0.9) @ "fever"
-          cough = bernoulli(0.8) @ "cough"
+          fever = flip(0.9) @ "fever"
+          cough = flip(0.8) @ "cough"
 ```
 {{% /notice %}}
 
@@ -154,8 +154,8 @@ def coin_flips(n_flips, bias=0.5):
     results = []
     for i in range(n_flips):
         # Each flip is independent
-        flip = bernoulli(bias) @ f"flip_{i}"
-        results.append(flip)
+        result = flip(bias) @ f"flip_{i}"
+        results.append(result)
 
     return jnp.array(results)
 ```
@@ -167,6 +167,11 @@ key = jax.random.key(42)
 trace = coin_flips.simulate(key, (10, 0.7))
 flips = trace.get_retval()
 print(f"Flips: {flips}")
+```
+
+**Output (example):**
+```
+Flips: [1 0 1 1 1 0 1 1 1 0]
 ```
 
 ---
@@ -188,8 +193,8 @@ def coin_with_unknown_bias(n_flips):
     # Observations: flip outcomes
     flips = []
     for i in range(n_flips):
-        flip = bernoulli(bias) @ f"flip_{i}"
-        flips.append(flip)
+        result = flip(bias) @ f"flip_{i}"
+        flips.append(result)
 
     return bias  # Want to infer this!
 ```
@@ -221,6 +226,11 @@ print(f"Estimated bias: {mean_bias:.2f}")
 # Should be around 0.70 (7 heads / 10 flips)
 ```
 
+**Output (example):**
+```
+Estimated bias: 0.69
+```
+
 ---
 
 ### Pattern 3: Conditional Dependencies
@@ -235,15 +245,15 @@ def mood_model():
     """Weather affects Chibany's mood."""
 
     # Hidden: today's weather
-    is_sunny = bernoulli(0.7) @ "is_sunny"  # 70% sunny days
+    is_sunny = flip(0.7) @ "is_sunny"  # 70% sunny days
 
     # Observable: Chibany's mood depends on weather
     if is_sunny:
         # Sunny → happy 90% of the time
-        is_happy = bernoulli(0.9) @ "is_happy"
+        is_happy = flip(0.9) @ "is_happy"
     else:
         # Rainy → happy only 30% of the time
-        is_happy = bernoulli(0.3) @ "is_happy"
+        is_happy = flip(0.3) @ "is_happy"
 
     return is_sunny
 ```
@@ -262,6 +272,11 @@ posterior_sunny = jax.vmap(infer_weather)(keys)
 prob_sunny = jnp.mean(posterior_sunny)
 
 print(f"P(Sunny | Happy) ≈ {prob_sunny:.3f}")
+```
+
+**Output (example):**
+```
+P(Sunny | Happy) ≈ 0.875
 ```
 
 {{% expand "Theoretical Answer" %}}
@@ -295,17 +310,17 @@ def weekly_meals(days=7):
     meals = []
 
     # First day is random
-    prev_meal = bernoulli(0.5) @ "day_0"
+    prev_meal = flip(0.5) @ "day_0"
     meals.append(prev_meal)
 
     # Each subsequent day depends on previous day
     for day in range(1, days):
         if prev_meal == 1:  # Had tonkatsu yesterday
             # Want variety → lower probability
-            current_meal = bernoulli(0.3) @ f"day_{day}"
+            current_meal = flip(0.3) @ f"day_{day}"
         else:  # Had hamburger yesterday
             # Craving tonkatsu → higher probability
-            current_meal = bernoulli(0.8) @ f"day_{day}"
+            current_meal = flip(0.8) @ f"day_{day}"
 
         meals.append(current_meal)
         prev_meal = current_meal
@@ -319,9 +334,9 @@ def weekly_meals(days=7):
 
 ### Pattern 5: Mixture Models
 
-**Scenario:** Data comes from multiple sources
+**Scenario:** Data comes from multiple sources, but which source is not observed
 
-**Example:** Two types of days (weekday vs weekend)
+**Example:** Two types of days (weekday vs weekend). Chibany doesn't know what day it is. Bentos on the weekend are much more likely to have tonkatsu.
 
 ```python
 @gen
@@ -329,7 +344,7 @@ def mixed_days():
     """Different behavior on weekends vs weekdays."""
 
     # Hidden: is it a weekend?
-    is_weekend = bernoulli(2/7) @ "is_weekend"  # 2 out of 7 days
+    is_weekend = flip(2/7) @ "is_weekend"  # 2 out of 7 days
 
     if is_weekend:
         # Weekend: high chance of tonkatsu (relaxed)
@@ -338,7 +353,7 @@ def mixed_days():
         # Weekday: lower chance (busy)
         tonkatsu_prob = 0.3
 
-    lunch = bernoulli(tonkatsu_prob) @ "lunch"
+    lunch = flip(tonkatsu_prob) @ "lunch"
 
     return is_weekend
 ```
@@ -383,15 +398,15 @@ def disease_model(prevalence=0.01, fever_if_disease=0.9, cough_if_disease=0.8,
     """Medical diagnosis model."""
 
     # Hidden: disease status
-    has_disease = bernoulli(prevalence) @ "has_disease"
+    has_disease = flip(prevalence) @ "has_disease"
 
     # Symptoms depend on disease
     if has_disease:
-        fever = bernoulli(fever_if_disease) @ "fever"
-        cough = bernoulli(cough_if_disease) @ "cough"
+        fever = flip(fever_if_disease) @ "fever"
+        cough = flip(cough_if_disease) @ "cough"
     else:
-        fever = bernoulli(fever_if_healthy) @ "fever"
-        cough = bernoulli(cough_if_healthy) @ "cough"
+        fever = flip(fever_if_healthy) @ "fever"
+        cough = flip(cough_if_healthy) @ "cough"
 
     return has_disease
 ```
@@ -416,7 +431,15 @@ print(f"Symptoms: Fever + Cough")
 print(f"P(Disease | Symptoms) ≈ {prob_disease:.3f}")
 ```
 
-**Expected output:** ≈ 0.265 (26.5%)
+**Output (example):**
+```
+=== MEDICAL DIAGNOSIS ===
+Prevalence: 1%
+Symptoms: Fever + Cough
+P(Disease | Symptoms) ≈ 0.266
+```
+
+**Expected:** ≈ 0.265 (26.5%)
 
 **Interpretation:** Even with both symptoms, only 26.5% chance of disease because it's so rare!
 
@@ -441,10 +464,10 @@ This is why doctors don't diagnose based on symptoms alone — they need confirm
 1. **Name everything clearly**
    ```python
    # Good
-   is_diseased = bernoulli(0.01) @ "is_diseased"
+   is_diseased = flip(0.01) @ "is_diseased"
 
    # Bad
-   x = bernoulli(0.01) @ "x"
+   x = flip(0.01) @ "x"
    ```
 
 2. **Use meaningful parameters**
@@ -491,25 +514,25 @@ This is why doctors don't diagnose based on symptoms alone — they need confirm
 1. **Don't forget to name random choices**
    ```python
    # Bad — can't condition on this!
-   x = bernoulli(0.5)
+   x = flip(0.5)
 
    # Good
-   x = bernoulli(0.5) @ "x"
+   x = flip(0.5) @ "x"
    ```
 
 2. **Don't use the same name twice**
    ```python
    # Bad — name collision!
-   flip1 = bernoulli(0.5) @ "flip"
-   flip2 = bernoulli(0.5) @ "flip"  # ERROR!
+   flip1 = flip(0.5) @ "flip"
+   flip2 = flip(0.5) @ "flip"  # ERROR!
 
    # Good — unique names
-   flip1 = bernoulli(0.5) @ "flip_1"
-   flip2 = bernoulli(0.5) @ "flip_2"
+   flip1 = flip(0.5) @ "flip_1"
+   flip2 = flip(0.5) @ "flip_2"
    ```
 
 3. **Don't overthink distributions**
-   - `bernoulli` covers most binary cases
+   - `flip` covers most binary cases
    - `normal` for continuous
    - `categorical` for multiple choices
    - You don't need exotic distributions to start!
@@ -541,13 +564,13 @@ def spam_filter(spam_rate=0.30):
     """Simple spam filter based on keyword."""
 
     # Hidden: is it spam?
-    is_spam = bernoulli(spam_rate) @ "is_spam"
+    is_spam = flip(spam_rate) @ "is_spam"
 
     # Observation: contains "FREE"?
     if is_spam:
-        contains_free = bernoulli(0.80) @ "contains_free"
+        contains_free = flip(0.80) @ "contains_free"
     else:
-        contains_free = bernoulli(0.10) @ "contains_free"
+        contains_free = flip(0.10) @ "contains_free"
 
     return is_spam
 
@@ -563,6 +586,11 @@ posterior = jax.vmap(infer_spam)(keys)
 prob_spam = jnp.mean(posterior)
 
 print(f"P(Spam | contains 'FREE') ≈ {prob_spam:.3f}")
+```
+
+**Output (example):**
+```
+P(Spam | contains 'FREE') ≈ 0.773
 ```
 
 **Expected:** ≈ 0.774 (77.4%)
@@ -590,7 +618,7 @@ def coin_model(n_flips):
 
     # Observations: flips
     for i in range(n_flips):
-        flip = bernoulli(bias) @ f"flip_{i}"
+        result = flip(bias) @ f"flip_{i}"
 
     return bias
 
@@ -609,6 +637,11 @@ std_bias = jnp.std(posterior_bias)
 
 print(f"Estimated bias: {mean_bias:.2f} ± {std_bias:.2f}")
 # Should be around 0.80 (16/20)
+```
+
+**Output (example):**
+```
+Estimated bias: 0.79 ± 0.09
 ```
 
 **Expected:** Mean ≈ 0.80, with some uncertainty
@@ -649,16 +682,16 @@ Extend the disease model to include 3 symptoms: fever, cough, fatigue.
 def disease_three_symptoms(prevalence=0.02):
     """Disease model with three symptoms."""
 
-    has_disease = bernoulli(prevalence) @ "has_disease"
+    has_disease = flip(prevalence) @ "has_disease"
 
     if has_disease:
-        fever = bernoulli(0.90) @ "fever"
-        cough = bernoulli(0.80) @ "cough"
-        fatigue = bernoulli(0.95) @ "fatigue"
+        fever = flip(0.90) @ "fever"
+        cough = flip(0.80) @ "cough"
+        fatigue = flip(0.95) @ "fatigue"
     else:
-        fever = bernoulli(0.10) @ "fever"
-        cough = bernoulli(0.20) @ "cough"
-        fatigue = bernoulli(0.30) @ "fatigue"
+        fever = flip(0.10) @ "fever"
+        cough = flip(0.20) @ "cough"
+        fatigue = flip(0.30) @ "fatigue"
 
     return has_disease
 
@@ -722,7 +755,7 @@ You now have all the tools to:
 
 ### 1. Explore More Distributions
 
-GenJAX supports many distributions beyond `bernoulli`:
+GenJAX supports many distributions beyond `flip`:
 
 - `normal(mean, std)` — Continuous values (heights, weights, temperatures)
 - `categorical(probs)` — Multiple discrete choices (A, B, C, D)
