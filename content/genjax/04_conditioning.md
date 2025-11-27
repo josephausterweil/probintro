@@ -13,6 +13,10 @@ This is the heart of probabilistic programming!
 
 ![Chibany thinking](images/chibanylayingdown.png)
 
+{{% notice style="tip" title="📓 Interactive Notebook Available" %}}
+**Prefer hands-on learning?** This chapter has a companion **[Jupyter notebook](../../notebooks/bayesian_learning.ipynb)** that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!
+{{% /notice %}}
+
 ---
 
 ## Recall: Conditional Probability

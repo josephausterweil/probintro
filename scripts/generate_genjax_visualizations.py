@@ -86,21 +86,34 @@ def taxicab_model(base_rate_blue=0.15, accuracy=0.80):
     return is_blue
 
 
-# Run inference
-from genjax import ChoiceMap
-
-observation = ChoiceMap.d({"says_blue": 1})
+# Run inference using filtering (rejection sampling)
 key = jax.random.key(42)
-keys = jax.random.split(key, 10000)
+keys = jax.random.split(key, 100000)
 
 
-def run_inference(k):
-    trace, weight = taxicab_model.generate(k, observation, (0.15, 0.80))
-    return trace.get_retval()
+def run_scenario(k):
+    """Simulate one scenario and return both variables."""
+    trace = taxicab_model.simulate(k, (0.15, 0.80))
+    choices = trace.get_choices()
+    return jnp.array([choices['is_blue'], choices['says_blue']])
 
 
-posterior_samples = jax.vmap(run_inference)(keys)
-prob_blue_posterior = float(jnp.mean(posterior_samples))
+# Generate all scenarios
+scenarios = jax.vmap(run_scenario)(keys)
+is_blue = scenarios[:, 0]
+says_blue = scenarios[:, 1]
+
+# Filter to observation: keep only scenarios where says_blue == 1
+observation_satisfied = says_blue == 1
+
+# Among filtered scenarios, count how many are actually blue
+both_blue = observation_satisfied & (is_blue == 1)
+
+# Calculate posterior probability
+prob_blue_posterior = float(jnp.sum(both_blue) / jnp.sum(observation_satisfied))
+
+print(f"   Computed posterior: P(Blue | says Blue) = {prob_blue_posterior:.3f}")
+print(f"   Expected from Bayes: P(Blue | says Blue) = 0.414")
 
 # Prior vs Posterior visualization
 prior_blue = 0.15
@@ -133,6 +146,10 @@ ax2.axhline(y=0.5, color='gray', linestyle='--', alpha=0.5)
 for i, prob in enumerate([posterior_green, posterior_blue]):
     ax2.text(i, prob + 0.05, f'{prob:.1%}', ha='center', fontsize=14, fontweight='bold')
 
+# Add subtitle showing actual computed values
+fig.text(0.5, 0.02, f'Posterior computed: Green={posterior_green:.3f}, Blue={posterior_blue:.3f}',
+         ha='center', fontsize=10, style='italic', color='gray')
+
 plt.tight_layout()
 plt.savefig(OUTPUT_DIR / 'taxicab_prior_posterior.png', dpi=150, bbox_inches='tight')
 plt.close()
@@ -146,12 +163,20 @@ posteriors = []
 
 for rate in base_rates:
     def run_with_rate(k):
-        trace, weight = taxicab_model.generate(k, observation, (float(rate), 0.80))
-        return trace.get_retval()
+        trace = taxicab_model.simulate(k, (float(rate), 0.80))
+        choices = trace.get_choices()
+        return jnp.array([choices['is_blue'], choices['says_blue']])
 
-    keys = jax.random.split(key, 1000)
-    post = jax.vmap(run_with_rate)(keys)
-    posteriors.append(float(jnp.mean(post)))
+    keys_rate = jax.random.split(key, 10000)
+    scenarios_rate = jax.vmap(run_with_rate)(keys_rate)
+    is_blue_rate = scenarios_rate[:, 0]
+    says_blue_rate = scenarios_rate[:, 1]
+
+    # Filter and calculate posterior
+    obs_mask = says_blue_rate == 1
+    both_mask = (is_blue_rate == 1) & obs_mask
+    posterior = float(jnp.sum(both_mask) / jnp.sum(obs_mask))
+    posteriors.append(posterior)
 
 # Plot
 plt.figure(figsize=(10, 6))
