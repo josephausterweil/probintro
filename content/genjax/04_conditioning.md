@@ -1,5 +1,5 @@
 +++
-title = "Conditioning and Observations"
+title = "Conditioning and Inference"
 weight = 5
 +++
 
@@ -27,22 +27,6 @@ From the probability tutorial, remember **conditional probability**:
 
 **Formula:** $P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{|A \cap B|}{|B|}$
 
----
-
-## Example from Set-Based Probability
-
-Chibany's meals: $\Omega = \\{HH, HT, TH, TT\\}$
-
-**Question:** "Given that dinner is Tonkatsu, what's the probability lunch was also Tonkatsu?"
-
-**Set-based solution:**
-1. Observe $D$ = "dinner is Tonkatsu" = $\\{HT, TT\\}$
-2. Want $L$ = "lunch is Tonkatsu" = $\\{TH, TT\\}$
-3. Intersection: $L \cap D = \\{TT\\}$
-4. Conditional probability: $P(L \mid D) = \frac{|\\{TT\\}|}{|\\{HT, TT\\}|} = \frac{1}{2}$
-
-**Key insight:** We **restricted the outcome space** from $\\{HH, HT, TH, TT\\}$ to just $\\{HT, TT\\}$ (outcomes where dinner = Tonkatsu).
-
 {{% notice style="info" title="📘 Foundation Concept: Conditioning as Restriction" %}}
 **Recall from Tutorial 1, Chapter 4** that conditional probability means **restricting the outcome space**:
 
@@ -67,13 +51,108 @@ $$P(A \mid B) = \frac{|A \cap B|}{|B|}$$
 
 ---
 
-## Conditional Probability in GenJAX
+## The Taxicab Problem: A Real Inference Challenge
 
-In GenJAX, we do the same thing — but with **code instead of sets**!
+Let's apply these ideas to a real problem from the probability tutorial.
 
-**Three approaches:**
+**Scenario:** Chibany witnesses a hit-and-run at night. They say the taxi was blue. But:
+- 85% of taxis are green, 15% are blue
+- Chibany identifies colors correctly 80% of the time
 
-### Approach 1: Filtering Simulations (Rejection Sampling)
+**Question:** What's the probability it was actually a blue taxi?
+
+### Why This Is Surprising
+
+Most people's intuition says: "Chibany is 80% accurate, so probably 80% chance it's blue."
+
+**But the answer is only about 41%!**
+
+Why? Because **most taxis are green**. Even with 80% accuracy, there are more green taxis misidentified as blue than there are actual blue taxis correctly identified.
+
+This is **base rate neglect** — ignoring how common something is in the population.
+
+Let's see how GenJAX helps us solve this!
+
+---
+
+## The Generative Model
+
+First, we express the taxicab scenario as a GenJAX generative function:
+
+```python
+import jax
+import jax.numpy as jnp
+from genjax import gen, flip
+
+@gen
+def taxicab_model(base_rate_blue=0.15, accuracy=0.80):
+    """Generate the taxi color and what Chibany says.
+
+    Args:
+        base_rate_blue: Probability a taxi is blue (default 0.15)
+        accuracy: Probability Chibany identifies correctly (default 0.80)
+
+    Returns:
+        True if taxi is blue, False if green
+    """
+
+    # True taxi color (blue = 1, green = 0)
+    is_blue = flip(base_rate_blue) @ "is_blue"
+
+    # What Chibany says depends on the true color
+    # Use jnp.where for JAX compatibility
+    says_blue_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
+    says_blue = flip(says_blue_prob) @ "says_blue"
+
+    return is_blue
+```
+
+**What this encodes:**
+
+1. **Prior:** Taxis are blue 15% of the time (base rate)
+2. **Likelihood:** How observation ("says blue") depends on true color
+   - If blue: says "blue" 80% of the time (correct)
+   - If green: says "blue" 20% of the time (mistake)
+3. **Complete model:** Joint distribution over true color and observation
+
+{{% notice style="info" title="📘 Foundation Concept: Bayes' Theorem in Code" %}}
+**Recall from Tutorial 1, Chapter 5** that Bayes' Theorem updates beliefs with evidence:
+
+$$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
+
+**In the taxicab problem:**
+- **Hypothesis (H):** Taxi is blue
+- **Evidence (E):** Chibany says "blue"
+- **Question:** $P(\text{blue} \mid \text{says blue})$ = ?
+
+**Tutorial 1 approach (by hand):**
+1. Calculate $P(\text{says blue} \mid \text{blue}) \cdot P(\text{blue}) = 0.80 \times 0.15 = 0.12$
+2. Calculate $P(\text{says blue} \mid \text{green}) \cdot P(\text{green}) = 0.20 \times 0.85 = 0.17$
+3. Calculate $P(\text{says blue}) = 0.12 + 0.17 = 0.29$
+4. Apply Bayes: $P(\text{blue} \mid \text{says blue}) = \frac{0.12}{0.29} \approx 0.41$
+
+**Tutorial 2 approach (GenJAX):**
+1. **Define the generative model** (prior + likelihood)
+2. **Specify observation** (says blue)
+3. **Let GenJAX compute** the posterior automatically!
+
+**The structure is identical:**
+- `is_blue = flip(0.15)` → Prior: $P(\text{blue})$
+- `says_blue_prob = jnp.where(is_blue, 0.80, 0.20)` → Likelihood: $P(\text{says blue} \mid \text{blue})$
+- GenJAX conditioning → Computes posterior: $P(\text{blue} \mid \text{says blue})$
+
+**Key insight:** GenJAX does all the Bayes' Theorem algebra for you! You just write the generative story (prior + likelihood), and conditioning gives you the posterior.
+
+[← Review Bayes' Theorem in Tutorial 1, Chapter 5](../../intro/05_bayes/)
+{{% /notice %}}
+
+---
+
+## Three Approaches to Inference
+
+GenJAX provides three ways to compute conditional probabilities:
+
+### Approach 1: Filtering (Rejection Sampling)
 
 Generate many traces, keep only those matching the observation.
 
@@ -87,169 +166,133 @@ Generate many traces, keep only those matching the observation.
 
 This is **Monte Carlo conditional probability** — exactly what we did by hand with sets!
 
-### Approach 2: Conditioning with `generate`
+### Approach 2: Conditioning with `generate()`
 
 GenJAX has built-in support for specifying observations. We provide a **choice map** with the observed values, and GenJAX generates traces consistent with those observations.
 
 ### Approach 3: Full Inference (Importance Sampling, MCMC)
 
-More advanced methods that we'll explore in Chapter 5. These are more efficient when observations are rare.
+More advanced methods (beyond this tutorial). These are more efficient when observations are rare.
 
 **This chapter focuses on Approach 1 and 2** — the most intuitive methods.
 
 {{% notice style="success" title="📐→💻 Math-to-Code Translation" %}}
-**How conditional probability translates to GenJAX:**
+**How Bayesian inference translates to GenJAX:**
 
 | Math Concept | Mathematical Notation | GenJAX Code |
 |--------------|----------------------|-------------|
-| **Conditional Probability** | $P(A \mid B)$ | `Target(model, (), observations)` |
-| **Observation** | $B$ = "dinner is T" | `ChoiceMap.d({"dinner": 1})` |
-| **Query** | $A$ = "lunch is T" | Check `trace["lunch"] == 1` |
-| **Restriction** | Cross out outcomes where $B$ is false | Filter traces or use `Target` |
+| **Prior** | $P(H)$ | `flip(0.15) @ "is_blue"` |
+| **Likelihood** | $P(E \mid H)$ | `jnp.where(is_blue, 0.80, 0.20)` |
+| **Evidence** | $P(E)$ | GenJAX computes automatically |
+| **Posterior** | $P(H \mid E) = \frac{P(E \mid H) P(H)}{P(E)}$ | Result of conditioning |
+| **Observation** | $E$ = "says blue" | `ChoiceMap.d({"says_blue": 1})` |
+| **Inference Query** | $P(\text{is\_blue} \mid \text{says\_blue})$ | `mean(posterior_samples)` |
 
-**The three approaches:**
+**Three equivalent inference approaches:**
 
-| Approach | Math Equivalent | GenJAX Implementation |
-|----------|----------------|----------------------|
-| **1. Filtering** | Keep only outcomes in $B$, count $A$ | `traces[condition]` + count |
-| **2. ChoiceMap** | Specify $B$ directly | `Target(model, (), observations)` |
-| **3. Inference** | Weighted sampling from $P(A\mid B)$ | `target.importance(key, ...)` |
+| Approach | Mathematical Idea | GenJAX Implementation |
+|----------|------------------|----------------------|
+| **1. Filtering** | Sample from joint, keep only matching $E$ | Filter traces where `says_blue == 1` |
+| **2. generate()** | Direct sampling from $P(H \mid E)$ | `model.generate(key, observation, args)` |
+| **3. importance()** | Weighted sampling | `target.importance(key, n_particles)` |
 
-**Key insight:** All three compute the same conditional probability—they just differ in efficiency and how explicitly you specify the condition.
+**Key insights:**
+- **Generative model = Prior + Likelihood** — The @gen function encodes both
+- **Conditioning = Computing posterior** — GenJAX does the Bayes' theorem math
+- **All three methods compute the same thing** — They just differ in efficiency
+- **Base rates matter!** — Prior P(H) heavily influences posterior P(H|E)
 {{% /notice %}}
 
 ---
 
-## Approach 1: Filtering Simulations
+## Approach 1: Filtering (Rejection Sampling)
 
-Let's answer: **"Given dinner is Tonkatsu, what's P(lunch is Tonkatsu)?"**
+Let's solve the taxicab problem by generating many scenarios and filtering to the observation.
 
-### Step 1: Generate Many Traces
+### Step 1: Generate Many Scenarios
 
 ```python
-import jax
-import jax.numpy as jnp
-from genjax import gen, bernoulli
-
-@gen
-def chibany_day():
-    lunch_is_tonkatsu = bernoulli(0.5) @ "lunch"
-    dinner_is_tonkatsu = bernoulli(0.5) @ "dinner"
-    return (lunch_is_tonkatsu, dinner_is_tonkatsu)
-
-# Generate 10,000 days
+# Generate 100,000 scenarios
 key = jax.random.key(42)
-keys = jax.random.split(key, 10000)
+keys = jax.random.split(key, 100000)
 
-def run_one_day(k):
-    trace = chibany_day.simulate(k, ())
-    return trace.get_retval()
+def run_scenario_vec(k):
+    trace = taxicab_model.simulate(k, (0.15, 0.80))
+    choices = trace.get_choices()
+    return jnp.array([choices['is_blue'], choices['says_blue']])
 
-days = jax.vmap(run_one_day)(keys)
+scenarios = jax.vmap(run_scenario_vec)(keys)
+is_blue = scenarios[:, 0]
+says_blue = scenarios[:, 1]
 ```
 
 ### Step 2: Filter to Observation
 
-**Observation:** Dinner is Tonkatsu (dinner = 1)
+**Observation:** Chibany says "blue"
 
 ```python
-# Filter: keep only days where dinner is Tonkatsu
-dinner_is_tonkatsu = days[:, 1] == 1
+# Keep only scenarios where Chibany says "blue"
+observation_satisfied = says_blue == 1
 
-# Count how many days match
-n_matching = jnp.sum(dinner_is_tonkatsu)
-print(f"Days where dinner is Tonkatsu: {n_matching} / {len(days)}")
+n_says_blue = jnp.sum(observation_satisfied)
+print(f"Scenarios where Chibany says blue: {n_says_blue} / {len(scenarios)}")
 ```
 
 **Output (example):**
 ```
-Days where dinner is Tonkatsu: 4982 / 10000
+Scenarios where Chibany says blue: 29017 / 100000
 ```
 
-**This is about 50%** — makes sense because dinner has 50% probability!
+**Why ~29%?**
+- $P(\text{says Blue}) = P(\text{Blue}) \cdot P(\text{says Blue} \mid \text{Blue}) + P(\text{Green}) \cdot P(\text{says Blue} \mid \text{Green})$
+- $= 0.15 \times 0.80 + 0.85 \times 0.20 = 0.12 + 0.17 = 0.29$
 
-### Step 3: Query Among Filtered Traces
+### Step 3: Count True Positives
 
-Among days where dinner is Tonkatsu, how many also have lunch as Tonkatsu?
+Among scenarios where they say "blue", how many are actually blue?
 
 ```python
-# Both meals are Tonkatsu
-both_tonkatsu = (days[:, 0] == 1) & (days[:, 1] == 1)
+# Both says blue AND is blue
+both_blue = observation_satisfied & (is_blue == 1)
 
-# Count
-n_both = jnp.sum(both_tonkatsu)
-
-print(f"Days with both Tonkatsu: {n_both} / {n_matching}")
+n_actually_blue = jnp.sum(both_blue)
+print(f"Scenarios where taxi IS blue: {n_actually_blue} / {n_says_blue}")
 ```
 
 **Output (example):**
 ```
-Days with both Tonkatsu: 2491 / 4982
+Scenarios where taxi IS blue: 12038 / 29017
 ```
 
-### Step 4: Calculate Conditional Probability
+### Step 4: Calculate Posterior
 
 ```python
-prob_lunch_given_dinner = n_both / n_matching
-print(f"P(lunch=T | dinner=T) ≈ {prob_lunch_given_dinner:.3f}")
+prob_blue_given_says_blue = n_actually_blue / n_says_blue
+print(f"\nP(Blue | says Blue) ≈ {prob_blue_given_says_blue:.3f}")
 ```
 
 **Output:**
 ```
-P(lunch=T | dinner=T) ≈ 0.500
+P(Blue | says Blue) ≈ 0.415
 ```
 
-**Perfect!** This matches the theoretical answer (0.5) because lunch and dinner are independent.
+**Only 41.5%!** Even though Chibany is 80% accurate, there's less than 50% chance the taxi was actually blue!
 
----
+{{% notice style="warning" title="The Base Rate Strikes!" %}}
+**Why so low?**
 
-## Complete Example: Filtering
+Even though Chibany is 80% accurate, **most taxis are green** (85%). So even with his 20% error rate on green taxis, there are **more green taxis misidentified as blue** than there are actual blue taxis!
 
-Here's the complete code:
+**The numbers:**
+- Blue taxis correctly identified: $0.15 \times 0.80 = 0.12$ (12%)
+- Green taxis incorrectly identified: $0.85 \times 0.20 = 0.17$ (17%)
 
-```python
-import jax
-import jax.numpy as jnp
-from genjax import gen, bernoulli
+**More false positives than true positives!**
 
-@gen
-def chibany_day():
-    lunch_is_tonkatsu = bernoulli(0.5) @ "lunch"
-    dinner_is_tonkatsu = bernoulli(0.5) @ "dinner"
-    return (lunch_is_tonkatsu, dinner_is_tonkatsu)
+This is why the posterior is only 41.5% ≈ 12/(12+17).
+{{% /notice %}}
 
-# Generate simulations
-key = jax.random.key(42)
-keys = jax.random.split(key, 10000)
-
-def run_one_day(k):
-    trace = chibany_day.simulate(k, ())
-    return trace.get_retval()
-
-days = jax.vmap(run_one_day)(keys)
-
-# Observation: dinner is Tonkatsu
-observation_satisfied = days[:, 1] == 1
-
-# Query: lunch is also Tonkatsu
-query_satisfied = days[:, 0] == 1
-
-# Both observation AND query
-both_satisfied = observation_satisfied & query_satisfied
-
-# Calculate conditional probability
-n_observation = jnp.sum(observation_satisfied)
-n_both = jnp.sum(both_satisfied)
-
-prob_conditional = n_both / n_observation
-
-print(f"=== Conditional Probability via Filtering ===")
-print(f"Observation (dinner=T): {n_observation} traces")
-print(f"Both (lunch=T AND dinner=T): {n_both} traces")
-print(f"P(lunch=T | dinner=T) ≈ {prob_conditional:.3f}")
-```
-
-{{% notice style="success" title="The Pattern" %}}
+{{% notice style="success" title="The Filtering Pattern" %}}
 **Conditional probability via filtering:**
 
 1. **Generate** many traces
@@ -262,9 +305,9 @@ This is **rejection sampling** — the simplest form of inference!
 
 ---
 
-## Approach 2: Conditioning with Choice Maps
+## Approach 2: Using `generate()` with Observations
 
-GenJAX also lets you **specify observations** when generating traces.
+Now let's use GenJAX's built-in conditioning. This is usually more convenient!
 
 ### Creating a Choice Map
 
@@ -273,35 +316,34 @@ A **choice map** is a dictionary specifying values for named random choices:
 ```python
 from genjax import ChoiceMap
 
-# Specify that dinner must be Tonkatsu (1)
-observations = ChoiceMap({
-    "dinner": 1
-})
+# Specify that Chibany says "blue"
+observation = ChoiceMap.d({"says_blue": 1})
 ```
 
-### Generating with Observations
-
-Use the `generate` function instead of `simulate`:
+### Generating Conditional Traces
 
 ```python
+# Generate 10,000 traces conditional on observation
 key = jax.random.key(42)
+keys = jax.random.split(key, 10000)
 
-# Generate a trace consistent with observations
-trace, weight = chibany_day.generate(key, (), observations)
+def run_conditional(k):
+    trace, weight = taxicab_model.generate(k, observation, (0.15, 0.80))
+    return trace.get_retval()  # Returns is_blue
 
-print(f"Lunch: {trace.get_choices()['lunch']}")
-print(f"Dinner: {trace.get_choices()['dinner']}")
-print(f"Weight: {weight}")
+posterior_samples = jax.vmap(run_conditional)(keys)
+
+# Calculate posterior probability
+prob_blue_posterior = jnp.mean(posterior_samples)
+print(f"P(Blue | says Blue) ≈ {prob_blue_posterior:.3f}")
 ```
 
-**Output (example):**
+**Output:**
 ```
-Lunch: 1
-Dinner: 1  # Always 1 because we observed it!
-Weight: -0.6931471805599453
+P(Blue | says Blue) ≈ 0.414
 ```
 
-**What's the weight?** It's the log probability of the observation. Here, $P(\text{dinner}=1) = 0.5$, so $\log(0.5) = -0.693...$
+**Same answer!** Both methods work — `generate()` is just more convenient.
 
 {{% notice style="info" title="generate() vs simulate()" %}}
 **`simulate(key, args)`:**
@@ -309,7 +351,7 @@ Weight: -0.6931471805599453
 - No observations specified
 - Returns just the trace
 
-**`generate(key, args, observations)`:**
+**`generate(key, observations, args)`:**
 - Generates a trace consistent with observations
 - Specified choices take given values
 - Unspecified choices are random
@@ -322,172 +364,199 @@ Weight: -0.6931471805599453
 
 ---
 
-## Generating Multiple Conditional Traces
+## Theoretical Verification
 
-Let's generate 1000 traces where dinner is Tonkatsu:
+Let's verify our simulation against exact Bayes' theorem calculation:
 
 ```python
-from genjax import ChoiceMap
+# Prior
+P_blue = 0.15
+P_green = 0.85
 
-# Observation: dinner = Tonkatsu
-observations = ChoiceMap({"dinner": 1})
+# Likelihood
+P_says_blue_given_blue = 0.80
+P_says_blue_given_green = 0.20
 
-# Generate many conditional traces
-key = jax.random.key(42)
-keys = jax.random.split(key, 1000)
+# Evidence (total probability of saying blue)
+P_says_blue = (P_blue * P_says_blue_given_blue +
+               P_green * P_says_blue_given_green)
 
-def run_conditional(k):
-    trace, weight = chibany_day.generate(k, (), observations)
-    return trace.get_retval()
+# Posterior (Bayes' theorem)
+P_blue_given_says_blue = (P_says_blue_given_blue * P_blue) / P_says_blue
 
-conditional_days = jax.vmap(run_conditional)(keys)
-
-# Count lunch outcomes
-lunch_tonkatsu = jnp.sum(conditional_days[:, 0] == 1)
-
-print(f"Among {len(conditional_days)} days where dinner=Tonkatsu:")
-print(f"  Lunch is Tonkatsu: {lunch_tonkatsu} ({lunch_tonkatsu/len(conditional_days):.1%})")
-print(f"  Lunch is Hamburger: {len(conditional_days) - lunch_tonkatsu} ({(len(conditional_days) - lunch_tonkatsu)/len(conditional_days):.1%})")
+print(f"=== Bayes' Theorem Calculation ===")
+print(f"P(Blue) = {P_blue}")
+print(f"P(says Blue | Blue) = {P_says_blue_given_blue}")
+print(f"P(says Blue | Green) = {P_says_blue_given_green}")
+print(f"P(says Blue) = {P_says_blue}")
+print(f"\nP(Blue | says Blue) = {P_blue_given_says_blue:.3f}")
 ```
 
 **Output:**
 ```
-Among 1000 days where dinner=Tonkatsu:
-  Lunch is Tonkatsu: 501 (50.1%)
-  Lunch is Hamburger: 499 (49.9%)
+=== Bayes' Theorem Calculation ===
+P(Blue) = 0.15
+P(says Blue | Blue) = 0.8
+P(says Blue | Green) = 0.2
+P(says Blue) = 0.29
+
+P(Blue | says Blue) = 0.414
 ```
 
-**Perfect!** Confirms $P(\text{lunch}=T \mid \text{dinner}=T) = 0.5$
-
----
-
-## Connection to the Probability Tutorial
-
-Let's revisit the exact example from Chapter 4 of the probability tutorial!
-
-**Scenario:** Chibany observes that the student bringing their lunch said "He says it's from a place starting with T."
-
-- If it's Tonkatsu, they'd definitely say "T" (P = 1.0)
-- If it's Hamburger, they might still say "T" for "The Burger Place" (P = 0.3)
-
-**Question:** What's the probability lunch is actually Tonkatsu?
-
-### The Generative Model
-
-```python
-@gen
-def lunch_with_clue():
-    """Model lunch with a clue about the first letter."""
-
-    # Prior: 50% chance of each meal
-    is_tonkatsu = bernoulli(0.5) @ "is_tonkatsu"
-
-    # Clue depends on the actual meal
-    if is_tonkatsu:
-        # If Tonkatsu, definitely says "T"
-        says_t = bernoulli(1.0) @ "says_t"
-    else:
-        # If Hamburger, only 30% chance of saying "T"
-        says_t = bernoulli(0.3) @ "says_t"
-
-    return is_tonkatsu
-```
-
-### Prior (Before Hearing the Clue)
-
-```python
-# Generate without observations
-key = jax.random.key(42)
-keys = jax.random.split(key, 10000)
-
-def run_prior(k):
-    trace = lunch_with_clue.simulate(k, ())
-    return trace.get_retval()
-
-prior_samples = jax.vmap(run_prior)(keys)
-prob_tonkatsu_prior = jnp.mean(prior_samples)
-
-print(f"Prior: P(Tonkatsu) = {prob_tonkatsu_prior:.3f}")
-```
-
-**Output:**
-```
-Prior: P(Tonkatsu) = 0.500
-```
-
-**Makes sense!** Before hearing the clue, it's 50-50.
-
-### Posterior (After Hearing "T")
-
-```python
-from genjax import ChoiceMap
-
-# Observation: heard "T"
-observations = ChoiceMap({"says_t": 1})
-
-# Generate conditional on observation
-def run_posterior(k):
-    trace, weight = lunch_with_clue.generate(k, (), observations)
-    return trace.get_retval()
-
-keys = jax.random.split(key, 10000)
-posterior_samples = jax.vmap(run_posterior)(keys)
-prob_tonkatsu_posterior = jnp.mean(posterior_samples)
-
-print(f"Posterior: P(Tonkatsu | heard 'T') = {prob_tonkatsu_posterior:.3f}")
-```
-
-**Output:**
-```
-Posterior: P(Tonkatsu | heard 'T') = 0.769
-```
-
-**Perfect!** This matches the theoretical answer from Bayes' theorem:
-
-$$P(T \mid \text{heard "T"}) = \frac{P(\text{heard "T"} \mid T) \cdot P(T)}{P(\text{heard "T"})} = \frac{1.0 \times 0.5}{0.65} \approx 0.769$$
-
-**The probability increased from 50% to 77%** after hearing the clue!
+**Perfect match!** GenJAX simulation ≈ 0.415, Bayes' theorem exact = 0.414
 
 ---
 
 ## Visualizing Prior vs Posterior
 
+Let's visualize how evidence changes our beliefs:
+
 ```python
 import matplotlib.pyplot as plt
 
-# Data
-categories = ['Hamburger', 'Tonkatsu']
-prior_probs = [1 - prob_tonkatsu_prior, prob_tonkatsu_prior]
-posterior_probs = [1 - prob_tonkatsu_posterior, prob_tonkatsu_posterior]
+# Prior: before observation
+prior_blue = 0.15
+prior_green = 0.85
+
+# Posterior: after observation
+posterior_blue = prob_blue_posterior  # From simulation
+posterior_green = 1 - posterior_blue
 
 # Plot
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
+categories = ['Green', 'Blue']
+colors = ['#4ecdc4', '#6c5ce7']
+
 # Prior
-ax1.bar(categories, prior_probs, color=['#ff6b6b', '#4ecdc4'])
-ax1.set_ylabel('Probability')
-ax1.set_title('Prior: Before Hearing Clue')
+ax1.bar(categories, [prior_green, prior_blue], color=colors)
+ax1.set_ylabel('Probability', fontsize=12)
+ax1.set_title('Prior: Before Chibany Speaks', fontsize=14, fontweight='bold')
 ax1.set_ylim(0, 1)
 ax1.axhline(y=0.5, color='gray', linestyle='--', alpha=0.5)
 
-for i, prob in enumerate(prior_probs):
-    ax1.text(i, prob + 0.05, f'{prob:.1%}', ha='center', fontweight='bold')
+for i, prob in enumerate([prior_green, prior_blue]):
+    ax1.text(i, prob + 0.05, f'{prob:.1%}', ha='center', fontsize=14, fontweight='bold')
 
 # Posterior
-ax2.bar(categories, posterior_probs, color=['#ff6b6b', '#4ecdc4'])
-ax2.set_ylabel('Probability')
-ax2.set_title('Posterior: After Hearing "T"')
+ax2.bar(categories, [posterior_green, posterior_blue], color=colors)
+ax2.set_ylabel('Probability', fontsize=12)
+ax2.set_title('Posterior: After Chibany Says "Blue"', fontsize=14, fontweight='bold')
 ax2.set_ylim(0, 1)
 ax2.axhline(y=0.5, color='gray', linestyle='--', alpha=0.5)
 
-for i, prob in enumerate(posterior_probs):
-    ax2.text(i, prob + 0.05, f'{prob:.1%}', ha='center', fontweight='bold')
+for i, prob in enumerate([posterior_green, posterior_blue]):
+    ax2.text(i, prob + 0.05, f'{prob:.1%}', ha='center', fontsize=14, fontweight='bold')
 
+plt.tight_layout()
+plt.show()
+
+print(f"\n📊 Belief Update:")
+print(f"   Before: P(Blue) = {prior_blue:.1%}")
+print(f"   After:  P(Blue | says Blue) = {posterior_blue:.1%}")
+print(f"   Change: +{(posterior_blue - prior_blue):.1%}")
+```
+
+**Key insight:** Evidence increased our belief in blue from 15% to 41%, but **still not even 50%** because the base rate is so strong!
+
+![Prior vs Posterior probability distributions](../../images/genjax/taxicab_prior_posterior.png)
+
+---
+
+## Exploring Base Rate Effects
+
+Let's see how changing the base rate affects the answer.
+
+### Scenario 1: Equal Taxis (50% blue, 50% green)
+
+```python
+observation = ChoiceMap.d({"says_blue": 1})
+
+def run_equal_base(k):
+    trace, weight = taxicab_model.generate(k, observation, (0.50, 0.80))
+    return trace.get_retval()
+
+keys = jax.random.split(key, 10000)
+posterior_equal = jax.vmap(run_equal_base)(keys)
+prob_equal = jnp.mean(posterior_equal)
+
+print(f"If 50% blue: P(Blue | says Blue) = {prob_equal:.3f}")
+```
+
+**Output:**
+```
+If 50% blue: P(Blue | says Blue) = 0.800
+```
+
+**Now it's 80%!** When base rates are equal, accuracy dominates.
+
+### Scenario 2: Mostly Blue (85% blue, 15% green)
+
+```python
+def run_mostly_blue(k):
+    trace, weight = taxicab_model.generate(k, observation, (0.85, 0.80))
+    return trace.get_retval()
+
+posterior_mostly_blue = jax.vmap(run_mostly_blue)(keys)
+prob_mostly_blue = jnp.mean(posterior_mostly_blue)
+
+print(f"If 85% blue: P(Blue | says Blue) = {prob_mostly_blue:.3f}")
+```
+
+**Output:**
+```
+If 85% blue: P(Blue | says Blue) = 0.971
+```
+
+**Now it's 97%!** When most taxis are blue, seeing "blue" is strong evidence.
+
+### Visualizing the Effect
+
+```python
+# Test different base rates
+base_rates = jnp.linspace(0.01, 0.99, 50)
+posteriors = []
+
+for rate in base_rates:
+    def run_with_rate(k):
+        trace, weight = taxicab_model.generate(k, observation, (float(rate), 0.80))
+        return trace.get_retval()
+
+    keys = jax.random.split(key, 1000)
+    post = jax.vmap(run_with_rate)(keys)
+    posteriors.append(jnp.mean(post))
+
+# Plot
+plt.figure(figsize=(10, 6))
+plt.plot(base_rates, posteriors, linewidth=2, color='#6c5ce7')
+plt.axhline(y=0.5, color='gray', linestyle='--', alpha=0.5, label='50% threshold')
+plt.axvline(x=0.15, color='red', linestyle='--', alpha=0.7, label='Original problem (15%)')
+plt.scatter([0.15], [0.414], color='red', s=100, zorder=5)
+
+plt.xlabel('Base Rate: P(Blue)', fontsize=12)
+plt.ylabel('Posterior: P(Blue | says Blue)', fontsize=12)
+plt.title('How Base Rates Affect Inference\n(Chibany 80% accurate)', fontsize=14, fontweight='bold')
+plt.grid(alpha=0.3)
+plt.legend(fontsize=10)
 plt.tight_layout()
 plt.show()
 ```
 
-**The visualization shows:** Evidence shifts our belief! We started at 50-50, but hearing "T" pushed us to 77% Tonkatsu.
+**The graph shows:** Even with high accuracy (80%), the posterior depends heavily on the base rate!
+
+![How base rates affect inference](../../images/genjax/taxicab_base_rate_effect.png)
+
+{{% notice style="success" title="The Lesson" %}}
+**Base rates matter enormously in real-world inference!**
+
+Medical tests, fraud detection, witness testimony — all require considering:
+1. How accurate is the test/witness? (likelihood)
+2. How common is the condition/crime? (prior/base rate)
+
+**Ignoring base rates leads to wrong conclusions.**
+
+This is called **base rate neglect** — a common cognitive bias.
+{{% /notice %}}
 
 ---
 
@@ -529,168 +598,175 @@ GenJAX handles the inference automatically!
 
 ---
 
-## Exercises
+## Complete Example Code
 
-### Exercise 1: Independent Variables
-
-Verify that lunch and dinner are independent:
-
-**Task:** Show that $P(\text{lunch}=T \mid \text{dinner}=T) = P(\text{lunch}=T)$
+Here's everything together for easy copying:
 
 ```python
-# Generate unconditional samples (prior)
-key = jax.random.key(42)
-keys = jax.random.split(key, 10000)
+import jax
+import jax.numpy as jnp
+from genjax import gen, flip, ChoiceMap
+import matplotlib.pyplot as plt
 
-def run_prior(k):
-    trace = chibany_day.simulate(k, ())
-    return trace.get_retval()
-
-days = jax.vmap(run_prior)(keys)
-
-# Prior: P(lunch=T)
-prob_lunch_prior = jnp.mean(days[:, 0] == 1)
-
-# Conditional: P(lunch=T | dinner=T)
-dinner_t = days[:, 1] == 1
-prob_lunch_given_dinner = jnp.sum((days[:, 0] == 1) & dinner_t) / jnp.sum(dinner_t)
-
-print(f"P(lunch=T) = {prob_lunch_prior:.3f}")
-print(f"P(lunch=T | dinner=T) = {prob_lunch_given_dinner:.3f}")
-print(f"Independent: {abs(prob_lunch_prior - prob_lunch_given_dinner) < 0.05}")
-```
-
-{{% expand "Expected Output" %}}
-```
-P(lunch=T) = 0.500
-P(lunch=T | dinner=T) = 0.500
-Independent: True
-```
-
-**Conclusion:** Knowing dinner doesn't change lunch probability → independent!
-{{% /expand %}}
-
----
-
-### Exercise 2: Dependent Variables
-
-Create a model where lunch and dinner are **not** independent:
-
-**Scenario:** If lunch is Tonkatsu, Chibany wants variety for dinner (only 20% chance of Tonkatsu again). If lunch is Hamburger, they crave Tonkatsu for dinner (80% chance).
-
-```python
 @gen
-def chibany_day_dependent():
-    """Meals where dinner depends on lunch."""
+def taxicab_model(base_rate_blue=0.15, accuracy=0.80):
+    """Taxicab problem generative model."""
+    is_blue = flip(base_rate_blue) @ "is_blue"
 
-    # Lunch is random (50-50)
-    lunch_is_tonkatsu = bernoulli(0.5) @ "lunch"
+    # What Chibany says depends on true color
+    says_blue_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
+    says_blue = flip(says_blue_prob) @ "says_blue"
 
-    # Dinner depends on lunch!
-    if lunch_is_tonkatsu:
-        # Had Tonkatsu for lunch → wants variety
-        dinner_is_tonkatsu = bernoulli(0.2) @ "dinner"
-    else:
-        # Had Hamburger for lunch → craves Tonkatsu
-        dinner_is_tonkatsu = bernoulli(0.8) @ "dinner"
+    return is_blue
 
-    return (lunch_is_tonkatsu, dinner_is_tonkatsu)
-```
-
-**Task:** Calculate $P(\text{lunch}=T \mid \text{dinner}=T)$ and compare to $P(\text{lunch}=T)$.
-
-{{% expand "Solution" %}}
-```python
-# Prior: P(lunch=T)
-keys = jax.random.split(key, 10000)
-
-def run_prior(k):
-    trace = chibany_day_dependent.simulate(k, ())
-    return trace.get_retval()
-
-days = jax.vmap(run_prior)(keys)
-prob_lunch_prior = jnp.mean(days[:, 0] == 1)
-
-# Conditional: P(lunch=T | dinner=T)
-dinner_t = days[:, 1] == 1
-prob_lunch_given_dinner = jnp.sum((days[:, 0] == 1) & dinner_t) / jnp.sum(dinner_t)
-
-print(f"P(lunch=T) = {prob_lunch_prior:.3f}")
-print(f"P(lunch=T | dinner=T) = {prob_lunch_given_dinner:.3f}")
-print(f"Independent: {abs(prob_lunch_prior - prob_lunch_given_dinner) < 0.05}")
-```
-
-**Expected output:**
-```
-P(lunch=T) = 0.500
-P(lunch=T | dinner=T) = 0.200
-Independent: False
-```
-
-**Explanation:**
-- Unconditionally, lunch is 50-50
-- But if we know dinner=T, it's more likely lunch was H (because T→T is only 20%)!
-- So $P(\text{lunch}=T \mid \text{dinner}=T) = 0.2 \neq 0.5 = P(\text{lunch}=T)$
-
-**They're dependent!** Knowing dinner tells us about lunch.
-{{% /expand %}}
-
----
-
-### Exercise 3: Multiple Observations
-
-Extend the lunch clue model to multiple observations:
-
-**Scenario:**
-1. Student says "It starts with T"
-2. You smell the food and it smells fried (90% if Tonkatsu, 50% if Hamburger)
-
-**Task:** Calculate $P(\text{Tonkatsu} \mid \text{says T AND smells fried})$
-
-{{% expand "Solution" %}}
-```python
-@gen
-def lunch_with_multiple_clues():
-    """Model with two pieces of evidence."""
-
-    is_tonkatsu = bernoulli(0.5) @ "is_tonkatsu"
-
-    # Clue 1: What they say
-    if is_tonkatsu:
-        says_t = bernoulli(1.0) @ "says_t"
-    else:
-        says_t = bernoulli(0.3) @ "says_t"
-
-    # Clue 2: Smell
-    if is_tonkatsu:
-        smells_fried = bernoulli(0.9) @ "smells_fried"
-    else:
-        smells_fried = bernoulli(0.5) @ "smells_fried"
-
-    return is_tonkatsu
-
-# Observations: both clues
-from genjax import ChoiceMap
-observations = ChoiceMap({
-    "says_t": 1,
-    "smells_fried": 1
-})
+# Observation: Chibany says "blue"
+observation = ChoiceMap.d({"says_blue": 1})
 
 # Generate posterior samples
 key = jax.random.key(42)
 keys = jax.random.split(key, 10000)
 
-def run_posterior(k):
-    trace, weight = lunch_with_multiple_clues.generate(k, (), observations)
+def run_inference(k):
+    trace, weight = taxicab_model.generate(k, observation, (0.15, 0.80))
     return trace.get_retval()
 
-posterior = jax.vmap(run_posterior)(keys)
-prob_tonkatsu = jnp.mean(posterior)
+posterior_samples = jax.vmap(run_inference)(keys)
+prob_blue = jnp.mean(posterior_samples)
 
-print(f"P(Tonkatsu | says T AND smells fried) = {prob_tonkatsu:.3f}")
+print(f"=== TAXICAB INFERENCE ===")
+print(f"Base rate: 15% blue")
+print(f"Accuracy: 80%")
+print(f"Observation: Says 'blue'")
+print(f"\nP(Blue | says Blue) ≈ {prob_blue:.3f}")
 ```
 
-**Expected:** Higher than 0.769 (from single clue) because we have more evidence!
+---
+
+## Interactive Exploration
+
+{{% notice style="tip" title="📓 Interactive Notebook: Bayesian Learning" %}}
+Want to explore Bayesian learning in depth with interactive examples? Check out the **[Bayesian Learning notebook](../../notebooks/bayesian_learning.ipynb)** which covers:
+
+- The complete taxicab problem with visualizations
+- Sequential Bayesian updating with multiple observations
+- Interactive sliders to explore different base rates and accuracies
+- How base rates affect posterior beliefs
+
+This notebook lets you experiment with the concepts you just learned!
+{{% /notice %}}
+
+---
+
+## Exercises
+
+### Exercise 1: Higher Accuracy
+
+What if Chibany were 95% accurate instead of 80%?
+
+**Task:** Modify the code to use `accuracy=0.95` and calculate the posterior.
+
+{{% expand "Solution" %}}
+```python
+def run_high_accuracy(k):
+    trace, weight = taxicab_model.generate(k, observation, (0.15, 0.95))
+    return trace.get_retval()
+
+keys = jax.random.split(key, 10000)
+posterior_high_acc = jax.vmap(run_high_accuracy)(keys)
+prob_high_acc = jnp.mean(posterior_high_acc)
+
+print(f"With 95% accuracy: P(Blue | says Blue) = {prob_high_acc:.3f}")
+```
+
+**Expected:** ≈ 0.77 (77%)
+
+**Much higher!** Accuracy matters, but even at 95%, base rates still pull it below 100%.
+
+**Theoretical:**
+$$P = \frac{0.95 \times 0.15}{0.95 \times 0.15 + 0.05 \times 0.85} = \frac{0.1425}{0.1850} \approx 0.770$$
+{{% /expand %}}
+
+---
+
+### Exercise 2: Opposite Observation
+
+What if Chibany said "green" instead of "blue"?
+
+**Task:** Calculate $P(\text{Blue} \mid \text{says Green})$
+
+{{% expand "Solution" %}}
+```python
+# Observation: says "green"
+observation_green = ChoiceMap.d({"says_blue": 0})
+
+def run_says_green(k):
+    trace, weight = taxicab_model.generate(k, observation_green, (0.15, 0.80))
+    return trace.get_retval()
+
+keys = jax.random.split(key, 10000)
+posterior_green = jax.vmap(run_says_green)(keys)
+prob_blue_given_green = jnp.mean(posterior_green)
+
+print(f"P(Blue | says Green) = {prob_blue_given_green:.3f}")
+```
+
+**Expected:** ≈ 0.041 (4.1%)
+
+**Very low!** If Chibany (80% accurate) says "green", it's very likely green.
+
+**Theoretical:**
+$$P = \frac{0.20 \times 0.15}{0.20 \times 0.15 + 0.80 \times 0.85} = \frac{0.03}{0.71} \approx 0.042$$
+{{% /expand %}}
+
+---
+
+### Exercise 3: Two Witnesses
+
+What if **two independent witnesses** both say "blue"?
+
+**Task:** Extend the model to include two witnesses, both 80% accurate. Calculate the posterior.
+
+{{% expand "Solution" %}}
+```python
+@gen
+def taxicab_two_witnesses(base_rate_blue=0.15, accuracy=0.80):
+    """Two independent witnesses."""
+    is_blue = flip(base_rate_blue) @ "is_blue"
+
+    # Witness 1
+    witness1_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
+    witness1 = flip(witness1_prob) @ "witness1"
+
+    # Witness 2 (independent)
+    witness2_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
+    witness2 = flip(witness2_prob) @ "witness2"
+
+    return is_blue
+
+# Both say "blue"
+observation_two = ChoiceMap.d({"witness1": 1, "witness2": 1})
+
+def run_two_witnesses(k):
+    trace, weight = taxicab_two_witnesses.generate(k, observation_two, (0.15, 0.80))
+    return trace.get_retval()
+
+keys = jax.random.split(key, 10000)
+posterior_two = jax.vmap(run_two_witnesses)(keys)
+prob_two = jnp.mean(posterior_two)
+
+print(f"P(Blue | both say Blue) = {prob_two:.3f}")
+```
+
+**Expected:** ≈ 0.73 (73%)
+
+**Much higher!** Two independent pieces of evidence are much stronger.
+
+**Theoretical:**
+$$P(\text{both say Blue} \mid \text{Blue}) = 0.80^2 = 0.64$$
+$$P(\text{both say Blue} \mid \text{Green}) = 0.20^2 = 0.04$$
+$$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096}{0.130} \approx 0.738$$
+
+**Two witnesses push us above 50% despite the low base rate!**
 {{% /expand %}}
 
 ---
@@ -700,28 +776,52 @@ print(f"P(Tonkatsu | says T AND smells fried) = {prob_tonkatsu:.3f}")
 In this chapter, you learned:
 
 ✅ **Conditional probability** — restriction to observations
-✅ **Filtering approach** — rejection sampling for inference
-✅ **`generate()` function** — conditioning with choice maps
-✅ **Prior vs Posterior** — beliefs before and after data
-✅ **Bayes' theorem in action** — automatic Bayesian update
-✅ **Dependent vs Independent** — how observations provide information
 
-**The key insight:** Probabilistic programming lets you **ask questions** instead of just **generate samples**!
+✅ **Filtering approach** — rejection sampling for inference
+
+✅ **`generate()` function** — conditioning with choice maps
+
+✅ **Prior vs Posterior** — beliefs before and after data
+
+✅ **Bayes' theorem in action** — automatic Bayesian update
+
+✅ **Base rate effects** — why priors matter enormously
+
+✅ **Real inference problems** — the taxicab scenario
+
+**The key insight:** Probabilistic programming lets you **encode assumptions** (generative model) and **ask questions** (conditioning) without manual Bayes' rule calculations!
+
+---
+
+## Why This Matters
+
+**Real-world applications:**
+
+1. **Medical diagnosis:** Test accuracy + disease prevalence → probability of disease
+2. **Fraud detection:** Transaction patterns + fraud base rate → probability of fraud
+3. **Spam filtering:** Email features + spam base rate → probability of spam
+4. **Criminal justice:** Witness accuracy + crime base rate → probability of guilt
+
+**All follow the same pattern:**
+- Define generative model (how data arises)
+- Observe data
+- Infer hidden causes
+
+**GenJAX makes this systematic and scalable.**
 
 ---
 
 ## Next Steps
 
-You now know how to:
-- Generate samples (simulation)
-- Condition on observations (inference)
-- Calculate conditional probabilities
+You now know:
+- How to build generative models
+- How to perform inference with observations
+- How to interpret posterior probabilities
+- Why base rates matter
 
-**Next up:** Chapter 5 applies these ideas to a real problem — the taxicab scenario from the probability tutorial!
-
-You'll see how Bayes' theorem solves practical inference problems, and why base rates matter.
+**Next up:** Chapter 6 shows you how to build your own models from scratch!
 
 ---
 
-|[← Previous: Understanding Traces](./03_traces.md) | [Next: Inference in Action →](./05_inference.md)|
+|[← Previous: Understanding Traces](./03_traces.md) | [Next: Building Your Own Models →](./06_building_models.md)|
 | :--- | ---: |

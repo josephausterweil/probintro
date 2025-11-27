@@ -13,7 +13,7 @@ Recall: Conditional Probability From the probability tutorial, remember conditio
 Written: $P(A \mid B)$">
     <meta name="author" content="Joseph Austerweil">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Conditioning and Observations :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:title" content="Conditioning and Inference :: Probability & Probabilistic Computing Tutorial">
     <meta name="twitter:description" content="From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
@@ -22,7 +22,7 @@ Recall: Conditional Probability From the probability tutorial, remember conditio
 Written: $P(A \mid B)$">
     <meta property="og:url" content="http://localhost:1313/probintro/genjax/04_conditioning/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
-    <meta property="og:title" content="Conditioning and Observations :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Conditioning and Inference :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
@@ -32,36 +32,36 @@ Written: $P(A \mid B)$">
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
     <meta property="article:section" content="Probabilistic Programming with GenJAX">
-    <meta itemprop="name" content="Conditioning and Observations :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="name" content="Conditioning and Inference :: Probability & Probabilistic Computing Tutorial">
     <meta itemprop="description" content="From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
 Recall: Conditional Probability From the probability tutorial, remember conditional probability:
 “Given that I observed $B$, what’s the probability of $A$?”
 Written: $P(A \mid B)$">
-    <meta itemprop="wordCount" content="2628">
-    <title>Conditioning and Observations :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764159389" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764159389" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764159389" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764159389" defer></script>
-    <script src="/probintro/js/search.js?1764159389" defer></script>
+    <meta itemprop="wordCount" content="3196">
+    <title>Conditioning and Inference :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/images/favicon.png?1764223205" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764223205" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764223205" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764223205" defer></script>
+    <script src="/probintro/js/search.js?1764223205" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764159389";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764223205";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764159389" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764159389" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764159389" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764159389" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764223205" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764223205" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764223205" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764223205" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764159389" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764159389" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764159389" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764159389" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764159389" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764223205" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764223205" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764223205" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764223205" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764223205" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -135,38 +135,42 @@ Written: $P(A \mid B)$">
   <ul>
     <li><a href="#from-simulation-to-inference">From Simulation to Inference</a></li>
     <li><a href="#recall-conditional-probability">Recall: Conditional Probability</a></li>
-    <li><a href="#example-from-set-based-probability">Example from Set-Based Probability</a></li>
-    <li><a href="#conditional-probability-in-genjax">Conditional Probability in GenJAX</a>
+    <li><a href="#the-taxicab-problem-a-real-inference-challenge">The Taxicab Problem: A Real Inference Challenge</a>
       <ul>
-        <li><a href="#approach-1-filtering-simulations-rejection-sampling">Approach 1: Filtering Simulations (Rejection Sampling)</a></li>
-        <li><a href="#approach-2-conditioning-with-generate">Approach 2: Conditioning with <code>generate</code></a></li>
+        <li><a href="#why-this-is-surprising">Why This Is Surprising</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-generative-model">The Generative Model</a></li>
+    <li><a href="#three-approaches-to-inference">Three Approaches to Inference</a>
+      <ul>
+        <li><a href="#approach-1-filtering-rejection-sampling">Approach 1: Filtering (Rejection Sampling)</a></li>
+        <li><a href="#approach-2-conditioning-with-generate">Approach 2: Conditioning with <code>generate()</code></a></li>
         <li><a href="#approach-3-full-inference-importance-sampling-mcmc">Approach 3: Full Inference (Importance Sampling, MCMC)</a></li>
       </ul>
     </li>
-    <li><a href="#approach-1-filtering-simulations">Approach 1: Filtering Simulations</a>
+    <li><a href="#approach-1-filtering-rejection-sampling-1">Approach 1: Filtering (Rejection Sampling)</a>
       <ul>
-        <li><a href="#step-1-generate-many-traces">Step 1: Generate Many Traces</a></li>
+        <li><a href="#step-1-generate-many-scenarios">Step 1: Generate Many Scenarios</a></li>
         <li><a href="#step-2-filter-to-observation">Step 2: Filter to Observation</a></li>
-        <li><a href="#step-3-query-among-filtered-traces">Step 3: Query Among Filtered Traces</a></li>
-        <li><a href="#step-4-calculate-conditional-probability">Step 4: Calculate Conditional Probability</a></li>
+        <li><a href="#step-3-count-true-positives">Step 3: Count True Positives</a></li>
+        <li><a href="#step-4-calculate-posterior">Step 4: Calculate Posterior</a></li>
       </ul>
     </li>
-    <li><a href="#complete-example-filtering">Complete Example: Filtering</a></li>
-    <li><a href="#approach-2-conditioning-with-choice-maps">Approach 2: Conditioning with Choice Maps</a>
+    <li><a href="#approach-2-using-generate-with-observations">Approach 2: Using <code>generate()</code> with Observations</a>
       <ul>
         <li><a href="#creating-a-choice-map">Creating a Choice Map</a></li>
-        <li><a href="#generating-with-observations">Generating with Observations</a></li>
+        <li><a href="#generating-conditional-traces">Generating Conditional Traces</a></li>
       </ul>
     </li>
-    <li><a href="#generating-multiple-conditional-traces">Generating Multiple Conditional Traces</a></li>
-    <li><a href="#connection-to-the-probability-tutorial">Connection to the Probability Tutorial</a>
-      <ul>
-        <li><a href="#the-generative-model">The Generative Model</a></li>
-        <li><a href="#prior-before-hearing-the-clue">Prior (Before Hearing the Clue)</a></li>
-        <li><a href="#posterior-after-hearing-t">Posterior (After Hearing &ldquo;T&rdquo;)</a></li>
-      </ul>
-    </li>
+    <li><a href="#theoretical-verification">Theoretical Verification</a></li>
     <li><a href="#visualizing-prior-vs-posterior">Visualizing Prior vs Posterior</a></li>
+    <li><a href="#exploring-base-rate-effects">Exploring Base Rate Effects</a>
+      <ul>
+        <li><a href="#scenario-1-equal-taxis-50-blue-50-green">Scenario 1: Equal Taxis (50% blue, 50% green)</a></li>
+        <li><a href="#scenario-2-mostly-blue-85-blue-15-green">Scenario 2: Mostly Blue (85% blue, 15% green)</a></li>
+        <li><a href="#visualizing-the-effect">Visualizing the Effect</a></li>
+      </ul>
+    </li>
     <li><a href="#key-concepts">Key Concepts</a>
       <ul>
         <li><a href="#prior-distribution">Prior Distribution</a></li>
@@ -174,14 +178,17 @@ Written: $P(A \mid B)$">
         <li><a href="#bayes-theorem-in-action">Bayes&rsquo; Theorem in Action</a></li>
       </ul>
     </li>
+    <li><a href="#complete-example-code">Complete Example Code</a></li>
+    <li><a href="#interactive-exploration">Interactive Exploration</a></li>
     <li><a href="#exercises">Exercises</a>
       <ul>
-        <li><a href="#exercise-1-independent-variables">Exercise 1: Independent Variables</a></li>
-        <li><a href="#exercise-2-dependent-variables">Exercise 2: Dependent Variables</a></li>
-        <li><a href="#exercise-3-multiple-observations">Exercise 3: Multiple Observations</a></li>
+        <li><a href="#exercise-1-higher-accuracy">Exercise 1: Higher Accuracy</a></li>
+        <li><a href="#exercise-2-opposite-observation">Exercise 2: Opposite Observation</a></li>
+        <li><a href="#exercise-3-two-witnesses">Exercise 3: Two Witnesses</a></li>
       </ul>
     </li>
     <li><a href="#what-youve-learned">What You&rsquo;ve Learned</a></li>
+    <li><a href="#why-this-matters">Why This Matters</a></li>
     <li><a href="#next-steps">Next Steps</a></li>
   </ul>
 </nav>
@@ -189,12 +196,12 @@ Written: $P(A \mid B)$">
               </div>
             </div>
           </div>
-          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/genjax/index.html"><span itemprop="name">Probabilistic Programming with GenJAX</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Conditioning and Observations</span><meta itemprop="position" content="3"></li>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/genjax/index.html"><span itemprop="name">Probabilistic Programming with GenJAX</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Conditioning and Inference</span><meta itemprop="position" content="3"></li>
           </ol>
           <div class="topbar-area topbar-area-end" data-area="end">
             <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/03_traces/index.html" title="Understanding Traces (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
             </div>
-            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/05_inference/index.html" title="Inference in Action: The Taxicab Problem (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/genjax/06_building_models/index.html" title="Building Your Own Models (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
             </div>
             <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
               <div class="topbar-content">
@@ -214,14 +221,14 @@ Written: $P(A \mid B)$">
   <header class="headline">
   </header>
 
-<h1 id="conditioning-and-observations">Conditioning and Observations</h1>
+<h1 id="conditioning-and-inference">Conditioning and Inference</h1>
 
 <h2 id="from-simulation-to-inference">From Simulation to Inference</h2>
 <p>So far, we&rsquo;ve used GenJAX to <strong>generate</strong> outcomes — simulating what could happen.</p>
 <p>Now we&rsquo;ll learn to <strong>infer</strong> — reasoning backwards from observations to causes.</p>
 <p>This is the heart of probabilistic programming!</p>
-<p><a href="#R-image-9cc5451d3beaa1c9304698b3238aebc7" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-9cc5451d3beaa1c9304698b3238aebc7"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-06412294168be9c03021d5c951c653a8" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-06412294168be9c03021d5c951c653a8"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="recall-conditional-probability">Recall: Conditional Probability</h2>
 <p>From the probability tutorial, remember <strong>conditional probability</strong>:</p>
@@ -230,18 +237,6 @@ Written: $P(A \mid B)$">
 <p><strong>Written:</strong> $P(A \mid B)$</p>
 <p><strong>Meaning:</strong> Restrict the outcome space to only outcomes in $B$, then calculate the probability of $A$ within that restricted space.</p>
 <p><strong>Formula:</strong> $P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{|A \cap B|}{|B|}$</p>
-<hr>
-<h2 id="example-from-set-based-probability">Example from Set-Based Probability</h2>
-<p>Chibany&rsquo;s meals: $\Omega = \{HH, HT, TH, TT\}$</p>
-<p><strong>Question:</strong> &ldquo;Given that dinner is Tonkatsu, what&rsquo;s the probability lunch was also Tonkatsu?&rdquo;</p>
-<p><strong>Set-based solution:</strong></p>
-<ol>
-<li>Observe $D$ = &ldquo;dinner is Tonkatsu&rdquo; = $\{HT, TT\}$</li>
-<li>Want $L$ = &ldquo;lunch is Tonkatsu&rdquo; = $\{TH, TT\}$</li>
-<li>Intersection: $L \cap D = \{TT\}$</li>
-<li>Conditional probability: $P(L \mid D) = \frac{|\{TT\}|}{|\{HT, TT\}|} = \frac{1}{2}$</li>
-</ol>
-<p><strong>Key insight:</strong> We <strong>restricted the outcome space</strong> from $\{HH, HT, TH, TT\}$ to just $\{HT, TT\}$ (outcomes where dinner = Tonkatsu).</p>
 
 <details open class=" box cstyle notices info">
   <summary class="box-label" tabindex="-1">
@@ -269,94 +264,23 @@ Written: $P(A \mid B)$">
   </div>
 </details>
 <hr>
-<h2 id="conditional-probability-in-genjax">Conditional Probability in GenJAX</h2>
-<p>In GenJAX, we do the same thing — but with <strong>code instead of sets</strong>!</p>
-<p><strong>Three approaches:</strong></p>
-<h3 id="approach-1-filtering-simulations-rejection-sampling">Approach 1: Filtering Simulations (Rejection Sampling)</h3>
-<p>Generate many traces, keep only those matching the observation.</p>
-<p><strong>Pseudocode:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>1. Generate many traces
-2. Keep only traces where observation is true
-3. Among those, count how many satisfy the query
-4. Calculate the ratio</code></pre></div>
-<p>This is <strong>Monte Carlo conditional probability</strong> — exactly what we did by hand with sets!</p>
-<h3 id="approach-2-conditioning-with-generate">Approach 2: Conditioning with <code>generate</code></h3>
-<p>GenJAX has built-in support for specifying observations. We provide a <strong>choice map</strong> with the observed values, and GenJAX generates traces consistent with those observations.</p>
-<h3 id="approach-3-full-inference-importance-sampling-mcmc">Approach 3: Full Inference (Importance Sampling, MCMC)</h3>
-<p>More advanced methods that we&rsquo;ll explore in Chapter 5. These are more efficient when observations are rare.</p>
-<p><strong>This chapter focuses on Approach 1 and 2</strong> — the most intuitive methods.</p>
-
-<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
-  <summary class="box-label" tabindex="-1">
-    📐→💻 Math-to-Code Translation
-  </summary>
-  <div class="box-content">
-<p><strong>How conditional probability translates to GenJAX:</strong></p>
-<table>
-  <thead>
-      <tr>
-          <th>Math Concept</th>
-          <th>Mathematical Notation</th>
-          <th>GenJAX Code</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>Conditional Probability</strong></td>
-          <td>$P(A \mid B)$</td>
-          <td><code>Target(model, (), observations)</code></td>
-      </tr>
-      <tr>
-          <td><strong>Observation</strong></td>
-          <td>$B$ = &ldquo;dinner is T&rdquo;</td>
-          <td><code>ChoiceMap.d({&quot;dinner&quot;: 1})</code></td>
-      </tr>
-      <tr>
-          <td><strong>Query</strong></td>
-          <td>$A$ = &ldquo;lunch is T&rdquo;</td>
-          <td>Check <code>trace[&quot;lunch&quot;] == 1</code></td>
-      </tr>
-      <tr>
-          <td><strong>Restriction</strong></td>
-          <td>Cross out outcomes where $B$ is false</td>
-          <td>Filter traces or use <code>Target</code></td>
-      </tr>
-  </tbody>
-</table>
-<p><strong>The three approaches:</strong></p>
-<table>
-  <thead>
-      <tr>
-          <th>Approach</th>
-          <th>Math Equivalent</th>
-          <th>GenJAX Implementation</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><strong>1. Filtering</strong></td>
-          <td>Keep only outcomes in $B$, count $A$</td>
-          <td><code>traces[condition]</code> + count</td>
-      </tr>
-      <tr>
-          <td><strong>2. ChoiceMap</strong></td>
-          <td>Specify $B$ directly</td>
-          <td><code>Target(model, (), observations)</code></td>
-      </tr>
-      <tr>
-          <td><strong>3. Inference</strong></td>
-          <td>Weighted sampling from $P(A\mid B)$</td>
-          <td><code>target.importance(key, ...)</code></td>
-      </tr>
-  </tbody>
-</table>
-<p><strong>Key insight:</strong> All three compute the same conditional probability—they just differ in efficiency and how explicitly you specify the condition.</p>
-  </div>
-</details>
+<h2 id="the-taxicab-problem-a-real-inference-challenge">The Taxicab Problem: A Real Inference Challenge</h2>
+<p>Let&rsquo;s apply these ideas to a real problem from the probability tutorial.</p>
+<p><strong>Scenario:</strong> Chibany witnesses a hit-and-run at night. They say the taxi was blue. But:</p>
+<ul>
+<li>85% of taxis are green, 15% are blue</li>
+<li>Chibany identifies colors correctly 80% of the time</li>
+</ul>
+<p><strong>Question:</strong> What&rsquo;s the probability it was actually a blue taxi?</p>
+<h3 id="why-this-is-surprising">Why This Is Surprising</h3>
+<p>Most people&rsquo;s intuition says: &ldquo;Chibany is 80% accurate, so probably 80% chance it&rsquo;s blue.&rdquo;</p>
+<p><strong>But the answer is only about 41%!</strong></p>
+<p>Why? Because <strong>most taxis are green</strong>. Even with 80% accuracy, there are more green taxis misidentified as blue than there are actual blue taxis correctly identified.</p>
+<p>This is <strong>base rate neglect</strong> — ignoring how common something is in the population.</p>
+<p>Let&rsquo;s see how GenJAX helps us solve this!</p>
 <hr>
-<h2 id="approach-1-filtering-simulations">Approach 1: Filtering Simulations</h2>
-<p>Let&rsquo;s answer: <strong>&ldquo;Given dinner is Tonkatsu, what&rsquo;s P(lunch is Tonkatsu)?&rdquo;</strong></p>
-<h3 id="step-1-generate-many-traces">Step 1: Generate Many Traces</h3>
+<h2 id="the-generative-model">The Generative Model</h2>
+<p>First, we express the taxicab scenario as a GenJAX generative function:</p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -378,31 +302,226 @@ Written: $P(A \mid B)$">
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, flip
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day</span>():
-</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
-</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">taxicab_model</span>(base_rate_blue<span style="color:#f92672">=</span><span style="color:#ae81ff">0.15</span>, accuracy<span style="color:#f92672">=</span><span style="color:#ae81ff">0.80</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Generate the taxi color and what Chibany says.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        base_rate_blue: Probability a taxi is blue (default 0.15)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        accuracy: Probability Chibany identifies correctly (default 0.80)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        True if taxi is blue, False if green
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate 10,000 days</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># True taxi color (blue = 1, green = 0)</span>
+</span></span><span style="display:flex;"><span>    is_blue <span style="color:#f92672">=</span> flip(base_rate_blue) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_blue&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># What Chibany says depends on the true color</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use jnp.where for JAX compatibility</span>
+</span></span><span style="display:flex;"><span>    says_blue_prob <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>where(is_blue, accuracy, <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> accuracy)
+</span></span><span style="display:flex;"><span>    says_blue <span style="color:#f92672">=</span> flip(says_blue_prob) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;says_blue&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_blue</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>What this encodes:</strong></p>
+<ol>
+<li><strong>Prior:</strong> Taxis are blue 15% of the time (base rate)</li>
+<li><strong>Likelihood:</strong> How observation (&ldquo;says blue&rdquo;) depends on true color
+<ul>
+<li>If blue: says &ldquo;blue&rdquo; 80% of the time (correct)</li>
+<li>If green: says &ldquo;blue&rdquo; 20% of the time (mistake)</li>
+</ul>
+</li>
+<li><strong>Complete model:</strong> Joint distribution over true color and observation</li>
+</ol>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    📘 Foundation Concept: Bayes&rsquo; Theorem in Code
+  </summary>
+  <div class="box-content">
+<p><strong>Recall from Tutorial 1, Chapter 5</strong> that Bayes&rsquo; Theorem updates beliefs with evidence:</p>
+<p>$$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$</p>
+<p><strong>In the taxicab problem:</strong></p>
+<ul>
+<li><strong>Hypothesis (H):</strong> Taxi is blue</li>
+<li><strong>Evidence (E):</strong> Chibany says &ldquo;blue&rdquo;</li>
+<li><strong>Question:</strong> $P(\text{blue} \mid \text{says blue})$ = ?</li>
+</ul>
+<p><strong>Tutorial 1 approach (by hand):</strong></p>
+<ol>
+<li>Calculate $P(\text{says blue} \mid \text{blue}) \cdot P(\text{blue}) = 0.80 \times 0.15 = 0.12$</li>
+<li>Calculate $P(\text{says blue} \mid \text{green}) \cdot P(\text{green}) = 0.20 \times 0.85 = 0.17$</li>
+<li>Calculate $P(\text{says blue}) = 0.12 + 0.17 = 0.29$</li>
+<li>Apply Bayes: $P(\text{blue} \mid \text{says blue}) = \frac{0.12}{0.29} \approx 0.41$</li>
+</ol>
+<p><strong>Tutorial 2 approach (GenJAX):</strong></p>
+<ol>
+<li><strong>Define the generative model</strong> (prior + likelihood)</li>
+<li><strong>Specify observation</strong> (says blue)</li>
+<li><strong>Let GenJAX compute</strong> the posterior automatically!</li>
+</ol>
+<p><strong>The structure is identical:</strong></p>
+<ul>
+<li><code>is_blue = flip(0.15)</code> → Prior: $P(\text{blue})$</li>
+<li><code>says_blue_prob = jnp.where(is_blue, 0.80, 0.20)</code> → Likelihood: $P(\text{says blue} \mid \text{blue})$</li>
+<li>GenJAX conditioning → Computes posterior: $P(\text{blue} \mid \text{says blue})$</li>
+</ul>
+<p><strong>Key insight:</strong> GenJAX does all the Bayes&rsquo; Theorem algebra for you! You just write the generative story (prior + likelihood), and conditioning gives you the posterior.</p>
+<p><a href="/probintro/intro/05_bayes/index.html">← Review Bayes&rsquo; Theorem in Tutorial 1, Chapter 5</a></p>
+  </div>
+</details>
+<hr>
+<h2 id="three-approaches-to-inference">Three Approaches to Inference</h2>
+<p>GenJAX provides three ways to compute conditional probabilities:</p>
+<h3 id="approach-1-filtering-rejection-sampling">Approach 1: Filtering (Rejection Sampling)</h3>
+<p>Generate many traces, keep only those matching the observation.</p>
+<p><strong>Pseudocode:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>1. Generate many traces
+2. Keep only traces where observation is true
+3. Among those, count how many satisfy the query
+4. Calculate the ratio</code></pre></div>
+<p>This is <strong>Monte Carlo conditional probability</strong> — exactly what we did by hand with sets!</p>
+<h3 id="approach-2-conditioning-with-generate">Approach 2: Conditioning with <code>generate()</code></h3>
+<p>GenJAX has built-in support for specifying observations. We provide a <strong>choice map</strong> with the observed values, and GenJAX generates traces consistent with those observations.</p>
+<h3 id="approach-3-full-inference-importance-sampling-mcmc">Approach 3: Full Inference (Importance Sampling, MCMC)</h3>
+<p>More advanced methods (beyond this tutorial). These are more efficient when observations are rare.</p>
+<p><strong>This chapter focuses on Approach 1 and 2</strong> — the most intuitive methods.</p>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    📐→💻 Math-to-Code Translation
+  </summary>
+  <div class="box-content">
+<p><strong>How Bayesian inference translates to GenJAX:</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>Math Concept</th>
+          <th>Mathematical Notation</th>
+          <th>GenJAX Code</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Prior</strong></td>
+          <td>$P(H)$</td>
+          <td><code>flip(0.15) @ &quot;is_blue&quot;</code></td>
+      </tr>
+      <tr>
+          <td><strong>Likelihood</strong></td>
+          <td>$P(E \mid H)$</td>
+          <td><code>jnp.where(is_blue, 0.80, 0.20)</code></td>
+      </tr>
+      <tr>
+          <td><strong>Evidence</strong></td>
+          <td>$P(E)$</td>
+          <td>GenJAX computes automatically</td>
+      </tr>
+      <tr>
+          <td><strong>Posterior</strong></td>
+          <td>$P(H \mid E) = \frac{P(E \mid H) P(H)}{P(E)}$</td>
+          <td>Result of conditioning</td>
+      </tr>
+      <tr>
+          <td><strong>Observation</strong></td>
+          <td>$E$ = &ldquo;says blue&rdquo;</td>
+          <td><code>ChoiceMap.d({&quot;says_blue&quot;: 1})</code></td>
+      </tr>
+      <tr>
+          <td><strong>Inference Query</strong></td>
+          <td>$P(\text{is_blue} \mid \text{says_blue})$</td>
+          <td><code>mean(posterior_samples)</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Three equivalent inference approaches:</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>Approach</th>
+          <th>Mathematical Idea</th>
+          <th>GenJAX Implementation</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>1. Filtering</strong></td>
+          <td>Sample from joint, keep only matching $E$</td>
+          <td>Filter traces where <code>says_blue == 1</code></td>
+      </tr>
+      <tr>
+          <td><strong>2. generate()</strong></td>
+          <td>Direct sampling from $P(H \mid E)$</td>
+          <td><code>model.generate(key, observation, args)</code></td>
+      </tr>
+      <tr>
+          <td><strong>3. importance()</strong></td>
+          <td>Weighted sampling</td>
+          <td><code>target.importance(key, n_particles)</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Key insights:</strong></p>
+<ul>
+<li><strong>Generative model = Prior + Likelihood</strong> — The @gen function encodes both</li>
+<li><strong>Conditioning = Computing posterior</strong> — GenJAX does the Bayes&rsquo; theorem math</li>
+<li><strong>All three methods compute the same thing</strong> — They just differ in efficiency</li>
+<li><strong>Base rates matter!</strong> — Prior P(H) heavily influences posterior P(H|E)</li>
+</ul>
+  </div>
+</details>
+<hr>
+<h2 id="approach-1-filtering-rejection-sampling-1">Approach 1: Filtering (Rejection Sampling)</h2>
+<p>Let&rsquo;s solve the taxicab problem by generating many scenarios and filtering to the observation.</p>
+<h3 id="step-1-generate-many-scenarios">Step 1: Generate Many Scenarios</h3>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Generate 100,000 scenarios</span>
 </span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
-</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">100000</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_one_day</span>(k):
-</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(k, ())
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_scenario_vec</span>(k):
+</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>simulate(k, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.80</span>))
+</span></span><span style="display:flex;"><span>    choices <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_choices()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> jnp<span style="color:#f92672">.</span>array([choices[<span style="color:#e6db74">&#39;is_blue&#39;</span>], choices[<span style="color:#e6db74">&#39;says_blue&#39;</span>]])
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>days <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_one_day)(keys)</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>scenarios <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_scenario_vec)(keys)
+</span></span><span style="display:flex;"><span>is_blue <span style="color:#f92672">=</span> scenarios[:, <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>says_blue <span style="color:#f92672">=</span> scenarios[:, <span style="color:#ae81ff">1</span>]</span></span></code></pre></td></tr></table>
 </div>
 </div>
 <h3 id="step-2-filter-to-observation">Step 2: Filter to Observation</h3>
-<p><strong>Observation:</strong> Dinner is Tonkatsu (dinner = 1)</p>
+<p><strong>Observation:</strong> Chibany says &ldquo;blue&rdquo;</p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -410,22 +529,24 @@ Written: $P(A \mid B)$">
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Filter: keep only days where dinner is Tonkatsu</span>
-</span></span><span style="display:flex;"><span>dinner_is_tonkatsu <span style="color:#f92672">=</span> days[:, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Keep only scenarios where Chibany says &#34;blue&#34;</span>
+</span></span><span style="display:flex;"><span>observation_satisfied <span style="color:#f92672">=</span> says_blue <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Count how many days match</span>
-</span></span><span style="display:flex;"><span>n_matching <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(dinner_is_tonkatsu)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Days where dinner is Tonkatsu: </span><span style="color:#e6db74">{</span>n_matching<span style="color:#e6db74">}</span><span style="color:#e6db74"> / </span><span style="color:#e6db74">{</span>len(days)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>n_says_blue <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(observation_satisfied)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Scenarios where Chibany says blue: </span><span style="color:#e6db74">{</span>n_says_blue<span style="color:#e6db74">}</span><span style="color:#e6db74"> / </span><span style="color:#e6db74">{</span>len(scenarios)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
 <p><strong>Output (example):</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Days where dinner is Tonkatsu: 4982 / 10000</code></pre></div>
-<p><strong>This is about 50%</strong> — makes sense because dinner has 50% probability!</p>
-<h3 id="step-3-query-among-filtered-traces">Step 3: Query Among Filtered Traces</h3>
-<p>Among days where dinner is Tonkatsu, how many also have lunch as Tonkatsu?</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Scenarios where Chibany says blue: 29017 / 100000</code></pre></div>
+<p><strong>Why ~29%?</strong></p>
+<ul>
+<li>$P(\text{says Blue}) = P(\text{Blue}) \cdot P(\text{says Blue} \mid \text{Blue}) + P(\text{Green}) \cdot P(\text{says Blue} \mid \text{Green})$</li>
+<li>$= 0.15 \times 0.80 + 0.85 \times 0.20 = 0.12 + 0.17 = 0.29$</li>
+</ul>
+<h3 id="step-3-count-true-positives">Step 3: Count True Positives</h3>
+<p>Among scenarios where they say &ldquo;blue&rdquo;, how many are actually blue?</p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -433,38 +554,210 @@ Written: $P(A \mid B)$">
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Both meals are Tonkatsu</span>
-</span></span><span style="display:flex;"><span>both_tonkatsu <span style="color:#f92672">=</span> (days[:, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> (days[:, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Both says blue AND is blue</span>
+</span></span><span style="display:flex;"><span>both_blue <span style="color:#f92672">=</span> observation_satisfied <span style="color:#f92672">&amp;</span> (is_blue <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Count</span>
-</span></span><span style="display:flex;"><span>n_both <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(both_tonkatsu)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Days with both Tonkatsu: </span><span style="color:#e6db74">{</span>n_both<span style="color:#e6db74">}</span><span style="color:#e6db74"> / </span><span style="color:#e6db74">{</span>n_matching<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>n_actually_blue <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(both_blue)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Scenarios where taxi IS blue: </span><span style="color:#e6db74">{</span>n_actually_blue<span style="color:#e6db74">}</span><span style="color:#e6db74"> / </span><span style="color:#e6db74">{</span>n_says_blue<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
 <p><strong>Output (example):</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Days with both Tonkatsu: 2491 / 4982</code></pre></div>
-<h3 id="step-4-calculate-conditional-probability">Step 4: Calculate Conditional Probability</h3>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Scenarios where taxi IS blue: 12038 / 29017</code></pre></div>
+<h3 id="step-4-calculate-posterior">Step 4: Calculate Posterior</h3>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>prob_lunch_given_dinner <span style="color:#f92672">=</span> n_both <span style="color:#f92672">/</span> n_matching
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(lunch=T | dinner=T) ≈ </span><span style="color:#e6db74">{</span>prob_lunch_given_dinner<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>prob_blue_given_says_blue <span style="color:#f92672">=</span> n_actually_blue <span style="color:#f92672">/</span> n_says_blue
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">P(Blue | says Blue) ≈ </span><span style="color:#e6db74">{</span>prob_blue_given_says_blue<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
 <p><strong>Output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>P(lunch=T | dinner=T) ≈ 0.500</code></pre></div>
-<p><strong>Perfect!</strong> This matches the theoretical answer (0.5) because lunch and dinner are independent.</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>P(Blue | says Blue) ≈ 0.415</code></pre></div>
+<p><strong>Only 41.5%!</strong> Even though Chibany is 80% accurate, there&rsquo;s less than 50% chance the taxi was actually blue!</p>
+
+<details open class=" box cstyle notices warning">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-triangle"></i> 
+    The Base Rate Strikes!
+  </summary>
+  <div class="box-content">
+<p><strong>Why so low?</strong></p>
+<p>Even though Chibany is 80% accurate, <strong>most taxis are green</strong> (85%). So even with his 20% error rate on green taxis, there are <strong>more green taxis misidentified as blue</strong> than there are actual blue taxis!</p>
+<p><strong>The numbers:</strong></p>
+<ul>
+<li>Blue taxis correctly identified: $0.15 \times 0.80 = 0.12$ (12%)</li>
+<li>Green taxis incorrectly identified: $0.85 \times 0.20 = 0.17$ (17%)</li>
+</ul>
+<p><strong>More false positives than true positives!</strong></p>
+<p>This is why the posterior is only 41.5% ≈ 12/(12+17).</p>
+  </div>
+</details>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    The Filtering Pattern
+  </summary>
+  <div class="box-content">
+<p><strong>Conditional probability via filtering:</strong></p>
+<ol>
+<li><strong>Generate</strong> many traces</li>
+<li><strong>Filter</strong> to observations (keep only matching traces)</li>
+<li><strong>Count</strong> queries among filtered traces</li>
+<li><strong>Divide</strong> to get conditional probability</li>
+</ol>
+<p>This is <strong>rejection sampling</strong> — the simplest form of inference!</p>
+  </div>
+</details>
 <hr>
-<h2 id="complete-example-filtering">Complete Example: Filtering</h2>
-<p>Here&rsquo;s the complete code:</p>
+<h2 id="approach-2-using-generate-with-observations">Approach 2: Using <code>generate()</code> with Observations</h2>
+<p>Now let&rsquo;s use GenJAX&rsquo;s built-in conditioning. This is usually more convenient!</p>
+<h3 id="creating-a-choice-map">Creating a Choice Map</h3>
+<p>A <strong>choice map</strong> is a dictionary specifying values for named random choices:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Specify that Chibany says &#34;blue&#34;</span>
+</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#ae81ff">1</span>})</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="generating-conditional-traces">Generating Conditional Traces</h3>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Generate 10,000 traces conditional on observation</span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_conditional</span>(k):
+</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.80</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()  <span style="color:#75715e"># Returns is_blue</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>posterior_samples <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_conditional)(keys)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate posterior probability</span>
+</span></span><span style="display:flex;"><span>prob_blue_posterior <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_samples)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Blue | says Blue) ≈ </span><span style="color:#e6db74">{</span>prob_blue_posterior<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>P(Blue | says Blue) ≈ 0.414</code></pre></div>
+<p><strong>Same answer!</strong> Both methods work — <code>generate()</code> is just more convenient.</p>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    generate() vs simulate()
+  </summary>
+  <div class="box-content">
+<p><strong><code>simulate(key, args)</code>:</strong></p>
+<ul>
+<li>Generates a trace with all choices random</li>
+<li>No observations specified</li>
+<li>Returns just the trace</li>
+</ul>
+<p><strong><code>generate(key, observations, args)</code>:</strong></p>
+<ul>
+<li>Generates a trace consistent with observations</li>
+<li>Specified choices take given values</li>
+<li>Unspecified choices are random</li>
+<li>Returns <code>(trace, weight)</code> where weight = log probability of observations</li>
+</ul>
+<p><strong>When to use which:</strong></p>
+<ul>
+<li><strong>Forward simulation</strong> (no observations): Use <code>simulate()</code></li>
+<li><strong>Conditional sampling</strong> (some observations): Use <code>generate()</code></li>
+</ul>
+  </div>
+</details>
+<hr>
+<h2 id="theoretical-verification">Theoretical Verification</h2>
+<p>Let&rsquo;s verify our simulation against exact Bayes&rsquo; theorem calculation:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Prior</span>
+</span></span><span style="display:flex;"><span>P_blue <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>
+</span></span><span style="display:flex;"><span>P_green <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.85</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Likelihood</span>
+</span></span><span style="display:flex;"><span>P_says_blue_given_blue <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.80</span>
+</span></span><span style="display:flex;"><span>P_says_blue_given_green <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.20</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Evidence (total probability of saying blue)</span>
+</span></span><span style="display:flex;"><span>P_says_blue <span style="color:#f92672">=</span> (P_blue <span style="color:#f92672">*</span> P_says_blue_given_blue <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>               P_green <span style="color:#f92672">*</span> P_says_blue_given_green)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Posterior (Bayes&#39; theorem)</span>
+</span></span><span style="display:flex;"><span>P_blue_given_says_blue <span style="color:#f92672">=</span> (P_says_blue_given_blue <span style="color:#f92672">*</span> P_blue) <span style="color:#f92672">/</span> P_says_blue
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;=== Bayes&#39; Theorem Calculation ===&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Blue) = </span><span style="color:#e6db74">{</span>P_blue<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(says Blue | Blue) = </span><span style="color:#e6db74">{</span>P_says_blue_given_blue<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(says Blue | Green) = </span><span style="color:#e6db74">{</span>P_says_blue_given_green<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(says Blue) = </span><span style="color:#e6db74">{</span>P_says_blue<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">P(Blue | says Blue) = </span><span style="color:#e6db74">{</span>P_blue_given_says_blue<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>=== Bayes&#39; Theorem Calculation ===
+P(Blue) = 0.15
+P(says Blue | Blue) = 0.8
+P(says Blue | Green) = 0.2
+P(says Blue) = 0.29
+
+P(Blue | says Blue) = 0.414</code></pre></div>
+<p><strong>Perfect match!</strong> GenJAX simulation ≈ 0.415, Bayes&rsquo; theorem exact = 0.414</p>
+<hr>
+<h2 id="visualizing-prior-vs-posterior">Visualizing Prior vs Posterior</h2>
+<p>Let&rsquo;s visualize how evidence changes our beliefs:</p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -506,90 +799,96 @@ Written: $P(A \mid B)$">
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day</span>():
-</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
-</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prior: before observation</span>
+</span></span><span style="display:flex;"><span>prior_blue <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>
+</span></span><span style="display:flex;"><span>prior_green <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.85</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate simulations</span>
-</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
-</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Posterior: after observation</span>
+</span></span><span style="display:flex;"><span>posterior_blue <span style="color:#f92672">=</span> prob_blue_posterior  <span style="color:#75715e"># From simulation</span>
+</span></span><span style="display:flex;"><span>posterior_green <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> posterior_blue
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_one_day</span>(k):
-</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(k, ())
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Plot</span>
+</span></span><span style="display:flex;"><span>fig, (ax1, ax2) <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">5</span>))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>days <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_one_day)(keys)
+</span></span><span style="display:flex;"><span>categories <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;Green&#39;</span>, <span style="color:#e6db74">&#39;Blue&#39;</span>]
+</span></span><span style="display:flex;"><span>colors <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;#4ecdc4&#39;</span>, <span style="color:#e6db74">&#39;#6c5ce7&#39;</span>]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Observation: dinner is Tonkatsu</span>
-</span></span><span style="display:flex;"><span>observation_satisfied <span style="color:#f92672">=</span> days[:, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prior</span>
+</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>bar(categories, [prior_green, prior_blue], color<span style="color:#f92672">=</span>colors)
+</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;Probability&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Prior: Before Chibany Speaks&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>set_ylim(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>axhline(y<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Query: lunch is also Tonkatsu</span>
-</span></span><span style="display:flex;"><span>query_satisfied <span style="color:#f92672">=</span> days[:, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, prob <span style="color:#f92672">in</span> enumerate([prior_green, prior_blue]):
+</span></span><span style="display:flex;"><span>    ax1<span style="color:#f92672">.</span>text(i, prob <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.05</span>, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>prob<span style="color:#e6db74">:</span><span style="color:#e6db74">.1%</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>, ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Both observation AND query</span>
-</span></span><span style="display:flex;"><span>both_satisfied <span style="color:#f92672">=</span> observation_satisfied <span style="color:#f92672">&amp;</span> query_satisfied
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Posterior</span>
+</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>bar(categories, [posterior_green, posterior_blue], color<span style="color:#f92672">=</span>colors)
+</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;Probability&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Posterior: After Chibany Says &#34;Blue&#34;&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>set_ylim(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>axhline(y<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate conditional probability</span>
-</span></span><span style="display:flex;"><span>n_observation <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(observation_satisfied)
-</span></span><span style="display:flex;"><span>n_both <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(both_satisfied)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, prob <span style="color:#f92672">in</span> enumerate([posterior_green, posterior_blue]):
+</span></span><span style="display:flex;"><span>    ax2<span style="color:#f92672">.</span>text(i, prob <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.05</span>, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>prob<span style="color:#e6db74">:</span><span style="color:#e6db74">.1%</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>, ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>prob_conditional <span style="color:#f92672">=</span> n_both <span style="color:#f92672">/</span> n_observation
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;=== Conditional Probability via Filtering ===&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Observation (dinner=T): </span><span style="color:#e6db74">{</span>n_observation<span style="color:#e6db74">}</span><span style="color:#e6db74"> traces&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Both (lunch=T AND dinner=T): </span><span style="color:#e6db74">{</span>n_both<span style="color:#e6db74">}</span><span style="color:#e6db74"> traces&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(lunch=T | dinner=T) ≈ </span><span style="color:#e6db74">{</span>prob_conditional<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">📊 Belief Update:&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;   Before: P(Blue) = </span><span style="color:#e6db74">{</span>prior_blue<span style="color:#e6db74">:</span><span style="color:#e6db74">.1%</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;   After:  P(Blue | says Blue) = </span><span style="color:#e6db74">{</span>posterior_blue<span style="color:#e6db74">:</span><span style="color:#e6db74">.1%</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;   Change: +</span><span style="color:#e6db74">{</span>(posterior_blue <span style="color:#f92672">-</span> prior_blue)<span style="color:#e6db74">:</span><span style="color:#e6db74">.1%</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
-
-<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
-  <summary class="box-label" tabindex="-1">
-    The Pattern
-  </summary>
-  <div class="box-content">
-<p><strong>Conditional probability via filtering:</strong></p>
-<ol>
-<li><strong>Generate</strong> many traces</li>
-<li><strong>Filter</strong> to observations (keep only matching traces)</li>
-<li><strong>Count</strong> queries among filtered traces</li>
-<li><strong>Divide</strong> to get conditional probability</li>
-</ol>
-<p>This is <strong>rejection sampling</strong> — the simplest form of inference!</p>
-  </div>
-</details>
+<p><strong>Key insight:</strong> Evidence increased our belief in blue from 15% to 41%, but <strong>still not even 50%</strong> because the base rate is so strong!</p>
+<p><a href="#R-image-44072d9ee2064c5b45c4f880f95b2818" class="lightbox-link"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-44072d9ee2064c5b45c4f880f95b2818"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png"></a></p>
 <hr>
-<h2 id="approach-2-conditioning-with-choice-maps">Approach 2: Conditioning with Choice Maps</h2>
-<p>GenJAX also lets you <strong>specify observations</strong> when generating traces.</p>
-<h3 id="creating-a-choice-map">Creating a Choice Map</h3>
-<p>A <strong>choice map</strong> is a dictionary specifying values for named random choices:</p>
+<h2 id="exploring-base-rate-effects">Exploring Base Rate Effects</h2>
+<p>Let&rsquo;s see how changing the base rate affects the answer.</p>
+<h3 id="scenario-1-equal-taxis-50-blue-50-green">Scenario 1: Equal Taxis (50% blue, 50% green)</h3>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#ae81ff">1</span>})
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Specify that dinner must be Tonkatsu (1)</span>
-</span></span><span style="display:flex;"><span>observations <span style="color:#f92672">=</span> ChoiceMap({
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;dinner&#34;</span>: <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>})</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_equal_base</span>(k):
+</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.50</span>, <span style="color:#ae81ff">0.80</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
+</span></span><span style="display:flex;"><span>posterior_equal <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_equal_base)(keys)
+</span></span><span style="display:flex;"><span>prob_equal <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_equal)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;If 50% blue: P(Blue | says Blue) = </span><span style="color:#e6db74">{</span>prob_equal<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
-<h3 id="generating-with-observations">Generating with Observations</h3>
-<p>Use the <code>generate</code> function instead of <code>simulate</code>:</p>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>If 50% blue: P(Blue | says Blue) = 0.800</code></pre></div>
+<p><strong>Now it&rsquo;s 80%!</strong> When base rates are equal, accuracy dominates.</p>
+<h3 id="scenario-2-mostly-blue-85-blue-15-green">Scenario 2: Mostly Blue (85% blue, 15% green)</h3>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -602,230 +901,20 @@ Written: $P(A \mid B)$">
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate a trace consistent with observations</span>
-</span></span><span style="display:flex;"><span>trace, weight <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>generate(key, (), observations)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Lunch: </span><span style="color:#e6db74">{</span>trace<span style="color:#f92672">.</span>get_choices()[<span style="color:#e6db74">&#39;lunch&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Dinner: </span><span style="color:#e6db74">{</span>trace<span style="color:#f92672">.</span>get_choices()[<span style="color:#e6db74">&#39;dinner&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Weight: </span><span style="color:#e6db74">{</span>weight<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Output (example):</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Lunch: 1
-Dinner: 1  # Always 1 because we observed it!
-Weight: -0.6931471805599453</code></pre></div>
-<p><strong>What&rsquo;s the weight?</strong> It&rsquo;s the log probability of the observation. Here, $P(\text{dinner}=1) = 0.5$, so $\log(0.5) = -0.693&hellip;$</p>
-
-<details open class=" box cstyle notices info">
-  <summary class="box-label" tabindex="-1">
-    <i class="fa-fw fas fa-info-circle"></i> 
-    generate() vs simulate()
-  </summary>
-  <div class="box-content">
-<p><strong><code>simulate(key, args)</code>:</strong></p>
-<ul>
-<li>Generates a trace with all choices random</li>
-<li>No observations specified</li>
-<li>Returns just the trace</li>
-</ul>
-<p><strong><code>generate(key, args, observations)</code>:</strong></p>
-<ul>
-<li>Generates a trace consistent with observations</li>
-<li>Specified choices take given values</li>
-<li>Unspecified choices are random</li>
-<li>Returns <code>(trace, weight)</code> where weight = log probability of observations</li>
-</ul>
-<p><strong>When to use which:</strong></p>
-<ul>
-<li><strong>Forward simulation</strong> (no observations): Use <code>simulate()</code></li>
-<li><strong>Conditional sampling</strong> (some observations): Use <code>generate()</code></li>
-</ul>
-  </div>
-</details>
-<hr>
-<h2 id="generating-multiple-conditional-traces">Generating Multiple Conditional Traces</h2>
-<p>Let&rsquo;s generate 1000 traces where dinner is Tonkatsu:</p>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Observation: dinner = Tonkatsu</span>
-</span></span><span style="display:flex;"><span>observations <span style="color:#f92672">=</span> ChoiceMap({<span style="color:#e6db74">&#34;dinner&#34;</span>: <span style="color:#ae81ff">1</span>})
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate many conditional traces</span>
-</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
-</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">1000</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_conditional</span>(k):
-</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>generate(k, (), observations)
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_mostly_blue</span>(k):
+</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.85</span>, <span style="color:#ae81ff">0.80</span>))
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>conditional_days <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_conditional)(keys)
+</span></span><span style="display:flex;"><span>posterior_mostly_blue <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_mostly_blue)(keys)
+</span></span><span style="display:flex;"><span>prob_mostly_blue <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_mostly_blue)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Count lunch outcomes</span>
-</span></span><span style="display:flex;"><span>lunch_tonkatsu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(conditional_days[:, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Among </span><span style="color:#e6db74">{</span>len(conditional_days)<span style="color:#e6db74">}</span><span style="color:#e6db74"> days where dinner=Tonkatsu:&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  Lunch is Tonkatsu: </span><span style="color:#e6db74">{</span>lunch_tonkatsu<span style="color:#e6db74">}</span><span style="color:#e6db74"> (</span><span style="color:#e6db74">{</span>lunch_tonkatsu<span style="color:#f92672">/</span>len(conditional_days)<span style="color:#e6db74">:</span><span style="color:#e6db74">.1%</span><span style="color:#e6db74">}</span><span style="color:#e6db74">)&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  Lunch is Hamburger: </span><span style="color:#e6db74">{</span>len(conditional_days) <span style="color:#f92672">-</span> lunch_tonkatsu<span style="color:#e6db74">}</span><span style="color:#e6db74"> (</span><span style="color:#e6db74">{</span>(len(conditional_days) <span style="color:#f92672">-</span> lunch_tonkatsu)<span style="color:#f92672">/</span>len(conditional_days)<span style="color:#e6db74">:</span><span style="color:#e6db74">.1%</span><span style="color:#e6db74">}</span><span style="color:#e6db74">)&#34;</span>)</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;If 85% blue: P(Blue | says Blue) = </span><span style="color:#e6db74">{</span>prob_mostly_blue<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
 <p><strong>Output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Among 1000 days where dinner=Tonkatsu:
-  Lunch is Tonkatsu: 501 (50.1%)
-  Lunch is Hamburger: 499 (49.9%)</code></pre></div>
-<p><strong>Perfect!</strong> Confirms $P(\text{lunch}=T \mid \text{dinner}=T) = 0.5$</p>
-<hr>
-<h2 id="connection-to-the-probability-tutorial">Connection to the Probability Tutorial</h2>
-<p>Let&rsquo;s revisit the exact example from Chapter 4 of the probability tutorial!</p>
-<p><strong>Scenario:</strong> Chibany observes that the student bringing their lunch said &ldquo;He says it&rsquo;s from a place starting with T.&rdquo;</p>
-<ul>
-<li>If it&rsquo;s Tonkatsu, they&rsquo;d definitely say &ldquo;T&rdquo; (P = 1.0)</li>
-<li>If it&rsquo;s Hamburger, they might still say &ldquo;T&rdquo; for &ldquo;The Burger Place&rdquo; (P = 0.3)</li>
-</ul>
-<p><strong>Question:</strong> What&rsquo;s the probability lunch is actually Tonkatsu?</p>
-<h3 id="the-generative-model">The Generative Model</h3>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lunch_with_clue</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Model lunch with a clue about the first letter.&#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Prior: 50% chance of each meal</span>
-</span></span><span style="display:flex;"><span>    is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_tonkatsu&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Clue depends on the actual meal</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_tonkatsu:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># If Tonkatsu, definitely says &#34;T&#34;</span>
-</span></span><span style="display:flex;"><span>        says_t <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;says_t&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># If Hamburger, only 30% chance of saying &#34;T&#34;</span>
-</span></span><span style="display:flex;"><span>        says_t <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;says_t&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_tonkatsu</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<h3 id="prior-before-hearing-the-clue">Prior (Before Hearing the Clue)</h3>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Generate without observations</span>
-</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
-</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_prior</span>(k):
-</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> lunch_with_clue<span style="color:#f92672">.</span>simulate(k, ())
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>prior_samples <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_prior)(keys)
-</span></span><span style="display:flex;"><span>prob_tonkatsu_prior <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(prior_samples)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Prior: P(Tonkatsu) = </span><span style="color:#e6db74">{</span>prob_tonkatsu_prior<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Prior: P(Tonkatsu) = 0.500</code></pre></div>
-<p><strong>Makes sense!</strong> Before hearing the clue, it&rsquo;s 50-50.</p>
-<h3 id="posterior-after-hearing-t">Posterior (After Hearing &ldquo;T&rdquo;)</h3>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Observation: heard &#34;T&#34;</span>
-</span></span><span style="display:flex;"><span>observations <span style="color:#f92672">=</span> ChoiceMap({<span style="color:#e6db74">&#34;says_t&#34;</span>: <span style="color:#ae81ff">1</span>})
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate conditional on observation</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_posterior</span>(k):
-</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> lunch_with_clue<span style="color:#f92672">.</span>generate(k, (), observations)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
-</span></span><span style="display:flex;"><span>posterior_samples <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_posterior)(keys)
-</span></span><span style="display:flex;"><span>prob_tonkatsu_posterior <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_samples)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Posterior: P(Tonkatsu | heard &#39;T&#39;) = </span><span style="color:#e6db74">{</span>prob_tonkatsu_posterior<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Posterior: P(Tonkatsu | heard &#39;T&#39;) = 0.769</code></pre></div>
-<p><strong>Perfect!</strong> This matches the theoretical answer from Bayes&rsquo; theorem:</p>
-<p>$$P(T \mid \text{heard &ldquo;T&rdquo;}) = \frac{P(\text{heard &ldquo;T&rdquo;} \mid T) \cdot P(T)}{P(\text{heard &ldquo;T&rdquo;})} = \frac{1.0 \times 0.5}{0.65} \approx 0.769$$</p>
-<p><strong>The probability increased from 50% to 77%</strong> after hearing the clue!</p>
-<hr>
-<h2 id="visualizing-prior-vs-posterior">Visualizing Prior vs Posterior</h2>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>If 85% blue: P(Blue | says Blue) = 0.971</code></pre></div>
+<p><strong>Now it&rsquo;s 97%!</strong> When most taxis are blue, seeing &ldquo;blue&rdquo; is strong evidence.</p>
+<h3 id="visualizing-the-effect">Visualizing the Effect</h3>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -855,48 +944,56 @@ Weight: -0.6931471805599453</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Test different base rates</span>
+</span></span><span style="display:flex;"><span>base_rates <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0.01</span>, <span style="color:#ae81ff">0.99</span>, <span style="color:#ae81ff">50</span>)
+</span></span><span style="display:flex;"><span>posteriors <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Data</span>
-</span></span><span style="display:flex;"><span>categories <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;Hamburger&#39;</span>, <span style="color:#e6db74">&#39;Tonkatsu&#39;</span>]
-</span></span><span style="display:flex;"><span>prior_probs <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> prob_tonkatsu_prior, prob_tonkatsu_prior]
-</span></span><span style="display:flex;"><span>posterior_probs <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> prob_tonkatsu_posterior, prob_tonkatsu_posterior]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> rate <span style="color:#f92672">in</span> base_rates:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_with_rate</span>(k):
+</span></span><span style="display:flex;"><span>        trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (float(rate), <span style="color:#ae81ff">0.80</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">1000</span>)
+</span></span><span style="display:flex;"><span>    post <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_with_rate)(keys)
+</span></span><span style="display:flex;"><span>    posteriors<span style="color:#f92672">.</span>append(jnp<span style="color:#f92672">.</span>mean(post))
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Plot</span>
-</span></span><span style="display:flex;"><span>fig, (ax1, ax2) <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">5</span>))
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">6</span>))
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(base_rates, posteriors, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;#6c5ce7&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>axhline(y<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;50% threshold&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>axvline(x<span style="color:#f92672">=</span><span style="color:#ae81ff">0.15</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.7</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Original problem (15%)&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>scatter([<span style="color:#ae81ff">0.15</span>], [<span style="color:#ae81ff">0.414</span>], color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, s<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>, zorder<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prior</span>
-</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>bar(categories, prior_probs, color<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;#ff6b6b&#39;</span>, <span style="color:#e6db74">&#39;#4ecdc4&#39;</span>])
-</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;Probability&#39;</span>)
-</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Prior: Before Hearing Clue&#39;</span>)
-</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>set_ylim(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>ax1<span style="color:#f92672">.</span>axhline(y<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, prob <span style="color:#f92672">in</span> enumerate(prior_probs):
-</span></span><span style="display:flex;"><span>    ax1<span style="color:#f92672">.</span>text(i, prob <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.05</span>, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>prob<span style="color:#e6db74">:</span><span style="color:#e6db74">.1%</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>, ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Posterior</span>
-</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>bar(categories, posterior_probs, color<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;#ff6b6b&#39;</span>, <span style="color:#e6db74">&#39;#4ecdc4&#39;</span>])
-</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;Probability&#39;</span>)
-</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;Posterior: After Hearing &#34;T&#34;&#39;</span>)
-</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>set_ylim(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>ax2<span style="color:#f92672">.</span>axhline(y<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, prob <span style="color:#f92672">in</span> enumerate(posterior_probs):
-</span></span><span style="display:flex;"><span>    ax2<span style="color:#f92672">.</span>text(i, prob <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.05</span>, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>prob<span style="color:#e6db74">:</span><span style="color:#e6db74">.1%</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>, ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Base Rate: P(Blue)&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Posterior: P(Blue | says Blue)&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;How Base Rates Affect Inference</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">(Chibany 80</span><span style="color:#e6db74">% a</span><span style="color:#e6db74">ccurate)&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bold&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>grid(alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>legend(fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()</span></span></code></pre></td></tr></table>
 </div>
 </div>
-<p><strong>The visualization shows:</strong> Evidence shifts our belief! We started at 50-50, but hearing &ldquo;T&rdquo; pushed us to 77% Tonkatsu.</p>
+<p><strong>The graph shows:</strong> Even with high accuracy (80%), the posterior depends heavily on the base rate!</p>
+<p><a href="#R-image-245545ebf5e2e2dc9f5fea1e5796d560" class="lightbox-link"><img alt="How base rates affect inference" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-245545ebf5e2e2dc9f5fea1e5796d560"><img alt="How base rates affect inference" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png"></a></p>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    The Lesson
+  </summary>
+  <div class="box-content">
+<p><strong>Base rates matter enormously in real-world inference!</strong></p>
+<p>Medical tests, fraud detection, witness testimony — all require considering:</p>
+<ol>
+<li>How accurate is the test/witness? (likelihood)</li>
+<li>How common is the condition/crime? (prior/base rate)</li>
+</ol>
+<p><strong>Ignoring base rates leads to wrong conclusions.</strong></p>
+<p>This is called <strong>base rate neglect</strong> — a common cognitive bias.</p>
+  </div>
+</details>
 <hr>
 <h2 id="key-concepts">Key Concepts</h2>
 <h3 id="prior-distribution">Prior Distribution</h3>
@@ -937,188 +1034,8 @@ Weight: -0.6931471805599453</code></pre></div>
   </div>
 </details>
 <hr>
-<h2 id="exercises">Exercises</h2>
-<h3 id="exercise-1-independent-variables">Exercise 1: Independent Variables</h3>
-<p>Verify that lunch and dinner are independent:</p>
-<p><strong>Task:</strong> Show that $P(\text{lunch}=T \mid \text{dinner}=T) = P(\text{lunch}=T)$</p>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Generate unconditional samples (prior)</span>
-</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
-</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_prior</span>(k):
-</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(k, ())
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>days <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_prior)(keys)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prior: P(lunch=T)</span>
-</span></span><span style="display:flex;"><span>prob_lunch_prior <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(days[:, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Conditional: P(lunch=T | dinner=T)</span>
-</span></span><span style="display:flex;"><span>dinner_t <span style="color:#f92672">=</span> days[:, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>prob_lunch_given_dinner <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum((days[:, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> dinner_t) <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(dinner_t)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(lunch=T) = </span><span style="color:#e6db74">{</span>prob_lunch_prior<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(lunch=T | dinner=T) = </span><span style="color:#e6db74">{</span>prob_lunch_given_dinner<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Independent: </span><span style="color:#e6db74">{</span>abs(prob_lunch_prior <span style="color:#f92672">-</span> prob_lunch_given_dinner) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.05</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
-</div>
-</div>
-
-<details class=" box cstyle notices transparent expand">
-  <summary class="box-label">
-    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
-    Expected Output
-  </summary>
-  <div class="box-content">
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>P(lunch=T) = 0.500
-P(lunch=T | dinner=T) = 0.500
-Independent: True</code></pre></div>
-<p><strong>Conclusion:</strong> Knowing dinner doesn&rsquo;t change lunch probability → independent!</p>
-  </div>
-</details>
-<hr>
-<h3 id="exercise-2-dependent-variables">Exercise 2: Dependent Variables</h3>
-<p>Create a model where lunch and dinner are <strong>not</strong> independent:</p>
-<p><strong>Scenario:</strong> If lunch is Tonkatsu, Chibany wants variety for dinner (only 20% chance of Tonkatsu again). If lunch is Hamburger, they crave Tonkatsu for dinner (80% chance).</p>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day_dependent</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Meals where dinner depends on lunch.&#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Lunch is random (50-50)</span>
-</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Dinner depends on lunch!</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> lunch_is_tonkatsu:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Had Tonkatsu for lunch → wants variety</span>
-</span></span><span style="display:flex;"><span>        dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Had Hamburger for lunch → craves Tonkatsu</span>
-</span></span><span style="display:flex;"><span>        dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Task:</strong> Calculate $P(\text{lunch}=T \mid \text{dinner}=T)$ and compare to $P(\text{lunch}=T)$.</p>
-
-<details class=" box cstyle notices transparent expand">
-  <summary class="box-label">
-    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
-    Solution
-  </summary>
-  <div class="box-content">
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Prior: P(lunch=T)</span>
-</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_prior</span>(k):
-</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day_dependent<span style="color:#f92672">.</span>simulate(k, ())
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>days <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_prior)(keys)
-</span></span><span style="display:flex;"><span>prob_lunch_prior <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(days[:, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Conditional: P(lunch=T | dinner=T)</span>
-</span></span><span style="display:flex;"><span>dinner_t <span style="color:#f92672">=</span> days[:, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>prob_lunch_given_dinner <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum((days[:, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> dinner_t) <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(dinner_t)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(lunch=T) = </span><span style="color:#e6db74">{</span>prob_lunch_prior<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(lunch=T | dinner=T) = </span><span style="color:#e6db74">{</span>prob_lunch_given_dinner<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Independent: </span><span style="color:#e6db74">{</span>abs(prob_lunch_prior <span style="color:#f92672">-</span> prob_lunch_given_dinner) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.05</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Expected output:</strong></p>
-<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>P(lunch=T) = 0.500
-P(lunch=T | dinner=T) = 0.200
-Independent: False</code></pre></div>
-<p><strong>Explanation:</strong></p>
-<ul>
-<li>Unconditionally, lunch is 50-50</li>
-<li>But if we know dinner=T, it&rsquo;s more likely lunch was H (because T→T is only 20%)!</li>
-<li>So $P(\text{lunch}=T \mid \text{dinner}=T) = 0.2 \neq 0.5 = P(\text{lunch}=T)$</li>
-</ul>
-<p><strong>They&rsquo;re dependent!</strong> Knowing dinner tells us about lunch.</p>
-  </div>
-</details>
-<hr>
-<h3 id="exercise-3-multiple-observations">Exercise 3: Multiple Observations</h3>
-<p>Extend the lunch clue model to multiple observations:</p>
-<p><strong>Scenario:</strong></p>
-<ol>
-<li>Student says &ldquo;It starts with T&rdquo;</li>
-<li>You smell the food and it smells fried (90% if Tonkatsu, 50% if Hamburger)</li>
-</ol>
-<p><strong>Task:</strong> Calculate $P(\text{Tonkatsu} \mid \text{says T AND smells fried})$</p>
-
-<details class=" box cstyle notices transparent expand">
-  <summary class="box-label">
-    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
-    Solution
-  </summary>
-  <div class="box-content">
+<h2 id="complete-example-code">Complete Example Code</h2>
+<p>Here&rsquo;s everything together for easy copying:</p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -1156,82 +1073,276 @@ Independent: False</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lunch_with_multiple_clues</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Model with two pieces of evidence.&#34;&#34;&#34;</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, flip, ChoiceMap
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_tonkatsu&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">taxicab_model</span>(base_rate_blue<span style="color:#f92672">=</span><span style="color:#ae81ff">0.15</span>, accuracy<span style="color:#f92672">=</span><span style="color:#ae81ff">0.80</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Taxicab problem generative model.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    is_blue <span style="color:#f92672">=</span> flip(base_rate_blue) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_blue&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Clue 1: What they say</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_tonkatsu:
-</span></span><span style="display:flex;"><span>        says_t <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;says_t&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        says_t <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;says_t&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># What Chibany says depends on true color</span>
+</span></span><span style="display:flex;"><span>    says_blue_prob <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>where(is_blue, accuracy, <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> accuracy)
+</span></span><span style="display:flex;"><span>    says_blue <span style="color:#f92672">=</span> flip(says_blue_prob) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;says_blue&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Clue 2: Smell</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_tonkatsu:
-</span></span><span style="display:flex;"><span>        smells_fried <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.9</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;smells_fried&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        smells_fried <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;smells_fried&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_blue
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_tonkatsu
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Observations: both clues</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
-</span></span><span style="display:flex;"><span>observations <span style="color:#f92672">=</span> ChoiceMap({
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;says_t&#34;</span>: <span style="color:#ae81ff">1</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;smells_fried&#34;</span>: <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Observation: Chibany says &#34;blue&#34;</span>
+</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#ae81ff">1</span>})
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate posterior samples</span>
 </span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_posterior</span>(k):
-</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> lunch_with_multiple_clues<span style="color:#f92672">.</span>generate(k, (), observations)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_inference</span>(k):
+</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.80</span>))
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>posterior <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_posterior)(keys)
-</span></span><span style="display:flex;"><span>prob_tonkatsu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior)
+</span></span><span style="display:flex;"><span>posterior_samples <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_inference)(keys)
+</span></span><span style="display:flex;"><span>prob_blue <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_samples)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Tonkatsu | says T AND smells fried) = </span><span style="color:#e6db74">{</span>prob_tonkatsu<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;=== TAXICAB INFERENCE ===&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Base rate: 15% blue&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Accuracy: 80%&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Observation: Says &#39;blue&#39;&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">P(Blue | says Blue) ≈ </span><span style="color:#e6db74">{</span>prob_blue<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
-<p><strong>Expected:</strong> Higher than 0.769 (from single clue) because we have more evidence!</p>
+<hr>
+<h2 id="interactive-exploration">Interactive Exploration</h2>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    📓 Interactive Notebook: Bayesian Learning
+  </summary>
+  <div class="box-content">
+<p>Want to explore Bayesian learning in depth with interactive examples? Check out the <strong><a href="../../notebooks/bayesian_learning.ipynb">Bayesian Learning notebook</a></strong> which covers:</p>
+<ul>
+<li>The complete taxicab problem with visualizations</li>
+<li>Sequential Bayesian updating with multiple observations</li>
+<li>Interactive sliders to explore different base rates and accuracies</li>
+<li>How base rates affect posterior beliefs</li>
+</ul>
+<p>This notebook lets you experiment with the concepts you just learned!</p>
+  </div>
+</details>
+<hr>
+<h2 id="exercises">Exercises</h2>
+<h3 id="exercise-1-higher-accuracy">Exercise 1: Higher Accuracy</h3>
+<p>What if Chibany were 95% accurate instead of 80%?</p>
+<p><strong>Task:</strong> Modify the code to use <code>accuracy=0.95</code> and calculate the posterior.</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_high_accuracy</span>(k):
+</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.95</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
+</span></span><span style="display:flex;"><span>posterior_high_acc <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_high_accuracy)(keys)
+</span></span><span style="display:flex;"><span>prob_high_acc <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_high_acc)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;With 95% accuracy: P(Blue | says Blue) = </span><span style="color:#e6db74">{</span>prob_high_acc<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Expected:</strong> ≈ 0.77 (77%)</p>
+<p><strong>Much higher!</strong> Accuracy matters, but even at 95%, base rates still pull it below 100%.</p>
+<p><strong>Theoretical:</strong>
+$$P = \frac{0.95 \times 0.15}{0.95 \times 0.15 + 0.05 \times 0.85} = \frac{0.1425}{0.1850} \approx 0.770$$</p>
+  </div>
+</details>
+<hr>
+<h3 id="exercise-2-opposite-observation">Exercise 2: Opposite Observation</h3>
+<p>What if Chibany said &ldquo;green&rdquo; instead of &ldquo;blue&rdquo;?</p>
+<p><strong>Task:</strong> Calculate $P(\text{Blue} \mid \text{says Green})$</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Observation: says &#34;green&#34;</span>
+</span></span><span style="display:flex;"><span>observation_green <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#ae81ff">0</span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_says_green</span>(k):
+</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation_green, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.80</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
+</span></span><span style="display:flex;"><span>posterior_green <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_says_green)(keys)
+</span></span><span style="display:flex;"><span>prob_blue_given_green <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_green)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Blue | says Green) = </span><span style="color:#e6db74">{</span>prob_blue_given_green<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Expected:</strong> ≈ 0.041 (4.1%)</p>
+<p><strong>Very low!</strong> If Chibany (80% accurate) says &ldquo;green&rdquo;, it&rsquo;s very likely green.</p>
+<p><strong>Theoretical:</strong>
+$$P = \frac{0.20 \times 0.15}{0.20 \times 0.15 + 0.80 \times 0.85} = \frac{0.03}{0.71} \approx 0.042$$</p>
+  </div>
+</details>
+<hr>
+<h3 id="exercise-3-two-witnesses">Exercise 3: Two Witnesses</h3>
+<p>What if <strong>two independent witnesses</strong> both say &ldquo;blue&rdquo;?</p>
+<p><strong>Task:</strong> Extend the model to include two witnesses, both 80% accurate. Calculate the posterior.</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    Solution
+  </summary>
+  <div class="box-content">
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">taxicab_two_witnesses</span>(base_rate_blue<span style="color:#f92672">=</span><span style="color:#ae81ff">0.15</span>, accuracy<span style="color:#f92672">=</span><span style="color:#ae81ff">0.80</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Two independent witnesses.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    is_blue <span style="color:#f92672">=</span> flip(base_rate_blue) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_blue&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Witness 1</span>
+</span></span><span style="display:flex;"><span>    witness1_prob <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>where(is_blue, accuracy, <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> accuracy)
+</span></span><span style="display:flex;"><span>    witness1 <span style="color:#f92672">=</span> flip(witness1_prob) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;witness1&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Witness 2 (independent)</span>
+</span></span><span style="display:flex;"><span>    witness2_prob <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>where(is_blue, accuracy, <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> accuracy)
+</span></span><span style="display:flex;"><span>    witness2 <span style="color:#f92672">=</span> flip(witness2_prob) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;witness2&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_blue
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Both say &#34;blue&#34;</span>
+</span></span><span style="display:flex;"><span>observation_two <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;witness1&#34;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;witness2&#34;</span>: <span style="color:#ae81ff">1</span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_two_witnesses</span>(k):
+</span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_two_witnesses<span style="color:#f92672">.</span>generate(k, observation_two, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.80</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
+</span></span><span style="display:flex;"><span>posterior_two <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_two_witnesses)(keys)
+</span></span><span style="display:flex;"><span>prob_two <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_two)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Blue | both say Blue) = </span><span style="color:#e6db74">{</span>prob_two<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Expected:</strong> ≈ 0.73 (73%)</p>
+<p><strong>Much higher!</strong> Two independent pieces of evidence are much stronger.</p>
+<p><strong>Theoretical:</strong>
+$$P(\text{both say Blue} \mid \text{Blue}) = 0.80^2 = 0.64$$
+$$P(\text{both say Blue} \mid \text{Green}) = 0.20^2 = 0.04$$
+$$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096}{0.130} \approx 0.738$$</p>
+<p><strong>Two witnesses push us above 50% despite the low base rate!</strong></p>
   </div>
 </details>
 <hr>
 <h2 id="what-youve-learned">What You&rsquo;ve Learned</h2>
 <p>In this chapter, you learned:</p>
-<p>✅ <strong>Conditional probability</strong> — restriction to observations
-✅ <strong>Filtering approach</strong> — rejection sampling for inference
-✅ <strong><code>generate()</code> function</strong> — conditioning with choice maps
-✅ <strong>Prior vs Posterior</strong> — beliefs before and after data
-✅ <strong>Bayes&rsquo; theorem in action</strong> — automatic Bayesian update
-✅ <strong>Dependent vs Independent</strong> — how observations provide information</p>
-<p><strong>The key insight:</strong> Probabilistic programming lets you <strong>ask questions</strong> instead of just <strong>generate samples</strong>!</p>
+<p>✅ <strong>Conditional probability</strong> — restriction to observations</p>
+<p>✅ <strong>Filtering approach</strong> — rejection sampling for inference</p>
+<p>✅ <strong><code>generate()</code> function</strong> — conditioning with choice maps</p>
+<p>✅ <strong>Prior vs Posterior</strong> — beliefs before and after data</p>
+<p>✅ <strong>Bayes&rsquo; theorem in action</strong> — automatic Bayesian update</p>
+<p>✅ <strong>Base rate effects</strong> — why priors matter enormously</p>
+<p>✅ <strong>Real inference problems</strong> — the taxicab scenario</p>
+<p><strong>The key insight:</strong> Probabilistic programming lets you <strong>encode assumptions</strong> (generative model) and <strong>ask questions</strong> (conditioning) without manual Bayes&rsquo; rule calculations!</p>
+<hr>
+<h2 id="why-this-matters">Why This Matters</h2>
+<p><strong>Real-world applications:</strong></p>
+<ol>
+<li><strong>Medical diagnosis:</strong> Test accuracy + disease prevalence → probability of disease</li>
+<li><strong>Fraud detection:</strong> Transaction patterns + fraud base rate → probability of fraud</li>
+<li><strong>Spam filtering:</strong> Email features + spam base rate → probability of spam</li>
+<li><strong>Criminal justice:</strong> Witness accuracy + crime base rate → probability of guilt</li>
+</ol>
+<p><strong>All follow the same pattern:</strong></p>
+<ul>
+<li>Define generative model (how data arises)</li>
+<li>Observe data</li>
+<li>Infer hidden causes</li>
+</ul>
+<p><strong>GenJAX makes this systematic and scalable.</strong></p>
 <hr>
 <h2 id="next-steps">Next Steps</h2>
-<p>You now know how to:</p>
+<p>You now know:</p>
 <ul>
-<li>Generate samples (simulation)</li>
-<li>Condition on observations (inference)</li>
-<li>Calculate conditional probabilities</li>
+<li>How to build generative models</li>
+<li>How to perform inference with observations</li>
+<li>How to interpret posterior probabilities</li>
+<li>Why base rates matter</li>
 </ul>
-<p><strong>Next up:</strong> Chapter 5 applies these ideas to a real problem — the taxicab scenario from the probability tutorial!</p>
-<p>You&rsquo;ll see how Bayes&rsquo; theorem solves practical inference problems, and why base rates matter.</p>
+<p><strong>Next up:</strong> Chapter 6 shows you how to build your own models from scratch!</p>
 <hr>
 <table>
   <thead>
       <tr>
           <th style="text-align: left"><a href="/probintro/genjax/03_traces/index.html">← Previous: Understanding Traces</a></th>
-          <th style="text-align: right"><a href="/probintro/genjax/05_inference/index.html">Next: Inference in Action →</a></th>
+          <th style="text-align: right"><a href="/probintro/genjax/06_building_models/index.html">Next: Building Your Own Models →</a></th>
       </tr>
   </thead>
   <tbody>
@@ -1290,8 +1401,7 @@ Independent: False</code></pre></div>
             <li class="" data-nav-id="/probintro/genjax/01_python_basics/index.html"><a class="padding" href="/probintro/genjax/01_python_basics/index.html">Python Essentials for GenJAX</a></li>
             <li class="" data-nav-id="/probintro/genjax/02_first_model/index.html"><a class="padding" href="/probintro/genjax/02_first_model/index.html">Your First GenJAX Model</a></li>
             <li class="" data-nav-id="/probintro/genjax/03_traces/index.html"><a class="padding" href="/probintro/genjax/03_traces/index.html">Understanding Traces</a></li>
-            <li class="active " data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Observations</a></li>
-            <li class="" data-nav-id="/probintro/genjax/05_inference/index.html"><a class="padding" href="/probintro/genjax/05_inference/index.html">Inference in Action: The Taxicab Problem</a></li>
+            <li class="active " data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Inference</a></li>
             <li class="" data-nav-id="/probintro/genjax/06_building_models/index.html"><a class="padding" href="/probintro/genjax/06_building_models/index.html">Building Your Own Models</a></li></ul></li>
             <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
             <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
@@ -1323,9 +1433,9 @@ Independent: False</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764159389"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764159389" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764159389" defer></script>
-    <script src="/probintro/js/theme.js?1764159389" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764223205"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764223205" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764223205" defer></script>
+    <script src="/probintro/js/theme.js?1764223205" defer></script>
   </body>
 </html>

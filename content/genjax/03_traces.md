@@ -519,10 +519,15 @@ print(f"P(lunch=T | dinner=T) ≈ {prob_lunch_given_dinner:.3f}")
 In this chapter, you learned:
 
 ✅ **What traces are** — complete records of random execution
+
 ✅ **Three key components** — return value, choice map, log probability
+
 ✅ **Why names matter** — `@ "address"` enables tracking and inference
+
 ✅ **How to access trace parts** — `get_retval()`, `get_choices()`, `get_score()`
+
 ✅ **Traces as outcomes** — connection to probability theory
+
 ✅ **Preview of inference** — filtering traces to answer conditional questions
 
 **The key insight:** Traces aren't just records — they're the bridge between generative code and probabilistic reasoning!

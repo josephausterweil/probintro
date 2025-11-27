@@ -266,9 +266,15 @@ plt.show()
 
 **What you'll see:** Four bars of roughly equal height (around 2500 each), matching our theoretical expectation of $1/4$ for each outcome!
 
+![Outcome distribution from 10,000 simulations](../../images/genjax/first_model_outcome_distribution.png)
+
 ---
 
-## Interactive Exploration (In the Colab Notebook!)
+## Interactive Exploration
+
+{{% notice style="tip" title="📓 Interactive Notebook" %}}
+Try the **[interactive notebook](../../notebooks/02_first_genjax_model.ipynb)** with live sliders and visualizations! It includes all the code from this chapter plus interactive widgets to explore how changing parameters affects the results.
+{{% /notice %}}
 
 The companion notebook has **interactive widgets** so you can:
 
@@ -343,6 +349,18 @@ print(f"Choices: {trace.get_choices()}")
 print(f"Log probability: {trace.get_score()}")
 ```
 
+**Output (example):**
+```
+Return value: (Array(False, dtype=bool), Array(False, dtype=bool))
+Choices: {'lunch': Array(False, dtype=bool), 'dinner': Array(False, dtype=bool)}
+Log probability: -1.3862943611198906
+```
+
+**What this means:**
+- **Return value**: The pair of meals (both False = both Hamburger = HH)
+- **Choices**: A dictionary of all named random choices and their values
+- **Log probability**: The log-likelihood of this particular outcome ($\log(0.5 \times 0.5) = \log(0.25) \approx -1.386$)
+
 {{% notice style="info" title="Why Track Everything?" %}}
 Tracking all random choices is essential for **inference** — when we want to ask "given I observed this, what's probable?"
 
@@ -415,10 +433,15 @@ def chibany_three_meals():
 In this chapter, you:
 
 ✅ Wrote your first generative function
+
 ✅ Simulated thousands of random outcomes
+
 ✅ Calculated probabilities through counting
+
 ✅ Visualized distributions
+
 ✅ Understood the connection between sets and simulation
+
 ✅ Learned about traces and random choices
 
 **The key insight:** Generative functions let computers do what you did by hand with sets — but now you can handle millions of possibilities!

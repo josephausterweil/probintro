@@ -1,6 +1,6 @@
 +++
 title = "Building Your Own Models"
-weight = 7
+weight = 6
 +++
 
 ## From Following Recipes to Creating Your Own
