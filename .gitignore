@@ -1,0 +1,23 @@
+# Tutorial Evolution Documentation (internal use only - not for deployment)
+TUTORIAL_EVOLUTION_SLIDESHOW.md
+tutorial_evolution_presentation.html
+
+# Hugo build artifacts
+public/
+resources/
+.hugo_build.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak
