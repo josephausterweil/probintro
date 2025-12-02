@@ -41,8 +41,8 @@ Recall our generative function:
 ```python
 @gen
 def chibany_day():
-    lunch_is_tonkatsu = bernoulli(0.5) @ "lunch"
-    dinner_is_tonkatsu = bernoulli(0.5) @ "dinner"
+    lunch_is_tonkatsu = flip(0.5) @ "lunch"
+    dinner_is_tonkatsu = flip(0.5) @ "dinner"
     return (lunch_is_tonkatsu, dinner_is_tonkatsu)
 ```
 
