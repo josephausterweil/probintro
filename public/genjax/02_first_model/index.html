@@ -31,29 +31,29 @@ Lunch arrives — randomly H or T (equal probability) Dinner arrives — randoml
 Now we’ll teach a computer to generate those outcomes instead!
 The Generative Process Each day:
 Lunch arrives — randomly H or T (equal probability) Dinner arrives — randomly H or T (equal probability) Record the day — the pair of meals In GenJAX, we express this as a generative function.">
-    <meta itemprop="wordCount" content="1804">
+    <meta itemprop="wordCount" content="1805">
     <title>Your First GenJAX Model :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764245646" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764245646" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764245646" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764245646" defer></script>
-    <script src="/probintro/js/search.js?1764245646" defer></script>
+    <link href="/probintro/images/favicon.png?1764656799" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764656799" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764656799" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764656799" defer></script>
+    <script src="/probintro/js/search.js?1764656799" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764245646";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764656799";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764245646" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764245646" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764245646" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764245646" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764656799" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764656799" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764656799" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764656799" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764245646" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764245646" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764245646" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764245646" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764245646" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764656799" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764656799" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764656799" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764656799" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764656799" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -198,8 +198,8 @@ Lunch arrives — randomly H or T (equal probability) Dinner arrives — randoml
 <h2 id="from-sets-to-simulation">From Sets to Simulation</h2>
 <p>Remember Chibany&rsquo;s daily meals? We listed out the outcome space $\Omega = \{HH, HT, TH, TT\}$ and counted possibilities.</p>
 <p>Now we&rsquo;ll teach a computer to <strong>generate</strong> those outcomes instead!</p>
-<p><a href="#R-image-328791c8f902fbd8ffd898ed9d9ce14c" class="lightbox-link"><img alt="Chibany laying down" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-328791c8f902fbd8ffd898ed9d9ce14c"><img alt="Chibany laying down" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-d4cf68bf1f0fe246682e98a14269b68e" class="lightbox-link"><img alt="Chibany laying down" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-d4cf68bf1f0fe246682e98a14269b68e"><img alt="Chibany laying down" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="the-generative-process">The Generative Process</h2>
 <p>Each day:</p>
@@ -255,8 +255,8 @@ Lunch arrives — randomly H or T (equal probability) Dinner arrives — randoml
     Important: Use flip(), not bernoulli()
   </summary>
   <div class="box-content">
-<p>GenJAX has two functions for Bernoulli distributions: <code>flip(p)</code> and <code>bernoulli(p)</code>. <strong>Always use <code>flip(p)</code></strong> - it works correctly!</p>
-<p>The <code>bernoulli(p)</code> function has a bug in GenJAX versions 0.9.3 and 0.10.3 that causes it to ignore the probability parameter and produce incorrect results. The <code>flip(p)</code> function works as expected and is what the official GenJAX examples use.</p>
+<p>GenJAX has two functions for Bernoulli distributions: <code>flip(p)</code> and <code>bernoulli(p)</code>. <strong>Always use <code>flip(p)</code></strong> - it works correctly as your intuition expects!</p>
+<p>The <code>bernoulli(p)</code> function expects the parameter to be the logit value of the coinflip, which is less intuitive for our purposes. The <code>flip(p)</code> function works as expected and is what the official GenJAX examples use.</p>
 <p><strong>Example of the bug:</strong></p>
 <ul>
 <li><code>bernoulli(0.9)</code> produces ~71% instead of 90% ❌</li>
@@ -599,8 +599,8 @@ P(at least one tonkatsu) ≈ 0.749</code></pre></div>
 </div>
 </div>
 <p><strong>What you&rsquo;ll see:</strong> Four bars of roughly equal height (around 2500 each), matching our theoretical expectation of $1/4$ for each outcome!</p>
-<p><a href="#R-image-b6c1722f7f273d21dd599d67159a8c2f" class="lightbox-link"><img alt="Outcome distribution from 10,000 simulations" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/first_model_outcome_distribution.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-b6c1722f7f273d21dd599d67159a8c2f"><img alt="Outcome distribution from 10,000 simulations" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/first_model_outcome_distribution.png"></a></p>
+<p><a href="#R-image-1bc1ba6e6d77d9ef0107a3582067000a" class="lightbox-link"><img alt="Outcome distribution from 10,000 simulations" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/first_model_outcome_distribution.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-1bc1ba6e6d77d9ef0107a3582067000a"><img alt="Outcome distribution from 10,000 simulations" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/first_model_outcome_distribution.png"></a></p>
 <hr>
 <h2 id="interactive-exploration">Interactive Exploration</h2>
 
@@ -949,9 +949,9 @@ Log probability: -1.3862943611198906</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764245646"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764245646" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764245646" defer></script>
-    <script src="/probintro/js/theme.js?1764245646" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764656799"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764656799" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764656799" defer></script>
+    <script src="/probintro/js/theme.js?1764656799" defer></script>
   </body>
 </html>

@@ -47,9 +47,9 @@ def chibany_day():
 ```
 
 {{% notice style="warning" title="Important: Use flip(), not bernoulli()" %}}
-GenJAX has two functions for Bernoulli distributions: `flip(p)` and `bernoulli(p)`. **Always use `flip(p)`** - it works correctly!
+GenJAX has two functions for Bernoulli distributions: `flip(p)` and `bernoulli(p)`. **Always use `flip(p)`** - it works correctly as your intuition expects!
 
-The `bernoulli(p)` function has a bug in GenJAX versions 0.9.3 and 0.10.3 that causes it to ignore the probability parameter and produce incorrect results. The `flip(p)` function works as expected and is what the official GenJAX examples use.
+The `bernoulli(p)` function expects the parameter to be the logit value of the coinflip, which is less intuitive for our purposes. The `flip(p)` function works as expected and is what the official GenJAX examples use.
 
 **Example of the bug:**
 - `bernoulli(0.9)` produces ~71% instead of 90% ❌
