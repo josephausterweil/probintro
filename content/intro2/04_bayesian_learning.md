@@ -380,7 +380,7 @@ Now that you understand the mechanics of Bayesian updates, let's systematically 
 
 ### Interactive Exploration
 
-**📓 Open the interactive notebook**: [`gaussian_bayesian_interactive_exploration.ipynb`](../../notebooks/gaussian_bayesian_interactive_exploration.ipynb)
+**📓 Open the interactive notebook**: [Open in Colab: `gaussian_bayesian_interactive_exploration.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/gaussian_bayesian_interactive_exploration.ipynb)
 
 This notebook provides:
 - **Interactive sliders** to adjust parameters in real-time
@@ -396,7 +396,7 @@ This notebook provides:
 
 ### Assignment Problems
 
-**📝 Work through the detailed solutions**: [`solution_1_gaussian_bayesian_update.ipynb`](../../notebooks/solution_1_gaussian_bayesian_update.ipynb)
+**📝 Work through the detailed solutions**: [Open in Colab: `solution_1_gaussian_bayesian_update.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/solution_1_gaussian_bayesian_update.ipynb)
 
 This assignment systematically explores:
 - **Part (a)**: Visualizing the prior distribution
@@ -707,7 +707,7 @@ This is a **mixture model** problem where we need to:
 
 ### Interactive Exploration
 
-**📓 Explore mixture models**: [`gaussian_bayesian_interactive_exploration.ipynb`](../../notebooks/gaussian_bayesian_interactive_exploration.ipynb) (Part 2)
+**📓 Explore mixture models**: [Open in Colab: `gaussian_bayesian_interactive_exploration.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/gaussian_bayesian_interactive_exploration.ipynb) (Part 2)
 
 This section provides:
 - **Interactive categorization**: See how P(c=1|x) changes with x
@@ -715,7 +715,7 @@ This section provides:
 - **Effect of variance**: What happens when categories have different spreads?
 - **Marginal distribution**: Visualize the weighted mixture p(x)
 
-**📝 Detailed solutions**: [`solution_2_gaussian_clusters.ipynb`](../../notebooks/solution_2_gaussian_clusters.ipynb)
+**📝 Detailed solutions**: [Open in Colab: `solution_2_gaussian_clusters.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/solution_2_gaussian_clusters.ipynb)
 
 This assignment covers:
 - **Part (a)**: Deriving P(c=1|x) using Bayes' rule

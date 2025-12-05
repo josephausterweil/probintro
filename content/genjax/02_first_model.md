@@ -273,7 +273,7 @@ plt.show()
 ## Interactive Exploration
 
 {{% notice style="tip" title="📓 Interactive Notebook" %}}
-Try the **[interactive notebook](../../notebooks/02_first_genjax_model.ipynb)** with live sliders and visualizations! It includes all the code from this chapter plus interactive widgets to explore how changing parameters affects the results.
+Try the **[interactive notebook - Open in Colab](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/02_first_genjax_model.ipynb)** with live sliders and visualizations! It includes all the code from this chapter plus interactive widgets to explore how changing parameters affects the results.
 {{% /notice %}}
 
 The companion notebook has **interactive widgets** so you can:

@@ -14,7 +14,7 @@ This is the heart of probabilistic programming!
 ![Chibany thinking](images/chibanylayingdown.png)
 
 {{% notice style="tip" title="📓 Interactive Notebook Available" %}}
-**Prefer hands-on learning?** This chapter has a companion **[Jupyter notebook](../../notebooks/bayesian_learning.ipynb)** that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!
+**Prefer hands-on learning?** This chapter has a companion **[Jupyter notebook - Open in Colab](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/bayesian_learning.ipynb)** that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!
 {{% /notice %}}
 
 ---
@@ -649,7 +649,7 @@ print(f"\nP(Blue | says Blue) ≈ {prob_blue:.3f}")
 ## Interactive Exploration
 
 {{% notice style="tip" title="📓 Interactive Notebook: Bayesian Learning" %}}
-Want to explore Bayesian learning in depth with interactive examples? Check out the **[Bayesian Learning notebook](../../notebooks/bayesian_learning.ipynb)** which covers:
+Want to explore Bayesian learning in depth with interactive examples? Check out the **[Bayesian Learning notebook - Open in Colab](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/bayesian_learning.ipynb)** which covers:
 
 - The complete taxicab problem with visualizations
 - Sequential Bayesian updating with multiple observations
