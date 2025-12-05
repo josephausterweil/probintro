@@ -26,9 +26,9 @@ Before tackling the full GMM learning problem, make sure you understand **catego
 {{% notice style="warning" title="⚠️ Recommended Preparation" %}}
 If you haven't already, work through the **Gaussian Clusters** assignment from Chapter 4:
 
-**📝 Assignment**: [`solution_2_gaussian_clusters.ipynb`](../../../notebooks/solution_2_gaussian_clusters.ipynb)
+**📝 Assignment**: [`solution_2_gaussian_clusters.ipynb`](../../notebooks/solution_2_gaussian_clusters.ipynb)
 
-**📓 Interactive exploration**: [`gaussian_bayesian_interactive_exploration.ipynb`](../../../notebooks/gaussian_bayesian_interactive_exploration.ipynb) (Part 2)
+**📓 Interactive exploration**: [`gaussian_bayesian_interactive_exploration.ipynb`](../../notebooks/gaussian_bayesian_interactive_exploration.ipynb) (Part 2)
 
 **Why this matters**:
 - **Chapter 4 Problem 2** teaches you how to compute P(category | observation) when parameters are **known**

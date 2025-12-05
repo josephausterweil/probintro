@@ -149,7 +149,7 @@ This tutorial includes **three comprehensive Jupyter notebooks** for hands-on le
 
 ### 1. Interactive Exploration Notebook
 
-**File**: [`gaussian_bayesian_interactive_exploration.ipynb`](../../notebooks/gaussian_bayesian_interactive_exploration.ipynb)
+**File**: [`gaussian_bayesian_interactive_exploration.ipynb`](../notebooks/gaussian_bayesian_interactive_exploration.ipynb)
 
 **What it does**: Provides interactive widgets to explore concepts in real-time
 - **Part 1**: Gaussian-Gaussian Bayesian updates
@@ -169,7 +169,7 @@ This tutorial includes **three comprehensive Jupyter notebooks** for hands-on le
 ### 2. Assignment Solution Notebooks
 
 #### Problem 1: Gaussian Bayesian Update
-**File**: [`solution_1_gaussian_bayesian_update.ipynb`](../../notebooks/solution_1_gaussian_bayesian_update.ipynb)
+**File**: [`solution_1_gaussian_bayesian_update.ipynb`](../notebooks/solution_1_gaussian_bayesian_update.ipynb)
 
 **Linked from**: Chapter 4, Section "Exploration Exercise"
 
@@ -181,7 +181,7 @@ This tutorial includes **three comprehensive Jupyter notebooks** for hands-on le
 - GenJAX verification of analytical formulas
 
 #### Problem 2: Gaussian Clusters
-**File**: [`solution_2_gaussian_clusters.ipynb`](../../notebooks/solution_2_gaussian_clusters.ipynb)
+**File**: [`solution_2_gaussian_clusters.ipynb`](../notebooks/solution_2_gaussian_clusters.ipynb)
 
 **Linked from**: Chapter 4 (Preview section) and Chapter 5 (Prerequisite section)
 
