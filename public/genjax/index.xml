@@ -41,7 +41,7 @@
       <link>http://localhost:1313/probintro/genjax/04_conditioning/index.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/probintro/genjax/04_conditioning/index.html</guid>
-      <description>From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.&#xA;Now we’ll learn to infer — reasoning backwards from observations to causes.&#xA;This is the heart of probabilistic programming!&#xA;📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!</description>
+      <description>From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.&#xA;Now we’ll learn to infer — reasoning backwards from observations to causes.&#xA;This is the heart of probabilistic programming!&#xA;📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!</description>
     </item>
     <item>
       <title>Building Your Own Models</title>

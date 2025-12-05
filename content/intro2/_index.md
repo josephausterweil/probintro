@@ -1,5 +1,5 @@
 +++
-date = "2025-11-26"
+date = "2025-12-05"
 title = "Continuous Probability and Bayesian Learning"
 weight = 3
 toc = true

@@ -6,7 +6,7 @@
     <description></description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 26 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/probintro/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Narrative Introduction to Probability</title>
@@ -25,9 +25,16 @@
     <item>
       <title>Continuous Probability and Bayesian Learning</title>
       <link>http://localhost:1313/probintro/intro2/index.html</link>
-      <pubDate>Wed, 26 Nov 2025 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 05 Dec 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/probintro/intro2/index.html</guid>
       <description>From Discrete to Continuous with GenJAX In the first two tutorials, you learned:&#xA;Tutorial 1: Probability theory using discrete outcomes (sets and counting) Tutorial 2: How to express probability in code using GenJAX Now you’ll learn to work with continuous probability distributions and perform Bayesian learning on real-valued data, all using the GenJAX tools you’ve already learned!</description>
+    </item>
+    <item>
+      <title>Interactive Notebooks - All Tutorials</title>
+      <link>http://localhost:1313/probintro/notebook_guide/index.html</link>
+      <pubDate>Fri, 05 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/probintro/notebook_guide/index.html</guid>
+      <description>Interactive Jupyter Notebooks This page provides a comprehensive overview of all Jupyter notebooks available across the tutorial series. Each notebook opens directly in Google Colab for immediate interactive exploration.&#xA;How to use these notebooks:&#xA;📓 Click “Open in Colab” to launch the notebook in your browser ✏️ Run cells, modify code, and experiment with parameters 💾 Save a copy to your Google Drive to keep your changes 📚 Return to the linked tutorial chapters for detailed explanations Tutorial 1: Discrete Probability First GenJAX Model Notebook: 📓 Open in Colab: first_model.ipynb</description>
     </item>
     <item>
       <title>Glossary - All Tutorials</title>

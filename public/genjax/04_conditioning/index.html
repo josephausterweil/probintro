@@ -8,21 +8,21 @@
     <meta name="description" content="From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
-📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
+📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
     <meta name="author" content="Joseph Austerweil">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Conditioning and Inference :: Probability & Probabilistic Computing Tutorial">
     <meta name="twitter:description" content="From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
-📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
+📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
     <meta property="og:url" content="http://localhost:1313/probintro/genjax/04_conditioning/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Conditioning and Inference :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
-📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
+📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
     <meta property="article:section" content="Probabilistic Programming with GenJAX">
@@ -30,30 +30,30 @@ This is the heart of probabilistic programming!
     <meta itemprop="description" content="From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
-📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
-    <meta itemprop="wordCount" content="3240">
+📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
+    <meta itemprop="wordCount" content="3248">
     <title>Conditioning and Inference :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764904865" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764904865" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764904865" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764904865" defer></script>
-    <script src="/probintro/js/search.js?1764904865" defer></script>
+    <link href="/probintro/images/favicon.png?1764909664" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764909664" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764909664" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764909664" defer></script>
+    <script src="/probintro/js/search.js?1764909664" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764904865";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764909664";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764904865" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764904865" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764904865" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764904865" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764909664" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764909664" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764909664" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764909664" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764904865" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764904865" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764904865" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764904865" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764904865" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764909664" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764909664" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764909664" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -219,8 +219,8 @@ This is the heart of probabilistic programming!
 <p>So far, we&rsquo;ve used GenJAX to <strong>generate</strong> outcomes — simulating what could happen.</p>
 <p>Now we&rsquo;ll learn to <strong>infer</strong> — reasoning backwards from observations to causes.</p>
 <p>This is the heart of probabilistic programming!</p>
-<p><a href="#R-image-1ea919f6389a6a0f84fda66e7582529b" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-1ea919f6389a6a0f84fda66e7582529b"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-24585a0077e3743a58e559fad4f12d3f" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-24585a0077e3743a58e559fad4f12d3f"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 
 <details open class=" box cstyle notices tip">
   <summary class="box-label" tabindex="-1">
@@ -228,7 +228,7 @@ This is the heart of probabilistic programming!
     📓 Interactive Notebook Available
   </summary>
   <div class="box-content">
-<p><strong>Prefer hands-on learning?</strong> This chapter has a companion <strong><a href="../../notebooks/bayesian_learning.ipynb">Jupyter notebook</a></strong> that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!</p>
+<p><strong>Prefer hands-on learning?</strong> This chapter has a companion <strong><a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/bayesian_learning.ipynb" rel="external" target="_blank">Jupyter notebook - Open in Colab</a></strong> that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!</p>
   </div>
 </details>
 <hr>
@@ -853,8 +853,8 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </div>
 </div>
 <p><strong>Key insight:</strong> Evidence increased our belief in blue from 15% to 41%, but <strong>still not even 50%</strong> because the base rate is so strong!</p>
-<p><a href="#R-image-5a29be6357ce56b2ccdf315a0c1d31cc" class="lightbox-link"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-5a29be6357ce56b2ccdf315a0c1d31cc"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png"></a></p>
+<p><a href="#R-image-3410405151d106ab528ea91653160327" class="lightbox-link"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-3410405151d106ab528ea91653160327"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png"></a></p>
 <hr>
 <h2 id="exploring-base-rate-effects">Exploring Base Rate Effects</h2>
 <p>Let&rsquo;s see how changing the base rate affects the answer.</p>
@@ -978,8 +978,8 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </div>
 </div>
 <p><strong>The graph shows:</strong> Even with high accuracy (80%), the posterior depends heavily on the base rate!</p>
-<p><a href="#R-image-5c336fd6220be6c98bf08b76b5a45b86" class="lightbox-link"><img alt="How base rates affect inference" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-5c336fd6220be6c98bf08b76b5a45b86"><img alt="How base rates affect inference" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png"></a></p>
+<p><a href="#R-image-5ccb9d135a0afea5cd4d6eb1962b4304" class="lightbox-link"><img alt="How base rates affect inference" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-5ccb9d135a0afea5cd4d6eb1962b4304"><img alt="How base rates affect inference" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png"></a></p>
 
 <details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
   <summary class="box-label" tabindex="-1">
@@ -1123,7 +1123,7 @@ P(Blue | says Blue) = 0.414</code></pre></div>
     📓 Interactive Notebook: Bayesian Learning
   </summary>
   <div class="box-content">
-<p>Want to explore Bayesian learning in depth with interactive examples? Check out the <strong><a href="../../notebooks/bayesian_learning.ipynb">Bayesian Learning notebook</a></strong> which covers:</p>
+<p>Want to explore Bayesian learning in depth with interactive examples? Check out the <strong><a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/bayesian_learning.ipynb" rel="external" target="_blank">Bayesian Learning notebook - Open in Colab</a></strong> which covers:</p>
 <ul>
 <li>The complete taxicab problem with visualizations</li>
 <li>Sequential Bayesian updating with multiple observations</li>
@@ -1406,6 +1406,7 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
             <li class="active " data-nav-id="/probintro/genjax/04_conditioning/index.html"><a class="padding" href="/probintro/genjax/04_conditioning/index.html">Conditioning and Inference</a></li>
             <li class="" data-nav-id="/probintro/genjax/06_building_models/index.html"><a class="padding" href="/probintro/genjax/06_building_models/index.html">Building Your Own Models</a></li></ul></li>
             <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
+            <li class="" data-nav-id="/probintro/notebook_guide/index.html"><a class="padding" href="/probintro/notebook_guide/index.html">Interactive Notebooks - All Tutorials</a></li>
             <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
           </ul>
         </div>
@@ -1435,9 +1436,9 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764904865"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764904865" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764904865" defer></script>
-    <script src="/probintro/js/theme.js?1764904865" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764909664"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764909664" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764909664" defer></script>
+    <script src="/probintro/js/theme.js?1764909664" defer></script>
   </body>
 </html>
