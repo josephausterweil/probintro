@@ -33,27 +33,27 @@ This is the heart of probabilistic programming!
 📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
     <meta itemprop="wordCount" content="3248">
     <title>Conditioning and Inference :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1765004538" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765004538" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765004538" defer></script>
-    <script src="/probintro/js/search-lunr.js?1765004538" defer></script>
-    <script src="/probintro/js/search.js?1765004538" defer></script>
+    <link href="/probintro/images/favicon.png?1765004903" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765004903" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765004903" defer></script>
+    <script src="/probintro/js/search-lunr.js?1765004903" defer></script>
+    <script src="/probintro/js/search.js?1765004903" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1765004538";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1765004903";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1765004538" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765004538" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1765004538" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1765004538" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1765004903" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765004903" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1765004903" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1765004903" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765004538" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765004538" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765004538" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1765004538" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1765004538" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765004903" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765004903" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765004903" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1765004903" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1765004903" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -219,8 +219,8 @@ This is the heart of probabilistic programming!
 <p>So far, we&rsquo;ve used GenJAX to <strong>generate</strong> outcomes — simulating what could happen.</p>
 <p>Now we&rsquo;ll learn to <strong>infer</strong> — reasoning backwards from observations to causes.</p>
 <p>This is the heart of probabilistic programming!</p>
-<p><a href="#R-image-1fe1c07e38147e98b8eb929b046fd428" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-1fe1c07e38147e98b8eb929b046fd428"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-cada8ca491d3188ab50af2e4e435cc27" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-cada8ca491d3188ab50af2e4e435cc27"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 
 <details open class=" box cstyle notices tip">
   <summary class="box-label" tabindex="-1">
@@ -853,8 +853,8 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </div>
 </div>
 <p><strong>Key insight:</strong> Evidence increased our belief in blue from 15% to 41%, but <strong>still not even 50%</strong> because the base rate is so strong!</p>
-<p><a href="#R-image-ff94bf7efabbf3399d0a689ef2069826" class="lightbox-link"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-ff94bf7efabbf3399d0a689ef2069826"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png"></a></p>
+<p><a href="#R-image-67bfdb34afc577e96815e161a2892e1f" class="lightbox-link"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-67bfdb34afc577e96815e161a2892e1f"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png"></a></p>
 <hr>
 <h2 id="exploring-base-rate-effects">Exploring Base Rate Effects</h2>
 <p>Let&rsquo;s see how changing the base rate affects the answer.</p>
@@ -978,8 +978,8 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </div>
 </div>
 <p><strong>The graph shows:</strong> Even with high accuracy (80%), the posterior depends heavily on the base rate!</p>
-<p><a href="#R-image-c7826b6f1ea288446c33da056db3f2c3" class="lightbox-link"><img alt="How base rates affect inference" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-c7826b6f1ea288446c33da056db3f2c3"><img alt="How base rates affect inference" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png"></a></p>
+<p><a href="#R-image-76140dd71af747c7ca5ac93179f8b648" class="lightbox-link"><img alt="How base rates affect inference" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-76140dd71af747c7ca5ac93179f8b648"><img alt="How base rates affect inference" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png"></a></p>
 
 <details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
   <summary class="box-label" tabindex="-1">
@@ -1436,9 +1436,9 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765004538"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1765004538" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765004538" defer></script>
-    <script src="/probintro/js/theme.js?1765004538" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765004903"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1765004903" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765004903" defer></script>
+    <script src="/probintro/js/theme.js?1765004903" defer></script>
   </body>
 </html>

@@ -79,7 +79,7 @@ print(choices)
 This is the **choice map** — a dictionary mapping addresses (names) to values.
 
 {{% notice style="info" title="Why Names Matter" %}}
-In `bernoulli(0.5) @ "lunch"`, the `@ "lunch"` part gives this random choice a **name** (or address).
+In `flip(0.5) @ "lunch"`, the `@ "lunch"` part gives this random choice a **name** (or address).
 
 GenJAX uses these names to:
 - Track which choice is which
