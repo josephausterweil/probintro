@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="The Most Surprising Result in Probability Prepare to have your intuition completely shattered. 🤯
+You’re about to discover why a positive medical test doesn’t mean what you think, why eyewitness testimony is less reliable than you expect, and why one of the most famous problems in probability stumps even experts.
+In this chapter, you’ll learn:
+How Bayes’ theorem updates beliefs with evidence Why base rates matter more than accuracy How to avoid the cognitive trap that catches almost everyone Why your first answer to the Taxicab Problem is almost certainly wrong! Fair warning: After this chapter, you’ll question your intuition about probabilities forever. Ready? Let’s meet Chibany on a foggy night…">
+    <meta name="author" content="Joseph Austerweil">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Bayes&#39; Theorem: Updating Beliefs :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="The Most Surprising Result in Probability Prepare to have your intuition completely shattered. 🤯
+You’re about to discover why a positive medical test doesn’t mean what you think, why eyewitness testimony is less reliable than you expect, and why one of the most famous problems in probability stumps even experts.
+In this chapter, you’ll learn:
+How Bayes’ theorem updates beliefs with evidence Why base rates matter more than accuracy How to avoid the cognitive trap that catches almost everyone Why your first answer to the Taxicab Problem is almost certainly wrong! Fair warning: After this chapter, you’ll question your intuition about probabilities forever. Ready? Let’s meet Chibany on a foggy night…">
+    <meta property="og:url" content="http://localhost:1313/probintro/intro/05_bayes/index.html">
+    <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Bayes&#39; Theorem: Updating Beliefs :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="The Most Surprising Result in Probability Prepare to have your intuition completely shattered. 🤯
+You’re about to discover why a positive medical test doesn’t mean what you think, why eyewitness testimony is less reliable than you expect, and why one of the most famous problems in probability stumps even experts.
+In this chapter, you’ll learn:
+How Bayes’ theorem updates beliefs with evidence Why base rates matter more than accuracy How to avoid the cognitive trap that catches almost everyone Why your first answer to the Taxicab Problem is almost certainly wrong! Fair warning: After this chapter, you’ll question your intuition about probabilities forever. Ready? Let’s meet Chibany on a foggy night…">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="A Narrative Introduction to Probability">
+    <meta itemprop="name" content="Bayes&#39; Theorem: Updating Beliefs :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="The Most Surprising Result in Probability Prepare to have your intuition completely shattered. 🤯
+You’re about to discover why a positive medical test doesn’t mean what you think, why eyewitness testimony is less reliable than you expect, and why one of the most famous problems in probability stumps even experts.
+In this chapter, you’ll learn:
+How Bayes’ theorem updates beliefs with evidence Why base rates matter more than accuracy How to avoid the cognitive trap that catches almost everyone Why your first answer to the Taxicab Problem is almost certainly wrong! Fair warning: After this chapter, you’ll question your intuition about probabilities forever. Ready? Let’s meet Chibany on a foggy night…">
+    <meta itemprop="wordCount" content="2662">
+    <title>Bayes&#39; Theorem: Updating Beliefs :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/images/favicon.png?1764989345" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764989345" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764989345" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764989345" defer></script>
+    <script src="/probintro/js/search.js?1764989345" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764989345";
+    </script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764989345" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764989345" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764989345" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764989345" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764989345" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764989345" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764989345" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764989345" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764989345" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/intro\/05_bayes\/index.html';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'relearn-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+
+<link rel="stylesheet" href="/probintro/css/custom.css">
+
+  </head>
+  <body class="mobile-support html" data-url="/probintro/intro/05_bayes/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#the-most-surprising-result-in-probability">The Most Surprising Result in Probability</a></li>
+    <li><a href="#what-is-bayes-theorem">What is Bayes&rsquo; Theorem?</a>
+      <ul>
+        <li><a href="#the-formula">The Formula</a></li>
+      </ul>
+    </li>
+    <li><a href="#proving-bayes-rule">Proving Bayes&rsquo; rule</a></li>
+    <li><a href="#the-taxicab-problem">The Taxicab Problem</a>
+      <ul>
+        <li><a href="#taxicab-solution-1-the-set-based-perspective">Taxicab Solution 1: The Set-Based Perspective</a></li>
+        <li><a href="#taxicab-solution-2-using-bayes-formula">Taxicab Solution 2: Using Bayes&rsquo; Formula</a></li>
+        <li><a href="#why-learn-the-set-based-perspective-to-probability-theory">Why Learn the Set-Based Perspective to Probability Theory?</a></li>
+      </ul>
+    </li>
+    <li><a href="#what-youve-conquered">What You&rsquo;ve Conquered</a></li>
+    <li><a href="#your-probability-journey">Your Probability Journey</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/intro/index.html"><span itemprop="name">A Narrative Introduction to Probability</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Bayes&#39; Theorem: Updating Beliefs</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro/04_conditional/index.html" title="Conditional probability as changing the possible outcomes (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro/06_glossary/index.html" title="Glossary (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable intro" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="bayes-theorem-updating-beliefs">Bayes&#39; Theorem: Updating Beliefs</h1>
+
+<h2 id="the-most-surprising-result-in-probability">The Most Surprising Result in Probability</h2>
+<p><strong>Prepare to have your intuition completely shattered.</strong> 🤯</p>
+<p>You&rsquo;re about to discover why a positive medical test doesn&rsquo;t mean what you think, why eyewitness testimony is less reliable than you expect, and why one of the most famous problems in probability stumps even experts.</p>
+<p><strong>In this chapter, you&rsquo;ll learn:</strong></p>
+<ul>
+<li>How Bayes&rsquo; theorem updates beliefs with evidence</li>
+<li>Why base rates matter more than accuracy</li>
+<li>How to avoid the cognitive trap that catches almost everyone</li>
+<li>Why your first answer to the Taxicab Problem is almost certainly wrong!</li>
+</ul>
+<p><strong>Fair warning</strong>: After this chapter, you&rsquo;ll question your intuition about probabilities forever. Ready? Let&rsquo;s meet Chibany on a foggy night&hellip;</p>
+<hr>
+<h2 id="what-is-bayes-theorem">What is Bayes&rsquo; Theorem?</h2>
+<p>Imagine you have a <strong>belief</strong> about the world (a hypothesis), and then you <strong>observe</strong> something new (data). Bayes&rsquo; Theorem tells you how to <strong>update your belief</strong> based on what you observed.</p>
+<p><strong>Example:</strong> You believe most taxis are green. Then you see a taxi that looks blue in the fog. How should you update your belief about which color it really was?</p>
+<h3 id="the-formula">The Formula</h3>
+<p><a href="/probintro/intro/06_glossary/index.html#bayes-theorem">Bayes&rsquo; Theorem</a> (Bayes&rsquo; rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let&rsquo;s say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let&rsquo;s encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).</p>
+<p>Bayes Theorem tells us to update our beliefs in hypothesis $h$ being the way the world works after learning $D=d$ in the following manner:</p>
+<p>$$P(H=h \mid D = d) = \frac{P(D=d\mid H=h) P(H=h)}{P(D=d)}$$</p>
+<p>where:</p>
+<ul>
+<li>$P(H=h \mid D=d)$ is called the <strong>posterior</strong>: our updated belief after seeing the data</li>
+<li>$P(D=d \mid H=h)$ is called the <strong>likelihood</strong>: the probability of observing $d$ given $h$ is the true hypothesis for how the world works</li>
+<li>$P(H=h)$ is called the <strong>prior</strong>: how likely it is that $h$ is the way the world works before seeing any data</li>
+<li>$P(D=d)$ is called the <strong>evidence</strong> or <strong>marginal likelihood</strong>: the total probability of observing $d$ across all hypotheses</li>
+</ul>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    Understanding the Terms
+  </summary>
+  <div class="box-content">
+<ul>
+<li><strong>Prior</strong> = What you believed before seeing data</li>
+<li><strong>Likelihood</strong> = How well the data fits each hypothesis</li>
+<li><strong>Evidence</strong> = How surprising is this data overall?</li>
+<li><strong>Posterior</strong> = What you should believe after seeing data</li>
+</ul>
+<p><strong>The key insight:</strong> Strong evidence (high likelihood) can overcome weak priors, but extraordinary claims still require extraordinary evidence!</p>
+  </div>
+</details>
+<p>We have all the information to prove this! Feel free to skip to the next subsection if you don&rsquo;t care about proofs.</p>
+<h2 id="proving-bayes-rule">Proving Bayes&rsquo; rule</h2>
+<p>Using the <a href="/probintro/intro/06_glossary/index.html#the-other-definition-of-conditional-probability">other definition of conditional probability</a>, we know that $P(H \mid D) = \frac{P(H,D)}{P(D)}$. If we multiply both sides of the equation by $P(D)$, we get $P(H,D) = P(H \mid D) P(D)$. We can do the same thing but for the opposite way of conditioning (the joint probability can be written in either order and it is the same as it is the common elements of two sets which is the same no matter which order you consider the two sets), so $P(D \mid H) = \frac{P(H,D)}{P(H)}$. We can solve for $P(H,D)$ in a similar manner: multiply both sides of the equation by $P(H)$ and we get $P(H,D) = P(D \mid H) P(H)$. Putting these together, we can prove Bayes&rsquo; rule:</p>
+<p>$$P(H \mid D) P(D) = P(H,D) = P(D \mid H) P(H)$$
+$$\Rightarrow P(H \mid D) = \frac{P(H,D)}{P(D)} = \frac{P(D \mid H) P(H)}{P(D)}$$</p>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    Tip
+  </summary>
+  <div class="box-content">
+<p>Don&rsquo;t worry if this felt abstract. The taxicab problem below will make it concrete!</p>
+  </div>
+</details>
+<h2 id="the-taxicab-problem">The Taxicab Problem</h2>
+<p><a href="#R-image-4c62b70f30bbbe2e956bb6bc5da41a0c" class="lightbox-link"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/foggy_night_collision.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-4c62b70f30bbbe2e956bb6bc5da41a0c"><img alt="chibany witnesses accident with taxi on a foggy night" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/foggy_night_collision.png"></a></p>
+<p>In Chibany&rsquo;s hometown, there are two taxi companies: the Green <i class="fa-fw fas fa-taxi cstyle green"></i> and the Blue <i class="fa-fw fas fa-taxi cstyle blue"></i>. All Green company&rsquo;s taxis are painted green <i class="fa-fw fas fa-taxi cstyle green"></i> and all the Blue company&rsquo;s taxis are painted blue <i class="fa-fw fas fa-taxi cstyle blue"></i>.</p>
+<p>85% of the town&rsquo;s taxis work for the Green <i class="fa-fw fas fa-taxi cstyle green"></i> company. So 15% of the town&rsquo;s taxis work for the Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> company.</p>
+<p>Late one foggy evening, Chibany saw a cab perform a hit-and-run (hit another car and leave without providing any information). Chibany saw a Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> taxi!</p>
+<p>Chibany is an outstanding citizen and so they go to the police with this information. The police know it was foggy and dark, so it&rsquo;s possible Chibany might not have seen the taxi&rsquo;s color correctly. They test Chibany several times and find that Chibany reports the correct taxi color 80% of the time!</p>
+<p>Taking all of this information into account, how likely do you think it is that the cab involved in the hit-and-run was a Blue taxi <i class="fa-fw fas fa-taxi cstyle blue"></i>?</p>
+
+<details class=" box cstyle notices transparent expand">
+  <summary class="box-label">
+    <i class="expander-icon fa-fw fas fa-chevron-right"></i> 
+    answer
+  </summary>
+  <div class="box-content">
+<p>
+The correct answer is <strong>41%</strong>, but most people think it is closer to 60-80%!
+  </div>
+</details>
+<p>This is known as the Taxicab Problem (Kahneman and Tversky, 1972; Bar-Hillel, 1980).</p>
+
+<details open class=" box cstyle notices warning">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-triangle"></i> 
+    Base Rate Neglect
+  </summary>
+  <div class="box-content">
+<p>Most people focus on Chibany&rsquo;s 80% accuracy and ignore the base rate (85% green taxis). This is a classic cognitive bias called <strong>base-rate neglect</strong>.</p>
+<p>The key insight: Even with pretty good accuracy (80%), if something is rare (15% blue taxis), evidence for it isn&rsquo;t as strong as it seems!</p>
+  </div>
+</details>
+<p>A note: Kahneman and Tversky (and others) use this example (and others) to argue that people are not Bayesian at all! There are a number of replies through the years and it is an ongoing debate. Joe loves discussing it. If interested, please reach out and he would be more than happy to discuss it more.</p>
+<h3 id="taxicab-solution-1-the-set-based-perspective">Taxicab Solution 1: The Set-Based Perspective</h3>
+<p>One way to solve this is to use the outcome space perspective! Let us assume there are 100 taxis in Chibany&rsquo;s hometown. That means the set of possibilities $\Omega$ has 85 individual Green taxis <i class="fa-fw fas fa-taxi cstyle green"></i> and 15 individual Blue taxis <i class="fa-fw fas fa-taxi cstyle blue"></i>.</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 10
+        g1[&#34;fa:fa-taxi&#34;] g2[&#34;fa:fa-taxi&#34;] g3[&#34;fa:fa-taxi&#34;] g4[&#34;fa:fa-taxi&#34;] g5[&#34;fa:fa-taxi&#34;] g6[&#34;fa:fa-taxi&#34;] g7[&#34;fa:fa-taxi&#34;] g8[&#34;fa:fa-taxi&#34;] g9[&#34;fa:fa-taxi&#34;] g10[&#34;fa:fa-taxi&#34;]
+        g11[&#34;fa:fa-taxi&#34;] g12[&#34;fa:fa-taxi&#34;] g13[&#34;fa:fa-taxi&#34;] g14[&#34;fa:fa-taxi&#34;] g15[&#34;fa:fa-taxi&#34;] g16[&#34;fa:fa-taxi&#34;] g17[&#34;fa:fa-taxi&#34;] g18[&#34;fa:fa-taxi&#34;] g19[&#34;fa:fa-taxi&#34;] g20[&#34;fa:fa-taxi&#34;]
+        g21[&#34;fa:fa-taxi&#34;] g22[&#34;fa:fa-taxi&#34;] g23[&#34;fa:fa-taxi&#34;] g24[&#34;fa:fa-taxi&#34;] g25[&#34;fa:fa-taxi&#34;] g26[&#34;fa:fa-taxi&#34;] g27[&#34;fa:fa-taxi&#34;] g28[&#34;fa:fa-taxi&#34;] g29[&#34;fa:fa-taxi&#34;] g30[&#34;fa:fa-taxi&#34;]
+        g31[&#34;fa:fa-taxi&#34;] g32[&#34;fa:fa-taxi&#34;] g33[&#34;fa:fa-taxi&#34;] g34[&#34;fa:fa-taxi&#34;] g35[&#34;fa:fa-taxi&#34;] g36[&#34;fa:fa-taxi&#34;] g37[&#34;fa:fa-taxi&#34;] g38[&#34;fa:fa-taxi&#34;] g39[&#34;fa:fa-taxi&#34;] g40[&#34;fa:fa-taxi&#34;]
+        g41[&#34;fa:fa-taxi&#34;] g42[&#34;fa:fa-taxi&#34;] g43[&#34;fa:fa-taxi&#34;] g44[&#34;fa:fa-taxi&#34;] g45[&#34;fa:fa-taxi&#34;] g46[&#34;fa:fa-taxi&#34;] g47[&#34;fa:fa-taxi&#34;] g48[&#34;fa:fa-taxi&#34;] g49[&#34;fa:fa-taxi&#34;] g50[&#34;fa:fa-taxi&#34;]
+        g51[&#34;fa:fa-taxi&#34;] g52[&#34;fa:fa-taxi&#34;] g53[&#34;fa:fa-taxi&#34;] g54[&#34;fa:fa-taxi&#34;] g55[&#34;fa:fa-taxi&#34;] g56[&#34;fa:fa-taxi&#34;] g57[&#34;fa:fa-taxi&#34;] g58[&#34;fa:fa-taxi&#34;] g59[&#34;fa:fa-taxi&#34;] g60[&#34;fa:fa-taxi&#34;]
+        g61[&#34;fa:fa-taxi&#34;] g62[&#34;fa:fa-taxi&#34;] g63[&#34;fa:fa-taxi&#34;] g64[&#34;fa:fa-taxi&#34;] g65[&#34;fa:fa-taxi&#34;] g66[&#34;fa:fa-taxi&#34;] g67[&#34;fa:fa-taxi&#34;] g68[&#34;fa:fa-taxi&#34;] g69[&#34;fa:fa-taxi&#34;] g70[&#34;fa:fa-taxi&#34;]
+        g71[&#34;fa:fa-taxi&#34;] g72[&#34;fa:fa-taxi&#34;] g73[&#34;fa:fa-taxi&#34;] g74[&#34;fa:fa-taxi&#34;] g75[&#34;fa:fa-taxi&#34;] g76[&#34;fa:fa-taxi&#34;] g77[&#34;fa:fa-taxi&#34;] g78[&#34;fa:fa-taxi&#34;] g79[&#34;fa:fa-taxi&#34;] g80[&#34;fa:fa-taxi&#34;]
+        g81[&#34;fa:fa-taxi&#34;] g82[&#34;fa:fa-taxi&#34;] g83[&#34;fa:fa-taxi&#34;] g84[&#34;fa:fa-taxi&#34;] g85[&#34;fa:fa-taxi&#34;] b11[&#34;fa:fa-taxi&#34;] b12[&#34;fa:fa-taxi&#34;] b13[&#34;fa:fa-taxi&#34;] b14[&#34;fa:fa-taxi&#34;] b15[&#34;fa:fa-taxi&#34;]
+        b1[&#34;fa:fa-taxi&#34;] b2[&#34;fa:fa-taxi&#34;] b3[&#34;fa:fa-taxi&#34;] b4[&#34;fa:fa-taxi&#34;] b5[&#34;fa:fa-taxi&#34;] b6[&#34;fa:fa-taxi&#34;] b7[&#34;fa:fa-taxi&#34;] b8[&#34;fa:fa-taxi&#34;] b9[&#34;fa:fa-taxi&#34;] b10[&#34;fa:fa-taxi&#34;]
+
+
+    classDef blueTaxi color: #06f, min-width:22px, font-size:18px
+    classDef greenTaxi color: #0d2, min-width:22px, font-size:18px
+    class b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15 blueTaxi
+    class g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,g11,g12,g13,g14,g15,g16,g17,g18,g19,g20,g21,g22,g23,g24,g25,g26,g27,g28,g29,g30,g31,g32,g33,g34,g35,g36,g37,g38,g39,g40,g41,g42,g43,g44,g45,g46,g47,g48,g49,g50,g51,g52,g53,g54,g55,g56,g57,g58,g59,g60,g61,g62,g63,g64,g65,g66,g67,g68,g69,g70,g71,g72,g73,g74,g75,g76,g77,g78,g79,g80,g81,g82,g83,g84,g85 greenTaxi
+    end</pre>
+<p>Now we can make the outcome space include the taxi color and whether Chibany identifies the taxi as Blue in foggy nighttime conditions. As Chibany correctly identifies 80% of the Blue taxis as Blue, ($15 \times 0.80=12$), this means 12 of the Blue taxis are identified as Blue and ($15 \times 0.2 = 3$) 3 are incorrectly identified as Green. As Chibany <em>incorrectly</em> identifies 20% of the Green taxis as Blue, this means ($85 \times 0.2 = 17$) 17 of the Green taxis are identified as Blue and ($85 \times 0.8=68$) 68 are <em>correctly</em> identified as Green.</p>
+<pre class="mermaid align-center ">block-beta
+    block
+        columns 10
+        g1[&#34;fa:fa-taxi&#34;] g2[&#34;fa:fa-taxi&#34;] g3[&#34;fa:fa-taxi&#34;] g4[&#34;fa:fa-taxi&#34;] g5[&#34;fa:fa-taxi&#34;] g6[&#34;fa:fa-taxi&#34;] g7[&#34;fa:fa-taxi&#34;] g8[&#34;fa:fa-taxi&#34;] g9[&#34;fa:fa-taxi&#34;] g10[&#34;fa:fa-taxi&#34;]
+        g11[&#34;fa:fa-taxi&#34;] g12[&#34;fa:fa-taxi&#34;] g13[&#34;fa:fa-taxi&#34;] g14[&#34;fa:fa-taxi&#34;] g15[&#34;fa:fa-taxi&#34;] g16[&#34;fa:fa-taxi&#34;] g17[&#34;fa:fa-taxi&#34;] g18[&#34;fa:fa-taxi&#34;] g19[&#34;fa:fa-taxi&#34;] g20[&#34;fa:fa-taxi&#34;]
+        g21[&#34;fa:fa-taxi&#34;] g22[&#34;fa:fa-taxi&#34;] g23[&#34;fa:fa-taxi&#34;] g24[&#34;fa:fa-taxi&#34;] g25[&#34;fa:fa-taxi&#34;] g26[&#34;fa:fa-taxi&#34;] g27[&#34;fa:fa-taxi&#34;] g28[&#34;fa:fa-taxi&#34;] g29[&#34;fa:fa-taxi&#34;] g30[&#34;fa:fa-taxi&#34;]
+        g31[&#34;fa:fa-taxi&#34;] g32[&#34;fa:fa-taxi&#34;] g33[&#34;fa:fa-taxi&#34;] g34[&#34;fa:fa-taxi&#34;] g35[&#34;fa:fa-taxi&#34;] g36[&#34;fa:fa-taxi&#34;] g37[&#34;fa:fa-taxi&#34;] g38[&#34;fa:fa-taxi&#34;] g39[&#34;fa:fa-taxi&#34;] g40[&#34;fa:fa-taxi&#34;]
+        g41[&#34;fa:fa-taxi&#34;] g42[&#34;fa:fa-taxi&#34;] g43[&#34;fa:fa-taxi&#34;] g44[&#34;fa:fa-taxi&#34;] g45[&#34;fa:fa-taxi&#34;] g46[&#34;fa:fa-taxi&#34;] g47[&#34;fa:fa-taxi&#34;] g48[&#34;fa:fa-taxi&#34;] g49[&#34;fa:fa-taxi&#34;] g50[&#34;fa:fa-taxi&#34;]
+        g51[&#34;fa:fa-taxi&#34;] g52[&#34;fa:fa-taxi&#34;] g53[&#34;fa:fa-taxi&#34;] g54[&#34;fa:fa-taxi&#34;] g55[&#34;fa:fa-taxi&#34;] g56[&#34;fa:fa-taxi&#34;] g57[&#34;fa:fa-taxi&#34;] g58[&#34;fa:fa-taxi&#34;] g59[&#34;fa:fa-taxi&#34;] g60[&#34;fa:fa-taxi&#34;]
+        g61[&#34;fa:fa-taxi&#34;] g62[&#34;fa:fa-taxi&#34;] g63[&#34;fa:fa-taxi&#34;] g64[&#34;fa:fa-taxi&#34;] g65[&#34;fa:fa-taxi&#34;] g66[&#34;fa:fa-taxi&#34;] g67[&#34;fa:fa-taxi&#34;] g68[&#34;fa:fa-taxi&#34;] g69[&#34;fa:fa-taxi&#34;] g70[&#34;fa:fa-taxi&#34;]
+        g71[&#34;fa:fa-taxi&#34;] g72[&#34;fa:fa-taxi&#34;] g73[&#34;fa:fa-taxi&#34;] g74[&#34;fa:fa-taxi&#34;] g75[&#34;fa:fa-taxi&#34;] g76[&#34;fa:fa-taxi&#34;] g77[&#34;fa:fa-taxi&#34;] g78[&#34;fa:fa-taxi&#34;] g79[&#34;fa:fa-taxi&#34;] g80[&#34;fa:fa-taxi&#34;]
+        g81[&#34;fa:fa-taxi&#34;] g82[&#34;fa:fa-taxi&#34;] g83[&#34;fa:fa-taxi&#34;] g84[&#34;fa:fa-taxi&#34;] g85[&#34;fa:fa-taxi&#34;] b11[&#34;fa:fa-taxi&#34;] b12[&#34;fa:fa-taxi&#34;] b13[&#34;fa:fa-taxi&#34;] b14[&#34;fa:fa-taxi&#34;] b15[&#34;fa:fa-taxi&#34;]
+        b1[&#34;fa:fa-taxi&#34;] b2[&#34;fa:fa-taxi&#34;] b3[&#34;fa:fa-taxi&#34;] b4[&#34;fa:fa-taxi&#34;] b5[&#34;fa:fa-taxi&#34;] b6[&#34;fa:fa-taxi&#34;] b7[&#34;fa:fa-taxi&#34;] b8[&#34;fa:fa-taxi&#34;] b9[&#34;fa:fa-taxi&#34;] b10[&#34;fa:fa-taxi&#34;]
+
+
+    classDef blueTaxi color: #06f, min-width:22px, font-size:18px, stroke: #f33, stroke-width:2px
+    classDef blueGrayTaxi color: #028, min-width:22px, font-size:18px
+    classDef greenTaxi color: #0d2, min-width:22px, font-size:18px, stroke: #f33, stroke-width:2px
+    classDef greenGrayTaxi color: #051, min-width:22px, font-size:18px
+    class b1,b2,b3,b4,b5,b6,b7,b11,b12,b13,b14,b15 blueTaxi
+    class b8,b9,b10 blueGrayTaxi
+    class g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,g11,g12,g13,g14,g15,g16,g17 greenTaxi
+    class g18,g19,g20,g21,g22,g23,g24,g25,g26,g27,g28,g29,g30,g31,g32,g33,g34,g35,g36,g37,g38,g39,g40,g41,g42,g43,g44,g45,g46,g47,g48,g49,g50,g51,g52,g53,g54,g55,g56,g57,g58,g59,g60,g61,g62,g63,g64,g65,g66,g67,g68,g69,g70,g71,g72,g73,g74,g75,g76,g77,g78,g79,g80,g81,g82,g83,g84,g85 greenGrayTaxi
+    end</pre>
+<p>The brightly colored taxis that are outlined in red are those that Chibany reports as Blue in the difficult viewing conditions. We can already see there are more Green <i class="fa-fw fas fa-taxi cstyle green"></i> taxis than Blue <i class="fa-fw fas fa-taxi cstyle blue"></i>, so it is still more probable that the taxi involved in the hit-and-run was Green. We can get the exact probability that it was a Blue taxi <i class="fa-fw fas fa-taxi cstyle blue"></i> by the same counting rule as before. There are 12 Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> taxis and 17 Green <i class="fa-fw fas fa-taxi cstyle green"></i> taxis identified as blue. So, the probability that it was a blue taxi given Chibany reports it as Blue is $12/(12+17)=12/29 \approx 0.41$.</p>
+
+<details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
+  <summary class="box-label" tabindex="-1">
+    The Power of Visualization
+  </summary>
+  <div class="box-content">
+<p>The diagram makes the answer obvious! Even though Chibany is 80% accurate:</p>
+<ul>
+<li><strong>12 truly blue taxis</strong> are reported as blue</li>
+<li><strong>17 actually green taxis</strong> are reported as blue</li>
+</ul>
+<p>There are more false positives than true positives because green taxis are so common!</p>
+  </div>
+</details>
+<h3 id="taxicab-solution-2-using-bayes-formula">Taxicab Solution 2: Using Bayes&rsquo; Formula</h3>
+<p>We can also solve this <strong>without counting</strong> in a sample space by following the rules of probability theory as described before. This is powerful when counting becomes impractical (imagine 1 million taxis!).</p>
+<p>Let $X$ be the actual color of the taxi involved in the hit-and-run and $W$ be the color reported by Chibany (&ldquo;what they witness&rdquo;). Based on the percentage of Blue <i class="fa-fw fas fa-taxi cstyle blue"></i> and Green <i class="fa-fw fas fa-taxi cstyle green"></i> taxis in the city, we know that $P(X=G) = 0.85$ and $P(X=B)=0.15$. We also know that Chibany is accurate 80% of the time. So, $P(W = B \mid X = B) = 0.8$ and $P(W=G \mid X=G)=0.8$. This also means Chibany is inaccurate 20% of the time: $P(W = B \mid X=G)=0.2$ and $P(W=G \mid X=B)=0.2$.</p>
+<p>Chibany said the taxi is Blue and given this, how likely is it that the taxi is Blue? So, we&rsquo;re interested in $P(X=B \mid W=B)$. We can solve this using Bayes&rsquo; rule and the sum rule.</p>
+<p>$$P(X=B \mid W=B) = \frac{P(W =B \mid X=B) P(X=B)}{P(W=B)}$$</p>
+<p>$$P(X=B \mid W=B) = \frac{P(W =B \mid X=B) P(X=B)}{\sum_c{P(W=B,X=c)}}$$</p>
+<p>$$P(X=B \mid W=B) = \frac{P(W =B \mid X=B) P(X=B)}{\sum_c{P(W=B \mid X=c)P(X=c)}}$$</p>
+<p>$$P(X=B \mid W=B) = \frac{P(W =B \mid X=B) P(X=B)}{P(W=B \mid X=B)P(X=B) + P(W=B \mid X=G)P(X=G)}$$</p>
+<p>$$P(X=B \mid W=B) = \frac{0.8 \times 0.15 }{0.8 \times 0.15 + 0.2 \times 0.85} = \frac{0.12}{0.12+0.17} = \frac{0.12}{0.29} \approx 0.41$$</p>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    Breaking Down Bayes&rsquo; Rule
+  </summary>
+  <div class="box-content">
+<p>Let&rsquo;s identify each component:</p>
+<p><strong>Numerator (likelihood × prior):</strong></p>
+<ul>
+<li>Likelihood: $P(W=B \mid X=B) = 0.8$: &ldquo;If it&rsquo;s blue, I&rsquo;ll probably say blue&rdquo;</li>
+<li>Prior: $P(X=B) = 0.15$: &ldquo;Blue taxis are rare&rdquo;</li>
+<li>Product: $0.8 \times 0.15 = 0.12$</li>
+</ul>
+<p><strong>Denominator (total evidence):</strong></p>
+<ul>
+<li>Blue AND reported blue: $0.8 \times 0.15 = 0.12$</li>
+<li>Green BUT reported blue: $0.2 \times 0.85 = 0.17$</li>
+<li>Total: $0.12 + 0.17 = 0.29$</li>
+</ul>
+<p><strong>Posterior:</strong> $\frac{0.12}{0.29} \approx 0.41$: Only 41% chance it&rsquo;s actually blue!</p>
+  </div>
+</details>
+<h3 id="why-learn-the-set-based-perspective-to-probability-theory">Why Learn the Set-Based Perspective to Probability Theory?</h3>
+<p>If we can solve probability problems via symbol manipulation, why learn the set-based perspective to probability theory?</p>
+<p>Here are some reasons:</p>
+<ol>
+<li>
+<p><strong>Scales to computation</strong>: As variables become more complex, explicitly solving problems becomes infeasible. Thinking through how to count is a strong starting point for a <a href="/probintro/intro/06_glossary/index.html#generative-process">generative process</a> perspective, which discusses how outcomes are produced according to computer programs with random choices. These define probabilistic models! <a href="/probintro/intro/06_glossary/index.html#probabilistic-computing">Probabilistic computing</a> frameworks are programming languages for specifying probabilistic models and built to calculate different probabilities according to this model in an efficient manner. We will build to exploring how to do this over the next few tutorials.</p>
+</li>
+<li>
+<p><strong>Clarity on joint vs. conditional</strong>: Many probability novices find the distinction between joint and conditional probabilities confusing and unintuitive. From the set-based perspective, their difference is clear. Joint probabilities count outcomes where multiple events occur simultaneously. Conditional probabilities change the outcome space to be whatever is consistent with the conditioned information and then count in that new space.</p>
+</li>
+<li>
+<p><strong>Forces representation thinking</strong>: It requires you to think about how events and outcomes are represented. This can be obscured at times when thinking about probabilities from the rule-based perspective.</p>
+</li>
+<li>
+<p><strong>Formal equivalence</strong>: The set-based and formula-based approaches are formally equivalent: they always give the same answer.</p>
+</li>
+<li>
+<p><strong>It&rsquo;s more intuitive</strong>: For many people (including this tutorial&rsquo;s author!), visualizing and counting feels more natural than manipulating symbols.</p>
+</li>
+<li>
+<p><strong>Connects combinatorics and probability</strong>: It makes the deep connection between counting and probability explicit.</p>
+</li>
+<li>
+<p><strong>It makes Chibany happy</strong>: And that&rsquo;s what really matters!</p>
+</li>
+</ol>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    💻 See This in Code
+  </summary>
+  <div class="box-content">
+<p><strong>In GenJAX</strong>, Bayes&rsquo; Theorem becomes <strong>automatic</strong>! You don&rsquo;t calculate posteriors by hand: you:</p>
+<ol>
+<li><strong>Define the generative model</strong> (prior + likelihood)</li>
+<li><strong>Specify observations</strong> (data)</li>
+<li><strong>Let GenJAX compute</strong> the posterior</li>
+</ol>
+<details>
+<summary>Click to show code example</summary>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">taxicab_model</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Prior: 85% green taxis</span>
+</span></span><span style="display:flex;"><span>    is_blue <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;true_color&#34;</span>  <span style="color:#75715e"># 1=blue, 0=green</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Likelihood: Chibany&#39;s accuracy (80%)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_blue:
+</span></span><span style="display:flex;"><span>        reported_blue <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.80</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;reported&#34;</span>  <span style="color:#75715e"># P(report blue | is blue)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        reported_blue <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.20</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;reported&#34;</span>  <span style="color:#75715e"># P(report blue | is green)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_blue
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Observe: Chibany reported blue</span>
+</span></span><span style="display:flex;"><span>observations <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;reported&#34;</span>: <span style="color:#ae81ff">1</span>})  <span style="color:#75715e"># 1 = reported blue</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Posterior inference (automatic Bayes&#39; Theorem!)</span>
+</span></span><span style="display:flex;"><span>target <span style="color:#f92672">=</span> Target(taxicab_model, (), observations)
+</span></span><span style="display:flex;"><span>trace, log_weight <span style="color:#f92672">=</span> target<span style="color:#f92672">.</span>importance(key, ChoiceMap<span style="color:#f92672">.</span>empty())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># trace now samples from P(true_color | reported=blue)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This is the posterior! GenJAX did all the Bayes&#39; rule math.</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+</details>
+<p><strong>The principle is identical</strong>: update beliefs with evidence. But GenJAX handles all the formula manipulation!</p>
+<p><a href="../../genjax/05_bayesian_learning/">→ See Bayesian learning in Tutorial 2, Chapter 5</a></p>
+<p><a href="../../intro2/04_bayesian_gaussian/">→ See advanced Bayesian inference in Tutorial 3, Chapter 4</a></p>
+<p><strong>Try it yourself:</strong> <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/bayesian_learning.ipynb" rel="external" target="_blank">Open Interactive Colab Notebook</a></p>
+  </div>
+</details>
+
+<details open class=" box cstyle notices note">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-circle"></i> 
+    Why This Matters: Life-Changing Applications
+  </summary>
+  <div class="box-content">
+<p><strong>Bayes&rsquo; Theorem isn&rsquo;t just a math formula—it&rsquo;s how the world works!</strong></p>
+<p><strong>Medicine</strong>: When you get a positive test for a rare disease, don&rsquo;t panic! Remember the taxicab problem: if the disease affects 1 in 1000 people, and the test is 99% accurate, a positive result still means you&rsquo;re more likely healthy than sick. (Your doctor should know this, but many don&rsquo;t!)</p>
+<p><strong>Machine Learning</strong>: Every spam filter, recommendation system, and AI assistant uses Bayes&rsquo; Theorem. When Netflix recommends a movie, it&rsquo;s updating beliefs about your preferences based on what you watched.</p>
+<p><strong>Criminal Justice</strong>: Eyewitness testimony seems compelling, but the taxicab problem shows why it&rsquo;s dangerous to rely on alone. An 80% accurate witness identifying a rare perpetrator is less reliable than intuition suggests.</p>
+<p><strong>Science</strong>: Every scientific experiment uses Bayesian thinking: &ldquo;Given this data, how should I update my belief in the hypothesis?&rdquo; Strong priors require strong evidence to overcome.</p>
+<p><strong>Daily Life</strong>: Every time you say &ldquo;Hmm, that&rsquo;s surprising given what I know,&rdquo; you&rsquo;re thinking Bayesian! You&rsquo;re implicitly comparing likelihoods against your prior beliefs.</p>
+<p><strong>The key lesson</strong>: Never evaluate evidence in isolation—always consider base rates (priors). Rare things remain rare even with good evidence.</p>
+  </div>
+</details>
+<hr>
+<h2 id="what-youve-conquered">What You&rsquo;ve Conquered</h2>
+<p><strong>Congratulations—you just mastered one of the most powerful and counterintuitive concepts in all of mathematics!</strong> 🎉</p>
+<p>Let&rsquo;s celebrate what you now understand:</p>
+<p>✅ <strong>Bayes&rsquo; Theorem</strong>: You can update beliefs rationally with new evidence</p>
+<p>✅ <strong>The Taxicab Problem</strong>: You understand why 80% accuracy doesn&rsquo;t mean 80% certainty</p>
+<p>✅ <strong>Base Rate Importance</strong>: You&rsquo;ll never ignore priors again</p>
+<p>✅ <strong>Two Solution Methods</strong>: You can solve Bayesian problems by counting OR by formula</p>
+<p>✅ <strong>Base-Rate Neglect</strong>: You recognize and avoid this cognitive trap</p>
+<p>✅ <strong>The Set-Based Power</strong>: You see why visualization beats symbol manipulation</p>
+<p><strong>Most importantly</strong>: You now think differently about evidence. When someone says &ldquo;This test is 99% accurate!&rdquo; you&rsquo;ll ask &ldquo;But how common is the condition?&rdquo; When you read &ldquo;eyewitness identified the suspect!&rdquo; you&rsquo;ll think &ldquo;But what&rsquo;s the base rate?&rdquo;</p>
+<p><strong>This is a superpower.</strong> You&rsquo;re now reasoning more accurately than most people, including many experts!</p>
+<h2 id="your-probability-journey">Your Probability Journey</h2>
+<p>You started with Chibany counting meals, learned about outcome spaces and events, discovered conditional probability, and now you can update beliefs with Bayes&rsquo; Theorem.</p>
+<p><strong>That&rsquo;s the complete foundation of probability theory!</strong> Everything else builds on these concepts.</p>
+<p><strong>What&rsquo;s next?</strong></p>
+<ul>
+<li><strong>Glossary</strong>: Consolidate all the definitions you&rsquo;ve learned</li>
+<li><strong>Tutorial 2</strong>: Apply these concepts computationally with GenJAX</li>
+<li><strong>Tutorial 3</strong>: Explore advanced topics like Gaussian processes</li>
+</ul>
+<p><strong>But first</strong>: Try the interactive notebook and play with the sliders! The best way to internalize Bayes&rsquo; Theorem is to see how changing base rates and accuracy changes the posterior. It&rsquo;s surprisingly fun. 🎮</p>
+<hr>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"><a href="/probintro/intro/04_conditional/index.html">← Previous: Conditional Probability</a></th>
+          <th style="text-align: right"><a href="/probintro/intro/06_glossary/index.html">Next: Glossary →</a></th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/probintro/index.html">
+            <div class="logo-title">Probability &amp; Probabilistic Computing Tutorial</div>
+          </a>
+        </div>
+        <search><form action="/probintro/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/probintro/index.html"><a class="padding" href="/probintro/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="parent alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu">
+            <li class="" data-nav-id="/probintro/intro/01_goals/index.html"><a class="padding" href="/probintro/intro/01_goals/index.html">What You&#39;ll Learn</a></li>
+            <li class="" data-nav-id="/probintro/intro/02_hungry/index.html"><a class="padding" href="/probintro/intro/02_hungry/index.html">Chibany is hungry</a></li>
+            <li class="" data-nav-id="/probintro/intro/03_prob_count/index.html"><a class="padding" href="/probintro/intro/03_prob_count/index.html">Probability and Counting</a></li>
+            <li class="" data-nav-id="/probintro/intro/04_conditional/index.html"><a class="padding" href="/probintro/intro/04_conditional/index.html">Conditional probability as changing the possible outcomes</a></li>
+            <li class="active " data-nav-id="/probintro/intro/05_bayes/index.html"><a class="padding" href="/probintro/intro/05_bayes/index.html">Bayes&#39; Theorem: Updating Beliefs</a></li>
+            <li class="" data-nav-id="/probintro/intro/06_glossary/index.html"><a class="padding" href="/probintro/intro/06_glossary/index.html">Glossary</a></li>
+            <li class="" data-nav-id="/probintro/intro/07_ack/index.html"><a class="padding" href="/probintro/intro/07_ack/index.html">Acknowledgements</a></li></ul></li>
+            <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
+            <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
+            <li class="" data-nav-id="/probintro/notebook_guide/index.html"><a class="padding" href="/probintro/notebook_guide/index.html">Interactive Notebooks - All Tutorials</a></li>
+            <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764989345"></script>
+    <script src="/probintro/js/js-yaml/js-yaml.min.js?1764989345" defer></script>
+    <script src="/probintro/js/d3/d3-color.min.js?1764989345" defer></script>
+    <script src="/probintro/js/d3/d3-dispatch.min.js?1764989345" defer></script>
+    <script src="/probintro/js/d3/d3-drag.min.js?1764989345" defer></script>
+    <script src="/probintro/js/d3/d3-ease.min.js?1764989345" defer></script>
+    <script src="/probintro/js/d3/d3-interpolate.min.js?1764989345" defer></script>
+    <script src="/probintro/js/d3/d3-selection.min.js?1764989345" defer></script>
+    <script src="/probintro/js/d3/d3-timer.min.js?1764989345" defer></script>
+    <script src="/probintro/js/d3/d3-transition.min.js?1764989345" defer></script>
+    <script src="/probintro/js/d3/d3-zoom.min.js?1764989345" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.min.js" defer></script>
+    <script>
+      window.relearn.themeUseMermaid = JSON.parse("{\n      \"startOnLoad\": true,\n      \"theme\": \"base\",\n      \"securityLevel\": \"loose\",\n      \"themeVariables\": {\n        \"primaryColor\": \"#fff\",\n        \"primaryTextColor\": \"#000\",\n        \"primaryBorderColor\": \"#000\",\n        \"lineColor\": \"#000\",\n        \"secondaryColor\": \"#fff\",\n        \"tertiaryColor\": \"#fff\"\n      },\n      \"flowchart\": {\n        \"htmlLabels\": true,\n        \"curve\": \"basis\"\n      },\n      \"block\": {\n        \"padding\": 8\n      }\n    }");
+    </script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764989345" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764989345" defer></script>
+    <script src="/probintro/js/theme.js?1764989345" defer></script>
+  </body>
+</html>

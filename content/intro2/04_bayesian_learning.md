@@ -1,4 +1,5 @@
 +++
+date = "2025-12-06"
 title = "Bayesian Learning with Gaussians"
 weight = 4
 +++
@@ -205,6 +206,8 @@ print(f"Theoretical posterior std dev: 1.86g")
 **Note**: The above shows the conceptual structure. In practice, GenJAX's importance sampling might need weight normalization. Let's simplify with a direct analytical update:
 
 ```python
+import jax.numpy as jnp
+
 def gaussian_gaussian_update(prior_mu, prior_var, data, data_var):
     """
     Analytical Bayesian update for Gaussian-Gaussian conjugate prior
@@ -479,6 +482,10 @@ Predictive for next X: N(497.65, 4.37)
 ## Implementing Predictive Distribution in GenJAX
 
 ```python
+from genjax import gen
+import jax.numpy as jnp
+import jax.random as random
+
 @gen
 def posterior_predictive(post_mu, post_var, data_var):
     """

@@ -1,4 +1,5 @@
 +++
+date = "2025-12-06"
 title = "Dirichlet Process Mixture Models"
 weight = 6
 +++

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Probabilistic Programming with GenJAX :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link>http://localhost:1313/probintro/genjax/index.html</link>
+    <description>From Probability Theory to Probabilistic Code In the previous tutorial, you learned to think about probability using sets and counting. Chibany showed you that probability questions are really about:&#xA;What’s possible? (Define the outcome space) What am I interested in? (Define the event) Count them! (Calculate the ratio) Now you’ll learn to express those same ideas in code using GenJAX — a probabilistic programming language that lets computers do the counting for you!</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 06 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/probintro/genjax/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Getting Started with Google Colab</title>
+      <link>http://localhost:1313/probintro/genjax/00_getting_started/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/probintro/genjax/00_getting_started/index.html</guid>
+      <description>What is Google Colab? Google Colab (short for “Colaboratory”) is a free online tool that lets you write and run Python code in your web browser. Think of it like Google Docs, but for code!&#xA;Why we love it for beginners:&#xA;✅ No installation needed ✅ No setup required ✅ Pre-installed with common libraries ✅ Free GPU access (for fast computation) ✅ Easy sharing with others ✅ Automatic saving to Google Drive Step 1: Open Your First Notebook Click this link to open the first GenJAX notebook:</description>
+    </item>
+    <item>
+      <title>Python Essentials for GenJAX</title>
+      <link>http://localhost:1313/probintro/genjax/01_python_basics/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/probintro/genjax/01_python_basics/index.html</guid>
+      <description>You Don’t Need to Become a Programmer! This chapter teaches you just enough Python to read and run GenJAX code. You won’t become a software developer, but you’ll be able to:&#xA;Understand what the code is doing Modify values to experiment Run examples and see results Think of it like learning enough Italian to order food in a restaurant — you don’t need fluency, just practical knowledge!&#xA;1. Variables: Giving Names to Things In Python, we give names to values so we can use them later.</description>
+    </item>
+    <item>
+      <title>Your First GenJAX Model</title>
+      <link>http://localhost:1313/probintro/genjax/02_first_model/index.html</link>
+      <pubDate>Sat, 06 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/probintro/genjax/02_first_model/index.html</guid>
+      <description>From Sets to Simulation Remember Chibany’s daily meals? We listed out the outcome space $\Omega = \{HH, HT, TH, TT\}$ and counted possibilities.&#xA;Now we’ll teach a computer to generate those outcomes instead!&#xA;The Generative Process Each day:&#xA;Lunch arrives — randomly H or T (equal probability) Dinner arrives — randomly H or T (equal probability) Record the day — the pair of meals In GenJAX, we express this as a generative function.</description>
+    </item>
+    <item>
+      <title>Understanding Traces</title>
+      <link>http://localhost:1313/probintro/genjax/03_traces/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/probintro/genjax/03_traces/index.html</guid>
+      <description>What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.&#xA;GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:&#xA;What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!</description>
+    </item>
+    <item>
+      <title>Conditioning and Inference</title>
+      <link>http://localhost:1313/probintro/genjax/04_conditioning/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/probintro/genjax/04_conditioning/index.html</guid>
+      <description>From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.&#xA;Now we’ll learn to infer — reasoning backwards from observations to causes.&#xA;This is the heart of probabilistic programming!&#xA;📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!</description>
+    </item>
+    <item>
+      <title>Building Your Own Models</title>
+      <link>http://localhost:1313/probintro/genjax/06_building_models/index.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/probintro/genjax/06_building_models/index.html</guid>
+      <description>From Following Recipes to Creating Your Own You’ve learned to use GenJAX through examples. Now it’s time to build your own probabilistic models!&#xA;This chapter shows you how to think about building generative models — turning real-world problems into code.&#xA;The Model-Building Process Step 1: Understand the Problem Before writing any code, answer:&#xA;What am I trying to predict or understand? (The question) What do I observe? (The data/evidence) What’s hidden? (The unknown variables) How are they related? (The causal structure) Example: Spam detection</description>
+    </item>
+  </channel>
+</rss>

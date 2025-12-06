@@ -74,13 +74,13 @@ Throughout the notebooks, you'll see **sliders and controls** that let you chang
 
 The first code cell in each notebook will look like this:
 
-```python
+```bash
 # Install GenJAX (this takes about 1-2 minutes the first time)
-!pip install genjax
+pip install genjax
 ```
 
 **What this does:**
-- The `!` tells Colab "run this as a system command"
+- In Colab notebooks, you use `!pip install` to run shell commands
 - `pip install` means "download and install"
 - `genjax` is the library we're installing
 

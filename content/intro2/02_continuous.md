@@ -1,4 +1,5 @@
 +++
+date = "2025-12-06"
 title = "The Continuum: Continuous Probability"
 weight = 2
 +++
@@ -191,13 +192,14 @@ $$p(x) = \begin{cases}
 Chibany's office coffee machine is unreliable. The temperature of their morning coffee is uniformly distributed between 60°C and 80°C.
 
 ```python
-from genjax import gen
+from genjax import gen, uniform
+import jax.numpy as jnp
 import jax.random as random
 
 @gen
 def coffee_temperature():
     """Model: coffee temperature uniformly between 60 and 80 degrees C"""
-    temp = jnp.uniform(60.0, 80.0) @ "temp"
+    temp = uniform(60.0, 80.0) @ "temp"
     return temp
 
 # Simulate 10,000 cups
@@ -235,6 +237,7 @@ plt.show()
 ![PDF vs CDF for Uniform Distribution](../../images/intro2/pdf_vs_cdf.png)
 
 ```python
+# Continued from previous code block (requires temps array from above)
 # Calculate probabilities for ranges
 prob_too_cold = jnp.mean(temps < 65)  # Below 65°C
 prob_just_right = jnp.mean((temps >= 70) & (temps <= 75))  # 70-75°C
@@ -287,6 +290,9 @@ $$F_X(x) = \begin{cases}
 Let's visualize this for Chibany's coffee:
 
 ```python
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+
 # Coffee temperature: Uniform(60, 80)
 x = jnp.linspace(55, 85, 1000)
 
@@ -453,10 +459,14 @@ Write a GenJAX generative function for Problem 1 and simulate 10,000 bus arrival
 {{% expand "Answer" %}}
 
 ```python
+from genjax import gen, uniform
+import jax.numpy as jnp
+import jax.random as random
+
 @gen
 def bus_arrival():
     """Bus arrives uniformly between 0 and 20 minutes after 8:00 AM"""
-    arrival_time = jnp.uniform(0.0, 20.0) @ "arrival"
+    arrival_time = uniform(0.0, 20.0) @ "arrival"
     return arrival_time
 
 # Simulate 10,000 arrivals

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Interactive Jupyter Notebooks This page provides a comprehensive overview of all Jupyter notebooks available across the tutorial series. Each notebook opens directly in Google Colab for immediate interactive exploration.
+How to use these notebooks:
+📓 Click “Open in Colab” to launch the notebook in your browser ✏️ Run cells, modify code, and experiment with parameters 💾 Save a copy to your Google Drive to keep your changes 📚 Return to the linked tutorial chapters for detailed explanations Tutorial 1: Discrete Probability First GenJAX Model Notebook: 📓 Open in Colab: first_model.ipynb">
+    <meta name="author" content="Joseph Austerweil">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Interactive Notebooks - All Tutorials :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="Interactive Jupyter Notebooks This page provides a comprehensive overview of all Jupyter notebooks available across the tutorial series. Each notebook opens directly in Google Colab for immediate interactive exploration.
+How to use these notebooks:
+📓 Click “Open in Colab” to launch the notebook in your browser ✏️ Run cells, modify code, and experiment with parameters 💾 Save a copy to your Google Drive to keep your changes 📚 Return to the linked tutorial chapters for detailed explanations Tutorial 1: Discrete Probability First GenJAX Model Notebook: 📓 Open in Colab: first_model.ipynb">
+    <meta property="og:url" content="http://localhost:1313/probintro/notebook_guide/index.html">
+    <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Interactive Notebooks - All Tutorials :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="Interactive Jupyter Notebooks This page provides a comprehensive overview of all Jupyter notebooks available across the tutorial series. Each notebook opens directly in Google Colab for immediate interactive exploration.
+How to use these notebooks:
+📓 Click “Open in Colab” to launch the notebook in your browser ✏️ Run cells, modify code, and experiment with parameters 💾 Save a copy to your Google Drive to keep your changes 📚 Return to the linked tutorial chapters for detailed explanations Tutorial 1: Discrete Probability First GenJAX Model Notebook: 📓 Open in Colab: first_model.ipynb">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="article:published_time" content="2025-12-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-05T00:00:00+00:00">
+    <meta itemprop="name" content="Interactive Notebooks - All Tutorials :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="Interactive Jupyter Notebooks This page provides a comprehensive overview of all Jupyter notebooks available across the tutorial series. Each notebook opens directly in Google Colab for immediate interactive exploration.
+How to use these notebooks:
+📓 Click “Open in Colab” to launch the notebook in your browser ✏️ Run cells, modify code, and experiment with parameters 💾 Save a copy to your Google Drive to keep your changes 📚 Return to the linked tutorial chapters for detailed explanations Tutorial 1: Discrete Probability First GenJAX Model Notebook: 📓 Open in Colab: first_model.ipynb">
+    <meta itemprop="datePublished" content="2025-12-05T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2025-12-05T00:00:00+00:00">
+    <meta itemprop="wordCount" content="967">
+    <title>Interactive Notebooks - All Tutorials :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/images/favicon.png?1764989345" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764989345" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764989345" defer></script>
+    <script src="/probintro/js/search-lunr.js?1764989345" defer></script>
+    <script src="/probintro/js/search.js?1764989345" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1764989345";
+    </script>
+    <script src="/probintro/js/lunr/lunr.min.js?1764989345" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764989345" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1764989345" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1764989345" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764989345" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764989345" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764989345" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1764989345" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1764989345" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/notebook_guide\/index.html';
+      window.relearn.relBasePath='..';
+      window.relearn.relBaseUri='..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'relearn-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+
+<link rel="stylesheet" href="/probintro/css/custom.css">
+
+  </head>
+  <body class="mobile-support html" data-url="/probintro/notebook_guide/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#interactive-jupyter-notebooks">Interactive Jupyter Notebooks</a></li>
+    <li><a href="#tutorial-1-discrete-probability">Tutorial 1: Discrete Probability</a>
+      <ul>
+        <li><a href="#first-genjax-model">First GenJAX Model</a></li>
+        <li><a href="#conditioning-and-bayes-rule">Conditioning and Bayes&rsquo; Rule</a></li>
+        <li><a href="#bayesian-learning">Bayesian Learning</a></li>
+      </ul>
+    </li>
+    <li><a href="#tutorial-2-genjax-programming">Tutorial 2: GenJAX Programming</a>
+      <ul>
+        <li><a href="#your-first-genjax-model-tutorial-2">Your First GenJAX Model (Tutorial 2)</a></li>
+      </ul>
+    </li>
+    <li><a href="#tutorial-3-continuous-probability--bayesian-learning">Tutorial 3: Continuous Probability &amp; Bayesian Learning</a>
+      <ul>
+        <li><a href="#gaussian-bayesian-interactive-exploration">Gaussian Bayesian Interactive Exploration</a></li>
+        <li><a href="#assignment-1-gaussian-bayesian-update">Assignment 1: Gaussian Bayesian Update</a></li>
+        <li><a href="#assignment-2-gaussian-clusters">Assignment 2: Gaussian Clusters</a></li>
+        <li><a href="#dirichlet-process-mixture-models-dpmm">Dirichlet Process Mixture Models (DPMM)</a></li>
+      </ul>
+    </li>
+    <li><a href="#recommended-learning-paths">Recommended Learning Paths</a>
+      <ul>
+        <li><a href="#path-1-complete-beginner">Path 1: Complete Beginner</a></li>
+        <li><a href="#path-2-bayesian-learning-focus">Path 2: Bayesian Learning Focus</a></li>
+        <li><a href="#path-3-quick-interactive-tour">Path 3: Quick Interactive Tour</a></li>
+      </ul>
+    </li>
+    <li><a href="#tips-for-using-notebooks">Tips for Using Notebooks</a></li>
+    <li><a href="#all-notebooks-at-a-glance">All Notebooks at a Glance</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Interactive Notebooks - All Tutorials</span><meta itemprop="position" content="2"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro2/06_dpmm/index.html" title="Dirichlet Process Mixture Models (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/glossary/index.html" title="Glossary - All Tutorials (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable page" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="interactive-notebooks---all-tutorials">Interactive Notebooks - All Tutorials</h1>
+
+<h2 id="interactive-jupyter-notebooks">Interactive Jupyter Notebooks</h2>
+<p>This page provides a comprehensive overview of all Jupyter notebooks available across the tutorial series. Each notebook opens directly in Google Colab for immediate interactive exploration.</p>
+<p><strong>How to use these notebooks:</strong></p>
+<ul>
+<li>📓 Click &ldquo;Open in Colab&rdquo; to launch the notebook in your browser</li>
+<li>✏️ Run cells, modify code, and experiment with parameters</li>
+<li>💾 Save a copy to your Google Drive to keep your changes</li>
+<li>📚 Return to the linked tutorial chapters for detailed explanations</li>
+</ul>
+<hr>
+<h2 id="tutorial-1-discrete-probability">Tutorial 1: Discrete Probability</h2>
+<h3 id="first-genjax-model">First GenJAX Model</h3>
+<p><strong>Notebook</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/first_model.ipynb" rel="external" target="_blank">📓 Open in Colab: <code>first_model.ipynb</code></a></p>
+<p><strong>What it covers:</strong></p>
+<ul>
+<li>Your first probabilistic model in GenJAX</li>
+<li>Simulating Chibany&rsquo;s lunch choices (hamburger vs tonkatsu)</li>
+<li>Basic probability calculations with discrete outcomes</li>
+<li>Understanding random sampling and probability distributions</li>
+</ul>
+<p><strong>Related Tutorial Chapters:</strong></p>
+<ul>
+<li><a href="/probintro/intro/03_prob_count/index.html">Tutorial 1, Chapter 3: Probability from Counting</a></li>
+</ul>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Discrete probability distributions</li>
+<li>Random sampling</li>
+<li>GenJAX basics</li>
+<li>Probability visualization</li>
+</ul>
+<hr>
+<h3 id="conditioning-and-bayes-rule">Conditioning and Bayes&rsquo; Rule</h3>
+<p><strong>Notebook</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/conditioning.ipynb" rel="external" target="_blank">📓 Open in Colab: <code>conditioning.ipynb</code></a></p>
+<p><strong>What it covers:</strong></p>
+<ul>
+<li>Conditional probability in practice</li>
+<li>Implementing Bayes&rsquo; rule in GenJAX</li>
+<li>The taxicab problem with interactive examples</li>
+<li>Sequential belief updating</li>
+</ul>
+<p><strong>Related Tutorial Chapters:</strong></p>
+<ul>
+<li><a href="/probintro/intro/04_conditional/index.html">Tutorial 1, Chapter 4: Conditional Probability</a></li>
+</ul>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Conditional probability</li>
+<li>Bayes&rsquo; theorem</li>
+<li>Posterior belief updating</li>
+<li>Prior and likelihood</li>
+</ul>
+<hr>
+<h3 id="bayesian-learning">Bayesian Learning</h3>
+<p><strong>Notebook</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/bayesian_learning.ipynb" rel="external" target="_blank">📓 Open in Colab: <code>bayesian_learning.ipynb</code></a></p>
+<p><strong>What it covers:</strong></p>
+<ul>
+<li>Complete taxicab problem with visualizations</li>
+<li>Sequential Bayesian updating with multiple observations</li>
+<li>Interactive sliders to explore different base rates and accuracies</li>
+<li>How prior beliefs affect posterior conclusions</li>
+</ul>
+<p><strong>Related Tutorial Chapters:</strong></p>
+<ul>
+<li><a href="/probintro/intro/05_bayes/index.html">Tutorial 1, Chapter 5: Bayes&rsquo; Theorem</a></li>
+<li><a href="/probintro/genjax/04_conditioning/index.html">Tutorial 2 (GenJAX), Chapter 4: Conditioning</a></li>
+</ul>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Bayesian inference</li>
+<li>Sequential updating</li>
+<li>Base rate effects</li>
+<li>Prior-posterior relationships</li>
+</ul>
+<hr>
+<h2 id="tutorial-2-genjax-programming">Tutorial 2: GenJAX Programming</h2>
+<h3 id="your-first-genjax-model-tutorial-2">Your First GenJAX Model (Tutorial 2)</h3>
+<p><strong>Notebook</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/02_first_genjax_model.ipynb" rel="external" target="_blank">📓 Open in Colab: <code>02_first_genjax_model.ipynb</code></a></p>
+<p><strong>What it covers:</strong></p>
+<ul>
+<li>Building generative models in GenJAX</li>
+<li>Interactive widgets to adjust parameters in real-time</li>
+<li>Visualizing probability distributions</li>
+<li>Understanding how parameter changes affect outcomes</li>
+</ul>
+<p><strong>Related Tutorial Chapters:</strong></p>
+<ul>
+<li><a href="/probintro/genjax/00_getting_started/index.html">Tutorial 2 (GenJAX), Chapter 0: Getting Started</a></li>
+<li><a href="/probintro/genjax/02_first_model/index.html">Tutorial 2 (GenJAX), Chapter 2: First Model</a></li>
+</ul>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>GenJAX generative functions</li>
+<li>Parameter exploration</li>
+<li>Interactive visualization</li>
+<li>Model simulation</li>
+</ul>
+<hr>
+<h2 id="tutorial-3-continuous-probability--bayesian-learning">Tutorial 3: Continuous Probability &amp; Bayesian Learning</h2>
+<h3 id="gaussian-bayesian-interactive-exploration">Gaussian Bayesian Interactive Exploration</h3>
+<p><strong>Notebook</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/gaussian_bayesian_interactive_exploration.ipynb" rel="external" target="_blank">📓 Open in Colab: <code>gaussian_bayesian_interactive_exploration.ipynb</code></a></p>
+<p><strong>What it covers:</strong></p>
+<ul>
+<li>
+<p><strong>Part 1: Gaussian-Gaussian Bayesian Updates</strong></p>
+<ul>
+<li>Interactive sliders to adjust likelihood variance</li>
+<li>Sequential observation addition with real-time posterior updates</li>
+<li>Comparison of posterior vs predictive distributions</li>
+<li>Effect of measurement noise on learning</li>
+</ul>
+</li>
+<li>
+<p><strong>Part 2: Gaussian Mixture Categorization</strong></p>
+<ul>
+<li>How priors affect decision boundaries</li>
+<li>Effect of variance ratios on categorization</li>
+<li>Marginal (mixture) distribution visualization</li>
+<li>Understanding bimodal vs unimodal distributions</li>
+</ul>
+</li>
+</ul>
+<p><strong>Related Tutorial Chapters:</strong></p>
+<ul>
+<li><a href="/probintro/intro2/index.html">Tutorial 3 (Intro2), Main Page</a></li>
+<li><a href="/probintro/intro2/04_bayesian_learning/index.html">Tutorial 3 (Intro2), Chapter 4: Bayesian Learning</a></li>
+<li><a href="/probintro/intro2/05_mixture_models/index.html">Tutorial 3 (Intro2), Chapter 5: Mixture Models</a></li>
+</ul>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Gaussian distributions</li>
+<li>Bayesian parameter learning</li>
+<li>Conjugate priors</li>
+<li>Posterior inference</li>
+<li>Mixture models</li>
+<li>Decision boundaries</li>
+</ul>
+<hr>
+<h3 id="assignment-1-gaussian-bayesian-update">Assignment 1: Gaussian Bayesian Update</h3>
+<p><strong>Notebook</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/solution_1_gaussian_bayesian_update.ipynb" rel="external" target="_blank">📓 Open in Colab: <code>solution_1_gaussian_bayesian_update.ipynb</code></a></p>
+<p><strong>What it covers:</strong></p>
+<ul>
+<li><strong>Part (a)</strong>: Visualizing the prior distribution</li>
+<li><strong>Part (b)</strong>: Effect of likelihood variance (σ²_x = 0.25 vs. 4)</li>
+<li><strong>Part (c)</strong>: Effect of number of observations (N=1 vs. N=5)</li>
+<li><strong>Part (d)</strong>: Precision-weighted averaging in action</li>
+<li><strong>Part (e)</strong>: Posterior vs. predictive distributions</li>
+<li><strong>Part (f)</strong>: GenJAX verification of analytical formulas</li>
+</ul>
+<p><strong>Related Tutorial Chapters:</strong></p>
+<ul>
+<li><a href="/probintro/intro2/04_bayesian_learning/index.html">Tutorial 3 (Intro2), Chapter 4: Bayesian Learning</a></li>
+</ul>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Gaussian conjugate priors</li>
+<li>Likelihood variance effects</li>
+<li>Posterior concentration</li>
+<li>Predictive distributions</li>
+<li>Precision weighting</li>
+</ul>
+<hr>
+<h3 id="assignment-2-gaussian-clusters">Assignment 2: Gaussian Clusters</h3>
+<p><strong>Notebook</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/solution_2_gaussian_clusters.ipynb" rel="external" target="_blank">📓 Open in Colab: <code>solution_2_gaussian_clusters.ipynb</code></a></p>
+<p><strong>What it covers:</strong></p>
+<ul>
+<li><strong>Part (a)</strong>: Deriving P(category|observation) using Bayes&rsquo; rule</li>
+<li><strong>Part (b)</strong>: Effect of priors on decision boundaries</li>
+<li><strong>Part (c)</strong>: Effect of variance ratios on categorization</li>
+<li><strong>Part (d)</strong>: Computing marginal distributions</li>
+<li><strong>Part (e)</strong>: Understanding bimodal vs. unimodal mixtures</li>
+<li><strong>Part (f)</strong>: GenJAX simulation of mixture models</li>
+</ul>
+<p><strong>Related Tutorial Chapters:</strong></p>
+<ul>
+<li><a href="/probintro/intro2/04_bayesian_learning/index.html#problem-2-gaussian-clusters-preview-of-chapter-5">Tutorial 3 (Intro2), Chapter 4: Bayesian Learning - Problem 2</a></li>
+<li><a href="/probintro/intro2/05_mixture_models/index.html">Tutorial 3 (Intro2), Chapter 5: Mixture Models</a></li>
+</ul>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Mixture model categorization</li>
+<li>Bayes&rsquo; rule with continuous distributions</li>
+<li>Decision boundaries</li>
+<li>Marginal probability</li>
+<li>Mixture distributions</li>
+</ul>
+<hr>
+<h3 id="dirichlet-process-mixture-models-dpmm">Dirichlet Process Mixture Models (DPMM)</h3>
+<p><strong>Notebook</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/dpmm_interactive.ipynb" rel="external" target="_blank">📓 Open in Colab: <code>dpmm_interactive.ipynb</code></a></p>
+<p><strong>What it covers:</strong></p>
+<ul>
+<li>Interactive DPMM exploration</li>
+<li>Automatic cluster discovery</li>
+<li>Chinese Restaurant Process visualization</li>
+<li>Infinite mixture models</li>
+<li>Bayesian nonparametrics</li>
+</ul>
+<p><strong>Related Tutorial Chapters:</strong></p>
+<ul>
+<li><a href="/probintro/intro2/06_dpmm/index.html">Tutorial 3 (Intro2), Chapter 6: DPMM</a></li>
+</ul>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Dirichlet Process</li>
+<li>Infinite mixture models</li>
+<li>Chinese Restaurant Process</li>
+<li>Bayesian nonparametrics</li>
+<li>Automatic model selection</li>
+</ul>
+<hr>
+<h2 id="recommended-learning-paths">Recommended Learning Paths</h2>
+<h3 id="path-1-complete-beginner">Path 1: Complete Beginner</h3>
+<ol>
+<li><code>first_model.ipynb</code> - Start here for GenJAX basics</li>
+<li><code>conditioning.ipynb</code> - Learn conditional probability</li>
+<li><code>bayesian_learning.ipynb</code> - Master Bayesian updating</li>
+<li><code>02_first_genjax_model.ipynb</code> - Build your first full model</li>
+<li><code>gaussian_bayesian_interactive_exploration.ipynb</code> - Explore continuous probability</li>
+<li><code>solution_1_gaussian_bayesian_update.ipynb</code> - Practice Gaussian inference</li>
+<li><code>solution_2_gaussian_clusters.ipynb</code> - Learn mixture models</li>
+<li><code>dpmm_interactive.ipynb</code> - Advanced: infinite mixtures</li>
+</ol>
+<h3 id="path-2-bayesian-learning-focus">Path 2: Bayesian Learning Focus</h3>
+<ol>
+<li><code>bayesian_learning.ipynb</code> - Discrete Bayes&rsquo; rule</li>
+<li><code>gaussian_bayesian_interactive_exploration.ipynb</code> - Continuous Bayesian inference</li>
+<li><code>solution_1_gaussian_bayesian_update.ipynb</code> - Gaussian conjugate priors</li>
+<li><code>solution_2_gaussian_clusters.ipynb</code> - Mixture model inference</li>
+<li><code>dpmm_interactive.ipynb</code> - Bayesian nonparametrics</li>
+</ol>
+<h3 id="path-3-quick-interactive-tour">Path 3: Quick Interactive Tour</h3>
+<ol>
+<li><code>02_first_genjax_model.ipynb</code> - Interactive parameter exploration</li>
+<li><code>gaussian_bayesian_interactive_exploration.ipynb</code> - Bayesian learning with sliders</li>
+<li><code>dpmm_interactive.ipynb</code> - Automatic clustering</li>
+</ol>
+<hr>
+<h2 id="tips-for-using-notebooks">Tips for Using Notebooks</h2>
+<p><strong>Getting Started:</strong></p>
+<ul>
+<li>Click &ldquo;Open in Colab&rdquo; to launch any notebook</li>
+<li>Run cells in order (Shift+Enter) to execute code</li>
+<li>Experiment by changing parameter values</li>
+</ul>
+<p><strong>Interactive Widgets:</strong></p>
+<ul>
+<li>Many notebooks include sliders and controls</li>
+<li>Adjust parameters and see results update in real-time</li>
+<li>Try extreme values to understand edge cases</li>
+</ul>
+<p><strong>Saving Your Work:</strong></p>
+<ul>
+<li>File → Save a copy in Drive (saves to your Google Drive)</li>
+<li>Your experiments and notes will be preserved</li>
+<li>You can share your modified notebooks with others</li>
+</ul>
+<p><strong>Troubleshooting:</strong></p>
+<ul>
+<li>If code doesn&rsquo;t run, try Runtime → Restart runtime</li>
+<li>Make sure to run cells in order from top to bottom</li>
+<li>Check that all required packages are installed (usually automatic in Colab)</li>
+</ul>
+<hr>
+<h2 id="all-notebooks-at-a-glance">All Notebooks at a Glance</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Notebook</th>
+          <th>Tutorial</th>
+          <th>Topics</th>
+          <th>Difficulty</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>first_model.ipynb</code></td>
+          <td>Tutorial 1</td>
+          <td>Discrete probability, basics</td>
+          <td>⭐ Beginner</td>
+      </tr>
+      <tr>
+          <td><code>conditioning.ipynb</code></td>
+          <td>Tutorial 1</td>
+          <td>Conditional probability</td>
+          <td>⭐ Beginner</td>
+      </tr>
+      <tr>
+          <td><code>bayesian_learning.ipynb</code></td>
+          <td>Tutorials 1 &amp; 2</td>
+          <td>Bayesian inference</td>
+          <td>⭐⭐ Intermediate</td>
+      </tr>
+      <tr>
+          <td><code>02_first_genjax_model.ipynb</code></td>
+          <td>Tutorial 2</td>
+          <td>GenJAX programming</td>
+          <td>⭐⭐ Intermediate</td>
+      </tr>
+      <tr>
+          <td><code>gaussian_bayesian_interactive_exploration.ipynb</code></td>
+          <td>Tutorial 3</td>
+          <td>Continuous Bayes, mixtures</td>
+          <td>⭐⭐⭐ Advanced</td>
+      </tr>
+      <tr>
+          <td><code>solution_1_gaussian_bayesian_update.ipynb</code></td>
+          <td>Tutorial 3</td>
+          <td>Gaussian inference</td>
+          <td>⭐⭐⭐ Advanced</td>
+      </tr>
+      <tr>
+          <td><code>solution_2_gaussian_clusters.ipynb</code></td>
+          <td>Tutorial 3</td>
+          <td>Mixture models</td>
+          <td>⭐⭐⭐ Advanced</td>
+      </tr>
+      <tr>
+          <td><code>dpmm_interactive.ipynb</code></td>
+          <td>Tutorial 3</td>
+          <td>Bayesian nonparametrics</td>
+          <td>⭐⭐⭐⭐ Expert</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<p><strong>Need help?</strong> Return to the <a href="/probintro/index.html">main tutorial page</a> or consult the <a href="/probintro/glossary/index.html">glossary</a> for term definitions.</p>
+<p><strong>Enjoying the notebooks?</strong> This tutorial series is generously funded by the <a href="https://jpcca.org/" rel="external" target="_blank">Japanese Probabilistic Computing Consortium Association (JPCCA)</a>.</p>
+
+  <footer class="footline">
+              <i class='fa-fw fas fa-calendar'></i> Dec 5, 2025
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/probintro/index.html">
+            <div class="logo-title">Probability &amp; Probabilistic Computing Tutorial</div>
+          </a>
+        </div>
+        <search><form action="/probintro/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/probintro/index.html"><a class="padding" href="/probintro/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
+            <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
+            <li class="alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu"></ul></li>
+            <li class="active " data-nav-id="/probintro/notebook_guide/index.html"><a class="padding" href="/probintro/notebook_guide/index.html">Interactive Notebooks - All Tutorials</a></li>
+            <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764989345"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1764989345" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764989345" defer></script>
+    <script src="/probintro/js/theme.js?1764989345" defer></script>
+  </body>
+</html>

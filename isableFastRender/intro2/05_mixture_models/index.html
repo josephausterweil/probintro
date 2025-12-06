@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
+    <meta name="description" content="Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
+We now have all the tools to solve this completely:
+Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability (PDFs, CDFs) Chapter 3: Gaussian distributions Chapter 4: Bayesian learning for parameters Now we combine them: What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?">
+    <meta name="author" content="Joseph Austerweil">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Gaussian Mixture Models :: Probability & Probabilistic Computing Tutorial">
+    <meta name="twitter:description" content="Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
+We now have all the tools to solve this completely:
+Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability (PDFs, CDFs) Chapter 3: Gaussian distributions Chapter 4: Bayesian learning for parameters Now we combine them: What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?">
+    <meta property="og:url" content="http://localhost:1313/probintro/intro2/05_mixture_models/index.html">
+    <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
+    <meta property="og:title" content="Gaussian Mixture Models :: Probability & Probabilistic Computing Tutorial">
+    <meta property="og:description" content="Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
+We now have all the tools to solve this completely:
+Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability (PDFs, CDFs) Chapter 3: Gaussian distributions Chapter 4: Bayesian learning for parameters Now we combine them: What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?">
+    <meta property="og:locale" content="en_us">
+    <meta property="og:type" content="article">
+    <meta property="article:section" content="Continuous Probability and Bayesian Learning">
+    <meta itemprop="name" content="Gaussian Mixture Models :: Probability & Probabilistic Computing Tutorial">
+    <meta itemprop="description" content="Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
+We now have all the tools to solve this completely:
+Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability (PDFs, CDFs) Chapter 3: Gaussian distributions Chapter 4: Bayesian learning for parameters Now we combine them: What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?">
+    <meta itemprop="wordCount" content="2127">
+    <title>Gaussian Mixture Models :: Probability &amp; Probabilistic Computing Tutorial</title>
+    <link href="/probintro/images/favicon.png?1765004538" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765004538" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765004538" defer></script>
+    <script src="/probintro/js/search-lunr.js?1765004538" defer></script>
+    <script src="/probintro/js/search.js?1765004538" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1765004538";
+    </script>
+    <script src="/probintro/js/lunr/lunr.min.js?1765004538" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765004538" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1765004538" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1765004538" defer></script>
+    <script>
+      window.relearn = window.relearn || {};
+      window.relearn.contentLangs=['en'];
+    </script>
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765004538" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765004538" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765004538" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1765004538" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1765004538" rel="stylesheet" id="R-format-style">
+    <script>
+      window.relearn = window.relearn || {};
+      // configuration
+      window.relearn.min = ``;
+      window.relearn.path='\/intro2\/05_mixture_models\/index.html';
+      window.relearn.relBasePath='..\/..';
+      window.relearn.relBaseUri='..\/..\/..';
+      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.disableAnchorCopy=false;
+      window.relearn.disableAnchorScrolling=false;
+      window.relearn.disableInlineCopyToClipboard=false;
+      window.relearn.enableBlockCodeWrap=true;
+      // legal
+      window.relearn.getItem = (s,n) => {return s.getItem(n)};
+      window.relearn.setItem = (s,n,v) => {return s.setItem(n,v)};
+      window.relearn.removeItem = (s,n) => {return s.removeItem(n)};
+      // translations
+      window.T_Copy_to_clipboard = `Copy to clipboard`;
+      window.T_Copied_to_clipboard = `Copied to clipboard!`;
+      window.T_Copy_link_to_clipboard = `Copy link to clipboard`;
+      window.T_Link_copied_to_clipboard = `Copied link to clipboard!`;
+      window.T_Reset_view = `Reset view`;
+      window.T_View_reset = `View reset!`;
+      window.T_No_results_found = `No results found for "{0}"`;
+      window.T_N_results_found = `{1} results found for "{0}"`;
+      // variant stuff
+      window.relearn.themevariants = [ 'relearn-dark' ];
+      window.relearn.customvariantname = "my-custom-variant";
+      window.relearn.changeVariant = function(variant) {
+        var oldVariant = document.documentElement.dataset.rThemeVariant;
+        window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        document.documentElement.dataset.rThemeVariant = variant;
+        if (oldVariant != variant) {
+          document.dispatchEvent( new CustomEvent('themeVariantLoaded', { detail: { variant, oldVariant } }) );
+          window.relearn.markVariant();
+        }
+      }
+      window.relearn.markVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant");
+        document.querySelectorAll(".R-variantswitcher select").forEach((select) => {select.value = variant;});
+      }
+      window.relearn.initVariant = function() {
+        var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + "/variant") ?? "";
+        if( variant == window.relearn.customvariantname ){
+        }else if( !variant || !window.relearn.themevariants.includes(variant) ){
+          variant = window.relearn.themevariants[0];
+          window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + "/variant", variant);
+        }
+        document.documentElement.dataset.rThemeVariant = variant;
+      }
+      window.relearn.initVariant();
+      window.relearn.markVariant();
+    </script>
+
+<link rel="stylesheet" href="/probintro/css/custom.css">
+
+  </head>
+  <body class="mobile-support html" data-url="/probintro/intro2/05_mixture_models/index.html">
+    <div id="R-body" class="default-animation">
+      <div id="R-body-overlay"></div>
+      <nav id="R-topbar">
+        <div class="topbar-wrapper">
+          <div class="topbar-sidebar-divider"></div>
+          <div class="topbar-area topbar-area-start" data-area="start">
+            <div class="topbar-button topbar-button-sidebar" data-content-empty="disable" data-width-s="show" data-width-m="hide" data-width-l="hide"><button class="topbar-control" onclick="toggleNav()" type="button" title="Menu (CTRL&#43;ALT&#43;n)"><i class="fa-fw fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-button topbar-button-toc" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="Table of Contents (CTRL&#43;ALT&#43;t)"><i class="fa-fw fas fa-list-alt"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+<nav class="TableOfContents">
+  <ul>
+    <li><a href="#returning-to-the-mystery">Returning to the Mystery</a></li>
+    <li><a href="#-prerequisite-understanding-categorization">📚 Prerequisite: Understanding Categorization</a>
+      <ul>
+        <li><a href="#the-bridge-known-parameters--unknown-parameters">The Bridge: Known Parameters → Unknown Parameters</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-complete-problem">The Complete Problem</a></li>
+    <li><a href="#gaussian-mixture-model-the-math">Gaussian Mixture Model: The Math</a>
+      <ul>
+        <li><a href="#the-generative-story">The Generative Story</a></li>
+      </ul>
+    </li>
+    <li><a href="#two-component-bento-model">Two-Component Bento Model</a></li>
+    <li><a href="#the-inference-problem">The Inference Problem</a></li>
+    <li><a href="#understanding-the-inference-challenge">Understanding the Inference Challenge</a></li>
+    <li><a href="#bayesian-gmm-with-genjax">Bayesian GMM with GenJAX</a></li>
+    <li><a href="#model-selection-how-many-components">Model Selection: How Many Components?</a></li>
+    <li><a href="#real-world-applications">Real-World Applications</a>
+      <ul>
+        <li><a href="#image-segmentation">Image Segmentation</a></li>
+        <li><a href="#speaker-identification">Speaker Identification</a></li>
+        <li><a href="#anomaly-detection">Anomaly Detection</a></li>
+        <li><a href="#customer-segmentation">Customer Segmentation</a></li>
+      </ul>
+    </li>
+    <li><a href="#practice-problems">Practice Problems</a>
+      <ul>
+        <li><a href="#problem-1-three-coffee-blends">Problem 1: Three Coffee Blends</a></li>
+        <li><a href="#problem-2-understanding-uncertainty">Problem 2: Understanding Uncertainty</a></li>
+      </ul>
+    </li>
+    <li><a href="#whats-next">What&rsquo;s Next?</a></li>
+  </ul>
+</nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ol class="topbar-breadcrumbs breadcrumbs highlightable" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/index.html"><span itemprop="name">Probability &amp; Probabilistic Computing Tutorial</span></a><meta itemprop="position" content="1">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><a itemprop="item" href="/probintro/intro2/index.html"><span itemprop="name">Continuous Probability and Bayesian Learning</span></a><meta itemprop="position" content="2">&nbsp;>&nbsp;</li><li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement" class=""><span itemprop="name">Gaussian Mixture Models</span><meta itemprop="position" content="3"></li>
+          </ol>
+          <div class="topbar-area topbar-area-end" data-area="end">
+            <div class="topbar-button topbar-button-prev" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro2/04_bayesian_learning/index.html" title="Bayesian Learning with Gaussians (🡐)"><i class="fa-fw fas fa-chevron-left"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-next" data-content-empty="disable" data-width-s="show" data-width-m="show" data-width-l="show"><a class="topbar-control" href="/probintro/intro2/06_dpmm/index.html" title="Dirichlet Process Mixture Models (🡒)"><i class="fa-fw fas fa-chevron-right"></i></a>
+            </div>
+            <div class="topbar-button topbar-button-more" data-content-empty="hide" data-width-s="show" data-width-m="show" data-width-l="show"><button class="topbar-control" onclick="toggleTopbarFlyout(this)" type="button" title="More"><i class="fa-fw fas fa-ellipsis-v"></i></button>
+              <div class="topbar-content">
+                <div class="topbar-content-wrapper">
+                  <div class="topbar-area topbar-area-more" data-area="more">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="R-main-overlay"></div>
+      <main id="R-body-inner" class="highlightable intro2" tabindex="-1">
+        <div class="flex-block-wrapper">
+<article class="default">
+  <header class="headline">
+  </header>
+
+<h1 id="gaussian-mixture-models">Gaussian Mixture Models</h1>
+
+<h2 id="returning-to-the-mystery">Returning to the Mystery</h2>
+<p>Remember Chibany&rsquo;s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.</p>
+<p>We now have all the tools to solve this completely:</p>
+<ul>
+<li><strong>Chapter 1</strong>: Expected value paradox in mixtures</li>
+<li><strong>Chapter 2</strong>: Continuous probability (PDFs, CDFs)</li>
+<li><strong>Chapter 3</strong>: Gaussian distributions</li>
+<li><strong>Chapter 4</strong>: Bayesian learning for parameters</li>
+</ul>
+<p>Now we combine them: <strong>What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?</strong></p>
+<p>This is a <strong>Gaussian Mixture Model (GMM)</strong>.</p>
+<hr>
+<h2 id="-prerequisite-understanding-categorization">📚 Prerequisite: Understanding Categorization</h2>
+<p>Before tackling the full GMM learning problem, make sure you understand <strong>categorization</strong> in mixture models with <strong>known parameters</strong>.</p>
+
+<details open class=" box cstyle notices warning">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-triangle"></i> 
+    ⚠️ Recommended Preparation
+  </summary>
+  <div class="box-content">
+<p>If you haven&rsquo;t already, work through the <strong>Gaussian Clusters</strong> assignment from Chapter 4:</p>
+<p><strong>📝 Assignment</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/solution_2_gaussian_clusters.ipynb" rel="external" target="_blank">Open in Colab: <code>solution_2_gaussian_clusters.ipynb</code></a></p>
+<p><strong>📓 Interactive exploration</strong>: <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/gaussian_bayesian_interactive_exploration.ipynb" rel="external" target="_blank">Open in Colab: <code>gaussian_bayesian_interactive_exploration.ipynb</code></a> (Part 2)</p>
+<p><strong>Why this matters</strong>:</p>
+<ul>
+<li><strong>Chapter 4 Problem 2</strong> teaches you how to compute P(category | observation) when parameters are <strong>known</strong></li>
+<li><strong>This chapter (5)</strong> extends that to learning parameters when they are <strong>unknown</strong></li>
+<li>Understanding categorization with known parameters is essential before attempting to learn them!</li>
+</ul>
+<p><strong>What you&rsquo;ll practice</strong>:</p>
+<ul>
+<li>Using Bayes&rsquo; rule: P(c|x) = p(x|c)P(c) / p(x)</li>
+<li>Computing marginal distributions: p(x) = Σ_c p(x|c)P(c)</li>
+<li>Understanding decision boundaries and how priors/variances affect them</li>
+<li>Visualizing bimodal vs. unimodal mixture distributions</li>
+</ul>
+  </div>
+</details>
+<h3 id="the-bridge-known-parameters--unknown-parameters">The Bridge: Known Parameters → Unknown Parameters</h3>
+<p><strong>In Chapter 4 Problem 2</strong>, you learned:</p>
+<ul>
+<li>Given: μ₁, μ₂, σ₁², σ₂², θ (all known)</li>
+<li>Infer: Which category for each observation?</li>
+<li>Formula: P(c=1|x) = θ·N(x;μ₁,σ₁²) / [θ·N(x;μ₁,σ₁²) + (1-θ)·N(x;μ₂,σ₂²)]</li>
+</ul>
+<p><strong>In this chapter</strong>, we tackle the harder problem:</p>
+<ul>
+<li>Given: Only observations x₁, x₂, &hellip;, xₙ</li>
+<li>Infer: Categories <strong>AND</strong> parameters μ₁, μ₂, σ₁², σ₂², θ</li>
+<li>Method: Expectation-Maximization (EM) algorithm</li>
+</ul>
+<p>Think of it as:</p>
+<ol>
+<li><strong>First</strong> (Chapter 4 Problem 2): &ldquo;I know the recipe for tonkatsu (μ₁, σ₁²) and hamburger (μ₂, σ₂²). Given a weight, which is it?&rdquo;</li>
+<li><strong>Now</strong> (Chapter 5): &ldquo;I don&rsquo;t know the recipes! Can I figure them out from weights alone?&rdquo;</li>
+</ol>
+<hr>
+<h2 id="the-complete-problem">The Complete Problem</h2>
+<p>Chibany receives 20 mystery bentos. They measure their weights:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>[498, 352, 501, 349, 497, 503, 351, 500, 348, 502,
+ 499, 350, 498, 353, 501, 347, 499, 502, 352, 500]</code></pre></div>
+<p>Looking at the histogram, they see two clear clusters around 350g and 500g.</p>
+<p><strong>The questions</strong>:</p>
+<ol>
+<li><strong>How many types</strong> of bentos are there? (We&rsquo;ll assume 2 for now)</li>
+<li><strong>Which type</strong> is each bento? (Classification problem)</li>
+<li><strong>What are the parameters</strong> for each type? (Learning problem)</li>
+</ol>
+<hr>
+<h2 id="gaussian-mixture-model-the-math">Gaussian Mixture Model: The Math</h2>
+<p>A GMM says each observation comes from one of K Gaussian components:</p>
+<p>$$p(x) = \sum_{k=1}^{K} \pi_k \cdot \mathcal{N}(x | \mu_k, \sigma_k^2)$$</p>
+<p>Where:</p>
+<ul>
+<li><strong>π_k</strong>: Mixing proportion (probability of component k)</li>
+<li><strong>μ_k</strong>: Mean of component k</li>
+<li><strong>σ_k²</strong>: Variance of component k</li>
+</ul>
+<p>Constraint: $\sum_{k=1}^{K} \pi_k = 1$ (probabilities must sum to 1)</p>
+<h3 id="the-generative-story">The Generative Story</h3>
+<ol>
+<li><strong>Choose a component</strong>: Sample k ~ Categorical(π₁, π₂, &hellip;, πₖ)</li>
+<li><strong>Generate observation</strong>: Sample x ~ N(μₖ, σₖ²)</li>
+</ol>
+<p>This is exactly what GenJAX is built for!</p>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    📘 Foundation Concept: Discrete + Continuous Together
+  </summary>
+  <div class="box-content">
+<p><strong>Notice the beautiful combination here!</strong></p>
+<p><strong>Step 1 is discrete</strong> (like Tutorial 1):</p>
+<ul>
+<li>Choose which component: k ~ Categorical(π₁, π₂, &hellip;, πₖ)</li>
+<li>This is just like choosing between {hamburger, tonkatsu}</li>
+<li>We&rsquo;re <strong>counting</strong> discrete outcomes (component 1, component 2, &hellip;)</li>
+<li>From Tutorial 1: <strong>Random variables</strong> map outcomes to values</li>
+</ul>
+<p><strong>Step 2 is continuous</strong> (like Tutorial 3):</p>
+<ul>
+<li>Generate the actual weight: x ~ N(μₖ, σₖ²)</li>
+<li>This uses <strong>probability density</strong> we learned in Chapter 2</li>
+<li>We&rsquo;re <strong>measuring</strong> continuous values (350g, 500g, &hellip;)</li>
+</ul>
+<p><strong>Why this matters:</strong></p>
+<ul>
+<li>Real problems often combine both!</li>
+<li>Discrete choices (which category?) + Continuous measurements (what value?)</li>
+<li><strong>Tutorial 1&rsquo;s logic</strong> (discrete counting) works alongside <strong>Tutorial 3&rsquo;s tools</strong> (continuous density)</li>
+<li>GenJAX handles both seamlessly in the same model</li>
+</ul>
+<p><strong>The power:</strong> Mixture models show that discrete and continuous probability aren&rsquo;t separate worlds—they work together to model rich, real-world phenomena.</p>
+<p><a href="/probintro/intro/03_prob_count/index.html#random-variables">← Review random variables in Tutorial 1, Chapter 3</a></p>
+<p><a href="../02_continuous/">← Review continuous distributions in Tutorial 3, Chapter 2</a></p>
+  </div>
+</details>
+<hr>
+<h2 id="two-component-bento-model">Two-Component Bento Model</h2>
+<p>For Chibany&rsquo;s bentos with K=2 (tonkatsu and hamburger):</p>
+<p><strong>Component 1 (Tonkatsu)</strong>:</p>
+<ul>
+<li>π₁ = 0.7 (70% of bentos)</li>
+<li>μ₁ = 500g</li>
+<li>σ₁² = 4 (std dev = 2g)</li>
+</ul>
+<p><strong>Component 2 (Hamburger)</strong>:</p>
+<ul>
+<li>π₂ = 0.3 (30% of bentos)</li>
+<li>μ₂ = 350g</li>
+<li>σ₂² = 4 (std dev = 2g)</li>
+</ul>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, simulate
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.random <span style="color:#66d9ef">as</span> random
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bento_mixture_model</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Two-component Gaussian mixture&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Mixing proportions</span>
+</span></span><span style="display:flex;"><span>    pi <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">0.7</span>, <span style="color:#ae81ff">0.3</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Choose component (0 = tonkatsu, 1 = hamburger)</span>
+</span></span><span style="display:flex;"><span>    component <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>categorical(jnp<span style="color:#f92672">.</span>log(pi)) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;component&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Component parameters</span>
+</span></span><span style="display:flex;"><span>    means <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">500.0</span>, <span style="color:#ae81ff">350.0</span>])
+</span></span><span style="display:flex;"><span>    stds <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">2.0</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Generate weight from chosen component</span>
+</span></span><span style="display:flex;"><span>    mu <span style="color:#f92672">=</span> means[component]
+</span></span><span style="display:flex;"><span>    sigma <span style="color:#f92672">=</span> stds[component]
+</span></span><span style="display:flex;"><span>    weight <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>normal(mu, sigma) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;weight&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> weight, component
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Simulate 20 bentos</span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>PRNGKey(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>weights <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>components <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>):
+</span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>split(key)
+</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> simulate(bento_mixture_model)(subkey)
+</span></span><span style="display:flex;"><span>    weight, component <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    weights<span style="color:#f92672">.</span>append(weight)
+</span></span><span style="display:flex;"><span>    components<span style="color:#f92672">.</span>append(component)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>weights <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array(weights)
+</span></span><span style="display:flex;"><span>components <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array(components)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>n_tonkatsu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(components <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>n_hamburger <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(components <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Generated </span><span style="color:#e6db74">{</span>n_tonkatsu<span style="color:#e6db74">}</span><span style="color:#e6db74"> tonkatsu and </span><span style="color:#e6db74">{</span>n_hamburger<span style="color:#e6db74">}</span><span style="color:#e6db74"> hamburger bentos&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Weights: </span><span style="color:#e6db74">{</span>weights<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Output:</strong></p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Generated 14 tonkatsu and 6 hamburger bentos
+Weights: [501.2 349.8 499.5 351.3 498.7 502.1 350.5 ...]</code></pre></div>
+<hr>
+<h2 id="the-inference-problem">The Inference Problem</h2>
+<p><strong>Forward (Generative)</strong>: Given parameters (π, μ, σ²), generate observations ✅
+<strong>Backward (Inference)</strong>: Given observations, infer parameters (π, μ, σ²) and assignments ❓</p>
+<p>This is harder! We need to solve:</p>
+<ol>
+<li><strong>Which component</strong> did each observation come from?</li>
+<li><strong>What are the parameters</strong> (μ₁, μ₂, σ₁², σ₂²)?</li>
+<li><strong>What are the mixing proportions</strong> (π₁, π₂)?</li>
+</ol>
+<p>These problems are interdependent:</p>
+<ul>
+<li>If we knew the assignments, we could easily estimate parameters (just compute means/variances per component)</li>
+<li>If we knew the parameters, we could compute assignment probabilities (which Gaussian is each point closer to?)</li>
+</ul>
+<p>Classic chicken-and-egg problem!</p>
+<hr>
+<h2 id="understanding-the-inference-challenge">Understanding the Inference Challenge</h2>
+<p>If we knew which type each bento was, learning would be straightforward - just compute the mean and variance for each group. Conversely, if we knew the true parameters, we could compute which component each observation likely came from.</p>
+<p>This chicken-and-egg problem is exactly what probabilistic inference is designed to solve. Instead of point estimates, we&rsquo;ll use GenJAX to reason about the full posterior distribution over both parameters and assignments.</p>
+<hr>
+<h2 id="bayesian-gmm-with-genjax">Bayesian GMM with GenJAX</h2>
+<p>Now let&rsquo;s implement a fully Bayesian version using GenJAX, where we treat component assignments as latent variables to infer:</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bayesian_gmm</span>(data):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Bayesian Gaussian Mixture Model&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    K <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># Number of components</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Priors on parameters</span>
+</span></span><span style="display:flex;"><span>    pi <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>dirichlet(jnp<span style="color:#f92672">.</span>ones(K)) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;pi&#34;</span>  <span style="color:#75715e"># Mixing proportions</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Priors on means (vague)</span>
+</span></span><span style="display:flex;"><span>    mu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">400.0</span>, <span style="color:#ae81ff">50.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;mu_0&#34;</span>,
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">400.0</span>, <span style="color:#ae81ff">50.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;mu_1&#34;</span>
+</span></span><span style="display:flex;"><span>    ])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Priors on standard deviations (vague)</span>
+</span></span><span style="display:flex;"><span>    sigma <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>gamma(<span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;sigma_0&#34;</span>,
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>gamma(<span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;sigma_1&#34;</span>
+</span></span><span style="display:flex;"><span>    ])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Generate observations</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, obs <span style="color:#f92672">in</span> enumerate(data):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Component assignment for observation i</span>
+</span></span><span style="display:flex;"><span>        z_i <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>categorical(jnp<span style="color:#f92672">.</span>log(pi)) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;z_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Observation from assigned component</span>
+</span></span><span style="display:flex;"><span>        x_i <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>normal(mu[z_i], sigma[z_i]) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;x_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pi, mu, sigma
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Condition on observed data</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> choice_map
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>observations <span style="color:#f92672">=</span> choice_map()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, weight <span style="color:#f92672">in</span> enumerate(mystery_weights):
+</span></span><span style="display:flex;"><span>    observations[<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;x_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> weight
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Run importance resampling (simplified inference)</span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>PRNGKey(<span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>num_particles <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>traces <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(num_particles):
+</span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>split(key)
+</span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> simulate(bayesian_gmm, observations)(subkey, mystery_weights)
+</span></span><span style="display:flex;"><span>    traces<span style="color:#f92672">.</span>append(trace)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Extract posterior samples</span>
+</span></span><span style="display:flex;"><span>pi_samples <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([trace[<span style="color:#e6db74">&#34;pi&#34;</span>] <span style="color:#66d9ef">for</span> trace <span style="color:#f92672">in</span> traces])
+</span></span><span style="display:flex;"><span>mu_samples <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([[trace[<span style="color:#e6db74">&#34;mu_0&#34;</span>], trace[<span style="color:#e6db74">&#34;mu_1&#34;</span>]] <span style="color:#66d9ef">for</span> trace <span style="color:#f92672">in</span> traces])
+</span></span><span style="display:flex;"><span>sigma_samples <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([[trace[<span style="color:#e6db74">&#34;sigma_0&#34;</span>], trace[<span style="color:#e6db74">&#34;sigma_1&#34;</span>]] <span style="color:#66d9ef">for</span> trace <span style="color:#f92672">in</span> traces])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Posterior mean for π: </span><span style="color:#e6db74">{</span>jnp<span style="color:#f92672">.</span>mean(pi_samples, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Posterior mean for μ: </span><span style="color:#e6db74">{</span>jnp<span style="color:#f92672">.</span>mean(mu_samples, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Posterior mean for σ: </span><span style="color:#e6db74">{</span>jnp<span style="color:#f92672">.</span>mean(sigma_samples, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Note</strong>: The above shows the conceptual structure. In practice, GMM inference with GenJAX requires careful implementation of inference algorithms. We&rsquo;ll explore more sophisticated inference techniques including MCMC and variational methods in later chapters. The Bayesian approach becomes particularly powerful for more complex models like DPMM (Chapter 6), where we want to reason about uncertainty in the number of components.</p>
+<hr>
+<h2 id="model-selection-how-many-components">Model Selection: How Many Components?</h2>
+<p>How do we know K=2? What if there are 3 types of bentos, or 5?</p>
+<p>In traditional approaches, you would fit multiple models with different K values and use criteria like BIC (Bayesian Information Criterion) to select the best one.</p>
+<p>However, in fully Bayesian inference (which we&rsquo;ll explore more in Chapter 6), we can treat K itself as a random variable and let the data inform us about the likely number of components through the posterior distribution.</p>
+<hr>
+<h2 id="real-world-applications">Real-World Applications</h2>
+<p>GMMs aren&rsquo;t just for bentos. They appear everywhere:</p>
+<h3 id="image-segmentation">Image Segmentation</h3>
+<ul>
+<li>Each pixel belongs to one of K clusters (e.g., foreground vs. background)</li>
+<li>Learn cluster parameters from pixel intensities</li>
+</ul>
+<h3 id="speaker-identification">Speaker Identification</h3>
+<ul>
+<li>Audio features from different speakers cluster differently</li>
+<li>GMM models the distribution of vocal characteristics</li>
+</ul>
+<h3 id="anomaly-detection">Anomaly Detection</h3>
+<ul>
+<li>Normal data fits a mixture of typical patterns</li>
+<li>Outliers have low probability under all components</li>
+</ul>
+<h3 id="customer-segmentation">Customer Segmentation</h3>
+<ul>
+<li>Customers cluster by behavior (high spenders, occasional buyers, etc.)</li>
+<li>Each segment modeled as a Gaussian in feature space</li>
+</ul>
+<hr>
+<h2 id="practice-problems">Practice Problems</h2>
+<h3 id="problem-1-three-coffee-blends">Problem 1: Three Coffee Blends</h3>
+<p>A café serves three coffee blends. You measure 30 caffeine levels (mg/cup):</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>[82, 118, 155, 80, 120, 158, 79, 115, 160, 83, 121, 157,
+ 81, 119, 156, 84, 117, 159, 78, 122, 154, 82, 116, 158,
+ 80, 120, 155, 81, 118, 157]</code></pre></div>
+<p><strong>a)</strong> Extend the Bayesian GMM code to K=3 components.</p>
+<p><strong>b)</strong> What prior distributions would be appropriate for the means if you know caffeine levels range from 50-200mg?</p>
+<p><strong>c)</strong> How would you interpret the posterior distribution over component assignments?</p>
+<details>
+<summary>Show Solution</summary>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">coffee_gmm</span>(data):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;3-component GMM for coffee blends&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    K <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Prior on mixing proportions</span>
+</span></span><span style="display:flex;"><span>    pi <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>dirichlet(jnp<span style="color:#f92672">.</span>ones(K)) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;pi&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Priors on means - centered around expected range</span>
+</span></span><span style="display:flex;"><span>    mu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">80.0</span>, <span style="color:#ae81ff">20.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;mu_0&#34;</span>,   <span style="color:#75715e"># Low caffeine</span>
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">120.0</span>, <span style="color:#ae81ff">20.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;mu_1&#34;</span>,  <span style="color:#75715e"># Medium caffeine</span>
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">160.0</span>, <span style="color:#ae81ff">20.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;mu_2&#34;</span>   <span style="color:#75715e"># High caffeine</span>
+</span></span><span style="display:flex;"><span>    ])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Priors on standard deviations</span>
+</span></span><span style="display:flex;"><span>    sigma <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>gamma(<span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;sigma_0&#34;</span>,
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>gamma(<span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;sigma_1&#34;</span>,
+</span></span><span style="display:flex;"><span>        jnp<span style="color:#f92672">.</span>gamma(<span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;sigma_2&#34;</span>
+</span></span><span style="display:flex;"><span>    ])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Generate observations with component assignments</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, obs <span style="color:#f92672">in</span> enumerate(data):
+</span></span><span style="display:flex;"><span>        z_i <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>categorical(jnp<span style="color:#f92672">.</span>log(pi)) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;z_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>        x_i <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>normal(mu[z_i], sigma[z_i]) <span style="color:#f92672">@</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;x_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pi, mu, sigma
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># b) The priors above use Normal(expected_mean, 20.0) which allows</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># reasonable variation while keeping means in sensible ranges</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># c) The posterior over z_i tells us the probability each cup</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># belongs to each blend, accounting for uncertainty in both</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># assignments and parameters</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+</details>
+<hr>
+<h3 id="problem-2-understanding-uncertainty">Problem 2: Understanding Uncertainty</h3>
+<p>Using the Bayesian GMM for the bento data:</p>
+<p><strong>a)</strong> How would you quantify uncertainty about which component a particular observation belongs to?</p>
+<p><strong>b)</strong> How is this different from a point estimate of the assignment?</p>
+<details>
+<summary>Show Solution</summary>
+<p><strong>a)</strong> In the Bayesian approach, we get a full posterior distribution over component assignments. For each observation i, we can compute:</p>
+<ul>
+<li>P(z_i = 0 | data) - probability it&rsquo;s component 0</li>
+<li>P(z_i = 1 | data) - probability it&rsquo;s component 1</li>
+</ul>
+<p>An observation near the decision boundary might have P(z_i = 0) ≈ 0.5, showing high uncertainty.</p>
+<p><strong>b)</strong> A point estimate would simply assign each observation to its most likely component, discarding information about confidence. The Bayesian approach preserves this uncertainty, which is crucial for:</p>
+<ul>
+<li>Identifying ambiguous cases</li>
+<li>Propagating uncertainty to downstream tasks</li>
+<li>Making better decisions under uncertainty</li>
+</ul>
+<p>For example, a bento weighing 425g (right between the two clusters) would have high assignment uncertainty that we shouldn&rsquo;t ignore.</p>
+</details>
+<hr>
+<h2 id="whats-next">What&rsquo;s Next?</h2>
+<p>We now understand:</p>
+<ul>
+<li>Gaussian Mixture Models combine multiple Gaussians</li>
+<li>GMMs elegantly combine discrete choices (component assignments) with continuous observations</li>
+<li>GenJAX naturally expresses the generative process as a probabilistic program</li>
+<li>Bayesian inference preserves uncertainty over both parameters and assignments</li>
+</ul>
+<p>But we had to <strong>specify K</strong> (number of components) in advance. What if we don&rsquo;t know how many clusters exist?</p>
+<p>In Chapter 6, we&rsquo;ll learn about <strong>Dirichlet Process Mixture Models (DPMM)</strong>: a Bayesian approach that learns the number of components automatically from the data!</p>
+<hr>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    Key Takeaways
+  </summary>
+  <div class="box-content">
+<ol>
+<li><strong>GMM</strong>: Mixture of K Gaussians with mixing proportions π</li>
+<li><strong>Generative process</strong>: First choose component (discrete), then generate observation (continuous)</li>
+<li><strong>Bayesian inference</strong>: Reason about full posterior over parameters and assignments</li>
+<li><strong>GenJAX</strong>: Express GMMs declaratively as probabilistic programs</li>
+<li><strong>Uncertainty</strong>: Preserve and quantify uncertainty about component membership</li>
+<li><strong>Applications</strong>: Clustering, segmentation, anomaly detection</li>
+</ol>
+  </div>
+</details>
+<hr>
+<p><strong>Next Chapter</strong>: <a href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models →</a></p>
+
+  <footer class="footline">
+  </footer>
+</article>
+        </div>
+      </main>
+    </div>
+    <aside id="R-sidebar" class="default-animation">
+      <div id="R-header-topbar" class="default-animation"></div>
+      <div id="R-header-wrapper" class="default-animation">
+        <div id="R-header" class="default-animation">
+          <a id="R-logo" class="R-default" href="/probintro/index.html">
+            <div class="logo-title">Probability &amp; Probabilistic Computing Tutorial</div>
+          </a>
+        </div>
+        <search><form action="/probintro/search/index.html" method="get">
+          <div class="searchbox default-animation">
+            <button class="search-detail" type="submit" title="Search (CTRL+ALT+f)"><i class="fas fa-search"></i></button>
+            <label class="a11y-only" for="R-search-by">Search</label>
+            <input data-search-input id="R-search-by" name="search-by" class="search-by" type="search" placeholder="Search...">
+            <button class="search-clear" type="button" data-search-clear="" title="Clear search"><i class="fas fa-times" title="Clear search"></i></button>
+          </div>
+        </form></search>
+      </div>
+      <div id="R-homelinks" class="default-animation homelinks">
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-homelinks">
+          <ul class="space collapsible-menu">
+            <li class="" data-nav-id="/probintro/index.html"><a class="padding" href="/probintro/index.html"><i class="fa-fw fas fa-home"></i> Home</a></li>
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-headercontrols">
+          <ul class="">
+          </ul>
+        </div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+      </div>
+      <div id="R-content-wrapper" class="highlightable">
+        <div class="R-sidebarmenu R-shortcutmenu-main">
+          <ul class="enlarge morespace collapsible-menu">
+            <li class="alwaysopen " data-nav-id="/probintro/intro/index.html"><a class="padding" href="/probintro/intro/index.html">A Narrative Introduction to Probability</a><ul id="R-subsections-58f2a84c91d5deefe8bdd3a21213404a" class="collapsible-menu"></ul></li>
+            <li class="alwaysopen " data-nav-id="/probintro/genjax/index.html"><a class="padding" href="/probintro/genjax/index.html">Probabilistic Programming with GenJAX</a><ul id="R-subsections-40a5f3b764be01351a755ea2f58fc4ae" class="collapsible-menu"></ul></li>
+            <li class="parent alwaysopen " data-nav-id="/probintro/intro2/index.html"><a class="padding" href="/probintro/intro2/index.html">Continuous Probability and Bayesian Learning</a><ul id="R-subsections-6e37e5026001eb89123afab26613c1bf" class="collapsible-menu">
+            <li class="" data-nav-id="/probintro/intro2/01_mystery_bentos/index.html"><a class="padding" href="/probintro/intro2/01_mystery_bentos/index.html">Chibany&#39;s Mystery Bentos</a></li>
+            <li class="" data-nav-id="/probintro/intro2/02_continuous/index.html"><a class="padding" href="/probintro/intro2/02_continuous/index.html">The Continuum: Continuous Probability</a></li>
+            <li class="" data-nav-id="/probintro/intro2/03_gaussian/index.html"><a class="padding" href="/probintro/intro2/03_gaussian/index.html">The Gaussian Distribution</a></li>
+            <li class="" data-nav-id="/probintro/intro2/04_bayesian_learning/index.html"><a class="padding" href="/probintro/intro2/04_bayesian_learning/index.html">Bayesian Learning with Gaussians</a></li>
+            <li class="active " data-nav-id="/probintro/intro2/05_mixture_models/index.html"><a class="padding" href="/probintro/intro2/05_mixture_models/index.html">Gaussian Mixture Models</a></li>
+            <li class="" data-nav-id="/probintro/intro2/06_dpmm/index.html"><a class="padding" href="/probintro/intro2/06_dpmm/index.html">Dirichlet Process Mixture Models</a></li></ul></li>
+            <li class="" data-nav-id="/probintro/notebook_guide/index.html"><a class="padding" href="/probintro/notebook_guide/index.html">Interactive Notebooks - All Tutorials</a></li>
+            <li class="" data-nav-id="/probintro/glossary/index.html"><a class="padding" href="/probintro/glossary/index.html">Glossary - All Tutorials</a></li>
+          </ul>
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-shortcuts">
+          <ul class="space collapsible-menu">
+          </ul>
+        </div>
+        <div id="R-footer-margin"></div>
+        <div class="R-menu-divider default-animation">
+          <hr class="padding">
+        </div>
+        <div class="R-sidebarmenu R-shortcutmenu-footercontrols">
+          <ul class="">
+          </ul>
+        </div>
+<div id="R-footer"><p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p></div>
+      </div>
+    </aside>
+    <script>
+      window.MathJax = Object.assign( window.MathJax || {}, {
+        tex: {
+          inlineMath:  [['\\(', '\\)'], ['$',  '$']],  
+          displayMath: [['\\[', '\\]'], ['$$', '$$']], 
+        },
+        options: {
+          enableMenu: false 
+        }
+      }, JSON.parse("{}") );
+    </script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765004538"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1765004538" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765004538" defer></script>
+    <script src="/probintro/js/theme.js?1765004538" defer></script>
+  </body>
+</html>

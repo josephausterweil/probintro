@@ -210,7 +210,7 @@ A **decorator** adds capabilities to a function. In GenJAX, we use `@gen`:
 ```python
 @gen
 def my_function():
-    # ... code ...
+    pass  # Placeholder - your code goes here
 ```
 
 **What `@gen` does:** Tells GenJAX "this is a generative function — please track all the random choices!"

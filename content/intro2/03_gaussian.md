@@ -1,4 +1,5 @@
 +++
+date = "2025-12-06"
 title = "The Gaussian Distribution"
 weight = 3
 +++
@@ -152,6 +153,7 @@ The empirical rule holds!
 Let's see how μ and σ affect the shape:
 
 ```python
+import jax.numpy as jnp
 import matplotlib.pyplot as plt
 
 # Create a range of x values
@@ -213,18 +215,29 @@ Remember the mystery from Chapter 1? Now we can model it more realistically:
 **Tonkatsu bentos**: N(500, 4) (mean 500g, std dev 2g)
 **Hamburger bentos**: N(350, 4) (mean 350g, std dev 2g)
 
+{{% notice style="info" title="Note: Illustrative Code" %}}
+The code below shows the **concept** of a mixture model. Due to JAX's functional design, the actual working implementation uses advanced techniques (see the [interactive Colab notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/gaussian_bayesian_interactive_exploration.ipynb) for the full working version).
+
+For learning purposes, this simplified version demonstrates the modeling logic.
+{{% /notice %}}
+
 ```python
+from genjax import gen, bernoulli, normal
+import jax.numpy as jnp
+import jax.random as random
+
 @gen
 def realistic_bento():
-    """A more realistic bento mixture model"""
+    """A more realistic bento mixture model (conceptual)"""
     # 70% tonkatsu, 30% hamburger
-    is_tonkatsu = jnp.bernoulli(0.7) @ "type"
+    is_tonkatsu = bernoulli(0.7) @ "type"
 
     # Each type has Gaussian weight distribution
+    # Note: Actual implementation would use JAX conditional primitives
     if is_tonkatsu:
-        weight = jnp.normal(500.0, 2.0) @ "weight"
+        weight = normal(500.0, 2.0) @ "weight"
     else:
-        weight = jnp.normal(350.0, 2.0) @ "weight"
+        weight = normal(350.0, 2.0) @ "weight"
 
     return weight
 
@@ -259,6 +272,9 @@ import matplotlib.pyplot as plt
 <summary>Click to show visualization code</summary>
 
 ```python
+import jax.numpy as jnp
+import matplotlib.pyplot as plt
+
 plt.figure(figsize=(10, 6))
 plt.hist(weights, bins=100, density=True, alpha=0.7, edgecolor='black')
 plt.axvline(jnp.mean(weights), color='red', linestyle='--', linewidth=2,
@@ -448,6 +464,8 @@ A factory produces bolts with length N(50, 0.25) mm (mean 50mm, std dev 0.5mm). 
 <summary>Show Solution</summary>
 
 ```python
+from scipy.stats import norm
+
 mu, sigma = 50, 0.5
 
 # Part a: P(X < 49 or X > 51) = 1 - P(49 ≤ X ≤ 51)

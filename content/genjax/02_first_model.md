@@ -1,4 +1,5 @@
 +++
+date = "2025-12-06"
 title = "Your First GenJAX Model"
 weight = 3
 +++
@@ -129,6 +130,37 @@ print(f"Today's meals: {meals}")
 Today's meals: (0, 1)
 ```
 
+{{% notice style="warning" title="What You'll Actually See" %}}
+When you run this code, you'll see output like:
+```
+Today's meals: (Array(0, dtype=int32), Array(1, dtype=int32))
+```
+
+**Don't panic!** This is because GenJAX returns JAX arrays, not plain Python numbers.
+
+<details>
+<summary>Why the difference? (Click to expand)</summary>
+
+**What you see**: `Array(0, dtype=int32)` or `Array(1, dtype=int32)`
+
+**What it means**:
+- `Array(0, dtype=int32)` = 0 = Hamburger
+- `Array(1, dtype=int32)` = 1 = Tonkatsu
+
+**Why JAX does this**: JAX uses arrays for everything to enable fast computation on GPUs. These are JAX's way of representing numbers that can run efficiently on both CPUs and GPUs.
+
+**To get simple numbers**, you can convert:
+```python
+meals_simple = (int(meals[0]), int(meals[1]))
+print(f"Today's meals: {meals_simple}")
+# Output: (0, 1)
+```
+
+**For this tutorial**: Just remember that `Array(0, dtype=int32)` is just a fancy way of saying 0, and `Array(1, dtype=int32)` means 1.
+
+</details>
+{{% /notice %}}
+
 This means: Hamburger for lunch (0), Tonkatsu for dinner (1) — or in our notation: $HT$!
 
 {{% notice style="info" title="What's a 'key'?" %}}
@@ -155,6 +187,16 @@ Lunch was tonkatsu: 0
 Dinner was tonkatsu: 1
 ```
 
+{{% notice style="tip" title="Expected Output" %}}
+You'll actually see:
+```
+Lunch was tonkatsu: 0
+Dinner was tonkatsu: 1
+```
+
+**Good news**: When accessing individual choices with `choices['lunch']`, GenJAX gives you plain numbers (0 or 1), not the wrapped `Array(...)` format! This makes them easier to work with.
+{{% /notice %}}
+
 ---
 
 ## Simulating Many Days
@@ -171,7 +213,11 @@ def run_one_day(k):
     return trace.get_retval()
 
 # Use JAX's vmap for parallel execution
-days = jax.vmap(run_one_day)(keys)
+days_tuples = jax.vmap(run_one_day)(keys)
+
+# Convert from tuples to a 2D array for easier analysis
+# Each row is one day, columns are [lunch, dinner]
+days = jnp.stack(days_tuples, axis=1)
 ```
 
 {{% notice style="tip" title="What's vmap?" %}}
