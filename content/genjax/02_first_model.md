@@ -139,7 +139,7 @@ Today's meals: (Array(0, dtype=int32), Array(1, dtype=int32))
 **Don't panic!** This is because GenJAX returns JAX arrays, not plain Python numbers.
 
 <details>
-<summary>Why the difference? (Click to expand)</summary>
+<summary><em>Why the difference? (Click to expand)</em></summary>
 
 **What you see**: `Array(0, dtype=int32)` or `Array(1, dtype=int32)`
 

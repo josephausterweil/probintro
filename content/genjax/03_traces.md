@@ -228,11 +228,12 @@ Random choices: Static({'lunch': Choice(v=<jax.Array(False, dtype=bool)>), 'dinn
 - `'dinner': Choice(v=<jax.Array(False, ...)>)` means dinner = 0 (False = Hamburger)
 
 <details>
-<summary>Why the difference? (Click to expand)</summary>
+<summary><em>Why the difference? (Click to expand)</em></summary>
 
 GenJAX wraps the values in `Choice` objects to track metadata about the random choices. When you access individual choices with `choices['lunch']`, you get the actual value.
 
 The simplified output shown above (`{'lunch': 0, 'dinner': 1}`) represents the **logical content** - what the choices actually are - rather than the technical implementation details.
+
 </details>
 {{% /notice %}}
 
