@@ -1,4 +1,5 @@
 +++
+date = "2025-12-06"
 title = "Understanding Traces"
 weight = 4
 +++
@@ -182,12 +183,12 @@ Here's a complete example showing all three ways to access trace information:
 
 ```python
 import jax
-from genjax import gen, bernoulli
+from genjax import gen, flip
 
 @gen
 def chibany_day():
-    lunch_is_tonkatsu = bernoulli(0.5) @ "lunch"
-    dinner_is_tonkatsu = bernoulli(0.5) @ "dinner"
+    lunch_is_tonkatsu = flip(0.5) @ "lunch"
+    dinner_is_tonkatsu = flip(0.5) @ "dinner"
     return (lunch_is_tonkatsu, dinner_is_tonkatsu)
 
 # Generate one trace
@@ -202,7 +203,8 @@ print(f"Log probability: {trace.get_score()}")
 
 # Decode to outcome notation
 outcome_map = {(0, 0): "HH", (0, 1): "HT", (1, 0): "TH", (1, 1): "TT"}
-outcome = outcome_map[tuple(trace.get_retval())]
+retval = trace.get_retval()
+outcome = outcome_map[(int(retval[0]), int(retval[1]))]
 print(f"Outcome: {outcome}")
 ```
 
@@ -214,6 +216,25 @@ Random choices: {'lunch': 0, 'dinner': 1}
 Log probability: -1.3862943611198906
 Outcome: HT
 ```
+
+{{% notice style="tip" title="What You'll Actually See" %}}
+When you run this code, the "Random choices" output will look more complex:
+```
+Random choices: Static({'lunch': Choice(v=<jax.Array(False, dtype=bool)>), 'dinner': Choice(v=<jax.Array(False, dtype=bool)>)})
+```
+
+**Don't worry!** This is GenJAX's internal representation. The important parts are:
+- `'lunch': Choice(v=<jax.Array(False, ...)>)` means lunch = 0 (False = Hamburger)
+- `'dinner': Choice(v=<jax.Array(False, ...)>)` means dinner = 0 (False = Hamburger)
+
+<details>
+<summary>Why the difference? (Click to expand)</summary>
+
+GenJAX wraps the values in `Choice` objects to track metadata about the random choices. When you access individual choices with `choices['lunch']`, you get the actual value.
+
+The simplified output shown above (`{'lunch': 0, 'dinner': 1}`) represents the **logical content** - what the choices actually are - rather than the technical implementation details.
+</details>
+{{% /notice %}}
 
 ---
 
@@ -231,7 +252,8 @@ for i in range(5):
     key, subkey = jax.random.split(key)
 
     trace = chibany_day.simulate(subkey, ())
-    outcome = outcome_map[tuple(trace.get_retval())]
+    retval = trace.get_retval()
+    outcome = outcome_map[(int(retval[0]), int(retval[1]))]
     choices = trace.get_choices()
 
     print(f"Day {i+1}: {outcome} — lunch={choices['lunch']}, dinner={choices['dinner']}")
@@ -347,12 +369,12 @@ Let's generate 10 traces and inspect them:
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen, bernoulli
+from genjax import gen, flip
 
 @gen
 def chibany_day():
-    lunch_is_tonkatsu = bernoulli(0.5) @ "lunch"
-    dinner_is_tonkatsu = bernoulli(0.5) @ "dinner"
+    lunch_is_tonkatsu = flip(0.5) @ "lunch"
+    dinner_is_tonkatsu = flip(0.5) @ "dinner"
     return (lunch_is_tonkatsu, dinner_is_tonkatsu)
 
 # Generate 10 traces
@@ -366,7 +388,8 @@ for i in range(10):
     key, subkey = jax.random.split(key)
     trace = chibany_day.simulate(subkey, ())
 
-    outcome = outcome_map[tuple(trace.get_retval())]
+    retval = trace.get_retval()
+    outcome = outcome_map[(int(retval[0]), int(retval[1]))]
     choices = trace.get_choices()
     score = trace.get_score()
 
@@ -431,8 +454,8 @@ Modify `chibany_day` to have unequal probabilities:
 ```python
 @gen
 def chibany_day_biased():
-    lunch_is_tonkatsu = bernoulli(0.8) @ "lunch"  # 80% Tonkatsu
-    dinner_is_tonkatsu = bernoulli(0.2) @ "dinner"  # 20% Tonkatsu
+    lunch_is_tonkatsu = flip(0.8) @ "lunch"  # 80% Tonkatsu
+    dinner_is_tonkatsu = flip(0.2) @ "dinner"  # 20% Tonkatsu
     return (lunch_is_tonkatsu, dinner_is_tonkatsu)
 ```
 
@@ -448,7 +471,8 @@ for i in range(5):
     key, subkey = jax.random.split(key)
     trace = chibany_day_biased.simulate(subkey, ())
 
-    outcome = outcome_map[tuple(trace.get_retval())]
+    retval = trace.get_retval()
+    outcome = outcome_map[(int(retval[0]), int(retval[1]))]
     score = trace.get_score()
 
     print(f"Day {i+1}: {outcome} — Log prob: {score:.3f}")

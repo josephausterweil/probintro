@@ -32,7 +32,7 @@
     <item>
       <title>Understanding Traces</title>
       <link>http://localhost:1313/probintro/genjax/03_traces/index.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 06 Dec 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/probintro/genjax/03_traces/index.html</guid>
       <description>What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.&#xA;GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:&#xA;What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!</description>
     </item>
