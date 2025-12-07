@@ -557,11 +557,16 @@ posteriors = []
 for rate in base_rates:
     def run_with_rate(k):
         trace, weight = taxicab_model.generate(k, observation, (float(rate), 0.80))
-        return trace.get_retval()
+        return trace.get_retval(), weight
 
     keys = jax.random.split(key, 1000)
-    post = jax.vmap(run_with_rate)(keys)
-    posteriors.append(jnp.mean(post))
+    results = jax.vmap(run_with_rate)(keys)
+    samples, weights = results[0], results[1]
+
+    # Use importance sampling
+    normalized_weights = jnp.exp(weights - jnp.max(weights))
+    normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+    posteriors.append(jnp.sum(samples * normalized_weights))
 
 # Plot
 plt.figure(figsize=(10, 6))
@@ -579,7 +584,12 @@ plt.tight_layout()
 plt.show()
 ```
 
-**The graph shows:** Even with high accuracy (80%), the posterior depends heavily on the base rate!
+**The graph shows a sigmoidal (S-shaped) curve:**
+- **Low base rates** (e.g., 1%): Even with a positive witness, posterior stays low (~4%)
+- **Medium base rates** (e.g., 50%): Steep rise - evidence has maximum impact (~80%)
+- **High base rates** (e.g., 99%): Posterior approaches certainty (~99.7%)
+
+The curve shows: **Even with 80% accuracy, the posterior depends heavily on the base rate!**
 
 ![How base rates affect inference](../../images/genjax/taxicab_base_rate_effect.png)
 
