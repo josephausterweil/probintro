@@ -100,7 +100,7 @@ def taxicab_model(base_rate_blue=0.15, accuracy=0.80):
         True if taxi is blue, False if green
     """
 
-    # True taxi color (blue = 1, green = 0)
+    # True taxi color (blue = True, green = False)
     is_blue = flip(base_rate_blue) @ "is_blue"
 
     # What Chibany says depends on the true color
@@ -189,7 +189,7 @@ More advanced methods (beyond this tutorial). These are more efficient when obse
 | **Likelihood** | $P(E \mid H)$ | `jnp.where(is_blue, 0.80, 0.20)` |
 | **Evidence** | $P(E)$ | GenJAX computes automatically |
 | **Posterior** | $P(H \mid E) = \frac{P(E \mid H) P(H)}{P(E)}$ | Result of conditioning |
-| **Observation** | $E$ = "says blue" | `ChoiceMap.d({"says_blue": 1})` |
+| **Observation** | $E$ = "says blue" | `ChoiceMap.d({"says_blue": True})` |
 | **Inference Query** | $P(\text{is\_blue} \mid \text{says\_blue})$ | `mean(posterior_samples)` |
 
 **Three equivalent inference approaches:**
@@ -321,7 +321,8 @@ A **choice map** is a dictionary specifying values for named random choices. We 
 from genjax import ChoiceMap
 
 # Specify that Chibany says "blue"
-observation = ChoiceMap.d({"says_blue": 1})
+# Note: flip() returns boolean True/False, so we use True here
+observation = ChoiceMap.d({"says_blue": True})
 
 # Generate 10,000 traces conditional on observation
 key = jax.random.key(42)
@@ -470,7 +471,7 @@ Let's see how changing the base rate affects the answer.
 ### Scenario 1: Equal Taxis (50% blue, 50% green)
 
 ```python
-observation = ChoiceMap.d({"says_blue": 1})
+observation = ChoiceMap.d({"says_blue": True})
 
 def run_equal_base(k):
     trace, weight = taxicab_model.generate(k, observation, (0.50, 0.80))
@@ -620,7 +621,7 @@ def taxicab_model(base_rate_blue=0.15, accuracy=0.80):
     return is_blue
 
 # Observation: Chibany says "blue"
-observation = ChoiceMap.d({"says_blue": 1})
+observation = ChoiceMap.d({"says_blue": True})
 
 # Generate posterior samples
 key = jax.random.key(42)
@@ -697,7 +698,7 @@ What if Chibany said "green" instead of "blue"?
 {{% expand "Solution" %}}
 ```python
 # Observation: says "green"
-observation_green = ChoiceMap.d({"says_blue": 0})
+observation_green = ChoiceMap.d({"says_blue": False})
 
 def run_says_green(k):
     trace, weight = taxicab_model.generate(k, observation_green, (0.15, 0.80))
@@ -744,7 +745,7 @@ def taxicab_two_witnesses(base_rate_blue=0.15, accuracy=0.80):
     return is_blue
 
 # Both say "blue"
-observation_two = ChoiceMap.d({"witness1": 1, "witness2": 1})
+observation_two = ChoiceMap.d({"witness1": True, "witness2": True})
 
 def run_two_witnesses(k):
     trace, weight = taxicab_two_witnesses.generate(k, observation_two, (0.15, 0.80))
