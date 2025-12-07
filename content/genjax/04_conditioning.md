@@ -100,12 +100,13 @@ def taxicab_model(base_rate_blue=0.15, accuracy=0.80):
         True if taxi is blue, False if green
     """
 
-    # True taxi color (blue = 1, green = 0)
+    # True taxi color
     is_blue = flip(base_rate_blue) @ "is_blue"
 
     # What Chibany says depends on the true color
-    # Use jnp.where for JAX compatibility
-    says_blue_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
+    # GenJAX needs the probability as a concrete value for conditioning to work
+    # We use Python conditional to select the right probability
+    says_blue_prob = accuracy if is_blue else (1 - accuracy)
     says_blue = flip(says_blue_prob) @ "says_blue"
 
     return is_blue
@@ -142,7 +143,7 @@ $$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
 
 **The structure is identical:**
 - `is_blue = flip(0.15)` → Prior: $P(\text{blue})$
-- `says_blue_prob = jnp.where(is_blue, 0.80, 0.20)` → Likelihood: $P(\text{says blue} \mid \text{blue})$
+- `says_blue_prob = accuracy if is_blue else (1 - accuracy)` → Likelihood: $P(\text{says blue} \mid \text{blue})$
 - GenJAX conditioning → Computes posterior: $P(\text{blue} \mid \text{says blue})$
 
 **Key insight:** GenJAX does all the Bayes' Theorem algebra for you! You just write the generative story (prior + likelihood), and conditioning gives you the posterior.
@@ -186,10 +187,10 @@ More advanced methods (beyond this tutorial). These are more efficient when obse
 | Math Concept | Mathematical Notation | GenJAX Code |
 |--------------|----------------------|-------------|
 | **Prior** | $P(H)$ | `flip(0.15) @ "is_blue"` |
-| **Likelihood** | $P(E \mid H)$ | `jnp.where(is_blue, 0.80, 0.20)` |
+| **Likelihood** | $P(E \mid H)$ | `accuracy if is_blue else (1 - accuracy)` |
 | **Evidence** | $P(E)$ | GenJAX computes automatically |
 | **Posterior** | $P(H \mid E) = \frac{P(E \mid H) P(H)}{P(E)}$ | Result of conditioning |
-| **Observation** | $E$ = "says blue" | `ChoiceMap.d({"says_blue": 1})` |
+| **Observation** | $E$ = "says blue" | `ChoiceMap.d({"says_blue": True})` |
 | **Inference Query** | $P(\text{is\_blue} \mid \text{says\_blue})$ | `mean(posterior_samples)` |
 
 **Three equivalent inference approaches:**
@@ -321,7 +322,8 @@ A **choice map** is a dictionary specifying values for named random choices. We 
 from genjax import ChoiceMap
 
 # Specify that Chibany says "blue"
-observation = ChoiceMap.d({"says_blue": 1})
+# Note: flip() returns boolean values, so we use True/False
+observation = ChoiceMap.d({"says_blue": True})
 
 # Generate 10,000 traces conditional on observation
 key = jax.random.key(42)
@@ -470,7 +472,7 @@ Let's see how changing the base rate affects the answer.
 ### Scenario 1: Equal Taxis (50% blue, 50% green)
 
 ```python
-observation = ChoiceMap.d({"says_blue": 1})
+observation = ChoiceMap.d({"says_blue": True})
 
 def run_equal_base(k):
     trace, weight = taxicab_model.generate(k, observation, (0.50, 0.80))
@@ -614,13 +616,13 @@ def taxicab_model(base_rate_blue=0.15, accuracy=0.80):
     is_blue = flip(base_rate_blue) @ "is_blue"
 
     # What Chibany says depends on true color
-    says_blue_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
+    says_blue_prob = accuracy if is_blue else (1 - accuracy)
     says_blue = flip(says_blue_prob) @ "says_blue"
 
     return is_blue
 
 # Observation: Chibany says "blue"
-observation = ChoiceMap.d({"says_blue": 1})
+observation = ChoiceMap.d({"says_blue": True})
 
 # Generate posterior samples
 key = jax.random.key(42)
@@ -697,7 +699,7 @@ What if Chibany said "green" instead of "blue"?
 {{% expand "Solution" %}}
 ```python
 # Observation: says "green"
-observation_green = ChoiceMap.d({"says_blue": 0})
+observation_green = ChoiceMap.d({"says_blue": False})
 
 def run_says_green(k):
     trace, weight = taxicab_model.generate(k, observation_green, (0.15, 0.80))
@@ -734,17 +736,17 @@ def taxicab_two_witnesses(base_rate_blue=0.15, accuracy=0.80):
     is_blue = flip(base_rate_blue) @ "is_blue"
 
     # Witness 1
-    witness1_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
+    witness1_prob = accuracy if is_blue else (1 - accuracy)
     witness1 = flip(witness1_prob) @ "witness1"
 
     # Witness 2 (independent)
-    witness2_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
+    witness2_prob = accuracy if is_blue else (1 - accuracy)
     witness2 = flip(witness2_prob) @ "witness2"
 
     return is_blue
 
 # Both say "blue"
-observation_two = ChoiceMap.d({"witness1": 1, "witness2": 1})
+observation_two = ChoiceMap.d({"witness1": True, "witness2": True})
 
 def run_two_witnesses(k):
     trace, weight = taxicab_two_witnesses.generate(k, observation_two, (0.15, 0.80))
