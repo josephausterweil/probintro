@@ -724,6 +724,7 @@ def run_high_accuracy(k):
     trace, weight = taxicab_model.generate(k, observation, (0.15, 0.95))
     return trace.get_retval(), weight
 
+key = jax.random.key(42)
 keys = jax.random.split(key, 10000)
 results_high_acc = jax.vmap(run_high_accuracy)(keys)
 weights_high_acc = jnp.exp(results_high_acc[1] - jnp.max(results_high_acc[1]))
@@ -758,6 +759,7 @@ def run_says_green(k):
     trace, weight = taxicab_model.generate(k, observation_green, (0.15, 0.80))
     return trace.get_retval(), weight
 
+key = jax.random.key(42)
 keys = jax.random.split(key, 10000)
 results_green = jax.vmap(run_says_green)(keys)
 weights_green = jnp.exp(results_green[1] - jnp.max(results_green[1]))
@@ -807,6 +809,7 @@ def run_two_witnesses(k):
     trace, weight = taxicab_two_witnesses.generate(k, observation_two, (0.15, 0.80))
     return trace.get_retval(), weight
 
+key = jax.random.key(42)
 keys = jax.random.split(key, 10000)
 results_two = jax.vmap(run_two_witnesses)(keys)
 weights_two = jnp.exp(results_two[1] - jnp.max(results_two[1]))
