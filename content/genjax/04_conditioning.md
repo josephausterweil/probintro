@@ -313,20 +313,16 @@ This is **rejection sampling** — the simplest form of inference!
 
 Now let's use GenJAX's built-in conditioning. This is usually more convenient!
 
-### Creating a Choice Map
+### Creating a Choice Map and Generating Conditional Traces
 
-A **choice map** is a dictionary specifying values for named random choices:
+A **choice map** is a dictionary specifying values for named random choices. We use it to condition the model on observations:
 
 ```python
 from genjax import ChoiceMap
 
 # Specify that Chibany says "blue"
 observation = ChoiceMap.d({"says_blue": 1})
-```
 
-### Generating Conditional Traces
-
-```python
 # Generate 10,000 traces conditional on observation
 key = jax.random.key(42)
 keys = jax.random.split(key, 10000)
