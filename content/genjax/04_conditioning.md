@@ -103,10 +103,11 @@ def taxicab_model(base_rate_blue=0.15, accuracy=0.80):
     # True taxi color
     is_blue = flip(base_rate_blue) @ "is_blue"
 
-    # What Chibany says depends on the true color
-    # GenJAX needs the probability as a concrete value for conditioning to work
-    # We use Python conditional to select the right probability
-    says_blue_prob = accuracy if is_blue else (1 - accuracy)
+    # Model: What does Chibany say?
+    # Probability of saying "blue" depends on the true color:
+    # - If blue: says "blue" with probability = accuracy (correct identification)
+    # - If green: says "blue" with probability = (1 - accuracy) (mistake)
+    says_blue_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
     says_blue = flip(says_blue_prob) @ "says_blue"
 
     return is_blue
@@ -331,12 +332,19 @@ keys = jax.random.split(key, 10000)
 
 def run_conditional(k):
     trace, weight = taxicab_model.generate(k, observation, (0.15, 0.80))
-    return trace.get_retval()  # Returns is_blue
+    return trace.get_retval(), weight  # Return both value and weight
 
-posterior_samples = jax.vmap(run_conditional)(keys)
+results = jax.vmap(run_conditional)(keys)
+is_blue_samples = results[0]  # The sampled values
+weights = results[1]  # The importance weights (log probabilities)
 
-# Calculate posterior probability
-prob_blue_posterior = jnp.mean(posterior_samples)
+# IMPORTANT: Use importance sampling with weights!
+# Normalize weights (convert from log space and normalize)
+normalized_weights = jnp.exp(weights - jnp.max(weights))
+normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+
+# Calculate weighted posterior probability
+prob_blue_posterior = jnp.sum(is_blue_samples * normalized_weights)
 print(f"P(Blue | says Blue) ≈ {prob_blue_posterior:.3f}")
 ```
 
@@ -346,6 +354,29 @@ P(Blue | says Blue) ≈ 0.414
 ```
 
 **Same answer!** Both methods work — `generate()` is just more convenient.
+
+{{% notice style="warning" title="⚠️ Critical: Always Use the Weights!" %}}
+When using `generate()` with conditioning, you **must** use the importance weights returned!
+
+**Why?** When GenJAX generates traces conditional on observations, different traces have different probabilities. The `weight` tells you how likely each trace is. Simply averaging without weights gives you the **prior** (what you believed before seeing the evidence), not the **posterior** (what you should believe after seeing the evidence).
+
+**Correct approach:**
+```python
+# Return BOTH value and weight
+trace, weight = model.generate(key, observation, args)
+# Then use weighted average with normalized weights
+```
+
+**Incorrect approach** (gives wrong answer):
+```python
+# Only returning value, ignoring weight
+trace, weight = model.generate(key, observation, args)
+return trace.get_retval()  # ❌ Discarding weight!
+# Then simple average → gives prior, not posterior!
+```
+
+This is the essence of **importance sampling** - a fundamental inference technique in probabilistic programming.
+{{% /notice %}}
 
 {{% notice style="info" title="generate() vs simulate()" %}}
 **`simulate(key, args)`:**
@@ -476,11 +507,13 @@ observation = ChoiceMap.d({"says_blue": True})
 
 def run_equal_base(k):
     trace, weight = taxicab_model.generate(k, observation, (0.50, 0.80))
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
 keys = jax.random.split(key, 10000)
-posterior_equal = jax.vmap(run_equal_base)(keys)
-prob_equal = jnp.mean(posterior_equal)
+results_equal = jax.vmap(run_equal_base)(keys)
+weights_equal = jnp.exp(results_equal[1] - jnp.max(results_equal[1]))
+weights_equal = weights_equal / jnp.sum(weights_equal)
+prob_equal = jnp.sum(results_equal[0] * weights_equal)
 
 print(f"If 50% blue: P(Blue | says Blue) = {prob_equal:.3f}")
 ```
@@ -497,10 +530,12 @@ If 50% blue: P(Blue | says Blue) = 0.800
 ```python
 def run_mostly_blue(k):
     trace, weight = taxicab_model.generate(k, observation, (0.85, 0.80))
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
-posterior_mostly_blue = jax.vmap(run_mostly_blue)(keys)
-prob_mostly_blue = jnp.mean(posterior_mostly_blue)
+results_mostly_blue = jax.vmap(run_mostly_blue)(keys)
+weights_mostly_blue = jnp.exp(results_mostly_blue[1] - jnp.max(results_mostly_blue[1]))
+weights_mostly_blue = weights_mostly_blue / jnp.sum(weights_mostly_blue)
+prob_mostly_blue = jnp.sum(results_mostly_blue[0] * weights_mostly_blue)
 
 print(f"If 85% blue: P(Blue | says Blue) = {prob_mostly_blue:.3f}")
 ```
@@ -630,10 +665,16 @@ keys = jax.random.split(key, 10000)
 
 def run_inference(k):
     trace, weight = taxicab_model.generate(k, observation, (0.15, 0.80))
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
-posterior_samples = jax.vmap(run_inference)(keys)
-prob_blue = jnp.mean(posterior_samples)
+results = jax.vmap(run_inference)(keys)
+is_blue_samples = results[0]
+weights = results[1]
+
+# Use importance sampling with weights
+normalized_weights = jnp.exp(weights - jnp.max(weights))
+normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+prob_blue = jnp.sum(is_blue_samples * normalized_weights)
 
 print(f"=== TAXICAB INFERENCE ===")
 print(f"Base rate: 15% blue")
@@ -671,11 +712,13 @@ What if Chibany were 95% accurate instead of 80%?
 ```python
 def run_high_accuracy(k):
     trace, weight = taxicab_model.generate(k, observation, (0.15, 0.95))
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
 keys = jax.random.split(key, 10000)
-posterior_high_acc = jax.vmap(run_high_accuracy)(keys)
-prob_high_acc = jnp.mean(posterior_high_acc)
+results_high_acc = jax.vmap(run_high_accuracy)(keys)
+weights_high_acc = jnp.exp(results_high_acc[1] - jnp.max(results_high_acc[1]))
+weights_high_acc = weights_high_acc / jnp.sum(weights_high_acc)
+prob_high_acc = jnp.sum(results_high_acc[0] * weights_high_acc)
 
 print(f"With 95% accuracy: P(Blue | says Blue) = {prob_high_acc:.3f}")
 ```
@@ -703,11 +746,13 @@ observation_green = ChoiceMap.d({"says_blue": False})
 
 def run_says_green(k):
     trace, weight = taxicab_model.generate(k, observation_green, (0.15, 0.80))
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
 keys = jax.random.split(key, 10000)
-posterior_green = jax.vmap(run_says_green)(keys)
-prob_blue_given_green = jnp.mean(posterior_green)
+results_green = jax.vmap(run_says_green)(keys)
+weights_green = jnp.exp(results_green[1] - jnp.max(results_green[1]))
+weights_green = weights_green / jnp.sum(weights_green)
+prob_blue_given_green = jnp.sum(results_green[0] * weights_green)
 
 print(f"P(Blue | says Green) = {prob_blue_given_green:.3f}")
 ```
@@ -736,11 +781,11 @@ def taxicab_two_witnesses(base_rate_blue=0.15, accuracy=0.80):
     is_blue = flip(base_rate_blue) @ "is_blue"
 
     # Witness 1
-    witness1_prob = accuracy if is_blue else (1 - accuracy)
+    witness1_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
     witness1 = flip(witness1_prob) @ "witness1"
 
     # Witness 2 (independent)
-    witness2_prob = accuracy if is_blue else (1 - accuracy)
+    witness2_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
     witness2 = flip(witness2_prob) @ "witness2"
 
     return is_blue
@@ -750,11 +795,13 @@ observation_two = ChoiceMap.d({"witness1": True, "witness2": True})
 
 def run_two_witnesses(k):
     trace, weight = taxicab_two_witnesses.generate(k, observation_two, (0.15, 0.80))
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
 keys = jax.random.split(key, 10000)
-posterior_two = jax.vmap(run_two_witnesses)(keys)
-prob_two = jnp.mean(posterior_two)
+results_two = jax.vmap(run_two_witnesses)(keys)
+weights_two = jnp.exp(results_two[1] - jnp.max(results_two[1]))
+weights_two = weights_two / jnp.sum(weights_two)
+prob_two = jnp.sum(results_two[0] * weights_two)
 
 print(f"P(Blue | both say Blue) = {prob_two:.3f}")
 ```
