@@ -144,7 +144,7 @@ $$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
 
 **The structure is identical:**
 - `is_blue = flip(0.15)` → Prior: $P(\text{blue})$
-- `says_blue_prob = accuracy if is_blue else (1 - accuracy)` → Likelihood: $P(\text{says blue} \mid \text{blue})$
+- `says_blue_prob = jnp.where(is_blue, accuracy, 1 - accuracy)` → Likelihood: $P(\text{says blue} \mid \text{blue})$
 - GenJAX conditioning → Computes posterior: $P(\text{blue} \mid \text{says blue})$
 
 **Key insight:** GenJAX does all the Bayes' Theorem algebra for you! You just write the generative story (prior + likelihood), and conditioning gives you the posterior.
@@ -188,7 +188,7 @@ More advanced methods (beyond this tutorial). These are more efficient when obse
 | Math Concept | Mathematical Notation | GenJAX Code |
 |--------------|----------------------|-------------|
 | **Prior** | $P(H)$ | `flip(0.15) @ "is_blue"` |
-| **Likelihood** | $P(E \mid H)$ | `accuracy if is_blue else (1 - accuracy)` |
+| **Likelihood** | $P(E \mid H)$ | `jnp.where(is_blue, accuracy, 1-accuracy)` |
 | **Evidence** | $P(E)$ | GenJAX computes automatically |
 | **Posterior** | $P(H \mid E) = \frac{P(E \mid H) P(H)}{P(E)}$ | Result of conditioning |
 | **Observation** | $E$ = "says blue" | `ChoiceMap.d({"says_blue": True})` |
@@ -661,7 +661,7 @@ def taxicab_model(base_rate_blue=0.15, accuracy=0.80):
     is_blue = flip(base_rate_blue) @ "is_blue"
 
     # What Chibany says depends on true color
-    says_blue_prob = accuracy if is_blue else (1 - accuracy)
+    says_blue_prob = jnp.where(is_blue, accuracy, 1 - accuracy)
     says_blue = flip(says_blue_prob) @ "says_blue"
 
     return is_blue
