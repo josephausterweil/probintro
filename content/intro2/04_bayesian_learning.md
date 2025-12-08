@@ -482,8 +482,9 @@ Predictive for next X: N(497.65, 4.37)
 ## Implementing Predictive Distribution in GenJAX
 
 ```python
-from genjax import gen
+import jax
 import jax.numpy as jnp
+from genjax import gen, simulate
 import jax.random as random
 
 @gen
@@ -498,6 +499,11 @@ def posterior_predictive(post_mu, post_var, data_var):
     x_new = jnp.normal(mu, jnp.sqrt(data_var)) @ "x_new"
 
     return x_new
+
+# Posterior from before (after observing 497g)
+post_mu = 497.65
+post_var = 0.37
+data_var = 4.0
 
 # Simulate 10,000 predictions
 key = random.PRNGKey(42)

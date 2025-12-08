@@ -233,11 +233,9 @@ def realistic_bento():
     is_tonkatsu = bernoulli(0.7) @ "type"
 
     # Each type has Gaussian weight distribution
-    # Note: Actual implementation would use JAX conditional primitives
-    if is_tonkatsu:
-        weight = normal(500.0, 2.0) @ "weight"
-    else:
-        weight = normal(350.0, 2.0) @ "weight"
+    # Use jnp.where to select mean based on type (JAX compatible)
+    mean_weight = jnp.where(is_tonkatsu, 500.0, 350.0)
+    weight = normal(mean_weight, 2.0) @ "weight"
 
     return weight
 
@@ -405,6 +403,10 @@ Test scores follow N(75, 100) (mean 75, variance 100, so std dev = 10).
 <summary>Show Solution</summary>
 
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import gen, simulate
+import jax.random as random
 from scipy.stats import norm
 
 mu, sigma = 75, 10

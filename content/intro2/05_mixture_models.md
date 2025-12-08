@@ -228,6 +228,17 @@ This chicken-and-egg problem is exactly what probabilistic inference is designed
 Now let's implement a fully Bayesian version using GenJAX, where we treat component assignments as latent variables to infer:
 
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import gen, simulate, choice_map
+import jax.random as random
+
+# Mystery bento weights from earlier
+mystery_weights = jnp.array([
+    498, 352, 501, 349, 497, 503, 351, 500, 348, 502,
+    499, 350, 498, 353, 501, 347, 499, 502, 352, 500
+])
+
 @gen
 def bayesian_gmm(data):
     """Bayesian Gaussian Mixture Model"""
@@ -259,8 +270,6 @@ def bayesian_gmm(data):
     return pi, mu, sigma
 
 # Condition on observed data
-from genjax import choice_map
-
 observations = choice_map()
 for i, weight in enumerate(mystery_weights):
     observations[f"x_{i}"] = weight
@@ -343,6 +352,17 @@ A café serves three coffee blends. You measure 30 caffeine levels (mg/cup):
 <summary>Show Solution</summary>
 
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import gen
+
+# Coffee caffeine data
+coffee_data = jnp.array([
+    82, 118, 155, 80, 120, 158, 79, 115, 160, 83, 121, 157,
+    81, 119, 156, 84, 117, 159, 78, 122, 154, 82, 116, 158,
+    80, 120, 155, 81, 118, 157
+])
+
 @gen
 def coffee_gmm(data):
     """3-component GMM for coffee blends"""
