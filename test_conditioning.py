@@ -44,12 +44,17 @@ def test_conditioning():
 
     def run_conditional(k):
         trace, weight = taxicab_model.generate(k, observation, (0.15, 0.80))
-        return trace.get_retval()
+        return trace.get_retval(), weight
 
-    posterior_samples = jax.vmap(run_conditional)(keys)
+    results = jax.vmap(run_conditional)(keys)
+    posterior_samples = results[0]
+    weights = results[1]
 
-    # Calculate posterior probability
-    prob_blue_posterior = jnp.mean(posterior_samples)
+    # Calculate posterior probability using importance sampling
+    # CRITICAL: Must use weights! Simple average gives prior, not posterior
+    normalized_weights = jnp.exp(weights - jnp.max(weights))
+    normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+    prob_blue_posterior = jnp.sum(posterior_samples * normalized_weights)
     print(f"P(Blue | says Blue) ≈ {prob_blue_posterior:.3f}")
     print(f"Expected: ~0.414\n")
 
