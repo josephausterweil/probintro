@@ -217,10 +217,16 @@ keys = jax.random.split(key, 1000)
 
 def infer_bias(k):
     trace, weight = coin_with_unknown_bias.generate(k, (10,), observations)
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
-posterior_bias = jax.vmap(infer_bias)(keys)
-mean_bias = jnp.mean(posterior_bias)
+results = jax.vmap(infer_bias)(keys)
+posterior_bias = results[0]
+weights = results[1]
+
+# Use importance sampling
+normalized_weights = jnp.exp(weights - jnp.max(weights))
+normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+mean_bias = jnp.sum(posterior_bias * normalized_weights)
 
 print(f"Estimated bias: {mean_bias:.2f}")
 # Should be around 0.70 (7 heads / 10 flips)
@@ -265,11 +271,17 @@ observation = ChoiceMap.d({"is_happy": 1})
 
 def infer_weather(k):
     trace, weight = mood_model.generate(k, (), observation)
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
 keys = jax.random.split(key, 10000)
-posterior_sunny = jax.vmap(infer_weather)(keys)
-prob_sunny = jnp.mean(posterior_sunny)
+results = jax.vmap(infer_weather)(keys)
+posterior_sunny = results[0]
+weights = results[1]
+
+# Use importance sampling
+normalized_weights = jnp.exp(weights - jnp.max(weights))
+normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+prob_sunny = jnp.sum(posterior_sunny * normalized_weights)
 
 print(f"P(Sunny | Happy) ≈ {prob_sunny:.3f}")
 ```
@@ -419,11 +431,17 @@ observation = ChoiceMap.d({"fever": 1, "cough": 1})
 
 def infer_disease(k):
     trace, weight = disease_model.generate(k, (), observation)
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
 keys = jax.random.split(key, 10000)
-posterior = jax.vmap(infer_disease)(keys)
-prob_disease = jnp.mean(posterior)
+results = jax.vmap(infer_disease)(keys)
+posterior = results[0]
+weights = results[1]
+
+# Use importance sampling
+normalized_weights = jnp.exp(weights - jnp.max(weights))
+normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+prob_disease = jnp.sum(posterior * normalized_weights)
 
 print(f"=== MEDICAL DIAGNOSIS ===")
 print(f"Prevalence: 1%")
@@ -579,11 +597,17 @@ observation = ChoiceMap.d({"contains_free": 1})
 
 def infer_spam(k):
     trace, weight = spam_filter.generate(k, (), observation)
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
 keys = jax.random.split(key, 10000)
-posterior = jax.vmap(infer_spam)(keys)
-prob_spam = jnp.mean(posterior)
+results = jax.vmap(infer_spam)(keys)
+posterior = results[0]
+weights = results[1]
+
+# Use importance sampling
+normalized_weights = jnp.exp(weights - jnp.max(weights))
+normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+prob_spam = jnp.sum(posterior * normalized_weights)
 
 print(f"P(Spam | contains 'FREE') ≈ {prob_spam:.3f}")
 ```
@@ -628,12 +652,20 @@ observations = ChoiceMap.d({f"flip_{i}": observed_flips[i] for i in range(20)})
 
 def infer_bias(k):
     trace, weight = coin_model.generate(k, (20,), observations)
-    return trace.get_retval()
+    return trace.get_retval(), weight
 
 keys = jax.random.split(key, 1000)
-posterior_bias = jax.vmap(infer_bias)(keys)
-mean_bias = jnp.mean(posterior_bias)
-std_bias = jnp.std(posterior_bias)
+results = jax.vmap(infer_bias)(keys)
+posterior_bias = results[0]
+weights = results[1]
+
+# Use importance sampling
+normalized_weights = jnp.exp(weights - jnp.max(weights))
+normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+mean_bias = jnp.sum(posterior_bias * normalized_weights)
+# For standard deviation with weighted samples
+variance = jnp.sum(normalized_weights * (posterior_bias - mean_bias)**2)
+std_bias = jnp.sqrt(variance)
 
 print(f"Estimated bias: {mean_bias:.2f} ± {std_bias:.2f}")
 # Should be around 0.80 (16/20)
@@ -707,11 +739,17 @@ obs3 = ChoiceMap.d({"fever": 1, "cough": 1, "fatigue": 1})
 for i, obs in enumerate([obs1, obs2, obs3], 1):
     def infer(k):
         trace, weight = disease_three_symptoms.generate(k, (), obs)
-        return trace.get_retval()
+        return trace.get_retval(), weight
 
     keys = jax.random.split(key, 10000)
-    posterior = jax.vmap(infer)(keys)
-    prob = jnp.mean(posterior)
+    results = jax.vmap(infer)(keys)
+    posterior = results[0]
+    weights = results[1]
+
+    # Use importance sampling
+    normalized_weights = jnp.exp(weights - jnp.max(weights))
+    normalized_weights = normalized_weights / jnp.sum(normalized_weights)
+    prob = jnp.sum(posterior * normalized_weights)
 
     print(f"Scenario {i}: P(Disease) ≈ {prob:.3f}")
 ```
