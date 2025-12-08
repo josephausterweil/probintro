@@ -503,12 +503,17 @@ Let's see how changing the base rate affects the answer.
 ### Scenario 1: Equal Taxis (50% blue, 50% green)
 
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import ChoiceMap
+
 observation = ChoiceMap.d({"says_blue": True})
 
 def run_equal_base(k):
     trace, weight = taxicab_model.generate(k, observation, (0.50, 0.80))
     return trace.get_retval(), weight
 
+key = jax.random.key(42)
 keys = jax.random.split(key, 10000)
 results_equal = jax.vmap(run_equal_base)(keys)
 weights_equal = jnp.exp(results_equal[1] - jnp.max(results_equal[1]))
@@ -550,9 +555,16 @@ If 85% blue: P(Blue | says Blue) = 0.971
 ### Visualizing the Effect
 
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import ChoiceMap
+
+observation = ChoiceMap.d({"says_blue": True})
+
 # Test different base rates
 base_rates = jnp.linspace(0.01, 0.99, 50)
 posteriors = []
+key = jax.random.key(42)
 
 for rate in base_rates:
     def run_with_rate(k):

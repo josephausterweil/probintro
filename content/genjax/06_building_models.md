@@ -203,6 +203,8 @@ def coin_with_unknown_bias(n_flips):
 **Inference:**
 
 ```python
+import jax
+import jax.numpy as jnp
 from genjax import ChoiceMap
 
 # Observe 7 heads out of 10 flips
@@ -214,6 +216,7 @@ observations = ChoiceMap.d({
 })
 
 # Infer bias
+key = jax.random.key(42)
 keys = jax.random.split(key, 1000)
 
 def infer_bias(k):
@@ -265,12 +268,17 @@ def mood_model():
 **Question:** "Chibany is happy. What's the probability it's sunny?"
 
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import ChoiceMap
+
 observation = ChoiceMap.d({"is_happy": 1})
 
 def infer_weather(k):
     trace, weight = mood_model.generate(k, (), observation)
     return trace.get_retval(), weight
 
+key = jax.random.key(42)
 keys = jax.random.split(key, 10000)
 results = jax.vmap(infer_weather)(keys)
 posterior_sunny = results[0]
@@ -417,6 +425,10 @@ def disease_model(prevalence=0.01, fever_if_disease=0.9, cough_if_disease=0.8,
 ### Step 4: Run Inference
 
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import ChoiceMap
+
 # Patient has both symptoms
 observation = ChoiceMap.d({"fever": 1, "cough": 1})
 
@@ -424,6 +436,7 @@ def infer_disease(k):
     trace, weight = disease_model.generate(k, (), observation)
     return trace.get_retval(), weight
 
+key = jax.random.key(42)
 keys = jax.random.split(key, 10000)
 results = jax.vmap(infer_disease)(keys)
 posterior = results[0]
@@ -568,6 +581,10 @@ Build a simple spam filter model.
 
 {{% expand "Solution" %}}
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import gen, flip, ChoiceMap
+
 @gen
 def spam_filter(spam_rate=0.30):
     """Simple spam filter based on keyword."""
@@ -588,6 +605,7 @@ def infer_spam(k):
     trace, weight = spam_filter.generate(k, (), observation)
     return trace.get_retval(), weight
 
+key = jax.random.key(42)
 keys = jax.random.split(key, 10000)
 results = jax.vmap(infer_spam)(keys)
 posterior = results[0]
@@ -622,6 +640,10 @@ Extend the coin flip model to infer bias from multiple observations.
 
 {{% expand "Solution" %}}
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import gen, flip, uniform, ChoiceMap
+
 @gen
 def coin_model(n_flips):
     """Infer coin bias from observed flips."""
@@ -643,6 +665,7 @@ def infer_bias(k):
     trace, weight = coin_model.generate(k, (20,), observations)
     return trace.get_retval(), weight
 
+key = jax.random.key(42)
 keys = jax.random.split(key, 1000)
 results = jax.vmap(infer_bias)(keys)
 posterior_bias = results[0]
@@ -699,6 +722,10 @@ Extend the disease model to include 3 symptoms: fever, cough, fatigue.
 
 {{% expand "Solution" %}}
 ```python
+import jax
+import jax.numpy as jnp
+from genjax import gen, flip, ChoiceMap
+
 @gen
 def disease_three_symptoms(prevalence=0.02):
     """Disease model with three symptoms."""
@@ -714,6 +741,8 @@ def disease_three_symptoms(prevalence=0.02):
     fatigue = flip(fatigue_prob) @ "fatigue"
 
     return has_disease
+
+key = jax.random.key(42)
 
 # Scenario 1: Fever only
 obs1 = ChoiceMap.d({"fever": 1})
