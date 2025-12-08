@@ -205,7 +205,7 @@ def coin_with_unknown_bias(n_flips):
 from genjax import ChoiceMap
 
 # Observe 7 heads out of 10 flips
-observations = ChoiceMap({
+observations = ChoiceMap.d({
     "flip_0": 1, "flip_1": 1, "flip_2": 0,
     "flip_3": 1, "flip_4": 1, "flip_5": 0,
     "flip_6": 1, "flip_7": 1, "flip_8": 0,
@@ -261,7 +261,7 @@ def mood_model():
 **Question:** "Chibany is happy. What's the probability it's sunny?"
 
 ```python
-observation = ChoiceMap({"is_happy": 1})
+observation = ChoiceMap.d({"is_happy": 1})
 
 def infer_weather(k):
     trace, weight = mood_model.generate(k, (), observation)
@@ -415,7 +415,7 @@ def disease_model(prevalence=0.01, fever_if_disease=0.9, cough_if_disease=0.8,
 
 ```python
 # Patient has both symptoms
-observation = ChoiceMap({"fever": 1, "cough": 1})
+observation = ChoiceMap.d({"fever": 1, "cough": 1})
 
 def infer_disease(k):
     trace, weight = disease_model.generate(k, (), observation)
@@ -575,7 +575,7 @@ def spam_filter(spam_rate=0.30):
     return is_spam
 
 # Email contains "FREE"
-observation = ChoiceMap({"contains_free": 1})
+observation = ChoiceMap.d({"contains_free": 1})
 
 def infer_spam(k):
     trace, weight = spam_filter.generate(k, (), observation)
@@ -624,7 +624,7 @@ def coin_model(n_flips):
 
 # Observed flips: 16 heads out of 20
 observed_flips = [1,1,0,1,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,1]
-observations = ChoiceMap({f"flip_{i}": observed_flips[i] for i in range(20)})
+observations = ChoiceMap.d({f"flip_{i}": observed_flips[i] for i in range(20)})
 
 def infer_bias(k):
     trace, weight = coin_model.generate(k, (20,), observations)
@@ -696,13 +696,13 @@ def disease_three_symptoms(prevalence=0.02):
     return has_disease
 
 # Scenario 1: Fever only
-obs1 = ChoiceMap({"fever": 1})
+obs1 = ChoiceMap.d({"fever": 1})
 
 # Scenario 2: Fever + cough
-obs2 = ChoiceMap({"fever": 1, "cough": 1})
+obs2 = ChoiceMap.d({"fever": 1, "cough": 1})
 
 # Scenario 3: All three
-obs3 = ChoiceMap({"fever": 1, "cough": 1, "fatigue": 1})
+obs3 = ChoiceMap.d({"fever": 1, "cough": 1, "fatigue": 1})
 
 for i, obs in enumerate([obs1, obs2, obs3], 1):
     def infer(k):
