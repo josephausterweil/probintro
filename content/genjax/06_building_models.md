@@ -130,9 +130,10 @@ def my_model(parameters):
 ```
 Math: P(Disease, Fever, Cough) = P(Disease) × P(Fever|Disease) × P(Cough|Disease)
 Code: has_disease = flip(0.01) @ "disease"
-      if has_disease:
-          fever = flip(0.9) @ "fever"
-          cough = flip(0.8) @ "cough"
+      fever_prob = jnp.where(has_disease, 0.9, 0.1)
+      cough_prob = jnp.where(has_disease, 0.8, 0.2)
+      fever = flip(fever_prob) @ "fever"
+      cough = flip(cough_prob) @ "cough"
 ```
 {{% /notice %}}
 
@@ -254,12 +255,9 @@ def mood_model():
     is_sunny = flip(0.7) @ "is_sunny"  # 70% sunny days
 
     # Observable: Chibany's mood depends on weather
-    if is_sunny:
-        # Sunny → happy 90% of the time
-        is_happy = flip(0.9) @ "is_happy"
-    else:
-        # Rainy → happy only 30% of the time
-        is_happy = flip(0.3) @ "is_happy"
+    # Sunny → happy 90% of the time, Rainy → happy only 30% of the time
+    happy_prob = jnp.where(is_sunny, 0.9, 0.3)
+    is_happy = flip(happy_prob) @ "is_happy"
 
     return is_sunny
 ```
@@ -358,13 +356,8 @@ def mixed_days():
     # Hidden: is it a weekend?
     is_weekend = flip(2/7) @ "is_weekend"  # 2 out of 7 days
 
-    if is_weekend:
-        # Weekend: high chance of tonkatsu (relaxed)
-        tonkatsu_prob = 0.9
-    else:
-        # Weekday: lower chance (busy)
-        tonkatsu_prob = 0.3
-
+    # Weekend: high chance of tonkatsu (relaxed), Weekday: lower chance (busy)
+    tonkatsu_prob = jnp.where(is_weekend, 0.9, 0.3)
     lunch = flip(tonkatsu_prob) @ "lunch"
 
     return is_weekend
@@ -412,13 +405,11 @@ def disease_model(prevalence=0.01, fever_if_disease=0.9, cough_if_disease=0.8,
     # Hidden: disease status
     has_disease = flip(prevalence) @ "has_disease"
 
-    # Symptoms depend on disease
-    if has_disease:
-        fever = flip(fever_if_disease) @ "fever"
-        cough = flip(cough_if_disease) @ "cough"
-    else:
-        fever = flip(fever_if_healthy) @ "fever"
-        cough = flip(cough_if_healthy) @ "cough"
+    # Symptoms depend on disease status
+    fever_prob = jnp.where(has_disease, fever_if_disease, fever_if_healthy)
+    cough_prob = jnp.where(has_disease, cough_if_disease, cough_if_healthy)
+    fever = flip(fever_prob) @ "fever"
+    cough = flip(cough_prob) @ "cough"
 
     return has_disease
 ```
@@ -585,10 +576,8 @@ def spam_filter(spam_rate=0.30):
     is_spam = flip(spam_rate) @ "is_spam"
 
     # Observation: contains "FREE"?
-    if is_spam:
-        contains_free = flip(0.80) @ "contains_free"
-    else:
-        contains_free = flip(0.10) @ "contains_free"
+    contains_free_prob = jnp.where(is_spam, 0.80, 0.10)
+    contains_free = flip(contains_free_prob) @ "contains_free"
 
     return is_spam
 
@@ -716,14 +705,13 @@ def disease_three_symptoms(prevalence=0.02):
 
     has_disease = flip(prevalence) @ "has_disease"
 
-    if has_disease:
-        fever = flip(0.90) @ "fever"
-        cough = flip(0.80) @ "cough"
-        fatigue = flip(0.95) @ "fatigue"
-    else:
-        fever = flip(0.10) @ "fever"
-        cough = flip(0.20) @ "cough"
-        fatigue = flip(0.30) @ "fatigue"
+    # Symptoms depend on disease status
+    fever_prob = jnp.where(has_disease, 0.90, 0.10)
+    cough_prob = jnp.where(has_disease, 0.80, 0.20)
+    fatigue_prob = jnp.where(has_disease, 0.95, 0.30)
+    fever = flip(fever_prob) @ "fever"
+    cough = flip(cough_prob) @ "cough"
+    fatigue = flip(fatigue_prob) @ "fatigue"
 
     return has_disease
 

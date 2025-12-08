@@ -88,8 +88,8 @@ def mood_model():
     is_sunny = flip(0.7) @ "is_sunny"
 
     # Observation: mood depends on weather
-    # If sunny: 90% happy, if rainy: 40% happy
-    happy_prob = jnp.where(is_sunny, 0.9, 0.4)
+    # Sunny → happy 90% of the time, Rainy → happy only 30% of the time
+    happy_prob = jnp.where(is_sunny, 0.9, 0.3)
     is_happy = flip(happy_prob) @ "is_happy"
 
     return is_sunny
@@ -142,11 +142,11 @@ def disease_model():
     # Hidden: disease (1% prevalence)
     has_disease = flip(0.01) @ "has_disease"
 
-    # Observations: symptoms
+    # Symptoms depend on disease status
     # If disease: 90% fever, 80% cough
-    # If healthy: 5% fever, 10% cough
-    fever_prob = jnp.where(has_disease, 0.90, 0.05)
-    cough_prob = jnp.where(has_disease, 0.80, 0.10)
+    # If healthy: 10% fever, 20% cough
+    fever_prob = jnp.where(has_disease, 0.90, 0.10)
+    cough_prob = jnp.where(has_disease, 0.80, 0.20)
 
     fever = flip(fever_prob) @ "fever"
     cough = flip(cough_prob) @ "cough"
@@ -318,10 +318,10 @@ def disease_three_symptoms():
     """Disease with three symptoms."""
     has_disease = flip(0.01) @ "has_disease"
 
-    # Probabilities: disease vs healthy
-    fever_prob = jnp.where(has_disease, 0.90, 0.05)
-    cough_prob = jnp.where(has_disease, 0.80, 0.10)
-    fatigue_prob = jnp.where(has_disease, 0.70, 0.20)
+    # Symptoms depend on disease status
+    fever_prob = jnp.where(has_disease, 0.90, 0.10)
+    cough_prob = jnp.where(has_disease, 0.80, 0.20)
+    fatigue_prob = jnp.where(has_disease, 0.95, 0.30)
 
     fever = flip(fever_prob) @ "fever"
     cough = flip(cough_prob) @ "cough"
