@@ -21,3 +21,6 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.bak
+
+# Removed images (kept locally but not in repo)
+assets/images/chibanysad.svg

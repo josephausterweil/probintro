@@ -176,8 +176,6 @@ Every time you update your beliefs based on new information, you're using condit
 
 ### Chibany is sad (marginalization)
 
-![Chibany is sad](images/chibanysad.png)
-
 The student that normally gives Chibany their second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \\{H, T\\}$.
 
 ```mermaid

@@ -27,29 +27,29 @@ Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability 
     <meta itemprop="description" content="Returning to the Mystery Remember Chibany’s original puzzle from Chapter 1? They had mystery bentos with two peaks in their weight distribution, but the average fell in a valley where no individual bento existed.
 We now have all the tools to solve this completely:
 Chapter 1: Expected value paradox in mixtures Chapter 2: Continuous probability (PDFs, CDFs) Chapter 3: Gaussian distributions Chapter 4: Bayesian learning for parameters Now we combine them: What if we have multiple Gaussian distributions mixed together, and we need to figure out both which component each observation belongs to AND the parameters of each component?">
-    <meta itemprop="wordCount" content="2127">
+    <meta itemprop="wordCount" content="2237">
     <title>Gaussian Mixture Models :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764909664" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764909664" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764909664" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764909664" defer></script>
-    <script src="/probintro/js/search.js?1764909664" defer></script>
+    <link href="/probintro/images/favicon.png?1765599662" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765599662" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765599662" defer></script>
+    <script src="/probintro/js/search-lunr.js?1765599662" defer></script>
+    <script src="/probintro/js/search.js?1765599662" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764909664";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1765599662";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764909664" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1765599662" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765599662" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1765599662" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1765599662" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764909664" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765599662" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765599662" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765599662" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1765599662" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1765599662" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -499,9 +499,29 @@ Weights: [501.2 349.8 499.5 351.3 498.7 502.1 350.5 ...]</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, simulate, choice_map
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.random <span style="color:#66d9ef">as</span> random
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Mystery bento weights from earlier</span>
+</span></span><span style="display:flex;"><span>mystery_weights <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">498</span>, <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">501</span>, <span style="color:#ae81ff">349</span>, <span style="color:#ae81ff">497</span>, <span style="color:#ae81ff">503</span>, <span style="color:#ae81ff">351</span>, <span style="color:#ae81ff">500</span>, <span style="color:#ae81ff">348</span>, <span style="color:#ae81ff">502</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">499</span>, <span style="color:#ae81ff">350</span>, <span style="color:#ae81ff">498</span>, <span style="color:#ae81ff">353</span>, <span style="color:#ae81ff">501</span>, <span style="color:#ae81ff">347</span>, <span style="color:#ae81ff">499</span>, <span style="color:#ae81ff">502</span>, <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">500</span>
+</span></span><span style="display:flex;"><span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bayesian_gmm</span>(data):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Bayesian Gaussian Mixture Model&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>    K <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># Number of components</span>
@@ -532,8 +552,6 @@ Weights: [501.2 349.8 499.5 351.3 498.7 502.1 350.5 ...]</code></pre></div>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pi, mu, sigma
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Condition on observed data</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> choice_map
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>observations <span style="color:#f92672">=</span> choice_map()
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, weight <span style="color:#f92672">in</span> enumerate(mystery_weights):
 </span></span><span style="display:flex;"><span>    observations[<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;x_</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>] <span style="color:#f92672">=</span> weight
@@ -636,9 +654,31 @@ Weights: [501.2 349.8 499.5 351.3 498.7 502.1 350.5 ...]</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Coffee caffeine data</span>
+</span></span><span style="display:flex;"><span>coffee_data <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>array([
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">82</span>, <span style="color:#ae81ff">118</span>, <span style="color:#ae81ff">155</span>, <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">158</span>, <span style="color:#ae81ff">79</span>, <span style="color:#ae81ff">115</span>, <span style="color:#ae81ff">160</span>, <span style="color:#ae81ff">83</span>, <span style="color:#ae81ff">121</span>, <span style="color:#ae81ff">157</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">81</span>, <span style="color:#ae81ff">119</span>, <span style="color:#ae81ff">156</span>, <span style="color:#ae81ff">84</span>, <span style="color:#ae81ff">117</span>, <span style="color:#ae81ff">159</span>, <span style="color:#ae81ff">78</span>, <span style="color:#ae81ff">122</span>, <span style="color:#ae81ff">154</span>, <span style="color:#ae81ff">82</span>, <span style="color:#ae81ff">116</span>, <span style="color:#ae81ff">158</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">155</span>, <span style="color:#ae81ff">81</span>, <span style="color:#ae81ff">118</span>, <span style="color:#ae81ff">157</span>
+</span></span><span style="display:flex;"><span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">coffee_gmm</span>(data):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;3-component GMM for coffee blends&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>    K <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
@@ -814,9 +854,9 @@ Weights: [501.2 349.8 499.5 351.3 498.7 502.1 350.5 ...]</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764909664"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764909664" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764909664" defer></script>
-    <script src="/probintro/js/theme.js?1764909664" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765599662"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1765599662" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765599662" defer></script>
+    <script src="/probintro/js/theme.js?1765599662" defer></script>
   </body>
 </html>

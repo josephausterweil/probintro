@@ -23,33 +23,37 @@ Heights of people Measurement errors Test scores Daily temperatures And yes, ben
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
     <meta property="article:section" content="Continuous Probability and Bayesian Learning">
+    <meta property="article:published_time" content="2025-12-06T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-06T00:00:00+00:00">
     <meta itemprop="name" content="The Gaussian Distribution :: Probability & Probabilistic Computing Tutorial">
     <meta itemprop="description" content="The Bell Curve After learning about the uniform distribution in Chapter 2, Chibany realizes something: real measurements rarely spread evenly across a range. When they measure 1000 tonkatsu bentos carefully, the weights don’t spread uniformly between 495g and 505g. Instead, most cluster near 500g, with fewer and fewer measurements appearing as you move away from that center value.
 This pattern appears everywhere in nature:
 Heights of people Measurement errors Test scores Daily temperatures And yes, bento weights! This is the Gaussian distribution (also called the Normal distribution), and it’s arguably the most important probability distribution in statistics.">
-    <meta itemprop="wordCount" content="2102">
+    <meta itemprop="datePublished" content="2025-12-06T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2025-12-06T00:00:00+00:00">
+    <meta itemprop="wordCount" content="2213">
     <title>The Gaussian Distribution :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764909664" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764909664" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764909664" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764909664" defer></script>
-    <script src="/probintro/js/search.js?1764909664" defer></script>
+    <link href="/probintro/images/favicon.png?1765599662" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765599662" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765599662" defer></script>
+    <script src="/probintro/js/search-lunr.js?1765599662" defer></script>
+    <script src="/probintro/js/search.js?1765599662" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764909664";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1765599662";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764909664" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1765599662" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765599662" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1765599662" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1765599662" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764909664" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765599662" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765599662" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765599662" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1765599662" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1765599662" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -366,9 +370,11 @@ Within 3σ (494-506g): 99.7% (expect 99.7%)</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Create a range of x values</span>
 </span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">490</span>, <span style="color:#ae81ff">510</span>, <span style="color:#ae81ff">1000</span>)
@@ -445,8 +451,8 @@ Within 3σ (494-506g): 99.7% (expect 99.7%)</code></pre></div>
 </div>
 </div>
 </details>
-<p><a href="#R-image-9a7d53cf52776350f26d76698c2bd179" class="lightbox-link"><img alt="Gaussian Distribution Variations" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/gaussian_variations.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-9a7d53cf52776350f26d76698c2bd179"><img alt="Gaussian Distribution Variations" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/gaussian_variations.png"></a></p>
+<p><a href="#R-image-815ecb7f4bebe04012b627fd97c2a77b" class="lightbox-link"><img alt="Gaussian Distribution Variations" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/gaussian_variations.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-815ecb7f4bebe04012b627fd97c2a77b"><img alt="Gaussian Distribution Variations" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/gaussian_variations.png"></a></p>
 <p><strong>Key observations:</strong></p>
 <ul>
 <li><strong>Left plot</strong>: Changing μ shifts the curve horizontally (location changes)</li>
@@ -457,6 +463,17 @@ Within 3σ (494-506g): 99.7% (expect 99.7%)</code></pre></div>
 <p>Remember the mystery from Chapter 1? Now we can model it more realistically:</p>
 <p><strong>Tonkatsu bentos</strong>: N(500, 4) (mean 500g, std dev 2g)
 <strong>Hamburger bentos</strong>: N(350, 4) (mean 350g, std dev 2g)</p>
+
+<details open class=" box cstyle notices info">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-info-circle"></i> 
+    Note: Illustrative Code
+  </summary>
+  <div class="box-content">
+<p>The code below shows the <strong>concept</strong> of a mixture model. Due to JAX&rsquo;s functional design, the actual working implementation uses advanced techniques (see the <a href="https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/gaussian_bayesian_interactive_exploration.ipynb" rel="external" target="_blank">interactive Colab notebook</a> for the full working version).</p>
+<p>For learning purposes, this simplified version demonstrates the modeling logic.</p>
+  </div>
+</details>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -486,19 +503,25 @@ Within 3σ (494-506g): 99.7% (expect 99.7%)</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli, normal
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.random <span style="color:#66d9ef">as</span> random
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">realistic_bento</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;A more realistic bento mixture model&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;A more realistic bento mixture model (conceptual)&#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 70% tonkatsu, 30% hamburger</span>
-</span></span><span style="display:flex;"><span>    is_tonkatsu <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>bernoulli(<span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;type&#34;</span>
+</span></span><span style="display:flex;"><span>    is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;type&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Each type has Gaussian weight distribution</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_tonkatsu:
-</span></span><span style="display:flex;"><span>        weight <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">500.0</span>, <span style="color:#ae81ff">2.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;weight&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        weight <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>normal(<span style="color:#ae81ff">350.0</span>, <span style="color:#ae81ff">2.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;weight&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use jnp.where to select mean based on type (JAX compatible)</span>
+</span></span><span style="display:flex;"><span>    mean_weight <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>where(is_tonkatsu, <span style="color:#ae81ff">500.0</span>, <span style="color:#ae81ff">350.0</span>)
+</span></span><span style="display:flex;"><span>    weight <span style="color:#f92672">=</span> normal(mean_weight, <span style="color:#ae81ff">2.0</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;weight&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> weight
 </span></span><span style="display:flex;"><span>
@@ -544,9 +567,15 @@ Expected value: 455.0g</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">6</span>))
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">6</span>))
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>hist(weights, bins<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>, density<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.7</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;black&#39;</span>)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>axvline(jnp<span style="color:#f92672">.</span>mean(weights), color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>,
 </span></span><span style="display:flex;"><span>            label<span style="color:#f92672">=</span><span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Mean: </span><span style="color:#e6db74">{</span>jnp<span style="color:#f92672">.</span>mean(weights)<span style="color:#e6db74">:</span><span style="color:#e6db74">.1f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">g&#39;</span>)
@@ -560,8 +589,8 @@ Expected value: 455.0g</code></pre></div>
 </div>
 </div>
 </details>
-<p><a href="#R-image-845dfb103d8bf4c1f3bec5c181ad7527" class="lightbox-link"><img alt="Realistic Bento Mixture with Gaussian Components" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/realistic_bento_mixture.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-845dfb103d8bf4c1f3bec5c181ad7527"><img alt="Realistic Bento Mixture with Gaussian Components" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/realistic_bento_mixture.png"></a></p>
+<p><a href="#R-image-be6090d4447b09bc73acc59a57865c20" class="lightbox-link"><img alt="Realistic Bento Mixture with Gaussian Components" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/realistic_bento_mixture.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-be6090d4447b09bc73acc59a57865c20"><img alt="Realistic Bento Mixture with Gaussian Components" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/realistic_bento_mixture.png"></a></p>
 <p>Now the two peaks have natural variation (they&rsquo;re not perfect spikes at 500g and 350g), but the average still falls in the valley where no individual bento lives!</p>
 <hr>
 <h2 id="why-the-gaussian-distribution-is-special">Why the Gaussian Distribution is Special</h2>
@@ -696,9 +725,17 @@ Expected value: 455.0g</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> norm
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, simulate
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.random <span style="color:#66d9ef">as</span> random
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> norm
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>mu, sigma <span style="color:#f92672">=</span> <span style="color:#ae81ff">75</span>, <span style="color:#ae81ff">10</span>
 </span></span><span style="display:flex;"><span>
@@ -768,9 +805,13 @@ c) Simulated P(65-85): 68.1%
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>mu, sigma <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">0.5</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> norm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mu, sigma <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">0.5</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Part a: P(X &lt; 49 or X &gt; 51) = 1 - P(49 ≤ X ≤ 51)</span>
 </span></span><span style="display:flex;"><span>prob_good <span style="color:#f92672">=</span> norm<span style="color:#f92672">.</span>cdf(<span style="color:#ae81ff">51</span>, mu, sigma) <span style="color:#f92672">-</span> norm<span style="color:#f92672">.</span>cdf(<span style="color:#ae81ff">49</span>, mu, sigma)
@@ -828,6 +869,7 @@ b) Required std dev: 0.388mm
 <p><strong>Next Chapter</strong>: <a href="/probintro/intro2/04_bayesian_learning/index.html">Bayesian Learning with Gaussians →</a></p>
 
   <footer class="footline">
+              <i class='fa-fw fas fa-calendar'></i> Dec 6, 2025
   </footer>
 </article>
         </div>
@@ -912,9 +954,9 @@ b) Required std dev: 0.388mm
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764909664"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764909664" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764909664" defer></script>
-    <script src="/probintro/js/theme.js?1764909664" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765599662"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1765599662" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765599662" defer></script>
+    <script src="/probintro/js/theme.js?1765599662" defer></script>
   </body>
 </html>

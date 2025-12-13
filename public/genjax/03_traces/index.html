@@ -23,33 +23,37 @@ What random choices were made What values they took What the function returned H
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
     <meta property="article:section" content="Probabilistic Programming with GenJAX">
+    <meta property="article:published_time" content="2025-12-06T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-06T00:00:00+00:00">
     <meta itemprop="name" content="Understanding Traces :: Probability & Probabilistic Computing Tutorial">
     <meta itemprop="description" content="What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.
 GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:
 What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!">
-    <meta itemprop="wordCount" content="2147">
+    <meta itemprop="datePublished" content="2025-12-06T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2025-12-06T00:00:00+00:00">
+    <meta itemprop="wordCount" content="2281">
     <title>Understanding Traces :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764909664" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764909664" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764909664" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764909664" defer></script>
-    <script src="/probintro/js/search.js?1764909664" defer></script>
+    <link href="/probintro/images/favicon.png?1765599662" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765599662" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765599662" defer></script>
+    <script src="/probintro/js/search-lunr.js?1765599662" defer></script>
+    <script src="/probintro/js/search.js?1765599662" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764909664";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1765599662";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764909664" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1765599662" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765599662" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1765599662" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1765599662" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764909664" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765599662" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765599662" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765599662" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1765599662" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1765599662" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -189,8 +193,8 @@ What random choices were made What values they took What the function returned H
 <li>How probable this execution was</li>
 </ol>
 <p>Think of it like a lab notebook that automatically records every detail of an experiment!</p>
-<p><a href="#R-image-c25135ebc9f8661b7dec6493ede8accf" class="lightbox-link"><img alt="Chibany investigating" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-c25135ebc9f8661b7dec6493ede8accf"><img alt="Chibany investigating" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-f64664fd059479987b9de4c44c0651ee" class="lightbox-link"><img alt="Chibany investigating" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-f64664fd059479987b9de4c44c0651ee"><img alt="Chibany investigating" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 <hr>
 <h2 id="why-traces-matter">Why Traces Matter</h2>
 <p><strong>Short answer:</strong> Traces enable <strong>inference</strong> — answering &ldquo;what if I observed this?&rdquo;</p>
@@ -268,7 +272,7 @@ What random choices were made What values they took What the function returned H
     Why Names Matter
   </summary>
   <div class="box-content">
-<p>In <code>bernoulli(0.5) @ &quot;lunch&quot;</code>, the <code>@ &quot;lunch&quot;</code> part gives this random choice a <strong>name</strong> (or address).</p>
+<p>In <code>flip(0.5) @ &quot;lunch&quot;</code>, the <code>@ &quot;lunch&quot;</code> part gives this random choice a <strong>name</strong> (or address).</p>
 <p>GenJAX uses these names to:</p>
 <ul>
 <li>Track which choice is which</li>
@@ -428,15 +432,16 @@ They&#39;re the same thing, just different representations!</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, flip
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day</span>():
-</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
-</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
+</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
+</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate one trace</span>
@@ -451,7 +456,8 @@ They&#39;re the same thing, just different representations!</code></pre></div>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Decode to outcome notation</span>
 </span></span><span style="display:flex;"><span>outcome_map <span style="color:#f92672">=</span> {(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>): <span style="color:#e6db74">&#34;HH&#34;</span>, (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>): <span style="color:#e6db74">&#34;HT&#34;</span>, (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>): <span style="color:#e6db74">&#34;TH&#34;</span>, (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>): <span style="color:#e6db74">&#34;TT&#34;</span>}
-</span></span><span style="display:flex;"><span>outcome <span style="color:#f92672">=</span> outcome_map[tuple(trace<span style="color:#f92672">.</span>get_retval())]
+</span></span><span style="display:flex;"><span>retval <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>outcome <span style="color:#f92672">=</span> outcome_map[(int(retval[<span style="color:#ae81ff">0</span>]), int(retval[<span style="color:#ae81ff">1</span>]))]
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Outcome: </span><span style="color:#e6db74">{</span>outcome<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
@@ -461,6 +467,27 @@ Return value: (0, 1)
 Random choices: {&#39;lunch&#39;: 0, &#39;dinner&#39;: 1}
 Log probability: -1.3862943611198906
 Outcome: HT</code></pre></div>
+
+<details open class=" box cstyle notices tip">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-lightbulb"></i> 
+    What You&rsquo;ll Actually See
+  </summary>
+  <div class="box-content">
+<p>When you run this code, the &ldquo;Random choices&rdquo; output will look more complex:</p>
+<div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Random choices: Static({&#39;lunch&#39;: Choice(v=&lt;jax.Array(False, dtype=bool)&gt;), &#39;dinner&#39;: Choice(v=&lt;jax.Array(False, dtype=bool)&gt;)})</code></pre></div>
+<p><strong>Don&rsquo;t worry!</strong> This is GenJAX&rsquo;s internal representation. The important parts are:</p>
+<ul>
+<li><code>'lunch': Choice(v=&lt;jax.Array(False, ...)&gt;)</code> means lunch = 0 (False = Hamburger)</li>
+<li><code>'dinner': Choice(v=&lt;jax.Array(False, ...)&gt;)</code> means dinner = 0 (False = Hamburger)</li>
+</ul>
+<details>
+<summary><em>Why the difference? (Click to expand)</em></summary>
+<p>GenJAX wraps the values in <code>Choice</code> objects to track metadata about the random choices. When you access individual choices with <code>choices['lunch']</code>, you get the actual value.</p>
+<p>The simplified output shown above (<code>{'lunch': 0, 'dinner': 1}</code>) represents the <strong>logical content</strong> - what the choices actually are - rather than the technical implementation details.</p>
+</details>
+  </div>
+</details>
 <hr>
 <h2 id="multiple-traces-multiple-histories">Multiple Traces, Multiple Histories</h2>
 <p>Each trace represents <strong>one possible execution</strong> of the generative function.</p>
@@ -478,6 +505,7 @@ Outcome: HT</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
@@ -487,7 +515,8 @@ Outcome: HT</code></pre></div>
 </span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(subkey, ())
-</span></span><span style="display:flex;"><span>    outcome <span style="color:#f92672">=</span> outcome_map[tuple(trace<span style="color:#f92672">.</span>get_retval())]
+</span></span><span style="display:flex;"><span>    retval <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    outcome <span style="color:#f92672">=</span> outcome_map[(int(retval[<span style="color:#ae81ff">0</span>]), int(retval[<span style="color:#ae81ff">1</span>]))]
 </span></span><span style="display:flex;"><span>    choices <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_choices()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Day </span><span style="color:#e6db74">{</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>outcome<span style="color:#e6db74">}</span><span style="color:#e6db74"> — lunch=</span><span style="color:#e6db74">{</span>choices[<span style="color:#e6db74">&#39;lunch&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">, dinner=</span><span style="color:#e6db74">{</span>choices[<span style="color:#e6db74">&#39;dinner&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
@@ -670,16 +699,17 @@ Day 5: HT — lunch=0, dinner=1</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, bernoulli
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, flip
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day</span>():
-</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
-</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
+</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>
+</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate 10 traces</span>
@@ -693,7 +723,8 @@ Day 5: HT — lunch=0, dinner=1</code></pre></div>
 </span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key)
 </span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day<span style="color:#f92672">.</span>simulate(subkey, ())
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    outcome <span style="color:#f92672">=</span> outcome_map[tuple(trace<span style="color:#f92672">.</span>get_retval())]
+</span></span><span style="display:flex;"><span>    retval <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    outcome <span style="color:#f92672">=</span> outcome_map[(int(retval[<span style="color:#ae81ff">0</span>]), int(retval[<span style="color:#ae81ff">1</span>]))]
 </span></span><span style="display:flex;"><span>    choices <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_choices()
 </span></span><span style="display:flex;"><span>    score <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_score()
 </span></span><span style="display:flex;"><span>
@@ -772,8 +803,8 @@ Day 5: HT — lunch=0, dinner=1</code></pre></div>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chibany_day_biased</span>():
-</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>  <span style="color:#75715e"># 80% Tonkatsu</span>
-</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> bernoulli(<span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>  <span style="color:#75715e"># 20% Tonkatsu</span>
+</span></span><span style="display:flex;"><span>    lunch_is_tonkatsu <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;lunch&#34;</span>  <span style="color:#75715e"># 80% Tonkatsu</span>
+</span></span><span style="display:flex;"><span>    dinner_is_tonkatsu <span style="color:#f92672">=</span> flip(<span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;dinner&#34;</span>  <span style="color:#75715e"># 20% Tonkatsu</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (lunch_is_tonkatsu, dinner_is_tonkatsu)</span></span></code></pre></td></tr></table>
 </div>
 </div>
@@ -798,6 +829,7 @@ Day 5: HT — lunch=0, dinner=1</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
@@ -806,7 +838,8 @@ Day 5: HT — lunch=0, dinner=1</code></pre></div>
 </span></span><span style="display:flex;"><span>    key, subkey <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key)
 </span></span><span style="display:flex;"><span>    trace <span style="color:#f92672">=</span> chibany_day_biased<span style="color:#f92672">.</span>simulate(subkey, ())
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    outcome <span style="color:#f92672">=</span> outcome_map[tuple(trace<span style="color:#f92672">.</span>get_retval())]
+</span></span><span style="display:flex;"><span>    retval <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    outcome <span style="color:#f92672">=</span> outcome_map[(int(retval[<span style="color:#ae81ff">0</span>]), int(retval[<span style="color:#ae81ff">1</span>]))]
 </span></span><span style="display:flex;"><span>    score <span style="color:#f92672">=</span> trace<span style="color:#f92672">.</span>get_score()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Day </span><span style="color:#e6db74">{</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{</span>outcome<span style="color:#e6db74">}</span><span style="color:#e6db74"> — Log prob: </span><span style="color:#e6db74">{</span>score<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
@@ -929,6 +962,7 @@ Day 5: HT — lunch=0, dinner=1</code></pre></div>
 </table>
 
   <footer class="footline">
+              <i class='fa-fw fas fa-calendar'></i> Dec 6, 2025
   </footer>
 </article>
         </div>
@@ -1013,9 +1047,9 @@ Day 5: HT — lunch=0, dinner=1</code></pre></div>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764909664"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764909664" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764909664" defer></script>
-    <script src="/probintro/js/theme.js?1764909664" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765599662"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1765599662" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765599662" defer></script>
+    <script src="/probintro/js/theme.js?1765599662" defer></script>
   </body>
 </html>

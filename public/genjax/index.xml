@@ -6,7 +6,7 @@
     <description>From Probability Theory to Probabilistic Code In the previous tutorial, you learned to think about probability using sets and counting. Chibany showed you that probability questions are really about:&#xA;What’s possible? (Define the outcome space) What am I interested in? (Define the event) Count them! (Calculate the ratio) Now you’ll learn to express those same ideas in code using GenJAX — a probabilistic programming language that lets computers do the counting for you!</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 06 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/probintro/genjax/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Getting Started with Google Colab</title>
@@ -25,14 +25,14 @@
     <item>
       <title>Your First GenJAX Model</title>
       <link>http://localhost:1313/probintro/genjax/02_first_model/index.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 06 Dec 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/probintro/genjax/02_first_model/index.html</guid>
       <description>From Sets to Simulation Remember Chibany’s daily meals? We listed out the outcome space $\Omega = \{HH, HT, TH, TT\}$ and counted possibilities.&#xA;Now we’ll teach a computer to generate those outcomes instead!&#xA;The Generative Process Each day:&#xA;Lunch arrives — randomly H or T (equal probability) Dinner arrives — randomly H or T (equal probability) Record the day — the pair of meals In GenJAX, we express this as a generative function.</description>
     </item>
     <item>
       <title>Understanding Traces</title>
       <link>http://localhost:1313/probintro/genjax/03_traces/index.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 06 Dec 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/probintro/genjax/03_traces/index.html</guid>
       <description>What Gets Recorded When Code Runs? When you run a regular Python function, it does its work and returns a value. Then it’s done — no record of what happened internally.&#xA;GenJAX is different. When you run a generative function, GenJAX creates a trace — a complete record of:&#xA;What random choices were made What values they took What the function returned How probable this execution was Think of it like a lab notebook that automatically records every detail of an experiment!</description>
     </item>

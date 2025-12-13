@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr" itemscope itemtype="http://schema.org/Article" data-r-output-format="html">
-  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
+  <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=43027&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.148.2">
@@ -16,7 +16,7 @@ This is the heart of probabilistic programming!
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
 📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
-    <meta property="og:url" content="http://localhost:1313/probintro/genjax/04_conditioning/index.html">
+    <meta property="og:url" content="http://localhost:43027/probintro/genjax/04_conditioning/index.html">
     <meta property="og:site_name" content="Probability & Probabilistic Computing Tutorial">
     <meta property="og:title" content="Conditioning and Inference :: Probability & Probabilistic Computing Tutorial">
     <meta property="og:description" content="From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.
@@ -31,29 +31,29 @@ This is the heart of probabilistic programming!
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
 📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
-    <meta itemprop="wordCount" content="3679">
+    <meta itemprop="wordCount" content="3721">
     <title>Conditioning and Inference :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1765110343" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765110343" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765110343" defer></script>
-    <script src="/probintro/js/search-lunr.js?1765110343" defer></script>
-    <script src="/probintro/js/search.js?1765110343" defer></script>
+    <link href="/probintro/images/favicon.png?1765599794" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765599794" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765599794" defer></script>
+    <script src="/probintro/js/search-lunr.js?1765599794" defer></script>
+    <script src="/probintro/js/search.js?1765599794" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1765110343";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1765599794";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1765110343" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765110343" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1765110343" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1765110343" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1765599794" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765599794" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1765599794" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1765599794" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765110343" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765110343" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765110343" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1765110343" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1765110343" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765599794" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765599794" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765599794" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1765599794" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1765599794" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -61,7 +61,7 @@ This is the heart of probabilistic programming!
       window.relearn.path='\/genjax\/04_conditioning\/index.html';
       window.relearn.relBasePath='..\/..';
       window.relearn.relBaseUri='..\/..\/..';
-      window.relearn.absBaseUri='http:\/\/localhost:1313\/probintro';
+      window.relearn.absBaseUri='http:\/\/localhost:43027\/probintro';
       window.relearn.disableAnchorCopy=false;
       window.relearn.disableAnchorScrolling=false;
       window.relearn.disableInlineCopyToClipboard=false;
@@ -218,8 +218,8 @@ This is the heart of probabilistic programming!
 <p>So far, we&rsquo;ve used GenJAX to <strong>generate</strong> outcomes — simulating what could happen.</p>
 <p>Now we&rsquo;ll learn to <strong>infer</strong> — reasoning backwards from observations to causes.</p>
 <p>This is the heart of probabilistic programming!</p>
-<p><a href="#R-image-fb5134cc92f95d573c4f53336dc41005" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-fb5134cc92f95d573c4f53336dc41005"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-096d46588fee4a7e6b45d6716cb87846" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-096d46588fee4a7e6b45d6716cb87846"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 
 <details open class=" box cstyle notices tip">
   <summary class="box-label" tabindex="-1">
@@ -907,8 +907,8 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </div>
 </div>
 <p><strong>Key insight:</strong> Evidence increased our belief in blue from 15% to 41%, but <strong>still not even 50%</strong> because the base rate is so strong!</p>
-<p><a href="#R-image-09e2183cb8f376fb63f6d88ea9a42577" class="lightbox-link"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-09e2183cb8f376fb63f6d88ea9a42577"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png"></a></p>
+<p><a href="#R-image-9a75bb1cc59e4919b76ef65dcf4beddb" class="lightbox-link"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-9a75bb1cc59e4919b76ef65dcf4beddb"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png"></a></p>
 <hr>
 <h2 id="exploring-base-rate-effects">Exploring Base Rate Effects</h2>
 <p>Let&rsquo;s see how changing the base rate affects the answer.</p>
@@ -928,14 +928,24 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#66d9ef">True</span>})
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#66d9ef">True</span>})
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_equal_base</span>(k):
 </span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.50</span>, <span style="color:#ae81ff">0.80</span>))
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval(), weight
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
 </span></span><span style="display:flex;"><span>results_equal <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_equal_base)(keys)
 </span></span><span style="display:flex;"><span>weights_equal <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>exp(results_equal[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> jnp<span style="color:#f92672">.</span>max(results_equal[<span style="color:#ae81ff">1</span>]))
@@ -1013,11 +1023,25 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Test different base rates</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#66d9ef">True</span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test different base rates</span>
 </span></span><span style="display:flex;"><span>base_rates <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0.01</span>, <span style="color:#ae81ff">0.99</span>, <span style="color:#ae81ff">50</span>)
 </span></span><span style="display:flex;"><span>posteriors <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> rate <span style="color:#f92672">in</span> base_rates:
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_with_rate</span>(k):
@@ -1056,8 +1080,8 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 <li><strong>High base rates</strong> (e.g., 99%): Posterior approaches certainty (~99.7%)</li>
 </ul>
 <p>The curve shows: <strong>Even with 80% accuracy, the posterior depends heavily on the base rate!</strong></p>
-<p><a href="#R-image-4f6c35b78a44c8c3a5023fc356be0312" class="lightbox-link"><img alt="How base rates affect inference" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-4f6c35b78a44c8c3a5023fc356be0312"><img alt="How base rates affect inference" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png"></a></p>
+<p><a href="#R-image-32a3d6c8b61eaaa05257270448081d98" class="lightbox-link"><img alt="How base rates affect inference" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-32a3d6c8b61eaaa05257270448081d98"><img alt="How base rates affect inference" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png"></a></p>
 
 <details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
   <summary class="box-label" tabindex="-1">
@@ -1544,9 +1568,9 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765110343"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1765110343" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765110343" defer></script>
-    <script src="/probintro/js/theme.js?1765110343" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765599794"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1765599794" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765599794" defer></script>
+    <script src="/probintro/js/theme.js?1765599794" defer></script>
   </body>
 </html>
