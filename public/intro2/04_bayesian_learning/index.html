@@ -3,7 +3,7 @@
   <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Hugo 0.152.2">
     <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
     <meta name="description" content="The Learning Problem Chibany has a new challenge. They receive shipments from a new supplier, but don’t know the mean weight of their tonkatsu bentos. They believe the supplier is trying to hit 500g (like their usual supplier), but they’re not certain. Maybe the supplier aims for 495g? Or 505g?
 The question: How can they learn the true mean weight from observations?
@@ -23,33 +23,37 @@ This is Bayesian learning: starting with a prior belief, observing data, and upd
     <meta property="og:locale" content="en_us">
     <meta property="og:type" content="article">
     <meta property="article:section" content="Continuous Probability and Bayesian Learning">
+    <meta property="article:published_time" content="2025-12-06T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-12-06T00:00:00+00:00">
     <meta itemprop="name" content="Bayesian Learning with Gaussians :: Probability & Probabilistic Computing Tutorial">
     <meta itemprop="description" content="The Learning Problem Chibany has a new challenge. They receive shipments from a new supplier, but don’t know the mean weight of their tonkatsu bentos. They believe the supplier is trying to hit 500g (like their usual supplier), but they’re not certain. Maybe the supplier aims for 495g? Or 505g?
 The question: How can they learn the true mean weight from observations?
 This is Bayesian learning: starting with a prior belief, observing data, and updating to a posterior belief.">
-    <meta itemprop="wordCount" content="3386">
+    <meta itemprop="datePublished" content="2025-12-06T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2025-12-06T00:00:00+00:00">
+    <meta itemprop="wordCount" content="3433">
     <title>Bayesian Learning with Gaussians :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764909664" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764909664" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764909664" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764909664" defer></script>
-    <script src="/probintro/js/search.js?1764909664" defer></script>
+    <link href="/probintro/images/favicon.png?1765594244" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765594244" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765594244" defer></script>
+    <script src="/probintro/js/search-lunr.js?1765594244" defer></script>
+    <script src="/probintro/js/search.js?1765594244" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764909664";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1765594244";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764909664" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1765594244" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765594244" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1765594244" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1765594244" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764909664" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765594244" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765594244" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765594244" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1765594244" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1765594244" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -486,9 +490,13 @@ $$\mu_1 = \frac{\frac{500}{25} + \frac{1 \cdot 497}{4}}{\frac{1}{25} + \frac{1}{
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gaussian_gaussian_update</span>(prior_mu, prior_var, data, data_var):
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gaussian_gaussian_update</span>(prior_mu, prior_var, data, data_var):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Analytical Bayesian update for Gaussian-Gaussian conjugate prior
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
@@ -691,8 +699,8 @@ After observation 10 (x=497.5g):
 </div>
 </div>
 </details>
-<p><a href="#R-image-4b71de99a57f137ace2c8af297a7b85d" class="lightbox-link"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/posterior_updates.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-4b71de99a57f137ace2c8af297a7b85d"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/posterior_updates.png"></a></p>
+<p><a href="#R-image-2c84ab56c3831ee7db6ff2ecf0654d9a" class="lightbox-link"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/posterior_updates.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-2c84ab56c3831ee7db6ff2ecf0654d9a"><img alt="Bayesian Learning: Posterior Updates" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/posterior_updates.png"></a></p>
 <p><strong>The story in the plot</strong>:</p>
 <ul>
 <li><strong>Black dashed</strong>: Prior belief (wide, centered at 500g)</li>
@@ -842,9 +850,24 @@ Predictive for next X: N(497.65, 4.37)
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> gen, simulate
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.random <span style="color:#66d9ef">as</span> random
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">posterior_predictive</span>(post_mu, post_var, data_var):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Sample from posterior predictive distribution
@@ -856,6 +879,11 @@ Predictive for next X: N(497.65, 4.37)
 </span></span><span style="display:flex;"><span>    x_new <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>normal(mu, jnp<span style="color:#f92672">.</span>sqrt(data_var)) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;x_new&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x_new
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Posterior from before (after observing 497g)</span>
+</span></span><span style="display:flex;"><span>post_mu <span style="color:#f92672">=</span> <span style="color:#ae81ff">497.65</span>
+</span></span><span style="display:flex;"><span>post_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.37</span>
+</span></span><span style="display:flex;"><span>data_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">4.0</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Simulate 10,000 predictions</span>
 </span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>PRNGKey(<span style="color:#ae81ff">42</span>)
@@ -1184,6 +1212,7 @@ c) Need n &gt; 4 observations for data to dominate
 <p><strong>Next Chapter</strong>: <a href="/probintro/intro2/05_mixture_models/index.html">Gaussian Mixture Models →</a></p>
 
   <footer class="footline">
+              <i class='fa-fw fas fa-calendar'></i> Dec 6, 2025
   </footer>
 </article>
         </div>
@@ -1268,9 +1297,9 @@ c) Need n &gt; 4 observations for data to dominate
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764909664"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764909664" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764909664" defer></script>
-    <script src="/probintro/js/theme.js?1764909664" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765594244"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1765594244" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765594244" defer></script>
+    <script src="/probintro/js/theme.js?1765594244" defer></script>
   </body>
 </html>

@@ -102,6 +102,55 @@ git push origin main
 - Tutorial sections use `_index.md` for landing pages
 - Individual chapters are separate `.md` files
 
+## Code Validation
+
+**CRITICAL**: All Python/JAX code blocks in tutorials MUST be validated before committing.
+
+### Automated Validation
+
+The repository has automated validation that runs:
+1. **Pre-commit hook** - Validates code blocks before allowing commits
+2. **GitHub Actions** - Validates on push/PR to main branch
+
+### Manual Validation
+
+Run validation anytime:
+```bash
+python validate_code_blocks.py
+```
+
+### Key Rules for Code Blocks
+
+1. **Python Syntax** - All code must parse correctly
+2. **JAX Compatibility** - Use `jnp.where()` instead of Python `if/else`
+3. **Complete Imports** - Include all required imports (jnp, jr, genjax)
+
+### When Writing New Code Blocks
+
+```python
+# ✅ Good - Complete and correct
+import jax.numpy as jnp
+import jax.random as jr
+from genjax import generative as genjax
+
+key = jr.PRNGKey(0)
+x = jnp.array([1.0, 2.0, 3.0])
+result = jnp.where(x > 1.5, x, 0.0)
+
+@genjax.gen
+def my_model():
+    return jnp.normal() @ "x"
+```
+
+```python
+# ❌ Bad - Missing imports, using if/else
+x = jnp.array([1, 2, 3])  # jnp not imported!
+if x > 0:  # Should use jnp.where()!
+    result = x
+```
+
+See `CODE_VALIDATION.md` for complete documentation.
+
 ## Funding Acknowledgment
 
 This project is generously funded by the Japanese Probabilistic Computing Consortium Association (JPCCA).

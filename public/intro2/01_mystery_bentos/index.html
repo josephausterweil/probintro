@@ -3,7 +3,7 @@
   <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Hugo 0.152.2">
     <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
     <meta name="description" content="The Weight of the Matter It’s a new semester at the university, and Chibany’s students have been bringing them bentos again. But this time, something is different.
 Last semester, the bento boxes were transparent. So Chibany could see whether there was tonkatsu or hamburger inside. But this semester, the bento boxes are opaque. Thus, Chibany can’t see what is inside when they receive the bento. They want to know IMMEDIATELY what the meal is, but it would be extremely rude to open the bento box as the students are watching. Thankfully, Chibany is curious, and they’re a probabilist.">
@@ -25,27 +25,27 @@ Last semester, the bento boxes were transparent. So Chibany could see whether th
 Last semester, the bento boxes were transparent. So Chibany could see whether there was tonkatsu or hamburger inside. But this semester, the bento boxes are opaque. Thus, Chibany can’t see what is inside when they receive the bento. They want to know IMMEDIATELY what the meal is, but it would be extremely rude to open the bento box as the students are watching. Thankfully, Chibany is curious, and they’re a probabilist.">
     <meta itemprop="wordCount" content="3777">
     <title>Chibany&#39;s Mystery Bentos :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764909664" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764909664" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764909664" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764909664" defer></script>
-    <script src="/probintro/js/search.js?1764909664" defer></script>
+    <link href="/probintro/images/favicon.png?1765594244" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765594244" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765594244" defer></script>
+    <script src="/probintro/js/search-lunr.js?1765594244" defer></script>
+    <script src="/probintro/js/search.js?1765594244" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764909664";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1765594244";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764909664" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1765594244" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765594244" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1765594244" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1765594244" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764909664" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765594244" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765594244" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765594244" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1765594244" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1765594244" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -197,7 +197,8 @@ Last semester, the bento boxes were transparent. So Chibany could see whether th
 <p><strong>Student 1:</strong> &ldquo;I&rsquo;ve been bringing Chibany tonkatsu most days. It&rsquo;s their favorite!&rdquo;
 <strong>Student 2:</strong> &ldquo;Me too! Though sometimes I bring hamburger when the cafeteria runs out of tonkatsu.&rdquo;
 <strong>Student 1:</strong> &ldquo;Yeah, I&rsquo;d say I bring tonkatsu like&hellip; seven times out of ten?&rdquo;
-<strong>Student 2:</strong> &ldquo;Same! About 70% tonkatsu, 30% hamburger.&rdquo;</p></blockquote>
+<strong>Student 2:</strong> &ldquo;Same! About 70% tonkatsu, 30% hamburger.&rdquo;</p>
+</blockquote>
 <p>Chibany smiles. So there <strong>is</strong> a pattern! But they decide to continue their experiment anyway. Can they discover this 70-30 split just from weighing the bentos?</p>
 <h2 id="week-one-something-strange">Week One: Something Strange</h2>
 <p>Chibany weighs their first week of bentos and records the measurements:</p>
@@ -289,8 +290,8 @@ Week 4: 352g, 488g, 508g, 355g, 495g</code></pre></div>
 </div>
 </div>
 </details>
-<p><a href="#R-image-9b6554c5ceed9297cdf56aef60ef43c0" class="lightbox-link"><img alt="Mystery Bentos - Weight Distribution" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/mystery_bentos_histogram.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-9b6554c5ceed9297cdf56aef60ef43c0"><img alt="Mystery Bentos - Weight Distribution" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/mystery_bentos_histogram.png"></a></p>
+<p><a href="#R-image-98bcdc03de24eb97d3edefbc0a9f53a3" class="lightbox-link"><img alt="Mystery Bentos - Weight Distribution" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/mystery_bentos_histogram.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-98bcdc03de24eb97d3edefbc0a9f53a3"><img alt="Mystery Bentos - Weight Distribution" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/mystery_bentos_histogram.png"></a></p>
 <p><strong>Output:</strong></p>
 <div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Average weight: 445.4g
 Weights near 350g: 6
@@ -665,8 +666,8 @@ $$E[X] = 0.7 \times 500 + 0.3 \times 350 = 455\text{g}$$</p>
 </div>
 </div>
 </details>
-<p><a href="#R-image-608cb08aa5fe153e47109f77e80ef4a8" class="lightbox-link"><img alt="Mystery Bentos Balance on Seesaw" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/seesaw_visualization.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-608cb08aa5fe153e47109f77e80ef4a8"><img alt="Mystery Bentos Balance on Seesaw" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/seesaw_visualization.png"></a></p>
+<p><a href="#R-image-36c929becdd2914ba1a9ba0af651bde2" class="lightbox-link"><img alt="Mystery Bentos Balance on Seesaw" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/seesaw_visualization.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-36c929becdd2914ba1a9ba0af651bde2"><img alt="Mystery Bentos Balance on Seesaw" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/seesaw_visualization.png"></a></p>
 <p><strong>The expected value E[X] = 455g is the unique position where the distribution balances.</strong></p>
 <p>Think of it like a seesaw at a playground:</p>
 <ul>
@@ -779,8 +780,8 @@ $$E[X] = 0.7 \times 500 + 0.3 \times 350 = 455\text{g}$$</p>
 </div>
 </div>
 </details>
-<p><a href="#R-image-4bc37979efeafa6de37d02357a28d57e" class="lightbox-link"><img alt="10,000 Simulated Mystery Bentos" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/simulation_validation.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-4bc37979efeafa6de37d02357a28d57e"><img alt="10,000 Simulated Mystery Bentos" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/simulation_validation.png"></a></p>
+<p><a href="#R-image-14dd08a4032983f49b5846166dc32455" class="lightbox-link"><img alt="10,000 Simulated Mystery Bentos" class="lazy lightbox figure-image" loading="lazy" src="../../images/intro2/simulation_validation.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-14dd08a4032983f49b5846166dc32455"><img alt="10,000 Simulated Mystery Bentos" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/intro2/simulation_validation.png"></a></p>
 <p><strong>Output:</strong></p>
 <div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>Observed average: 455.5g
 Theoretical E[X]: 455.0g
@@ -1023,7 +1024,8 @@ Bento 5: Hamburger  → 350g</code></pre></div>
 <p>And another thing: the weights aren&rsquo;t <strong>exactly</strong> 500g and 350g. They vary! Some tonkatsu bentos weigh 520g, others 485g. Why?</p>
 <p>Chibany realizes:</p>
 <blockquote>
-<p><strong>Discrete categories aren&rsquo;t enough. Weight is CONTINUOUS.</strong></p></blockquote>
+<p><strong>Discrete categories aren&rsquo;t enough. Weight is CONTINUOUS.</strong></p>
+</blockquote>
 <p>There aren&rsquo;t just two possible values (350g and 500g). There are <strong>infinitely many</strong> possible weights between 340g and 520g.</p>
 <p>The histogram shows this: the data has <strong>spread</strong> within each category.</p>
 <p>To handle this, Chibany needs a new kind of probability: <strong>continuous probability distributions</strong>.</p>
@@ -1235,9 +1237,9 @@ $$E[\text{total of 10}] = 10 \times 455 = 4550\text{g}$$</p>
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764909664"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764909664" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764909664" defer></script>
-    <script src="/probintro/js/theme.js?1764909664" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765594244"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1765594244" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765594244" defer></script>
+    <script src="/probintro/js/theme.js?1765594244" defer></script>
   </body>
 </html>

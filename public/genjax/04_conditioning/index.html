@@ -3,7 +3,7 @@
   <head><script src="/probintro/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=probintro/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="generator" content="Hugo 0.152.2">
     <meta name="generator" content="Relearn 8.0.0+9803d5122ebb3276acea823f476e9eb44f607862">
     <meta name="description" content="From Simulation to Inference So far, we’ve used GenJAX to generate outcomes — simulating what could happen.
 Now we’ll learn to infer — reasoning backwards from observations to causes.
@@ -31,29 +31,29 @@ This is the heart of probabilistic programming!
 Now we’ll learn to infer — reasoning backwards from observations to causes.
 This is the heart of probabilistic programming!
 📓 Interactive Notebook Available Prefer hands-on learning? This chapter has a companion Jupyter notebook - Open in Colab that walks through Bayesian inference interactively with working code, visualizations, and exercises. You can work through the notebook first, then return here for the detailed explanations, or use them side-by-side!">
-    <meta itemprop="wordCount" content="3248">
+    <meta itemprop="wordCount" content="3721">
     <title>Conditioning and Inference :: Probability &amp; Probabilistic Computing Tutorial</title>
-    <link href="/probintro/images/favicon.png?1764909664" rel="icon" type="image/png">
-    <link href="/probintro/css/auto-complete/auto-complete.min.css?1764909664" rel="stylesheet">
-    <script src="/probintro/js/auto-complete/auto-complete.min.js?1764909664" defer></script>
-    <script src="/probintro/js/search-lunr.js?1764909664" defer></script>
-    <script src="/probintro/js/search.js?1764909664" defer></script>
+    <link href="/probintro/images/favicon.png?1765594244" rel="icon" type="image/png">
+    <link href="/probintro/css/auto-complete/auto-complete.min.css?1765594244" rel="stylesheet">
+    <script src="/probintro/js/auto-complete/auto-complete.min.js?1765594244" defer></script>
+    <script src="/probintro/js/search-lunr.js?1765594244" defer></script>
+    <script src="/probintro/js/search.js?1765594244" defer></script>
     <script>
       window.relearn = window.relearn || {};
-      window.relearn.index_js_url="/probintro/searchindex.en.js?1764909664";
+      window.relearn.index_js_url="/probintro/searchindex.en.js?1765594244";
     </script>
-    <script src="/probintro/js/lunr/lunr.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.multi.min.js?1764909664" defer></script>
-    <script src="/probintro/js/lunr/lunr.en.min.js?1764909664" defer></script>
+    <script src="/probintro/js/lunr/lunr.min.js?1765594244" defer></script>
+    <script src="/probintro/js/lunr/lunr.stemmer.support.min.js?1765594244" defer></script>
+    <script src="/probintro/js/lunr/lunr.multi.min.js?1765594244" defer></script>
+    <script src="/probintro/js/lunr/lunr.en.min.js?1765594244" defer></script>
     <script>
       window.relearn = window.relearn || {};
       window.relearn.contentLangs=['en'];
     </script>
-    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1764909664" rel="stylesheet"></noscript>
-    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/theme.css?1764909664" rel="stylesheet">
-    <link href="/probintro/css/format-html.css?1764909664" rel="stylesheet" id="R-format-style">
+    <link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765594244" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/probintro/fonts/fontawesome/css/fontawesome-all.min.css?1765594244" rel="stylesheet"></noscript>
+    <link href="/probintro/css/perfect-scrollbar/perfect-scrollbar.min.css?1765594244" rel="stylesheet">
+    <link href="/probintro/css/theme.css?1765594244" rel="stylesheet">
+    <link href="/probintro/css/format-html.css?1765594244" rel="stylesheet" id="R-format-style">
     <script>
       window.relearn = window.relearn || {};
       // configuration
@@ -150,8 +150,7 @@ This is the heart of probabilistic programming!
     </li>
     <li><a href="#approach-2-using-generate-with-observations">Approach 2: Using <code>generate()</code> with Observations</a>
       <ul>
-        <li><a href="#creating-a-choice-map">Creating a Choice Map</a></li>
-        <li><a href="#generating-conditional-traces">Generating Conditional Traces</a></li>
+        <li><a href="#creating-a-choice-map-and-generating-conditional-traces">Creating a Choice Map and Generating Conditional Traces</a></li>
       </ul>
     </li>
     <li><a href="#theoretical-verification">Theoretical Verification</a></li>
@@ -219,8 +218,8 @@ This is the heart of probabilistic programming!
 <p>So far, we&rsquo;ve used GenJAX to <strong>generate</strong> outcomes — simulating what could happen.</p>
 <p>Now we&rsquo;ll learn to <strong>infer</strong> — reasoning backwards from observations to causes.</p>
 <p>This is the heart of probabilistic programming!</p>
-<p><a href="#R-image-24585a0077e3743a58e559fad4f12d3f" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-24585a0077e3743a58e559fad4f12d3f"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
+<p><a href="#R-image-d883c61d7e2c8fe3b46bb72b11c51a4d" class="lightbox-link"><img alt="Chibany thinking" class="lazy lightbox figure-image" loading="lazy" src="/probintro/images/chibanylayingdown.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-d883c61d7e2c8fe3b46bb72b11c51a4d"><img alt="Chibany thinking" class="lazy lightbox lightbox-image" loading="lazy" src="/probintro/images/chibanylayingdown.png"></a></p>
 
 <details open class=" box cstyle notices tip">
   <summary class="box-label" tabindex="-1">
@@ -235,7 +234,8 @@ This is the heart of probabilistic programming!
 <h2 id="recall-conditional-probability">Recall: Conditional Probability</h2>
 <p>From the probability tutorial, remember <strong>conditional probability</strong>:</p>
 <blockquote>
-<p><strong>&ldquo;Given that I observed $B$, what&rsquo;s the probability of $A$?&rdquo;</strong></p></blockquote>
+<p><strong>&ldquo;Given that I observed $B$, what&rsquo;s the probability of $A$?&rdquo;</strong></p>
+</blockquote>
 <p><strong>Written:</strong> $P(A \mid B)$</p>
 <p><strong>Meaning:</strong> Restrict the outcome space to only outcomes in $B$, then calculate the probability of $A$ within that restricted space.</p>
 <p><strong>Formula:</strong> $P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{|A \cap B|}{|B|}$</p>
@@ -310,6 +310,8 @@ This is the heart of probabilistic programming!
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
@@ -328,11 +330,13 @@ This is the heart of probabilistic programming!
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        True if taxi is blue, False if green
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># True taxi color (blue = 1, green = 0)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># True taxi color</span>
 </span></span><span style="display:flex;"><span>    is_blue <span style="color:#f92672">=</span> flip(base_rate_blue) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;is_blue&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># What Chibany says depends on the true color</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use jnp.where for JAX compatibility</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Model: What does Chibany say?</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Probability of saying &#34;blue&#34; depends on the true color:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># - If blue: says &#34;blue&#34; with probability = accuracy (correct identification)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># - If green: says &#34;blue&#34; with probability = (1 - accuracy) (mistake)</span>
 </span></span><span style="display:flex;"><span>    says_blue_prob <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>where(is_blue, accuracy, <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> accuracy)
 </span></span><span style="display:flex;"><span>    says_blue <span style="color:#f92672">=</span> flip(says_blue_prob) <span style="color:#f92672">@</span> <span style="color:#e6db74">&#34;says_blue&#34;</span>
 </span></span><span style="display:flex;"><span>
@@ -381,7 +385,7 @@ This is the heart of probabilistic programming!
 <p><strong>The structure is identical:</strong></p>
 <ul>
 <li><code>is_blue = flip(0.15)</code> → Prior: $P(\text{blue})$</li>
-<li><code>says_blue_prob = jnp.where(is_blue, 0.80, 0.20)</code> → Likelihood: $P(\text{says blue} \mid \text{blue})$</li>
+<li><code>says_blue_prob = jnp.where(is_blue, accuracy, 1 - accuracy)</code> → Likelihood: $P(\text{says blue} \mid \text{blue})$</li>
 <li>GenJAX conditioning → Computes posterior: $P(\text{blue} \mid \text{says blue})$</li>
 </ul>
 <p><strong>Key insight:</strong> GenJAX does all the Bayes&rsquo; Theorem algebra for you! You just write the generative story (prior + likelihood), and conditioning gives you the posterior.</p>
@@ -428,7 +432,7 @@ This is the heart of probabilistic programming!
       <tr>
           <td><strong>Likelihood</strong></td>
           <td>$P(E \mid H)$</td>
-          <td><code>jnp.where(is_blue, 0.80, 0.20)</code></td>
+          <td><code>jnp.where(is_blue, accuracy, 1-accuracy)</code></td>
       </tr>
       <tr>
           <td><strong>Evidence</strong></td>
@@ -443,7 +447,7 @@ This is the heart of probabilistic programming!
       <tr>
           <td><strong>Observation</strong></td>
           <td>$E$ = &ldquo;says blue&rdquo;</td>
-          <td><code>ChoiceMap.d({&quot;says_blue&quot;: 1})</code></td>
+          <td><code>ChoiceMap.d({&quot;says_blue&quot;: True})</code></td>
       </tr>
       <tr>
           <td><strong>Inference Query</strong></td>
@@ -618,23 +622,8 @@ This is the heart of probabilistic programming!
 <hr>
 <h2 id="approach-2-using-generate-with-observations">Approach 2: Using <code>generate()</code> with Observations</h2>
 <p>Now let&rsquo;s use GenJAX&rsquo;s built-in conditioning. This is usually more convenient!</p>
-<h3 id="creating-a-choice-map">Creating a Choice Map</h3>
-<p>A <strong>choice map</strong> is a dictionary specifying values for named random choices:</p>
-<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Specify that Chibany says &#34;blue&#34;</span>
-</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#ae81ff">1</span>})</span></span></code></pre></td></tr></table>
-</div>
-</div>
-<h3 id="generating-conditional-traces">Generating Conditional Traces</h3>
+<h3 id="creating-a-choice-map-and-generating-conditional-traces">Creating a Choice Map and Generating Conditional Traces</h3>
+<p>A <strong>choice map</strong> is a dictionary specifying values for named random choices. We use it to condition the model on observations:</p>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -650,26 +639,92 @@ This is the heart of probabilistic programming!
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Generate 10,000 traces conditional on observation</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Specify that Chibany says &#34;blue&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Note: flip() returns boolean values, so we use True/False</span>
+</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#66d9ef">True</span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate 10,000 traces conditional on observation</span>
 </span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_conditional</span>(k):
 </span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.80</span>))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()  <span style="color:#75715e"># Returns is_blue</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval(), weight  <span style="color:#75715e"># Return both value and weight</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>posterior_samples <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_conditional)(keys)
+</span></span><span style="display:flex;"><span>results <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_conditional)(keys)
+</span></span><span style="display:flex;"><span>is_blue_samples <span style="color:#f92672">=</span> results[<span style="color:#ae81ff">0</span>]  <span style="color:#75715e"># The sampled values</span>
+</span></span><span style="display:flex;"><span>weights <span style="color:#f92672">=</span> results[<span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># The importance weights (log probabilities)</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate posterior probability</span>
-</span></span><span style="display:flex;"><span>prob_blue_posterior <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_samples)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># IMPORTANT: Use importance sampling with weights!</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Normalize weights (convert from log space and normalize)</span>
+</span></span><span style="display:flex;"><span>normalized_weights <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>exp(weights <span style="color:#f92672">-</span> jnp<span style="color:#f92672">.</span>max(weights))
+</span></span><span style="display:flex;"><span>normalized_weights <span style="color:#f92672">=</span> normalized_weights <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(normalized_weights)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate weighted posterior probability</span>
+</span></span><span style="display:flex;"><span>prob_blue_posterior <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(is_blue_samples <span style="color:#f92672">*</span> normalized_weights)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Blue | says Blue) ≈ </span><span style="color:#e6db74">{</span>prob_blue_posterior<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
 </div>
 <p><strong>Output:</strong></p>
 <div class="highlight wrap-code" dir="auto"><pre tabindex="0"><code>P(Blue | says Blue) ≈ 0.414</code></pre></div>
 <p><strong>Same answer!</strong> Both methods work — <code>generate()</code> is just more convenient.</p>
+
+<details open class=" box cstyle notices warning">
+  <summary class="box-label" tabindex="-1">
+    <i class="fa-fw fas fa-exclamation-triangle"></i> 
+    ⚠️ Critical: Always Use the Weights!
+  </summary>
+  <div class="box-content">
+<p>When using <code>generate()</code> with conditioning, you <strong>must</strong> use the importance weights returned!</p>
+<p><strong>Why?</strong> When GenJAX generates traces conditional on observations, different traces have different probabilities. The <code>weight</code> tells you how likely each trace is. Simply averaging without weights gives you the <strong>prior</strong> (what you believed before seeing the evidence), not the <strong>posterior</strong> (what you should believe after seeing the evidence).</p>
+<p><strong>Correct approach:</strong></p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Return BOTH value and weight</span>
+</span></span><span style="display:flex;"><span>trace, weight <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>generate(key, observation, args)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Then use weighted average with normalized weights</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>Incorrect approach</strong> (gives wrong answer):</p>
+<div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Only returning value, ignoring weight</span>
+</span></span><span style="display:flex;"><span>trace, weight <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>generate(key, observation, args)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()  <span style="color:#75715e"># ❌ Discarding weight!</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Then simple average → gives prior, not posterior!</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p>This is the essence of <strong>importance sampling</strong> - a fundamental inference technique in probabilistic programming.</p>
+  </div>
+</details>
 
 <details open class=" box cstyle notices info">
   <summary class="box-label" tabindex="-1">
@@ -853,8 +908,8 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </div>
 </div>
 <p><strong>Key insight:</strong> Evidence increased our belief in blue from 15% to 41%, but <strong>still not even 50%</strong> because the base rate is so strong!</p>
-<p><a href="#R-image-3410405151d106ab528ea91653160327" class="lightbox-link"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-3410405151d106ab528ea91653160327"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png"></a></p>
+<p><a href="#R-image-8d33162d0994c362dfee7a7f39a3dedc" class="lightbox-link"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-8d33162d0994c362dfee7a7f39a3dedc"><img alt="Prior vs Posterior probability distributions" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_prior_posterior.png"></a></p>
 <hr>
 <h2 id="exploring-base-rate-effects">Exploring Base Rate Effects</h2>
 <p>Let&rsquo;s see how changing the base rate affects the answer.</p>
@@ -872,17 +927,31 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#ae81ff">1</span>})
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#66d9ef">True</span>})
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_equal_base</span>(k):
 </span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.50</span>, <span style="color:#ae81ff">0.80</span>))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval(), weight
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
-</span></span><span style="display:flex;"><span>posterior_equal <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_equal_base)(keys)
-</span></span><span style="display:flex;"><span>prob_equal <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_equal)
+</span></span><span style="display:flex;"><span>results_equal <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_equal_base)(keys)
+</span></span><span style="display:flex;"><span>weights_equal <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>exp(results_equal[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> jnp<span style="color:#f92672">.</span>max(results_equal[<span style="color:#ae81ff">1</span>]))
+</span></span><span style="display:flex;"><span>weights_equal <span style="color:#f92672">=</span> weights_equal <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(weights_equal)
+</span></span><span style="display:flex;"><span>prob_equal <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(results_equal[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> weights_equal)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;If 50% blue: P(Blue | says Blue) = </span><span style="color:#e6db74">{</span>prob_equal<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
@@ -893,22 +962,26 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 <h3 id="scenario-2-mostly-blue-85-blue-15-green">Scenario 2: Mostly Blue (85% blue, 15% green)</h3>
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_mostly_blue</span>(k):
 </span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.85</span>, <span style="color:#ae81ff">0.80</span>))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval(), weight
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>posterior_mostly_blue <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_mostly_blue)(keys)
-</span></span><span style="display:flex;"><span>prob_mostly_blue <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_mostly_blue)
+</span></span><span style="display:flex;"><span>results_mostly_blue <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_mostly_blue)(keys)
+</span></span><span style="display:flex;"><span>weights_mostly_blue <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>exp(results_mostly_blue[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> jnp<span style="color:#f92672">.</span>max(results_mostly_blue[<span style="color:#ae81ff">1</span>]))
+</span></span><span style="display:flex;"><span>weights_mostly_blue <span style="color:#f92672">=</span> weights_mostly_blue <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(weights_mostly_blue)
+</span></span><span style="display:flex;"><span>prob_mostly_blue <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(results_mostly_blue[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> weights_mostly_blue)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;If 85% blue: P(Blue | says Blue) = </span><span style="color:#e6db74">{</span>prob_mostly_blue<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
@@ -946,20 +1019,44 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Test different base rates</span>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> jax.numpy <span style="color:#66d9ef">as</span> jnp
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> genjax <span style="color:#f92672">import</span> ChoiceMap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#66d9ef">True</span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test different base rates</span>
 </span></span><span style="display:flex;"><span>base_rates <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0.01</span>, <span style="color:#ae81ff">0.99</span>, <span style="color:#ae81ff">50</span>)
 </span></span><span style="display:flex;"><span>posteriors <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> rate <span style="color:#f92672">in</span> base_rates:
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_with_rate</span>(k):
 </span></span><span style="display:flex;"><span>        trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (float(rate), <span style="color:#ae81ff">0.80</span>))
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval(), weight
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">1000</span>)
-</span></span><span style="display:flex;"><span>    post <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_with_rate)(keys)
-</span></span><span style="display:flex;"><span>    posteriors<span style="color:#f92672">.</span>append(jnp<span style="color:#f92672">.</span>mean(post))
+</span></span><span style="display:flex;"><span>    results <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_with_rate)(keys)
+</span></span><span style="display:flex;"><span>    samples, weights <span style="color:#f92672">=</span> results[<span style="color:#ae81ff">0</span>], results[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use importance sampling</span>
+</span></span><span style="display:flex;"><span>    normalized_weights <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>exp(weights <span style="color:#f92672">-</span> jnp<span style="color:#f92672">.</span>max(weights))
+</span></span><span style="display:flex;"><span>    normalized_weights <span style="color:#f92672">=</span> normalized_weights <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(normalized_weights)
+</span></span><span style="display:flex;"><span>    posteriors<span style="color:#f92672">.</span>append(jnp<span style="color:#f92672">.</span>sum(samples <span style="color:#f92672">*</span> normalized_weights))
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Plot</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">6</span>))
@@ -977,9 +1074,15 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()</span></span></code></pre></td></tr></table>
 </div>
 </div>
-<p><strong>The graph shows:</strong> Even with high accuracy (80%), the posterior depends heavily on the base rate!</p>
-<p><a href="#R-image-5ccb9d135a0afea5cd4d6eb1962b4304" class="lightbox-link"><img alt="How base rates affect inference" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png" style=" height: auto; width: auto;"></a>
-<a href="javascript:history.back();" class="lightbox-back" id="R-image-5ccb9d135a0afea5cd4d6eb1962b4304"><img alt="How base rates affect inference" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png"></a></p>
+<p><strong>The graph shows a sigmoidal (S-shaped) curve:</strong></p>
+<ul>
+<li><strong>Low base rates</strong> (e.g., 1%): Even with a positive witness, posterior stays low (~4%)</li>
+<li><strong>Medium base rates</strong> (e.g., 50%): Steep rise - evidence has maximum impact (~80%)</li>
+<li><strong>High base rates</strong> (e.g., 99%): Posterior approaches certainty (~99.7%)</li>
+</ul>
+<p>The curve shows: <strong>Even with 80% accuracy, the posterior depends heavily on the base rate!</strong></p>
+<p><a href="#R-image-959eea2adb1226edd510bb68a1e66280" class="lightbox-link"><img alt="How base rates affect inference" class="lazy lightbox figure-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png" style=" height: auto; width: auto;"></a>
+<a href="javascript:history.back();" class="lightbox-back" id="R-image-959eea2adb1226edd510bb68a1e66280"><img alt="How base rates affect inference" class="lazy lightbox lightbox-image" loading="lazy" src="../../images/genjax/taxicab_base_rate_effect.png"></a></p>
 
 <details open class=" box cstyle notices " style=";--VARIABLE-BOX-color: success">
   <summary class="box-label" tabindex="-1">
@@ -1075,6 +1178,12 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> jax
@@ -1094,7 +1203,7 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_blue
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Observation: Chibany says &#34;blue&#34;</span>
-</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#ae81ff">1</span>})
+</span></span><span style="display:flex;"><span>observation <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#66d9ef">True</span>})
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate posterior samples</span>
 </span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
@@ -1102,10 +1211,16 @@ P(Blue | says Blue) = 0.414</code></pre></div>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_inference</span>(k):
 </span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.80</span>))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval(), weight
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>posterior_samples <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_inference)(keys)
-</span></span><span style="display:flex;"><span>prob_blue <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_samples)
+</span></span><span style="display:flex;"><span>results <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_inference)(keys)
+</span></span><span style="display:flex;"><span>is_blue_samples <span style="color:#f92672">=</span> results[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>weights <span style="color:#f92672">=</span> results[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Use importance sampling with weights</span>
+</span></span><span style="display:flex;"><span>normalized_weights <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>exp(weights <span style="color:#f92672">-</span> jnp<span style="color:#f92672">.</span>max(weights))
+</span></span><span style="display:flex;"><span>normalized_weights <span style="color:#f92672">=</span> normalized_weights <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(normalized_weights)
+</span></span><span style="display:flex;"><span>prob_blue <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(is_blue_samples <span style="color:#f92672">*</span> normalized_weights)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;=== TAXICAB INFERENCE ===&#34;</span>)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Base rate: 15% blue&#34;</span>)
@@ -1147,24 +1262,30 @@ P(Blue | says Blue) = 0.414</code></pre></div>
   <div class="box-content">
 <div class="highlight wrap-code" dir="auto"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_high_accuracy</span>(k):
 </span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.95</span>))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval(), weight
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
-</span></span><span style="display:flex;"><span>posterior_high_acc <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_high_accuracy)(keys)
-</span></span><span style="display:flex;"><span>prob_high_acc <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_high_acc)
+</span></span><span style="display:flex;"><span>results_high_acc <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_high_accuracy)(keys)
+</span></span><span style="display:flex;"><span>weights_high_acc <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>exp(results_high_acc[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> jnp<span style="color:#f92672">.</span>max(results_high_acc[<span style="color:#ae81ff">1</span>]))
+</span></span><span style="display:flex;"><span>weights_high_acc <span style="color:#f92672">=</span> weights_high_acc <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(weights_high_acc)
+</span></span><span style="display:flex;"><span>prob_high_acc <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(results_high_acc[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> weights_high_acc)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;With 95% accuracy: P(Blue | says Blue) = </span><span style="color:#e6db74">{</span>prob_high_acc<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
@@ -1200,18 +1321,24 @@ $$P = \frac{0.95 \times 0.15}{0.95 \times 0.15 + 0.05 \times 0.85} = \frac{0.142
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Observation: says &#34;green&#34;</span>
-</span></span><span style="display:flex;"><span>observation_green <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#ae81ff">0</span>})
+</span></span><span style="display:flex;"><span>observation_green <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;says_blue&#34;</span>: <span style="color:#66d9ef">False</span>})
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_says_green</span>(k):
 </span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_model<span style="color:#f92672">.</span>generate(k, observation_green, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.80</span>))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval(), weight
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
-</span></span><span style="display:flex;"><span>posterior_green <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_says_green)(keys)
-</span></span><span style="display:flex;"><span>prob_blue_given_green <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_green)
+</span></span><span style="display:flex;"><span>results_green <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_says_green)(keys)
+</span></span><span style="display:flex;"><span>weights_green <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>exp(results_green[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> jnp<span style="color:#f92672">.</span>max(results_green[<span style="color:#ae81ff">1</span>]))
+</span></span><span style="display:flex;"><span>weights_green <span style="color:#f92672">=</span> weights_green <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(weights_green)
+</span></span><span style="display:flex;"><span>prob_blue_given_green <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(results_green[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> weights_green)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Blue | says Green) = </span><span style="color:#e6db74">{</span>prob_blue_given_green<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
@@ -1262,6 +1389,9 @@ $$P = \frac{0.20 \times 0.15}{0.20 \times 0.15 + 0.80 \times 0.85} = \frac{0.03}
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@gen</span>
@@ -1280,15 +1410,18 @@ $$P = \frac{0.20 \times 0.15}{0.20 \times 0.15 + 0.80 \times 0.85} = \frac{0.03}
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> is_blue
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Both say &#34;blue&#34;</span>
-</span></span><span style="display:flex;"><span>observation_two <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;witness1&#34;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;witness2&#34;</span>: <span style="color:#ae81ff">1</span>})
+</span></span><span style="display:flex;"><span>observation_two <span style="color:#f92672">=</span> ChoiceMap<span style="color:#f92672">.</span>d({<span style="color:#e6db74">&#34;witness1&#34;</span>: <span style="color:#66d9ef">True</span>, <span style="color:#e6db74">&#34;witness2&#34;</span>: <span style="color:#66d9ef">True</span>})
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_two_witnesses</span>(k):
 </span></span><span style="display:flex;"><span>    trace, weight <span style="color:#f92672">=</span> taxicab_two_witnesses<span style="color:#f92672">.</span>generate(k, observation_two, (<span style="color:#ae81ff">0.15</span>, <span style="color:#ae81ff">0.80</span>))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> trace<span style="color:#f92672">.</span>get_retval(), weight
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>key(<span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>keys <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>split(key, <span style="color:#ae81ff">10000</span>)
-</span></span><span style="display:flex;"><span>posterior_two <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_two_witnesses)(keys)
-</span></span><span style="display:flex;"><span>prob_two <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>mean(posterior_two)
+</span></span><span style="display:flex;"><span>results_two <span style="color:#f92672">=</span> jax<span style="color:#f92672">.</span>vmap(run_two_witnesses)(keys)
+</span></span><span style="display:flex;"><span>weights_two <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>exp(results_two[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> jnp<span style="color:#f92672">.</span>max(results_two[<span style="color:#ae81ff">1</span>]))
+</span></span><span style="display:flex;"><span>weights_two <span style="color:#f92672">=</span> weights_two <span style="color:#f92672">/</span> jnp<span style="color:#f92672">.</span>sum(weights_two)
+</span></span><span style="display:flex;"><span>prob_two <span style="color:#f92672">=</span> jnp<span style="color:#f92672">.</span>sum(results_two[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> weights_two)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;P(Blue | both say Blue) = </span><span style="color:#e6db74">{</span>prob_two<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></td></tr></table>
 </div>
@@ -1436,9 +1569,9 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
         }
       }, JSON.parse("{}") );
     </script>
-    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1764909664"></script>
-    <script src="/probintro/js/clipboard/clipboard.min.js?1764909664" defer></script>
-    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1764909664" defer></script>
-    <script src="/probintro/js/theme.js?1764909664" defer></script>
+    <script id="MathJax-script" async src="/probintro/js/mathjax/tex-mml-chtml.js?1765594244"></script>
+    <script src="/probintro/js/clipboard/clipboard.min.js?1765594244" defer></script>
+    <script src="/probintro/js/perfect-scrollbar/perfect-scrollbar.min.js?1765594244" defer></script>
+    <script src="/probintro/js/theme.js?1765594244" defer></script>
   </body>
 </html>

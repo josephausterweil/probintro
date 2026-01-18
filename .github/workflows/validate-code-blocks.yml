@@ -1,0 +1,35 @@
+name: Validate Code Blocks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Validate code blocks
+      run: python validate_code_blocks.py
+    
+    - name: Report status
+      if: always()
+      run: |
+        if [ $? -eq 0 ]; then
+          echo "✅ All code blocks validated successfully"
+        else
+          echo "❌ Code validation failed"
+          exit 1
+        fi
