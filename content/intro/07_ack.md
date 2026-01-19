@@ -11,5 +11,24 @@ Thanks to [amplifier](https://github.com/microsoft/amplifier), which was used to
 
 Please reach out to Joe via email if you have any constructive feedback (anything from X could be more clear or this is a great resource I will share with my class).
 
+---
+
+## Resources
+
+**GenJAX Documentation:**
+- Official docs: [gen.dev](https://gen.dev)
+- More examples: [GenJAX GitHub](https://github.com/probcomp/genjax)
+
+**Probability Theory:**
+- This tutorial's probability chapters!
+- "Probabilistic Programming & Bayesian Methods for Hackers" (free online)
+- "Think Bayes" by Allen Downey (beginner-friendly)
+
+**Community:**
+- GenJAX Discourse: Ask questions, share models
+- Probabilistic Programming Slack: Connect with practitioners
+
+---
+
 |[prev: glossary](./06_glossary.md) | |
 | :--- | ---: |

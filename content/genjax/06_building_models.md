@@ -876,32 +876,39 @@ Probabilistic programming is a **superpower**:
 
 ---
 
-## Resources
+## Chapter Complete!
 
-**GenJAX Documentation:**
-- Official docs: [gen.dev](https://gen.dev)
-- More examples: [GenJAX GitHub](https://github.com/probcomp/genjax)
+You've learned how to build your own probabilistic models from scratch. This is the final chapter of the GenJAX programming tutorial.
 
-**Probability Theory:**
-- This tutorial's probability chapters!
-- "Probabilistic Programming & Bayesian Methods for Hackers" (free online)
-- "Think Bayes" by Allen Downey (beginner-friendly)
+**What you accomplished in this tutorial:**
+- Set up your GenJAX environment
+- Learned essential Python for probabilistic programming
+- Built generative models with the `@gen` decorator
+- Understood traces and how GenJAX records execution
+- Conditioned models on observations
+- Performed inference to answer probabilistic questions
+- Created complete models for real-world problems
 
-**Community:**
-- GenJAX Discourse: Ask questions, share models
-- Probabilistic Programming Slack: Connect with practitioners
-
----
-
-## You Did It!
-
-**Congratulations on completing the GenJAX tutorial!**
-
-You've gone from "what is GenJAX?" to building complete probabilistic models. That's no small feat!
-
-**Now go build something amazing.** 🚀
+**You're ready for the next step!**
 
 ---
 
-|[← Previous: Inference in Action](./05_inference.md) | [Back to Introduction →](./index.md)|
+## What's Next: Continuous Probability & Bayesian Learning
+
+So far, you've worked with **discrete** random variables (coin flips, categories, yes/no outcomes). But many real-world quantities are **continuous** — heights, temperatures, waiting times.
+
+In **Tutorial 3: Continuous Probability & Bayesian Learning**, you'll:
+
+- Work with continuous distributions (normal, exponential, etc.)
+- Learn about Bayesian updating with continuous parameters
+- Build mixture models for clustering
+- Explore the Dirichlet Process for infinite mixtures
+
+**The probabilistic programming skills you've learned here will transfer directly!**
+
+[**Continue to Tutorial 3: Continuous Probability →**](/probintro/intro2/)
+
+---
+
+|[← Previous: Inference in Action](./05_inference.md) | [Tutorial 3: Continuous Probability →](/probintro/intro2/)|
 | :--- | ---: |
