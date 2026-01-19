@@ -495,38 +495,38 @@ This is why doctors don't diagnose based on symptoms alone — they need confirm
 
 1. **Name everything clearly**
    ```python
-   # Good
-   is_diseased = flip(0.01) @ "is_diseased"
+# Good
+is_diseased = flip(0.01) @ "is_diseased"
 
-   # Bad
-   x = flip(0.01) @ "x"
+# Bad
+x = flip(0.01) @ "x"
    ```
 
 2. **Use meaningful parameters**
    ```python
-   # Good
-   @gen
-   def model(disease_prevalence=0.01, test_accuracy=0.95):
-       ...
+# Good
+@gen
+def model(disease_prevalence=0.01, test_accuracy=0.95):
+    ...
 
-   # Bad
-   @gen
-   def model(p1=0.01, p2=0.95):
-       ...
+# Bad
+@gen
+def model(p1=0.01, p2=0.95):
+    ...
    ```
 
 3. **Document your model**
    ```python
-   @gen
-   def weather_mood(sunny_prior=0.7):
-       """Model how weather affects mood.
+@gen
+def weather_mood(sunny_prior=0.7):
+    """Model how weather affects mood.
 
-       Args:
-           sunny_prior: Base rate of sunny days (default 0.7)
+    Args:
+        sunny_prior: Base rate of sunny days (default 0.7)
 
-       Returns:
-           is_sunny: Whether it's sunny today
-       """
+    Returns:
+        is_sunny: Whether it's sunny today
+    """
    ```
 
 4. **Start simple, add complexity**
@@ -545,22 +545,22 @@ This is why doctors don't diagnose based on symptoms alone — they need confirm
 
 1. **Don't forget to name random choices**
    ```python
-   # Bad — can't condition on this!
-   x = flip(0.5)
+# Bad — can't condition on this!
+x = flip(0.5)
 
-   # Good
-   x = flip(0.5) @ "x"
+# Good
+x = flip(0.5) @ "x"
    ```
 
 2. **Don't use the same name twice**
    ```python
-   # Bad — name collision!
-   flip1 = flip(0.5) @ "flip"
-   flip2 = flip(0.5) @ "flip"  # ERROR!
+# Bad — name collision!
+flip1 = flip(0.5) @ "flip"
+flip2 = flip(0.5) @ "flip"  # ERROR!
 
-   # Good — unique names
-   flip1 = flip(0.5) @ "flip_1"
-   flip2 = flip(0.5) @ "flip_2"
+# Good — unique names
+flip1 = flip(0.5) @ "flip_1"
+flip2 = flip(0.5) @ "flip_2"
    ```
 
 3. **Don't overthink distributions**
