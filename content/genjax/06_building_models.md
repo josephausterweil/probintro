@@ -493,17 +493,19 @@ This is why doctors don't diagnose based on symptoms alone — they need confirm
 
 ### ✅ DO
 
-1. **Name everything clearly**
-   ```python
+#### 1. Name everything clearly
+
+```python
 # Good
 is_diseased = flip(0.01) @ "is_diseased"
 
 # Bad
 x = flip(0.01) @ "x"
-   ```
+```
 
-2. **Use meaningful parameters**
-   ```python
+#### 2. Use meaningful parameters
+
+```python
 # Good
 @gen
 def model(disease_prevalence=0.01, test_accuracy=0.95):
@@ -513,10 +515,11 @@ def model(disease_prevalence=0.01, test_accuracy=0.95):
 @gen
 def model(p1=0.01, p2=0.95):
     ...
-   ```
+```
 
-3. **Document your model**
-   ```python
+#### 3. Document your model
+
+```python
 @gen
 def weather_mood(sunny_prior=0.7):
     """Model how weather affects mood.
@@ -527,33 +530,37 @@ def weather_mood(sunny_prior=0.7):
     Returns:
         is_sunny: Whether it's sunny today
     """
-   ```
+```
 
-4. **Start simple, add complexity**
-   - Build the simplest model first
-   - Verify it works
-   - Add features incrementally
+#### 4. Start simple, add complexity
 
-5. **Test edge cases**
-   - What if parameters are 0? 1?
-   - What if all observations are the same?
-   - Does the posterior make intuitive sense?
+- Build the simplest model first
+- Verify it works
+- Add features incrementally
+
+#### 5. Test edge cases
+
+- What if parameters are 0? 1?
+- What if all observations are the same?
+- Does the posterior make intuitive sense?
 
 ---
 
 ### ❌ DON'T
 
-1. **Don't forget to name random choices**
-   ```python
+#### 1. Don't forget to name random choices
+
+```python
 # Bad — can't condition on this!
 x = flip(0.5)
 
 # Good
 x = flip(0.5) @ "x"
-   ```
+```
 
-2. **Don't use the same name twice**
-   ```python
+#### 2. Don't use the same name twice
+
+```python
 # Bad — name collision!
 flip1 = flip(0.5) @ "flip"
 flip2 = flip(0.5) @ "flip"  # ERROR!
@@ -561,18 +568,20 @@ flip2 = flip(0.5) @ "flip"  # ERROR!
 # Good — unique names
 flip1 = flip(0.5) @ "flip_1"
 flip2 = flip(0.5) @ "flip_2"
-   ```
+```
 
-3. **Don't overthink distributions**
-   - `flip` covers most binary cases
-   - `normal` for continuous
-   - `categorical` for multiple choices
-   - You don't need exotic distributions to start!
+#### 3. Don't overthink distributions
 
-4. **Don't skip validation**
-   - Always generate samples first
-   - Check if outputs look reasonable
-   - Verify extreme parameter values
+- `flip` covers most binary cases
+- `normal` for continuous
+- `categorical` for multiple choices
+- You don't need exotic distributions to start!
+
+#### 4. Don't skip validation
+
+- Always generate samples first
+- Check if outputs look reasonable
+- Verify extreme parameter values
 
 ---
 
