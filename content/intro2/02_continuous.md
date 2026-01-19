@@ -1,5 +1,5 @@
 +++
-date = "2025-12-06"
+date = "2026-01-19"
 title = "The Continuum: Continuous Probability"
 weight = 2
 +++
@@ -239,6 +239,8 @@ plt.show()
 ```python
 # Continued from previous code block (requires temps array from above)
 # Calculate probabilities for ranges
+import jax.numpy as jnp
+
 prob_too_cold = jnp.mean(temps < 65)  # Below 65°C
 prob_just_right = jnp.mean((temps >= 70) & (temps <= 75))  # 70-75°C
 prob_too_hot = jnp.mean(temps > 75)  # Above 75°C

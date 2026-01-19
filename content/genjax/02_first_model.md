@@ -1,5 +1,5 @@
 +++
-date = "2025-12-06"
+date = "2026-01-19"
 title = "Your First GenJAX Model"
 weight = 3
 +++
@@ -205,6 +205,8 @@ Now let's generate 10,000 days!
 
 ```python
 # Generate 10,000 random keys
+import jax.numpy as jnp
+
 keys = jax.random.split(key, 10000)
 
 # Run the generative function for each key
@@ -291,6 +293,8 @@ Let's make a bar chart showing all four outcomes:
 import matplotlib.pyplot as plt
 
 # Count each outcome
+import jax.numpy as jnp
+
 HH = jnp.sum((days[:, 0] == 0) & (days[:, 1] == 0))
 HT = jnp.sum((days[:, 0] == 0) & (days[:, 1] == 1))
 TH = jnp.sum((days[:, 0] == 1) & (days[:, 1] == 0))
@@ -370,6 +374,8 @@ Let's connect this back to what you learned:
 
 **GenJAX:**
 ```python
+import jax.numpy as jnp
+
 has_tonkatsu = (days[:, 0] == 1) | (days[:, 1] == 1)
 prob = jnp.mean(has_tonkatsu)  # ≈ 0.75
 ```
@@ -445,6 +451,8 @@ Write code to count **how many tonkatsu** Chibany gets across all simulated days
 
 {{% expand "Solution" %}}
 ```python
+import jax.numpy as jnp
+
 total_tonkatsu = jnp.sum(days[:, 0]) + jnp.sum(days[:, 1])
 avg_per_day = total_tonkatsu / len(days)
 

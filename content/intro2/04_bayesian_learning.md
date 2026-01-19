@@ -1,5 +1,5 @@
 +++
-date = "2025-12-06"
+date = "2026-01-19"
 title = "Bayesian Learning with Gaussians"
 weight = 4
 +++
@@ -266,6 +266,8 @@ Now Chibany weighs 9 more bentos from the same supplier:
 
 ```python
 # Additional observations
+import jax.numpy as jnp
+
 all_data = [497.0, 498.5, 496.0, 499.0, 497.5, 498.0, 496.5, 497.0, 498.5, 497.5]
 
 # Start with prior
@@ -317,6 +319,8 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm as scipy_norm
 
 # Prior
+import jax.numpy as jnp
+
 x_range = jnp.linspace(490, 505, 1000)
 prior_pdf = scipy_norm.pdf(x_range, 500, 5)
 
@@ -335,6 +339,8 @@ for i, obs in enumerate(all_data):
 <summary>Click to show visualization code</summary>
 
 ```python
+import jax.numpy as jnp
+
 fig, ax = plt.subplots(figsize=(12, 6))
 
 ax.plot(x_range, prior_pdf, 'k--', linewidth=2, label='Prior: N(500, 25)')
@@ -455,6 +461,8 @@ After 10 observations, we have posterior N(497.65, 0.37):
 
 ```python
 # Posterior from before
+import jax.numpy as jnp
+
 post_mu = 497.65
 post_var = 0.37
 
@@ -588,6 +596,8 @@ Known: Each shot has variance 4 (std dev = 2ml).
 
 ```python
 # Prior
+import jax.numpy as jnp
+
 prior_mu, prior_var = 30.0, 9.0
 
 # Data
@@ -646,6 +656,8 @@ Data variance: 4.
 
 ```python
 # Strong prior
+import jax.numpy as jnp
+
 prior_mu, prior_var = 500.0, 1.0  # Very confident!
 
 # Contradictory data

@@ -1,5 +1,5 @@
 +++
-date = "2025-12-06"
+date = "2026-01-19"
 title = "The Gaussian Distribution"
 weight = 3
 +++
@@ -128,6 +128,8 @@ Perfect match! The Law of Large Numbers strikes again.
 
 ```python
 # Count how many fall within each range
+import jax.numpy as jnp
+
 within_1_sigma = jnp.sum((weights >= 498) & (weights <= 502)) / len(weights)
 within_2_sigma = jnp.sum((weights >= 496) & (weights <= 504)) / len(weights)
 within_3_sigma = jnp.sum((weights >= 494) & (weights <= 506)) / len(weights)
@@ -166,6 +168,8 @@ x = jnp.linspace(490, 510, 1000)
 <summary>Click to show visualization code</summary>
 
 ```python
+import jax.numpy as jnp
+
 def gaussian_pdf(x, mu, sigma):
     return (1 / (sigma * jnp.sqrt(2 * jnp.pi))) * \
            jnp.exp(-0.5 * ((x - mu) / sigma) ** 2)
@@ -353,6 +357,8 @@ About 6.68% of bentos weigh more than 503g.
 **Verify with simulation:**
 ```python
 # Using our GenJAX simulation from earlier
+import jax.numpy as jnp
+
 simulated_prob = jnp.mean(weights > 503)
 print(f"Simulated P(weight > 503g) = {simulated_prob:.4f}")
 ```

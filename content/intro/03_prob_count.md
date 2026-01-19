@@ -89,6 +89,8 @@ Note that if the possible outcomes were not equally likely, we would sum their i
 
 ```python
 # Generate 10,000 days
+import jax.numpy as jnp
+
 keys = jax.random.split(key, 10000)
 days = jax.vmap(lambda k: chibany_day.simulate(k, ()).get_retval())(keys)
 

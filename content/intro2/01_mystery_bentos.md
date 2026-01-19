@@ -524,6 +524,8 @@ Let's simulate 1000 bentos and calculate the average weight, just like Chibany's
 import jax.random as random
 
 # Create a random key (GenJAX requires explicit randomness)
+import jax.numpy as jnp
+
 key = random.PRNGKey(42)
 
 # Simulate 1000 bentos

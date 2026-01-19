@@ -148,6 +148,8 @@ Code: has_disease = flip(0.01) @ "disease"
 **Example:** Coin flips
 
 ```python
+import jax.numpy as jnp
+
 @gen
 def coin_flips(n_flips, bias=0.5):
     """Generate n independent coin flips."""
@@ -250,6 +252,8 @@ Estimated bias: 0.69
 **Example:** Weather affects mood
 
 ```python
+import jax.numpy as jnp
+
 @gen
 def mood_model():
     """Weather affects Chibany's mood."""
@@ -321,6 +325,8 @@ $$P = \frac{0.9 \times 0.7}{0.72} = \frac{0.63}{0.72} \approx 0.875$$
 **Example:** Chibany's weekly meals
 
 ```python
+import jax.numpy as jnp
+
 @gen
 def weekly_meals(days=7):
     """Model a week of meals with memory."""
@@ -357,6 +363,8 @@ def weekly_meals(days=7):
 **Example:** Two types of days (weekday vs weekend). Chibany doesn't know what day it is. Bentos on the weekend are much more likely to have tonkatsu.
 
 ```python
+import jax.numpy as jnp
+
 @gen
 def mixed_days():
     """Different behavior on weekends vs weekdays."""
@@ -405,6 +413,8 @@ Let's build a realistic example from scratch.
 ### Step 3: Write the Model
 
 ```python
+import jax.numpy as jnp
+
 @gen
 def disease_model(prevalence=0.01, fever_if_disease=0.9, cough_if_disease=0.8,
                   fever_if_healthy=0.1, cough_if_healthy=0.2):

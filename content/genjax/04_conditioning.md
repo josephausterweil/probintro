@@ -219,6 +219,8 @@ Let's solve the taxicab problem by generating many scenarios and filtering to th
 
 ```python
 # Generate 100,000 scenarios
+import jax.numpy as jnp
+
 key = jax.random.key(42)
 keys = jax.random.split(key, 100000)
 
@@ -238,6 +240,8 @@ says_blue = scenarios[:, 1]
 
 ```python
 # Keep only scenarios where Chibany says "blue"
+import jax.numpy as jnp
+
 observation_satisfied = says_blue == 1
 
 n_says_blue = jnp.sum(observation_satisfied)
@@ -259,6 +263,8 @@ Among scenarios where they say "blue", how many are actually blue?
 
 ```python
 # Both says blue AND is blue
+import jax.numpy as jnp
+
 both_blue = observation_satisfied & (is_blue == 1)
 
 n_actually_blue = jnp.sum(both_blue)
@@ -324,6 +330,8 @@ from genjax import ChoiceMap
 
 # Specify that Chibany says "blue"
 # Note: flip() returns boolean values, so we use True/False
+import jax.numpy as jnp
+
 observation = ChoiceMap.d({"says_blue": True})
 
 # Generate 10,000 traces conditional on observation
@@ -533,6 +541,8 @@ If 50% blue: P(Blue | says Blue) = 0.800
 ### Scenario 2: Mostly Blue (85% blue, 15% green)
 
 ```python
+import jax.numpy as jnp
+
 def run_mostly_blue(k):
     trace, weight = taxicab_model.generate(k, observation, (0.85, 0.80))
     return trace.get_retval(), weight
@@ -732,6 +742,8 @@ What if Chibany were 95% accurate instead of 80%?
 
 {{% expand "Solution" %}}
 ```python
+import jax.numpy as jnp
+
 def run_high_accuracy(k):
     trace, weight = taxicab_model.generate(k, observation, (0.15, 0.95))
     return trace.get_retval(), weight
@@ -765,6 +777,8 @@ What if Chibany said "green" instead of "blue"?
 {{% expand "Solution" %}}
 ```python
 # Observation: says "green"
+import jax.numpy as jnp
+
 observation_green = ChoiceMap.d({"says_blue": False})
 
 def run_says_green(k):
@@ -799,6 +813,8 @@ What if **two independent witnesses** both say "blue"?
 
 {{% expand "Solution" %}}
 ```python
+import jax.numpy as jnp
+
 @gen
 def taxicab_two_witnesses(base_rate_blue=0.15, accuracy=0.80):
     """Two independent witnesses."""

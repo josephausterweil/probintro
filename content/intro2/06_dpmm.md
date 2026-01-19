@@ -1,5 +1,5 @@
 +++
-date = "2025-12-06"
+date = "2026-01-19"
 title = "Dirichlet Process Mixture Models"
 weight = 6
 +++
@@ -237,6 +237,8 @@ Now let's condition on Chibany's actual bento weights and infer the cluster para
 
 ```python
 # Observed bento weights (three clear clusters)
+import jax.numpy as jnp
+
 observed_weights = jnp.array([
     -10.4, -10.0, -9.4, -10.1, -9.9,  # Cluster around -10
     0.0,                                # Cluster around 0
@@ -292,6 +294,8 @@ Extract posterior information from the traces:
 
 ```python
 # Extract cluster assignments for each observation
+import jax.numpy as jnp
+
 assignments = []
 for trace in posterior_traces:
     trace_assignments = [trace[f"z_{i}"] for i in range(N)]
@@ -345,6 +349,8 @@ Perfect! The model discovered 3 active clusters and learned their means accurate
 **Question**: What weight should Chibany expect for the next bento?
 
 ```python
+import jax.numpy as jnp
+
 def posterior_predictive(traces, N_new=1):
     """
     Sample from posterior predictive distribution
@@ -407,6 +413,8 @@ from scipy.stats import norm as scipy_norm
 <summary>Click to show visualization code</summary>
 
 ```python
+import jax.numpy as jnp
+
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
 
 # Left: Observed data with posterior cluster means
