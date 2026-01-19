@@ -38,7 +38,7 @@ block-beta
     style d stroke: #f33, stroke-width:4px
 ```
 
-Yes, Chibany, it does as it always should. Your chance of getting Tonkatsu is three out of four or 0.75. They calculated the probability exactly as they should!
+Yes, Chibany, it does as it always should. Your chance of getting Tonkatsu at least once is three out of four or 0.75. They calculated the probability exactly as they should!
 
 ## Probability as Counting
 
@@ -75,7 +75,7 @@ $$P(A) = \frac{\text{circled outcomes}}{\text{total outcomes}} = \frac{3}{4} = 0
 
 ### When Outcomes Aren't Equally Likely
 
-Note that if the possible outcomes were not equally likely, we would sum their individual probabilities to calculate the cardinality. But everything works in the same way: the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this [later](./04_conditional.md#weighted-possibilities)!
+Note that if the possible outcomes were not equally likely, we would sum their individual relative likelihoods to calculate their "sizes". Everything works in the same way: the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this [later](./04_conditional.md#weighted-possibilities)!
 
 {{% notice style="tip" title="💻 See This in Code" %}}
 **In GenJAX (Tutorial 2)**, we don't calculate $P(A) = |A|/|\Omega|$ by hand. Instead, we:
