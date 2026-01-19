@@ -4,7 +4,7 @@ weight = 3
 +++
 
 
-One goal of this tutorial is to show you that **probability is counting**. When every possibility is equally likely, probability is defined as the relative number of possibilities in each set. When possibilities are not equally likely, it is only slightly more complicated. Rather than each possibility counting one towards the size of a set it is in, you count the possibility according to its relative weight.
+One goal of this tutorial is to show you that **probability is counting**. When every possible outcome is equally likely, probability is defined as the relative number of outcomes in each set. When outcomes are not equally likely, it is only slightly more complicated. Rather than each outcome counting one towards the size of a set it is in, you count the outcome according to its relative weight.
 
 ## Counting
 
@@ -18,11 +18,11 @@ We write the **size** of a set using vertical bars:
 Think of it like: "How many elements are between these bars?"
 {{% /notice %}}
 
-For example, the set of Chibany's lunch options is $\\{H,T\\}$. Counting the number of elements determines its size, which is $\left|\\{H, T\\} \right| = 2$. The set of Chibany's meal offerings for a day, $\Omega = \\{HH, HT, TH, TT \\}$. There are four possibilities, so its size $|\Omega|$ is $4$.
+For example, the set of Chibany's lunch options is $\\{H,T\\}$. Counting the number of elements determines its size, which is $\left|\\{H, T\\} \right| = 2$. The set of Chibany's meal offerings for a day, $\Omega = \\{HH, HT, TH, TT \\}$. There are four outcomes, so its size $|\Omega|$ is $4$.
 
 ## Chibany is still hungry... and desires Tonkatsu
 
-Chibany is still hungry and wondering what their meal possibilities are for the day. They wonder, what is the probability that students appease them today by giving them Tonkatsu?
+Chibany is still hungry and wondering what their meal possibilities (or outcomes) are for the day. They wonder, what is the probability that students appease them today by giving them Tonkatsu?
 
 To make this calculation, Chibany lists out the outcome space $\Omega$ again. They then form the event "Tonkatsu offering today". They define the set of possible outcomes with a Tonkatsu as $A = \\{HT, TH, TT\\}$ to encode the event. They highlight those in red. Chibany thinks "wow... three of the four possible outcomes are red. Fortune must favor me today, right?"
 
@@ -129,7 +129,7 @@ block-beta
 
 ### Chibany wants to know... how much Tonkatsu?
 
-Chibany wants to know how much Tonkatsu they get each day. To do so, they convert each possibility to a whole number: the number of Tonkatsu in that possibility. They call this a function $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$, meaning it takes a possibility out of the outcome space and maps it (changes it into) a number.
+Chibany wants to know how much Tonkatsu they get each day. To do so, they convert each outcome to a whole number: the number of Tonkatsu in that outcome. They call this a function $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$, meaning it takes an outcome out of the outcome space and maps it (changes it into) a number.
 
 {{% notice style="info" title="Functions and Mappings" %}}
 A **function** $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$ is like a machine:
@@ -140,7 +140,7 @@ A **function** $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$ is like a machine:
 The arrow "$\rightarrow$" means "maps to" or "produces".
 {{% /notice %}}
 
-They note: mapping every possibility to a whole number is like making each whole number an event! Their Tonkatsu counter $f$ is defined as $f(HH) = 0$, $f(HT) = 1$, $f(TH)=1$, and $f(TT) = 2$. Chibany defined their first [random variable](./06_glossary.md/#random-variable).
+They note: mapping every outcome to a whole number is like making each whole number an event! Their Tonkatsu counter $f$ is defined as $f(HH) = 0$, $f(HT) = 1$, $f(TH)=1$, and $f(TT) = 2$. Chibany defined their first [random variable](./06_glossary.md/#random-variable).
 
 ```mermaid
 block-beta
