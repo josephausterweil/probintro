@@ -1,6 +1,7 @@
 +++
-title = "Acknowledgements"
-weight = 7
+date = "2026-01-20"
+title = "Acknowledgements - All Tutorials"
+weight = 101
 +++
 
 Written by Joe Austerweil. Thank you to Tim Burness, Grisha Szep, Kyana Burhite, Hongtao Hao, and the many students who took Human and Machine Learning over the years who have provided invaluable feedback on an early draft of this tutorial.
@@ -27,8 +28,3 @@ Please reach out to Joe via email if you have any constructive feedback (anythin
 **Community:**
 - GenJAX Discourse: Ask questions, share models
 - Probabilistic Programming Slack: Connect with practitioners
-
----
-
-|[prev: glossary](./06_glossary.md) | |
-| :--- | ---: |

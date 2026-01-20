@@ -75,4 +75,4 @@ Let's meet Chibany and start thinking about probability!
 
 Special thanks to [JPPCA](https://jpcca.org/) for their generous support of this tutorial. 
 
-[acknowledgements](./07_ack.md) | [Next: What You'll Learn →](./01_goals.md)
+| [Next: What You'll Learn →](./01_goals.md)

@@ -181,5 +181,5 @@ def coin_flip():
 
 ---
 
-|[← Previous: Bayes' Theorem](./05_bayes.md) | [Next: Acknowledgements →](./07_ack.md)|
+|[← Previous: Bayes' Theorem](./05_bayes.md) | |
 | :--- | ---: |
