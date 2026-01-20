@@ -22,6 +22,6 @@ Please reach out to Joe via email if you have any constructive feedback (anythin
 
 **Probability Theory:**
 - This tutorial's probability chapters!
-- "Probabilistic Programming & Bayesian Methods for Hackers" (free online)
-- "Think Bayes" by Allen Downey (beginner-friendly)
+- [Probabilistic Programming & Bayesian Methods for Hackers](https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers) (free online)
+- [Think Bayes](https://allendowney.github.io/ThinkBayes2/) by Allen Downey (beginner-friendly)
 
