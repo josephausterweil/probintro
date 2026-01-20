@@ -25,6 +25,3 @@ Please reach out to Joe via email if you have any constructive feedback (anythin
 - "Probabilistic Programming & Bayesian Methods for Hackers" (free online)
 - "Think Bayes" by Allen Downey (beginner-friendly)
 
-**Community:**
-- GenJAX Discourse: Ask questions, share models
-- Probabilistic Programming Slack: Connect with practitioners
