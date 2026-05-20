@@ -7,6 +7,9 @@ public/
 resources/
 .hugo_build.lock
 
+# Code-test harness virtualenv (test_ch5_code.py creates this)
+.ch5_test_venv/
+
 # OS files
 .DS_Store
 Thumbs.db

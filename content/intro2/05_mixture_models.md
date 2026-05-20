@@ -238,19 +238,28 @@ mystery_weights = jnp.array([
     499.0, 350.0, 498.0, 353.0, 501.0, 347.0, 499.0, 502.0, 352.0, 500.0
 ])
 
+# The number of observations is a *structural* constant of the model — the @gen
+# function below loops `range(N_OBS)` to lay out one assignment + one observation
+# per data point. It must be a plain Python int (not a traced model argument),
+# because JAX cannot trace through `range()` of a traced value. We close over it.
+N_OBS = len(mystery_weights)
+SIGMA_KNOWN = 2.0  # known standard deviation, shared by both components
+
 @gen
-def bayesian_gmm(n_obs, sigma_known):
+def bayesian_gmm():
     """Bayesian 2-component Gaussian Mixture Model.
 
     Latents: two component means (mu_0, mu_1) and one assignment per observation.
-    The standard deviation sigma_known is treated as a fixed, known constant.
+    The standard deviation is the fixed constant SIGMA_KNOWN. The number of
+    observations is the fixed constant N_OBS — both are closed over, not passed
+    as arguments, so the loop length is known at trace time.
     """
     # Priors on the two component means (vague Normal priors).
     mu_0 = normal(400.0, 50.0) @ "mu_0"
     mu_1 = normal(400.0, 50.0) @ "mu_1"
 
     # Generate each observation: pick a component, then sample from its Gaussian.
-    for i in range(n_obs):
+    for i in range(N_OBS):
         # Assignment for observation i: flip(0.5) — True = component 1, False = component 0.
         z_i = flip(0.5) @ f"z_{i}"
 
@@ -258,25 +267,25 @@ def bayesian_gmm(n_obs, sigma_known):
         mu_i = jnp.where(z_i, mu_1, mu_0)
 
         # The observation itself.
-        x_i = normal(mu_i, sigma_known) @ f"x_{i}"
+        x_i = normal(mu_i, SIGMA_KNOWN) @ f"x_{i}"
 
     return mu_0, mu_1
 
 # Condition on the observed weights by building a ChoiceMap that fixes each "x_i".
 # ChoiceMap.d({...}) builds a choice map from a plain Python dict.
-n_obs = len(mystery_weights)
 observations = ChoiceMap.d({
-    f"x_{i}": mystery_weights[i] for i in range(n_obs)
+    f"x_{i}": mystery_weights[i] for i in range(N_OBS)
 })
 
 # generate() runs the model with those choices forced, and returns a trace plus
 # a log-importance-weight. Running it for many keys gives weighted posterior samples.
+# The model takes no arguments, so the args tuple is empty: ().
 key = random.PRNGKey(42)
 num_particles = 1000
 keys = random.split(key, num_particles)
 
 def one_particle(k):
-    trace, log_weight = bayesian_gmm.generate(k, observations, (n_obs, 2.0))
+    trace, log_weight = bayesian_gmm.generate(k, observations, ())
     choices = trace.get_choices()
     return choices["mu_0"], choices["mu_1"], log_weight
 
@@ -294,13 +303,16 @@ print(f"Posterior mean for mu_0: {post_mu_0:.1f}")
 print(f"Posterior mean for mu_1: {post_mu_1:.1f}")
 ```
 
-**Note**: This is *importance sampling* — the simplest inference method. It works
-here because the model is small, but it scales poorly: with 20 observations and
-two well-separated clusters, most randomly-drawn particles will have tiny
-weights, so you may need many particles to get a stable estimate. Real GMM
-inference uses smarter algorithms (EM, MCMC, variational methods) that we'll
-meet in later chapters. The Bayesian framing becomes especially powerful for
-the DPMM (Chapter 6), where even the *number* of components is uncertain.
+**Note**: This is *importance sampling* — the simplest inference method, and
+deliberately so. Don't expect the printed posterior means to land neatly on 350
+and 500: with 20 observations and a vague prior, most randomly-drawn particles
+explain the data poorly and get a near-zero weight, so the weighted average is
+dragged toward the prior and the estimate is noisy. That is not a bug — it is
+*exactly why* importance sampling alone is not enough. Real GMM inference uses
+smarter algorithms (EM, MCMC, variational methods) that we'll meet in later
+chapters; they concentrate computation on the parameter settings that actually
+fit the data. The Bayesian framing becomes especially powerful for the DPMM
+(Chapter 6), where even the *number* of components is uncertain.
 
 ---
 
@@ -369,15 +381,21 @@ coffee_data = jnp.array([
     154.0, 82.0, 116.0, 158.0, 80.0, 120.0, 155.0, 81.0, 118.0, 157.0
 ])
 
+# Structural constants — closed over by the @gen function, NOT passed as
+# arguments, so the loop length is a concrete int at trace time. (See the
+# bento GMM above for why this matters.)
+COFFEE_N_OBS = len(coffee_data)
+COFFEE_SIGMA = 5.0  # known standard deviation, shared by all components
+
 @gen
-def coffee_gmm(n_obs, sigma_known):
+def coffee_gmm():
     """3-component GMM for coffee blends.
 
     a) Extends the 2-component model to K=3 by using categorical() for the
        component choice instead of flip().
     Latents: three component means; one assignment per observation.
-    The standard deviation sigma_known is treated as fixed (same simplification
-    as the bento GMM above — learning the variances is a straightforward extension).
+    The standard deviation is fixed (COFFEE_SIGMA) — same simplification as the
+    bento GMM above; learning the variances is a straightforward extension.
     """
     K = 3
 
@@ -392,16 +410,16 @@ def coffee_gmm(n_obs, sigma_known):
     means = jnp.array([mu_0, mu_1, mu_2])
 
     # Generate observations with component assignments.
-    for i in range(n_obs):
+    for i in range(COFFEE_N_OBS):
         z_i = categorical(mixing_probs) @ f"z_{i}"   # 0, 1, or 2
         mu_i = means[z_i]
-        x_i = normal(mu_i, sigma_known) @ f"x_{i}"
+        x_i = normal(mu_i, COFFEE_SIGMA) @ f"x_{i}"
 
     return mu_0, mu_1, mu_2
 
 # Conditioning + importance sampling follows the same pattern as the bento GMM:
 # build a ChoiceMap fixing each "x_i" to coffee_data[i], then call
-# coffee_gmm.generate(key, observations, (len(coffee_data), sigma_known)).
+# coffee_gmm.generate(key, observations, ())  — the model takes no arguments.
 
 # b) The priors above use Normal(expected_mean, 20.0), which allows reasonable
 #    variation while keeping the means inside the plausible 50-200 mg range.
