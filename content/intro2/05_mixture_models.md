@@ -1,4 +1,5 @@
 +++
+date = "2026-05-20"
 title = "Gaussian Mixture Models"
 weight = 5
 +++
@@ -144,52 +145,44 @@ For Chibany's bentos with K=2 (tonkatsu and hamburger):
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen, simulate
 import jax.random as random
+from genjax import gen, flip, normal
 
 @gen
 def bento_mixture_model():
-    """Two-component Gaussian mixture"""
-    # Mixing proportions
-    pi = jnp.array([0.7, 0.3])
+    """Two-component Gaussian mixture for Chibany's mystery bentos."""
 
-    # Choose component (0 = tonkatsu, 1 = hamburger)
-    component = jnp.categorical(jnp.log(pi)) @ "component"
+    # Choose component with flip(0.7): True = tonkatsu (70%), False = hamburger (30%).
+    # We use flip() because the choice is binary; flip(p) takes a probability directly.
+    is_tonkatsu = flip(0.7) @ "component"
 
-    # Component parameters
-    means = jnp.array([500.0, 350.0])
-    stds = jnp.array([2.0, 2.0])
+    # Pick the chosen component's parameters. jnp.where() selects without an if/else,
+    # which keeps the model JAX-traceable.
+    mu = jnp.where(is_tonkatsu, 500.0, 350.0)
+    sigma = jnp.where(is_tonkatsu, 2.0, 2.0)   # both stds are 2.0 here
 
-    # Generate weight from chosen component
-    mu = means[component]
-    sigma = stds[component]
-    weight = jnp.normal(mu, sigma) @ "weight"
+    # Generate the weight from the chosen component's Gaussian.
+    weight = normal(mu, sigma) @ "weight"
 
-    return weight, component
+    return weight, is_tonkatsu
 
-# Simulate 20 bentos
+# Simulate 20 bentos. GenJAX runs a model with model.simulate(key, args);
+# here args is the empty tuple () because bento_mixture_model takes no arguments.
 key = random.PRNGKey(42)
-weights = []
-components = []
+keys = random.split(key, 20)
 
-for _ in range(20):
-    key, subkey = random.split(key)
-    trace = simulate(bento_mixture_model)(subkey)
-    weight, component = trace.get_retval()
-    weights.append(weight)
-    components.append(component)
+# jax.vmap runs simulate once per key, in parallel.
+traces = jax.vmap(lambda k: bento_mixture_model.simulate(k, ()))(keys)
+weights, is_tonkatsu = traces.get_retval()
 
-weights = jnp.array(weights)
-components = jnp.array(components)
-
-n_tonkatsu = jnp.sum(components == 0)
-n_hamburger = jnp.sum(components == 1)
+n_tonkatsu = jnp.sum(is_tonkatsu)
+n_hamburger = jnp.sum(~is_tonkatsu)
 
 print(f"Generated {n_tonkatsu} tonkatsu and {n_hamburger} hamburger bentos")
 print(f"Weights: {weights}")
 ```
 
-**Output:**
+**Output (your numbers will differ — this is random):**
 ```
 Generated 14 tonkatsu and 6 hamburger bentos
 Weights: [501.2 349.8 499.5 351.3 498.7 502.1 350.5 ...]
@@ -225,76 +218,89 @@ This chicken-and-egg problem is exactly what probabilistic inference is designed
 
 ## Bayesian GMM with GenJAX
 
-Now let's implement a fully Bayesian version using GenJAX, where we treat component assignments as latent variables to infer:
+Now let's implement a Bayesian version using GenJAX, where we treat both the
+component means and each observation's assignment as latent variables to infer.
+
+To keep the focus on the *mixture* structure, we treat the two standard
+deviations as **known** (σ = 2 for each component) and learn only the means
+and the assignments. Learning the variances too is a straightforward extension
+(add a prior for each), but fixing them keeps this first model readable.
 
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen, simulate, choice_map
 import jax.random as random
+from genjax import gen, flip, normal, ChoiceMap
 
-# Mystery bento weights from earlier
+# Mystery bento weights from earlier.
 mystery_weights = jnp.array([
-    498, 352, 501, 349, 497, 503, 351, 500, 348, 502,
-    499, 350, 498, 353, 501, 347, 499, 502, 352, 500
+    498.0, 352.0, 501.0, 349.0, 497.0, 503.0, 351.0, 500.0, 348.0, 502.0,
+    499.0, 350.0, 498.0, 353.0, 501.0, 347.0, 499.0, 502.0, 352.0, 500.0
 ])
 
 @gen
-def bayesian_gmm(data):
-    """Bayesian Gaussian Mixture Model"""
-    K = 2  # Number of components
+def bayesian_gmm(n_obs, sigma_known):
+    """Bayesian 2-component Gaussian Mixture Model.
 
-    # Priors on parameters
-    pi = jnp.dirichlet(jnp.ones(K)) @ "pi"  # Mixing proportions
+    Latents: two component means (mu_0, mu_1) and one assignment per observation.
+    The standard deviation sigma_known is treated as a fixed, known constant.
+    """
+    # Priors on the two component means (vague Normal priors).
+    mu_0 = normal(400.0, 50.0) @ "mu_0"
+    mu_1 = normal(400.0, 50.0) @ "mu_1"
 
-    # Priors on means (vague)
-    mu = jnp.array([
-        jnp.normal(400.0, 50.0) @ "mu_0",
-        jnp.normal(400.0, 50.0) @ "mu_1"
-    ])
+    # Generate each observation: pick a component, then sample from its Gaussian.
+    for i in range(n_obs):
+        # Assignment for observation i: flip(0.5) — True = component 1, False = component 0.
+        z_i = flip(0.5) @ f"z_{i}"
 
-    # Priors on standard deviations (vague)
-    sigma = jnp.array([
-        jnp.gamma(2.0, 1.0) @ "sigma_0",
-        jnp.gamma(2.0, 1.0) @ "sigma_1"
-    ])
+        # Pull the assigned component's mean with jnp.where (keeps the model traceable).
+        mu_i = jnp.where(z_i, mu_1, mu_0)
 
-    # Generate observations
-    for i, obs in enumerate(data):
-        # Component assignment for observation i
-        z_i = jnp.categorical(jnp.log(pi)) @ f"z_{i}"
+        # The observation itself.
+        x_i = normal(mu_i, sigma_known) @ f"x_{i}"
 
-        # Observation from assigned component
-        x_i = jnp.normal(mu[z_i], sigma[z_i]) @ f"x_{i}"
+    return mu_0, mu_1
 
-    return pi, mu, sigma
+# Condition on the observed weights by building a ChoiceMap that fixes each "x_i".
+# ChoiceMap.d({...}) builds a choice map from a plain Python dict.
+n_obs = len(mystery_weights)
+observations = ChoiceMap.d({
+    f"x_{i}": mystery_weights[i] for i in range(n_obs)
+})
 
-# Condition on observed data
-observations = choice_map()
-for i, weight in enumerate(mystery_weights):
-    observations[f"x_{i}"] = weight
-
-# Run importance resampling (simplified inference)
+# generate() runs the model with those choices forced, and returns a trace plus
+# a log-importance-weight. Running it for many keys gives weighted posterior samples.
 key = random.PRNGKey(42)
 num_particles = 1000
+keys = random.split(key, num_particles)
 
-traces = []
-for _ in range(num_particles):
-    key, subkey = random.split(key)
-    trace = simulate(bayesian_gmm, observations)(subkey, mystery_weights)
-    traces.append(trace)
+def one_particle(k):
+    trace, log_weight = bayesian_gmm.generate(k, observations, (n_obs, 2.0))
+    choices = trace.get_choices()
+    return choices["mu_0"], choices["mu_1"], log_weight
 
-# Extract posterior samples
-pi_samples = jnp.array([trace["pi"] for trace in traces])
-mu_samples = jnp.array([[trace["mu_0"], trace["mu_1"]] for trace in traces])
-sigma_samples = jnp.array([[trace["sigma_0"], trace["sigma_1"]] for trace in traces])
+mu_0_samples, mu_1_samples, log_weights = jax.vmap(one_particle)(keys)
 
-print(f"Posterior mean for π: {jnp.mean(pi_samples, axis=0)}")
-print(f"Posterior mean for μ: {jnp.mean(mu_samples, axis=0)}")
-print(f"Posterior mean for σ: {jnp.mean(sigma_samples, axis=0)}")
+# Convert log-weights to normalized weights (log-sum-exp trick for stability).
+weights = jnp.exp(log_weights - jnp.max(log_weights))
+weights = weights / jnp.sum(weights)
+
+# Weighted posterior means.
+post_mu_0 = jnp.sum(weights * mu_0_samples)
+post_mu_1 = jnp.sum(weights * mu_1_samples)
+
+print(f"Posterior mean for mu_0: {post_mu_0:.1f}")
+print(f"Posterior mean for mu_1: {post_mu_1:.1f}")
 ```
 
-**Note**: The above shows the conceptual structure. In practice, GMM inference with GenJAX requires careful implementation of inference algorithms. We'll explore more sophisticated inference techniques including MCMC and variational methods in later chapters. The Bayesian approach becomes particularly powerful for more complex models like DPMM (Chapter 6), where we want to reason about uncertainty in the number of components.
+**Note**: This is *importance sampling* — the simplest inference method. It works
+here because the model is small, but it scales poorly: with 20 observations and
+two well-separated clusters, most randomly-drawn particles will have tiny
+weights, so you may need many particles to get a stable estimate. Real GMM
+inference uses smarter algorithms (EM, MCMC, variational methods) that we'll
+meet in later chapters. The Bayesian framing becomes especially powerful for
+the DPMM (Chapter 6), where even the *number* of components is uncertain.
 
 ---
 
@@ -354,50 +360,54 @@ A café serves three coffee blends. You measure 30 caffeine levels (mg/cup):
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen
+from genjax import gen, categorical, normal
 
-# Coffee caffeine data
+# Coffee caffeine data.
 coffee_data = jnp.array([
-    82, 118, 155, 80, 120, 158, 79, 115, 160, 83, 121, 157,
-    81, 119, 156, 84, 117, 159, 78, 122, 154, 82, 116, 158,
-    80, 120, 155, 81, 118, 157
+    82.0, 118.0, 155.0, 80.0, 120.0, 158.0, 79.0, 115.0, 160.0, 83.0,
+    121.0, 157.0, 81.0, 119.0, 156.0, 84.0, 117.0, 159.0, 78.0, 122.0,
+    154.0, 82.0, 116.0, 158.0, 80.0, 120.0, 155.0, 81.0, 118.0, 157.0
 ])
 
 @gen
-def coffee_gmm(data):
-    """3-component GMM for coffee blends"""
+def coffee_gmm(n_obs, sigma_known):
+    """3-component GMM for coffee blends.
+
+    a) Extends the 2-component model to K=3 by using categorical() for the
+       component choice instead of flip().
+    Latents: three component means; one assignment per observation.
+    The standard deviation sigma_known is treated as fixed (same simplification
+    as the bento GMM above — learning the variances is a straightforward extension).
+    """
     K = 3
 
-    # Prior on mixing proportions
-    pi = jnp.dirichlet(jnp.ones(K)) @ "pi"
+    # Equal mixing proportions, fixed. categorical(probs) takes probabilities
+    # directly (not log-probabilities).
+    mixing_probs = jnp.full(K, 1.0 / K)
 
-    # Priors on means - centered around expected range
-    mu = jnp.array([
-        jnp.normal(80.0, 20.0) @ "mu_0",   # Low caffeine
-        jnp.normal(120.0, 20.0) @ "mu_1",  # Medium caffeine
-        jnp.normal(160.0, 20.0) @ "mu_2"   # High caffeine
-    ])
+    # Priors on the three means — centered on the expected low/medium/high range.
+    mu_0 = normal(80.0, 20.0) @ "mu_0"    # Low caffeine
+    mu_1 = normal(120.0, 20.0) @ "mu_1"   # Medium caffeine
+    mu_2 = normal(160.0, 20.0) @ "mu_2"   # High caffeine
+    means = jnp.array([mu_0, mu_1, mu_2])
 
-    # Priors on standard deviations
-    sigma = jnp.array([
-        jnp.gamma(2.0, 1.0) @ "sigma_0",
-        jnp.gamma(2.0, 1.0) @ "sigma_1",
-        jnp.gamma(2.0, 1.0) @ "sigma_2"
-    ])
+    # Generate observations with component assignments.
+    for i in range(n_obs):
+        z_i = categorical(mixing_probs) @ f"z_{i}"   # 0, 1, or 2
+        mu_i = means[z_i]
+        x_i = normal(mu_i, sigma_known) @ f"x_{i}"
 
-    # Generate observations with component assignments
-    for i, obs in enumerate(data):
-        z_i = jnp.categorical(jnp.log(pi)) @ f"z_{i}"
-        x_i = jnp.normal(mu[z_i], sigma[z_i]) @ f"x_{i}"
+    return mu_0, mu_1, mu_2
 
-    return pi, mu, sigma
+# Conditioning + importance sampling follows the same pattern as the bento GMM:
+# build a ChoiceMap fixing each "x_i" to coffee_data[i], then call
+# coffee_gmm.generate(key, observations, (len(coffee_data), sigma_known)).
 
-# b) The priors above use Normal(expected_mean, 20.0) which allows
-# reasonable variation while keeping means in sensible ranges
+# b) The priors above use Normal(expected_mean, 20.0), which allows reasonable
+#    variation while keeping the means inside the plausible 50-200 mg range.
 
-# c) The posterior over z_i tells us the probability each cup
-# belongs to each blend, accounting for uncertainty in both
-# assignments and parameters
+# c) The posterior over each z_i tells us the probability that cup i belongs to
+#    each blend, accounting for uncertainty in both the assignments and the means.
 ```
 </details>
 
