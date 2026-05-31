@@ -39,7 +39,8 @@ graph TB
     D --> E[5. Mixture Models]
     E --> F[6. Dirichlet Process]
     F --> G[7. Bayesian Generalization]
-    G --> S[8–11. Bayesian Networks spine<br/>coming soon]
+    G --> H[8. Bayesian Networks]
+    H --> S[9–11. Conditional Independence,<br/>Causal Bayes Nets, Info Theory<br/>coming soon]
     S --> L[12. Hierarchical Bayes]
 
     style B fill:#27ae60
@@ -104,7 +105,13 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - No Free Lunch: why a learner needs a prior
 - **GenJAX**: Enumerating hypothesis spaces and computing generalization gradients
 
-*Chapters 8–11 (the Bayesian-networks spine: Bayes nets, conditional independence, causal Bayes nets,
+### Chapter 8: Bayesian Networks
+- The mixture model from Chapter 5, re-seen as a graph: nodes, arrows, and parents
+- The Markov factorization — reading a joint distribution straight off a DAG
+- Multi-parent networks and conditional probability tables; the parameter-counting argument
+- **GenJAX**: building Bayes nets as generative functions, ancestral sampling, and inference from effect back to cause
+
+*Chapters 9–11 (the rest of the Bayesian-networks spine: conditional independence, causal Bayes nets,
 information theory) are planned but not yet written — see the plan docs in the textbook root.*
 
 ### Chapter 12: Hierarchical Bayes
