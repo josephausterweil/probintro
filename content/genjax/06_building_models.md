@@ -1,4 +1,5 @@
 +++
+date = "2026-05-31"
 title = "Building Your Own Models"
 weight = 6
 +++
@@ -66,6 +67,7 @@ This chapter shows you **how to think** about building generative models — tur
 
 **Pattern:**
 
+<!-- validate: skip -->
 ```python
 @gen
 def my_model(parameters):
@@ -148,33 +150,52 @@ Code: has_disease = flip(0.01) @ "disease"
 **Example:** Coin flips
 
 ```python
+import jax
 import jax.numpy as jnp
+from genjax import gen, flip, uniform, categorical, ChoiceMap
+
+# The number of flips is a Python constant captured by the @gen, NOT a model
+# argument. JAX traces model arguments into abstract values, so a Python
+# `for i in range(n)` loop can't use a count that arrives as a traced argument
+# (it raises TracerIntegerConversionError). Fixing the count as a module-level
+# constant keeps the teaching loop readable and runnable.
+N_FLIPS = 10
 
 @gen
-def coin_flips(n_flips, bias=0.5):
-    """Generate n independent coin flips."""
+def coin_flips(bias=0.5):
+    """Generate N_FLIPS independent coin flips."""
 
     results = []
-    for i in range(n_flips):
+    for i in range(N_FLIPS):
         # Each flip is independent
         result = flip(bias) @ f"flip_{i}"
         results.append(result)
 
-    return jnp.array(results)
+    return jnp.array(results).astype(int)
 ```
+
+{{% notice style="note" title="Why is the count a constant, not an argument?" %}}
+JAX traces a model's arguments into *abstract* values before running it, so a
+Python loop like `for i in range(n)` can't use an `n` that comes in as a model
+argument — it raises `TracerIntegerConversionError`. The fix is to make the
+count a Python constant the `@gen` closes over (as `N_FLIPS` here), or to wrap
+the model in a factory function that takes the count and returns a `@gen` (the
+pattern Tutorial 3's DPMM chapter uses). Either way the loop itself is unchanged.
+{{% /notice %}}
 
 **Usage:**
 
+<!-- validate: skip-output -->
 ```python
 key = jax.random.key(42)
-trace = coin_flips.simulate(key, (10, 0.7))
+trace = coin_flips.simulate(key, (0.7,))
 flips = trace.get_retval()
 print(f"Flips: {flips}")
 ```
 
 **Output (example):**
 ```
-Flips: [1 0 1 1 1 0 1 1 1 0]
+Flips: [0 1 1 0 1 1 1 1 1 1]
 ```
 
 ---
@@ -187,15 +208,15 @@ Flips: [1 0 1 1 1 0 1 1 1 0]
 
 ```python
 @gen
-def coin_with_unknown_bias(n_flips):
-    """Coin with unknown bias — infer it from flips."""
+def coin_with_unknown_bias():
+    """Coin with unknown bias — infer it from N_FLIPS flips."""
 
     # Hidden: the coin's true bias (uniform between 0 and 1)
     bias = uniform(0.0, 1.0) @ "bias"
 
-    # Observations: flip outcomes
+    # Observations: flip outcomes (N_FLIPS is the module constant from above)
     flips = []
-    for i in range(n_flips):
+    for i in range(N_FLIPS):
         result = flip(bias) @ f"flip_{i}"
         flips.append(result)
 
@@ -204,11 +225,8 @@ def coin_with_unknown_bias(n_flips):
 
 **Inference:**
 
+<!-- validate: tol=0.1 -->
 ```python
-import jax
-import jax.numpy as jnp
-from genjax import ChoiceMap
-
 # Observe 7 heads out of 10 flips
 observations = ChoiceMap.d({
     "flip_0": 1, "flip_1": 1, "flip_2": 0,
@@ -222,7 +240,8 @@ key = jax.random.key(42)
 keys = jax.random.split(key, 1000)
 
 def infer_bias(k):
-    trace, weight = coin_with_unknown_bias.generate(k, (10,), observations)
+    # generate(key, CONSTRAINTS, ARGS) — the model takes no args, so ()
+    trace, weight = coin_with_unknown_bias.generate(k, observations, ())
     return trace.get_retval(), weight
 
 results = jax.vmap(infer_bias)(keys)
@@ -238,9 +257,9 @@ print(f"Estimated bias: {mean_bias:.2f}")
 # Should be around 0.70 (7 heads / 10 flips)
 ```
 
-**Output (example):**
+**Output:**
 ```
-Estimated bias: 0.69
+Estimated bias: 0.66
 ```
 
 ---
@@ -271,15 +290,13 @@ def mood_model():
 
 **Question:** "Chibany is happy. What's the probability it's sunny?"
 
+<!-- validate: tol=0.02 -->
 ```python
-import jax
-import jax.numpy as jnp
-from genjax import ChoiceMap
-
 observation = ChoiceMap.d({"is_happy": 1})
 
 def infer_weather(k):
-    trace, weight = mood_model.generate(k, (), observation)
+    # generate(key, CONSTRAINTS, ARGS)
+    trace, weight = mood_model.generate(k, observation, ())
     return trace.get_retval(), weight
 
 key = jax.random.key(42)
@@ -296,9 +313,9 @@ prob_sunny = jnp.sum(posterior_sunny * normalized_weights)
 print(f"P(Sunny | Happy) ≈ {prob_sunny:.3f}")
 ```
 
-**Output (example):**
+**Output:**
 ```
-P(Sunny | Happy) ≈ 0.875
+P(Sunny | Happy) ≈ 0.873
 ```
 
 {{% expand "Theoretical Answer" %}}
@@ -324,11 +341,13 @@ $$P = \frac{0.9 \times 0.7}{0.72} = \frac{0.63}{0.72} \approx 0.875$$
 
 **Example:** Chibany's weekly meals
 
+<!-- validate: skip-output -->
 ```python
-import jax.numpy as jnp
+# Like N_FLIPS above, the number of days is a Python constant, not a model arg.
+DAYS = 7
 
 @gen
-def weekly_meals(days=7):
+def weekly_meals():
     """Model a week of meals with memory."""
 
     meals = []
@@ -337,19 +356,25 @@ def weekly_meals(days=7):
     prev_meal = flip(0.5) @ "day_0"
     meals.append(prev_meal)
 
-    # Each subsequent day depends on previous day
-    for day in range(1, days):
-        if prev_meal == 1:  # Had tonkatsu yesterday
-            # Want variety → lower probability
-            current_meal = flip(0.3) @ f"day_{day}"
-        else:  # Had hamburger yesterday
-            # Craving tonkatsu → higher probability
-            current_meal = flip(0.8) @ f"day_{day}"
-
+    # Each subsequent day depends on the previous day. prev_meal is a traced
+    # value, so we pick the probability with jnp.where (not a Python if):
+    #   tonkatsu yesterday (1) → want variety → 0.3; hamburger (0) → craving → 0.8
+    for day in range(1, DAYS):
+        current_prob = jnp.where(prev_meal == 1, 0.3, 0.8)
+        current_meal = flip(current_prob) @ f"day_{day}"
         meals.append(current_meal)
         prev_meal = current_meal
 
-    return jnp.array(meals)
+    return jnp.array(meals).astype(int)
+
+# Simulate one week
+meals = weekly_meals.simulate(jax.random.key(0), ()).get_retval()
+print(f"Week of meals (1=tonkatsu, 0=hamburger): {meals}")
+```
+
+**Output (example):**
+```
+Week of meals (1=tonkatsu, 0=hamburger): [1 0 1 1 0 0 1]
 ```
 
 **This models dependence through time!**
@@ -434,16 +459,14 @@ def disease_model(prevalence=0.01, fever_if_disease=0.9, cough_if_disease=0.8,
 
 ### Step 4: Run Inference
 
+<!-- validate: tol=0.05 -->
 ```python
-import jax
-import jax.numpy as jnp
-from genjax import ChoiceMap
-
 # Patient has both symptoms
 observation = ChoiceMap.d({"fever": 1, "cough": 1})
 
 def infer_disease(k):
-    trace, weight = disease_model.generate(k, (), observation)
+    # generate(key, CONSTRAINTS, ARGS)
+    trace, weight = disease_model.generate(k, observation, ())
     return trace.get_retval(), weight
 
 key = jax.random.key(42)
@@ -463,12 +486,12 @@ print(f"Symptoms: Fever + Cough")
 print(f"P(Disease | Symptoms) ≈ {prob_disease:.3f}")
 ```
 
-**Output (example):**
+**Output:**
 ```
 === MEDICAL DIAGNOSIS ===
 Prevalence: 1%
 Symptoms: Fever + Cough
-P(Disease | Symptoms) ≈ 0.266
+P(Disease | Symptoms) ≈ 0.269
 ```
 
 **Expected:** ≈ 0.265 (26.5%)
@@ -495,6 +518,7 @@ This is why doctors don't diagnose based on symptoms alone — they need confirm
 
 #### 1. Name everything clearly
 
+<!-- validate: skip -->
 ```python
 # Good
 is_diseased = flip(0.01) @ "is_diseased"
@@ -505,6 +529,7 @@ x = flip(0.01) @ "x"
 
 #### 2. Use meaningful parameters
 
+<!-- validate: skip -->
 ```python
 # Good
 @gen
@@ -519,6 +544,7 @@ def model(p1=0.01, p2=0.95):
 
 #### 3. Document your model
 
+<!-- validate: skip -->
 ```python
 @gen
 def weather_mood(sunny_prior=0.7):
@@ -550,6 +576,7 @@ def weather_mood(sunny_prior=0.7):
 
 #### 1. Don't forget to name random choices
 
+<!-- validate: skip -->
 ```python
 # Bad — can't condition on this!
 x = flip(0.5)
@@ -560,6 +587,7 @@ x = flip(0.5) @ "x"
 
 #### 2. Don't use the same name twice
 
+<!-- validate: skip -->
 ```python
 # Bad — name collision!
 flip1 = flip(0.5) @ "flip"
@@ -599,6 +627,7 @@ Build a simple spam filter model.
 **Task:** Calculate $P(\text{Spam} \mid \text{contains "FREE"})$
 
 {{% expand "Solution" %}}
+<!-- validate: tol=0.05 -->
 ```python
 import jax
 import jax.numpy as jnp
@@ -621,7 +650,8 @@ def spam_filter(spam_rate=0.30):
 observation = ChoiceMap.d({"contains_free": 1})
 
 def infer_spam(k):
-    trace, weight = spam_filter.generate(k, (), observation)
+    # generate(key, CONSTRAINTS, ARGS)
+    trace, weight = spam_filter.generate(k, observation, ())
     return trace.get_retval(), weight
 
 key = jax.random.key(42)
@@ -638,9 +668,9 @@ prob_spam = jnp.sum(posterior * normalized_weights)
 print(f"P(Spam | contains 'FREE') ≈ {prob_spam:.3f}")
 ```
 
-**Output (example):**
+**Output:**
 ```
-P(Spam | contains 'FREE') ≈ 0.773
+P(Spam | contains 'FREE') ≈ 0.777
 ```
 
 **Expected:** ≈ 0.774 (77.4%)
@@ -658,30 +688,35 @@ Extend the coin flip model to infer bias from multiple observations.
 **Task:** Given a sequence of 20 flips (e.g., `[1,1,0,1,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,1]`), infer the coin's bias.
 
 {{% expand "Solution" %}}
+<!-- validate: tol=0.1 -->
 ```python
 import jax
 import jax.numpy as jnp
 from genjax import gen, flip, uniform, ChoiceMap
 
+# Fixed count as a module constant (see the note at the top of the chapter).
+N_OBSERVED = 20
+
 @gen
-def coin_model(n_flips):
-    """Infer coin bias from observed flips."""
+def coin_model():
+    """Infer coin bias from N_OBSERVED observed flips."""
 
     # Hidden: coin's true bias
     bias = uniform(0.0, 1.0) @ "bias"
 
     # Observations: flips
-    for i in range(n_flips):
+    for i in range(N_OBSERVED):
         result = flip(bias) @ f"flip_{i}"
 
     return bias
 
 # Observed flips: 16 heads out of 20
 observed_flips = [1,1,0,1,1,1,0,1,1,1,1,0,1,1,0,1,1,1,1,1]
-observations = ChoiceMap.d({f"flip_{i}": observed_flips[i] for i in range(20)})
+observations = ChoiceMap.d({f"flip_{i}": observed_flips[i] for i in range(N_OBSERVED)})
 
 def infer_bias(k):
-    trace, weight = coin_model.generate(k, (20,), observations)
+    # generate(key, CONSTRAINTS, ARGS)
+    trace, weight = coin_model.generate(k, observations, ())
     return trace.get_retval(), weight
 
 key = jax.random.key(42)
@@ -702,9 +737,9 @@ print(f"Estimated bias: {mean_bias:.2f} ± {std_bias:.2f}")
 # Should be around 0.80 (16/20)
 ```
 
-**Output (example):**
+**Output:**
 ```
-Estimated bias: 0.79 ± 0.09
+Estimated bias: 0.77 ± 0.09
 ```
 
 **Expected:** Mean ≈ 0.80, with some uncertainty
@@ -740,6 +775,7 @@ Extend the disease model to include 3 symptoms: fever, cough, fatigue.
 3. All three symptoms
 
 {{% expand "Solution" %}}
+<!-- validate: tol=0.05 -->
 ```python
 import jax
 import jax.numpy as jnp
@@ -773,8 +809,9 @@ obs2 = ChoiceMap.d({"fever": 1, "cough": 1})
 obs3 = ChoiceMap.d({"fever": 1, "cough": 1, "fatigue": 1})
 
 for i, obs in enumerate([obs1, obs2, obs3], 1):
-    def infer(k):
-        trace, weight = disease_three_symptoms.generate(k, (), obs)
+    def infer(k, obs=obs):
+        # generate(key, CONSTRAINTS, ARGS); obs bound per-iteration
+        trace, weight = disease_three_symptoms.generate(k, obs, ())
         return trace.get_retval(), weight
 
     keys = jax.random.split(key, 10000)
@@ -790,14 +827,14 @@ for i, obs in enumerate([obs1, obs2, obs3], 1):
     print(f"Scenario {i}: P(Disease) ≈ {prob:.3f}")
 ```
 
-**Expected output:**
+**Output:**
 ```
-Scenario 1: P(Disease) ≈ 0.155  # Fever only
-Scenario 2: P(Disease) ≈ 0.419  # Fever + cough
-Scenario 3: P(Disease) ≈ 0.774  # All three symptoms
+Scenario 1: P(Disease) ≈ 0.164
+Scenario 2: P(Disease) ≈ 0.439
+Scenario 3: P(Disease) ≈ 0.713
 ```
 
-**Insight:** More evidence → higher posterior!
+**Insight:** More evidence → higher posterior! (Fever only → fever + cough → all three symptoms.)
 {{% /expand %}}
 
 ---
