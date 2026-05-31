@@ -1,5 +1,5 @@
 +++
-date = "2026-01-19"
+date = "2026-05-31"
 title = "Dirichlet Process Mixture Models"
 weight = 6
 +++
@@ -232,126 +232,254 @@ Notice: The model automatically discovered active clusters (0, 3, 5 in this run)
 
 ---
 
-## Inference: Learning from Observed Bentos
+## Inference: A Slice Sampler for the DPMM
 
-Now let's condition on Chibany's actual bento weights and infer the cluster parameters:
+Now let's condition on Chibany's actual bento weights and **infer** the clusters. This is harder than the forward direction, and the choice of inference algorithm matters a lot.
 
-<!-- validate: skip -->
-<!-- TODO(before publishing): the DPMM inference below is illustrative pseudo-code. Naive
-     importance sampling does NOT converge for this model (random 10-cluster stick-breaking
-     draws essentially never match tightly-clustered data → all particles get ~-1e5 log-weight),
-     so the "recovered cluster means" it claims won't reproduce. Rewrite with a real inference
-     (collapsed Gibbs / SMC) and re-enable execution before this section goes live. Skipped from
-     the execute-and-compare validator for now (still syntax-checked). -->
+### Why not plain importance sampling?
+
+The tempting first idea is to sample whole DPMMs from the prior and keep the ones that match the data (importance/rejection sampling). It **fails badly here**: a random 10-component stick-breaking draw almost never places its means near three tight clusters at $-10, 0, +10$, so essentially every sample gets a vanishingly small weight. We need an algorithm that *moves toward* the data instead of guessing blindly.
+
+### The slice-sampling idea
+
+The classic solution is the **slice sampler** of Walker (2007). Its trick is to introduce one auxiliary "slice" variable per observation:
+
+$$u_i \sim \text{Uniform}(0,\ \pi_{z_i})$$
+
+where $\pi_{z_i}$ is the mixing weight of the cluster $i$ currently belongs to, and $\text{Uniform}(a,b)$ is the uniform distribution on the interval $[a,b]$.
+
+Why is this useful? Given the slice values, a component $k$ is only a **candidate** for observation $i$ if its weight clears the slice, $\pi_k > u_i$. Because the stick-breaking weights shrink geometrically, only **finitely many** components ever clear the slice — so even though the model has infinitely many potential clusters, each sweep only has to consider a finite, *adaptive* set. The number of active clusters $K$ can grow or shrink from sweep to sweep as the data demand, which is exactly the behavior a nonparametric model should have. (We still allocate a generous truncation `KMAX` as a storage bound, but the slice — not the truncation — decides how many clusters are live.)
+
+### The Gibbs sweep
+
+Each sweep cycles through four conditional updates, sampling each quantity given the current value of the others:
+
+1. **Slice variables** $u_i \sim \text{Uniform}(0, \pi_{z_i})$ — set the per-observation thresholds.
+2. **Assignments** $z_i$ — pick a cluster from those allowed by the slice, weighted by how well it explains $x_i$: $\;P(z_i = k) \propto \mathbb{1}[\pi_k > u_i]\, \mathcal{N}(x_i \mid \mu_k, \sigma_x)$, where $\mathbb{1}[\cdot]$ is the indicator (1 if true, 0 if false).
+3. **Stick weights** $\beta_k \sim \text{Beta}(1 + n_k,\ \alpha + \sum_{j>k} n_j)$, where $n_k$ is the number of observations now in cluster $k$ — the standard stick-breaking posterior.
+4. **Cluster means** $\mu_k$ — a conjugate Normal–Normal update from the points assigned to cluster $k$ (empty clusters fall back to the prior).
+
+We keep the explicit `for`-loops over sweeps so each step is readable; a later chapter shows how to vectorize with `scan`.
+
+<!-- validate: tol=0.6 -->
 ```python
-# Observed bento weights (three clear clusters)
+import jax
 import jax.numpy as jnp
+import jax.random as random
+from functools import partial
 
+# Observed bento weights (three clear clusters)
 observed_weights = jnp.array([
-    -10.4, -10.0, -9.4, -10.1, -9.9,  # Cluster around -10
-    0.0,                                # Cluster around 0
-    9.5, 9.9, 10.0, 10.1, 10.5        # Cluster around +10
+    -10.4, -10.0, -9.4, -10.1, -9.9,   # cluster around -10
+    0.0,                                 # cluster around 0
+    9.5, 9.9, 10.0, 10.1, 10.5,          # cluster around +10
 ])
-N = len(observed_weights)
+N = observed_weights.shape[0]
 
-def infer_dpmm(observed_data, num_particles=1000):
-    """
-    Perform inference using importance resampling
+# Hyperparameters
+ALPHA = 1.0    # concentration parameter
+MU0   = 0.0    # prior mean for cluster means
+SIG0  = 10.0   # prior std for cluster means
+SIGX  = 1.0    # observation noise std
+KMAX  = 20     # truncation / storage bound (the slice decides how many are live)
 
-    Args:
-        observed_data: Observed weights
-        num_particles: Number of particles for importance sampling
+def stick_break(betas):
+    """betas (K,) in (0,1) -> mixing weights pis (K,): pi_k = beta_k * prod_{j<k}(1-beta_j)."""
+    log1m = jnp.log1p(-betas)
+    cum = jnp.concatenate([jnp.zeros(1), jnp.cumsum(log1m)[:-1]])
+    return betas * jnp.exp(cum)
 
-    Returns:
-        List of traces (posterior samples)
-    """
-    # Create constraints (observed data)
-    constraints = choice_map()
-    for i, x in enumerate(observed_data):
-        constraints[f"x_{i}"] = x
+def normal_logpdf(x, mu, sig):
+    return -0.5 * jnp.log(2 * jnp.pi * sig**2) - 0.5 * ((x - mu) / sig)**2
 
-    # Run importance resampling
-    key = random.PRNGKey(42)
-    traces = []
+def sample_betas(key, z, alpha, K):
+    """Stick-breaking posterior: beta_k ~ Beta(1 + n_k, alpha + sum_{j>k} n_j)."""
+    counts = jnp.bincount(z, length=K)                 # n_k
+    after = jnp.cumsum(counts[::-1])[::-1]
+    after = jnp.concatenate([after[1:], jnp.zeros(1)])  # sum_{j>k} n_j
+    keys = random.split(key, K)
+    betas = jax.vmap(lambda k, a, b: jax.random.beta(k, a, b))(keys, 1.0 + counts, alpha + after)
+    return jnp.clip(betas, 1e-6, 1 - 1e-6)
 
-    for _ in range(num_particles):
-        key, subkey = random.split(key)
-        trace, weight = importance_resampling(
-            dpmm_model,
-            (N,),
-            constraints,
-            1  # Single particle per iteration
-        )(subkey)
-        traces.append(trace)
+def sample_mus(key, x, z, K, mu0, sig0, sigx):
+    """Conjugate Normal-Normal posterior for each cluster mean (empty -> prior)."""
+    counts = jnp.bincount(z, length=K)
+    sums = jnp.zeros(K).at[z].add(x)
+    prec0, precx = 1.0 / sig0**2, 1.0 / sigx**2
+    post_prec = prec0 + counts * precx
+    post_mean = (prec0 * mu0 + precx * sums) / post_prec
+    post_std = jnp.sqrt(1.0 / post_prec)
+    keys = random.split(key, K)
+    eps = jax.vmap(lambda k: jax.random.normal(k))(keys)
+    return post_mean + post_std * eps
 
-    return traces
+@partial(jax.jit, static_argnums=(2,))
+def gibbs_sweep(key, state, K, x, alpha, mu0, sig0, sigx):
+    z, betas, mus = state
+    k1, k2, k3, k4 = random.split(key, 4)
+    pis = stick_break(betas)
 
-# Perform inference
-print("Running inference (this may take a moment)...")
-posterior_traces = infer_dpmm(observed_weights, num_particles=1000)
-print(f"Collected {len(posterior_traces)} posterior samples")
+    # 1. slice variables u_i ~ Uniform(0, pi_{z_i})
+    u = jax.random.uniform(k1, (x.shape[0],)) * pis[z]
+
+    # 2. assignments: P(z_i=k) propto 1[pi_k > u_i] * N(x_i | mu_k, sigx)
+    loglik = normal_logpdf(x[:, None], mus[None, :], sigx)       # (N, K)
+    logp = jnp.where(pis[None, :] > u[:, None], loglik, -jnp.inf)  # slice indicator
+    keys = random.split(k2, x.shape[0])
+    z = jax.vmap(lambda k, lp: jax.random.categorical(k, lp))(keys, logp)
+
+    # 3. stick weights, 4. cluster means
+    betas = sample_betas(k3, z, alpha, K)
+    mus = sample_mus(k4, x, z, K, mu0, sig0, sigx)
+    return (z, betas, mus)
+
+# Run the sampler
+key = random.PRNGKey(0)
+z = jnp.zeros(N, dtype=jnp.int32)                # init: everyone in cluster 0
+key, kb, km = random.split(key, 3)
+betas = jnp.clip(jax.random.beta(kb, 1.0, ALPHA, (KMAX,)), 1e-6, 1 - 1e-6)
+mus = MU0 + SIG0 * jax.random.normal(km, (KMAX,))
+state = (z, betas, mus)
+
+n_sweeps, burn = 300, 100
+z_history = []
+for t in range(n_sweeps):
+    key, sk = random.split(key)
+    state = gibbs_sweep(sk, state, KMAX, observed_weights, ALPHA, MU0, SIG0, SIGX)
+    if t >= burn:
+        z_history.append(state[0])
+
+z_history = jnp.stack(z_history)                 # (n_samples, N)
+z_final, betas_final, mus_final = state
+
+# Report: relabel active clusters left-to-right by their mean for readability
+active = jnp.unique(z_final)
+order = sorted(active.tolist(), key=lambda k: float(mus_final[k]))
+print("=== DPMM slice sampler (300 sweeps, 100 burn-in, seed 0) ===")
+print(f"Discovered {len(active)} active clusters")
+for rank, k in enumerate(order):
+    n_k = int(jnp.sum(z_final == k))
+    print(f"  Cluster {rank}: mu = {float(mus_final[k]):6.2f}   (n = {n_k})")
+
+# Posterior over the number of occupied clusters
+Ks = jnp.array([jnp.unique(z).shape[0] for z in z_history])
+vals, counts = jnp.unique(Ks, return_counts=True)
+print("\nPosterior over number of clusters K:")
+for v, c in zip(vals, counts):
+    print(f"  P(K = {int(v)}) = {float(c) / Ks.shape[0]:.2f}")
 ```
 
-**Note**: Importance resampling for DPMM is computationally intensive. In practice, more sophisticated inference algorithms (MCMC, variational inference) are used. Here we show the conceptual approach.
+**Output:**
+```
+=== DPMM slice sampler (300 sweeps, 100 burn-in, seed 0) ===
+Discovered 3 active clusters
+  Cluster 0: mu = -10.03   (n = 5)
+  Cluster 1: mu =   0.29   (n = 1)
+  Cluster 2: mu =  10.25   (n = 5)
+
+Posterior over number of clusters K:
+  P(K = 3) = 0.58
+  P(K = 4) = 0.35
+  P(K = 5) = 0.07
+```
+
+The sampler **recovers all three clusters** — the five $\approx -10$ bentos, the lone $\approx 0$ bento, and the five $\approx +10$ bentos — and learns their means accurately. Just as important, the posterior over $K$ is **honest about its uncertainty**: $K=3$ is most probable, but the model gives real weight to a spurious fourth or fifth cluster. That uncertainty in the *number* of clusters is something a fixed-$K$ GMM simply cannot express.
+
+{{% notice style="note" title="Slice values do the truncation" %}}
+We allocated `KMAX = 20` storage slots, but never assumed 20 clusters: in any sweep, only the components whose weight clears some observation's slice ($\pi_k > u_i$) are live. The data, through the slice, decide how many clusters exist — which is the whole point of going nonparametric.
+{{% /notice %}}
 
 ---
 
 ## Analyzing the Posterior
 
-Extract posterior information from the traces:
+The sampler gives us a *collection* of clusterings (one per post-burn-in sweep), not a single answer. Summarizing them takes a little care because of **label switching**: the cluster we call "0" in one sweep might be called "2" in the next, since the labels are arbitrary. So we cannot just average `mu_0` across sweeps — that average mixes different physical clusters together and is meaningless.
 
-<!-- validate: skip -->
-<!-- TODO: depends on `posterior_traces` from the skipped inference cell above; re-enable
-     once real DPMM inference is in place. -->
+Two summaries that *are* meaningful:
+
+**(1) A single representative clustering** — take the final sweep and relabel its clusters left-to-right by their mean, so the numbering is interpretable:
+
+<!-- validate: tol=0.6 -->
 ```python
-# Extract cluster assignments for each observation
-import jax.numpy as jnp
+# Relabel the final sweep's clusters 0..K-1 by increasing mean
+active = jnp.unique(z_final)
+order = sorted(active.tolist(), key=lambda k: float(mus_final[k]))
+relabel = {k: r for r, k in enumerate(order)}
+mode_assignments = jnp.array([relabel[int(z)] for z in z_final])
 
-assignments = []
-for trace in posterior_traces:
-    trace_assignments = [trace[f"z_{i}"] for i in range(N)]
-    assignments.append(trace_assignments)
-
-assignments = jnp.array(assignments)  # Shape: (num_particles, N)
-
-# Most probable assignment for each observation
-mode_assignments = []
-for i in range(N):
-    # Find most common assignment for observation i
-    unique, counts = jnp.unique(assignments[:, i], return_counts=True)
-    mode_assignments.append(unique[jnp.argmax(counts)])
-
-print(f"Most likely cluster assignments: {mode_assignments}")
-
-# Extract posterior means for each cluster
-posterior_mus = []
-for trace in posterior_traces:
-    trace_mus = [trace[f"mu_{k}"] for k in range(KMAX)]
-    posterior_mus.append(trace_mus)
-
-posterior_mus = jnp.array(posterior_mus)  # Shape: (num_particles, KMAX)
-
-# Posterior mean for each cluster
-mean_mus = jnp.mean(posterior_mus, axis=0)
-std_mus = jnp.std(posterior_mus, axis=0)
-
-print("\nPosterior cluster means:")
-for k in range(KMAX):
-    if std_mus[k] < 5.0:  # Only show "active" clusters with low uncertainty
-        print(f"  Cluster {k}: μ = {mean_mus[k]:.2f} ± {std_mus[k]:.2f}")
+print("Cluster assignment per bento:", [int(v) for v in mode_assignments])
+print("\nCluster means:")
+for r, k in enumerate(order):
+    n_k = int(jnp.sum(z_final == k))
+    print(f"  Cluster {r}: μ = {float(mus_final[k]):6.2f}   (n = {n_k})")
 ```
 
 **Output:**
 ```
-Most likely cluster assignments: [0, 0, 0, 0, 0, 2, 3, 3, 3, 3, 3]
+Cluster assignment per bento: [0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2]
 
-Posterior cluster means:
-  Cluster 0: μ = -9.96 ± 0.31
-  Cluster 2: μ = 0.05 ± 0.42
-  Cluster 3: μ = 10.00 ± 0.29
+Cluster means:
+  Cluster 0: μ = -10.03   (n = 5)
+  Cluster 1: μ =   0.29   (n = 1)
+  Cluster 2: μ =  10.25   (n = 5)
 ```
 
-Perfect! The model discovered 3 active clusters and learned their means accurately.
+**(2) A label-invariant summary** — the **co-clustering probability** that two bentos land in the *same* cluster, averaged over all samples. This sidesteps label switching entirely, because "same cluster?" doesn't depend on what the cluster is named:
+
+<!-- validate: tol=0.15 -->
+```python
+# P(bento i and bento j share a cluster), averaged over posterior samples
+same_cluster = jnp.mean(
+    (z_history[:, :, None] == z_history[:, None, :]).astype(jnp.float32),
+    axis=0,
+)
+
+print("Co-clustering probability matrix P(i ~ j):")
+for row in jnp.round(same_cluster, 2):
+    print("  [" + " ".join(f"{float(v):.2f}" for v in row) + "]")
+```
+
+**Output:**
+```
+Co-clustering probability matrix P(i ~ j):
+  [1.00 0.92 0.90 0.88 0.90 0.00 0.00 0.00 0.00 0.00 0.00]
+  [0.92 1.00 0.88 0.87 0.93 0.00 0.00 0.00 0.00 0.00 0.00]
+  [0.90 0.88 1.00 0.88 0.88 0.00 0.00 0.00 0.00 0.00 0.00]
+  [0.88 0.87 0.88 1.00 0.90 0.00 0.00 0.00 0.00 0.00 0.00]
+  [0.90 0.93 0.88 0.90 1.00 0.00 0.00 0.00 0.00 0.00 0.00]
+  [0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00]
+  [0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.90 0.93 0.90 0.86]
+  [0.00 0.00 0.00 0.00 0.00 0.00 0.90 1.00 0.88 0.86 0.90]
+  [0.00 0.00 0.00 0.00 0.00 0.00 0.93 0.88 1.00 0.88 0.90]
+  [0.00 0.00 0.00 0.00 0.00 0.00 0.90 0.86 0.88 1.00 0.86]
+  [0.00 0.00 0.00 0.00 0.00 0.00 0.86 0.90 0.90 0.86 1.00]
+```
+
+The block structure is unmistakable: the five $\approx -10$ bentos (rows 0–4) almost always share a cluster with each other and **never** with the rest; the lone $\approx 0$ bento (row 5) sits by itself; the five $\approx +10$ bentos (rows 6–10) form the third block. The model recovered the three groups **without ever being told there were three** — and the within-block probabilities sitting a little below 1.0 honestly reflect the small chance, seen in the posterior over $K$, that a group occasionally splits.
+
+---
+
+## A Trap: Label Switching
+
+We sidestepped a subtle but important problem above, and it's worth making explicit because it bites *every* mixture model, not just the DPMM.
+
+**The cluster labels are arbitrary.** Nothing in the model distinguishes "cluster 0" from "cluster 2" — the likelihood
+$$p(x \mid z, \mu) = \prod_i \mathcal{N}(x_i \mid \mu_{z_i}, \sigma_x)$$
+is **completely unchanged** if we swap the names of two clusters and swap their means to match. The model has a built-in symmetry: with $K$ occupied clusters there are $K!$ equivalent labelings of the *same* clustering, all with identical posterior probability.
+
+**Why this breaks naive summaries.** A good sampler will, over many sweeps, wander between these equivalent labelings — the group sitting at $-10$ might be called cluster 0 in one sweep and cluster 2 in the next. So if you compute a per-label average like
+$$\bar\mu_0 = \frac{1}{S}\sum_{s} \mu_0^{(s)},$$
+you are averaging the $-10$ group's mean in some sweeps with the $+10$ group's mean in others. The result is mush — typically a number near the overall data mean with a huge standard deviation, which *looks* like a failed inference even when the sampler worked perfectly. (Try it: averaging `mu_0` across our sweeps gives something like $\mu \approx 0 \pm 9$, which is nonsense — the sampler is fine; the *summary* is wrong.)
+
+**The fixes** — all of which we used or could use here:
+
+1. **Report label-invariant quantities.** The co-clustering matrix above never asks "what is cluster $k$?", only "are $i$ and $j$ together?", so label switching simply cannot affect it. This is the most robust option and the one to reach for first. The posterior over the *number* of clusters $K$ is label-invariant too.
+2. **Summarize a single representative sample**, not an average across samples — e.g. the final sweep (or the highest-posterior sweep), relabeled into a canonical order. That's what `mode_assignments` did: we sorted the clusters left-to-right by mean so "cluster 0" always denotes the lightest group.
+3. **Impose an identifiability constraint / relabel post hoc.** Pin an ordering (e.g. $\mu_0 < \mu_1 < \mu_2$) or run a relabeling algorithm (Stephens, 2000) that permutes each sweep's labels to best match a reference before averaging. Then per-label averages become meaningful again.
+
+{{% notice style="warning" title="Don't average raw per-label parameters" %}}
+If you find yourself writing `jnp.mean(mu_k for each sweep)` over MCMC samples of a mixture model, stop. Either summarize a *label-invariant* function of the clustering, or relabel the samples into a canonical order first. Raw per-label averages silently conflate different clusters and make a healthy sampler look broken.
+{{% /notice %}}
 
 ---
 
@@ -359,57 +487,39 @@ Perfect! The model discovered 3 active clusters and learned their means accurate
 
 **Question**: What weight should Chibany expect for the next bento?
 
+To predict the next bento's weight, we draw from the recovered mixture: pick a cluster in proportion to how many bentos it holds, then sample a weight from that cluster's Gaussian. We use the representative (final-sweep) clustering for a clean, interpretable predictive.
+
+<!-- validate: tol=1.0 -->
 ```python
-import jax.numpy as jnp
+# Mixing weights from the representative clustering: proportion of bentos per cluster
+counts = jnp.bincount(z_final, length=KMAX)
+weights = counts / counts.sum()                  # zero for empty clusters
 
-def posterior_predictive(traces, N_new=1):
-    """
-    Sample from posterior predictive distribution
+def draw_one(k):
+    k1, k2 = random.split(k)
+    z_new = jax.random.categorical(k1, jnp.log(weights + 1e-12))   # pick a cluster
+    return mus_final[z_new] + SIGX * jax.random.normal(k2)         # sample its Gaussian
 
-    Args:
-        traces: Posterior traces
-        N_new: Number of new observations to predict
+key, sk = random.split(key)
+predictions = jax.vmap(draw_one)(random.split(sk, 5000))
 
-    Returns:
-        Array of predicted observations
-    """
-    key = random.PRNGKey(42)
-    predictions = []
-
-    for trace in traces:
-        # Extract learned parameters
-        theta = trace["theta"]
-        mus = jnp.array([trace[f"mu_{k}"] for k in range(KMAX)])
-
-        # Generate new observations
-        for _ in range(N_new):
-            key, subkey = random.split(key)
-
-            # Sample cluster assignment
-            z_new = jnp.categorical(jnp.log(theta), key=subkey)
-
-            # Sample observation from that cluster
-            key, subkey = random.split(key)
-            x_new = jnp.normal(mus[z_new], SIGX, key=subkey)
-
-            predictions.append(x_new)
-
-    return jnp.array(predictions)
-
-# Generate predictions
-predictions = posterior_predictive(posterior_traces, N_new=1)
-
-print(f"Posterior predictive mean: {jnp.mean(predictions):.2f}")
-print(f"Posterior predictive std: {jnp.std(predictions):.2f}")
+print(f"Posterior predictive mean: {float(jnp.mean(predictions)):.2f}")
+print(f"Posterior predictive std:  {float(jnp.std(predictions)):.2f}")
+for label, lo, hi in [("≈ -10", -15, -5), ("≈  0", -5, 5), ("≈ +10", 5, 15)]:
+    frac = float(jnp.mean((predictions >= lo) & (predictions < hi)))
+    print(f"  P(next bento {label}) = {frac:.2f}")
 ```
 
 **Output:**
 ```
-Posterior predictive mean: -0.15
-Posterior predictive std: 8.52
+Posterior predictive mean: 0.21
+Posterior predictive std:  9.72
+  P(next bento ≈ -10) = 0.45
+  P(next bento ≈  0) = 0.09
+  P(next bento ≈ +10) = 0.46
 ```
 
-The posterior predictive is multimodal (mixture of the three clusters), so the mean isn't particularly meaningful. Let's visualize it!
+The posterior predictive is **multimodal** — a mixture of the three clusters — so its overall mean ($\approx 0$) is *not* a sensible prediction: no bento actually weighs around zero. The useful statement is the per-mode breakdown: the next bento is about equally likely to be a light ($\approx -10$) or heavy ($\approx +10$) type, with a small chance of the rare middle type. Let's visualize it!
 
 ---
 
@@ -428,40 +538,42 @@ import jax.numpy as jnp
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
 
-# Left: Observed data with posterior cluster means
+# Representative clustering (final sweep), relabeled left-to-right by mean
+active = jnp.unique(z_final)
+order = sorted(active.tolist(), key=lambda k: float(mus_final[k]))
+colors = ['red', 'green', 'blue', 'purple', 'orange']
+
+# Left: observed data colored by recovered cluster, with cluster centers
 ax1.scatter(observed_weights, jnp.zeros_like(observed_weights),
-            s=100, alpha=0.6, label='Observed data')
-
-# Overlay posterior cluster means (only active clusters)
-active_clusters = [0, 2, 3]  # From inference above
-colors = ['red', 'green', 'blue']
-
-for k, color in zip(active_clusters, colors):
-    mu = mean_mus[k]
-    std = std_mus[k]
-    ax1.errorbar([mu], [0.05], xerr=[std], fmt='o',
-                 markersize=15, color=color, capsize=5,
-                 label=f'Cluster {k}: μ={mu:.1f}±{std:.1f}')
+            s=120, alpha=0.4, color='gray', label='Observed data')
+for rank, k in enumerate(order):
+    mu = float(mus_final[k])
+    members = observed_weights[z_final == k]
+    color = colors[rank % len(colors)]
+    ax1.scatter(members, jnp.zeros_like(members) + 0.05, s=120, color=color)
+    ax1.axvline(mu, color=color, linestyle='--', alpha=0.7,
+                label=f'Cluster {rank}: μ={mu:.1f}')
 
 ax1.set_xlabel('Weight')
 ax1.set_yticks([])
-ax1.set_title('Posterior Cluster Assignments')
+ax1.set_title('Recovered Clusters')
 ax1.legend()
 ax1.grid(True, alpha=0.3)
 
-# Right: Posterior predictive distribution
-ax2.hist(predictions, bins=50, density=True, alpha=0.6, edgecolor='black',
-         label='Posterior predictive')
+# Right: posterior predictive distribution with each cluster's contribution
+ax2.hist(predictions, bins=50, density=True, alpha=0.5, color='gray',
+         edgecolor='black', label='Posterior predictive')
 
-# Overlay each cluster's contribution
+counts = jnp.bincount(z_final, length=KMAX)
+weights = counts / counts.sum()
 x_range = jnp.linspace(-15, 15, 1000)
-for k, color in zip(active_clusters, colors):
-    mu = mean_mus[k]
-    # Weight by cluster probability (approximate from assignments)
-    weight = jnp.mean(assignments == k)
-    cluster_pdf = weight * scipy_norm.pdf(x_range, mu, SIGX)
+for rank, k in enumerate(order):
+    mu = float(mus_final[k])
+    w = float(weights[k])
+    color = colors[rank % len(colors)]
+    cluster_pdf = w * scipy_norm.pdf(x_range, mu, SIGX)
     ax2.plot(x_range, cluster_pdf, color=color, linewidth=2,
-             label=f'Cluster {k} (π≈{weight:.2f})')
+             label=f'Cluster {rank} (π≈{w:.2f})')
 
 ax2.set_xlabel('Weight')
 ax2.set_ylabel('Density')
@@ -600,23 +712,39 @@ Using the observed bento data from earlier, run inference with α ∈ {0.5, 2.0,
 <details>
 <summary>Show Solution</summary>
 
+We reuse the `gibbs_sweep` from earlier, just rerunning the sampler at each $\alpha$ and reporting the **average number of occupied clusters** (averaging over sweeps, which avoids the single-sweep noise):
+
+<!-- validate: tol=0.5 -->
 ```python
+def run_sampler(alpha, seed=0, n_sweeps=300, burn=100):
+    key = random.PRNGKey(seed)
+    z = jnp.zeros(N, dtype=jnp.int32)
+    key, kb, km = random.split(key, 3)
+    betas = jnp.clip(jax.random.beta(kb, 1.0, alpha, (KMAX,)), 1e-6, 1 - 1e-6)
+    mus = MU0 + SIG0 * jax.random.normal(km, (KMAX,))
+    state = (z, betas, mus)
+    z_hist = []
+    for t in range(n_sweeps):
+        key, sk = random.split(key)
+        state = gibbs_sweep(sk, state, KMAX, observed_weights, alpha, MU0, SIG0, SIGX)
+        if t >= burn:
+            z_hist.append(state[0])
+    return jnp.stack(z_hist)
+
 for alpha in [0.5, 2.0, 10.0]:
-    # Update ALPHA global or pass as parameter
-    print(f"\n=== Alpha = {alpha} ===")
-
-    # Run inference (simplified for brevity)
-    # traces = infer_dpmm(observed_weights, num_particles=500)
-
-    # Count active clusters
-    # active = count_active_clusters(traces)
-    # print(f"Active clusters: {active}")
+    z_hist = run_sampler(alpha)
+    Ks = jnp.array([jnp.unique(z).shape[0] for z in z_hist])
+    print(f"α = {alpha:4.1f}:  E[K] = {float(jnp.mean(Ks)):.2f}")
 ```
 
-**Expected**:
-- α=0.5: Fewer clusters (maybe 2 instead of 3)
-- α=2.0: Balanced (3 clusters as before)
-- α=10.0: More clusters (maybe 4-5, some spurious)
+**Output:**
+```
+α =  0.5:  E[K] = 3.21
+α =  2.0:  E[K] = 3.60
+α = 10.0:  E[K] = 4.76
+```
+
+The trend is exactly as the theory predicts: a larger concentration parameter $\alpha$ makes the model spin up **more** clusters (some of them spurious splits of the three real groups), while a small $\alpha$ keeps it parsimonious. Note that even at $\alpha = 0.5$ the model still finds the three genuine clusters — the data are clearly separated enough that the likelihood overrides the prior's pull toward fewer clusters.
 </details>
 
 ---
@@ -625,43 +753,27 @@ for alpha in [0.5, 2.0, 10.0]:
 
 Chibany receives bentos one at a time. Implement **online learning** where the model updates as each bento arrives.
 
-**Hint**: Use sequential importance resampling, updating the posterior after each observation.
+**Hint**: One simple approach reuses the slice sampler you already have — after each new bento arrives, rerun the sampler on *all data seen so far* and report the occupied clusters. (A more efficient approach would *warm-start* from the previous posterior instead of restarting; that is the idea behind sequential Monte Carlo.)
 
 <details>
-<summary>Show Solution</summary>
+<summary>Show Solution (sketch)</summary>
 
+This is left as an implementation exercise. The structure below is **pseudo-code** — `run_sampler` is the function from Problem 1; the point is the outer loop over a growing data prefix, not a new inference algorithm:
+
+<!-- validate: skip -->
 ```python
 def online_dpmm(data_stream):
-    """
-    Learn DPMM parameters sequentially as data arrives
-    """
-    traces = []  # Posterior samples
+    """Rerun the slice sampler on a growing prefix of the data."""
+    for i in range(1, len(data_stream) + 1):
+        prefix = data_stream[:i]                 # all bentos seen so far
+        z_hist = run_sampler_on(prefix)          # adapt run_sampler to take the data
+        K = average_num_clusters(z_hist)         # E[K] over sweeps, as in Problem 1
+        print(f"After {i} bentos: E[K] ≈ {K:.1f}")
 
-    for i, x_new in enumerate(data_stream):
-        print(f"Observation {i+1}: x = {x_new:.2f}")
-
-        # Create constraints for all data seen so far
-        constraints = choice_map()
-        for j in range(i+1):
-            constraints[f"x_{j}"] = data_stream[j]
-
-        # Update posterior
-        key, subkey = random.split(key)
-        trace, _ = importance_resampling(dpmm_model, (i+1,), constraints, 100)(subkey)
-        traces.append(trace)
-
-        # Report discovered clusters
-        mus = [trace[f"mu_{k}"] for k in range(KMAX)]
-        active = [k for k, mu in enumerate(mus) if abs(mu) < 20]  # Heuristic
-        print(f"  Active clusters: {active}")
-
-    return traces
-
-# Apply to bento stream
-traces = online_dpmm(observed_weights)
+online_dpmm(observed_weights)
 ```
 
-**Expected**: Number of active clusters increases as new clusters are discovered, then stabilizes.
+**Expected behavior**: the number of occupied clusters grows as genuinely new bento types first appear, then stabilizes once each type has been seen — the model commits to a new cluster only when the data force it to.
 </details>
 
 ---
@@ -694,7 +806,10 @@ We started with a mystery: bentos with an average weight that doesn't match any 
 
 ### Practical Implementations
 - Neal (2000): "Markov Chain Sampling Methods for Dirichlet Process Mixture Models" (MCMC inference)
+- Walker (2007): "Sampling the Dirichlet Mixture Model with Slices" (the slice sampler used in this chapter)
+- Kalli, Griffiths, & Walker (2011): "Slice sampling mixture models" (refinements and a clear exposition)
 - Blei & Jordan (2006): "Variational Inference for Dirichlet Process Mixtures" (scalable inference)
+- Stephens (2000): "Dealing with label switching in mixture models" (post-hoc relabeling for valid per-component summaries)
 
 ### GenJAX Documentation
 - [GenJAX GitHub](https://github.com/probcomp/genjax) - Official repository
@@ -707,8 +822,8 @@ We started with a mystery: bentos with an average weight that doesn't match any 
 2. **Stick-breaking**: Defines mixing proportions for infinite components
 3. **CRP**: Intuitive "customers and tables" interpretation
 4. **α**: Concentration parameter controlling cluster tendency
-5. **GenJAX**: Express DPMM as generative model with truncation
-6. **Inference**: Importance resampling or MCMC for posterior
+5. **Slice sampler**: Auxiliary slice variables $u_i$ adaptively truncate the infinite stick, so each Gibbs sweep only handles finitely many live clusters
+6. **Label switching**: Cluster labels are arbitrary — summarize with label-invariant quantities (co-clustering, posterior over $K$) or a single relabeled sample, never raw per-label averages
 {{% /notice %}}
 
 ---
