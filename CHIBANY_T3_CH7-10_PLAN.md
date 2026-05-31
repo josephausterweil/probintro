@@ -1,5 +1,27 @@
 # Plan: Tutorial 3 Chapters 8–11 — Bayesian Networks, Causal Bayes Nets, and Information Theory
 
+**✅ BUILT 2026-06-01.** All four chapters are written, validated green (code executes + outputs match),
+each with a companion Colab notebook, and pushed to origin/main:
+- `08_bayes_nets.md` (commit `6534428`) — Bayesian Networks
+- `09_conditional_independence.md` (commit `1fec32e`) — Conditional Independence & d-Separation
+- `10_causal_bayes_nets.md` (commit `df49fce`) — Causal Bayes Nets & the Do-Operator
+- `11_information_theory.md` (commit `3a83ab2`) — Information Theory
+
+Decisions taken during the build (differ slightly from the original plan below):
+- **Supporting characters: Jamal & Alyssa** (peers/labmates; Alyssa uses they/them) — not Ira/Yuki.
+- **Followed the Week 5 lecture's examples** where they diverged from the plan: Chibany Monty Hall as the
+  collider, **deterministic-OR** sprinkler/rain explaining-away (clean arithmetic 0.30→0.59→0.30) instead of
+  noisy-OR, and rain/tea for the info-theory collider.
+- **Smoking-network CPT** tuned for a clear see/do gap: P(cancer|teeth)=0.098 vs P(cancer|do(teeth))=0.052.
+- **Ch11 kept as a short capstone** (entropy, MI, collider-in-bits, KL forward-pointer) per Joe.
+- Each chapter went through ≥2 student-audit passes (re-read as a student who's read only up to that chapter)
+  before commit; audits caught real gaps (Ch8 promised inference but only sampled → added it; Ch9 had a false
+  Ch7 Monty Hall cross-ref; Ch10 didn't explain why the intervened model needs no conditioning).
+
+The original plan follows, kept for reference.
+
+---
+
 **Author:** Drafted by Claude (Opus 4.7) in conversation with Prof. Austerweil, 2026-05-26.
 **For:** A fresh agent in a new session to build out, chapter by chapter.
 
