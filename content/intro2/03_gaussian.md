@@ -81,10 +81,11 @@ Any bento lighter than 494g or heavier than 506g would be unusual (less than 0.3
 
 Let's model the tonkatsu bento weights using a Gaussian distribution:
 
+<!-- validate: tol=0.1 -->
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen, simulate
+from genjax import gen, normal
 import jax.random as random
 
 @gen
@@ -94,7 +95,7 @@ def tonkatsu_weight():
     mu = 500.0
     sigma = 2.0
 
-    weight = jnp.normal(mu, sigma) @ "weight"
+    weight = normal(mu, sigma) @ "weight"
     return weight
 
 # Simulate 10,000 bentos
@@ -103,7 +104,8 @@ weights = []
 
 for _ in range(10000):
     key, subkey = random.split(key)
-    trace = simulate(tonkatsu_weight)(subkey)
+    # Run the model once: model.simulate(key, args) returns a trace; args is () here.
+    trace = tonkatsu_weight.simulate(subkey, ())
     weights.append(trace.get_retval())
 
 weights = jnp.array(weights)
@@ -126,6 +128,7 @@ Perfect match! The Law of Large Numbers strikes again.
 
 ### Verifying the 68-95-99.7 Rule
 
+<!-- validate: tol=1.0 -->
 ```python
 # Count how many fall within each range
 import jax.numpy as jnp
@@ -225,6 +228,7 @@ The code below shows the **concept** of a mixture model. Due to JAX's functional
 For learning purposes, this simplified version demonstrates the modeling logic.
 {{% /notice %}}
 
+<!-- validate: tol=2.0 -->
 ```python
 from genjax import gen, bernoulli, normal
 import jax.numpy as jnp
@@ -249,7 +253,8 @@ weights = []
 
 for _ in range(10000):
     key, subkey = random.split(key)
-    trace = simulate(realistic_bento)(subkey)
+    # model.simulate(key, args) runs the model once and returns a trace; args is () here.
+    trace = realistic_bento.simulate(subkey, ())
     weights.append(trace.get_retval())
 
 weights = jnp.array(weights)
@@ -260,7 +265,7 @@ print(f"Expected value: {0.7 * 500 + 0.3 * 350:.1f}g")
 
 **Output:**
 ```
-Average weight: 455.2g
+Average weight: 455.1g
 Expected value: 455.0g
 ```
 
@@ -355,6 +360,7 @@ P(weight > 503g) = 0.0668
 About 6.68% of bentos weigh more than 503g.
 
 **Verify with simulation:**
+<!-- validate: tol=0.02 -->
 ```python
 # Using our GenJAX simulation from earlier
 import jax.numpy as jnp
@@ -408,10 +414,11 @@ Test scores follow N(75, 100) (mean 75, variance 100, so std dev = 10).
 <details>
 <summary>Show Solution</summary>
 
+<!-- validate: tol=3.0 -->
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen, simulate
+from genjax import gen, normal
 import jax.random as random
 from scipy.stats import norm
 
@@ -429,7 +436,7 @@ print(f"b) 90th percentile score: {score_90th:.1f}")
 # Part c: Simulate
 @gen
 def student_score():
-    score = jnp.normal(75.0, 10.0) @ "score"
+    score = normal(75.0, 10.0) @ "score"
     return score
 
 key = random.PRNGKey(42)
@@ -437,7 +444,7 @@ scores = []
 
 for _ in range(1000):
     key, subkey = random.split(key)
-    trace = simulate(student_score)(subkey)
+    trace = student_score.simulate(subkey, ())
     scores.append(trace.get_retval())
 
 scores = jnp.array(scores)
@@ -454,7 +461,7 @@ print(f"   Simulated 90th percentile: {sim_90th:.1f}")
 a) P(65 < score < 85) = 68.3%
 b) 90th percentile score: 87.8
 c) Simulated P(65-85): 68.1%
-   Simulated 90th percentile: 87.6
+   Simulated 90th percentile: 87.4
 ```
 </details>
 
@@ -523,7 +530,7 @@ In Chapter 4, we'll learn **Bayesian learning**: how to estimate these parameter
 1. **Gaussian distribution**: The "bell curve" described by mean (μ) and variance (σ²)
 2. **68-95-99.7 rule**: Approximately 68%/95%/99.7% of data within 1/2/3 standard deviations
 3. **Ubiquity**: Central Limit Theorem makes Gaussians appear everywhere
-4. **GenJAX**: `jnp.normal(mu, sigma)` samples from N(μ, σ²)
+4. **GenJAX**: `normal(mu, sigma)` samples from N(μ, σ²)
 5. **Simulation**: Monte Carlo verification matches theoretical probabilities
 {{% /notice %}}
 

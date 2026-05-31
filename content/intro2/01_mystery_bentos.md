@@ -491,28 +491,29 @@ Recall from Tutorial 2 that we express random processes using **generative funct
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen, choice_map, simulate, Plot
+from genjax import gen, flip
 
 @gen
 def bento_mixture():
     """Generate a single bento weight from the mixture"""
     # Step 1: Choose the bento type
     # 70% chance of tonkatsu, 30% chance of hamburger
-    is_tonkatsu = jnp.bernoulli(0.7) @ "type"
+    is_tonkatsu = flip(0.7) @ "type"
 
     # Step 2: Assign the weight based on type
     # (For now, we use exact weights - we'll add variation in Chapter 3!)
     weight = jnp.where(is_tonkatsu, 500.0, 350.0)
 
-    return weight @ "weight"
+    return weight
 ```
 
 **What's happening here?**
 
-1. `jnp.bernoulli(0.7)` flips a weighted coin: 70% True (tonkatsu), 30% False (hamburger)
+1. `flip(0.7)` flips a weighted coin: 70% True (tonkatsu), 30% False (hamburger)
 2. `@ "type"` gives this random choice an address (like you learned in Tutorial 2, Chapter 3)
-3. `jnp.where(is_tonkatsu, 500.0, 350.0)` returns 500g if tonkatsu, 350g if hamburger
-4. `@ "weight"` addresses the final output
+3. `jnp.where(is_tonkatsu, 500.0, 350.0)` returns 500g if tonkatsu, 350g if hamburger — a single
+   deterministic value computed from the random `type`, so it is the model's return value (we only give
+   *addresses* to random choices, like `"type"`, not to deterministic results)
 
 This is the **generative model** for Chibany's bentos!
 
@@ -520,6 +521,7 @@ This is the **generative model** for Chibany's bentos!
 
 Let's simulate 1000 bentos and calculate the average weight, just like Chibany's experiment:
 
+<!-- validate: skip-output -->
 ```python
 import jax.random as random
 
@@ -534,7 +536,7 @@ weights = []
 
 for i in range(n_bentos):
     key, subkey = random.split(key)
-    trace = simulate(bento_mixture)(subkey)
+    trace = bento_mixture.simulate(subkey, ())
     weights.append(trace.get_retval())
 
 weights = jnp.array(weights)
@@ -553,12 +555,12 @@ print(f"  Hamburger (350g): {n_hamburger} ({n_hamburger/n_bentos*100:.1f}%)")
 
 **Output:**
 ```
-Simulated average weight: 454.5g
+Simulated average weight: 451.5g
 Theoretical E[X]: 455.0g
 
 Counts:
-  Tonkatsu (500g): 691 (69.1%)
-  Hamburger (350g): 309 (30.9%)
+  Tonkatsu (500g): 677 (67.7%)
+  Hamburger (350g): 323 (32.3%)
 ```
 
 The simulated average is very close to the theoretical expected value!
@@ -577,15 +579,17 @@ $$E[X] = 0.7 \times 500 + 0.3 \times 350 = 455\text{g}$$
 
 One power of GenJAX is that we can **inspect** what the model generates. Let's look at a few traces:
 
+<!-- validate: skip-output -->
 ```python
 # Generate and examine 5 bentos
 key = random.PRNGKey(123)
 
 for i in range(5):
     key, subkey = random.split(key)
-    trace = simulate(bento_mixture)(subkey)
+    trace = bento_mixture.simulate(subkey, ())
 
-    bento_type = "Tonkatsu" if trace["type"] else "Hamburger"
+    # trace.get_choices() returns the random choices made; "type" is the one we addressed
+    bento_type = "Tonkatsu" if trace.get_choices()["type"] else "Hamburger"
     weight = trace.get_retval()
 
     print(f"Bento {i+1}: {bento_type:10s} → {weight:.0f}g")
@@ -593,7 +597,7 @@ for i in range(5):
 
 **Output:**
 ```
-Bento 1: Tonkatsu   → 500g
+Bento 1: Hamburger  → 350g
 Bento 2: Hamburger  → 350g
 Bento 3: Tonkatsu   → 500g
 Bento 4: Tonkatsu   → 500g

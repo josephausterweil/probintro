@@ -208,7 +208,7 @@ temps = []
 
 for _ in range(10000):
     key, subkey = random.split(key)
-    trace = coffee_temperature.simulate(subkey)
+    trace = coffee_temperature.simulate(subkey, ())
     temps.append(trace.get_retval())
 
 temps = jnp.array(temps)
@@ -236,6 +236,7 @@ plt.show()
 
 ![PDF vs CDF for Uniform Distribution](../../images/intro2/pdf_vs_cdf.png)
 
+<!-- validate: tol=0.02 -->
 ```python
 # Continued from previous code block (requires temps array from above)
 # Calculate probabilities for ranges
@@ -477,7 +478,7 @@ arrivals = []
 
 for _ in range(10000):
     key, subkey = random.split(key)
-    trace = bus_arrival.simulate(subkey)
+    trace = bus_arrival.simulate(subkey, ())
     arrivals.append(trace.get_retval())
 
 arrivals = jnp.array(arrivals)

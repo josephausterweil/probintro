@@ -146,61 +146,66 @@ $$\mu_1 = \frac{\frac{500}{25} + \frac{1 \cdot 497}{4}}{\frac{1}{25} + \frac{1}{
 
 Let's build a Bayesian learning model:
 
+<!-- validate: tol=0.1 -->
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen, simulate, importance_resampling
+from genjax import gen, normal, ChoiceMap
 import jax.random as random
 
 # Known parameters
-DATA_VARIANCE = 4.0
-DATA_STD = 2.0
+DATA_STD = 2.0   # observation noise: N(mu, 4) means std 2
 
 @gen
-def prior_belief():
-    """Prior: we think mean is around 500g with uncertainty"""
-    mu = jnp.normal(500.0, 5.0) @ "mu"
-    return mu
-
-@gen
-def generative_model(observations):
-    """Full model: prior + likelihood"""
+def generative_model():
+    """Full model: prior on the mean, then one observation given that mean."""
     # Prior belief about the mean
-    mu = jnp.normal(500.0, 5.0) @ "mu"
-
-    # Generate each observation from N(mu, 4)
-    for i, obs in enumerate(observations):
-        weight = jnp.normal(mu, DATA_STD) @ f"weight_{i}"
-
+    mu = normal(500.0, 5.0) @ "mu"           # Prior: N(500, 25)
+    # Generate the observation from N(mu, 4)
+    weight = normal(mu, DATA_STD) @ "weight_0"
     return mu
 
-# Observe one bento: 497g
-observed_data = [497.0]
+# Observe one bento: 497g. We CONDITION on it with a ChoiceMap (the modern way to
+# pin an addressed random choice to an observed value), then importance-sample.
+observed = ChoiceMap.d({"weight_0": 497.0})
 
-# Condition the model on the observed data
-from genjax import choice_map
-
-observations = choice_map()
-observations["weight_0"] = 497.0
-
-# Run importance sampling to approximate the posterior
+# Run importance sampling to approximate the posterior over mu
 key = random.PRNGKey(42)
 num_samples = 10000
 
-# Generate traces conditioned on observed data
-traces = []
+# model.importance(key, constraints, args) returns (trace, log_weight): the trace is
+# a sample with weight_0 pinned to 497, and log_weight scores how well its mu explains
+# the data. A weighted average of mu over many samples approximates the posterior.
+mus = []
+log_weights = []
 for _ in range(num_samples):
     key, subkey = random.split(key)
-    trace = simulate(generative_model, observations)(subkey, observed_data)
-    traces.append(trace)
+    trace, log_w = generative_model.importance(subkey, observed, ())
+    mus.append(trace.get_choices()["mu"])
+    log_weights.append(log_w)
 
-# Extract posterior samples for mu
-posterior_mu_samples = jnp.array([trace["mu"] for trace in traces])
+mus = jnp.array(mus)
+log_weights = jnp.array(log_weights)
 
-print(f"Posterior mean: {jnp.mean(posterior_mu_samples):.2f}g")
-print(f"Posterior std dev: {jnp.std(posterior_mu_samples):.2f}g")
+# Normalize the importance weights (log-space, like the GenJAX tutorial), then take
+# the weighted mean and std of mu.
+w = jnp.exp(log_weights - log_weights.max())
+w = w / w.sum()
+post_mean = jnp.sum(w * mus)
+post_std = jnp.sqrt(jnp.sum(w * (mus - post_mean) ** 2))
+
+print(f"Posterior mean: {post_mean:.2f}g")
+print(f"Posterior std dev: {post_std:.2f}g")
 print(f"Theoretical posterior mean: 497.4g")
 print(f"Theoretical posterior std dev: 1.86g")
+```
+
+**Output:**
+```
+Posterior mean: 497.41g
+Posterior std dev: 1.85g
+Theoretical posterior mean: 497.4g
+Theoretical posterior std dev: 1.86g
 ```
 
 **Note**: The above shows the conceptual structure. In practice, GenJAX's importance sampling might need weight normalization. Let's simplify with a direct analytical update:
@@ -294,15 +299,32 @@ After observation 1 (x=497.0g):
   Posterior: N(497.41, 3.45)
   Mean: 497.41g, Std dev: 1.86g
 After observation 2 (x=498.5g):
-  Posterior: N(497.71, 2.11)
-  Mean: 497.71g, Std dev: 1.45g
+  Posterior: N(497.92, 1.85)
+  Mean: 497.92g, Std dev: 1.36g
 After observation 3 (x=496.0g):
-  Posterior: N(497.27, 1.48)
-  Mean: 497.27g, Std dev: 1.22g
-...
+  Posterior: N(497.31, 1.27)
+  Mean: 497.31g, Std dev: 1.13g
+After observation 4 (x=499.0g):
+  Posterior: N(497.72, 0.96)
+  Mean: 497.72g, Std dev: 0.98g
+After observation 5 (x=497.5g):
+  Posterior: N(497.67, 0.78)
+  Mean: 497.67g, Std dev: 0.88g
+After observation 6 (x=498.0g):
+  Posterior: N(497.73, 0.65)
+  Mean: 497.73g, Std dev: 0.81g
+After observation 7 (x=496.5g):
+  Posterior: N(497.56, 0.56)
+  Mean: 497.56g, Std dev: 0.75g
+After observation 8 (x=497.0g):
+  Posterior: N(497.49, 0.49)
+  Mean: 497.49g, Std dev: 0.70g
+After observation 9 (x=498.5g):
+  Posterior: N(497.60, 0.44)
+  Mean: 497.60g, Std dev: 0.66g
 After observation 10 (x=497.5g):
-  Posterior: N(497.65, 0.37)
-  Mean: 497.65g, Std dev: 0.61g
+  Posterior: N(497.59, 0.39)
+  Mean: 497.59g, Std dev: 0.63g
 ```
 
 **Key observations**:
@@ -489,10 +511,11 @@ Predictive for next X: N(497.65, 4.37)
 
 ## Implementing Predictive Distribution in GenJAX
 
+<!-- validate: tol=0.1 -->
 ```python
 import jax
 import jax.numpy as jnp
-from genjax import gen, simulate
+from genjax import gen, normal
 import jax.random as random
 
 @gen
@@ -501,10 +524,10 @@ def posterior_predictive(post_mu, post_var, data_var):
     Sample from posterior predictive distribution
     """
     # First, sample a μ from the posterior
-    mu = jnp.normal(post_mu, jnp.sqrt(post_var)) @ "mu"
+    mu = normal(post_mu, jnp.sqrt(post_var)) @ "mu"
 
     # Then, sample a new observation given that μ
-    x_new = jnp.normal(mu, jnp.sqrt(data_var)) @ "x_new"
+    x_new = normal(mu, jnp.sqrt(data_var)) @ "x_new"
 
     return x_new
 
@@ -513,13 +536,18 @@ post_mu = 497.65
 post_var = 0.37
 data_var = 4.0
 
+# Theoretical posterior-predictive: same mean, variance = posterior var + data var
+pred_mu = post_mu
+pred_std = jnp.sqrt(post_var + data_var)
+
 # Simulate 10,000 predictions
 key = random.PRNGKey(42)
 predictions = []
 
 for _ in range(10000):
     key, subkey = random.split(key)
-    trace = simulate(posterior_predictive)(subkey, post_mu, post_var, data_var)
+    # model.simulate(key, args) runs the model once; args is the tuple of arguments.
+    trace = posterior_predictive.simulate(subkey, (post_mu, post_var, data_var))
     predictions.append(trace.get_retval())
 
 predictions = jnp.array(predictions)
@@ -532,8 +560,8 @@ print(f"Theoretical predictive std: {pred_std:.2f}g")
 
 **Output:**
 ```
-Simulated predictive mean: 497.63g
-Simulated predictive std: 2.08g
+Simulated predictive mean: 497.65g
+Simulated predictive std: 2.10g
 Theoretical predictive mean: 497.65g
 Theoretical predictive std: 2.09g
 ```
@@ -627,11 +655,11 @@ print(f"   Mean: {post_mu:.2f}ml, Std dev: {pred_std:.2f}ml")
 
 **Output:**
 ```
-a) Posterior: N(29.78, 0.67)
-   Mean: 29.78ml, Std dev: 0.82ml
-b) 95% credible interval: [28.18, 31.38] ml
-c) Predictive: N(29.78, 4.67)
-   Mean: 29.78ml, Std dev: 2.16ml
+a) Posterior: N(29.72, 0.73)
+   Mean: 29.72ml, Std dev: 0.86ml
+b) 95% credible interval: [28.04, 31.40] ml
+c) Predictive: N(29.72, 4.73)
+   Mean: 29.72ml, Std dev: 2.18ml
 ```
 </details>
 
@@ -700,15 +728,15 @@ print(f"   With n=5: Posterior mean = {post_mu_more:.2f}g (shifted more)")
 ```
 a) Prior: N(500, 1.00) [very confident]
    Sample mean: 490.0g
-   Posterior: N(496.47, 0.59)
-   Mean: 496.47g, Std dev: 0.77g
+   Posterior: N(495.71, 0.57)
+   Mean: 495.71g, Std dev: 0.76g
 
 b) Prior precision: 1.00
    Data precision (n=3): 0.75
    Prior precision is stronger, so posterior stays near 500g
 
 c) Need n > 4 observations for data to dominate
-   With n=5: Posterior mean = 493.81g (shifted more)
+   With n=5: Posterior mean = 494.44g (shifted more)
 ```
 </details>
 

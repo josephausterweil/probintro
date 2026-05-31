@@ -27,3 +27,11 @@ Thumbs.db
 
 # Removed images (kept locally but not in repo)
 assets/images/chibanysad.svg
+
+# validate_code_blocks.py byproducts: executing chapter cells calls plt.savefig()
+# with relative paths, dropping PNGs in the repo root. Ignore root-level images and
+# scratch so they're never committed. (Real figures live under static/images/.)
+/*.png
+/*.mjs
+/__pycache__/
+.validate_logs/
