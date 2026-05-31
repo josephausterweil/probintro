@@ -189,7 +189,7 @@ population mean = 0.60
 
 Read the shifts and the whole idea is there:
 
-- **Alyssa (70/100)** barely moves — 0.70 → 0.691. With 100 bentos, her own data dominates the shared prior.
+- **Alyssa (70/100)** barely moves — 0.70 → 0.691. With 100 bentos, their own data dominates the shared prior.
 - **Emi (2/2) and Farid (1/1)** move the most — both crash down from the absurd 1.00 toward the population
   (0.667 and 0.636). With almost no data, they lean almost entirely on the group.
 - **Carmen and Diego** sit *exactly* at the population mean already (0.60), so they don't move at all —
