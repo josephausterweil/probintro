@@ -40,7 +40,8 @@ graph TB
     E --> F[6. Dirichlet Process]
     F --> G[7. Bayesian Generalization]
     G --> H[8. Bayesian Networks]
-    H --> S[9–11. Conditional Independence,<br/>Causal Bayes Nets, Info Theory<br/>coming soon]
+    H --> I[9. Conditional Independence]
+    I --> S[10–11. Causal Bayes Nets,<br/>Info Theory<br/>coming soon]
     S --> L[12. Hierarchical Bayes]
 
     style B fill:#27ae60
@@ -111,8 +112,14 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - Multi-parent networks and conditional probability tables; the parameter-counting argument
 - **GenJAX**: building Bayes nets as generative functions, ancestral sampling, and inference from effect back to cause
 
-*Chapters 9–11 (the rest of the Bayesian-networks spine: conditional independence, causal Bayes nets,
-information theory) are planned but not yet written — see the plan docs in the textbook root.*
+### Chapter 9: Conditional Independence and d-Separation
+- The three building blocks: chain, fork, and collider — and which way each passes information
+- Why conditioning on a collider *opens* a path (the Monty Hall surprise)
+- The d-separation algorithm and the Markov blanket
+- **Explaining away**, walked through numerically; **GenJAX**: the rain/sprinkler collider
+
+*Chapters 10–11 (the rest of the Bayesian-networks spine: causal Bayes nets and information theory)
+are planned but not yet written — see the plan docs in the textbook root.*
 
 ### Chapter 12: Hierarchical Bayes
 - Two extremes that fail: no pooling vs. complete pooling
