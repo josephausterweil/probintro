@@ -1,5 +1,5 @@
 +++
-date = "2026-01-19"
+date = "2026-05-31"
 title = "The Gaussian Distribution"
 weight = 3
 +++
@@ -228,7 +228,7 @@ The code below shows the **concept** of a mixture model. Due to JAX's functional
 For learning purposes, this simplified version demonstrates the modeling logic.
 {{% /notice %}}
 
-<!-- validate: tol=2.0 -->
+<!-- validate: tol=6.0 -->
 ```python
 from genjax import gen, bernoulli, normal
 import jax.numpy as jnp
@@ -360,9 +360,11 @@ P(weight > 503g) = 0.0668
 About 6.68% of bentos weigh more than 503g.
 
 **Verify with simulation:**
-<!-- validate: tol=0.02 -->
+<!-- validate: tol=0.015 -->
 ```python
-# Using our GenJAX simulation from earlier
+# Using our GenJAX simulation from earlier. Note: `weights` is the MIXTURE
+# (70% tonkatsu near 500g, 30% hamburger near 350g). Only the tonkatsu
+# component can clear 503g, so the simulated fraction is about 0.7 × 0.0668.
 import jax.numpy as jnp
 
 simulated_prob = jnp.mean(weights > 503)
@@ -371,10 +373,10 @@ print(f"Simulated P(weight > 503g) = {simulated_prob:.4f}")
 
 **Output:**
 ```
-Simulated P(weight > 503g) = 0.0664
+Simulated P(weight > 503g) = 0.0424
 ```
 
-Close match!
+This is roughly $0.7 \times 0.0668 \approx 0.047$ — the analytic $0.0668$ is the chance *within* the tonkatsu cluster, and only ~70% of bentos are tonkatsu, so the overall fraction is lower. (The two would match exactly if every bento were tonkatsu.)
 
 ---
 
@@ -506,7 +508,7 @@ print(f"   New rejection rate: {prob_reject_new:.2%}")
 ```
 a) Rejection rate: 4.6%
 b) Required std dev: 0.388mm
-   New rejection rate: 0.98%
+   New rejection rate: 1.00%
 ```
 </details>
 

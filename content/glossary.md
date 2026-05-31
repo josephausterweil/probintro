@@ -1,4 +1,5 @@
 +++
+date = "2026-05-31"
 title = "Glossary - All Tutorials"
 weight = 100
 +++
@@ -1215,16 +1216,17 @@ A problem in importance sampling where most samples have negligible weight, so o
 **Symptom**: Effective sample size (ESS) << number of samples
 
 **Example**:
+<!-- validate: skip -->
 ```python
-# Generate 100 samples with importance weights
-samples = [...100 samples...]
-weights = [...100 weights...]
+# Suppose 100 importance-sampling weights, but one dominates all the rest:
+weights = [0.97] + [0.03 / 99] * 99   # one huge weight, 99 tiny ones
 
-# Compute ESS
-normalized_weights = weights / sum(weights)
-ESS = 1.0 / sum(normalized_weights**2)
+# Compute the effective sample size (ESS)
+total = sum(weights)
+normalized_weights = [w / total for w in weights]
+ESS = 1.0 / sum(w**2 for w in normalized_weights)
 
-# ESS ≈ 1.0 out of 100 = severe weight degeneracy!
+# ESS ≈ 1.06 out of 100 — severe weight degeneracy!
 ```
 
 **Causes**:

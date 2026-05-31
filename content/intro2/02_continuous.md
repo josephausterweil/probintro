@@ -1,5 +1,5 @@
 +++
-date = "2026-01-19"
+date = "2026-05-31"
 title = "The Continuum: Continuous Probability"
 weight = 2
 +++
@@ -461,6 +461,7 @@ Write a GenJAX generative function for Problem 1 and simulate 10,000 bus arrival
 
 {{% expand "Answer" %}}
 
+<!-- validate: tol=0.01 -->
 ```python
 from genjax import gen, uniform
 import jax.numpy as jnp
