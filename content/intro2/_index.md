@@ -42,8 +42,8 @@ graph TB
     G --> H[8. Bayesian Networks]
     H --> I[9. Conditional Independence]
     I --> J[10. Causal Bayes Nets]
-    J --> S[11. Information Theory<br/>coming soon]
-    S --> L[12. Hierarchical Bayes]
+    J --> K[11. Information Theory]
+    K --> L[12. Hierarchical Bayes]
 
     style B fill:#27ae60
     style D fill:#27ae60
@@ -125,8 +125,11 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - $P(Y \mid X)$ vs. $P(Y \mid do(X))$ — seeing vs. doing, with worked numbers
 - Pearl's ladder of causation; the blicket detector; **GenJAX**: observational vs. interventional models
 
-*Chapter 11 (the close of the Bayesian-networks spine: information theory) is planned but not yet
-written — see the plan docs in the textbook root.*
+### Chapter 11: Information Theory — Surprise, Uncertainty, and the Collider
+- Surprise as $-\log P(x)$; entropy as expected surprise; the bit
+- Mutual information — how many bits one variable carries about another
+- Independence and d-separation, restated in information units
+- The collider creating mutual information from nothing (explaining away, in bits); KL divergence as a forward pointer; **GenJAX**: entropy and MI by Monte Carlo
 
 ### Chapter 12: Hierarchical Bayes
 - Two extremes that fail: no pooling vs. complete pooling
