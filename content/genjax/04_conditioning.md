@@ -325,6 +325,7 @@ Now let's use GenJAX's built-in conditioning. This is usually more convenient!
 
 A **choice map** is a dictionary specifying values for named random choices. We use it to condition the model on observations:
 
+<!-- validate: tol=0.02 -->
 ```python
 from genjax import ChoiceMap
 
@@ -369,6 +370,7 @@ When using `generate()` with conditioning, you **must** use the importance weigh
 **Why?** When GenJAX generates traces conditional on observations, different traces have different probabilities. The `weight` tells you how likely each trace is. Simply averaging without weights gives you the **prior** (what you believed before seeing the evidence), not the **posterior** (what you should believe after seeing the evidence).
 
 **Correct approach:**
+<!-- validate: skip -->
 ```python
 # Return BOTH value and weight
 trace, weight = model.generate(key, observation, args)
@@ -376,6 +378,7 @@ trace, weight = model.generate(key, observation, args)
 ```
 
 **Incorrect approach** (gives wrong answer):
+<!-- validate: skip -->
 ```python
 # Only returning value, ignoring weight
 trace, weight = model.generate(key, observation, args)
@@ -510,6 +513,7 @@ Let's see how changing the base rate affects the answer.
 
 ### Scenario 1: Equal Taxis (50% blue, 50% green)
 
+<!-- validate: tol=0.02 -->
 ```python
 import jax
 import jax.numpy as jnp
@@ -540,6 +544,7 @@ If 50% blue: P(Blue | says Blue) = 0.800
 
 ### Scenario 2: Mostly Blue (85% blue, 15% green)
 
+<!-- validate: tol=0.03 -->
 ```python
 import jax.numpy as jnp
 
