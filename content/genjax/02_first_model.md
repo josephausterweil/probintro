@@ -101,6 +101,7 @@ dinner_is_tonkatsu = flip(0.5) @ "dinner"
 - Another coin flip, named "dinner"
 
 **Line 12: Return value**
+<!-- validate: skip -->
 ```python
 return (lunch_is_tonkatsu, dinner_is_tonkatsu)
 ```

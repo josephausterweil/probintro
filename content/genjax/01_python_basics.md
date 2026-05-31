@@ -207,6 +207,7 @@ else:
 
 A **decorator** adds capabilities to a function. In GenJAX, we use `@gen`:
 
+<!-- validate: skip -->
 ```python
 @gen
 def my_function():
@@ -226,6 +227,7 @@ def my_function():
 
 In GenJAX, we use `@` to **name random choices**:
 
+<!-- validate: skip -->
 ```python
 lunch = flip(0.5) @ "lunch"
 ```
@@ -261,6 +263,7 @@ from genjax import gen, flip
 
 Sometimes we call functions "on" an object:
 
+<!-- validate: skip -->
 ```python
 trace = model.simulate(key, args)
 choices = trace.get_choices()
