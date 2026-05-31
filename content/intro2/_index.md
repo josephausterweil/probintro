@@ -41,7 +41,8 @@ graph TB
     F --> G[7. Bayesian Generalization]
     G --> H[8. Bayesian Networks]
     H --> I[9. Conditional Independence]
-    I --> S[10–11. Causal Bayes Nets,<br/>Info Theory<br/>coming soon]
+    I --> J[10. Causal Bayes Nets]
+    J --> S[11. Information Theory<br/>coming soon]
     S --> L[12. Hierarchical Bayes]
 
     style B fill:#27ae60
@@ -118,8 +119,14 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - The d-separation algorithm and the Markov blanket
 - **Explaining away**, walked through numerically; **GenJAX**: the rain/sprinkler collider
 
-*Chapters 10–11 (the rest of the Bayesian-networks spine: causal Bayes nets and information theory)
-are planned but not yet written — see the plan docs in the textbook root.*
+### Chapter 10: Causal Bayes Nets and the Do-Operator
+- When arrows mean *causes*: three causal stories behind one correlation
+- Intervention as graph surgery; the do-operator $do(X = x)$
+- $P(Y \mid X)$ vs. $P(Y \mid do(X))$ — seeing vs. doing, with worked numbers
+- Pearl's ladder of causation; the blicket detector; **GenJAX**: observational vs. interventional models
+
+*Chapter 11 (the close of the Bayesian-networks spine: information theory) is planned but not yet
+written — see the plan docs in the textbook root.*
 
 ### Chapter 12: Hierarchical Bayes
 - Two extremes that fail: no pooling vs. complete pooling
