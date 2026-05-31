@@ -1,5 +1,5 @@
 +++
-date = "2025-12-06"
+date = "2026-05-31"
 title = "Understanding Traces"
 weight = 4
 +++
@@ -280,6 +280,7 @@ Notice we use `jax.random.split(key)` to create new keys for each run?
 **Why?** JAX uses explicit random keys for reproducibility. The same key always gives the same result.
 
 **Pattern:**
+<!-- validate: skip -->
 ```python
 key, subkey = jax.random.split(key)  # Create new key
 trace = model.simulate(subkey, ...)   # Use the subkey
@@ -516,11 +517,15 @@ def run_one_day(k):
 
 days = jax.vmap(run_one_day)(keys)
 
+# get_retval() returns a tuple (lunch, dinner), so vmap gives us a
+# tuple of two arrays — unpack them rather than indexing columns.
+lunch, dinner = days
+
 # Filter: dinner is Tonkatsu (dinner == 1)
-dinner_is_tonkatsu = days[:, 1] == 1
+dinner_is_tonkatsu = dinner == 1
 
 # Among those, count lunch is Tonkatsu
-both_tonkatsu = (days[:, 0] == 1) & (days[:, 1] == 1)
+both_tonkatsu = (lunch == 1) & (dinner == 1)
 
 # Calculate conditional probability
 n_dinner_tonkatsu = jnp.sum(dinner_is_tonkatsu)
@@ -531,6 +536,13 @@ prob_lunch_given_dinner = n_both / n_dinner_tonkatsu
 print(f"Days with dinner = Tonkatsu: {n_dinner_tonkatsu}")
 print(f"Days with both = Tonkatsu: {n_both}")
 print(f"P(lunch=T | dinner=T) ≈ {prob_lunch_given_dinner:.3f}")
+```
+
+**Output:**
+```
+Days with dinner = Tonkatsu: 481
+Days with both = Tonkatsu: 243
+P(lunch=T | dinner=T) ≈ 0.505
 ```
 
 **Expected result:** ≈ 0.5 (50%)
