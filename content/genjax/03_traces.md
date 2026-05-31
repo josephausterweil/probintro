@@ -40,6 +40,9 @@ We'll explore this fully in Chapter 4. For now, let's understand what traces con
 Recall our generative function:
 
 ```python
+import jax
+from genjax import gen, flip
+
 @gen
 def chibany_day():
     lunch_is_tonkatsu = flip(0.5) @ "lunch"
