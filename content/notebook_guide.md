@@ -204,6 +204,26 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 
 ---
 
+### Bayesian Generalization
+**Notebook**: [📓 Open in Colab: `07_generalization.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/07_generalization.ipynb)
+
+**What it covers:**
+- The sticker warm-up: a concept as a *set* of hypotheses
+- The number game over 1–30 with seven candidate rules
+- The **size principle** under weak vs. strong sampling
+- The generalization gradient — predicting which new numbers fit
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 7: Bayesian Generalization](../intro2/07_generalization/)
+
+**Topics:**
+- Hypotheses as sets
+- The size principle
+- Weak vs. strong sampling
+- Generalization gradients
+
+---
+
 ### Bayesian Networks
 **Notebook**: [📓 Open in Colab: `08_bayes_nets.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/08_bayes_nets.ipynb)
 
@@ -349,6 +369,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `solution_1_gaussian_bayesian_update.ipynb` | Tutorial 3 | Gaussian inference | ⭐⭐⭐ Advanced |
 | `solution_2_gaussian_clusters.ipynb` | Tutorial 3 | Mixture models | ⭐⭐⭐ Advanced |
 | `dpmm_interactive.ipynb` | Tutorial 3 | Bayesian nonparametrics | ⭐⭐⭐⭐ Expert |
+| `07_generalization.ipynb` | Tutorial 3 | Concept learning, size principle | ⭐⭐⭐ Advanced |
 | `08_bayes_nets.ipynb` | Tutorial 3 | Bayesian networks, DAGs | ⭐⭐⭐ Advanced |
 | `09_conditional_independence.ipynb` | Tutorial 3 | d-separation, explaining away | ⭐⭐⭐ Advanced |
 | `10_causal_bayes_nets.ipynb` | Tutorial 3 | Causal inference, do-operator | ⭐⭐⭐ Advanced |

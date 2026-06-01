@@ -1,5 +1,5 @@
 +++
-date = "2026-05-31"
+date = "2026-06-01"
 title = "Bayesian Generalization"
 weight = 7
 toc = true
@@ -11,6 +11,11 @@ How do you learn a *concept* from a handful of examples? You see three numbers t
 a few bentos with a golden sticker — and somehow you know which *other* things fit too. This chapter shows
 that the same Bayes' rule you already know becomes a model of human generalization once you make a single
 shift: **a hypothesis is a set**.
+
+{{% notice style="success" title="Try it yourself" %}}
+A companion notebook builds the number game and the size principle interactively:
+**📓 [Open in Colab: `07_generalization.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/07_generalization.ipynb)**
+{{% /notice %}}
 
 The one new idea is that the unknown you reason about is no longer a number (a mean $\mu$) or a yes/no fact
 (is the taxi blue?), but a **set** — a rule about which things share a property. Everything else — Bayes' rule,
