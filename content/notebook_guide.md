@@ -1,5 +1,5 @@
 +++
-date = "2025-12-05"
+date = "2026-06-01"
 title = "Interactive Notebooks - All Tutorials"
 weight = 99
 +++
@@ -204,6 +204,83 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 
 ---
 
+### Bayesian Networks
+**Notebook**: [📓 Open in Colab: `08_bayes_nets.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/08_bayes_nets.ipynb)
+
+**What it covers:**
+- The Chapter 5 mixture model, re-built explicitly as a Bayes net
+- A hierarchical version (a mixing-weight prior stacked on top)
+- Chibany's multi-parent bento network with a conditional probability table
+- Inference from an observed weight back to the hidden cluster
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 8: Bayesian Networks](../intro2/08_bayes_nets/)
+
+**Topics:**
+- Directed acyclic graphs (DAGs)
+- The Markov factorization
+- Conditional probability tables
+- Ancestral sampling and inference
+
+---
+
+### Conditional Independence & d-Separation
+**Notebook**: [📓 Open in Colab: `09_conditional_independence.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/09_conditional_independence.ipynb)
+
+**What it covers:**
+- The rain / sprinkler / wet-floor collider as a runnable model
+- Conditioning on evidence and recovering posteriors by importance sampling
+- Watching **explaining away** happen numerically (0.30 → 0.59 → 0.30)
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 9: Conditional Independence and d-Separation](../intro2/09_conditional_independence/)
+
+**Topics:**
+- Chain, fork, and collider patterns
+- d-separation
+- The Markov blanket
+- Explaining away
+
+---
+
+### Causal Bayes Nets & the Do-Operator
+**Notebook**: [📓 Open in Colab: `10_causal_bayes_nets.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/10_causal_bayes_nets.ipynb)
+
+**What it covers:**
+- The smoking / teeth / cancer network as observational vs. interventional models
+- Computing P(cancer | teeth) vs. P(cancer | do(teeth)) by Monte Carlo
+- Seeing the see/do gap (≈0.098 vs. 0.052) emerge from graph surgery
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 10: Causal Bayes Nets and the Do-Operator](../intro2/10_causal_bayes_nets/)
+
+**Topics:**
+- The do-operator and graph surgery
+- Confounders
+- Observational vs. interventional distributions
+- Pearl's ladder of causation
+
+---
+
+### Information Theory
+**Notebook**: [📓 Open in Colab: `11_information_theory.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/11_information_theory.ipynb)
+
+**What it covers:**
+- Estimating entropy and mutual information by Monte Carlo
+- The collider creating mutual information from nothing
+- I(rain; tea) = 0 jumping to I(rain; tea | sign) ≈ 0.46 bits — explaining away, in bits
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 11: Information Theory](../intro2/11_information_theory/)
+
+**Topics:**
+- Surprise and entropy
+- Mutual information
+- Independence in information units
+- The collider, in bits
+
+---
+
 ## Recommended Learning Paths
 
 ### Path 1: Complete Beginner
@@ -227,6 +304,12 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 1. `02_first_genjax_model.ipynb` - Interactive parameter exploration
 2. `gaussian_bayesian_interactive_exploration.ipynb` - Bayesian learning with sliders
 3. `dpmm_interactive.ipynb` - Automatic clustering
+
+### Path 4: Graphical Models & Causality
+1. `08_bayes_nets.ipynb` - Draw models as graphs
+2. `09_conditional_independence.ipynb` - d-separation and explaining away
+3. `10_causal_bayes_nets.ipynb` - Seeing vs. doing (the do-operator)
+4. `11_information_theory.ipynb` - Measure dependence in bits
 
 ---
 
@@ -266,6 +349,10 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `solution_1_gaussian_bayesian_update.ipynb` | Tutorial 3 | Gaussian inference | ⭐⭐⭐ Advanced |
 | `solution_2_gaussian_clusters.ipynb` | Tutorial 3 | Mixture models | ⭐⭐⭐ Advanced |
 | `dpmm_interactive.ipynb` | Tutorial 3 | Bayesian nonparametrics | ⭐⭐⭐⭐ Expert |
+| `08_bayes_nets.ipynb` | Tutorial 3 | Bayesian networks, DAGs | ⭐⭐⭐ Advanced |
+| `09_conditional_independence.ipynb` | Tutorial 3 | d-separation, explaining away | ⭐⭐⭐ Advanced |
+| `10_causal_bayes_nets.ipynb` | Tutorial 3 | Causal inference, do-operator | ⭐⭐⭐ Advanced |
+| `11_information_theory.ipynb` | Tutorial 3 | Entropy, mutual information | ⭐⭐⭐ Advanced |
 
 ---
 
