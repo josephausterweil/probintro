@@ -77,7 +77,7 @@ near their own fraction; a student with almost no data leans heavily on the grou
 now the *prior* is the population of other students, and it is **learned**, not assumed.
 
 {{% notice style="warning" title="The pathology, concretely" %}}
-The danger of no-pooling is loudest for **light-data** students: one or two bentos give raw fractions of 0.00
+The danger of no-pooling is loudest for **data-light** students: one or two bentos give raw fractions of 0.00
 or 1.00 — maximally confident estimates from minimal evidence. Watch what partial pooling does to Emi and
 Farid specifically; they are the whole point.
 {{% /notice %}}
@@ -208,7 +208,7 @@ This pull-toward-the-group is called **shrinkage**, and it is the signature beha
 almost alone.** The model **borrows strength** across students automatically — no rule had to say "trust Emi
 less," it falls out of $(a + k)/(a + b + n)$.
 
-![A two-column plot of shrinkage. The left column shows each student's raw fraction k_i/n_i; the right column shows their partial-pooling posterior mean; a line connects each student's two points. An orange dashed horizontal line marks the population mean at 0.60. The two light-data students, drawn with small markers, start at opposite extremes and are both pulled toward the population mean: Emi (2/2) sits at 1.00 on the left and is pulled down to 0.667, while Farid (0/1) sits at 0.00 on the left and is pulled up to 0.545. Alyssa (70/100), drawn with a large marker, sits at 0.70 on both sides — barely moving. Marker size encodes how many bentos each student has.](../../images/intro2/hb_shrinkage.png)
+![A two-column plot of shrinkage. The left column shows each student's raw fraction k_i/n_i; the right column shows their partial-pooling posterior mean; a line connects each student's two points. An orange dashed horizontal line marks the population mean at 0.60. The two data-light students, drawn with small markers, start at opposite extremes and are both pulled toward the population mean: Emi (2/2) sits at 1.00 on the left and is pulled down to 0.667, while Farid (0/1) sits at 0.00 on the left and is pulled up to 0.545. Alyssa (70/100), drawn with a large marker, sits at 0.70 on both sides — barely moving. Marker size encodes how many bentos each student has.](../../images/intro2/hb_shrinkage.png)
 
 The figure makes the dependence on data size visual: marker size grows with $n_i$, and the **small markers
 (little data) travel the farthest** toward the population line, while the big markers stay put.
@@ -462,7 +462,7 @@ Three quick threads back into material you've seen (or will), not re-derived:
    (4/4). Under the population prior $\text{Beta}(6, 4)$, what is her partial-pooling estimate $(a+k)/(a+b+n)$?
    Is her shrinkage more or less than Emi's (2/2)? Check in code.
 2. **Stronger or weaker prior.** Re-run the shrinkage cell with $\text{Beta}(60, 40)$ instead of
-   $\text{Beta}(6, 4)$ — same mean (0.6) but ten times the strength. Before running: will the light-data
+   $\text{Beta}(6, 4)$ — same mean (0.6) but ten times the strength. Before running: will the data-light
    students be pulled *more* or *less* toward 0.6? Explain using $a + b$ as a prior sample size.
 3. **Complete pooling as a limit.** Show (by trying a few values) that as $a + b \to \infty$ with the mean
    fixed, every student's estimate collapses to the population mean — i.e. an infinitely strong prior *is*
