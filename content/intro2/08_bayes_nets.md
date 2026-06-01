@@ -1,12 +1,16 @@
 +++
-date = "2026-05-31"
+date = "2026-06-01"
 title = "Bayesian Networks"
 weight = 8
 +++
 
 ## Drawing What You Already Know
 
-Chibany is sitting at their desk, staring at the histogram from [Chapter 5](../05_mixture_models/). The mystery is solved — the bentos come from two clusters, a light one and a heavy one, and for any new bento Chibany can compute $P(\text{cluster} \mid \text{weight})$ and guess what's inside before opening the box.
+Chibany is sitting at their desk, staring at the histogram from [Chapter 5](../05_mixture_models/) — the one that started the whole mystery:
+
+![Histogram of Chibany's bento weights over the first month. The bars form two clearly separated clumps: a tall cluster of light bentos around 350 g (the hamburgers) and a cluster of heavy bentos around 500–520 g (the tonkatsu), with nothing in between. A red dashed line marks the overall average at 444.6 g — sitting in the empty gap, describing no actual bento.](../../images/intro2/mystery_bentos_histogram.png)
+
+Recall the puzzle it posed: the weights fall into **two separate clumps** — light bentos near 350 g and heavy ones near 500 g — with a big empty gap in the middle. The overall *average*, 444.6 g (the red dashed line), lands right in that gap, describing no bento that ever existed. [Chapter 5](../05_mixture_models/) resolved this with a **Gaussian mixture model**: the bentos come from two hidden clusters — a light one and a heavy one — and for any new bento Chibany can compute $P(\text{cluster} \mid \text{weight})$, the probability it came from each cluster given its weight, and so guess what's inside before opening the box.
 
 But now they're curious about something else. *What did I actually do?* When they wrote down the model, they treated the weight as the thing-they-saw and the cluster as the thing-they-wanted-to-know. Where did that picture come from? Is there a name for it?
 
