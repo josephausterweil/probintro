@@ -194,12 +194,15 @@ Why exactly the prior? Because once $S = 1$, the floor is *certain* to be wet no
 
 ```mermaid
 graph LR
-    s1["P(R)=0.30<br/>before"] --> s2["P(R|W)=0.59<br/>floor is wet"]
-    s2 --> s3["P(R|W,S)=0.30<br/>sprinkler explains it"]
+    s1["P(R)=0.30<br/>before"] == observe W ==> s2["P(R|W)=0.59<br/>floor is wet"]
+    s2 == also observe S ==> s3["P(R|W,S)=0.30<br/>sprinkler explains it"]
     style s1 fill:#1f3a5f,stroke:#4a90d9,color:#fff
     style s2 fill:#5f3a1f,stroke:#d9904a,color:#fff
     style s3 fill:#1f3a5f,stroke:#4a90d9,color:#fff
+    linkStyle 0,1 stroke:#888,stroke-width:3px
 ```
+
+*(These boxes are belief **states**, not network nodes — the thick labelled arrows are belief updates as evidence arrives, not the causal edges of a Bayes net.)*
 
 That up-then-down trajectory is explaining away. And it is exactly why switching wins in Monty Hall: the reveal is a collider, conditioning on it couples the boxes, and the evidence flows to the one box you didn't pick. Two causes competing to explain one observation — that's the whole story.
 
