@@ -453,6 +453,105 @@ you're willing to commit to, and the data does the rest. That is the whole trick
 
 ---
 
+## What the model learns about *variability* — and why Farid depends on it
+
+The inference above learned a single number for the population — its mean rate, about $0.64$. But back in the concentration discussion we saw that the mean is only half the story; the **concentration** $a + b$ decides *how much students differ*, and that is what controls how hard each student is shrunk. So let's separate the two explicitly and let the model learn **both**.
+
+### Reparameterizing: mean and concentration
+
+It is awkward to put a hyperprior directly on $(a, b)$, because the pair entangles "what's the average rate?" with "how alike are students?". Following the standard move in hierarchical models (e.g. Kemp, Perfors, & Tenenbaum, 2007), we **reparameterize** into those two independent questions:
+
+$$\mu = \frac{a}{a+b} \quad (\text{the population } \textbf{mean}), \qquad \lambda = a + b \quad (\text{the } \textbf{concentration}),$$
+
+and invert with $a = \mu\lambda,\; b = (1-\mu)\lambda$. Now we can put a *separate* hyperprior on each — and the crucial one is on $\lambda$.
+
+{{% notice style="info" title="Same distribution, two sets of dials: $(a, b)$ vs. $(\mu, \lambda)$" %}}
+This is **not a new distribution** — it is the *exact same* Beta distribution, described with two different sets of dials. Nothing about the math changes; we are only relabeling.
+
+| | Standard parameterization | Reparameterization |
+|---|---|---|
+| **Parameters** | $a,\ b$ (the two "soft counts") | $\mu = \frac{a}{a+b}$, $\ \lambda = a + b$ |
+| **What each dial does** | $a$ and $b$ each pull *both* the mean and the spread | $\mu$ sets the **mean** alone; $\lambda$ sets the **concentration** alone |
+| **Convert** | — | $a = \mu\lambda,\quad b = (1-\mu)\lambda$ |
+| **Example** | $\text{Beta}(6, 4)$ | $\mu = 0.6,\ \lambda = 10$ |
+
+$\text{Beta}(6,4)$ and "$\mu = 0.6,\ \lambda = 10$" are **the same distribution written two ways** — plug $\mu\lambda = 6$ and $(1-\mu)\lambda = 4$ back in to check. We switch to $(\mu, \lambda)$ for one reason: it lets us reason about — and put independent priors on — "what's the average rate?" and "how alike are students?" *separately*, which is precisely the distinction this section is about. Everywhere a model wants $a$ and $b$ (as in `beta(a, b)`), we still pass $a = \mu\lambda$ and $b = (1-\mu)\lambda$.
+{{% /notice %}} To let the model discover a U-shaped population (each student near-deterministic, $\lambda < 1$) **or** a tight one (students all alike, $\lambda \gg 1$), the hyperprior on $\lambda$ must **span both regimes** — orders of magnitude above and below $1$. A **log-uniform** prior does exactly that:
+
+$$\mu \sim \text{Uniform}(0, 1), \qquad \log \lambda \sim \text{Uniform}(\log 0.1,\; \log 100).$$
+
+{{% notice style="warning" title="Why the hyperprior on $\lambda$ must reach below 1" %}}
+If your hyperprior can't produce $\lambda < 1$, your model *cannot* represent a population of near-deterministic students — it is structurally blind to the U-shape, no matter what the data say. A naive box like "$a, b \in [0.5, 20]$" forces $\lambda = a + b \ge 1$ and quietly rules out heterogeneity. Spanning $\lambda$ across orders of magnitude (here via log-uniform) is what lets the **data** choose the regime.
+{{% /notice %}}
+
+### Two classrooms, the same Emi and Farid
+
+Here is the payoff, and it answers a question you might have had all along: *does shrinking Farid (0/1) up toward the average always make sense?* **No — it depends on the company Farid keeps.** Consider two different classrooms, each with the **same two data-light students** — Emi (2/2) and Farid (0/1) — but different *heavy* bringers:
+
+- **Classroom A — mixed eaters.** Alyssa 70/100, Ben 28/40, Carmen 6/10, Diego 3/5. The well-observed students sit at middling rates ($0.6$–$0.7$): nobody is an extremist. This data is exactly what a **concentrated** population looks like.
+- **Classroom B — creatures of habit.** Alyssa 97/100, Ben 2/40, Carmen 19/20, Diego 0/20. The well-observed students are *near-deterministic* — almost-always-tonkatsu or almost-always-hamburger. This data is what a **U-shaped** population looks like.
+
+We feed each classroom to the same inference and let it learn $\mu$ and $\lambda$, then shrink Emi and Farid with whatever population it found:
+
+<!-- validate: tol=0.06 -->
+```python
+import jax
+import jax.numpy as jnp
+import jax.random as jr
+from jax.scipy.special import betaln, gammaln
+
+def log_beta_binom(k, n, a, b):
+    # log p(k | n, a, b): the Beta-Binomial marginal (theta integrated out).
+    return gammaln(n + 1) - gammaln(k + 1) - gammaln(n - k + 1) \
+        + betaln(a + k, b + n - k) - betaln(a, b)
+
+def infer_population(k, n, seed=0, n_samples=60000):
+    """Infer (mu, lambda) by importance sampling, a = mu*lam, b = (1-mu)*lam.
+    Hyperpriors: mu ~ Uniform(0,1); lambda log-uniform over [0.1, 100] so it can
+    land BELOW 1 (students differ / U-shaped) or ABOVE 1 (students are alike)."""
+    km, kl = jr.split(jr.key(seed))
+    mu = jr.uniform(km, (n_samples,), minval=0.01, maxval=0.99)
+    lam = jnp.exp(jr.uniform(kl, (n_samples,), minval=jnp.log(0.1), maxval=jnp.log(100.0)))
+    a, b = mu * lam, (1 - mu) * lam
+    log_w = jax.vmap(lambda a, b: log_beta_binom(k, n, a, b).sum())(a, b)
+    w = jnp.exp(log_w - log_w.max()); w = w / w.sum()
+    return float(jnp.sum(w * mu)), float(jnp.sum(w * lam))
+
+# Both classrooms share the SAME two data-light students: Emi 2/2, Farid 0/1.
+classrooms = {
+    "A (mixed eaters)":      (jnp.array([70, 28, 6, 3, 2, 0]),  jnp.array([100, 40, 10, 5, 2, 1])),
+    "B (creatures of habit)":(jnp.array([97, 2, 19, 0, 2, 0]),  jnp.array([100, 40, 20, 20, 2, 1])),
+}
+
+for label, (k, n) in classrooms.items():
+    mu, lam = infer_population(k, n)
+    a, b = mu * lam, (1 - mu) * lam
+    print(f"Classroom {label}:  inferred mean mu={mu:.2f}, concentration lambda={lam:.1f}")
+    for name, ki, ni in [("Emi", 2, 2), ("Farid", 0, 1)]:
+        print(f"    {name} {ki}/{ni}: raw {ki/ni:.2f} -> shrunk {(a + ki) / (a + b + ni):.2f}")
+```
+
+**Output:**
+```
+Classroom A (mixed eaters):  inferred mean mu=0.66, concentration lambda=41.3
+    Emi 2/2: raw 1.00 -> shrunk 0.68
+    Farid 0/1: raw 0.00 -> shrunk 0.65
+Classroom B (creatures of habit):  inferred mean mu=0.47, concentration lambda=0.6
+    Emi 2/2: raw 1.00 -> shrunk 0.89
+    Farid 0/1: raw 0.00 -> shrunk 0.17
+```
+
+The two classrooms learn opposite concentrations — $\lambda \approx 41$ (students alike) for A, $\lambda \approx 0.6$ (students differ, U-shaped) for B — **purely from their heavy bringers**, and that flips the verdict on the *identical* data-light students:
+
+| Student (same data) | Classroom A ($\lambda \approx 41$) | Classroom B ($\lambda \approx 0.6$) |
+|---|---:|---:|
+| **Emi** (2/2) | $1.00 \to 0.68$ (pulled to the mean) | $1.00 \to 0.89$ (believed near-1) |
+| **Farid** (0/1) | $0.00 \to 0.65$ (pulled to the mean) | $0.00 \to 0.17$ (believed near-0) |
+
+In classroom A, everyone else is moderate, so a single hamburger from Farid is almost surely a fluke — shrink it hard toward the group. In classroom B, everyone else is an extremist, so Farid's single hamburger is taken nearly at face value — *this is probably an always-hamburger student*. **Same observation about Farid, opposite conclusion, because the population told the model how much to trust one data point.** That — learning how much to trust thin data from the structure of everyone else's — is the deepest thing hierarchical Bayes does.
+
+---
+
 ## The connection to No Free Lunch
 
 Step back to where [Chapter 7](../07_generalization/no-free-lunch-and-summary/) left us. No Free Lunch proved
