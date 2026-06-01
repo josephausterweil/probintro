@@ -107,7 +107,7 @@ prob = jnp.mean(has_tonkatsu)  # Equivalent to |A| / |Ω|
 
 [→ See full implementation in Tutorial 2, Chapter 2](../../genjax/02_first_model/#counting-outcomes)
 
-**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/first_model.ipynb)
+**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/first_model.ipynb)
 {{% /notice %}}
 
 ## Another Example

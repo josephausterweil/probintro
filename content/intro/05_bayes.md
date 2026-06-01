@@ -250,7 +250,7 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 
 [→ See advanced Bayesian inference in Tutorial 3, Chapter 4](../../intro2/04_bayesian_gaussian/)
 
-**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/bayesian_learning.ipynb)
+**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/bayesian_learning.ipynb)
 {{% /notice %}}
 
 {{% notice style="note" title="Why This Matters: Life-Changing Applications" %}}

@@ -100,7 +100,7 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 
 [→ See full conditioning tutorial in Tutorial 2, Chapter 4](../../genjax/04_conditioning/)
 
-**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/amplify/notebooks/conditioning.ipynb)
+**Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/conditioning.ipynb)
 {{% /notice %}}
 
 ## Dependence and independence
