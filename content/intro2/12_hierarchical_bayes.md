@@ -1,5 +1,5 @@
 +++
-date = "2026-05-31"
+date = "2026-06-01"
 title = "Hierarchical Bayes"
 weight = 12
 toc = true
@@ -50,19 +50,24 @@ $k_i$ out of their total bento count $n_i$:
 Chibany wants, for each student, a believable estimate of $\theta_i$ — that student's underlying probability of
 bringing tonkatsu. Two obvious strategies both fail:
 
-::: {.columns}
+<div style="display:flex; flex-wrap:wrap; gap:1.5rem; margin:1rem 0;">
+<div style="flex:1; min-width:260px;">
 
 **No pooling — estimate each student alone.** Just use the raw fraction $k_i / n_i$. For Alyssa (70/100) that's
 fine. But **Emi brought 2 bentos, both tonkatsu**, so this says $\theta_{\text{Emi}} = 1.00$ — Emi *always*
 brings tonkatsu, with certainty, on the strength of two data points. **Farid (1/1)** is even worse: one bento,
 and we declare him a 100%-tonkatsu person. Nobody believes that.
 
+</div>
+<div style="flex:1; min-width:260px;">
+
 **Complete pooling — one shared rate for everyone.** Lump all the bentos together: $110$ tonkatsu out of $158$,
 so $\theta = 110/158 \approx 0.70$ for *everyone* (really $0.696$, dominated by the heavy bringers Alyssa and
 Ben). This fixes the Emi/Farid absurdity, but now it **throws away the real differences** between students —
 and we have good reason to think students differ.
 
-:::
+</div>
+</div>
 
 Neither extreme is right. The fix is the principled middle, **partial pooling**: estimate each $\theta_i$
 *using that student's own data, pulled toward what the other students do.* A student with lots of data stays
