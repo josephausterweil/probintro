@@ -84,17 +84,34 @@
     .node { transition: fill 0.3s, stroke 0.3s; }
     .node.launchable { cursor: pointer; }
     .node.launchable:hover { stroke: var(--yellow); stroke-width: 3.5; }
+    /* a node flashes when a ball bounces off it (a blocked path) */
+    .node.bonk { animation: node-bonk 0.45s ease-out; }
+    @keyframes node-bonk {
+      0%   { stroke: var(--node-stroke); }
+      25%  { stroke: var(--red); stroke-width: 5; }
+      100% { stroke: var(--node-stroke); }
+    }
     .node-label { font-family: serif; font-style: italic; font-size: 26px; user-select: none; pointer-events: none; }
     .edge { stroke: var(--fg); stroke-width: 2.5; fill: none; }
+    /* Ball position is driven by requestAnimationFrame (JS), not CSS transitions,
+       so we can give it a bouncy spring on the way and a recoil when blocked.
+       Only opacity stays on a CSS transition. */
     .ball {
       stroke: #fff;
       stroke-width: 1.5;
-      transition: cx 0.5s ease-in-out, cy 0.5s ease-in-out, opacity 0.3s;
+      transition: opacity 0.3s;
     }
-    .ball.alive { filter: drop-shadow(0 0 5px currentColor); }
+    .ball.alive { filter: drop-shadow(0 0 6px currentColor); }
     .ball.dead {
-      opacity: 0.35;
+      opacity: 0.4;
       filter: none;
+    }
+    /* a comet-like trail the ball leaves while moving */
+    .trail {
+      fill: none;
+      stroke-linecap: round;
+      opacity: 0.5;
+      pointer-events: none;
     }
     .ball-label {
       font-family: sans-serif;
@@ -104,7 +121,7 @@
       text-anchor: middle;
       user-select: none;
       pointer-events: none;
-      transition: opacity 0.3s, x 0.5s ease-in-out, y 0.5s ease-in-out;
+      transition: opacity 0.3s;
     }
     .result {
       font-size: 0.95em;
@@ -331,60 +348,194 @@ function nextBallsFrom(ball) {
   return out;
 }
 
-// Park each ball at an offset around its node so multiple balls at the
-// same node don't overlap. We key by (location, origin, ballIndex).
-function placeBall(ball) {
-  const ballsG = document.getElementById("balls");
+// ---- animation engine --------------------------------------------------
+// Each ball's SVG group remembers where it is currently rendered (rx, ry) and
+// where it wants to be (tx, ty). A single requestAnimationFrame loop springs
+// every ball toward its target with a little overshoot/bounce, draws a short
+// motion trail, and squashes the ball on arrival. Blocked balls get a recoil:
+// they lunge toward the node they tried to enter and spring back.
+
+const anim = { running: false, items: new Map() };   // ball id -> anim record
+
+function targetPosFor(ball) {
+  // Park each ball at an offset around its node so balls don't overlap.
   const node = SCENARIOS[state.scenario].nodes[ball.location];
-  // Find this ball's slot index among all balls currently at this node.
   const cohort = state.balls.filter(b => b.location === ball.location);
   const slot = cohort.indexOf(ball);
   const n = cohort.length;
-  // Arrange in an arc above the node so they don't overlap.
-  const spread = Math.min(0.8, 0.25 + 0.12 * n);
-  const angleBase = -Math.PI / 2;
-  const angle = n <= 1
-    ? angleBase
-    : angleBase - spread / 2 + (slot * spread / (n - 1));
-  const cx = node.x + Math.cos(angle) * BALL_OFFSET_R;
-  const cy = node.y + Math.sin(angle) * BALL_OFFSET_R;
+  const spread = Math.min(0.9, 0.25 + 0.12 * n);
+  const base = -Math.PI / 2;
+  const angle = n <= 1 ? base : base - spread / 2 + (slot * spread / (n - 1));
+  return { x: node.x + Math.cos(angle) * BALL_OFFSET_R,
+           y: node.y + Math.sin(angle) * BALL_OFFSET_R };
+}
 
+function ensureBallG(ball, startX, startY) {
+  const ballsG = document.getElementById("balls");
   let g = document.getElementById("ball-" + ball.id);
-  if (!g) {
-    g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    g.setAttribute("id", "ball-" + ball.id);
-    ballsG.appendChild(g);
-    const circ = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    circ.setAttribute("class", "ball alive");
-    circ.setAttribute("r", BALL_R);
-    circ.setAttribute("fill", colorFor(ball.origin));
-    circ.style.color = colorFor(ball.origin);   // for drop-shadow currentColor
-    circ.setAttribute("cx", cx);
-    circ.setAttribute("cy", cy);
-    g.appendChild(circ);
-    const lbl = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    lbl.setAttribute("class", "ball-label");
-    lbl.setAttribute("x", cx);
-    lbl.setAttribute("y", cy + 4);
-    lbl.textContent = ball.origin;
-    g.appendChild(lbl);
+  if (g) return g;
+  g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("id", "ball-" + ball.id);
+  // trail (drawn first, behind the ball)
+  const trail = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  trail.setAttribute("class", "trail");
+  trail.setAttribute("stroke", colorFor(ball.origin));
+  trail.setAttribute("stroke-width", BALL_R * 1.3);
+  g.appendChild(trail);
+  const circ = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  circ.setAttribute("class", "ball alive");
+  circ.setAttribute("r", BALL_R);
+  circ.setAttribute("fill", colorFor(ball.origin));
+  circ.style.color = colorFor(ball.origin);
+  circ.setAttribute("cx", startX); circ.setAttribute("cy", startY);
+  g.appendChild(circ);
+  const lbl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  lbl.setAttribute("class", "ball-label");
+  lbl.setAttribute("x", startX); lbl.setAttribute("y", startY + 4);
+  lbl.textContent = ball.origin;
+  g.appendChild(lbl);
+  ballsG.appendChild(g);
+  return g;
+}
+
+function setBallXY(g, x, y, squashAngle, squash) {
+  const circ = g.querySelector("circle");
+  const lbl = g.querySelector("text");
+  circ.setAttribute("cx", x); circ.setAttribute("cy", y);
+  lbl.setAttribute("x", x); lbl.setAttribute("y", y + 4);
+  // squash-and-stretch: deform along the travel direction
+  if (squash && squash > 0.001) {
+    const sx = 1 + squash, sy = 1 - squash * 0.7;
+    circ.setAttribute("transform",
+      `translate(${x} ${y}) rotate(${squashAngle}) scale(${sx} ${sy}) translate(${-x} ${-y})`);
   } else {
-    const circ = g.querySelector("circle");
-    const lbl  = g.querySelector("text");
-    circ.setAttribute("cx", cx);
-    circ.setAttribute("cy", cy);
-    lbl.setAttribute("x", cx);
-    lbl.setAttribute("y", cy + 4);
-    if (ball.dead) {
-      circ.setAttribute("class", "ball dead");
-    } else {
-      circ.setAttribute("class", "ball alive");
-    }
+    circ.removeAttribute("transform");
   }
 }
 
+function startAnimLoop() {
+  if (anim.running) return;
+  anim.running = true;
+  let last = null;
+  function frame(t) {
+    if (last === null) last = t;
+    const dt = Math.min(0.05, (t - last) / 1000);   // clamp big gaps
+    last = t;
+    let active = false;
+    for (const [id, a] of anim.items) {
+      const g = document.getElementById("ball-" + id);
+      if (!g) { anim.items.delete(id); continue; }
+
+      if (a.kind === "recoil") {
+        // lunge toward the blocker, then spring back to the parked spot
+        a.phase += dt / a.dur;
+        if (a.phase >= 1) {
+          setBallXY(g, a.homeX, a.homeY, 0, 0);
+          anim.items.delete(id);
+          continue;
+        }
+        // out-and-back: 0->1 goes home->bonk->home using a sine bump
+        const reach = Math.sin(a.phase * Math.PI);          // 0..1..0
+        const x = a.homeX + (a.bonkX - a.homeX) * reach;
+        const y = a.homeY + (a.bonkY - a.homeY) * reach;
+        const ang = Math.atan2(a.bonkY - a.homeY, a.bonkX - a.homeX) * 180 / Math.PI;
+        setBallXY(g, x, y, ang, 0.35 * reach);
+        // flash the blocker node at closest approach
+        if (!a.bonked && a.phase > 0.45) { a.bonked = true; flashNode(a.blocker); }
+        active = true;
+        continue;
+      }
+
+      // kind === "spring": move toward (tx,ty) with velocity + overshoot
+      const k = 140, damp = 18;                              // stiffness / damping
+      const ax = (a.tx - a.x) * k - a.vx * damp;
+      const ay = (a.ty - a.y) * k - a.vy * damp;
+      a.vx += ax * dt; a.vy += ay * dt;
+      a.x += a.vx * dt; a.y += a.vy * dt;
+      const dist = Math.hypot(a.tx - a.x, a.ty - a.y);
+      const speed = Math.hypot(a.vx, a.vy);
+      // trail: a short segment trailing the velocity vector
+      const trail = g.querySelector(".trail");
+      const tl = Math.min(34, speed * 0.06);
+      if (tl > 2) {
+        trail.setAttribute("d", `M ${a.x - a.vx*0.05} ${a.y - a.vy*0.05} L ${a.x} ${a.y}`);
+        trail.setAttribute("opacity", Math.min(0.55, speed / 1400));
+      } else {
+        trail.setAttribute("opacity", 0);
+      }
+      const ang = Math.atan2(a.vy, a.vx) * 180 / Math.PI;
+      setBallXY(g, a.x, a.y, ang, Math.min(0.4, speed / 2600));
+      if (dist < 0.4 && speed < 3) {
+        setBallXY(g, a.tx, a.ty, 0, 0);
+        trail.setAttribute("opacity", 0);
+        anim.items.delete(id);
+      } else {
+        active = true;
+      }
+    }
+    if (active || anim.items.size) requestAnimationFrame(frame);
+    else anim.running = false;
+  }
+  requestAnimationFrame(frame);
+}
+
+function flashNode(name) {
+  const circ = document.querySelector(`#nodes circle[data-name="${name}"]`);
+  if (!circ) return;
+  circ.classList.remove("bonk");
+  void circ.offsetWidth;          // restart the CSS animation
+  circ.classList.add("bonk");
+  setTimeout(() => circ.classList.remove("bonk"), 500);
+}
+
+// Spring a ball toward its parked target (creating its SVG if needed).
+function placeBall(ball, fromXY) {
+  const target = targetPosFor(ball);
+  let g = document.getElementById("ball-" + ball.id);
+  const start = fromXY || (g ? readBallXY(g) : target);
+  g = ensureBallG(ball, start.x, start.y);
+  const circ = g.querySelector("circle");
+  circ.setAttribute("class", ball.dead ? "ball dead" : "ball alive");
+  const prev = anim.items.get(ball.id);
+  anim.items.set(ball.id, {
+    kind: "spring",
+    x: start.x, y: start.y,
+    vx: prev ? prev.vx : 0, vy: prev ? prev.vy : 0,
+    tx: target.x, ty: target.y
+  });
+  startAnimLoop();
+}
+
+function readBallXY(g) {
+  const circ = g.querySelector("circle");
+  return { x: parseFloat(circ.getAttribute("cx")), y: parseFloat(circ.getAttribute("cy")) };
+}
+
+// Recoil animation: ball lunges from its parked spot toward the node it tried
+// to enter (the blocker) and springs back — the "bounced off a blocker" effect.
+function recoilBall(ball, blockerName) {
+  const g = document.getElementById("ball-" + ball.id);
+  if (!g) return;
+  const home = targetPosFor(ball);
+  const node = SCENARIOS[state.scenario].nodes[blockerName];
+  if (!node) return;
+  // bonk point: just outside the blocker node, on the line from home to node
+  const dx = node.x - home.x, dy = node.y - home.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const bonkX = node.x - (dx / len) * (NODE_R + BALL_R);
+  const bonkY = node.y - (dy / len) * (NODE_R + BALL_R);
+  anim.items.set(ball.id, {
+    kind: "recoil", phase: 0, dur: 0.5, bonked: false, blocker: blockerName,
+    homeX: home.x, homeY: home.y, bonkX, bonkY
+  });
+  startAnimLoop();
+}
+
 function relayoutAllBalls() {
-  for (const b of state.balls) placeBall(b);
+  for (const b of state.balls) {
+    placeBall(b, b.spawnXY);
+    b.spawnXY = null;     // only travel from the spawn point once
+  }
 }
 
 function launchBall(origin) {
@@ -412,6 +563,7 @@ function step() {
   if (!state.scenario || state.balls.length === 0) return;
   const oldBalls = state.balls;
   const newBalls = [];
+  const blockedAtRecoils = [];     // {ball, blocker} pairs to animate as recoils
   for (const b of oldBalls) {
     if (b.dead) {
       newBalls.push(b);
@@ -429,9 +581,25 @@ function step() {
       // Either no legal moves (blocked), or every legal move would
       // re-visit an already-traversed (node, direction). Either way
       // this ball is done: mark dead, leave at current location.
-      newBalls.push({ ...b, dead: true });
+      const deadBall = { ...b, dead: true };
+      newBalls.push(deadBall);
+      // If the ball was BLOCKED (a neighbor exists that the rules forbade —
+      // as opposed to simply having nowhere new to go), play a recoil toward
+      // the node it tried to enter, so the block is visible.
+      const adj = SCENARIOS[state.scenario]._adj[b.location];
+      const neighbors = [...adj.parents, ...adj.children].filter(x => x !== b.from);
+      const blockedNeighbor = neighbors.find(nb => {
+        // would this neighbor have been a legal Bayes-Ball move if not for blocking?
+        const isParent = adj.parents.includes(nb);
+        return !canPropagate(b.location, b.fromDir, isParent ? "parent" : "child");
+      });
+      if (blockedNeighbor) blockedAtRecoils.push({ ball: deadBall, blocker: blockedNeighbor });
     } else {
       if (!state.reached[b.origin]) state.reached[b.origin] = new Set();
+      // Capture where the old ball currently sits, so each child can TRAVEL
+      // out from there (giving the spring/bounce a real path to animate).
+      const oldG = document.getElementById("ball-" + b.id);
+      const spawnXY = oldG ? readBallXY(oldG) : null;
       for (const n of fresh) {
         visited.add(n.location + "|" + n.fromDir);
         state.reached[b.origin].add(n.location);
@@ -441,16 +609,21 @@ function step() {
           location: n.location,
           fromDir: n.fromDir,
           from: n.from,
-          dead: false
+          dead: false,
+          spawnXY            // start position for the travel animation
         });
       }
       // Remove old ball's SVG element (it has moved away).
-      const oldG = document.getElementById("ball-" + b.id);
       if (oldG) oldG.remove();
     }
   }
   state.balls = newBalls;
   relayoutAllBalls();
+  // Fire the recoil animations after balls are parked, so a blocked ball
+  // visibly lunges at the blocker and springs back.
+  for (const { ball, blocker } of blockedAtRecoils) {
+    setTimeout(() => recoilBall(ball, blocker), 120);
+  }
   updateStatus();
 }
 
