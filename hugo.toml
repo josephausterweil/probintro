@@ -10,6 +10,9 @@ images = ['images/chibanyplain.png']
     showToc = true
     # Optional: expand sub-sections automatically
     alwaysopen = true
+    # Show a checkmark in the sidebar next to pages the reader has already
+    # visited (tracked per-browser via localStorage).
+    showVisitedLinks = true
     # Description for SEO
     description = "Learn probability theory through sets and prepare for probabilistic programming"
     # Author info
