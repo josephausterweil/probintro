@@ -1,5 +1,5 @@
 +++
-date = "2026-05-31"
+date = "2026-06-01"
 title = "Glossary - All Tutorials"
 weight = 100
 +++
@@ -114,6 +114,17 @@ A *marginal probability* is the probability of a random variable that has been c
 **Intuition:** "What's the probability of $A$ regardless of what $B$ is?"
 
 **Example**: $P(\text{lunch}=T) = P(TH) + P(TT)$ (tonkatsu for lunch, regardless of dinner)
+{{% /expand %}}
+
+### Markov Equivalence Class 📘
+{{% expand "Markov Equivalence Class" %}}
+A *Markov equivalence class* is the set of all directed acyclic graphs (DAGs) that encode the **exact same set of conditional independencies**. Two graphs in the same class are called *Markov equivalent*: they impose identical constraints on the joint distribution, so **no amount of observational data can distinguish them** — the data is equally compatible with every graph in the class.
+
+**Intuition:** reversing some arrows can leave the *statistical* content of a graph completely unchanged. For two variables, $T \to C$ and $C \to T$ are Markov equivalent — both factorize to the same joint $P(T,C)$ and both say only "$T$ and $C$ are dependent." Telling them apart requires *intervention* (the do-operator), not observation.
+
+**The exception that breaks equivalence:** a *collider* $A \to B \leftarrow C$ asserts an independence ($A \perp C$) that its reversed cousins do not, so a collider is generally *not* equivalent to the corresponding chain or fork. (Same skeleton, different "v-structures" ⇒ different class.)
+
+**Appears in:** [Tutorial 3, Chapter 9: Conditional Independence](../intro2/09_conditional_independence/) (chain / fork / collider, d-separation) and [Chapter 10: Causal Bayes Nets](../intro2/10_causal_bayes_nets/#the-same-statistics-three-different-stories) (the do-operator, intervention).
 {{% /expand %}}
 
 ### Outcome Space 📘
