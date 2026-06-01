@@ -45,7 +45,7 @@ $k_i$ out of their total bento count $n_i$:
 | Carmen | 6 | 10 | 0.60 |
 | Diego | 3 | 5 | 0.60 |
 | Emi | 2 | 2 | **1.00** |
-| Farid | 1 | 1 | **1.00** |
+| Farid | 0 | 1 | **0.00** |
 
 Chibany wants, for each student, a believable estimate of $\theta_i$ — that student's underlying probability of
 bringing tonkatsu. Two obvious strategies both fail:
@@ -55,14 +55,15 @@ bringing tonkatsu. Two obvious strategies both fail:
 
 **No pooling — estimate each student alone.** Just use the raw fraction $k_i / n_i$. For Alyssa (70/100) that's
 fine. But **Emi brought 2 bentos, both tonkatsu**, so this says $\theta_{\text{Emi}} = 1.00$ — Emi *always*
-brings tonkatsu, with certainty, on the strength of two data points. **Farid (1/1)** is even worse: one bento,
-and we declare him a 100%-tonkatsu person. Nobody believes that.
+brings tonkatsu, with certainty, on the strength of two data points. **Farid (0/1)** is even worse the other
+way: one bento, a hamburger, and we declare him a 0%-tonkatsu person who will *never* bring tonkatsu. Nobody
+believes either of these.
 
 </div>
 <div style="flex:1; min-width:260px;">
 
-**Complete pooling — one shared rate for everyone.** Lump all the bentos together: $110$ tonkatsu out of $158$,
-so $\theta = 110/158 \approx 0.70$ for *everyone* (really $0.696$, dominated by the heavy bringers Alyssa and
+**Complete pooling — one shared rate for everyone.** Lump all the bentos together: $109$ tonkatsu out of $158$,
+so $\theta = 109/158 \approx 0.69$ for *everyone* (really $0.690$, dominated by the heavy bringers Alyssa and
 Ben). This fixes the Emi/Farid absurdity, but now it **throws away the real differences** between students —
 and we have good reason to think students differ.
 
@@ -88,7 +89,7 @@ import jax.numpy as jnp
 
 # (student, tonkatsu count k_i, total bentos n_i)
 names = ["Alyssa", "Ben", "Carmen", "Diego", "Emi", "Farid"]
-k = jnp.array([70, 28, 6, 3, 2, 1])     # tonkatsu counts
+k = jnp.array([70, 28, 6, 3, 2, 0])     # tonkatsu counts
 n = jnp.array([100, 40, 10, 5, 2, 1])   # total bentos
 
 raw_fraction = k / n
@@ -103,10 +104,11 @@ for name, kf, nf, r in zip(names, k, n, raw_fraction):
   Carmen   6/10  -> raw estimate 0.60
   Diego    3/5   -> raw estimate 0.60
   Emi      2/2   -> raw estimate 1.00
-  Farid    1/1   -> raw estimate 1.00
+  Farid    0/1   -> raw estimate 0.00
 ```
 
-Emi and Farid at 1.00 are the tell: no-pooling lets two bentos masquerade as certainty.
+Emi at 1.00 and Farid at 0.00 are the tell: no-pooling lets one or two bentos masquerade as certainty — in
+*either* direction.
 
 ---
 
@@ -166,7 +168,7 @@ $(a + k_i) / (a + b + n_i)$:
 import jax.numpy as jnp
 
 names = ["Alyssa", "Ben", "Carmen", "Diego", "Emi", "Farid"]
-k = jnp.array([70, 28, 6, 3, 2, 1])
+k = jnp.array([70, 28, 6, 3, 2, 0])
 n = jnp.array([100, 40, 10, 5, 2, 1])
 
 a, b = 6.0, 4.0                       # shared population prior: mean 0.6, strength 10
@@ -189,14 +191,15 @@ population mean = 0.60
   Carmen  raw 0.60 -> pooled 0.600  (shift +0.000)
   Diego   raw 0.60 -> pooled 0.600  (shift +0.000)
   Emi     raw 1.00 -> pooled 0.667  (shift -0.333)
-  Farid   raw 1.00 -> pooled 0.636  (shift -0.364)
+  Farid   raw 0.00 -> pooled 0.545  (shift +0.545)
 ```
 
 Read the shifts and the whole idea is there:
 
 - **Alyssa (70/100)** barely moves — 0.70 → 0.691. With 100 bentos, their own data dominates the shared prior.
-- **Emi (2/2) and Farid (1/1)** move the most — both crash down from the absurd 1.00 toward the population
-  (0.667 and 0.636). With almost no data, they lean almost entirely on the group.
+- **Emi (2/2) and Farid (0/1)** move the most — and in *opposite* directions: Emi crashes down from the absurd
+  1.00 (to 0.667) while Farid is pulled up from the absurd 0.00 (to 0.545), both toward the population. With
+  almost no data, they lean almost entirely on the group, wherever they started.
 - **Carmen and Diego** sit *exactly* at the population mean already (0.60), so they don't move at all —
   pooling pulls you toward the group only to the extent you disagree with it.
 
@@ -205,7 +208,7 @@ This pull-toward-the-group is called **shrinkage**, and it is the signature beha
 almost alone.** The model **borrows strength** across students automatically — no rule had to say "trust Emi
 less," it falls out of $(a + k)/(a + b + n)$.
 
-![A two-column plot of shrinkage. The left column shows each student's raw fraction k_i/n_i; the right column shows their partial-pooling posterior mean; a line connects each student's two points. An orange dashed horizontal line marks the population mean at 0.60. Emi (2/2) and Farid (1/1), drawn with small markers because they have little data, sit at 1.00 on the left and are pulled sharply down toward the population mean (to 0.667 and 0.636) on the right. Alyssa (70/100), drawn with a large marker, sits at 0.70 on both sides — barely moving. Marker size encodes how many bentos each student has.](../../images/intro2/hb_shrinkage.png)
+![A two-column plot of shrinkage. The left column shows each student's raw fraction k_i/n_i; the right column shows their partial-pooling posterior mean; a line connects each student's two points. An orange dashed horizontal line marks the population mean at 0.60. The two light-data students, drawn with small markers, start at opposite extremes and are both pulled toward the population mean: Emi (2/2) sits at 1.00 on the left and is pulled down to 0.667, while Farid (0/1) sits at 0.00 on the left and is pulled up to 0.545. Alyssa (70/100), drawn with a large marker, sits at 0.70 on both sides — barely moving. Marker size encodes how many bentos each student has.](../../images/intro2/hb_shrinkage.png)
 
 The figure makes the dependence on data size visual: marker size grows with $n_i$, and the **small markers
 (little data) travel the farthest** toward the population line, while the big markers stay put.
@@ -326,13 +329,14 @@ where $\binom{n_i}{k_i}$ is the binomial coefficient ("$n_i$ choose $k_i$") and 
 function — the normalizer of the Beta distribution, whose log is `betaln` in JAX. We don't need to memorize it;
 we just sum its log across students to score a population:
 
+<!-- validate: tol=1.5 -->
 ```python
 import jax
 import jax.numpy as jnp
 import jax.random as jr
 from jax.scipy.special import betaln, gammaln
 
-k = jnp.array([70, 28, 6, 3, 2, 1])
+k = jnp.array([70, 28, 6, 3, 2, 0])
 n = jnp.array([100, 40, 10, 5, 2, 1])
 
 def log_binom_coeff(n, k):
@@ -367,12 +371,12 @@ print(f"implied population tonkatsu rate ~= {float(a_post / (a_post + b_post)):.
 
 **Output:**
 ```
-inferred a ~= 14.72
-inferred b ~= 7.55
-implied population tonkatsu rate ~= 0.661
+inferred a ~= 14.57
+inferred b ~= 8.12
+implied population tonkatsu rate ~= 0.642
 ```
 
-The data alone pinned the population rate at about **0.66** — in the same ballpark as the 0.60 we had
+The data alone pinned the population rate at about **0.64** — in the same ballpark as the 0.60 we had
 hand-picked, but now *learned* from the six students rather than assumed (it lands a bit higher because the
 heavy bringers, Alyssa and Ben at 0.70, carry most of the evidence). We never told the model the population
 mean; it inferred it, and that inferred prior is what then shrinks each student's estimate.
