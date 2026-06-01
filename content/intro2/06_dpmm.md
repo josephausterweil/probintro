@@ -803,6 +803,16 @@ We started with a mystery: bentos with an average weight that doesn't match any 
 - Quantify uncertainty in clustering
 - Perform Bayesian inference with GenJAX
 
+### Where this goes next
+
+Clustering was about finding structure *in a pile of data*. The chapters ahead turn the same Bayesian machinery toward new questions:
+
+- **[Chapter 7: Bayesian Generalization](../07_generalization/)** asks how you learn a *concept* from a handful of examples — the same posterior-over-hypotheses idea, but now the hypotheses are *sets* (rules), and the payoff is a model of how humans generalize.
+- **[Chapters 8–11: the Bayesian-networks spine](../08_bayes_nets/)** zoom out from a single model to the *structure* of models: drawing them as graphs (Bayes nets), reading off which variables inform which (conditional independence and d-separation), distinguishing *seeing* from *doing* (causal Bayes nets and the do-operator), and measuring it all in bits (information theory). The DPMM you just built is itself a Bayes net — Chapter 8 makes that explicit.
+- **[Chapter 12: Hierarchical Bayes](../12_hierarchical_bayes/)** stacks priors on priors so the model can *learn its own prior* from related problems — and, as we noted above, it's exactly the move that tames the DPMM's cluster-count behavior.
+
+So the mystery bentos were just the beginning: the rest of Tutorial 3 is about graphs, causes, information, and learning the prior itself.
+
 ---
 
 ## Further Reading
