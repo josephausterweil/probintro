@@ -1,5 +1,5 @@
 +++
-date = "2026-05-31"
+date = "2026-06-01"
 title = "Conditional Independence and d-Separation"
 weight = 9
 +++
@@ -30,11 +30,10 @@ Throughout, the question is always the same: **does knowing the middle node chan
 
 ```mermaid
 graph LR
-    A["A<br/>(bento type)"] --> B["B<br/>(calories)"]
-    B --> C["C<br/>(afternoon energy)"]
-    style A fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style B fill:#3a5f1f,stroke:#90d94a,color:#fff
-    style C fill:#1f3a5f,stroke:#4a90d9,color:#fff
+    A(("A<br/>(bento type)")) --> B(("B<br/>(calories)"))
+    B --> C(("C<br/>(afternoon energy)"))
+    classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    class A,B,C node
 ```
 
 The bento type ($A$) determines how many calories ($B$) Chibany eats, and the calories determine the afternoon energy ($C$). Influence flows down the chain: bento type *does* tell you something about energy — through the calories.
@@ -49,11 +48,10 @@ Conditioning on the middle of a chain cuts the connection.
 
 ```mermaid
 graph TD
-    B["B<br/>(cafeteria menu)"] --> A["A<br/>(Chibany's bento)"]
-    B --> C["C<br/>(Alyssa's bento)"]
-    style B fill:#3a5f1f,stroke:#90d94a,color:#fff
-    style A fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style C fill:#1f3a5f,stroke:#4a90d9,color:#fff
+    B(("B<br/>(cafeteria menu)")) --> A(("A<br/>(Chibany's bento)"))
+    B --> C(("C<br/>(Alyssa's bento)"))
+    classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    class A,B,C node
 ```
 
 Here a **common cause** $B$ — today's cafeteria menu — influences both Chibany's bento ($A$) and Alyssa's bento ($C$). If you notice Chibany got tonkatsu, you'd bet Alyssa did too — not because one caused the other, but because the *menu* nudged both. So $A$ and $C$ are dependent.
@@ -68,11 +66,10 @@ Chains and forks behave the same way: **conditioning on the middle node blocks t
 
 ```mermaid
 graph TD
-    A["A<br/>(rain)"] --> B["B<br/>(wet floor sign)"]
-    C["C<br/>(spilled tea)"] --> B
-    style A fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style B fill:#5f3a1f,stroke:#d9904a,color:#fff
-    style C fill:#1f3a5f,stroke:#4a90d9,color:#fff
+    A(("A<br/>(rain)")) --> B(("B<br/>(wet floor sign)"))
+    C(("C<br/>(spilled tea)")) --> B
+    classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    class A,B,C node
 ```
 
 Now two **independent causes** — rain ($A$) outside and a spilled tea ($C$) inside — both lead to the same effect, the cafeteria's wet-floor sign ($B$) going out. The two causes are unrelated: whether it rained tells you nothing about whether someone spilled tea. So $A \perp C$.
@@ -99,11 +96,10 @@ The three variables form a collider:
 
 ```mermaid
 graph TD
-    T["T<br/>(tonkatsu location)"] --> R["R<br/>(which box revealed)"]
-    P["P<br/>(Chibany's pick)"] --> R
-    style T fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style R fill:#5f3a1f,stroke:#d9904a,color:#fff
-    style P fill:#1f3a5f,stroke:#4a90d9,color:#fff
+    T(("T<br/>(tonkatsu location)")) --> R(("R<br/>(which box revealed)"))
+    P(("P<br/>(Chibany's pick)")) --> R
+    classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    class T,R,P node
 ```
 
 The tonkatsu location $T$ and Chibany's pick $P$ are independent to begin with — Chibany picks blind. But the *reveal* $R$ depends on both: the worker can't open Chibany's box, and won't open the tonkatsu box. $R$ is a collider. The moment Chibany sees the reveal — conditions on $R$ — the location $T$ and the pick $P$ become entangled, and the probability that the tonkatsu is in the *other* unopened box jumps to $2/3$. **Switching wins.** That two-thirds is the collider opening: the reveal couples two things that were independent before you saw it. (We'll see the *why* in full, with numbers, in the explaining-away section below.)
@@ -139,15 +135,14 @@ One more piece of vocabulary pays off immediately. The **Markov blanket** of a n
 
 ```mermaid
 graph TD
-    P1["parent"] --> X["X"]
-    X --> Ch["child"]
-    CoP["co-parent"] --> Ch
+    P1(("parent")) --> X(("X"))
+    X --> Ch(("child"))
+    CoP(("co-parent")) --> Ch
     Other["everything else"] -.blocked.-> X
-    style X fill:#3a5f1f,stroke:#90d94a,color:#fff
-    style P1 fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style Ch fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style CoP fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style Other fill:#333,stroke:#777,color:#aaa
+    classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    classDef faded fill:none,stroke:#777,stroke-dasharray:3 3,color:#aaa
+    class P1,X,Ch,CoP node
+    class Other faded
 ```
 
 The co-parents are there *because* of the collider rule: $X$ and a co-parent both point into the same child, so observing that child opens the collider and links them — unless you also condition on the co-parent to block it again. The Markov blanket is exactly the boundary that seals $X$ off from the rest of the graph, and it's what inference algorithms exploit to update one node at a time.

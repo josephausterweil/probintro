@@ -88,23 +88,21 @@ student's $\theta_i$, and each $\theta_i$ feeds that student's count $k_i$:
 
 ```mermaid
 graph TB
-    AB["(a, b)<br/>population prior"] --> T1["θ₁<br/>Alyssa's rate"]
-    AB --> T2["θ₂<br/>Ben's rate"]
-    AB --> Td["…"]
-    AB --> TJ["θⱼ<br/>student j's rate"]
-    T1 --> K1["k₁ | n₁"]
-    T2 --> K2["k₂ | n₂"]
-    TJ --> KJ["kⱼ | nⱼ"]
+    AB(("(a, b)<br/>population<br/>prior")) --> T1(("θ₁<br/>Alyssa's<br/>rate"))
+    AB --> T2(("θ₂<br/>Ben's<br/>rate"))
+    AB --> Td(("…"))
+    AB --> TJ(("θⱼ<br/>student j's<br/>rate"))
+    T1 --> K1(("k₁ | n₁"))
+    T2 --> K2(("k₂ | n₂"))
+    TJ --> KJ(("kⱼ | nⱼ"))
 
-    classDef top fill:#d95f0e,stroke:#333,stroke-width:2px,color:#fff
-    classDef mid fill:#2c7fb8,stroke:#333,stroke-width:2px,color:#fff
-    classDef obs fill:#08519c,stroke:#333,stroke-width:2px,color:#fff
-    class AB top
-    class T1,T2,Td,TJ mid
-    class K1,K2,KJ obs
+    classDef hidden fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    classDef observed fill:#cfd6e6,stroke:#9bbcff,stroke-width:2px,color:#111
+    class AB,T1,T2,Td,TJ hidden
+    class K1,K2,KJ observed
 ```
 
-The shared parent $(a, b)$ is *why* the students aren't independent: learning about one student's rate tells you
+The shaded **k | n** nodes are the *observed* bento counts; the unshaded $(a, b)$ and per-student rates $\theta_i$ are the *latent* quantities we infer. The shared parent $(a, b)$ is *why* the students aren't independent: learning about one student's rate tells you
 a little about the population, which tells you a little about every *other* student. That coupling is exactly
 the channel through which strength is borrowed.
 

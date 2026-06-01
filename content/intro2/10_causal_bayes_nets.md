@@ -1,5 +1,5 @@
 +++
-date = "2026-05-31"
+date = "2026-06-01"
 title = "Causal Bayes Nets and the Do-Operator"
 weight = 10
 +++
@@ -29,22 +29,17 @@ Here's the catch that makes causation subtle. The single observation "yellow tee
 ```mermaid
 graph LR
     subgraph Story1["1. teeth cause cancer"]
-        T1["yellow teeth"] --> C1["cancer"]
+        T1(("yellow<br/>teeth")) --> C1(("cancer"))
     end
     subgraph Story2["2. cancer causes teeth"]
-        C2["cancer"] --> T2["yellow teeth"]
+        C2(("cancer")) --> T2(("yellow<br/>teeth"))
     end
     subgraph Story3["3. common cause (true)"]
-        S3["smoking"] --> T3["yellow teeth"]
-        S3 --> C3["cancer"]
+        S3(("smoking")) --> T3(("yellow<br/>teeth"))
+        S3 --> C3(("cancer"))
     end
-    style T1 fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style C1 fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style T2 fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style C2 fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style S3 fill:#3a5f1f,stroke:#90d94a,color:#fff
-    style T3 fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style C3 fill:#1f3a5f,stroke:#4a90d9,color:#fff
+    classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    class T1,C1,T2,C2,S3,T3,C3 node
 ```
 
 Story 1 says whitening would help. Story 3 — the true one — says it wouldn't: **smoking** stains the teeth *and* causes the cancer, so the teeth are just a marker, a symptom riding alongside the real culprit. Whitening the teeth paints over the marker without touching the cause.
@@ -62,16 +57,20 @@ That act severs the teeth variable from its usual cause. In graph terms, **inter
 ```mermaid
 graph TD
     subgraph Before["Observe (see)"]
-        S1["smoking"] --> T1["teeth"]
-        S1 --> C1["cancer"]
+        S1(("smoking")) --> T1(("teeth"))
+        S1 --> C1(("cancer"))
     end
     subgraph After["Intervene: do(teeth = white)"]
-        S2["smoking"] --> C2["cancer"]
+        S2(("smoking")) --> C2(("cancer"))
         T2["teeth = white<br/>(set by hand)"]
     end
+    classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    classDef fixed fill:#cfd6e6,stroke:#9bbcff,stroke-width:2px,color:#111
+    class S1,T1,C1,S2,C2 node
+    class T2 fixed
 ```
 
-On the left, the natural network: smoking causes both teeth and cancer. On the right, after $do(\text{teeth} = \text{white})$: the arrow from smoking into teeth is **cut**. Teeth is now whatever we set it to, carrying no information about smoking — and crucially, the smoking→cancer arrow is *untouched*. This operation has a name and a notation, **Pearl's do-operator**, written $do(X = x)$.
+On the left, the natural network: smoking causes both teeth and cancer. On the right, after $do(\text{teeth} = \text{white})$: the arrow from smoking into teeth is **cut**. The intervened variable is drawn as a **square** rather than a circle, to signal it is *set by hand* and is no longer a free random variable — it carries no information about smoking. Crucially, the smoking→cancer arrow is *untouched*. This operation has a name and a notation, **Pearl's do-operator**, written $do(X = x)$.
 
 {{% notice style="info" title="See vs. do, in one line" %}}
 - $P(Y \mid X = x)$ — **observe** $X$ happens to be $x$. You *filter* to the cases where $X = x$, inheriting whatever made $X$ take that value.

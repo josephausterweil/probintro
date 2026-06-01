@@ -37,12 +37,14 @@ We can draw this as a picture with one node per random quantity and an arrow for
 
 ```mermaid
 graph LR
-    Z["z<br/>(cluster)"] --> X["x<br/>(weight)"]
-    style Z fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style X fill:#3a5f1f,stroke:#90d94a,color:#fff
+    Z(("z<br/>(cluster)")) --> X(("x<br/>(weight)"))
+    classDef hidden fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    classDef observed fill:#cfd6e6,stroke:#9bbcff,stroke-width:2px,color:#111
+    class Z hidden
+    class X observed
 ```
 
-The arrow $z \to x$ says: *the weight depends on the cluster.* That's the whole model, drawn. The shaded-green node ($x$) is the part Chibany observes; the blue node ($z$) is hidden.
+The arrow $z \to x$ says: *the weight depends on the cluster.* That's the whole model, drawn. Following the usual convention for these graphs, the **shaded** node ($x$, the weight) is the one Chibany **observes**; the **unshaded** node ($z$, the cluster) is **hidden**. (We'll lean on that shaded-means-observed convention throughout the next two chapters.)
 
 This little diagram is a **Bayesian network** (or **Bayes net** for short; also called a **directed graphical model**). The diagram itself — just the nodes and arrows — is a **DAG** (a *directed acyclic graph*; we'll unpack that acronym at the end of the chapter). The Bayes net is the DAG *together with* the probability rule attached to each node. Each node is a random variable; each arrow points from a variable to one it directly influences. That's it. Chibany has been drawing one all semester without knowing the name.
 
@@ -97,13 +99,13 @@ So far the cluster prior $P(z)$ was a fixed number — say, $P(z = \text{heavy})
 
 ```mermaid
 graph LR
-    A["α<br/>(prior strength)"] --> P["π<br/>(mixing weight)"]
-    P --> Z["z<br/>(cluster)"]
-    Z --> X["x<br/>(weight)"]
-    style A fill:#5f1f3a,stroke:#d94a90,color:#fff
-    style P fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style Z fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style X fill:#3a5f1f,stroke:#90d94a,color:#fff
+    A(("α<br/>(prior strength)")) --> P(("π<br/>(mixing weight)"))
+    P --> Z(("z<br/>(cluster)"))
+    Z --> X(("x<br/>(weight)"))
+    classDef hidden fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    classDef observed fill:#cfd6e6,stroke:#9bbcff,stroke-width:2px,color:#111
+    class A,P,Z hidden
+    class X observed
 ```
 
 The factorization grows one factor:
@@ -135,13 +137,13 @@ The story: weather, day, and restaurant are each settled on their own, and *toge
 
 ```mermaid
 graph TD
-    W["W (weather)"] --> B["B (bento)"]
-    D["D (day)"] --> B
-    R["R (restaurant)"] --> B
-    style W fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style D fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style R fill:#1f3a5f,stroke:#4a90d9,color:#fff
-    style B fill:#3a5f1f,stroke:#90d94a,color:#fff
+    W(("W<br/>(weather)")) --> B(("B<br/>(bento)"))
+    D(("D<br/>(day)")) --> B
+    R(("R<br/>(restaurant)")) --> B
+    classDef hidden fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    classDef observed fill:#cfd6e6,stroke:#9bbcff,stroke-width:2px,color:#111
+    class W,D,R hidden
+    class B observed
 ```
 
 Now $\text{Pa}(B) = \{W, D, R\}$, while $W$, $D$, and $R$ are all roots. The factorization reads straight off the picture:
