@@ -123,6 +123,21 @@ In words: a path is open when information can flow along it. Chains and forks ar
 In the menu/bentos fork $A \leftarrow B \to C$, with nothing observed ($C = \varnothing$): the single path $A - B - C$ runs through a fork whose middle ($B$) is *not* observed, so the path is **open** — $A$ and $C$ are dependent. Observe the menu ($C = \{B\}$): the fork's middle is now observed, the path is **blocked**, and $A \perp C \mid B$. The algorithm just reproduces what we reasoned out by hand.
 {{% /notice %}}
 
+### Interactive: the Bayes-Ball algorithm
+
+There's a vivid way to *run* d-separation by hand, called the **Bayes-Ball algorithm**: imagine a ball bouncing along the edges of the graph, trying to get from one node to another. The rules above become rules about whether the ball can **pass through** each node or gets **blocked** — and crucially, observing a node flips the rules (a ball passes freely through an unobserved chain/fork middle but bounces off an observed one; the reverse holds at a collider). If the ball can reach $B$ from $A$, they're dependent; if it's blocked on every path, they're d-separated.
+
+Step through the three key scenarios below — watch the ball **block** at a conditioned chain middle, **block** at an unobserved collider, and then **pass through** that same collider once you condition on it (the explaining-away surprise, animated):
+
+<iframe src="../../widgets/bayes_ball.html"
+        width="100%" height="460"
+        frameborder="0"
+        style="background:#1a1a1a; border-radius:6px; margin:1rem 0;"
+        title="Interactive Bayes-Ball d-separation demo">
+</iframe>
+
+The collider case is the one to dwell on: in scenario 2 the ball **can't** get through (the collider is closed), but in scenario 3 — once you condition on the collider — it suddenly **can**. That's exactly the "conditioning opens a collider" rule, now something you can watch happen.
+
 ---
 
 ## The Markov Blanket

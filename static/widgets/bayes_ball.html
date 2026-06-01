@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bayes-Ball demo</title>
+  <style>
+    :root {
+      --bg: #1a1a1a;
+      --fg: #f4f4f4;
+      --dim: #888;
+      --yellow: #f4d35e;
+      --red: #e63946;
+      --node-fill: #2a2a2a;
+      --node-stroke: #f4f4f4;
+      --node-obs: #cfcfcf;
+      --node-obs-text: #1a1a1a;
+      --node-highlight: #3a3a18;
+      --green: #4caf50;
+      --blue: #6db1ff;
+      --orange: #ffa45c;
+      --purple: #c89cff;
+    }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg); color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      height: 100%;
+      overflow: hidden;
+    }
+    .root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      padding: 0.4em 0.6em;
+      box-sizing: border-box;
+    }
+    .scenario-label {
+      font-size: 1.05em;
+      color: var(--yellow);
+      font-style: italic;
+      margin-bottom: 0.15em;
+      text-align: center;
+    }
+    .description {
+      font-size: 0.85em;
+      color: var(--fg);
+      margin-bottom: 0.3em;
+      text-align: center;
+      max-width: 720px;
+      line-height: 1.3;
+    }
+    .stage {
+      width: 700px;
+      height: 240px;
+      position: relative;
+    }
+    svg { width: 100%; height: 100%; display: block; }
+    .controls {
+      margin-top: 0.4em;
+      display: flex;
+      gap: 0.4em;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      background: var(--node-fill);
+      color: var(--fg);
+      border: 1.5px solid var(--dim);
+      padding: 0.35em 0.7em;
+      font-size: 0.85em;
+      font-family: inherit;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    button:hover { border-color: var(--yellow); color: var(--yellow); }
+    button.active { background: var(--yellow); color: #111; border-color: var(--yellow); font-weight: bold; }
+    button.reset { border-color: var(--red); color: var(--red); }
+    button.reset:hover { background: #2a1818; }
+    button.step { border-color: var(--yellow); color: var(--yellow); font-weight: bold; }
+    button.step:hover { background: #2a2818; }
+    .node { transition: fill 0.3s, stroke 0.3s; }
+    .node.launchable { cursor: pointer; }
+    .node.launchable:hover { stroke: var(--yellow); stroke-width: 3.5; }
+    .node-label { font-family: serif; font-style: italic; font-size: 26px; user-select: none; pointer-events: none; }
+    .edge { stroke: var(--fg); stroke-width: 2.5; fill: none; }
+    .ball {
+      stroke: #fff;
+      stroke-width: 1.5;
+      transition: cx 0.5s ease-in-out, cy 0.5s ease-in-out, opacity 0.3s;
+    }
+    .ball.alive { filter: drop-shadow(0 0 5px currentColor); }
+    .ball.dead {
+      opacity: 0.35;
+      filter: none;
+    }
+    .ball-label {
+      font-family: sans-serif;
+      font-weight: bold;
+      font-size: 13px;
+      fill: #111;
+      text-anchor: middle;
+      user-select: none;
+      pointer-events: none;
+      transition: opacity 0.3s, x 0.5s ease-in-out, y 0.5s ease-in-out;
+    }
+    .result {
+      font-size: 0.95em;
+      margin-top: 0.3em;
+      min-height: 1.2em;
+      text-align: center;
+      color: var(--dim);
+    }
+  </style>
+</head>
+<body>
+<div class="root">
+  <div class="scenario-label" id="scenario-label">Pick a scenario</div>
+  <div class="description" id="description">
+    Click any unshaded node to launch a Bayes-Ball labelled with that node's name.
+    Press Step to propagate all balls one hop. Balls fan out at branches, keeping their origin label.
+  </div>
+  <div class="stage">
+    <svg viewBox="0 0 700 320" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#f4f4f4" />
+        </marker>
+      </defs>
+      <g id="edges"></g>
+      <g id="nodes"></g>
+      <g id="balls"></g>
+    </svg>
+  </div>
+  <div class="result" id="result"></div>
+  <div class="controls">
+    <button class="scenario" data-scenario="1">1. Chain (conditioned)</button>
+    <button class="scenario" data-scenario="2">2. Collider (open)</button>
+    <button class="scenario" data-scenario="3">3. Collider (conditioned)</button>
+    <button class="step" id="step">▶ Step</button>
+    <button class="reset" id="reset">↻ Reset</button>
+  </div>
+</div>
+
+<script>
+// ---- scenarios ---------------------------------------------------------
+// Coordinates in viewBox 700x320. Each scenario fixes the graph + which
+// nodes are observed; the user clicks to launch balls and presses Step
+// to propagate.
+
+const SCENARIOS = {
+  "1": {
+    label: "Chain  A → B → C  (conditioning on B)",
+    description:
+      "Conditioning on B blocks the chain. Click A or C to launch — see if any ball reaches the other end.",
+    nodes: { A: { x: 130, y: 160, observed: false },
+             B: { x: 350, y: 160, observed: true },
+             C: { x: 570, y: 160, observed: false } },
+    edges: [["A", "B"], ["B", "C"]]
+  },
+  "2": {
+    label: "Collider  A → B ← C  (B not observed)",
+    description:
+      "Unconditioned collider blocks the path. Click A or C to launch — neither ball reaches the other side.",
+    nodes: { A: { x: 130, y: 80, observed: false },
+             B: { x: 350, y: 240, observed: false },
+             C: { x: 570, y: 80, observed: false } },
+    edges: [["A", "B"], ["C", "B"]]
+  },
+  "3": {
+    label: "Collider  A → B ← C  (conditioning on B)",
+    description:
+      "Conditioning on a collider OPENS the path. Click A or C — the ball passes through B to the other side (explaining away).",
+    nodes: { A: { x: 130, y: 80, observed: false },
+             B: { x: 350, y: 240, observed: true },
+             C: { x: 570, y: 80, observed: false } },
+    edges: [["A", "B"], ["C", "B"]]
+  }
+};
+
+// ---- rendering ---------------------------------------------------------
+
+const NODE_R = 32;
+const BALL_R = 13;
+const BALL_OFFSET_R = NODE_R + 5;  // how far from node center to park balls
+// Distinct colors for balls by origin node (cycles).
+const ORIGIN_COLORS = {
+  A: "var(--yellow)",
+  B: "var(--orange)",
+  C: "var(--blue)",
+  D: "var(--purple)",
+  E: "var(--green)"
+};
+
+function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
+function colorFor(origin) { return ORIGIN_COLORS[origin] || "var(--yellow)"; }
+
+function drawScenario(scenarioKey) {
+  const s = SCENARIOS[scenarioKey];
+  const nodesG = document.getElementById("nodes");
+  const edgesG = document.getElementById("edges");
+  const ballsG = document.getElementById("balls");
+  clear(nodesG); clear(edgesG); clear(ballsG);
+
+  // Build adjacency: for each node, parents and children lists.
+  const adj = {};
+  for (const name of Object.keys(s.nodes)) adj[name] = { parents: [], children: [] };
+  for (const [src, dst] of s.edges) {
+    adj[src].children.push(dst);
+    adj[dst].parents.push(src);
+  }
+  s._adj = adj;
+
+  // Draw edges
+  for (const [src, dst] of s.edges) {
+    const a = s.nodes[src], b = s.nodes[dst];
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const len = Math.sqrt(dx*dx + dy*dy);
+    const ux = dx / len, uy = dy / len;
+    const x1 = a.x + ux * NODE_R, y1 = a.y + uy * NODE_R;
+    const x2 = b.x - ux * (NODE_R + 8), y2 = b.y - uy * (NODE_R + 8);
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", x1); line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2); line.setAttribute("y2", y2);
+    line.setAttribute("class", "edge");
+    line.setAttribute("marker-end", "url(#arrow)");
+    edgesG.appendChild(line);
+  }
+
+  // Draw nodes
+  for (const [name, n] of Object.entries(s.nodes)) {
+    const circ = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circ.setAttribute("cx", n.x); circ.setAttribute("cy", n.y); circ.setAttribute("r", NODE_R);
+    circ.setAttribute("class", "node" + (n.observed ? "" : " launchable"));
+    circ.dataset.name = name;
+    if (n.observed) {
+      circ.setAttribute("fill", "var(--node-obs)");
+      circ.setAttribute("stroke", "var(--node-stroke)");
+      circ.setAttribute("stroke-width", "2");
+    } else {
+      circ.setAttribute("fill", "var(--node-fill)");
+      circ.setAttribute("stroke", "var(--node-stroke)");
+      circ.setAttribute("stroke-width", "2");
+      circ.addEventListener("click", () => launchBall(name));
+    }
+    nodesG.appendChild(circ);
+    const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    txt.setAttribute("x", n.x); txt.setAttribute("y", n.y + 9);
+    txt.setAttribute("text-anchor", "middle");
+    txt.setAttribute("class", "node-label");
+    txt.setAttribute("fill", n.observed ? "var(--node-obs-text)" : "var(--fg)");
+    txt.textContent = name;
+    nodesG.appendChild(txt);
+  }
+}
+
+// ---- ball simulation ---------------------------------------------------
+// A live ball is {id, origin, location, fromDir} where fromDir ∈
+// {"start", "parent", "child"} describing how it arrived at `location`.
+// (A "parent" arrival means we traversed an edge FROM a parent OF the
+// current node — i.e., the ball came down the arrow.)
+//
+// Bayes-Ball propagation rule at node B (currently at), wanting to exit
+// via a neighbor edge with outDir ∈ {parent, child}:
+//   - On a COLLIDER (in via parent, out via parent — i.e., going up the
+//     other incoming edge): allowed only if B is observed.
+//   - On a chain or fork (any other in/out combo): allowed only if B is
+//     NOT observed.
+// The launch step (fromDir = "start") propagates along every edge with
+// no blocking — the ball just appears at the start node and fans out.
+
+let state = {
+  scenario: null,
+  balls: [],          // live balls
+  nextId: 1,
+  // Per-origin set of "(location|fromDir)" strings already visited.
+  // Bayes-Ball doesn't re-traverse a node from the same direction, which
+  // otherwise causes spurious ping-pong between adjacent nodes.
+  visited: {},
+  // Per-origin set of node names the ball has ever OCCUPIED. A node is
+  // d-connected to the origin iff a ball reached it — so this set is the
+  // reachable set we report. It's monotonic: once reached, a node stays
+  // reached even after the ball moves on or is absorbed. (The "blocked"
+  // story is told by which nodes are ABSENT, not by a label on a node the
+  // ball legitimately occupied — B is reached from A in a chain even when
+  // the ball can't pass through B to C.)
+  reached: {}
+};
+
+function canPropagate(node, fromDir, outDir) {
+  // Returns true if a ball at `node` (arrived from direction `fromDir`)
+  // can continue out the edge of direction `outDir`.
+  const observed = SCENARIOS[state.scenario].nodes[node].observed;
+  if (fromDir === "start") return true;  // launch hop, no blocking
+  const isCollider = (fromDir === "parent" && outDir === "parent");
+  if (isCollider) return observed;       // open iff observed
+  return !observed;                      // chain/fork: open iff unobserved
+}
+
+function nextBallsFrom(ball) {
+  // From the ball's current location, compute all legal next positions.
+  // Returns array of { location, fromDir, from } describing each clone.
+  const { location, fromDir, from } = ball;
+  const adj = SCENARIOS[state.scenario]._adj[location];
+  const out = [];
+  // A ball never turns around and exits along the same edge it arrived on
+  // — Bayes-Ball only passes a ball THROUGH to *other* edges. Skipping the
+  // previous node is what lets a ball come to REST at a leaf node (e.g. a
+  // root A whose only neighbor is the child it just came up from): with
+  // nowhere else legal to go, the ball is absorbed there and A counts as
+  // reached, instead of bouncing A→B→A and vanishing.
+  // Outgoing along parent edges: ball travels UP to a parent. From the
+  // parent's perspective, the ball arrives via a CHILD edge.
+  for (const parent of adj.parents) {
+    if (parent === from) continue;
+    if (canPropagate(location, fromDir, "parent")) {
+      out.push({ location: parent, fromDir: "child", from: location });
+    }
+  }
+  // Outgoing along child edges: ball travels DOWN to a child. From the
+  // child's perspective, the ball arrives via a PARENT edge.
+  for (const child of adj.children) {
+    if (child === from) continue;
+    if (canPropagate(location, fromDir, "child")) {
+      out.push({ location: child, fromDir: "parent", from: location });
+    }
+  }
+  return out;
+}
+
+// Park each ball at an offset around its node so multiple balls at the
+// same node don't overlap. We key by (location, origin, ballIndex).
+function placeBall(ball) {
+  const ballsG = document.getElementById("balls");
+  const node = SCENARIOS[state.scenario].nodes[ball.location];
+  // Find this ball's slot index among all balls currently at this node.
+  const cohort = state.balls.filter(b => b.location === ball.location);
+  const slot = cohort.indexOf(ball);
+  const n = cohort.length;
+  // Arrange in an arc above the node so they don't overlap.
+  const spread = Math.min(0.8, 0.25 + 0.12 * n);
+  const angleBase = -Math.PI / 2;
+  const angle = n <= 1
+    ? angleBase
+    : angleBase - spread / 2 + (slot * spread / (n - 1));
+  const cx = node.x + Math.cos(angle) * BALL_OFFSET_R;
+  const cy = node.y + Math.sin(angle) * BALL_OFFSET_R;
+
+  let g = document.getElementById("ball-" + ball.id);
+  if (!g) {
+    g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("id", "ball-" + ball.id);
+    ballsG.appendChild(g);
+    const circ = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circ.setAttribute("class", "ball alive");
+    circ.setAttribute("r", BALL_R);
+    circ.setAttribute("fill", colorFor(ball.origin));
+    circ.style.color = colorFor(ball.origin);   // for drop-shadow currentColor
+    circ.setAttribute("cx", cx);
+    circ.setAttribute("cy", cy);
+    g.appendChild(circ);
+    const lbl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    lbl.setAttribute("class", "ball-label");
+    lbl.setAttribute("x", cx);
+    lbl.setAttribute("y", cy + 4);
+    lbl.textContent = ball.origin;
+    g.appendChild(lbl);
+  } else {
+    const circ = g.querySelector("circle");
+    const lbl  = g.querySelector("text");
+    circ.setAttribute("cx", cx);
+    circ.setAttribute("cy", cy);
+    lbl.setAttribute("x", cx);
+    lbl.setAttribute("y", cy + 4);
+    if (ball.dead) {
+      circ.setAttribute("class", "ball dead");
+    } else {
+      circ.setAttribute("class", "ball alive");
+    }
+  }
+}
+
+function relayoutAllBalls() {
+  for (const b of state.balls) placeBall(b);
+}
+
+function launchBall(origin) {
+  if (!state.scenario) return;
+  // Create one ball at the origin with fromDir="start" so the first
+  // Step fans it out along all edges with no blocking.
+  if (!state.visited[origin]) state.visited[origin] = new Set();
+  state.visited[origin].add(origin + "|start");
+  if (!state.reached[origin]) state.reached[origin] = new Set();
+  state.reached[origin].add(origin);
+  const b = {
+    id: state.nextId++,
+    origin,
+    location: origin,
+    fromDir: "start",
+    from: null,        // no previous node — the launch point
+    dead: false
+  };
+  state.balls.push(b);
+  relayoutAllBalls();
+  updateStatus();
+}
+
+function step() {
+  if (!state.scenario || state.balls.length === 0) return;
+  const oldBalls = state.balls;
+  const newBalls = [];
+  for (const b of oldBalls) {
+    if (b.dead) {
+      newBalls.push(b);
+      continue;
+    }
+    const candidates = nextBallsFrom(b);
+    // Filter out moves we've already made from this origin — prevents
+    // a fork at an unobserved node from sending the ball back where it
+    // came from on the next Step.
+    if (!state.visited[b.origin]) state.visited[b.origin] = new Set();
+    const visited = state.visited[b.origin];
+    const fresh = candidates.filter(n => !visited.has(n.location + "|" + n.fromDir));
+
+    if (fresh.length === 0) {
+      // Either no legal moves (blocked), or every legal move would
+      // re-visit an already-traversed (node, direction). Either way
+      // this ball is done: mark dead, leave at current location.
+      newBalls.push({ ...b, dead: true });
+    } else {
+      if (!state.reached[b.origin]) state.reached[b.origin] = new Set();
+      for (const n of fresh) {
+        visited.add(n.location + "|" + n.fromDir);
+        state.reached[b.origin].add(n.location);
+        newBalls.push({
+          id: state.nextId++,
+          origin: b.origin,
+          location: n.location,
+          fromDir: n.fromDir,
+          from: n.from,
+          dead: false
+        });
+      }
+      // Remove old ball's SVG element (it has moved away).
+      const oldG = document.getElementById("ball-" + b.id);
+      if (oldG) oldG.remove();
+    }
+  }
+  state.balls = newBalls;
+  relayoutAllBalls();
+  updateStatus();
+}
+
+function updateStatus() {
+  const resultEl = document.getElementById("result");
+  const origins = Object.keys(state.reached || {});
+  if (origins.length === 0) {
+    resultEl.textContent = "";
+    return;
+  }
+  // Report, per origin, the OTHER nodes the ball reached — i.e. the set
+  // d-connected to the origin. A node's absence is the "blocked" story;
+  // we never label an occupied node as "blocked" (B is reached from A in a
+  // chain even when the ball can't continue through B to C).
+  const allNodes = Object.keys(SCENARIOS[state.scenario].nodes);
+  const parts = [];
+  for (const origin of origins.sort()) {
+    const reached = [...state.reached[origin]].filter(n => n !== origin).sort();
+    const unreached = allNodes.filter(n => n !== origin && !state.reached[origin].has(n));
+    let frag = origin + " reaches {" + reached.join(",") + "}";
+    if (unreached.length) frag += " — d-separated from " + unreached.join(",");
+    parts.push(frag);
+  }
+  resultEl.textContent = parts.join("   ·   ");
+}
+
+function loadScenario(key) {
+  state.scenario = key;
+  state.balls = [];
+  state.nextId = 1;
+  state.visited = {};
+  state.reached = {};
+  drawScenario(key);
+  document.getElementById("scenario-label").textContent = SCENARIOS[key].label;
+  document.getElementById("description").textContent = SCENARIOS[key].description;
+  document.getElementById("result").textContent = "";
+  document.querySelectorAll("button.scenario").forEach(b => {
+    b.classList.toggle("active", b.dataset.scenario === key);
+  });
+}
+
+function reset() {
+  if (!state.scenario) {
+    document.getElementById("scenario-label").textContent = "Pick a scenario";
+    document.getElementById("description").textContent =
+      "Click any unshaded node to launch a Bayes-Ball labelled with that node's name. " +
+      "Press Step to propagate all balls one hop. Balls fan out at branches, keeping their origin label.";
+    document.getElementById("result").textContent = "";
+    clear(document.getElementById("nodes"));
+    clear(document.getElementById("edges"));
+    clear(document.getElementById("balls"));
+    document.querySelectorAll("button.scenario").forEach(b => b.classList.remove("active"));
+    return;
+  }
+  // Clear all balls but keep the scenario
+  clear(document.getElementById("balls"));
+  state.balls = [];
+  state.nextId = 1;
+  state.visited = {};
+  state.reached = {};
+  updateStatus();
+}
+
+// ---- wiring ------------------------------------------------------------
+
+document.querySelectorAll("button.scenario").forEach(btn => {
+  btn.addEventListener("click", () => loadScenario(btn.dataset.scenario));
+});
+document.getElementById("step").addEventListener("click", step);
+document.getElementById("reset").addEventListener("click", reset);
+
+// Keyboard: space / right arrow = step, r = reset, 1/2/3 = pick scenario
+document.addEventListener("keydown", (e) => {
+  if (e.key === " " || e.key === "ArrowRight") { e.preventDefault(); step(); }
+  else if (e.key.toLowerCase() === "r") reset();
+  else if (e.key === "1" || e.key === "2" || e.key === "3") loadScenario(e.key);
+});
+</script>
+</body>
+</html>
