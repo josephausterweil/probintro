@@ -1256,6 +1256,104 @@ ESS = 1.0 / sum(w**2 for w in normalized_weights)
 **See also**: Importance Sampling, Effective Sample Size
 {{% /expand %}}
 
+### Surprise (Information Content) 📊
+{{% expand "Surprise (Information Content)" %}}
+The *surprise* (or *information content*) of an outcome $x$ is $-\log_2 P(x)$, measured in **bits**. The less probable an outcome was, the more surprised you should be when it occurs; the logarithm makes surprise **additive over independent events** (since independent probabilities multiply).
+
+**Formula:** $\text{surprise}(x) = -\log_2 P(x)$
+
+**Example:** an event you gave $P=0.01$ has surprise $-\log_2 0.01 \approx 6.6$ bits; one you gave $P=0.99$ has surprise $\approx 0.014$ bits.
+
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#surprise--log-px)
+
+**See also:** [Entropy](#entropy-)
+{{% /expand %}}
+
+### Entropy 📊
+{{% expand "Entropy" %}}
+The *entropy* of a random variable $X$ is its **expected surprise** — the average uncertainty in its outcome, in bits. It is zero for a deterministic variable and maximal for a uniform one (1 bit for a fair coin).
+
+**Formula:** $H(X) = -\sum_x P(x) \log_2 P(x) = \mathbb{E}\bigl[-\log_2 P(X)\bigr]$
+
+**Intuition:** "How surprised do I expect to be by $X$, on average?" Equivalently, the average number of yes/no questions needed to pin down $X$.
+
+**Examples:** fair coin → 1 bit; $\text{Bernoulli}(0.7)$ → 0.881 bits; certain outcome → 0 bits.
+
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#entropy--expected-surprise)
+
+**See also:** [Surprise](#surprise-information-content-), [Joint Entropy](#joint-entropy-), [Conditional Entropy](#conditional-entropy-), [Mutual Information](#mutual-information-)
+{{% /expand %}}
+
+### Joint Entropy 📊
+{{% expand "Joint Entropy" %}}
+The *joint entropy* of two variables is the entropy of the pair $(X, Y)$ treated as a single combined outcome — the total uncertainty in both at once.
+
+**Formula:** $H(X, Y) = -\sum_{x,y} P(x, y) \log_2 P(x, y)$
+
+**Key identity (chain rule):** $H(X, Y) = H(X) + H(Y \mid X)$ — total uncertainty = uncertainty in $X$ + leftover uncertainty in $Y$ given $X$. (This is the logarithm of the probability chain rule $P(x,y)=P(x)P(y\mid x)$.)
+
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#joint-and-conditional-entropy)
+
+**See also:** [Entropy](#entropy-), [Conditional Entropy](#conditional-entropy-), [Mutual Information](#mutual-information-)
+{{% /expand %}}
+
+### Conditional Entropy 📊
+{{% expand "Conditional Entropy" %}}
+The *conditional entropy* $H(Y \mid X)$ is the uncertainty that **remains** in $Y$ once you know $X$ — the entropy of $P(Y \mid X = x)$, averaged over $X$.
+
+**Formula:** $H(Y \mid X) = -\sum_{x,y} P(x, y) \log_2 P(y \mid x) = H(X, Y) - H(X)$
+
+**Limits:** if $X$ determines $Y$, then $H(Y \mid X) = 0$ (nothing left to learn); if $X$ is independent of $Y$, then $H(Y \mid X) = H(Y)$ (knowing $X$ didn't help).
+
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#joint-and-conditional-entropy)
+
+**See also:** [Joint Entropy](#joint-entropy-), [Mutual Information](#mutual-information-)
+{{% /expand %}}
+
+### Mutual Information 📊
+{{% expand "Mutual Information" %}}
+The *mutual information* $I(X; Y)$ is how much learning one variable reduces your uncertainty about the other — the number of **bits the two variables share**. It is **symmetric** and **zero exactly when $X$ and $Y$ are independent**.
+
+**Equivalent formulas:**
+$$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
+
+**Independence:** $X \perp Y \iff I(X; Y) = 0$; conditionally, $X \perp Y \mid Z \iff I(X; Y \mid Z) = 0$.
+
+**Picture:** if $H(X)$ and $H(Y)$ are overlapping circles, $I(X;Y)$ is their *overlap* (inclusion–exclusion with the joint entropy as the union).
+
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#mutual-information). Conditioning on a **collider** drives it *above* zero — explaining away, measured in bits.
+
+**See also:** [Entropy](#entropy-), [Conditional Entropy](#conditional-entropy-), [Conditional Independence (d-separation)](#markov-equivalence-class-)
+{{% /expand %}}
+
+### Cross-Entropy 📊
+{{% expand "Cross-Entropy" %}}
+The *cross-entropy* $H(P, Q)$ is your **average surprise when reality is $P$ but you predicted with $Q$** — the surprise you actually feel using the wrong model.
+
+**Formula:** $H(P, Q) = -\sum_x P(x) \log_2 Q(x)$
+
+**Key identity:** $H(P, Q) = H(P) + D_{\text{KL}}(P \parallel Q)$ — total surprise = the irreducible part $H(P)$ + the penalty for being wrong. Since $H(P)$ doesn't depend on $Q$, **minimizing cross-entropy = minimizing KL divergence**, which is why "cross-entropy loss" trains classifiers and language models.
+
+**Note:** $H(P, P) = H(P)$ — a perfect model's cross-entropy collapses to plain entropy.
+
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#cross-entropy-and-kl-divergence)
+
+**See also:** [Entropy](#entropy-), [KL Divergence](#kl-divergence-)
+{{% /expand %}}
+
+### KL Divergence 📊
+{{% expand "KL Divergence" %}}
+The *Kullback–Leibler divergence* $D_{\text{KL}}(P \parallel Q)$ measures how far a model $Q$ is from the truth $P$, in **extra bits of surprise** — the cost of believing $Q$ when reality is $P$.
+
+**Formula:** $D_{\text{KL}}(P \parallel Q) = \sum_x P(x) \log_2 \frac{P(x)}{Q(x)} = H(P, Q) - H(P)$
+
+**Properties:** $D_{\text{KL}}(P \parallel Q) \ge 0$, with equality iff $Q = P$ (**Gibbs' inequality**) — the wrong distribution can only *increase* your average surprise. It is **not symmetric** ($D_{\text{KL}}(P \parallel Q) \ne D_{\text{KL}}(Q \parallel P)$ in general), so it's a *divergence*, not a true distance.
+
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#cross-entropy-and-kl-divergence)
+
+**See also:** [Cross-Entropy](#cross-entropy-), [Entropy](#entropy-)
+{{% /expand %}}
+
 ---
 
 ## Navigation
