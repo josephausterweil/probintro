@@ -14,7 +14,7 @@ Chibany is at the campus health center for a checkup.
 
 > **Doctor:** "Just so you know, people with yellow teeth have a higher rate of lung cancer."
 >
-> **Chibany:** "Huh. Should I get my teeth whitened, then? To lower my risk?"
+> **Chibany:** "Huh. So, I should paint my teeth white, then? To lower my risk?"
 >
 > **Doctor:** *(laughing)* "That's not how it works."
 
