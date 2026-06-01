@@ -1,0 +1,9 @@
+# Dependencies for the code-block validator (validate_code_blocks.py).
+# Pinned to the versions the chapters were authored + validated against,
+# so a CI run reproduces local results. Used by .github/workflows/validate-code-blocks.yml.
+jax==0.5.3
+jaxlib==0.5.3
+genjax==0.10.3
+matplotlib==3.10.9
+scipy==1.17.1
+numpy==1.26.4
