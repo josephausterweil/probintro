@@ -1,5 +1,5 @@
 +++
-date = "2026-05-31"
+date = "2026-06-01"
 title = "Dirichlet Process Mixture Models"
 weight = 6
 +++
@@ -383,7 +383,15 @@ Posterior over number of clusters K:
   P(K = 5) = 0.07
 ```
 
-The sampler **recovers all three clusters** — the five $\approx -10$ bentos, the lone $\approx 0$ bento, and the five $\approx +10$ bentos — and learns their means accurately. Just as important, the posterior over $K$ is **honest about its uncertainty**: $K=3$ is most probable, but the model gives real weight to a spurious fourth or fifth cluster. That uncertainty in the *number* of clusters is something a fixed-$K$ GMM simply cannot express.
+The sampler **recovers all three clusters** — the five $\approx -10$ bentos, the lone $\approx 0$ bento, and the five $\approx +10$ bentos — and learns their means accurately. The posterior over $K$ also reflects genuine *uncertainty* in the number of clusters: $K=3$ is most probable, but the model gives real weight to a spurious fourth or fifth cluster — something a fixed-$K$ GMM cannot express at all.
+
+{{% notice style="warning" title="A caveat: the posterior over $K$ is a treacherous object" %}}
+It is tempting to read "$P(K = 3) = 0.58$" as the model's calibrated belief about *how many clusters really exist*. Be careful — **the marginal posterior over the number of clusters is a deep and nuanced object, and for the DPMM it does not behave the way you might hope.**
+
+[Miller & Harrison (2014)](https://www.jmlr.org/papers/v15/miller14a.html) proved that the DPMM's posterior on the number of clusters is **inconsistent**: even when the data truly come from a finite mixture with a fixed number of components, as you collect more and more data the marginal posterior over $K$ *keeps spawning extra clusters and never settles* on the right number. Strikingly, this happens even while the model does **density estimation perfectly well** — the predictive distribution is fine, the joint is well-estimated; it is *specifically the count $K$* that misbehaves. So a DPMM is an excellent density estimator and a treacherous cluster-counter.
+
+The good news is that this is fixable, and the fix is one careful practitioners often reach for anyway. [Ascolani, Lijoi, Rebaudo & Zanella (2022)](https://projecteuclid.org/journals/bayesian-analysis/volume-18/issue-4/Clustering-Consistency-with-Dirichlet-Process-Mixtures/10.1214/22-BA1357.full) showed that putting a **prior on the concentration parameter $\alpha$** — rather than fixing it, as we did with `ALPHA = 1.0` above — *recovers* consistency for the number of clusters when the data are generated from a finite mixture. Letting $\alpha$ itself be learned (the same "hyperprior on the prior" move you'll see in [Chapter 12](../12_hierarchical_bayes/)) is exactly the elegant remedy. The practical upshot: trust the DPMM's *predictive* fit and its *clustering* of the data, but treat any single number for "how many clusters" with suspicion unless you've put a prior on $\alpha$.
+{{% /notice %}}
 
 {{% notice style="note" title="Slice values do the truncation" %}}
 We allocated `KMAX = 20` storage slots, but never assumed 20 clusters: in any sweep, only the components whose weight clears some observation's slice ($\pi_k > u_i$) are live. The data, through the slice, decide how many clusters exist — which is the whole point of going nonparametric.
@@ -850,22 +858,3 @@ The notebook includes:
 - Guided exercises to deepen understanding
 
 This is a great way to build intuition for how α, K_max, and the data itself interact to produce the posterior distribution.
-
----
-
-## Congratulations!
-
-You've completed the tutorial on **Continuous Probability and Bayesian Learning with GenJAX**!
-
-You're now equipped to:
-- Build probabilistic models for continuous data
-- Perform Bayesian inference and learning
-- Discover latent structure in data
-- Use GenJAX for sophisticated probabilistic programming
-
-**Where to go next**:
-- Explore hierarchical models (Bayesian neural networks, hierarchical Bayes)
-- Learn advanced inference (Hamiltonian Monte Carlo, variational inference)
-- Apply to your own data (clustering, time series, causal inference)
-
-Happy modeling! 🎉
