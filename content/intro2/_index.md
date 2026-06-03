@@ -46,6 +46,7 @@ graph TB
     K --> L[12. Hierarchical Bayes]
     L --> M[13. Markov Chains]
     M --> N[14. Random Walks on Networks]
+    N --> O[15. Memory Search]
 
     style B fill:#27ae60
     style D fill:#27ae60
@@ -151,6 +152,12 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - A random walk as a Markov chain whose states are nodes; the law $\pi_i \propto \deg(i)$ for undirected walks
 - PageRank as the stationary distribution of a teleporting random surfer (and *Google and the Mind*)
 - **GenJAX**: sampling a walk on Chibany's animal network; hand-rolled PageRank on a tiny directed web
+
+### Chapter 15: Memory Search as a Random Walk
+- Semantic fluency: people recall in bursts-by-category — and recall is a random walk on a semantic network (Abbott, Austerweil & Griffiths 2012)
+- The censoring function: report each animal only on its first visit; first-hitting times $\tau(k)$ and the inter-item response time
+- One memoryless process reproduces the "switch-cost" signature with no switch rule — a simpler account than optimal foraging
+- **GenJAX**: a censored random walk that reproduces the position-1-slowest IRT curve; forward pointer to MCMC
 
 ## Prerequisites
 
