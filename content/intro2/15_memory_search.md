@@ -247,6 +247,8 @@ There it is. **Patch position 1 sits well above the average, while positions 2 a
 
 {{% notice style="success" title="What you can do now" %}}
 You can state the **random-walk model of memory search**, apply the **censoring function** (report each animal only on its first visit) to turn a latent walk into an observable list, compute **inter-item response times** from first-hitting times, and explain why the **first word of a new patch is slowest** without any switch rule — the "switch cost" is just bridge-crossing time. You've seen one memoryless process reproduce a signature that was taken as evidence for a deliberate, two-process forager: a concrete case of a *simpler* model explaining the same data.
+
+*Glossary:* [censoring function](../../glossary/#censoring-function-), [semantic network](../../glossary/#semantic-network-), [random walk](../../glossary/#random-walk-).
 {{% /notice %}}
 
 ---

@@ -339,6 +339,8 @@ Page **C** ranks highest — three of the four pages link to it — and page **D
 You can read a network as an **adjacency matrix**, turn it into a transition matrix by **row-normalizing**, and recognize a **random walk** as a Markov chain whose states are nodes. You know the clean law $\pi_i \propto \deg(i)$ for undirected walks (and why it breaks for directed ones), and you can compute **PageRank** as the stationary distribution of a teleporting random surfer.
 
 Next, [Chapter 15](../15_memory_search/) cashes all of this in for cognition: it argues that **human memory search is a random walk on a semantic network** — and that the structure of the network, plus this very process, predicts the order and timing of the words you recall.
+
+*Glossary:* [random walk](../../glossary/#random-walk-), [adjacency matrix and degree](../../glossary/#adjacency-matrix-and-degree-), [transition matrix](../../glossary/#transition-matrix-), [stationary distribution](../../glossary/#stationary-distribution-), [PageRank](../../glossary/#pagerank-).
 {{% /notice %}}
 
 ---

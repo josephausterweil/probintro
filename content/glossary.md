@@ -1,5 +1,5 @@
 +++
-date = "2026-06-01"
+date = "2026-06-03"
 title = "Glossary - All Tutorials"
 weight = 100
 +++
@@ -1352,6 +1352,125 @@ The *Kullback–Leibler divergence* $D_{\text{KL}}(P \parallel Q)$ measures how 
 **Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#cross-entropy-and-kl-divergence)
 
 **See also:** [Cross-Entropy](#cross-entropy-), [Entropy](#entropy-)
+{{% /expand %}}
+
+### Markov Property 📊
+{{% expand "Markov Property" %}}
+A process has the *Markov property* when **the future is independent of the past, given the present**: $P(X_{t+1} \mid X_t, X_{t-1}, \dots, X_0) = P(X_{t+1} \mid X_t)$. Once you know the current state $X_t$, the entire earlier history adds nothing to your prediction of $X_{t+1}$.
+
+**Intuition:** the present is a complete summary of the past *for the purpose of predicting the future* — history left all its mark on the current state.
+
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#naming-it-the-markov-property)
+
+**See also:** [Markov Chain](#markov-chain-), [Transition Matrix](#transition-matrix-)
+{{% /expand %}}
+
+### Markov Chain 📊
+{{% expand "Markov Chain" %}}
+A *Markov chain* is a sequence of states $X_0, X_1, X_2, \dots$ that has the [Markov property](#markov-property-): each state depends only on the one before it. A chain over a finite set of states is fully described by its [transition matrix](#transition-matrix-).
+
+**Example:** Chibany choosing tonkatsu or hamburger each day, where today's choice depends only on yesterday's.
+
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/) (the chain machinery), and as a [random walk](#random-walk-) on a network in [Chapter 14](../intro2/14_random_walks_networks/) and a model of memory in [Chapter 15](../intro2/15_memory_search/).
+
+**See also:** [Markov Property](#markov-property-), [Stationary Distribution](#stationary-distribution-), [Random Walk](#random-walk-)
+{{% /expand %}}
+
+### Transition Matrix 📊
+{{% expand "Transition Matrix" %}}
+The *transition matrix* $P$ of a Markov chain collects every one-step probability: $P_{ij} = P(X_{t+1} = j \mid X_t = i)$, the probability of moving *to* state $j$ given you are *in* state $i$. Each **row** is a probability distribution over next states, so it sums to 1 — such a matrix is called **row-stochastic**.
+
+**Why it matters:** the matrix is also a *sampler* — pairing it with a stream of random numbers generates the whole sequence — and multiplying a distribution by $P$ steps it forward one unit of time.
+
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#two-views-of-the-same-chain). In [Chapter 14](../intro2/14_random_walks_networks/#from-a-graph-to-a-transition-matrix) it is built by row-normalizing a network's [adjacency matrix](#adjacency-matrix-and-degree-).
+
+**See also:** [Markov Chain](#markov-chain-), [Stationary Distribution](#stationary-distribution-), [Adjacency Matrix and Degree](#adjacency-matrix-and-degree-)
+{{% /expand %}}
+
+### Stationary Distribution 📊
+{{% expand "Stationary Distribution" %}}
+The *stationary distribution* $\pi$ of a Markov chain is the long-run fraction of time the chain spends in each state — equivalently, the one distribution that a single step leaves unchanged: $\pi P = \pi$. If your belief about the current state is already $\pi$, it stays $\pi$ forever.
+
+**How to find it:** by [power iteration](#power-iteration-) (just run the chain) or as the **left eigenvector of $P$ with eigenvalue 1** (every row-stochastic matrix has one). For a random walk on an undirected network it has the simple form $\pi_i \propto \deg(i)$.
+
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#the-stationary-distribution); the degree form and **PageRank** in [Chapter 14](../intro2/14_random_walks_networks/#the-stationary-distribution-of-a-walk).
+
+**See also:** [Power Iteration](#power-iteration-), [Ergodicity](#ergodicity-), [PageRank](#pagerank-)
+{{% /expand %}}
+
+### Power Iteration 📊
+{{% expand "Power Iteration" %}}
+*Power iteration* finds a chain's [stationary distribution](#stationary-distribution-) by starting from any distribution $\mathbf{v}$ and multiplying by the [transition matrix](#transition-matrix-) repeatedly: $\mathbf{v}, \mathbf{v}P, \mathbf{v}P^2, \dots \to \pi$. The sequence converges to $\pi$ regardless of where it started (for an [ergodic](#ergodicity-) chain).
+
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#finding-π-just-run-it-power-iteration)
+
+**See also:** [Stationary Distribution](#stationary-distribution-), [Ergodicity](#ergodicity-)
+{{% /expand %}}
+
+### Ergodicity 📊
+{{% expand "Ergodicity" %}}
+A Markov chain is *ergodic* when you can reach any state from any other (possibly in several steps) and it does not get trapped in a fixed cycle. An ergodic chain **mixes**: it converges to the *same* [stationary distribution](#stationary-distribution-) from every starting point, so $\pi$ is a property of the chain, not of where you began.
+
+**Useful fact:** any chain can be made ergodic by adding a small probability $\varepsilon$ of jumping to any state — the trick that makes [PageRank](#pagerank-) well-defined (its "teleport" / damping term).
+
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#why-the-start-doesnt-matter-ergodicity); the ε-trick reused in [Chapter 14](../intro2/14_random_walks_networks/#pagerank-the-same-π-at-web-scale).
+
+**See also:** [Stationary Distribution](#stationary-distribution-), [PageRank](#pagerank-)
+{{% /expand %}}
+
+### Random Walk 📊
+{{% expand "Random Walk" %}}
+A *random walk* on a network is a [Markov chain](#markov-chain-) whose states are the **nodes** of a graph: at each step the walker moves to a uniformly random neighbour. Its [transition matrix](#transition-matrix-) is the [adjacency matrix](#adjacency-matrix-and-degree-) with each row normalized to sum to 1.
+
+**Key result:** on an undirected, unweighted network the walk's [stationary distribution](#stationary-distribution-) is $\pi_i \propto \deg(i)$ — more-connected nodes are visited more often.
+
+**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/); a **censored** random walk models memory recall in [Chapter 15](../intro2/15_memory_search/).
+
+**See also:** [Markov Chain](#markov-chain-), [Adjacency Matrix and Degree](#adjacency-matrix-and-degree-), [PageRank](#pagerank-), [Censoring Function](#censoring-function-)
+{{% /expand %}}
+
+### Adjacency Matrix and Degree 📊
+{{% expand "Adjacency Matrix and Degree" %}}
+A graph $G = (V, E)$ has **nodes** $V$ joined by **edges** $E$. Its *adjacency matrix* $L$ records the edges: $L_{ij} = 1$ when nodes $i$ and $j$ are connected, else $0$ (symmetric for an undirected graph). The *degree* of a node, $\deg(i)$, is the number of edges touching it — equivalently, the sum of its row in $L$.
+
+**Why it matters:** row-normalizing $L$ gives the [transition matrix](#transition-matrix-) of a [random walk](#random-walk-), and for an undirected walk $\pi_i \propto \deg(i)$ — the degree *is* the long-run visit frequency.
+
+**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/#chibanys-animal-network)
+
+**See also:** [Random Walk](#random-walk-), [Transition Matrix](#transition-matrix-)
+{{% /expand %}}
+
+### PageRank 📊
+{{% expand "PageRank" %}}
+*PageRank* — the algorithm behind the original Google search engine — ranks the nodes of a directed graph by the [stationary distribution](#stationary-distribution-) of a [random walk](#random-walk-) over it: a "random surfer" who follows links, with a small probability $\varepsilon$ of teleporting to a random node (the [ergodicity](#ergodicity-) fix; Google's *damping factor* is $1 - \varepsilon$). Important nodes are the ones a random walker visits often.
+
+**Cognitive connection:** Griffiths, Steyvers & Firl (2007) showed PageRank over a *semantic* network predicts which words people produce in a fluency task.
+
+**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/#pagerank-the-same-π-at-web-scale)
+
+**See also:** [Stationary Distribution](#stationary-distribution-), [Ergodicity](#ergodicity-), [Semantic Network](#semantic-network-)
+{{% /expand %}}
+
+### Semantic Network 📊
+{{% expand "Semantic Network" %}}
+A *semantic network* represents knowledge as a graph: **concepts** are nodes and **associations** are edges (e.g. *dog*–*cat*). Such networks are often estimated from word-association data — asking many people what comes to mind for a cue word.
+
+**Why it matters:** treating semantic memory as a network lets a single [random walk](#random-walk-) on it model how people *recall* — the basis of the memory-search model in Chapter 15.
+
+**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/#whats-a-graph) and [Chapter 15: Memory Search](../intro2/15_memory_search/).
+
+**See also:** [Random Walk](#random-walk-), [Censoring Function](#censoring-function-), [PageRank](#pagerank-)
+{{% /expand %}}
+
+### Censoring Function 📊
+{{% expand "Censoring Function" %}}
+In the random-walk model of memory search (Abbott, Austerweil & Griffiths 2012), the *censoring function* maps the latent walk onto the observed list: you **report a word only the first time the walk reaches it, and only if it is in the target category**; revisits and off-category nodes are *censored* (hidden). The borrowed statistics term means "happened but unrecorded."
+
+**Consequence:** the gap between successive *first-hitting times* $\tau(k)$ — when the walk first reaches the $k$-th reported item — drives the **inter-item response time** $\text{IRT}(k) = \tau(k) - \tau(k-1) + \text{word length}$, reproducing the human "switch-cost" curve with no explicit switch rule.
+
+**Appears in:** [Tutorial 3, Chapter 15: Memory Search](../intro2/15_memory_search/#the-censoring-function)
+
+**See also:** [Random Walk](#random-walk-), [Semantic Network](#semantic-network-)
 {{% /expand %}}
 
 ---

@@ -434,6 +434,8 @@ Two starts, one answer — state 2 the loneliest, exactly as the arrows predicte
 You can recognize the **Markov property** (the future depends on the past only through the present), write a chain as both a **state diagram** and a **transition matrix**, and *sample* a sequence from that matrix. You can find a chain's **stationary distribution** $\pi$ two ways — by **power iteration** (just run the chain) or as the **eigenvalue-1 eigenvector** — and you understand why an **ergodic** chain forgets where it started.
 
 Next, [Chapter 14](../14_random_walks_networks/) takes the states and gives them *structure*: it makes them the **nodes of a network**. The transition matrix will come from a graph — and the stationary distribution will turn out to have a beautifully simple form that needs no eigen-solve at all.
+
+*Glossary:* [Markov property](../../glossary/#markov-property-), [Markov chain](../../glossary/#markov-chain-), [transition matrix](../../glossary/#transition-matrix-), [stationary distribution](../../glossary/#stationary-distribution-), [power iteration](../../glossary/#power-iteration-), [ergodicity](../../glossary/#ergodicity-).
 {{% /notice %}}
 
 ---
