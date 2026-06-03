@@ -12,9 +12,9 @@ Chibany has been sketching again.
 
 > **Alyssa:** "What's the diagram? Looks like a subway map."
 >
-> **Chibany:** "It's *animals*. I drew a line between two animals whenever they feel related — dog and wolf, lion and tiger, that sort of thing. Cat ended up connected to almost everything."
+> **Chibany:** "It's *animals*. I drew a line between two animals whenever they feel related — dog and hamster, lion and tiger, that sort of thing. Cat ended up connected to almost everything."
 >
-> **Jamal:** "So if you started at Wolf and kept wandering to a random connected animal, where would you spend most of your time?"
+> **Jamal:** "So if you started at Hamster and kept wandering to a random connected animal, where would you spend most of your time?"
 >
 > **Chibany:** "At bunny, obviously."
 >
@@ -30,7 +30,7 @@ It is exactly a Markov chain — and a very natural one. This chapter takes the 
 
 A **graph** (or **network** — we use the words interchangeably) is written $G = (V, E)$: a set of **nodes** $V$ (also called *vertices*) joined by a set of **edges** $E$ (the connections). That's the whole definition. The flexibility is in what the nodes and edges *mean*:
 
-- Edges can be **undirected** (a mutual link, like "dog and wolf are related") or **directed** (one-way, like a web link from page A to page B).
+- Edges can be **undirected** (a mutual link, like "dog and hamster are related") or **directed** (one-way, like a web link from page A to page B).
 - Edges can be **unweighted** (present or absent) or **weighted** (a strength or distance attached to each).
 
 You have already met a graph, back in [Chapter 8](../08_bayes_nets/). A **Bayes net** is a *directed* graph — there an edge $A \to B$ meant "$B$ depends on $A$." The graphs in this chapter use edges to mean something looser: *"is related to / connected to."* Same mathematical object, different reading of the arrows.
@@ -57,35 +57,35 @@ Here is Chibany's sketch: six animals, with an edge between any two that "feel r
 
 ```mermaid
 graph LR
-    Dog((Dog)) --- Wolf((Wolf))
+    Dog((Dog)) --- Hamster((Hamster))
     Dog --- Cat((Cat))
-    Wolf --- Cat
+    Hamster --- Cat
     Cat --- Lion((Lion))
     Cat --- Tiger((Tiger))
     Lion --- Tiger
     Lion --- Zebra((Zebra))
     Tiger --- Zebra
     classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
-    class Dog,Wolf,Cat,Lion,Tiger,Zebra node
+    class Dog,Hamster,Cat,Lion,Tiger,Zebra node
     linkStyle default stroke:#9bbcff,stroke-width:2px,color:#fff
 ```
 
-It has two natural clusters — a **pets** triangle (Dog–Wolf–Cat) and a **big-animals** triangle (Lion–Tiger–Zebra) — joined through **Cat**, the one node that bridges both worlds. Hold onto Cat; it is the hero of this chapter.
+It has two natural clusters — a **pets** triangle (Dog–Hamster–Cat) and a **big-animals** triangle (Lion–Tiger–Zebra) — joined through **Cat**, the one node that bridges both worlds. Hold onto Cat; it is the hero of this chapter.
 
 ### The graph as a matrix
 
 To compute with a graph, we write it as a matrix. The **adjacency matrix** $L$ has $L_{ij} = 1$ when nodes $i$ and $j$ share an edge, and $0$ otherwise:
 
-| | **Dog** | **Wolf** | **Cat** | **Lion** | **Tiger** | **Zebra** |
+| | **Dog** | **Hamster** | **Cat** | **Lion** | **Tiger** | **Zebra** |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Dog** | 0 | 1 | 1 | 0 | 0 | 0 |
-| **Wolf** | 1 | 0 | 1 | 0 | 0 | 0 |
+| **Hamster** | 1 | 0 | 1 | 0 | 0 | 0 |
 | **Cat** | 1 | 1 | 0 | 1 | 1 | 0 |
 | **Lion** | 0 | 0 | 1 | 0 | 1 | 1 |
 | **Tiger** | 0 | 0 | 1 | 1 | 0 | 1 |
 | **Zebra** | 0 | 0 | 0 | 1 | 1 | 0 |
 
-Two things to notice. The matrix is **symmetric** ($L_{ij} = L_{ji}$) because the edges are undirected — if Dog is related to Cat, then Cat is related to Dog. And **each row's sum is that node's degree** — the number of edges touching it. We'll define **degree** properly in a moment; for now just read off the row sums: Dog 2, Wolf 2, **Cat 4**, Lion 3, Tiger 3, Zebra 2. Cat, the bridge, touches the most edges.
+Two things to notice. The matrix is **symmetric** ($L_{ij} = L_{ji}$) because the edges are undirected — if Dog is related to Cat, then Cat is related to Dog. And **each row's sum is that node's degree** — the number of edges touching it. We'll define **degree** properly in a moment; for now just read off the row sums: Dog 2, Hamster 2, **Cat 4**, Lion 3, Tiger 3, Zebra 2. Cat, the bridge, touches the most edges.
 
 ---
 
@@ -97,7 +97,7 @@ To get its transition matrix, **normalize each row of $L$ to sum to 1** — divi
 
 $$P_{ij} = \frac{L_{ij}}{\deg(i)}.$$
 
-For Dog (degree 2, connected to Wolf and Cat), the row becomes $(0, \tfrac12, \tfrac12, 0, 0, 0)$: from Dog, step to Wolf or Cat with probability one-half each. Each row now sums to 1 — *because* we divided it by its own total (the degree) — so $P$ is **row-stochastic** (rows sum to 1), exactly the condition from Chapter 13. (This quietly assumes every node has at least one edge; an isolated node, degree 0, would mean dividing by zero — a walker stranded with nowhere to step.) Everything from Chapter 13 now applies: we can run the walk, and we can find its stationary distribution.
+For Dog (degree 2, connected to Hamster and Cat), the row becomes $(0, \tfrac12, \tfrac12, 0, 0, 0)$: from Dog, step to Hamster or Cat with probability one-half each. Each row now sums to 1 — *because* we divided it by its own total (the degree) — so $P$ is **row-stochastic** (rows sum to 1), exactly the condition from Chapter 13. (This quietly assumes every node has at least one edge; an isolated node, degree 0, would mean dividing by zero — a walker stranded with nowhere to step.) Everything from Chapter 13 now applies: we can run the walk, and we can find its stationary distribution.
 
 {{% notice style="tip" title="Structure + process" %}}
 Notice what just happened: the **structure** (the graph — which animals are related) plus a dead-simple **process** (step to a random neighbour) together *define* a Markov chain. We didn't invent transition probabilities by hand the way we did for Chibany's bento habit — they fell straight out of the wiring. This "structure + process" split returns, with a vengeance, in [Chapter 15](../15_memory_search/).
@@ -107,15 +107,15 @@ Notice what just happened: the **structure** (the graph — which animals are re
 
 ## Take a Walk
 
-Let's release a walker. Start at **Wolf** and follow random neighbours. Here is *one possible* journey — we picked a tidy one that tours all six animals to show the bridge crossing; a real random walk (which we sample in code below) wanders more raggedly, often doubling back:
+Let's release a walker. Start at **Hamster** and follow random neighbours. Here is *one possible* journey — we picked a tidy one that tours all six animals to show the bridge crossing; a real random walk (which we sample in code below) wanders more raggedly, often doubling back:
 
-$$\text{Wolf} \to \text{Dog} \to \text{Cat} \to \text{Lion} \to \text{Tiger} \to \text{Zebra}.$$
+$$\text{Hamster} \to \text{Dog} \to \text{Cat} \to \text{Lion} \to \text{Tiger} \to \text{Zebra}.$$
 
 ```mermaid
 graph LR
-    Dog((Dog)) --- Wolf((Wolf))
+    Dog((Dog)) --- Hamster((Hamster))
     Dog --- Cat((Cat))
-    Wolf --- Cat
+    Hamster --- Cat
     Cat --- Lion((Lion))
     Cat --- Tiger((Tiger))
     Lion --- Tiger
@@ -123,8 +123,8 @@ graph LR
     Tiger --- Zebra
     classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
     classDef visited fill:#9bbcff,stroke:#9bbcff,stroke-width:2px,color:#111
-    class Dog,Wolf,Cat,Lion,Tiger,Zebra node
-    class Wolf,Dog,Cat,Lion,Tiger,Zebra visited
+    class Dog,Hamster,Cat,Lion,Tiger,Zebra node
+    class Hamster,Dog,Cat,Lion,Tiger,Zebra visited
     linkStyle default stroke:#9bbcff,stroke-width:2px,color:#fff
 ```
 
@@ -194,13 +194,13 @@ We build Chibany's network as an adjacency matrix, row-normalize it into a trans
 ```python
 import jax.numpy as jnp
 
-names = ["Dog", "Wolf", "Cat", "Lion", "Tiger", "Zebra"]
+names = ["Dog", "Hamster", "Cat", "Lion", "Tiger", "Zebra"]
 
 # Adjacency matrix L: L[i,j] = 1 if animals i and j are connected.
 L = jnp.array([
-    # Dog Wolf Cat Lion Tiger Zebra
+    # Dog Hamster Cat Lion Tiger Zebra
     [0, 1, 1, 0, 0, 0],   # Dog
-    [1, 0, 1, 0, 0, 0],   # Wolf
+    [1, 0, 1, 0, 0, 0],   # Hamster
     [1, 1, 0, 1, 1, 0],   # Cat   (the bridge)
     [0, 0, 1, 0, 1, 1],   # Lion
     [0, 0, 1, 1, 0, 1],   # Tiger
@@ -220,18 +220,18 @@ def power_iterate(v, P, steps):
 pi_power = power_iterate(jnp.ones(6) / 6, P, 200)
 
 for i, name in enumerate(names):
-    print(f"{name:6s} degree {int(degree[i])}   "
+    print(f"{name:8s} degree {int(degree[i])}   "
           f"pi(degree) {pi_degree[i]:.3f}   pi(power) {pi_power[i]:.3f}")
 ```
 
 **Output:**
 ```
-Dog    degree 2   pi(degree) 0.125   pi(power) 0.125
-Wolf   degree 2   pi(degree) 0.125   pi(power) 0.125
-Cat    degree 4   pi(degree) 0.250   pi(power) 0.250
-Lion   degree 3   pi(degree) 0.188   pi(power) 0.188
-Tiger  degree 3   pi(degree) 0.188   pi(power) 0.188
-Zebra  degree 2   pi(degree) 0.125   pi(power) 0.125
+Dog      degree 2   pi(degree) 0.125   pi(power) 0.125
+Hamster  degree 2   pi(degree) 0.125   pi(power) 0.125
+Cat      degree 4   pi(degree) 0.250   pi(power) 0.250
+Lion     degree 3   pi(degree) 0.188   pi(power) 0.188
+Tiger    degree 3   pi(degree) 0.188   pi(power) 0.188
+Zebra    degree 2   pi(degree) 0.125   pi(power) 0.125
 ```
 
 The two columns agree exactly: $\pi \propto \deg$, and Cat (degree 4) is the most-visited node at $0.25$.
@@ -259,13 +259,13 @@ def make_walk(n_steps):
     return walk
 
 walk8 = make_walk(8)
-seq = walk8.simulate(jr.key(0), (1,)).get_retval()   # start at Wolf (index 1)
+seq = walk8.simulate(jr.key(0), (1,)).get_retval()   # start at Hamster (index 1)
 print(" -> ".join(names[int(i)] for i in seq))
 ```
 
 **Output:**
 ```
-Wolf -> Cat -> Wolf -> Cat -> Wolf -> Cat -> Dog -> Cat -> Dog
+Hamster -> Cat -> Hamster -> Cat -> Hamster -> Cat -> Dog -> Cat -> Dog
 ```
 
 A real sampled walk — messier than the tidy tour we drew earlier, and notice how often it returns to **Cat**. (That bounciness is the point: the walk keeps getting funnelled back through the high-degree bridge.) To confirm the degree law by *sampling* rather than algebra, take one long walk and tally where it spends its time:
@@ -282,17 +282,17 @@ def run_long(key, start, n):
 visited = run_long(jr.key(2), 2, 20000)              # start at Cat, 20000 steps
 freq = jnp.array([jnp.mean((visited == i).astype(float)) for i in range(6)])
 for i, name in enumerate(names):
-    print(f"{name:6s} visited {float(freq[i]):.2f}   (degree share {float(pi_degree[i]):.2f})")
+    print(f"{name:8s} visited {float(freq[i]):.2f}   (degree share {float(pi_degree[i]):.2f})")
 ```
 
 **Output:**
 ```
-Dog    visited 0.12   (degree share 0.12)
-Wolf   visited 0.12   (degree share 0.12)
-Cat    visited 0.25   (degree share 0.25)
-Lion   visited 0.19   (degree share 0.19)
-Tiger  visited 0.19   (degree share 0.19)
-Zebra  visited 0.13   (degree share 0.12)
+Dog      visited 0.12   (degree share 0.12)
+Hamster  visited 0.12   (degree share 0.12)
+Cat      visited 0.25   (degree share 0.25)
+Lion     visited 0.19   (degree share 0.19)
+Tiger    visited 0.19   (degree share 0.19)
+Zebra    visited 0.13   (degree share 0.12)
 ```
 
 Visit frequency tracks degree share, just as $\pi \propto \deg$ promised. (Zebra's $0.13$ versus its exact share of $0.12$ is ordinary sampling wobble — 20,000 steps is a lot, but not infinite — not an error; run it with a different seed and a different node will be the one that's off by a hundredth.)
