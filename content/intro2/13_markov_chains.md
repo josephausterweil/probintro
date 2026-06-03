@@ -147,6 +147,24 @@ So $\pi \approx (0.70,\ 0.30)$ — Chibany's chain was tuned so its long-run hom
 
 Solving a linear system by hand is fine for two states. For 52! card orderings it is hopeless. We need a method that *scales* — and we already have it. We just *run the chain.*
 
+{{% notice style="info" title="How many shuffles? The famous \"seven shuffles\" result" %}}
+The shuffling chain is not just a toy — it is the setting of one of the most celebrated results in probability. **How many shuffles does it take to reach (close to) that uniform stationary distribution?**
+
+For a realistic *riffle* shuffle (cut the deck roughly in half, then interleave the two halves), Bayer and Diaconis (1992) gave a precise answer. They measured the distance to uniform with the **total-variation distance** — the largest gap, over all possible events, between "how likely under the current deck" and "how likely under a perfectly shuffled deck." Their headline finding: that distance stays essentially at its maximum of $1$ for the first four shuffles, then falls off a cliff —
+
+| shuffles | $1$–$4$ | $5$ | $6$ | $7$ | $8$ | $9$ |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| distance to uniform | $1.00$ | $0.92$ | $0.61$ | $0.33$ | $0.17$ | $0.09$ |
+
+The distance first drops below one-half at the **7th shuffle** — the origin of the popular rule "**seven shuffles** to mix a deck." (This abrupt drop is the same "it barely changes, then suddenly mixes" phenomenon — a *cutoff* — that power iteration shows; for $n$ cards it sits near $\frac{3}{2}\log_2 n$ shuffles, about $8.5$ for $n=52$, with the below-one-half crossing at the 7th.)
+
+**Did this change the real world?** Yes — though the famous version is often garbled. The well-documented case is **contract bridge**: tournament organizers switched from hand shuffling to *computer-generated* shuffling once it was clear that the usual four-or-five shuffles leave the deck far from random (Berger 1973; Diaconis 2003). Card-counters had long exploited poorly shuffled casino games (Thorp 1973) — so the lesson cuts both ways, and you should be skeptical of the neat "casinos started shuffling more because of Diaconis" story, which the mathematical literature does not actually establish.
+
+**But were the under-shufflers entirely wrong?** Not as wrong as "seven" suggests — and this is the part that connects straight back to *what distribution you are actually trying to reach*. Seven shuffles is the cost of making the **full ordering** of all 52 distinct cards uniform. Most card games don't need that. In Black-Jack and Baccarat the *suits are irrelevant* and every 10 or face card counts the same — so two deck orderings that differ only by an irrelevant detail are, for the game, *the same state*. When the target is this **coarser equivalence class**, fewer shuffles suffice: Assaf, Diaconis and Soundararajan (2011) proved the required count can drop from $\frac{3}{2}\log_2 n$ all the way to $\log_2 n$ when only coarse features matter, and Conger and Viswanath (2006) found blackjack is acceptably mixed after about **five** shuffles (bridge after about four) — fewer than the full deck's seven. So the dealer who shuffles a few times less was tracking the *right* distribution — the one the game actually cares about — not the full-ordering one the "seven" refers to. *(One honest caveat: how much you save depends on exactly which feature you measure and which distance you use; "fewer than seven for blackjack" is solid, but a precise single number is metric-dependent.)*
+
+This is the lesson of the whole segment in miniature: a Markov chain has a stationary distribution, "mixed" means *close to it*, and **how close you need to be — which distribution you are really aiming at — decides how long you must run.**
+{{% /notice %}}
+
 ---
 
 ## Finding π: Just Run It (Power Iteration)
