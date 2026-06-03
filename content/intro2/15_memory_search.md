@@ -358,6 +358,26 @@ The inference **cleanly separates the two regimes**: strong-cluster data concent
 Be honest about the limits. This recovers the cluster *contrast* — strong vs. weak structure — reliably, and on this clean toy it even lands the right $r$. But it is a **coarse** tool, not a full estimator: it compresses an entire fluency list down to a *single* summary statistic (the clustering score), so it can speak to "how clustered" but not to *which* animals link to which, or how many clusters there are, or where the bridges sit. It also assumes $K$ is **known** and the blocks are clean and equal-sized. Recovering the *whole* network — every edge — is exactly what the analytic **U-INVITE** likelihood buys you over this simulation-based shortcut, at the cost of the fundamental-matrix machinery above. The lesson is the trade-off itself: a generative model is *trivial to write and simulate* but can be *hard to condition on*, and when censoring blocks direct conditioning you can still learn coarse structure by **simulating** instead of solving.
 {{% /notice %}}
 
+### A digression: where this sketch sits, and a project for someone
+
+The simulation-based sketch above is deliberately a toy, but it is worth saying precisely how it relates to the real methods literature — because it occupies a corner that the published estimators do not.
+
+Zemla & Austerweil (2018) benchmark **seven** ways to turn fluency lists into a semantic network. Five are *heuristics* that assume "things named near each other are probably linked" — First Edge, Naïve Random Walk (and its thresholded variants), the Community Network, Pathfinder, and the Correlation-Based Network. The other two — **U-INVITE** and its hierarchical version — are *process-model* estimators: they invert the very censored random walk this chapter is built on, and U-INVITE is a *consistent* estimator (given enough data it converges on the true network). Every one of the seven estimates the **full edge set** — which of the $\binom{N}{2}$ possible links exist.
+
+Our sketch is **not a re-derivation of any of them.** It shares U-INVITE's premise — the censored random walk as the generating process — but inverts it the opposite way. U-INVITE writes the censored-walk likelihood down *exactly* (the fundamental matrix) and searches the enormous space of possible edge sets. Our sketch concedes that the likelihood is intractable to condition on directly, and instead does **likelihood-free (simulation-based) inference** on a *low-dimensional* description of the network — here a single block-structure parameter, $r$. So it answers a different, coarser question ("how modular is this memory?") than "which edges exist?", and it answers it by simulating rather than solving.
+
+That corner — *sampling-based inference of network structure from a censored walk* — is exactly the one Zemla & Austerweil flag as unexplored: their search is a deterministic edge-toggling hill-climb, and they note that approximating the posterior by sampling (e.g. Gibbs) is left for future work. A genuine follow-up project lives here, and it is tractable:
+
+{{% notice style="tip" title="An open project (if you're looking for one)" %}}
+Take the simulation-based idea off the toy and onto real data. Concretely:
+
+1. **Scale to a real network.** Use the USF free-association animal network (the same one U-INVITE is validated against) instead of nine synthetic nodes, with cluster labels from an existing animal taxonomy (e.g. Troyer's subcategories, already used by Abbott et al. 2012).
+2. **Drop the crutches.** The sketch assumes $K$ is *known* and the blocks are clean and equal-sized. Infer $K$ too — a stochastic block model with a prior over the number of communities (a Chinese-restaurant-style prior, of the kind that powers the infinite mixtures of [Chapter 6](../06_dpmm/)) — so the method discovers *how many* clusters memory has, not just how separated two given ones are.
+3. **Ask the estimator's questions.** Is the block-model contrast estimate *consistent* and stable as you add more lists, the way U-INVITE is — or does it degrade like the heuristic methods? Does it recover community structure that matches U-INVITE's full-network estimate on the same lists, at a fraction of the compute?
+
+If it works, it is a complement to U-INVITE, not a competitor: U-INVITE for the whole graph, exact but expensive; simulation-based block inference for the coarse community structure, cheap and willing to say "I don't know the edges." If it *doesn't* work, the reason will be instructive — a single summary statistic may simply throw away too much of the list. Either way it is a real, self-contained question that this chapter's machinery is enough to start on.
+{{% /notice %}}
+
 ---
 
 ## Where This Goes Next
