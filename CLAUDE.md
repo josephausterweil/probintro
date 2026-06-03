@@ -198,3 +198,29 @@ were written against a dead API):
    silently no-op (string-not-found) if the file drifted from a stale read; re-validate, don't assume.
 4. The full rationale and the flaky-tool-channel defenses (trust `git hash-object`/refs over command stdout;
    write probe output in-repo not `/tmp`) live in the memory note `feedback_genjax_block_workflow.md`.
+
+## Every-time checklist when a chapter is added or updated (Joe's standing rule, 2026-06-03)
+
+Whenever you ship a **new chapter** or materially update one, do ALL of the following in the same pass —
+not just the chapter file:
+
+1. **Global notebook page.** Add the chapter's Colab notebook to `content/notebook_guide.md` in all three
+   places that match the 08–11 pattern: the detailed section (Colab link + "What it covers" + chapter
+   back-link + Topics), a recommended-learning-path entry, and the summary table. Verify chapter→notebook
+   (in the chapter) and notebook→chapter (in the guide) links both resolve.
+2. **Glossary.** Add the chapter's important new terms to `content/glossary.md` (the `### Term 📊` +
+   `{{% expand %}}` format), each with an **"Appears in:"** link to the chapter section and **"See also:"**
+   cross-links. Add a `*Glossary:*` line to the chapter's closing "What you can do now" box linking the terms
+   back. **Verify every anchor in BOTH directions on the BUILT site** — Hugo keeps `π` (UTF-8) in anchors,
+   drops apostrophes with no dash (`what's`→`whats`), and a trailing emoji becomes a trailing `-`
+   (`markov-property-`). Don't guess slugs; grep `id="..."` in the built HTML.
+3. **HML homepage lecture card.** In the COURSE repo (not the textbook), edit the week's
+   `course/weekNN_*/PLAN.md` **"Textbook Chapters"** section to tag the chapters in the order-robust NAME form
+   `- T3: <stable-name> — \`intro2/NN_slug.md\` (note)`, where `<stable-name>` is the slug minus its `NN_`
+   prefix with `_`→spaces and **must match the slug exactly** (e.g. `random walks networks`, NOT "random walks
+   *on* networks" — the matcher normalizes against the slug). Then run `python3 docs/_build.py` (never
+   hand-edit `docs/index.html`) and confirm the three deep-links render on the week's card. Commit PLAN.md +
+   the regenerated index.html to the course repo's main.
+
+Bump `date` on every file you touch. The notebook-guide/glossary/index.html are easy to forget because they
+live away from the chapter — this checklist exists because they were forgotten on the first Ch 13–15 pass.
