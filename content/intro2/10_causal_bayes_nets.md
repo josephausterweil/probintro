@@ -1,5 +1,5 @@
 +++
-date = "2026-06-01"
+date = "2026-06-03"
 title = "Causal Bayes Nets and the Do-Operator"
 weight = 10
 +++
@@ -50,20 +50,20 @@ Here is the crucial fact: **these three graphs are indistinguishable from observ
 
 This isn't hand-waving — it falls right out of the [Markov factorization](../08_bayes_nets/) from Chapter 8. Write $T$ for yellow teeth and $C$ for cancer. Each graph turns into a product of one factor per node (each node given its parents):
 
-- **Story 1, $T \to C$:** $\;P(T, C) = P(T)\,P(C \mid T).$
-- **Story 2, $C \to T$:** $\;P(T, C) = P(C)\,P(T \mid C).$
+- **Story 1, $T \to C$:** $ P(T, C) = P(T) P(C \mid T).$
+- **Story 2, $C \to T$:** $ P(T, C) = P(C) P(T \mid C).$
 
-Now — are these two *different* distributions? No. Both are just two ways of writing the **same** joint, because the definition of conditional probability says $P(T)\,P(C \mid T)$ and $P(C)\,P(T \mid C)$ both equal $P(T, C)$ exactly (it's the chain rule, applied in the two possible orders). Reverse the arrow and you haven't changed the distribution one bit — you've only re-ordered the factorization. And the *only* independence statement either graph could make over two variables is "$T \perp C$" — which **neither one asserts** (an arrow between them means dependent). So stories 1 and 2 make **identical** claims about every observable probability: same joint, same marginals, same correlation, same (empty) set of independencies.
+Now — are these two *different* distributions? No. Both are just two ways of writing the **same** joint, because the definition of conditional probability says $P(T) P(C \mid T)$ and $P(C) P(T \mid C)$ both equal $P(T, C)$ exactly (it's the chain rule, applied in the two possible orders). Reverse the arrow and you haven't changed the distribution one bit — you've only re-ordered the factorization. And the *only* independence statement either graph could make over two variables is "$T \perp C$" — which **neither one asserts** (an arrow between them means dependent). So stories 1 and 2 make **identical** claims about every observable probability: same joint, same marginals, same correlation, same (empty) set of independencies.
 
 Two graphs that encode the **exact same set of conditional independencies** are called **Markov equivalent**, and the collection of all graphs sharing those independencies is a **Markov equivalence class** (we add this term to the [glossary](../../glossary/#markov-equivalence-class-)). Stories 1 and 2 sit in the same class — so observation, which only ever sees the joint distribution, is *blind* to which arrow direction is the true one. The data literally does not contain the answer.
 
 **What about Story 3, the common cause?** It lives over *three* variables ($S$ = smoking, plus $T$ and $C$), and factorizes as
 
-$$P(S, T, C) = P(S)\,P(T \mid S)\,P(C \mid S).$$
+$$P(S, T, C) = P(S) P(T \mid S) P(C \mid S).$$
 
 This fork *does* make an independence claim — $T \perp C \mid S$ (teeth and cancer are independent **once you know** whether the person smokes; all their correlation ran through smoking). So it is **not** Markov equivalent to stories 1 and 2 as written. But here's the catch: we never *observe* $S$. Marginalize smoking out — sum it away, the way an observer who only sees teeth and lungs must — and what's left is a plain dependence between $T$ and $C$:
 
-$$P(T, C) = \sum_{s} P(s)\,P(T \mid s)\,P(C \mid s),$$
+$$P(T, C) = \sum_{s} P(s) P(T \mid s) P(C \mid s),$$
 
 a distribution in which $T$ and $C$ are correlated — *exactly the observable pattern stories 1 and 2 produce.* So all three reproduce the same teeth–cancer correlation: stories 1 and 2 because they are Markov equivalent, and story 3 because its hidden common cause manufactures the same marginal dependence. Observation sees only that correlation, and three different mechanisms can paint it.
 

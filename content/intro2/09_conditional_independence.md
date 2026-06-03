@@ -1,5 +1,5 @@
 +++
-date = "2026-06-01"
+date = "2026-06-03"
 title = "Conditional Independence and d-Separation"
 weight = 9
 +++
@@ -182,7 +182,7 @@ Rain and sprinkler are independent, each with prior probability $0.3$. Now watch
 
 **Step 2 — observe the floor is wet ($W = 1$).** Now rain becomes *more* likely. The floor is wet, so at least one cause fired; since rain is one of only two candidates, its probability rises:
 
-$$P(R = 1 \mid W = 1) = \frac{P(W = 1 \mid R = 1)\,P(R=1)}{P(W=1)} = \frac{1 \cdot 0.3}{1 - 0.7 \cdot 0.7} = \frac{0.3}{0.51} \approx 0.588.$$
+$$P(R = 1 \mid W = 1) = \frac{P(W = 1 \mid R = 1) P(R=1)}{P(W=1)} = \frac{1 \cdot 0.3}{1 - 0.7 \cdot 0.7} = \frac{0.3}{0.51} \approx 0.588.$$
 
 (The denominator $P(W=1) = 1 - P(R=0)P(S=0) = 1 - 0.7 \times 0.7 = 0.51$.) Belief in rain climbed from $0.30$ to about $0.59$.
 

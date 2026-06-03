@@ -1,5 +1,5 @@
 +++
-date = "2026-06-01"
+date = "2026-06-03"
 title = "The Beta Distribution"
 weight = 1
 +++
@@ -95,8 +95,8 @@ in a different costume in [Chapter 4](../../04_bayesian_learning/): there, a Gau
 gave a Gaussian posterior. Here, a **Beta prior on a Bernoulli rate gives a Beta
 posterior** — and the update is just *counting*:
 
-$$\text{prior } \text{Beta}(a, b) \;+\; \text{data } (k \text{ tonkatsu out of } n) \;\longrightarrow\;
-\text{posterior } \text{Beta}(a + k,\; b + n - k).$$
+$$\text{prior } \text{Beta}(a, b)  +  \text{data } (k \text{ tonkatsu out of } n)  \longrightarrow 
+\text{posterior } \text{Beta}(a + k,  b + n - k).$$
 
 You add the observed tonkatsu to $a$ and the observed hamburgers to $b$. That's the whole update. The posterior
 mean is therefore

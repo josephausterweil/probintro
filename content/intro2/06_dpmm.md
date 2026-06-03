@@ -1,5 +1,5 @@
 +++
-date = "2026-06-01"
+date = "2026-06-03"
 title = "Dirichlet Process Mixture Models"
 weight = 6
 +++
@@ -255,7 +255,7 @@ Why is this useful? Given the slice values, a component $k$ is only a **candidat
 Each sweep cycles through four conditional updates, sampling each quantity given the current value of the others:
 
 1. **Slice variables** $u_i \sim \text{Uniform}(0, \pi_{z_i})$ — set the per-observation thresholds.
-2. **Assignments** $z_i$ — pick a cluster from those allowed by the slice, weighted by how well it explains $x_i$: $\;P(z_i = k) \propto \mathbb{1}[\pi_k > u_i]\, \mathcal{N}(x_i \mid \mu_k, \sigma_x)$, where $\mathbb{1}[\cdot]$ is the indicator (1 if true, 0 if false).
+2. **Assignments** $z_i$ — pick a cluster from those allowed by the slice, weighted by how well it explains $x_i$: $ P(z_i = k) \propto \mathbb{1}[\pi_k > u_i]  \mathcal{N}(x_i \mid \mu_k, \sigma_x)$, where $\mathbb{1}[\cdot]$ is the indicator (1 if true, 0 if false).
 3. **Stick weights** $\beta_k \sim \text{Beta}(1 + n_k,\ \alpha + \sum_{j>k} n_j)$, where $n_k$ is the number of observations now in cluster $k$ — the standard stick-breaking posterior.
 4. **Cluster means** $\mu_k$ — a conjugate Normal–Normal update from the points assigned to cluster $k$ (empty clusters fall back to the prior).
 

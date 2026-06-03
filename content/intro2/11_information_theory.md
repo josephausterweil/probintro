@@ -1,5 +1,5 @@
 +++
-date = "2026-06-01"
+date = "2026-06-03"
 title = "Information Theory: Surprise, Uncertainty, and the Collider"
 weight = 11
 +++
@@ -37,7 +37,7 @@ Why the logarithm, of all functions? Because surprise should be **additive over 
 
 A single outcome has a surprise. A whole *distribution* has an **average** surprise, weighted by how often each outcome occurs. That average is the **entropy** ([glossary](../../glossary/#entropy-)):
 
-$$H(X) = \sum_x P(x)\,\bigl(-\log_2 P(x)\bigr) = -\sum_x P(x) \log_2 P(x) = \mathbb{E}\bigl[-\log_2 P(X)\bigr].$$
+$$H(X) = \sum_x P(x) \bigl(-\log_2 P(x)\bigr) = -\sum_x P(x) \log_2 P(x) = \mathbb{E}\bigl[-\log_2 P(X)\bigr].$$
 
 Entropy measures how *uncertain* you are about $X$ before you see it — how surprised you expect to be, on average. Three cases pin down the intuition:
 
@@ -67,7 +67,7 @@ It's the total uncertainty in *both* variables at once — how surprised you exp
 
 **Conditional entropy** ([glossary](../../glossary/#conditional-entropy-)) is the uncertainty that *remains* in $Y$ once you already know $X$. For a *specific* value $X = x$, the leftover uncertainty is just the entropy of the conditional distribution $P(Y \mid x)$; the conditional entropy averages that over all values of $X$:
 
-$$H(Y \mid X) = \sum_x P(x)\,\underbrace{\Bigl[-\sum_y P(y \mid x) \log_2 P(y \mid x)\Bigr]}_{H(Y \mid X = x)} = -\sum_{x, y} P(x, y) \log_2 P(y \mid x).$$
+$$H(Y \mid X) = \sum_x P(x) \underbrace{\Bigl[-\sum_y P(y \mid x) \log_2 P(y \mid x)\Bigr]}_{H(Y \mid X = x)} = -\sum_{x, y} P(x, y) \log_2 P(y \mid x).$$
 
 Read $H(Y \mid X)$ as: "on average, how surprised will the value of $Y$ still leave me, given that I've seen $X$?" If $X$ pins $Y$ down completely, $H(Y \mid X) = 0$ — no surprise left. If $X$ says nothing about $Y$, then $P(y \mid x) = P(y)$ and $H(Y \mid X) = H(Y)$ — knowing $X$ didn't help at all.
 
@@ -75,16 +75,16 @@ Read $H(Y \mid X)$ as: "on average, how surprised will the value of $Y$ still le
 
 These three quantities obey a beautifully simple law — **the total uncertainty in a pair equals the uncertainty in the first variable plus the leftover uncertainty in the second**:
 
-$$\boxed{\,H(X, Y) = H(X) + H(Y \mid X)\,}$$
+$$\boxed{ H(X, Y) = H(X) + H(Y \mid X) }$$
 
-It's the information-theoretic echo of the probability chain rule $P(x, y) = P(x)\,P(y \mid x)$. Here is the one-line derivation — it's just that chain rule, run through a logarithm:
+It's the information-theoretic echo of the probability chain rule $P(x, y) = P(x) P(y \mid x)$. Here is the one-line derivation — it's just that chain rule, run through a logarithm:
 
 $$
 \begin{aligned}
 H(X, Y) &= -\sum_{x, y} P(x, y) \log_2 P(x, y) \\
-        &= -\sum_{x, y} P(x, y) \log_2 \bigl[P(x)\,P(y \mid x)\bigr] && \text{(probability chain rule)}\\
-        &= -\sum_{x, y} P(x, y) \log_2 P(x) \;-\; \sum_{x, y} P(x, y) \log_2 P(y \mid x) && \text{(}\log\text{ of a product = sum of logs)}\\
-        &= -\sum_{x} P(x) \log_2 P(x) \;+\; H(Y \mid X) && \text{(sum out } y \text{ in the first term: } \textstyle\sum_y P(x,y)=P(x)\text{)}\\
+        &= -\sum_{x, y} P(x, y) \log_2 \bigl[P(x) P(y \mid x)\bigr] && \text{(probability chain rule)}\\
+        &= -\sum_{x, y} P(x, y) \log_2 P(x)  -  \sum_{x, y} P(x, y) \log_2 P(y \mid x) && \text{(}\log\text{ of a product = sum of logs)}\\
+        &= -\sum_{x} P(x) \log_2 P(x)  +  H(Y \mid X) && \text{(sum out } y \text{ in the first term: } \textstyle\sum_y P(x,y)=P(x)\text{)}\\
         &= H(X) + H(Y \mid X).
 \end{aligned}
 $$
@@ -115,7 +115,7 @@ I(X; Y) &= H(X) - H(X \mid Y) \\
 \end{aligned}
 $$
 
-That last line, $\;I(X; Y) = H(X) + H(Y) - H(X, Y)$, is **completely symmetric in $X$ and $Y$** — swapping them changes nothing. So mutual information is **symmetric**: $Y$ tells you exactly as much about $X$ as $X$ tells you about $Y$.
+That last line, $ I(X; Y) = H(X) + H(Y) - H(X, Y)$, is **completely symmetric in $X$ and $Y$** — swapping them changes nothing. So mutual information is **symmetric**: $Y$ tells you exactly as much about $X$ as $X$ tells you about $Y$.
 
 $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = I(Y; X).$$
 
@@ -172,7 +172,7 @@ $$D_{\text{KL}}(P \parallel Q) = \sum_x P(x) \log_2 \frac{P(x)}{Q(x)}.$$
 
 These two are linked by a one-line identity that says exactly that — *your total surprise is the unavoidable part plus the penalty for being wrong*:
 
-$$\boxed{\,H(P, Q) = H(P) + D_{\text{KL}}(P \parallel Q)\,}$$
+$$\boxed{ H(P, Q) = H(P) + D_{\text{KL}}(P \parallel Q) }$$
 
 The derivation is again just splitting a logarithm, this time using $\log \frac{P}{Q} = \log P - \log Q$ in reverse:
 

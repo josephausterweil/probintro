@@ -1,5 +1,5 @@
 +++
-date = "2026-06-01"
+date = "2026-06-03"
 title = "Learning the Prior"
 weight = 3
 +++
@@ -23,7 +23,7 @@ possible $\theta_i$**: this is the same Beta-Binomial conjugacy that let us upda
 $\text{Beta}(a,b) \to \text{Beta}(a+k, b+n-k)$ in §2, used the other direction. The average has a clean closed
 form (the **Beta-Binomial** marginal):
 
-$$p(k_i \mid n_i, a, b) = \binom{n_i}{k_i}\, \frac{B(a + k_i,\; b + n_i - k_i)}{B(a, b)},$$
+$$p(k_i \mid n_i, a, b) = \binom{n_i}{k_i}  \frac{B(a + k_i,  b + n_i - k_i)}{B(a, b)},$$
 
 where $\binom{n_i}{k_i}$ is the binomial coefficient ("$n_i$ choose $k_i$") and $B(\cdot,\cdot)$ is the Beta
 function — the normalizer of the Beta distribution, whose log is `betaln` in JAX. We don't need to memorize it;
@@ -104,7 +104,7 @@ It is awkward to put a hyperprior directly on $(a, b)$, because the pair entangl
 
 $$\mu = \frac{a}{a+b} \quad (\text{the population } \textbf{mean}), \qquad \lambda = a + b \quad (\text{the } \textbf{concentration}),$$
 
-and invert with $a = \mu\lambda,\; b = (1-\mu)\lambda$. Now we can put a *separate* hyperprior on each — and the crucial one is on $\lambda$.
+and invert with $a = \mu\lambda,  b = (1-\mu)\lambda$. Now we can put a *separate* hyperprior on each — and the crucial one is on $\lambda$.
 
 {{% notice style="info" title="Same distribution, two sets of dials: $(a, b)$ vs. $(\mu, \lambda)$" %}}
 This is **not a new distribution** — it is the *exact same* Beta distribution, described with two different sets of dials. Nothing about the math changes; we are only relabeling.
@@ -119,7 +119,7 @@ This is **not a new distribution** — it is the *exact same* Beta distribution,
 $\text{Beta}(6,4)$ and "$\mu = 0.6,\ \lambda = 10$" are **the same distribution written two ways** — plug $\mu\lambda = 6$ and $(1-\mu)\lambda = 4$ back in to check. We switch to $(\mu, \lambda)$ for one reason: it lets us reason about — and put independent priors on — "what's the average rate?" and "how alike are students?" *separately*, which is precisely the distinction this section is about. Everywhere a model wants $a$ and $b$ (as in `beta(a, b)`), we still pass $a = \mu\lambda$ and $b = (1-\mu)\lambda$.
 {{% /notice %}} To let the model discover a U-shaped population (each student near-deterministic, $\lambda < 1$) **or** a tight one (students all alike, $\lambda \gg 1$), the hyperprior on $\lambda$ must **span both regimes** — orders of magnitude above and below $1$. A **log-uniform** prior does exactly that:
 
-$$\mu \sim \text{Uniform}(0, 1), \qquad \log \lambda \sim \text{Uniform}(\log 0.1,\; \log 100).$$
+$$\mu \sim \text{Uniform}(0, 1), \qquad \log \lambda \sim \text{Uniform}(\log 0.1,  \log 100).$$
 
 {{% notice style="warning" title="Why the hyperprior on $\lambda$ must reach below 1" %}}
 If your hyperprior can't produce $\lambda < 1$, your model *cannot* represent a population of near-deterministic students — it is structurally blind to the U-shape, no matter what the data say. A naive box like "$a, b \in [0.5, 20]$" forces $\lambda = a + b \ge 1$ and quietly rules out heterogeneity. Spanning $\lambda$ across orders of magnitude (here via log-uniform) is what lets the **data** choose the regime.

@@ -1,5 +1,5 @@
 +++
-date = "2026-05-31"
+date = "2026-06-03"
 title = "The Continuum: Continuous Probability"
 weight = 2
 +++
@@ -88,8 +88,8 @@ A **probability density function** (PDF) is a function $p(x)$ that tells you the
 
 **Important properties:**
 1. $p(x) \geq 0$ for all $x$ (density is never negative)
-2. $\int_{-\infty}^{\infty} p(x) \, dx = 1$ (total probability is 1)
-3. $P(a \leq X \leq b) = \int_a^b p(x) \, dx$ (probability is **area under curve**)
+2. $\int_{-\infty}^{\infty} p(x)   dx = 1$ (total probability is 1)
+3. $P(a \leq X \leq b) = \int_a^b p(x)   dx$ (probability is **area under curve**)
 
 **Crucially:** $p(x)$ itself is **not** a probability! It's a **density**.
 - $p(x)$ can be greater than 1
@@ -103,7 +103,7 @@ Think of it this way:
 - **Discrete**: Probability = counting + dividing
 - **Continuous**: Probability = measuring area under a curve
 
-$$\int_a^b p(x) \, dx \quad \text{means} \quad \text{"area under } p(x) \text{ from } a \text{ to } b\text{"}$$
+$$\int_a^b p(x)   dx \quad \text{means} \quad \text{"area under } p(x) \text{ from } a \text{ to } b\text{"}$$
 
 GenJAX will compute these areas for you. You don't need to do calculus by hand!
 
@@ -270,7 +270,7 @@ Perfect match! GenJAX simulations approximate the theoretical probabilities.
 Another way to work with continuous distributions is through the **cumulative distribution function** (CDF).
 
 **Definition:** The CDF of a random variable $X$ is:
-$$F_X(x) = P(X \leq x) = \int_{-\infty}^x p(t) \, dt$$
+$$F_X(x) = P(X \leq x) = \int_{-\infty}^x p(t)   dt$$
 
 It tells you: "What's the probability that X is at most x?"
 

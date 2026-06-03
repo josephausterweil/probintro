@@ -1,5 +1,5 @@
 +++
-date = "2026-01-19"
+date = "2026-06-03"
 title = "Bayesian Learning with Gaussians"
 weight = 4
 +++
@@ -467,7 +467,7 @@ $$p(x_{new} | x_1, ..., x_n)$$
 
 We integrate over our uncertainty in μ:
 
-$$p(x_{new} | data) = \int p(x_{new} | \mu) \cdot p(\mu | data) \, d\mu$$
+$$p(x_{new} | data) = \int p(x_{new} | \mu) \cdot p(\mu | data)   d\mu$$
 
 For the Gaussian-Gaussian model, this is also Gaussian!
 

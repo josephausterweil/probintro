@@ -625,7 +625,7 @@ A prior distribution is *conjugate* to a likelihood when the posterior distribut
 {{% expand "Cumulative Distribution Function (CDF)" %}}
 For a continuous random variable, the CDF gives the probability that the variable is less than or equal to a value:
 
-$$F(x) = P(X \leq x) = \int_{-\infty}^x p(t) \, dt$$
+$$F(x) = P(X \leq x) = \int_{-\infty}^x p(t)   dt$$
 
 **Key properties**:
 - Always increasing (or flat)
@@ -756,7 +756,7 @@ The average value of a random variable, weighted by probabilities. Also called t
 
 **For discrete**: $E[X] = \sum_{x} x \cdot P(X=x)$
 
-**For continuous**: $E[X] = \int_{-\infty}^{\infty} x \cdot p(x) \, dx$
+**For continuous**: $E[X] = \int_{-\infty}^{\infty} x \cdot p(x)   dx$
 
 **In GenJAX** (approximation by sampling):
 ```python
@@ -949,7 +949,7 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 {{% expand "Predictive Distribution" %}}
 The distribution over new, unobserved data given the data we've already seen.
 
-**Posterior Predictive**: $P(x_{\text{new}} \mid D) = \int P(x_{\text{new}} \mid \theta) \cdot P(\theta \mid D) \, d\theta$
+**Posterior Predictive**: $P(x_{\text{new}} \mid D) = \int P(x_{\text{new}} \mid \theta) \cdot P(\theta \mid D)   d\theta$
 
 **In words**:
 1. Consider all possible parameter values θ
@@ -1024,11 +1024,11 @@ For continuous random variables, the PDF describes the *density* of probability 
 **Why**:
 - Probability of any exact value is 0 (infinitely many possible values)
 - Probability is the **area under the PDF curve** over an interval:
-  $$P(a \leq X \leq b) = \int_a^b p(x) \, dx$$
+  $$P(a \leq X \leq b) = \int_a^b p(x)   dx$$
 
 **Properties**:
 - $p(x) \geq 0$ (non-negative)
-- $\int_{-\infty}^{\infty} p(x) \, dx = 1$ (total area = 1)
+- $\int_{-\infty}^{\infty} p(x)   dx = 1$ (total area = 1)
 - $p(x)$ can be > 1! (it's density, not probability)
 
 **Example (Gaussian)**:

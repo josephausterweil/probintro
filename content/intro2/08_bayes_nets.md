@@ -1,5 +1,5 @@
 +++
-date = "2026-06-01"
+date = "2026-06-03"
 title = "Bayesian Networks"
 weight = 8
 +++
@@ -52,7 +52,7 @@ This little diagram is a **Bayesian network** (or **Bayes net** for short; also 
 You now have three equivalent descriptions of the same thing:
 
 - **A story:** "pick a cluster, then draw a weight from it."
-- **Math:** $P(z, x) = P(z)\,P(x \mid z)$.
+- **Math:** $P(z, x) = P(z) P(x \mid z)$.
 - **A graph:** $z \to x$.
 
 The point of Bayes nets is that the *graph* and the *math* are two views of the same object — and the graph is often the easier one to think with.
@@ -87,7 +87,7 @@ In words: **the joint distribution is the product of one factor per node — eac
 
 For the mystery-bento graph $z \to x$, the two factors are $P(z)$ (root, no parents) and $P(x \mid z)$, so
 
-$$P(z, x) = P(z)\,P(x \mid z).$$
+$$P(z, x) = P(z) P(x \mid z).$$
 
 That's exactly the formula we used in Chapter 5 — but now we can *see* where it comes from. The arrow $z \to x$ is the reason the second factor is "$x$ **given** $z$" and not just "$x$". (We won't call this the *Markov factorization* yet — that name is waiting for us at the end of the chapter, once we've earned it.)
 
@@ -110,7 +110,7 @@ graph LR
 
 The factorization grows one factor:
 
-$$P(\alpha, \pi, z, x) = P(\pi \mid \alpha)\,P(z \mid \pi)\,P(x \mid z).$$
+$$P(\alpha, \pi, z, x) = P(\pi \mid \alpha) P(z \mid \pi) P(x \mid z).$$
 
 Notice what changed: $z$ now has a parent ($\pi$), so its factor became conditional, $P(z \mid \pi)$. And $\pi$ got a parent of its own ($\alpha$). The graph grew upward, adding a *level* of uncertainty above the one we had.
 
@@ -148,7 +148,7 @@ graph TD
 
 Now $\text{Pa}(B) = \{W, D, R\}$, while $W$, $D$, and $R$ are all roots. The factorization reads straight off the picture:
 
-$$P(W, D, R, B) = P(W)\,P(D)\,P(R)\,P(B \mid W, D, R).$$
+$$P(W, D, R, B) = P(W) P(D) P(R) P(B \mid W, D, R).$$
 
 Three independent priors, and one big conditional that wires them into the bento. The conditional $P(B \mid W, D, R)$ is a **conditional probability table** (CPT): one tonkatsu-probability for each of the $2 \times 2 \times 2 = 8$ combinations of its parents.
 
