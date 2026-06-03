@@ -179,6 +179,12 @@ At step 0 the two starts could not be more different. After a single step they a
 
 That "forgetting" is not magic; it has a condition. A chain **mixes** — converges to the same $\pi$ from every starting point — when it is **ergodic**: you can get from any state to any other state (possibly in several steps), and the chain doesn't get trapped bouncing around a fixed cycle. Chibany's chain is ergodic — from T you can reach H and back, with no rigid period — so it mixes, and the stationary distribution is a property of *the chain*, not of where you happened to begin. (A chain that *isn't* ergodic — say two states with no way to travel between them — can sit in different long-run distributions depending on the start; those are the exceptions the condition rules out.)
 
+{{% notice style="tip" title="Making any chain ergodic: the ε-trick" %}}
+What if your chain *isn't* ergodic — it has unreachable states, or gets stuck in a cycle? There's a simple, standard fix. Add a tiny probability $\varepsilon$ of jumping from *any* state to *any* state, and rescale the original probabilities to make room for it. Concretely, replace $P$ with
+$$P' = (1 - \varepsilon) P + \varepsilon U,$$
+where $U$ is the matrix that picks a state uniformly at random (every entry $1/n$ for $n$ states). Now *every* state can reach every other in one step, so $P'$ is guaranteed ergodic — and for small $\varepsilon$ it barely disturbs the original dynamics. This "always a small chance to teleport anywhere" trick is exactly how Google's **PageRank** guarantees a unique answer; we'll meet it again in [Chapter 14](../14_random_walks_networks/).
+{{% /notice %}}
+
 ---
 
 ## What π Really Is: The Eigenvector With Eigenvalue 1
