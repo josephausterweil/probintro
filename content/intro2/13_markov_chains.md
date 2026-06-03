@@ -38,7 +38,7 @@ Write $X_t$ for the **state** at time $t$: the thing that is true on day $t$. Fo
 
 Chibany's instinct has a name. A process has the **Markov property** when the future is independent of the past, *given the present*:
 
-$$P(X_{t+1} \mid X_t, X_{t-1}, \dots, X_0) \;=\; P(X_{t+1} \mid X_t).$$
+$$P(X_{t+1} \mid X_t, X_{t-1}, \dots, X_0) = P(X_{t+1} \mid X_t).$$
 
 Read it left to right: the probability of tomorrow's state, given the *entire* history back to day zero, is **equal to** the probability of tomorrow's state given *only today*. Once you know today ($X_t$), the rest of the history — last Tuesday, last month — tells you nothing more about tomorrow. A sequence of states with this property is called a **Markov chain**.
 
@@ -64,13 +64,14 @@ graph LR
     H -->|0.18| H
     classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
     class T,H node
+    linkStyle default stroke:#9bbcff,stroke-width:2px,color:#fff
 ```
 
 The loop on T (0.65) says "after tonkatsu, stay tonkatsu 65% of the time." The arrow T → H (0.35) is the occasional change of pace. From H, the arrow back to T is a strong 0.82 — hamburger almost never repeats.
 
 **The matrix.** Stack those same four numbers into a grid. The **transition matrix** $P$ collects every one-step probability, with the entry in row $i$, column $j$ defined as
 
-$$P_{ij} \;=\; P(X_{t+1} = j \mid X_t = i),$$
+$$P_{ij} = P(X_{t+1} = j \mid X_t = i),$$
 
 the probability of moving *to* state $j$ given you are *in* state $i$. For Chibany:
 
@@ -93,7 +94,7 @@ The picture and the matrix carry identical information. The picture is easier fo
 
 How does the chain actually take a *single step*? You roll a continuous die.
 
-Suppose today is **tonkatsu (T)**, so we read off row 1: $[\,0.65,\; 0.35\,]$. To pick tomorrow:
+Suppose today is **tonkatsu (T)**, so we read off row 1: $(0.65, 0.35)$. To pick tomorrow:
 
 1. Draw a random number $u$ evenly between 0 and 1 — a `Uniform(0, 1)` draw. Say $u = 0.42$.
 2. Is $u < 0.65$? Yes ($0.42 < 0.65$) → **stay at T**. (If $u$ had landed above 0.65 → switch to H.)
@@ -130,7 +131,7 @@ Not any *particular* ordering — you don't shuffle *toward* a goal arrangement.
 
 That self-perpetuating, no-longer-changing distribution has a name. Run *any* Markov chain for a very long time and ask: **what fraction of the time does it spend in each state?** Call that distribution $\pi$ (a row vector, one entry per state). It is the **stationary distribution**: the distribution that one more step leaves unchanged,
 
-$$\pi P \;=\; \pi.$$
+$$\pi P = \pi.$$
 
 In words: if your belief about today's state is already $\pi$, then after one more step your belief about tomorrow's state is *still* $\pi$ — forever. For Chibany, $\pi$ answers a very concrete question: *over a whole semester, what fraction of Chibany's lunches are tonkatsu?* The sample runs already whispered the answer — about 70%.
 
@@ -152,11 +153,11 @@ Here is the trick. Start from **any** belief about the current state — written
 
 Why does multiplying by $P$ "step forward one day"? Just write out the product. The chance of tonkatsu *tomorrow* is the chance you're at T today and stay, plus the chance you're at H today and switch back:
 
-$$(\mathbf{v}P)_T \;=\; v_T\,P_{TT} + v_H\,P_{HT} \;=\; v_T(0.65) + v_H(0.82).$$
+$$(\mathbf{v}P)_T = v_T P_{TT} + v_H P_{HT} = v_T(0.65) + v_H(0.82).$$
 
 That is exactly the law of total probability over *yesterday's* state — the same one-step prediction you'd do by hand. So $\mathbf{v}P$ is your belief one day later, $\mathbf{v}P^2 = (\mathbf{v}P)P$ is two days later, $\mathbf{v}P^3$ three days later, and so on (the exponent just counts days):
 
-$$\mathbf{v},\quad \mathbf{v}P,\quad \mathbf{v}P^2,\quad \mathbf{v}P^3,\quad \dots \;\longrightarrow\; \pi.$$
+$$\mathbf{v},\quad \mathbf{v}P,\quad \mathbf{v}P^2,\quad \mathbf{v}P^3,\quad \dots \longrightarrow \pi.$$
 
 Keep multiplying, and the sequence **converges to the stationary distribution** $\pi$, no matter where you started. (We won't prove the convergence — but you're about to *watch* it happen.) This procedure — repeatedly multiplying by the matrix — is called **power iteration**.
 
@@ -216,6 +217,7 @@ graph LR
     S3 -->|0.2| S2
     classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
     class S1,S2,S3 node
+    linkStyle default stroke:#9bbcff,stroke-width:2px,color:#fff
 ```
 
 Read a row the same way as before: row 1 says "from state 1, go to state 2 with probability 0.1 or to state 3 with probability 0.9." (The diagonal is all zeros — this chain has no self-loops; it always moves.)
@@ -224,7 +226,7 @@ Before computing, *guess*: run this walk a long time — which state gets visite
 
 Now run power iteration — same procedure, from two different starts — and it converges to
 
-$$\pi \approx (\,0.42,\; 0.13,\; 0.45\,).$$
+$$\pi \approx (0.42, 0.13, 0.45).$$
 
 Exactly the guess: states 1 and 3 soak up most of the visits ($0.42$ and $0.45$), and state 2 is rarely visited ($0.13$). And just as with Chibany, the answer does **not** depend on where you start — start in state 1 or state 2, run long enough, and you land at the same $\pi$, because this chain is ergodic too.
 
