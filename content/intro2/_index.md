@@ -1,5 +1,5 @@
 +++
-date = "2026-05-31"
+date = "2026-06-03"
 title = "Continuous Probability and Bayesian Learning"
 # NOTE: Ch7 (Bayesian Generalization) is a page bundle: content/intro2/07_generalization/ with
 #   _index.md (overview) + 4 part pages. The mermaid node below is a diagram label, not a link.
@@ -44,6 +44,7 @@ graph TB
     I --> J[10. Causal Bayes Nets]
     J --> K[11. Information Theory]
     K --> L[12. Hierarchical Bayes]
+    L --> M[13. Markov Chains]
 
     style B fill:#27ae60
     style D fill:#27ae60
@@ -137,6 +138,12 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - Partial pooling and shrinkage: borrowing strength across groups
 - Learning the prior itself — inference one level up (the answer to No Free Lunch)
 - **GenJAX**: A hierarchical generative model + importance sampling over hyperparameters
+
+### Chapter 13: Markov Chains — The Future Forgets the Past
+- The Markov property: the future depends on the past only through the present
+- Transition matrices (row-stochastic) and the two views — state diagram vs. matrix
+- The stationary distribution $\pi$, found by power iteration or as the eigenvalue-1 eigenvector
+- **GenJAX**: sampling a sequence from the matrix; long-run frequency by simulation
 
 ## Prerequisites
 
