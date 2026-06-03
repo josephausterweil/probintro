@@ -45,6 +45,7 @@ graph TB
     J --> K[11. Information Theory]
     K --> L[12. Hierarchical Bayes]
     L --> M[13. Markov Chains]
+    M --> N[14. Random Walks on Networks]
 
     style B fill:#27ae60
     style D fill:#27ae60
@@ -144,6 +145,12 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - Transition matrices (row-stochastic) and the two views — state diagram vs. matrix
 - The stationary distribution $\pi$, found by power iteration or as the eigenvalue-1 eigenvector
 - **GenJAX**: sampling a sequence from the matrix; long-run frequency by simulation
+
+### Chapter 14: Random Walks on Networks
+- Graphs $G = (V, E)$; turning an adjacency matrix into a transition matrix by row-normalizing
+- A random walk as a Markov chain whose states are nodes; the law $\pi_i \propto \deg(i)$ for undirected walks
+- PageRank as the stationary distribution of a teleporting random surfer (and *Google and the Mind*)
+- **GenJAX**: sampling a walk on Chibany's animal network; hand-rolled PageRank on a tiny directed web
 
 ## Prerequisites
 
