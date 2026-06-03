@@ -16,7 +16,11 @@ Chibany has been sketching again.
 >
 > **Jamal:** "So if you started at Wolf and kept wandering to a random connected animal, where would you spend most of your time?"
 >
-> **Chibany:** "…Huh. That's a Markov chain, isn't it. The animals are the states."
+> **Chibany:** "At bunny, obviously."
+>
+> **Alyssa:** "Chibany. There's no bunny on the diagram."
+>
+> **Chibany:** "...Right. So it can't be wherever I'd *like* to end up — it has to be wherever the *lines* take me. Huh. That's a Markov chain, isn't it. The animals are the states."
 
 It is exactly a Markov chain — and a very natural one. This chapter takes the machinery from Chapter 13 and lets the states be the **nodes of a network**, with the transitions coming straight from the network's wiring. The payoff is a result of startling simplicity, and a direct line to the algorithm that built Google.
 
