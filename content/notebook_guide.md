@@ -1,5 +1,5 @@
 +++
-date = "2026-06-01"
+date = "2026-06-03"
 title = "Interactive Notebooks - All Tutorials"
 weight = 99
 +++
@@ -301,6 +301,66 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 
 ---
 
+### Markov Chains
+**Notebook**: [📓 Open in Colab: `13_markov_chains.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/13_markov_chains.ipynb)
+
+**What it covers:**
+- Chibany's bento chain as a transition matrix; sampling sequences from it
+- Power iteration converging to the 70/30 stationary distribution from any start
+- The stationary distribution as the eigenvalue-1 eigenvector
+- A three-state worked example
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 13: Markov Chains](../intro2/13_markov_chains/)
+
+**Topics:**
+- The Markov property and transition matrices
+- Stationary distributions and power iteration
+- Ergodicity
+- GenJAX sequence sampling + `jax.lax.scan`
+
+---
+
+### Random Walks on Networks
+**Notebook**: [📓 Open in Colab: `14_random_walks_networks.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/14_random_walks_networks.ipynb)
+
+**What it covers:**
+- Chibany's animal network as an adjacency matrix, row-normalized to a transition matrix
+- The stationary distribution of a random walk: π ∝ degree (Cat the bridge wins)
+- Visit frequency by simulation, matching the degree law
+- Hand-rolled PageRank with the ε-teleport on a tiny directed web
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/)
+
+**Topics:**
+- Graphs, adjacency matrices, degree
+- Random walk as a Markov chain on nodes
+- π ∝ degree and where it breaks (directed graphs)
+- PageRank
+
+---
+
+### Memory Search
+**Notebook**: [📓 Open in Colab: `15_memory_search.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/15_memory_search.ipynb)
+
+**What it covers:**
+- A censored random walk on a small semantic network
+- The censoring function (report each animal on first visit) and inter-item response times
+- The position-1-slowest "switch cost" signature, with no switch rule
+- A simulation-based (ABC) sketch that recovers block structure from fluency lists
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 15: Memory Search as a Random Walk](../intro2/15_memory_search/)
+
+**Topics:**
+- Semantic fluency and clustering/switching
+- Censoring; first-hitting times; IRT
+- Recovering the human optimal-foraging curve from one process
+- Inverting the walk (U-INVITE, SNAFU) and simulation-based inference
+
+---
+
 ## Recommended Learning Paths
 
 ### Path 1: Complete Beginner
@@ -330,6 +390,11 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 2. `09_conditional_independence.ipynb` - d-separation and explaining away
 3. `10_causal_bayes_nets.ipynb` - Seeing vs. doing (the do-operator)
 4. `11_information_theory.ipynb` - Measure dependence in bits
+
+### Path 5: Markov Chains, Networks & Memory
+1. `13_markov_chains.ipynb` - Transition matrices and the stationary distribution
+2. `14_random_walks_networks.ipynb` - Random walks on graphs, π ∝ degree, PageRank
+3. `15_memory_search.ipynb` - Recall as a censored random walk on a semantic network
 
 ---
 
@@ -374,6 +439,9 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `09_conditional_independence.ipynb` | Tutorial 3 | d-separation, explaining away | ⭐⭐⭐ Advanced |
 | `10_causal_bayes_nets.ipynb` | Tutorial 3 | Causal inference, do-operator | ⭐⭐⭐ Advanced |
 | `11_information_theory.ipynb` | Tutorial 3 | Entropy, mutual information | ⭐⭐⭐ Advanced |
+| `13_markov_chains.ipynb` | Tutorial 3 | Markov chains, stationary distribution | ⭐⭐⭐ Advanced |
+| `14_random_walks_networks.ipynb` | Tutorial 3 | Random walks, PageRank, π ∝ degree | ⭐⭐⭐ Advanced |
+| `15_memory_search.ipynb` | Tutorial 3 | Censored walk, memory fluency | ⭐⭐⭐ Advanced |
 
 ---
 
