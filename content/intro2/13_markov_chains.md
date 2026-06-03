@@ -129,7 +129,9 @@ Before Chibany, think about shuffling a deck of cards — also a Markov chain. T
 
 Not any *particular* ordering — you don't shuffle *toward* a goal arrangement. What you want is for **every ordering to become equally likely**, so no one can predict the deck. And here is the subtle part: once you have reached "every ordering equally likely," shuffling *one more time* leaves you exactly there. You cannot make a well-shuffled deck "more shuffled." That uniform-over-all-orderings distribution is **self-perpetuating**: the process stops changing it.
 
-That self-perpetuating, no-longer-changing distribution has a name. Run *any* Markov chain for a very long time and ask: **what fraction of the time does it spend in each state?** Call that distribution $\pi$ (a row vector, one entry per state). It is the **stationary distribution**: the distribution that one more step leaves unchanged,
+That self-perpetuating, no-longer-changing distribution has a name. First, the symbol. Run *any* Markov chain for a very long time and ask: **what fraction of the time does it spend in each state?** We call that list of fractions $\pi$ (the Greek letter "pi") — a row vector with one entry per state, summing to 1. For Chibany, $\pi = (\pi_T, \pi_H)$, where $\pi_T$ is the long-run fraction of tonkatsu days and $\pi_H$ the fraction of hamburger days.
+
+That long-run distribution $\pi$ turns out to be exactly the **stationary distribution**: the one distribution that taking a single step leaves *unchanged*. Writing "step the distribution forward" as multiplication by $P$ (which we make precise in the next section), that property is
 
 $$\pi P = \pi.$$
 
