@@ -57,13 +57,13 @@ Here is Chibany's sketch: six animals, with an edge between any two that "feel r
 
 ```mermaid
 graph LR
-    Dog((Dog)) --- Hamster((Hamster))
-    Dog --- Cat((Cat))
+    Dog["Dog"] --- Hamster["Hamster"]
+    Dog --- Cat["Cat"]
     Hamster --- Cat
-    Cat --- Lion((Lion))
-    Cat --- Tiger((Tiger))
+    Cat --- Lion["Lion"]
+    Cat --- Tiger["Tiger"]
     Lion --- Tiger
-    Lion --- Zebra((Zebra))
+    Lion --- Zebra["Zebra"]
     Tiger --- Zebra
     classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
     class Dog,Hamster,Cat,Lion,Tiger,Zebra node
@@ -113,13 +113,13 @@ $$\text{Hamster} \to \text{Dog} \to \text{Cat} \to \text{Lion} \to \text{Tiger} 
 
 ```mermaid
 graph LR
-    Dog((Dog)) --- Hamster((Hamster))
-    Dog --- Cat((Cat))
+    Dog["Dog"] --- Hamster["Hamster"]
+    Dog --- Cat["Cat"]
     Hamster --- Cat
-    Cat --- Lion((Lion))
-    Cat --- Tiger((Tiger))
+    Cat --- Lion["Lion"]
+    Cat --- Tiger["Tiger"]
     Lion --- Tiger
-    Lion --- Zebra((Zebra))
+    Lion --- Zebra["Zebra"]
     Tiger --- Zebra
     classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
     classDef visited fill:#9bbcff,stroke:#9bbcff,stroke-width:2px,color:#111

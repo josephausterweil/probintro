@@ -32,13 +32,13 @@ The bet is that **structure + process** *jointly predict* the **behaviour** — 
 
 ```mermaid
 graph LR
-    Pet1((dog)) --- Pet2((cat))
-    Pet1 --- Pet3((hamster))
+    Pet1["dog"] --- Pet2["cat"]
+    Pet1 --- Pet3["hamster"]
     Pet2 --- Pet3
-    Pet2 --- Bridge((tiger))
-    Bridge --- Afr1((lion))
-    Afr1 --- Afr2((zebra))
-    Afr1 --- Afr3((giraffe))
+    Pet2 --- Bridge["tiger"]
+    Bridge --- Afr1["lion"]
+    Afr1 --- Afr2["zebra"]
+    Afr1 --- Afr3["giraffe"]
     Afr2 --- Afr3
     classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
     classDef bridge fill:#9bbcff,stroke:#9bbcff,stroke-width:2px,color:#111
