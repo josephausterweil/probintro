@@ -1,6 +1,22 @@
 # Plan: Tutorial 3 Chapters 13–15 — Markov Chains, Random Walks on Networks, and Memory Search
 
-**STATUS: NOT YET BUILT.** This is a planning handoff for a fresh agent to write the chapters in a new session.
+**✅ BUILT 2026-06-03.** All three chapters written, validated green (code executes + outputs match), each with a companion Colab notebook (smoke-tested), and pushed to origin/main:
+- `13_markov_chains.md` (commit `b5b4196`; render/π-definition/ε-trick/seven-shuffles-sidebar fixes through `bf8b0d8`) — Markov Chains: The Future Forgets the Past
+- `14_random_walks_networks.md` (commit `9c7e877`) — Random Walks on Networks
+- `15_memory_search.md` (commit `8f43ee2`) — Memory Search as a Random Walk
+
+Decisions taken during the build (per Joe, this session):
+- **Code leans GenJAX** (`@gen` factory-closure walk samplers; `categorical` on log-probs) for the generative pieces; **plain `jax.numpy`/`numpy`** for power iteration + eigenvector; **`jax.lax.scan`** for long runs (a 2000-step unrolled `@gen` is too slow to compile). **networkx avoided** — graphs hand-rolled as `jnp` adjacency matrices; PageRank hand-rolled via power iteration + ε-teleport.
+- **Ch 15 = core + brief pointers**: full Abbott censoring function + IRT patch-switch result (verified against the paper PDF, §4.1–4.2); U-INVITE inversion + Zemla 2019 AD networks in one hedged notice box, not derived.
+- **Per-chapter student-audit loop** (the review gate): each chapter went through ≥2 student-audit passes (re-read as a student who's read only up to that chapter) and was revised until CLEAR. Audits caught real gaps: Ch 13 the load-bearing "vP = one step" claim was unjustified + π undefined before use; Ch 14 the directed-degree-failure mechanism was asserted not shown; Ch 15 the `patch_positions` code had a bridge-exclusion rule the prose never stated.
+- **Card-shuffle "seven shuffles" sidebar** added to Ch 13 (Joe's request), fact-checked via deep-research: Bayer-Diaconis 1992 (TV table, (3/2)log2 n cutoff); the casino-impact myth flagged as unsubstantiated (real change was bridge tournaments); coarser-equivalence-class result (Assaf-Diaconis-Soundararajan 2011 + Conger-Viswanath 2006) for "fewer shuffles when suits/values are what matter," with honest metric-dependence caveat (NOT a precise "4 for blackjack").
+- **MathJax gotcha that bit repeatedly**: probintro is MathJax+Goldmark — `\;`/`\,` render as literal `;`/`,`, `\{ \}` set braces vanish (need `\\{ \\}`), matrix row-breaks need `\\\\`. Now running an exhaustive `\;`/`\,`/`\{`/`\\` grep audit BEFORE first commit (see `reference_katex_set_braces` memory). Mermaid edges render black on the dark bg unless each diagram gets `linkStyle default stroke:#9bbcff`.
+
+The original plan follows, kept for reference.
+
+---
+
+**STATUS (original): NOT YET BUILT.** This is a planning handoff for a fresh agent to write the chapters in a new session.
 
 **Author:** Drafted by Claude (Opus 4.8, 1M ctx) in conversation with Prof. Austerweil, 2026-06-03, at the end of the session that built the **Week 6 lecture** (Markov Chains + Networks). The lecture is done, reviewed, shipped, and live; these textbook chapters are the parallel reading track, like Ch 8–11 were for Week 5.
 
