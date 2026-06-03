@@ -251,12 +251,121 @@ You can state the **random-walk model of memory search**, apply the **censoring 
 
 ---
 
+## Inverting the Walk: Estimating the Network from Behaviour
+
+So far we have run the model **forward**: network → walk → censored fluency list. The deeper prize is to run it **backward** — given someone's fluency lists, recover the **network** (or its structure) that produced them. That turns the model into a *measurement instrument*: estimate a person's semantic organization from nothing but the animals they named, then compare people or groups.
+
+There are two ways to attempt this inversion, and the contrast between them is instructive.
+
+### Why this is hard: the censoring stands in the way
+
+The natural first thought is: write the censored walk as a generative `@gen` model and just **condition** on the observed list, the way we conditioned Bayes nets in Chapters 8–10. The forward model is easy and clean — it is exactly the walk we have been sampling. But conditioning is *not* easy, and the reason is the censoring function itself.
+
+A Bayes net lets you condition on a variable because that variable is an addressable random choice. The fluency list is different: it is a **deterministic function of the latent walk, with the walk's path marginalized away**. Many different paths — wandering through different non-animals, revisiting in different orders — produce the *same* reported list. To score how likely a network makes the observed list, you must sum over *all* those hidden paths. Generic conditioning (importance sampling on the raw choices) can't do that: ask GenJAX to match the censored list directly and almost every sampled path disagrees somewhere, so the weights collapse to zero. The probability is real, but it is locked behind a sum over exponentially many paths.
+
+This is exactly why the published estimator, **U-INVITE** (Zemla & Austerweil, 2018), is not a one-liner. It computes the censored-walk likelihood *analytically*, using the **fundamental matrix** of an absorbing Markov chain: it treats already-reported animals as **absorbing** states and the rest as **transient**, computes the expected first-passage probabilities, and — crucially — **rebuilds that absorbing/transient split after every reported animal** (each newly named animal moves from transient to absorbing). That bookkeeping is what correctly marginalizes the hidden path. It is powerful and exact, and it is also a lot of machinery.
+
+### A simpler sketch: simulation-based inference on cluster structure
+
+If we don't need the full network — only a coarse feature of it — we can sidestep the analytic likelihood entirely and let **simulation** do the work. Suppose we believe semantic memory is organized into $K$ **known** clusters (here $K = 3$), each fully connected internally, with a high *within*-cluster transition probability and a low *between*-cluster one. The single number that matters is the **contrast** $r = p_\text{out} / p_\text{in}$: small $r$ means tight, well-separated clusters; $r$ near 1 means no real cluster structure at all.
+
+We can't write down the censored likelihood, but we *can* simulate it — so we use **simulation-based (likelihood-free) inference**: for each candidate $r$, generate many fluency lists, measure a summary statistic, and keep the $r$ values whose simulated lists *look like* the observed one. A natural statistic is the **clustering score**: the fraction of consecutive reported animals that fall in the same cluster (high when the walk lingers in patches, low when it hops around).
+
+```python
+import jax
+import jax.numpy as jnp
+import jax.random as jr
+import numpy as np
+
+K, PER = 3, 3                       # 3 clusters of 3 animals each (9 animals)
+N = K * PER
+cluster_of = np.repeat(np.arange(K), PER)   # [0,0,0, 1,1,1, 2,2,2]
+
+def block_transition(p_in, p_out):
+    """A K-block network: within-cluster edges weight p_in, between p_out."""
+    same_cluster = cluster_of[:, None] == cluster_of[None, :]   # N x N boolean mask
+    W = np.where(same_cluster, p_in, p_out)
+    np.fill_diagonal(W, 0.0)                                     # no self-loops
+    return jnp.array(W / W.sum(axis=1, keepdims=True), dtype=jnp.float32)
+
+def walk(key, start, steps, LOGP):
+    def step(s, k):
+        nxt = jr.categorical(k, LOGP[s]); return nxt, nxt
+    _, vis = jax.lax.scan(step, start, jr.split(key, steps))
+    return jnp.concatenate([jnp.array([start]), vis])
+
+def censor(vis):                    # report each animal on its first visit only
+    seen, rep = set(), []
+    for n in np.array(vis):
+        n = int(n)
+        if n not in seen:
+            seen.add(n); rep.append(n)
+    return rep
+
+def clustering_score(rep):          # fraction of consecutive pairs in the same cluster
+    if len(rep) < 2:
+        return 0.0
+    return np.mean([cluster_of[rep[i]] == cluster_of[rep[i+1]]
+                    for i in range(len(rep) - 1)])
+```
+
+Now the inference. We generate "observed" data from a **strong-cluster** network ($r = 0.1$) and a **weak-cluster** one ($r = 0.7$), then run a simple ABC (approximate Bayesian computation) posterior over $r$ for each — weighting candidate $r$ values by how close their simulated clustering score is to the observed one.
+
+<!-- validate: tol=0.15 -->
+```python
+def mean_score(key, r, n_lists=8, steps=80):
+    LOGP = jnp.log(block_transition(1.0, r))
+    keys = jr.split(key, n_lists)
+    walks = jax.vmap(lambda k: walk(k, 0, steps, LOGP))(keys)
+    return float(np.mean([clustering_score(censor(w)) for w in np.array(walks)]))
+
+R_GRID = np.array([0.1, 0.2, 0.4, 0.7, 1.0])
+
+def abc_posterior(observed_score, key, bandwidth=0.05):
+    weights = []
+    for i, r in enumerate(R_GRID):
+        sims = np.array([mean_score(jr.fold_in(key, i * 100 + j), float(r))
+                         for j in range(6)])
+        weights.append(np.exp(-((sims - observed_score) ** 2) / (2 * bandwidth ** 2)).mean())
+    w = np.array(weights)
+    return w / w.sum()
+
+# Observed data from a STRONG-cluster brain (r = 0.1) and a WEAK one (r = 0.7).
+strong_obs = mean_score(jr.key(0), 0.1)
+weak_obs   = mean_score(jr.key(0), 0.7)
+print(f"strong-cluster data: clustering score {strong_obs:.2f}")
+print(f"weak-cluster   data: clustering score {weak_obs:.2f}")
+
+post_strong = abc_posterior(strong_obs, jr.key(1))
+post_weak   = abc_posterior(weak_obs,   jr.key(1))
+print("posterior over r (grid 0.1, 0.2, 0.4, 0.7, 1.0):")
+print("  strong data ->", np.round(post_strong, 2), " MAP r =", R_GRID[post_strong.argmax()])
+print("  weak data   ->", np.round(post_weak, 2),   " MAP r =", R_GRID[post_weak.argmax()])
+```
+
+**Output:**
+```
+strong-cluster data: clustering score 0.55
+weak-cluster   data: clustering score 0.19
+posterior over r (grid 0.1, 0.2, 0.4, 0.7, 1.0):
+  strong data -> [0.55 0.43 0.01 0.   0.  ]  MAP r = 0.1
+  weak data   -> [0.   0.   0.   0.26 0.74]  MAP r = 1.0
+```
+
+The inference **cleanly separates the two regimes**: strong-cluster data concentrates the posterior on small $r$ (tight clusters — here the most likely $r$ is the true $0.1$), while weak-cluster data pushes all the mass to large $r$ (no real structure). With nothing but the censored lists, we recovered a real fact about the network that produced them.
+
+{{% notice style="warning" title="What this sketch does and doesn't do" %}}
+Be honest about the limits. This recovers the cluster *contrast* — strong vs. weak structure — reliably, and on this clean toy it even lands the right $r$. But it is a **coarse** tool, not a full estimator: it compresses an entire fluency list down to a *single* summary statistic (the clustering score), so it can speak to "how clustered" but not to *which* animals link to which, or how many clusters there are, or where the bridges sit. It also assumes $K$ is **known** and the blocks are clean and equal-sized. Recovering the *whole* network — every edge — is exactly what the analytic **U-INVITE** likelihood buys you over this simulation-based shortcut, at the cost of the fundamental-matrix machinery above. The lesson is the trade-off itself: a generative model is *trivial to write and simulate* but can be *hard to condition on*, and when censoring blocks direct conditioning you can still learn coarse structure by **simulating** instead of solving.
+{{% /notice %}}
+
+---
+
 ## Where This Goes Next
 
 The model opens two doors worth naming, both active research:
 
 {{% notice style="info" title="Beyond this chapter" %}}
-**Invert the walk to measure the network.** So far we ran *network → walk → fluency list*. You can run it **backwards**: given many people's fluency lists, infer the most likely semantic network that produced them (the *U-INVITE* method; Zemla & Austerweil, 2018). That turns the network into a **measurement instrument** — and lets you compare groups. Zemla & Austerweil (2019) estimated networks from the fluency lists of Alzheimer's patients versus healthy controls and found structural differences (fewer associations per concept, more spurious links, less organization) — a clinical signature read straight off word lists.
+**The clinical payoff.** The inversion above is not just a curiosity. Run the full U-INVITE estimator on real fluency lists and the recovered network becomes a diagnostic: Zemla & Austerweil (2019) estimated networks from Alzheimer's patients versus healthy controls and found structural differences (fewer associations per concept, more spurious links, less organization) — a clinical signature read straight off the words people name.
 
 **Sampling on purpose.** Throughout these three chapters we have *run* a chain and watched where it settles — using a Markov chain to *estimate* a distribution. That is **Monte Carlo**, and it is the subject of the next part of the course. The twist: instead of being handed a chain and finding its stationary distribution, we will start from a distribution we *want* to sample (a Bayesian posterior) and **design a chain whose stationary distribution is that target** — *Markov chain Monte Carlo* (MCMC). The walk you just used to model memory is the same tool, pointed the other way.
 {{% /notice %}}
