@@ -30,7 +30,7 @@ Alyssa, another labmate, looks up.
 
 Chibany's instinct — *to predict today, yesterday is all I need* — is the whole idea of this chapter. Let's name it.
 
-Write $X_t$ for the **state** at time $t$: the thing that is true on day $t$. For Chibany, $X_t$ is one of two values, $X_t \in \{\text{T}, \text{H}\}$ (tonkatsu or hamburger).
+Write $X_t$ for the **state** at time $t$: the thing that is true on day $t$. For Chibany, $X_t$ is one of two values, $X_t \in \\{\text{T}, \text{H}\\}$ (tonkatsu or hamburger).
 
 ---
 
