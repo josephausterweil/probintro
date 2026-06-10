@@ -61,6 +61,21 @@ The loop has three moves, and each maps onto an idea you already have:
 2. **Resample.** Here is the new move. **Resampling** means drawing $M$ *new* particles from the old ones, *with probability proportional to their weights*: a particle with weight $0.4$ is, on average, copied twice; a particle with weight $0.001$ almost certainly vanishes. Concretely, it is a single $\text{Categorical}(\text{normalized weights})$ draw of $M$ indices. After resampling, all particles have equal weight again — the heavy ones have simply been *cloned* and the light ones *culled*, so the swarm concentrates where the action is.
 3. **Propagate.** Push each surviving particle forward through the motion model, $x \sim p(x_{t+1} \mid x_t)$. Now the cloud is a fresh set of guesses for the *next* tick — yesterday's posterior, become today's prior. Loop.
 
+Here is one full tick of the loop, drawn with just five particles so every move is visible:
+
+![Three panels showing one tick of a particle filter with five particles on a line. In the first, the particles' dot areas are proportional to their weights, largest for the particles nearest the orange sensor-ping line. In the second, after resampling, the heavy particles have been cloned and the light ones culled, all dots equal again. In the third, arrows carry each survivor about one meter to the right through the motion model.](../../images/intro2/pf_steps.png)
+
+Better still, drive the loop yourself. The widget below runs the exact corridor episode from the worked example coming up — same pings, same models — one phase per click, narrating which move it just made:
+
+<iframe src="../../widgets/particle-filter.html"
+        width="100%" height="520"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Interactive particle filter stepper: weight, resample, propagate">
+</iframe>
+
+(Step through a full episode at M = 200. Then switch to **M = 20** and run it again a few times — watch the estimate get jumpier with fewer particles. That wobble is the "limited memory" theme of the last section, made visible.)
+
 ---
 
 ## Worked Example: Tracking on a Line
@@ -109,7 +124,9 @@ noisy pings    : [1.3, 1.8, 3.4, 3.9, 5.2]
 filter estimate: [1.04, 1.98, 3.1, 4.03, 5.08]
 ```
 
-The filter's estimate hugs the true line $[1, 2, 3, 4, 5]$ far more tightly than the raw pings do — it *smooths* the noise by combining each ping with the steady-march prior. That is the payoff of using both models the sensor doesn't know about.
+The filter's estimate hugs the true line $[1, 2, 3, 4, 5]$ far more tightly than the raw pings do — it *smooths* the noise by combining each ping with the steady-march prior. That is the payoff of using both models the sensor doesn't know about:
+
+![A plot of position against time for the five ticks. The true positions lie on a straight black line, the noisy pings scatter around it as orange crosses — some off by nearly half a meter — and the particle filter's dashed purple estimate runs almost on top of the true line at every tick.](../../images/intro2/pf_tracking.png)
 
 ---
 
@@ -147,7 +164,11 @@ T = 10 steps, no resampling:  ESS =   421.4  / 2000
 T = 20 steps, no resampling:  ESS =    61.2  / 2000
 ```
 
-By 20 steps, 2000 particles are worth about 61 — the rest are dead weight. Resampling is the cure: by culling the no-hope particles and cloning the promising ones at every tick, it keeps the whole swarm *useful*, so the filter can run indefinitely without collapsing.
+By 20 steps, 2000 particles are worth about 61 — the rest are dead weight. Extend the track further and the collapse just keeps going:
+
+![The effective sample size of 2000 particles plotted against track length on a log scale, when the filter never resamples. The curve falls steadily from near 1000 at five steps to a few dozen at twenty and keeps dropping through forty — far below the dashed line marking all 2000 particles useful.](../../images/intro2/pf_degeneracy.png)
+
+Resampling is the cure: by culling the no-hope particles and cloning the promising ones at every tick, it keeps the whole swarm *useful*, so the filter can run indefinitely without collapsing.
 
 ---
 

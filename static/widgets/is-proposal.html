@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Importance sampling: choose the proposal</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --purple:#B39DDB; --orange:#FFA726;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #stage{display:flex;flex:1;min-height:0;}
+  #plots{flex:1;display:flex;flex-direction:column;min-width:0;}
+  .panelbox{flex:1;position:relative;min-height:0;border-bottom:1px solid #2a2a33;}
+  .panelbox:last-child{border-bottom:none;}
+  canvas{display:block;width:100%;height:100%;}
+  .panel-label{position:absolute;top:6px;left:10px;font-size:12px;color:var(--dim);
+    font-weight:600;z-index:2;pointer-events:none;}
+  #side{flex:0 0 250px;border-left:1px solid #2a2a33;padding:14px;display:flex;
+    flex-direction:column;gap:10px;}
+  .lbl{font-size:12px;color:var(--dim);}
+  #ess{font-size:30px;font-weight:700;}
+  .row{font-size:13px;}
+  input[type=range]{width:100%;}
+  .sliderbox{background:#181820;border:1px solid #2a2a33;border-radius:6px;padding:8px 10px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="plots">
+      <div class="panelbox">
+        <div class="panel-label">target p = bento weights N(620, 50²) (blue) &nbsp;·&nbsp; your proposal q (purple, dashed) &nbsp;·&nbsp; shaded: the event W &gt; 700 g</div>
+        <canvas id="cv1"></canvas>
+      </div>
+      <div class="panelbox">
+        <div class="panel-label">the 3,000 normalized weights, sorted largest→smallest (log scale)</div>
+        <canvas id="cv2"></canvas>
+      </div>
+    </div>
+    <div id="side">
+      <div class="sliderbox">
+        <div class="lbl">proposal mean μ<sub>q</sub> = <span id="muv">700</span> g</div>
+        <input type="range" id="mu" min="480" max="840" step="2" value="700">
+      </div>
+      <div class="sliderbox">
+        <div class="lbl">proposal spread σ<sub>q</sub> = <span id="sdv">50</span> g</div>
+        <input type="range" id="sd" min="8" max="130" step="1" value="50">
+      </div>
+      <div>
+        <div class="lbl">EFFECTIVE SAMPLE SIZE (of 3,000)</div>
+        <div id="ess">—</div>
+      </div>
+      <div class="row"><span class="lbl">IS estimate of P(W &gt; 700):</span><br>
+        <span id="est" style="font-size:17px;">—</span>
+        <span class="lbl">&nbsp;(truth ≈ 0.0548)</span></div>
+      <div class="lbl" style="margin-top:auto;">Drag the sliders. A proposal that misses where
+        <i>p</i> lives collapses the weights onto a few samples — watch the ESS crash. A proposal
+        sitting right on the target keeps the weights even and the ESS high. And keep an eye on
+        <b>both</b> readouts as you move: the ESS and the estimate are different numbers, and they
+        do not always move together.</div>
+    </div>
+  </div>
+</div>
+<script>
+"use strict";
+const N = 3000;
+// fixed normals so the sliders feel smooth and deterministic
+let seed = 777;
+function rand(){ seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+const Z = [];               // N(0,1) draws, reused for every slider position
+for (let i = 0; i < N; i++){
+  const u1 = Math.max(rand(), 1e-12), u2 = rand();
+  Z.push(Math.sqrt(-2*Math.log(u1)) * Math.cos(2*Math.PI*u2));
+}
+const MU_P = 620, SD_P = 50, THRESH = 700, TRUTH = 0.0548;
+function logpdf(x, mu, sd){ const z = (x-mu)/sd; return -0.5*z*z - Math.log(sd) - 0.9189385332; }
+function pdf(x, mu, sd){ return Math.exp(logpdf(x, mu, sd)); }
+
+const cv1 = document.getElementById("cv1"), cv2 = document.getElementById("cv2");
+const muEl = document.getElementById("mu"), sdEl = document.getElementById("sd");
+
+function compute(){
+  const muq = +muEl.value, sdq = +sdEl.value;
+  const xs = Z.map(z => muq + sdq*z);
+  const logw = xs.map(x => logpdf(x, MU_P, SD_P) - logpdf(x, muq, sdq));
+  const m = Math.max(...logw);
+  let w = logw.map(l => Math.exp(l - m));
+  const s = w.reduce((a,b)=>a+b, 0);
+  w = w.map(v => v/s);
+  const ess = 1 / w.reduce((a,b)=>a+b*b, 0);
+  let est = 0;
+  for (let i = 0; i < N; i++) if (xs[i] > THRESH) est += w[i];
+  return { muq, sdq, w, ess, est };
+}
+function drawCurves(muq, sdq){
+  const W = cv1.width = cv1.clientWidth, H = cv1.height = cv1.clientHeight;
+  const c = cv1.getContext("2d");
+  c.fillStyle = "#14141b"; c.fillRect(0,0,W,H);
+  const x0 = 380, x1 = 980;
+  const X = x => (x - x0)/(x1 - x0) * W;
+  const peak = Math.max(pdf(MU_P, MU_P, SD_P), pdf(muq, muq, sdq));
+  const Y = d => H - 16 - d/peak * (H - 52);
+  // shaded tail of p
+  c.fillStyle = "rgba(100,181,246,.22)";
+  c.beginPath(); c.moveTo(X(THRESH), Y(0));
+  for (let x = THRESH; x <= x1; x += 3) c.lineTo(X(x), Y(pdf(x, MU_P, SD_P)));
+  c.lineTo(X(x1), Y(0)); c.closePath(); c.fill();
+  // p
+  c.strokeStyle = "#64B5F6"; c.lineWidth = 2; c.beginPath();
+  for (let x = x0; x <= x1; x += 3){ const px = X(x), py = Y(pdf(x, MU_P, SD_P)); x === x0 ? c.moveTo(px,py) : c.lineTo(px,py); }
+  c.stroke();
+  // q
+  c.strokeStyle = "#B39DDB"; c.lineWidth = 2; c.setLineDash([7,5]); c.beginPath();
+  for (let x = x0; x <= x1; x += 3){ const px = X(x), py = Y(pdf(x, muq, sdq)); x === x0 ? c.moveTo(px,py) : c.lineTo(px,py); }
+  c.stroke(); c.setLineDash([]);
+  // threshold line + axis labels
+  c.strokeStyle = "#666"; c.lineWidth = 1; c.beginPath();
+  c.moveTo(X(THRESH), Y(0)); c.lineTo(X(THRESH), 24); c.stroke();
+  c.fillStyle = "#999"; c.font = "11px sans-serif";
+  c.fillText("700 g", X(THRESH)+4, 34);
+  [450, 550, 650, 750, 850, 950].forEach(t => c.fillText(t, X(t)-10, H-4));
+}
+function drawWeights(w, ess){
+  const W = cv2.width = cv2.clientWidth, H = cv2.height = cv2.clientHeight;
+  const c = cv2.getContext("2d");
+  c.fillStyle = "#14141b"; c.fillRect(0,0,W,H);
+  const sorted = [...w].sort((a,b)=>b-a).slice(0, 400);   // top 400 weights
+  const lmax = Math.log10(sorted[0]), lmin = Math.log10(Math.max(sorted[sorted.length-1], 1e-9));
+  const barW = (W - 30) / sorted.length;
+  const healthy = ess > N*0.5;
+  c.fillStyle = healthy ? "rgba(102,187,106,.8)" : (ess > N*0.05 ? "rgba(255,167,38,.85)" : "rgba(239,83,80,.9)");
+  sorted.forEach((v, i) => {
+    const h = (Math.log10(Math.max(v,1e-9)) - lmin) / Math.max(lmax - lmin, 1e-9) * (H - 44) + 4;
+    c.fillRect(18 + i*barW, H - 14 - h, Math.max(barW-0.4, 0.6), h);
+  });
+  c.fillStyle = "#999"; c.font = "11px sans-serif";
+  c.fillText("even bars = healthy weights · one spike = a single sample carries everything", 18, H-2);
+}
+function update(){
+  const { muq, sdq, w, ess, est } = compute();
+  document.getElementById("muv").textContent = muq;
+  document.getElementById("sdv").textContent = sdq;
+  const essEl = document.getElementById("ess");
+  essEl.textContent = ess >= 10 ? Math.round(ess).toLocaleString() : ess.toFixed(1);
+  essEl.style.color = ess > N*0.5 ? "#66BB6A" : (ess > N*0.05 ? "#FFA726" : "#EF5350");
+  document.getElementById("est").textContent = est.toFixed(4);
+  drawCurves(muq, sdq); drawWeights(w, ess);
+}
+muEl.addEventListener("input", update);
+sdEl.addEventListener("input", update);
+window.addEventListener("resize", update);
+update();
+</script>
+</body>
+</html>

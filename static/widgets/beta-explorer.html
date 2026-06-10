@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The (mean, concentration) view of the Beta</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --yellow:#FFEB3B; --purple:#B39DDB; --orange:#FFA726;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;height:100vh;width:100vw;}
+  #plot{flex:1;position:relative;min-width:0;}
+  canvas{display:block;width:100%;height:100%;}
+  .panel-label{position:absolute;top:6px;left:10px;font-size:12px;color:var(--dim);
+    font-weight:600;z-index:2;pointer-events:none;}
+  #side{flex:0 0 250px;border-left:1px solid #2a2a33;padding:14px;display:flex;
+    flex-direction:column;gap:10px;}
+  .lbl{font-size:12px;color:var(--dim);}
+  .big{font-size:22px;font-weight:700;}
+  input[type=range]{width:100%;}
+  .sliderbox{background:#181820;border:1px solid #2a2a33;border-radius:6px;padding:8px 10px;}
+  #desc{font-size:12.5px;color:#bbb;line-height:1.45;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="plot">
+    <div class="panel-label">the population prior Beta(a, b) over a shop's quality rate θ — dashed line = the mean φ</div>
+    <canvas id="cv"></canvas>
+  </div>
+  <div id="side">
+    <div class="sliderbox">
+      <div class="lbl">mean &nbsp;φ = <span id="phiv">0.60</span></div>
+      <input type="range" id="phi" min="0.03" max="0.97" step="0.01" value="0.60">
+    </div>
+    <div class="sliderbox">
+      <div class="lbl">concentration &nbsp;κ = <span id="kapv">5.0</span> &nbsp;(log slider)</div>
+      <input type="range" id="kap" min="-0.7" max="2.3" step="0.02" value="0.7">
+    </div>
+    <div>
+      <div class="lbl">THE SAME PRIOR IN (a, b)</div>
+      <div class="big">a = <span id="av">3.0</span>, b = <span id="bv">2.0</span></div>
+      <div class="lbl">a = κφ, &nbsp;b = κ(1−φ)</div>
+    </div>
+    <div id="desc"></div>
+  </div>
+</div>
+<script>
+"use strict";
+function lgamma(x){ // Lanczos
+  const g = [676.5203681218851,-1259.1392167224028,771.32342877765313,
+    -176.61502916214059,12.507343278686905,-0.13857109526572012,
+    9.9843695780195716e-6,1.5056327351493116e-7];
+  if (x < 0.5) return Math.log(Math.PI/Math.sin(Math.PI*x)) - lgamma(1-x);
+  x -= 1; let a = 0.99999999999980993, t = x + 7.5;
+  for (let i = 0; i < 8; i++) a += g[i]/(x+i+1);
+  return 0.5*Math.log(2*Math.PI) + (x+0.5)*Math.log(t) - t + Math.log(a);
+}
+function logbeta(a,b){ return lgamma(a)+lgamma(b)-lgamma(a+b); }
+function betapdf(x,a,b){
+  if (x <= 0 || x >= 1) return 0;
+  return Math.exp((a-1)*Math.log(x) + (b-1)*Math.log(1-x) - logbeta(a,b));
+}
+const cv = document.getElementById("cv");
+const phiEl = document.getElementById("phi"), kapEl = document.getElementById("kap");
+function describe(phi, kap){
+  if (kap < 1) return "κ < 1: the prior is <b>U-shaped</b> — it pushes each shop's rate toward " +
+    "0 or 1 (every shop is either great or terrible; the mean φ only sets which extreme is likelier).";
+  if (kap < 8) return "Moderate κ: a broad bump around φ — shops vary quite a bit around the typical quality.";
+  return "Large κ: the prior is <b>tight</b> around φ — it says all shops are nearly identical, " +
+    "so a new shop's rate is pinned near the population mean.";
+}
+function update(){
+  const phi = +phiEl.value, kap = Math.pow(10, +kapEl.value);
+  const a = kap*phi, b = kap*(1-phi);
+  document.getElementById("phiv").textContent = phi.toFixed(2);
+  document.getElementById("kapv").textContent = kap >= 10 ? kap.toFixed(0) : kap.toFixed(1);
+  document.getElementById("av").textContent = a >= 10 ? a.toFixed(0) : a.toFixed(2);
+  document.getElementById("bv").textContent = b >= 10 ? b.toFixed(0) : b.toFixed(2);
+  document.getElementById("desc").innerHTML = describe(phi, kap);
+
+  const W = cv.width = cv.clientWidth, H = cv.height = cv.clientHeight;
+  const c = cv.getContext("2d");
+  c.fillStyle = "#14141b"; c.fillRect(0,0,W,H);
+  const X = x => 30 + x*(W-50);
+  // sample the density, cap the display height for spiky cases
+  const xs = [], ds = [];
+  for (let x = 0.002; x < 1; x += 0.002){ xs.push(x); ds.push(betapdf(x, a, b)); }
+  const dmaxRaw = Math.max(...ds);
+  const dmax = Math.min(dmaxRaw, 12);          // cap so U-shapes stay visible
+  const Y = d => H - 28 - Math.min(d, dmax)/dmax * (H - 70);
+  // fill + line
+  c.beginPath(); c.moveTo(X(xs[0]), Y(0));
+  xs.forEach((x,i) => c.lineTo(X(x), Y(ds[i])));
+  c.lineTo(X(xs[xs.length-1]), Y(0)); c.closePath();
+  c.fillStyle = "rgba(179,157,219,.25)"; c.fill();
+  c.beginPath();
+  xs.forEach((x,i) => i ? c.lineTo(X(x), Y(ds[i])) : c.moveTo(X(x), Y(ds[i])));
+  c.strokeStyle = "#B39DDB"; c.lineWidth = 2.2; c.stroke();
+  if (dmaxRaw > 12){
+    c.fillStyle = "#777"; c.font = "11px sans-serif";
+    c.fillText("(peak clipped for display)", W-170, 40);
+  }
+  // mean line
+  c.strokeStyle = "#FFEB3B"; c.lineWidth = 1.4; c.setLineDash([6,5]);
+  c.beginPath(); c.moveTo(X(phi), Y(0)); c.lineTo(X(phi), 26); c.stroke(); c.setLineDash([]);
+  c.fillStyle = "#FFEB3B"; c.font = "12px sans-serif";
+  c.fillText("φ", X(phi)+5, 38);
+  // axis
+  c.fillStyle = "#777"; c.font = "11px sans-serif";
+  [0, 0.25, 0.5, 0.75, 1].forEach(t => c.fillText(t, X(t)-8, H-8));
+}
+phiEl.addEventListener("input", update);
+kapEl.addEventListener("input", update);
+window.addEventListener("resize", update);
+update();
+</script>
+</body>
+</html>

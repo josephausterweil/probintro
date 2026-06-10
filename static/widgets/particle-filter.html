@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Particle filter, one phase at a time</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --purple:#B39DDB; --orange:#FFA726;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #corridor{flex:1;position:relative;min-height:0;}
+  canvas{display:block;width:100%;height:100%;}
+  #phase{padding:10px 16px;border-top:1px solid #2a2a33;font-size:14px;min-height:64px;}
+  #phase b{color:var(--yellow);}
+  #bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid #2a2a33;flex-wrap:wrap;}
+  button{background:#23232e;color:var(--white);border:1px solid #3a3a46;border-radius:6px;
+    padding:8px 16px;font-size:14px;cursor:pointer;}
+  button:hover{background:#2e2e3a;}
+  #step{background:#1d3a5f;border-color:#2a5a8f;font-weight:600;}
+  select{background:#23232e;color:var(--white);border:1px solid #3a3a46;border-radius:6px;padding:6px;}
+  .lbl{font-size:12px;color:var(--dim);}
+  .legend{font-size:11px;color:var(--dim);margin-left:auto;}
+  .sw{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 3px 0 10px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="corridor"><canvas id="cv"></canvas></div>
+  <div id="phase"></div>
+  <div id="bar">
+    <button id="step" onclick="advance()">Step ▸</button>
+    <button onclick="resetAll()">Reset</button>
+    <span class="lbl">particles M:</span>
+    <select id="M" onchange="resetAll()">
+      <option>20</option><option selected>200</option><option>2000</option>
+    </select>
+    <span class="legend">
+      <span class="sw" style="background:#64B5F6"></span>particles (area ∝ weight)
+      <span class="sw" style="background:#FFA726"></span>sensor ping z
+      <span class="sw" style="background:#B39DDB"></span>estimate
+      <span class="sw" style="background:#ffffff"></span>true position
+    </span>
+  </div>
+</div>
+<script>
+"use strict";
+// Chibany walks the corridor: true positions 1..5, the chapter's fixed noisy pings.
+const TRUE = [1, 2, 3, 4, 5];
+const OBS  = [1.3, 1.8, 3.4, 3.9, 5.2];
+const MOTION_SD = 0.3, OBS_SD = 0.7;
+let seed = 99;
+function rand(){ seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+function randn(){
+  const u1 = Math.max(rand(), 1e-12), u2 = rand();
+  return Math.sqrt(-2*Math.log(u1)) * Math.cos(2*Math.PI*u2);
+}
+const cv = document.getElementById("cv");
+let M, parts, weights, tick, phase, estimates;
+// phase: 0 = fresh particles for this tick (about to WEIGHT)
+//        1 = weighted          (about to RESAMPLE)
+//        2 = resampled         (about to PROPAGATE -> next tick)
+
+const EXPLAIN = [
+  t => `<b>Tick ${t+1} — ping arrives.</b> The sensor reads z = ${OBS[t].toFixed(1)} m (orange line). ` +
+       `Press Step to <b>WEIGHT</b>: score every particle by how well it explains the ping, w ∝ p(z | x).`,
+  t => `<b>Weighted.</b> Dot area now shows each particle's weight — particles near the ping got heavy, ` +
+       `far ones nearly vanished. The purple marker is the weighted-mean estimate. Press Step to <b>RESAMPLE</b>.`,
+  t => `<b>Resampled.</b> Heavy particles were cloned, light ones culled (a Categorical draw over the weights); ` +
+       `all weights are equal again. Press Step to <b>PROPAGATE</b> every survivor through the motion model (+1 m ± noise).`,
+];
+
+function initParticles(){
+  parts = Array.from({length: M}, () => 1.0 + MOTION_SD*randn());
+  weights = new Array(M).fill(1/M);
+}
+function doWeight(){
+  let logw = parts.map(x => { const z = (OBS[tick]-x)/OBS_SD; return -0.5*z*z; });
+  const m = Math.max(...logw);
+  weights = logw.map(l => Math.exp(l-m));
+  const s = weights.reduce((a,b)=>a+b, 0);
+  weights = weights.map(w => w/s);
+  estimates[tick] = parts.reduce((a,x,i)=>a + x*weights[i], 0);
+}
+function doResample(){
+  const cdf = []; let acc = 0;
+  for (const w of weights){ acc += w; cdf.push(acc); }
+  const nw = [];
+  for (let i = 0; i < M; i++){
+    const u = rand();
+    let lo = 0, hi = M-1;
+    while (lo < hi){ const mid = (lo+hi)>>1; (cdf[mid] < u) ? lo = mid+1 : hi = mid; }
+    nw.push(parts[lo]);
+  }
+  parts = nw; weights = new Array(M).fill(1/M);
+}
+function doPropagate(){
+  parts = parts.map(x => x + 1.0 + MOTION_SD*randn());
+}
+function advance(){
+  if (tick >= OBS.length){ return; }
+  if (phase === 0){ doWeight(); phase = 1; }
+  else if (phase === 1){ doResample(); phase = 2; }
+  else { doPropagate(); phase = 0; tick++; }
+  draw();
+}
+function resetAll(){
+  M = +document.getElementById("M").value;
+  seed = 99; tick = 0; phase = 0; estimates = new Array(OBS.length).fill(null);
+  initParticles(); draw();
+}
+function draw(){
+  const W = cv.width = cv.clientWidth, H = cv.height = cv.clientHeight;
+  const c = cv.getContext("2d");
+  c.fillStyle = "#14141b"; c.fillRect(0,0,W,H);
+  const x0 = -0.5, x1 = 7.5;
+  const X = x => (x - x0)/(x1 - x0) * (W - 40) + 20;
+  const midY = H * 0.46;
+  // corridor floor + meter marks
+  c.strokeStyle = "#2a2a33"; c.lineWidth = 1;
+  c.beginPath(); c.moveTo(20, midY + 46); c.lineTo(W-20, midY + 46); c.stroke();
+  c.fillStyle = "#777"; c.font = "11px sans-serif";
+  for (let m = 0; m <= 7; m++){ c.fillText(m + " m", X(m)-8, midY + 62); }
+
+  const done = tick >= OBS.length;
+  const t = Math.min(tick, OBS.length - 1);
+
+  // sensor ping (this tick), if we're mid-episode
+  if (!done){
+    c.strokeStyle = "#FFA726"; c.lineWidth = 2.5;
+    c.beginPath(); c.moveTo(X(OBS[t]), midY - 92); c.lineTo(X(OBS[t]), midY + 46); c.stroke();
+    c.fillStyle = "#FFA726"; c.font = "12px sans-serif";
+    c.fillText("z = " + OBS[t].toFixed(1), X(OBS[t]) + 6, midY - 80);
+  }
+  // true position marker for this tick
+  if (!done){
+    c.fillStyle = "#ffffff";
+    c.beginPath(); c.moveTo(X(TRUE[t]), midY + 38); c.lineTo(X(TRUE[t])-6, midY + 50);
+    c.lineTo(X(TRUE[t])+6, midY + 50); c.closePath(); c.fill();
+    c.font = "11px sans-serif"; c.fillText("true", X(TRUE[t])-10, midY + 74);
+  }
+  // particles, jittered vertically so the swarm is visible
+  const wmax = Math.max(...weights);
+  for (let i = 0; i < M; i++){
+    const jit = ((i * 2654435761) % 1000)/1000 - 0.5;        // deterministic jitter
+    const r = 2 + 9 * Math.sqrt(weights[i] / wmax);
+    c.fillStyle = "rgba(100,181,246,.5)";
+    c.beginPath(); c.arc(X(parts[i]), midY - 10 + jit*56, r, 0, 2*Math.PI); c.fill();
+  }
+  // estimates so far (purple squares along a faint timeline at top)
+  c.font = "11px sans-serif";
+  for (let k = 0; k < OBS.length; k++){
+    if (estimates[k] !== null){
+      c.fillStyle = "#B39DDB";
+      c.fillRect(X(estimates[k]) - 4, 22 + k*14 - 4, 8, 8);
+      c.fillStyle = "#777";
+      c.fillText("tick " + (k+1) + " est " + estimates[k].toFixed(2), X(estimates[k]) + 8, 22 + k*14 + 4);
+    }
+  }
+  // phase text
+  const ph = document.getElementById("phase");
+  if (done){
+    ph.innerHTML = "<b>Episode complete.</b> Estimates " +
+      estimates.map(e => e.toFixed(2)).join(", ") +
+      " — against true positions 1, 2, 3, 4, 5. Try M = 20 (watch it wobble) or 2000, then Reset.";
+  } else {
+    ph.innerHTML = EXPLAIN[phase](t);
+  }
+}
+window.addEventListener("resize", draw);
+resetAll();
+advance();   // auto-run the first WEIGHT so the widget loads mid-story
+</script>
+</body>
+</html>

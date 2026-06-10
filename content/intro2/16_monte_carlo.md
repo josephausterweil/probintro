@@ -62,7 +62,9 @@ n =   1000:  estimate of E[die] = 3.484
 n = 100000:  estimate of E[die] = 3.499
 ```
 
-At $n=10$ the estimate is off by half a pip; by $n=100{,}000$ it is within a thousandth of $3.5$. We never wrote down "the average of a die is 3.5" — we *discovered* it by rolling.
+At $n=10$ the estimate is off by half a pip; by $n=100{,}000$ it is within a thousandth of $3.5$. We never wrote down "the average of a die is 3.5" — we *discovered* it by rolling. Here is the whole story in one picture — the running estimate wandering early, then funneling into 3.5 inside the shrinking $1/\sqrt{n}$ envelope:
+
+![The running Monte Carlo estimate of a die's expected value, plotted against the number of rolls on a log scale. The estimate swings widely below a hundred rolls, then settles onto the dashed line at 3.5, staying inside a shaded envelope that narrows like one over the square root of n.](../../images/intro2/mc_die_convergence.png)
 
 ### Small Samples Swing Wide: the Hospital Problem
 
@@ -91,7 +93,11 @@ large hospital (45 births/day):  27 days over 60% boys
 small hospital (15 births/day):  55 days over 60% boys
 ```
 
-The small hospital logs roughly **twice as many** lopsided days. The same fact will return with teeth later in the chapter: an estimator built on *effectively few* samples swings wide in exactly this way.
+The small hospital logs roughly **twice as many** lopsided days. Histogram a great many days and the mechanism is plain — the small hospital's daily boy-fraction is simply a *wider* distribution, so far more of it pokes past the 60% line:
+
+![Two histograms of the daily fraction of boys, one for a large hospital with 45 births a day and one for a small hospital with 15. Both center on 50%, but the small hospital's histogram is much wider, and the red region beyond the dashed 60% line is several times larger than the large hospital's.](../../images/intro2/mc_hospital_tails.png)
+
+The same fact will return with teeth later in the chapter: an estimator built on *effectively few* samples swings wide in exactly this way.
 
 ---
 
@@ -137,7 +143,20 @@ darts inside the circle: 78345 / 100000
 pi estimate = 4 x 78345/100000 = 3.134
 ```
 
-A hundred thousand random darts pin $\pi$ to two decimal places. With the $1/\sqrt{n}$ rule, pinning the third decimal would take about a hundred times as many darts — slow, but utterly mechanical, and it never needed a single fact about circles beyond "inside means $x^2 + y^2 \le 1$."
+A hundred thousand random darts pin $\pi$ to two decimal places. With the $1/\sqrt{n}$ rule, pinning the third decimal would take about a hundred times as many darts — slow, but utterly mechanical, and it never needed a single fact about circles beyond "inside means $x^2 + y^2 \le 1$." Watch the picture sharpen as the darts accumulate:
+
+![Four panels of darts scattered over the unit square at n equals 10, 100, 1000 and 10000, with green points inside the quarter-circle and red points outside. The pi estimate in each title wanders at small n (3.6 at ten darts) and closes in on 3.14 by ten thousand.](../../images/intro2/mc_pi_darts.png)
+
+And throw some darts yourself — watch the estimate's path bounce hard at first, then calm down exactly as the $1/\sqrt{n}$ rule promises:
+
+<iframe src="../../widgets/mc-darts.html"
+        width="100%" height="540"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Interactive dart-throwing estimator of pi">
+</iframe>
+
+(Throw one dart at a time first — feel how jumpy the estimate is — then add ten thousand at once and watch it lock on.)
 
 ---
 
@@ -169,7 +188,9 @@ acceptance fraction: 0.501  (theory 0.5)
 kept 50077 samples; their mean = 0.667  (theory 2/3)
 ```
 
-Half the proposals are thrown away — and the kept ones have mean $\tfrac{2}{3}$, exactly the mean of a ramp on $[0,1]$.
+Half the proposals are thrown away — and the kept ones have mean $\tfrac{2}{3}$, exactly the mean of a ramp on $[0,1]$. Seen as a picture, the method is almost self-explanatory:
+
+![A scatter of points filling a dashed rectangular box, with the ramp-shaped target density p of x equals two x drawn as a diagonal line. Points under the line are green and kept; points above it are red and rejected — roughly half of all the work is discarded.](../../images/intro2/mc_rejection.png)
 
 **Inverse-CDF sampling.** When you *can* write down the cumulative distribution $F(x) = P(X \le x)$ and invert it, there is no waste at all: draw $u \sim \text{Uniform}(0,1)$ and return $F^{-1}(u)$. Every uniform draw becomes one sample from the target. (You already did a one-step version of this in [Chapter 13](../13_markov_chains/) — "draw $u$, compare to the row of the matrix" was inverse-CDF sampling of a two-outcome distribution.)
 
@@ -198,7 +219,9 @@ $$w(x) = \frac{p(x)}{q(x)}.$$
 
 A *good* proposal $q$ looks like $p$ — broad where $p$ is broad, with weights that stay near 1. A *bad* proposal misses where $p$ lives, so a handful of samples get enormous weight and the rest get nearly zero. (Hold that thought; it becomes the chapter's last idea.)
 
-Here is the payoff example: estimating a **tail probability** that direct sampling would barely ever hit. Chibany's bento weights follow $p = \mathcal{N}(620, 50^2)$ grams. What fraction of bentos top **700 g** — a properly heavy lunch? Sampling from $p$ directly, only a few percent of draws clear 700, so the estimate is noisy. Instead we propose from $q = \mathcal{N}(700, 50^2)$, *shifted onto the heavy tail*, and reweight.
+Here is the payoff example: estimating a **tail probability** that direct sampling would barely ever hit. Chibany's bento weights follow $p = \mathcal{N}(620, 50^2)$ grams. What fraction of bentos top **700 g** — a properly heavy lunch? Sampling from $p$ directly, only a few percent of draws clear 700, so the estimate is noisy. Instead we propose from $q = \mathcal{N}(700, 50^2)$, *shifted onto the heavy tail*, and reweight. The picture shows the move — the proposal parks itself right on top of the event:
+
+![The target bell curve of bento weights centered at 620 grams, with the small shaded tail beyond 700 grams marking the event of interest, and a dashed proposal curve of the same width shifted to be centered exactly at 700 — covering the tail that the target barely reaches.](../../images/intro2/mc_is_tail.png)
 
 <!-- validate: tol=0.02 -->
 ```python
@@ -293,7 +316,11 @@ a 650 g bento: P(tonkatsu) by exemplar vote = 0.61
 a 720 g bento: P(tonkatsu) by exemplar vote = 0.94
 ```
 
-Light bentos vote "not tonkatsu," heavy ones vote "tonkatsu," and the middle hedges — a graded generalization curve, produced by nothing but weighted memories. This bridge — *a classic process model of cognition is a Monte Carlo estimator in disguise* — is the first of several in these chapters; [Chapter 17](../17_particle_filtering/) and [Chapter 19](../19_sampling_the_mind/) push it much further.
+Light bentos vote "not tonkatsu," heavy ones vote "tonkatsu," and the middle hedges — a graded generalization curve, produced by nothing but weighted memories:
+
+![A smooth S-shaped curve of the probability a bento is tonkatsu as a function of its weight, rising from near zero at 550 grams to near one at 720. The stored non-tonkatsu exemplars sit as blue triangles along the bottom at light weights, the tonkatsu exemplars as orange triangles along the top at heavy weights, and the three query points from the code are marked on the curve with their values 0.13, 0.61 and 0.94.](../../images/intro2/mc_exemplar_vote.png)
+
+This bridge — *a classic process model of cognition is a Monte Carlo estimator in disguise* — is the first of several in these chapters; [Chapter 17](../17_particle_filtering/) and [Chapter 19](../19_sampling_the_mind/) push it much further.
 
 ### Effective Sample Size
 
@@ -328,7 +355,20 @@ well-matched q ~ N(630,55):   ESS =    95719  out of 100000
 poorly-matched q ~ N(760,30): ESS =       22  out of 100000
 ```
 
-A well-matched proposal keeps almost all of its 100,000 samples; a badly-matched one is left with the worth of 22. That is what $N_{\text{eff}}$ is *for*: a quick read on whether your proposal covers your target.
+A well-matched proposal keeps almost all of its 100,000 samples; a badly-matched one is left with the worth of 22. The contrast is easiest to see side by side — when the proposal misses the target, the weight histogram collapses into a spike of near-zeros dominated by a handful of giants:
+
+![Two columns comparing proposals against the bento-weight target. On the left, a well-matched proposal overlapping the target, with a compact histogram of near-even weights and an effective sample size in the tens of thousands. On the right, a proposal far off in the tail, with a few enormous weights towering over a mass of near-zero ones and an effective sample size of a few dozen.](../../images/intro2/mc_weight_variance.png)
+
+That is what $N_{\text{eff}}$ is *for*: a quick read on whether your proposal covers your target. Now build the feel for it with your own hands — drag the proposal around and watch the weights and the ESS respond:
+
+<iframe src="../../widgets/is-proposal.html"
+        width="100%" height="560"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Interactive importance-sampling proposal explorer with live ESS">
+</iframe>
+
+(Try three positions: the proposal right on the target; far off in a tail; and parked on the shaded $W > 700$ event. Watch *both* readouts each time.)
 
 {{% notice style="tip" title="A diagnostic, not the whole story" %}}
 $N_{\text{eff}}$ tells you whether the *weights* are healthy. Whether a high $N_{\text{eff}}$ also means your *estimate of a particular quantity* is accurate — and whether plain Monte Carlo, whose weights are trivially even, is therefore always the better choice — is a sharper and more surprising question. That is exactly what you'll untangle in **Problem 3 of the assignment**. For now, read $N_{\text{eff}}$ as "do my weighted samples have realistic impact?", and keep the puzzle in your back pocket.

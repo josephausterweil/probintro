@@ -33,7 +33,23 @@ Suppose the chain is currently at state $x$.
 $$A = \min\left(1, \frac{P(x')}{P(x)}\right),$$
 and move to $x'$ with probability $A$; otherwise *stay* at $x$ (and record $x$ again).
 
-The intuition is exactly "explore, but favor high ground." If $x'$ is *more* probable than $x$ ($P(x') > P(x)$), the ratio exceeds 1, $A = 1$, and you **always** move uphill. If $x'$ is *less* probable, you move only *sometimes* — with probability equal to the ratio of heights. So the chain wanders everywhere but spends most of its time where $P$ is large, which is precisely the behavior of a sample from $P$.
+```mermaid
+graph LR
+    A["current state x"] --> B["propose x' ~ Q(x'|x)"]
+    B --> C{"u < min(1, P(x')/P(x)) ?"}
+    C -->|accept| D["move to x'"]
+    C -->|reject| E["stay at x"]
+    D --> F["record the state"]
+    E --> F
+    F --> A
+    classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    class A,B,C,D,E,F node
+    linkStyle default stroke:#9bbcff,stroke-width:2px,color:#fff
+```
+
+The intuition is exactly "explore, but favor high ground." If $x'$ is *more* probable than $x$ ($P(x') > P(x)$), the ratio exceeds 1, $A = 1$, and you **always** move uphill. If $x'$ is *less* probable, you move only *sometimes* — with probability equal to the ratio of heights. So the chain wanders everywhere but spends most of its time where $P$ is large, which is precisely the behavior of a sample from $P$. Three snapshots of the rule in action:
+
+![Three panels of the same two-peaked density. In the first, a proposal arrow climbs from the current point to a higher point on the curve and is green: uphill moves are always accepted. In the second, the arrow steps down to a somewhat lower point and is still green, accepted with probability about one half. In the third, the arrow leaps far down toward the valley floor and is red: nearly always rejected, the chain stays and records the current state again.](../../images/intro2/mcmc_mh_steps.png)
 
 {{% notice style="tip" title="Why P(x) can be the unnormalized posterior" %}}
 Look at the acceptance ratio: $P$ enters only through the **ratio** $P(x')/P(x)$. If $P$ is a posterior known only up to its normalizer — $P(x) = \tfrac{1}{Z}\tilde P(x)$ with $Z$ the intractable evidence — then $Z$ appears in numerator and denominator and **cancels**. You never need to compute it. This is the same cancellation that made self-normalized importance sampling work in [Chapter 16](../16_monte_carlo/), and it is the reason MH is the workhorse of Bayesian computation: the one quantity you can't compute is the one quantity you don't need. The next section makes it explicit.
@@ -77,7 +93,9 @@ sample mean: -0.04  (target is symmetric about 0)
 fraction in the left mode: 0.51  (~0.50 if well mixed)
 ```
 
-The chain visits both peaks evenly — half its samples land on each side — and its mean sits at 0, the symmetric center. We never normalized the target; the acceptance ratio only ever used $\log P(x') - \log P(x)$.
+The chain visits both peaks evenly — half its samples land on each side — and its mean sits at 0, the symmetric center. We never normalized the target; the acceptance ratio only ever used $\log P(x') - \log P(x)$. Pile the samples into a histogram and they trace out the target exactly:
+
+![A histogram of the chain's post-burn-in samples laid over the normalized two-peaked target density. The teal bars fill both peaks symmetrically and follow the black curve closely, including the near-empty valley between the modes.](../../images/intro2/mcmc_mh_histogram.png)
 
 ### Why the Normalizer Cancels
 
@@ -129,7 +147,11 @@ sample means: (0.02, 0.02)   (target 0, 0)
 sample correlation: 0.80        (target 0.8)
 ```
 
-No proposal width to tune, no rejections — Gibbs recovers the means and the 0.8 correlation exactly. The moves are **axis-aligned**: each update slides along one coordinate while the other is held fixed, which is why a strongly correlated target can make Gibbs shuffle slowly along the diagonal.
+No proposal width to tune, no rejections — Gibbs recovers the means and the 0.8 correlation exactly. The moves are **axis-aligned**: each update slides along one coordinate while the other is held fixed, so the chain's path is a staircase of little L-shaped steps climbing along the target's ridge:
+
+![The elliptical contours of a strongly correlated two-dimensional Gaussian, with a Gibbs sampler's first thirty or so moves drawn on top. Starting from an orange dot in the lower-left corner, the purple path moves strictly horizontally then vertically in alternating L-shaped segments, working its way up the diagonal ridge of the distribution.](../../images/intro2/mcmc_gibbs_trace.png)
+
+This is why a strongly correlated target can make Gibbs shuffle slowly along the diagonal — every move is parallel to an axis, so progress along the ridge takes many small steps.
 
 ---
 
@@ -183,7 +205,11 @@ small step, started RIGHT: fraction in left mode = 0.19
 the two disagree -> the chain has NOT mixed (each is trapped near its start)
 ```
 
-The two runs flatly disagree — one thinks the target lives mostly on the left, the other mostly elsewhere — because the small step can never cross the low-probability valley between the peaks. Each chain is stuck in whichever mode it started in. Crucially, the *local* acceptance rate looks perfectly healthy; the chain is happily accepting moves, just never the ones that would carry it across. **Good local acceptance does not imply good global mixing.** This is why multimodal posteriors are hard, and why diagnosing mixing — running multiple chains from different starts and checking they agree — matters.
+The two runs flatly disagree — one thinks the target lives mostly on the left, the other mostly elsewhere — because the small step can never cross the low-probability valley between the peaks. Each chain is stuck in whichever mode it started in. The *trace* makes the diagnosis instant (drawn here at an even smaller step, $\sigma = 0.15$, where the trap is total):
+
+![Two trace plots side by side. On the left, with a very small proposal step, the two chains are flat bands — one wobbling around plus two, the other around minus two — that never meet over four thousand iterations. On the right, with a good step size, both traces hop constantly between the two levels and are statistically indistinguishable.](../../images/intro2/mcmc_traces.png)
+
+Crucially, the *local* acceptance rate looks perfectly healthy; the chain is happily accepting moves, just never the ones that would carry it across. **Good local acceptance does not imply good global mixing.** This is why multimodal posteriors are hard, and why diagnosing mixing — running multiple chains from different starts and checking they agree — matters.
 
 ### Interactive: Watch a Chain Mix (or Get Trapped)
 

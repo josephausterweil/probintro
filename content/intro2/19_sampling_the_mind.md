@@ -34,7 +34,9 @@ This is exactly the two-level **Beta-Binomial hierarchy** of [Chapter 12](../12_
 
 $$\theta_i \sim \text{Beta}(a, b), \qquad k_i \sim \text{Binomial}(n_i, \theta_i),$$
 
-with the **population prior** $(a, b)$ *itself learned* from all the shops together (Chapter 12's overhypothesis idea — the prior is acquired, not assumed). Chapter 12 estimated this with importance sampling and called it "a blunt tool," noisy because the prior is a poor proposal. We will now sample the posterior with MCMC instead.
+with the **population prior** $(a, b)$ *itself learned* from all the shops together (Chapter 12's overhypothesis idea — the prior is acquired, not assumed). Chapter 12 estimated this with importance sampling and called it "a blunt tool," noisy because the prior is a poor proposal. We will now sample the posterior with MCMC instead. Here is the whole model as a picture:
+
+![A plate diagram of the bento-shop hierarchy. At the top, the population mean phi and concentration kappa point into the Beta parameters a and b, which point down into each shop's quality rate theta-i, which points into the observed count k-i of good ratings; the theta and k nodes sit inside a plate labeled shops one through M, and the k node is shaded to mark it as observed.](../../images/intro2/kemp_plate.png)
 
 **The reparametrization.** The natural Beta parameters $(a, b)$ are awkward for a sampler: they can sit at wildly different scales (maybe $a = 2$, $b = 30$), and they tangle two distinct ideas together. So we switch to a pair that separates those ideas:
 
@@ -42,6 +44,17 @@ with the **population prior** $(a, b)$ *itself learned* from all the shops toget
 - $\kappa = a + b > 0$ — the **concentration** (how tightly shops cluster around that mean: large $\kappa$ = all shops alike, small $\kappa$ = shops all over the map).
 
 We sample one more level down, in $\ell = \log \kappa$, so that the concentration stays positive automatically and a symmetric random-walk step behaves sensibly. Three numbers — $(\varphi, \ell)$ plus the per-shop $\theta_i$ — same model, but now each knob means one clean thing.
+
+Get a feel for the two knobs before we sample them. The explorer below draws the population prior $\text{Beta}(\kappa\varphi, \kappa(1-\varphi))$ as you drag $\varphi$ and $\kappa$ — watch how the *mean* slides the bump while the *concentration* changes its whole character, from "every shop is extreme" (U-shaped, $\kappa < 1$) to "all shops identical" (a spike):
+
+<iframe src="../../widgets/beta-explorer.html"
+        width="100%" height="440"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Interactive Beta distribution explorer in the mean/concentration parametrization">
+</iframe>
+
+(Slide $\kappa$ from one extreme to the other while holding $\varphi$ at 0.6 — that single knob is what the Metropolis step will be *learning* from the shops.)
 
 The plan is a **hybrid sampler**, exactly the MH-and-Gibbs combination [Chapter 18](../18_markov_chain_monte_carlo/) pointed at: Gibbs for the part that's conjugate and easy, Metropolis for the part that isn't.
 
@@ -192,10 +205,20 @@ posterior median kappa:        4.6
 predictive P(next rating good) = mean phi = 0.564
 ```
 
-The sampler learns the *population* from the shops: a typical tonkatsu-quality rate around $\varphi \approx 0.56$, with a modest concentration ($\kappa \approx 5$) reflecting that the shops genuinely differ. The predictive probability that a *brand-new* shop's next rating is good is just the population mean $\varphi$ — the model has learned a prior it can apply to a shop it has never visited, which is the whole point of the hierarchy.
+The sampler learns the *population* from the shops: a typical tonkatsu-quality rate around $\varphi \approx 0.56$, with a modest concentration ($\kappa \approx 5$) reflecting that the shops genuinely differ. Here are the collected samples as posterior histograms (one typical run):
+
+![Two histograms of the sampler's collected draws. On the left, the posterior over the population mean phi forms a bump centered near 0.56. On the right, the posterior over the concentration kappa is right-skewed with its median near 4 or 5 — a modest concentration, matching shops that genuinely vary.](../../images/intro2/kemp_posteriors.png)
+
+The predictive probability that a *brand-new* shop's next rating is good is just the population mean $\varphi$ — the model has learned a prior it can apply to a shop it has never visited, which is the whole point of the hierarchy. And the hierarchy pays its other dividend too: plug the learned population back into each shop's conjugate posterior, and every shop's estimate is *shrunk* toward the population mean — [Chapter 12](../12_hierarchical_bayes/)'s partial pooling, now with a population the sampler discovered rather than one we assumed:
+
+![A shrinkage plot for the twelve shops. Each shop's raw rating fraction on the left is connected by a gray line to its posterior mean on the right; the extreme shops near 0.1 and 0.9 are pulled markedly toward the dashed orange line at the learned population mean of about 0.56, while middling shops barely move.](../../images/intro2/kemp_shrinkage.png)
 
 {{% notice style="tip" title="Is it converged? (a practical aside)" %}}
-We discarded the first 1000 sweeps as burn-in and trusted the rest. In practice you would *check* convergence before trusting any MCMC output — most simply by looking at a **trace plot** (the parameter plotted against sweep number, as in [Chapter 18](../18_markov_chain_monte_carlo/)): after burn-in it should look like stationary noise wobbling around a fixed level, with no drift and no long plateaus stuck in one place. Running the sampler from a few different starts and checking they agree is the multi-chain version of the same idea. We keep it informal here ("run long, discard the first chunk"); formal diagnostics are a topic of their own.
+We discarded the first 1000 sweeps as burn-in and trusted the rest. In practice you would *check* convergence before trusting any MCMC output — most simply by looking at a **trace plot** (the parameter plotted against sweep number, as in [Chapter 18](../18_markov_chain_monte_carlo/)): after burn-in it should look like stationary noise wobbling around a fixed level, with no drift and no long plateaus stuck in one place. Here is this very sampler's $\varphi$ trace, with the discarded burn-in shaded:
+
+![The trace of the population mean phi over six thousand sweeps. The first thousand sweeps are shaded gray and labeled burn-in; after them the trace wobbles steadily in a band around 0.56 with no drift and no plateaus — stationary noise, the signature of a converged chain.](../../images/intro2/kemp_phi_trace.png)
+
+Running the sampler from a few different starts and checking they agree is the multi-chain version of the same idea. We keep it informal here ("run long, discard the first chunk"); formal diagnostics are a topic of their own.
 {{% /notice %}}
 
 ---
