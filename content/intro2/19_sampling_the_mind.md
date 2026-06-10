@@ -232,6 +232,21 @@ print(f"marginal log-score at (phi=0.56, kappa=5): {log_marg_all(0.56, jnp.log(5
 
 Step back and see the whole arc. [Chapter 13](../13_markov_chains/) handed you a Markov chain and you found where it settles. [Chapter 15](../15_memory_search/) used a chain to model the wandering of memory. Then [Chapter 16](../16_monte_carlo/) taught estimation by sampling, [Chapter 17](../17_particle_filtering/) made the samples track a moving target, and [Chapter 18](../18_markov_chain_monte_carlo/) ran Chapter 13 *backwards* — designing a chain to hit a target of our choosing. This chapter cashed it all in twice over: a person, run as a Markov chain, reveals the shape of a concept in their head; and a hybrid Gibbs-Metropolis chain learns the hidden population behind a pile of bento ratings. The walk you first used to model a mind is the same tool, now pointed wherever a posterior is too hard to compute by hand — which is to say, almost everywhere.
 
+The whole toolkit also maps, method for method, onto the GenJAX primitives you've been collecting since Tutorial 2 — each classical algorithm is a short composition of them:
+
+| Classical method | GenJAX surface |
+|---|---|
+| basic Monte Carlo | `model.simulate(key, args)` + `vmap` over keys |
+| rejection sampling | `simulate`, keep the draws that match the condition |
+| importance sampling | `model.importance(key, constraint, args)` → (trace, log_weight) |
+| particle filter | weight (`importance`) → resample (`categorical`) → propagate (`simulate`) per observation |
+| MCMC (Metropolis–Hastings) | assemble from `model.assess` — score, ratio, accept/reject |
+| Gibbs step (conjugate) | a direct `beta(...)` generative draw |
+
+{{% notice style="tip" title="Why this still matters in 2026" %}}
+You will rarely hand-write an acceptance ratio again — but the *sample → score → reweight-or-accept* loop you built in these chapters did not go away. It acquired a **learned proposal**. A **diffusion model** is, at heart, a learned reverse-MCMC: a chain trained to walk noise back to data. **RLHF** samples from a policy and reweights by a reward — likelihood weighting with a learned likelihood. **Best-of-$N$** sampling from a language model is importance sampling with a verifier as the weight. The mechanics in these four chapters are the conceptual core of how today's models are trained, steered, and aligned.
+{{% /notice %}}
+
 {{% notice style="success" title="What you can do now" %}}
 You understand **MCMC with People** — that a person choosing between options *is* a Metropolis accept step, so the chain of their choices converges to the prior in their head. You can build a **hybrid Gibbs–Metropolis sampler** for a hierarchical Beta-Binomial model: **Gibbs** the per-unit rates from their conjugate Beta conditionals, **collapse** the rates out via the **Beta-Binomial marginal**, and **Metropolis** the population $(\varphi, \kappa)$ — reparametrized to mean and (log-)concentration — by a marginal-likelihood ratio. You know why each step is valid (conjugacy; symmetric proposals; flat priors; kernel composition) and how to read off a predictive from the learned population.
 

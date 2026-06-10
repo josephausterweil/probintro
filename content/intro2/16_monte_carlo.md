@@ -64,6 +64,35 @@ n = 100000:  estimate of E[die] = 3.499
 
 At $n=10$ the estimate is off by half a pip; by $n=100{,}000$ it is within a thousandth of $3.5$. We never wrote down "the average of a die is 3.5" — we *discovered* it by rolling.
 
+### Small Samples Swing Wide: the Hospital Problem
+
+The $1/\sqrt{n}$ rate has a famous flip side, worth feeling before we move on. Here is a classic question (Kahneman & Tversky):
+
+> A **large** hospital (about 45 births a day) and a **small** hospital (about 15 births a day) each record, over a year, the days on which **more than 60% of the babies born are boys**. Which hospital records **more** such days?
+
+Most people say "about the same — boys are 50% everywhere." But you now know better: $45$ births is a bigger sample than $15$, so the large hospital's daily boy-fraction sits *tight* around 50%, while the small hospital's **swings wide** — and crosses 60% far more often. Small samples vary more; that *is* the Law of Large Numbers, read in reverse. And notice the method we can use to check it: don't compute anything — **simulate a year and count.** That move is Monte Carlo, applied to its own convergence.
+
+<!-- validate: tol=10 -->
+```python
+def days_over_60(key, births_per_day, n_days=365):
+    boys = jr.binomial(key, n=births_per_day * 1.0, p=0.5, shape=(n_days,))  # a year of days
+    frac = boys / births_per_day
+    return int(jnp.sum(frac > 0.6))                       # count the >60%-boys days
+
+big   = days_over_60(jr.key(0), 45)
+small = days_over_60(jr.key(1), 15)
+print(f"large hospital (45 births/day): {big:3d} days over 60% boys")
+print(f"small hospital (15 births/day): {small:3d} days over 60% boys")
+```
+
+**Output:**
+```
+large hospital (45 births/day):  27 days over 60% boys
+small hospital (15 births/day):  55 days over 60% boys
+```
+
+The small hospital logs roughly **twice as many** lopsided days. The same fact will return with teeth later in the chapter: an estimator built on *effectively few* samples swings wide in exactly this way.
+
 ---
 
 ## π by Throwing Darts
@@ -232,7 +261,39 @@ That coin example hid a beautiful special case. We chose the proposal $q$ to be 
 
 $$w \propto \frac{p(\text{hypothesis}) p(\text{data} \mid \text{hypothesis})}{p(\text{hypothesis})} = p(\text{data} \mid \text{hypothesis}),$$
 
-the **likelihood**. So "sample from the prior, weight by the likelihood" *is* importance sampling with the prior as proposal — and it is exactly what [Chapter 12](../12_hierarchical_bayes/) did when it called importance sampling "a blunt tool." Blunt, because the prior is often a poor proposal: it scatters samples broadly, the likelihood concentrates the weight onto a few, and the estimate gets noisy. How noisy? That has a diagnostic.
+the **likelihood**. So "sample from the prior, weight by the likelihood" *is* importance sampling with the prior as proposal — and it is exactly what [Chapter 12](../12_hierarchical_bayes/) did when it called importance sampling "a blunt tool." Blunt, because the prior is often a poor proposal: it scatters samples broadly, the likelihood concentrates the weight onto a few, and the estimate gets noisy. How noisy? That has a diagnostic — but first, a cognitive aside that will recur all term.
+
+### Exemplar Models Are Importance Samplers
+
+One of the most successful models of human categorization answers questions by a **similarity-weighted vote over stored examples**. In an **exemplar model** (Nosofsky, 1986), you don't carry around an abstract rule for "tonkatsu bento" — you carry around the *bentos you remember*, and when a new one arrives you ask each memory how similar it is:
+
+$$\text{response}(x) = \frac{\sum_i s(x, x_i) f(x_i)}{\sum_i s(x, x_i)},$$
+
+where $s(x, x_i)$ is the **similarity** between the query $x$ and stored example $x_i$, and $f(x_i)$ is the **label** stored with example $i$ (say, 1 for tonkatsu, 0 for not).
+
+Look hard at that formula. It is **exactly the self-normalized importance-sampling estimator** from a few sections ago, $\sum_i w_i f(x_i) / \sum_i w_i$ — with the stored exemplars playing the role of the *samples* and the similarity $s$ playing the role of the *weight* $w$. A mind that classifies by similarity-weighted voting over memories is, mechanically, running an importance sampler over its own experience. Here it is deciding whether a new bento is tonkatsu from its weight:
+
+```python
+# Chibany's memory of past bentos: weight (g) and whether it was tonkatsu (1) or not (0).
+weights = jnp.array([520., 560., 590., 610., 640., 660., 700., 730.])
+is_tonk = jnp.array([0.,   0.,   0.,   1.,   0.,   1.,   1.,   1.])
+
+def exemplar_vote(x, width=40.0):
+    s = jnp.exp(-0.5 * ((x - weights) / width) ** 2)   # similarity to each stored example
+    return float(jnp.sum(s * is_tonk) / jnp.sum(s))   # similarity-weighted vote
+
+for query in [550.0, 650.0, 720.0]:
+    print(f"a {query:.0f} g bento: P(tonkatsu) by exemplar vote = {exemplar_vote(query):.2f}")
+```
+
+**Output:**
+```
+a 550 g bento: P(tonkatsu) by exemplar vote = 0.13
+a 650 g bento: P(tonkatsu) by exemplar vote = 0.61
+a 720 g bento: P(tonkatsu) by exemplar vote = 0.94
+```
+
+Light bentos vote "not tonkatsu," heavy ones vote "tonkatsu," and the middle hedges — a graded generalization curve, produced by nothing but weighted memories. This bridge — *a classic process model of cognition is a Monte Carlo estimator in disguise* — is the first of several in these chapters; [Chapter 17](../17_particle_filtering/) and [Chapter 19](../19_sampling_the_mind/) push it much further.
 
 ### Effective Sample Size
 

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCMC on a multimodal 2-D Gaussian mixture</title>
+<style>
+  /* SDS dark theme tokens (mirror sds-reveal/sds.scss) */
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --teal:#4DD0E1;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;
+    overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #stage{display:flex;flex:1;min-height:0;}
+  #left{flex:0 0 58%;position:relative;}
+  #right{flex:1;display:flex;flex-direction:column;min-width:0;border-left:1px solid #2a2a33;}
+  canvas{display:block;width:100%;height:100%;}
+  .panelbox{flex:1;position:relative;min-height:0;border-bottom:1px solid #2a2a33;}
+  .panelbox:last-child{border-bottom:none;}
+  .panel-label{position:absolute;top:6px;left:10px;font-size:13px;color:var(--dim);
+    pointer-events:none;z-index:2;font-weight:600;letter-spacing:.02em;}
+  .panel-sublabel{position:absolute;top:23px;left:10px;font-size:11px;color:#777;
+    pointer-events:none;z-index:2;font-style:italic;}
+  /* readouts overlaid top-right of the trajectory canvas */
+  #readouts{position:absolute;top:10px;right:14px;text-align:right;z-index:3;
+    pointer-events:none;text-shadow:0 1px 3px #000;}
+  #accLabel{font-size:15px;color:var(--dim);}
+  #acc{font-size:46px;font-weight:700;line-height:1.0;}
+  #meta{font-size:14px;color:var(--dim);margin-top:4px;}
+  #modeMeta{font-size:14px;color:var(--teal);margin-top:2px;}
+  #clickHint{position:absolute;bottom:8px;left:12px;z-index:3;pointer-events:none;
+    font-size:13px;color:var(--yellow);opacity:.78;text-shadow:0 1px 3px #000;}
+  /* controls bar */
+  #controls{flex:0 0 auto;background:var(--panel);padding:8px 14px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px;
+    border-top:1px solid #2a2a33;font-size:14px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:6px;}
+  select,button{background:#222230;color:var(--white);border:1px solid #3a3a48;
+    border-radius:5px;padding:5px 10px;font-size:14px;cursor:pointer;}
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent);color:#06121f;border-color:var(--accent);font-weight:700;}
+  input[type=range]{width:150px;accent-color:var(--accent);cursor:pointer;}
+  input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px;}
+  #sigmaVal{color:var(--yellow);font-weight:700;min-width:46px;display:inline-block;text-align:right;}
+  .pill{font-size:12px;color:var(--dim);}
+  .disabled{opacity:.4;pointer-events:none;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="left">
+      <canvas id="traj"></canvas>
+      <div id="readouts">
+        <div id="accLabel">acceptance ratio</div>
+        <div id="acc">—</div>
+        <div id="meta">n = 0</div>
+        <div id="modeMeta">modes visited: 0 / 4</div>
+      </div>
+      <div id="clickHint">click the plot to drop the chain there →</div>
+    </div>
+    <div id="right">
+      <div class="panelbox" id="tracebox">
+        <div class="panel-label">trace of x-coordinate (flat = stuck, hopping = mixing)</div>
+        <canvas id="trace"></canvas>
+      </div>
+      <div class="panelbox" id="histbox">
+        <div class="panel-label">x-coordinate: sampled (bars) vs. true marginal P(x) (yellow)</div>
+        <div class="panel-sublabel">the target's x-marginal — 4 blobs share 2 x-values, so 2 humps</div>
+        <canvas id="hist"></canvas>
+      </div>
+    </div>
+  </div>
+  <div id="controls">
+    <label>target
+      <select id="target">
+        <option value="4blob">4 blobs (separated)</option>
+        <option value="3blob">3 blobs (triangle)</option>
+        <option value="2blob">2 blobs (far apart)</option>
+      </select>
+    </label>
+    <label>sampler
+      <select id="algo">
+        <option value="mh">Metropolis–Hastings</option>
+        <option value="gibbs">Gibbs</option>
+      </select>
+    </label>
+    <label id="sigmaWrap">proposal σ
+      <input type="range" id="sigma" min="-1.7" max="0.85" step="0.01" value="-0.4">
+      <span id="sigmaVal">0.40</span>
+    </label>
+    <button class="primary" id="run">▶ Run</button>
+    <button id="step">Step</button>
+    <button id="reset">Reset</button>
+    <label>speed <input type="range" id="speed" min="1" max="60" step="1" value="18"></label>
+    <label><input type="checkbox" id="showDensity" checked> density</label>
+    <label><input type="checkbox" id="showProp" checked> proposal</label>
+  </div>
+</div>
+
+<script>
+"use strict";
+// ====================================================================
+//  TUNABLE CONSTANTS (top-of-file, per the design — tune the trap demo)
+// ====================================================================
+const DOMAIN = 5.0;                 // view is [-DOMAIN, DOMAIN]^2
+const BLOB_SIGMA = 0.45;            // small enough that modes are separated
+const TARGETS = {
+  // means chosen near corners so a "good" σ≈0.4 cannot bridge modes
+  "4blob": [[-2.6,-2.6],[2.6,-2.6],[-2.6,2.6],[2.6,2.6]],
+  "3blob": [[0,2.8],[-2.6,-1.8],[2.6,-1.8]],
+  "2blob": [[-3.0,0],[3.0,0]],
+};
+const COL = {
+  bg:"#111111", dim:"#999999", white:"#ffffff", accent:"#64B5F6",
+  red:"#EF5350", green:"#66BB6A", yellow:"#FFEB3B", orange:"#FFA726", teal:"#4DD0E1",
+};
+
+// ====================================================================
+//  STATE
+// ====================================================================
+let means = TARGETS["4blob"];
+let cur = [-2.6, -2.6];             // current chain state
+let nAcc = 0, nTot = 0;             // acceptance bookkeeping
+let traceHist = [];                 // x-coordinate history
+let samples = [];                   // accepted-state x-coords for histogram
+let modeVisits = new Array(means.length).fill(0);  // per-mode hit counts
+let fullTrail = [[cur[0], cur[1]]]; // [x,y] of recent states for the on-canvas path
+let lastProposal = null;            // {x,y,accepted}
+let running = false;
+let densityCache = null;            // ImageData
+let marginalCache = null;           // {xs, ys} true x-marginal
+
+// canvases
+const trajC = document.getElementById("traj"), trajX = trajC.getContext("2d");
+const traceC = document.getElementById("trace"), traceX = traceC.getContext("2d");
+const histC = document.getElementById("hist"), histX = histC.getContext("2d");
+
+// controls
+const $ = id => document.getElementById(id);
+const elSigma=$("sigma"), elSigmaVal=$("sigmaVal"), elAlgo=$("algo"),
+      elTarget=$("target"), elSpeed=$("speed"), elRun=$("run"),
+      elShowDensity=$("showDensity"), elShowProp=$("showProp"),
+      elSigmaWrap=$("sigmaWrap");
+
+function sigma(){ return Math.pow(10, parseFloat(elSigma.value)); }  // log slider
+
+// ====================================================================
+//  TARGET DENSITY (unnormalised GMM); logTarget for the MH ratio
+// ====================================================================
+function logTarget(x, y){
+  // log-sum-exp over equal-weight isotropic blobs
+  const s2 = BLOB_SIGMA*BLOB_SIGMA;
+  let m = -Infinity, terms = [];
+  for(const [mx,my] of means){
+    const lp = -0.5*((x-mx)*(x-mx)+(y-my)*(y-my))/s2;
+    terms.push(lp); if(lp>m) m=lp;
+  }
+  let s=0; for(const t of terms) s+=Math.exp(t-m);
+  return m + Math.log(s);
+}
+function nearestMode(x,y){
+  let best=0, bd=Infinity;
+  means.forEach(([mx,my],i)=>{const d=(x-mx)**2+(y-my)**2; if(d<bd){bd=d;best=i;}});
+  return best;
+}
+
+// ====================================================================
+//  COORDINATE MAPPING (data <-> pixels) for the trajectory canvas
+// ====================================================================
+function dataToPix(x,y,w,h){
+  return [ (x+DOMAIN)/(2*DOMAIN)*w, h - (y+DOMAIN)/(2*DOMAIN)*h ];
+}
+// inverse: canvas pixels -> data coordinates (for click-to-set-state)
+function pixToData(px,py,w,h){
+  return [ px/w*2*DOMAIN - DOMAIN, DOMAIN - py/h*2*DOMAIN ];
+}
+
+// ====================================================================
+//  DENSITY HEATMAP (cached ImageData)
+// ====================================================================
+function buildDensity(){
+  const w=trajC.width, h=trajC.height;
+  const img=trajX.createImageData(w,h);
+  // find max logp for normalisation
+  let maxlp=-Infinity;
+  for(const [mx,my] of means){ const lp=logTarget(mx,my); if(lp>maxlp)maxlp=lp; }
+  const STEP=2; // subsample for speed, fill blocks
+  for(let py=0; py<h; py+=STEP){
+    for(let px=0; px<w; px+=STEP){
+      const x = px/w*2*DOMAIN - DOMAIN;
+      const y = DOMAIN - py/h*2*DOMAIN;
+      const v = Math.exp(logTarget(x,y)-maxlp);   // 0..1
+      // dark-blue -> teal -> yellow ramp on near-black
+      const t = Math.min(1, Math.pow(v, 0.55));
+      const r = Math.round(17 + t*(255-17)*Math.max(0,(t-0.5)*2));
+      const g = Math.round(17 + t*(210-17));
+      const b = Math.round(17 + (1-t)*(110-17) + t*40);
+      for(let dy=0; dy<STEP && py+dy<h; dy++){
+        for(let dx=0; dx<STEP && px+dx<w; dx++){
+          const idx=((py+dy)*w+(px+dx))*4;
+          img.data[idx]=r; img.data[idx+1]=g; img.data[idx+2]=b; img.data[idx+3]=255;
+        }
+      }
+    }
+  }
+  densityCache=img;
+}
+
+// true x-marginal of the GMM (for the histogram overlay)
+function buildMarginal(){
+  const N=160, xs=[], ys=[];
+  const s=BLOB_SIGMA;
+  for(let i=0;i<N;i++){
+    const x = -DOMAIN + i/(N-1)*2*DOMAIN;
+    let v=0;
+    for(const [mx] of means) v += Math.exp(-0.5*((x-mx)/s)**2);
+    xs.push(x); ys.push(v);
+  }
+  const mx=Math.max(...ys);
+  marginalCache={xs, ys:ys.map(v=>v/mx)};
+}
+
+// ====================================================================
+//  SAMPLERS
+// ====================================================================
+function gaussian(){ // Box-Muller
+  let u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+}
+function mhStep(){
+  const s=sigma();
+  const px=cur[0]+s*gaussian(), py=cur[1]+s*gaussian();
+  const logA = logTarget(px,py)-logTarget(cur[0],cur[1]);
+  const accept = Math.log(Math.random()) < logA;
+  nTot++;
+  lastProposal={x:px,y:py,accepted:accept};
+  if(accept){ cur=[px,py]; nAcc++; }
+  recordSample();
+}
+function gibbsStep(){
+  // resample x | y then y | x. Conditional along an axis is a 1-D GMM:
+  // pick a component by its responsibility at the fixed coordinate, draw from it.
+  // Gibbs moves ONE coordinate at a time, so the drawn path must be L-shaped
+  // (horizontal x-move, then vertical y-move) — never a diagonal. We push the
+  // intermediate (newX, oldY) waypoint into the trail so the canvas shows the L.
+  const s=BLOB_SIGMA;
+  // x | y  (horizontal move: x changes, y fixed)
+  {
+    let logws=means.map(([mx,my])=> -0.5*((cur[1]-my)/s)**2);
+    const k=sampleCategorical(logws);
+    cur=[means[k][0]+s*gaussian(), cur[1]];
+  }
+  // record the corner of the L (after the horizontal move, before the vertical)
+  fullTrail.push([cur[0],cur[1]]); if(fullTrail.length>400) fullTrail.shift();
+  // y | x  (vertical move: y changes, x fixed)
+  {
+    let logws=means.map(([mx,my])=> -0.5*((cur[0]-mx)/s)**2);
+    const k=sampleCategorical(logws);
+    cur=[cur[0], means[k][1]+s*gaussian()];
+  }
+  nTot++; nAcc++;   // Gibbs always "accepts"
+  lastProposal={x:cur[0],y:cur[1],accepted:true};
+  recordSample();
+}
+function sampleCategorical(logws){
+  const m=Math.max(...logws);
+  const ws=logws.map(l=>Math.exp(l-m));
+  const Z=ws.reduce((a,b)=>a+b,0);
+  let u=Math.random()*Z, c=0;
+  for(let i=0;i<ws.length;i++){ c+=ws[i]; if(u<=c) return i; }
+  return ws.length-1;
+}
+function recordSample(){
+  traceHist.push(cur[0]); if(traceHist.length>400) traceHist.shift();
+  samples.push(cur[0]);
+  modeVisits[nearestMode(cur[0],cur[1])]++;
+  fullTrail.push([cur[0],cur[1]]); if(fullTrail.length>400) fullTrail.shift();
+}
+function doStep(){ (elAlgo.value==="gibbs"?gibbsStep:mhStep)(); }
+
+// ====================================================================
+//  DRAWING
+// ====================================================================
+function drawTrajectory(){
+  const w=trajC.width, h=trajC.height;
+  trajX.fillStyle=COL.bg; trajX.fillRect(0,0,w,h);
+  if(elShowDensity.checked && densityCache) trajX.putImageData(densityCache,0,0);
+  // faded trail of recent accepted states
+  if(fullTrail.length>1){
+    for(let i=1;i<fullTrail.length;i++){
+      const a=Math.max(0.06, i/fullTrail.length);
+      const [x0,y0]=dataToPix(fullTrail[i-1][0],fullTrail[i-1][1],w,h);
+      const [x1,y1]=dataToPix(fullTrail[i][0],fullTrail[i][1],w,h);
+      trajX.strokeStyle=`rgba(255,235,59,${0.10+0.5*a})`;
+      trajX.lineWidth=1.3;
+      trajX.beginPath(); trajX.moveTo(x0,y0); trajX.lineTo(x1,y1); trajX.stroke();
+    }
+  }
+  // current proposal
+  if(elShowProp.checked && lastProposal){
+    const [cx,cy]=dataToPix(cur[0],cur[1],w,h);
+    if(elAlgo.value==="mh"){
+      const rpix = sigma()/(2*DOMAIN)*w;
+      trajX.strokeStyle="rgba(77,208,225,0.7)"; trajX.lineWidth=1.4;
+      trajX.beginPath(); trajX.arc(cx,cy,rpix,0,2*Math.PI); trajX.stroke();
+      const [px,py]=dataToPix(lastProposal.x,lastProposal.y,w,h);
+      trajX.strokeStyle=lastProposal.accepted?COL.green:COL.red; trajX.lineWidth=2.2;
+      trajX.beginPath(); trajX.moveTo(cx,cy); trajX.lineTo(px,py); trajX.stroke();
+      trajX.fillStyle=lastProposal.accepted?COL.green:COL.red;
+      trajX.beginPath(); trajX.arc(px,py,5,0,2*Math.PI); trajX.fill();
+    }
+  }
+  // current point
+  const [cx,cy]=dataToPix(cur[0],cur[1],w,h);
+  trajX.fillStyle=COL.yellow;
+  trajX.beginPath(); trajX.arc(cx,cy,7,0,2*Math.PI); trajX.fill();
+  trajX.strokeStyle="#000"; trajX.lineWidth=1.5; trajX.stroke();
+}
+
+function drawTrace(){
+  const w=traceC.width, h=traceC.height;
+  traceX.fillStyle=COL.bg; traceX.fillRect(0,0,w,h);
+  // mode reference lines
+  traceX.strokeStyle="#2a2a33"; traceX.lineWidth=1;
+  const uniqX=[...new Set(means.map(m=>m[0]))];
+  for(const mx of uniqX){
+    const y = h - (mx+DOMAIN)/(2*DOMAIN)*h;
+    traceX.beginPath(); traceX.moveTo(0,y); traceX.lineTo(w,y); traceX.stroke();
+  }
+  if(traceHist.length>1){
+    traceX.strokeStyle=COL.accent; traceX.lineWidth=1.6; traceX.beginPath();
+    for(let i=0;i<traceHist.length;i++){
+      const x = i/(traceHist.length-1)*w;
+      const y = h - (traceHist[i]+DOMAIN)/(2*DOMAIN)*h;
+      i?traceX.lineTo(x,y):traceX.moveTo(x,y);
+    }
+    traceX.stroke();
+  }
+}
+
+function drawHist(){
+  const w=histC.width, h=histC.height, pad=4;
+  histX.fillStyle=COL.bg; histX.fillRect(0,0,w,h);
+  const NB=48;
+  const bins=new Array(NB).fill(0);
+  for(const x of samples){
+    let b=Math.floor((x+DOMAIN)/(2*DOMAIN)*NB);
+    b=Math.max(0,Math.min(NB-1,b)); bins[b]++;
+  }
+  const mx=Math.max(1,...bins);
+  histX.fillStyle="rgba(100,181,246,0.75)";
+  for(let i=0;i<NB;i++){
+    const bh=bins[i]/mx*(h-2*pad);
+    histX.fillRect(i/NB*w, h-pad-bh, w/NB-1, bh);
+  }
+  // true marginal overlay
+  if(marginalCache){
+    histX.strokeStyle=COL.yellow; histX.lineWidth=2.2; histX.beginPath();
+    for(let i=0;i<marginalCache.xs.length;i++){
+      const x=(marginalCache.xs[i]+DOMAIN)/(2*DOMAIN)*w;
+      const y=h-pad-marginalCache.ys[i]*(h-2*pad);
+      i?histX.lineTo(x,y):histX.moveTo(x,y);
+    }
+    histX.stroke();
+  }
+}
+
+function drawReadouts(){
+  const ratio = nTot? nAcc/nTot : 0;
+  const el=$("acc");
+  el.textContent = nTot? ratio.toFixed(2) : "—";
+  if(elAlgo.value==="gibbs"){ el.textContent="n/a"; el.style.color=COL.dim; }
+  else el.style.color = (ratio>=0.2 && ratio<=0.5)? COL.green
+                       : (ratio<0.1 || ratio>0.85)? COL.red : COL.orange;
+  $("meta").textContent = "n = "+nTot;
+  const visited = modeVisits.filter(c=>c>0).length;
+  $("modeMeta").textContent = `modes visited: ${visited} / ${means.length}`;
+  $("modeMeta").style.color = (visited===means.length)? COL.green : COL.teal;
+}
+
+function redraw(){ drawTrajectory(); drawTrace(); drawHist(); drawReadouts(); }
+
+// ====================================================================
+//  RUN LOOP
+// ====================================================================
+function loop(){
+  if(!running) return;
+  const perFrame=Math.max(1, Math.round(parseInt(elSpeed.value)/3));
+  for(let i=0;i<perFrame;i++) doStep();
+  redraw();
+  requestAnimationFrame(loop);
+}
+
+// ====================================================================
+//  RESET / SETUP
+// ====================================================================
+function reset(reseedStart=true){
+  means=TARGETS[elTarget.value];
+  if(reseedStart){
+    const m=means[Math.floor(Math.random()*means.length)];
+    cur=[m[0]+0.2*gaussian(), m[1]+0.2*gaussian()];
+  }
+  nAcc=0; nTot=0; traceHist=[]; samples=[]; fullTrail=[[cur[0],cur[1]]];
+  modeVisits=new Array(means.length).fill(0);
+  lastProposal=null;
+  buildDensity(); buildMarginal();
+  redraw();
+}
+
+function resizeCanvases(){
+  for(const c of [trajC,traceC,histC]){
+    const r=c.parentElement.getBoundingClientRect();
+    c.width=Math.max(50,Math.floor(r.width));
+    c.height=Math.max(40,Math.floor(r.height));
+  }
+  buildDensity(); redraw();
+}
+
+// auto-seed: draw a short pre-run so the static (decktape/PDF) frame is meaningful
+function autoSeed(){
+  reset(true);
+  for(let i=0;i<60;i++) doStep();
+  redraw();
+}
+
+// ====================================================================
+//  EVENTS
+// ====================================================================
+elRun.onclick=()=>{ running=!running; elRun.textContent=running?"⏸ Pause":"▶ Run"; if(running) loop(); };
+$("step").onclick=()=>{ doStep(); redraw(); };
+$("reset").onclick=()=>{ running=false; elRun.textContent="▶ Run"; reset(true); };
+elSigma.oninput=()=>{ elSigmaVal.textContent=sigma().toFixed(2); redraw(); };
+elAlgo.onchange=()=>{ elSigmaWrap.classList.toggle("disabled", elAlgo.value==="gibbs"); reset(true); };
+elTarget.onchange=()=>reset(true);
+elShowDensity.onchange=redraw; elShowProp.onchange=redraw;
+
+// Click-to-set-state: clicking the trajectory plot teleports the chain to that
+// point and continues from there. The jump is recorded as the new current
+// state (trail + trace + histogram all pick up from the clicked location), so
+// you can drop the chain into a far mode and watch whether it escapes.
+function jumpTo(dx,dy){
+  cur=[dx,dy];
+  lastProposal=null;          // the jump isn't a proposal; clear the accept/reject arrow
+  fullTrail.push([dx,dy]); if(fullTrail.length>400) fullTrail.shift();
+  traceHist.push(dx); if(traceHist.length>400) traceHist.shift();
+  // intentionally NOT pushed to `samples`/`modeVisits`: a manual teleport is an
+  // external intervention, not a draw from the chain, so it shouldn't bias the
+  // histogram or the acceptance/mode tallies.
+  redraw();
+}
+trajC.style.cursor="crosshair";
+trajC.addEventListener("pointerdown",e=>{
+  const r=trajC.getBoundingClientRect();
+  // map CSS click coords -> canvas-internal pixels (canvas may be scaled by CSS)
+  const px=(e.clientX-r.left)*(trajC.width/r.width);
+  const py=(e.clientY-r.top)*(trajC.height/r.height);
+  const [dx,dy]=pixToData(px,py,trajC.width,trajC.height);
+  // clamp into the domain so a click on the edge still lands on a valid state
+  const c=v=>Math.max(-DOMAIN,Math.min(DOMAIN,v));
+  jumpTo(c(dx),c(dy));
+});
+
+window.addEventListener("resize",resizeCanvases);
+window.addEventListener("keydown",e=>{ if(e.code==="Space"){e.preventDefault(); elRun.click();} });
+
+// ====================================================================
+//  INIT
+// ====================================================================
+window.addEventListener("load",()=>{
+  resizeCanvases();
+  elSigmaVal.textContent=sigma().toFixed(2);
+  autoSeed();
+});
+</script>
+</body>
+</html>

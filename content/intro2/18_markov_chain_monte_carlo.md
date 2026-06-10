@@ -183,7 +183,30 @@ small step, started RIGHT: fraction in left mode = 0.19
 the two disagree -> the chain has NOT mixed (each is trapped near its start)
 ```
 
-The two runs flatly disagree — one thinks the target lives mostly on the left, the other mostly elsewhere — because the small step can never cross the low-probability valley between the peaks. Each chain is stuck in whichever mode it started in. Crucially, the *local* acceptance rate looks perfectly healthy; the chain is happily accepting moves, just never the ones that would carry it across. **Good local acceptance does not imply good global mixing.** This is why multimodal posteriors are hard, and why diagnosing mixing — running multiple chains from different starts and checking they agree — matters. The interactive Gibbs/MH visualization that accompanies this material lets you *watch* a chain get trapped between modes; it is worth playing with.
+The two runs flatly disagree — one thinks the target lives mostly on the left, the other mostly elsewhere — because the small step can never cross the low-probability valley between the peaks. Each chain is stuck in whichever mode it started in. Crucially, the *local* acceptance rate looks perfectly healthy; the chain is happily accepting moves, just never the ones that would carry it across. **Good local acceptance does not imply good global mixing.** This is why multimodal posteriors are hard, and why diagnosing mixing — running multiple chains from different starts and checking they agree — matters.
+
+### Interactive: Watch a Chain Mix (or Get Trapped)
+
+Everything in this section you can now *see*. The visualization below runs Metropolis–Hastings or Gibbs live on a **multimodal 2-D Gaussian mixture** (four well-separated blobs). The left panel shows the target density, the chain's trail, and — for MH — the proposal circle with each proposal colored **green (accepted)** or **red (rejected)**. The top-right panel is the **trace** (the x-coordinate against iteration: flat = stuck, hopping between levels = mixing); the bottom-right is the accumulated **histogram** against the true marginal. The readout in the corner gives the live **acceptance ratio** and a **modes-visited** counter — the honest "did it actually explore?" number.
+
+<iframe src="../../widgets/mcmc-gmm.html"
+        width="100%" height="620"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Interactive MCMC demo: Metropolis-Hastings and Gibbs on a multimodal 2-D Gaussian mixture">
+</iframe>
+
+{{% notice style="info" title="Drive it yourself — five experiments" %}}
+Keep the default **4 blobs (separated)** target and hit **Reset** before each experiment.
+
+1. **Gibbs baseline.** Sampler = Gibbs, Run. Watch the axis-aligned L-shaped moves (acceptance doesn't apply — Gibbs always accepts) and the modes-visited counter climb to **4/4**.
+2. **Tiny step.** Sampler = MH, proposal σ ≈ **0.05**, Run. The acceptance ratio sits near **0.94** — yet the chain is **stuck in one mode**, inching around in a slow random walk. *High acceptance ≠ good mixing.*
+3. **Huge step.** σ ≈ **4.0**, Run. Now almost every proposal lands in a low-probability void and is rejected (acceptance ≈ **0.05**); the chain barely moves at all. Too-big steps are just as bad.
+4. **Goldilocks.** σ ≈ **0.4–0.6**, Run. Acceptance around **0.5** and brisk exploration — *within* its mode.
+5. **The trap (the punchline).** Keep that good σ and just let it run. The acceptance stays healthy — but watch **modes visited stay 1/4** and the histogram fill in only one peak, while Gibbs (experiment 1) reached all four. The acceptance number can look perfect while the chain has explored almost nothing: **good local acceptance does not imply good global mixing.**
+{{% /notice %}}
+
+(The same widget is used live in lecture; it is a single offline HTML file, so you can also [open it full-screen](../../widgets/mcmc-gmm.html) to drive it with more room.)
 
 ---
 
