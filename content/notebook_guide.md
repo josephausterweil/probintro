@@ -1,5 +1,5 @@
 +++
-date = "2026-06-03"
+date = "2026-06-10"
 title = "Interactive Notebooks - All Tutorials"
 weight = 99
 +++
@@ -361,6 +361,82 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 
 ---
 
+### Monte Carlo
+**Notebook**: [📓 Open in Colab: `16_monte_carlo.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/16_monte_carlo.ipynb)
+
+**What it covers:**
+- The Monte Carlo estimator: averaging a die roll to 3.5, estimating π by throwing darts
+- Rejection sampling and the indicator function; importance sampling with weights $w = p/q$
+- Self-normalized importance sampling (unnormalized posteriors) and the effective sample size
+- GenJAX importance sampling via `model.importance`
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 16: Monte Carlo](../intro2/16_monte_carlo/)
+
+**Topics:**
+- Estimating expectations and probabilities by sampling; the $1/\sqrt{n}$ rate
+- Rejection sampling, inverse-CDF, importance sampling
+- Effective sample size as a proposal-quality diagnostic
+
+---
+
+### Particle Filtering
+**Notebook**: [📓 Open in Colab: `17_particle_filtering.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/17_particle_filtering.ipynb)
+
+**What it covers:**
+- Tracking Chibany down a corridor from noisy sensor pings
+- The particle filter loop — weight, resample, propagate — and what each step does
+- Weight degeneracy and why resampling is the cure (ESS collapsing without it)
+- The GenJAX motion model as the propagate step
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 17: Particle Filtering](../intro2/17_particle_filtering/)
+
+**Topics:**
+- State-space models; sequential importance sampling
+- Weight → resample → propagate; degeneracy
+- Particle filters as a process model of human inference
+
+---
+
+### Markov Chain Monte Carlo
+**Notebook**: [📓 Open in Colab: `18_markov_chain_monte_carlo.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/18_markov_chain_monte_carlo.ipynb)
+
+**What it covers:**
+- Metropolis–Hastings on a bimodal target; why the normalizer cancels
+- Gibbs sampling on a correlated 2-D Gaussian (always accepts)
+- Mixing, burn-in, and the multimodal trap (a trapped chain from two starts)
+- Assembling an MH step in GenJAX from the `assess` scoring primitive
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/)
+
+**Topics:**
+- Designing a chain to hit a target; detailed balance
+- Metropolis–Hastings and Gibbs sampling
+- Burn-in, mixing, and multimodal targets
+
+---
+
+### Sampling the Mind
+**Notebook**: [📓 Open in Colab: `19_sampling_the_mind.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/19_sampling_the_mind.ipynb)
+
+**What it covers:**
+- MCMC with People: a person's choices as the Metropolis accept step
+- A hybrid Gibbs–Metropolis sampler for the hierarchical Beta-Binomial (bento shops)
+- The Beta-Binomial marginal (collapsing θ out) and the mean/concentration reparametrization
+- Reading off a predictive for a brand-new, unseen unit
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/)
+
+**Topics:**
+- MCMC with People; recovering a prior from choices
+- Hybrid Gibbs + Metropolis on a hierarchical model
+- Beta-Binomial conjugacy and the collapsed sampler
+
+---
+
 ## Recommended Learning Paths
 
 ### Path 1: Complete Beginner
@@ -395,6 +471,12 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 1. `13_markov_chains.ipynb` - Transition matrices and the stationary distribution
 2. `14_random_walks_networks.ipynb` - Random walks on graphs, π ∝ degree, PageRank
 3. `15_memory_search.ipynb` - Recall as a censored random walk on a semantic network
+
+### Path 6: Sampling & Monte Carlo
+1. `16_monte_carlo.ipynb` - Estimating by sampling; importance sampling and effective sample size
+2. `17_particle_filtering.ipynb` - Streaming inference; weight → resample → propagate
+3. `18_markov_chain_monte_carlo.ipynb` - Designing a chain to hit a target; Metropolis–Hastings and Gibbs
+4. `19_sampling_the_mind.ipynb` - MCMC with People and a sampler for the hierarchical Beta-Binomial
 
 ---
 
@@ -442,6 +524,10 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `13_markov_chains.ipynb` | Tutorial 3 | Markov chains, stationary distribution | ⭐⭐⭐ Advanced |
 | `14_random_walks_networks.ipynb` | Tutorial 3 | Random walks, PageRank, π ∝ degree | ⭐⭐⭐ Advanced |
 | `15_memory_search.ipynb` | Tutorial 3 | Censored walk, memory fluency | ⭐⭐⭐ Advanced |
+| `16_monte_carlo.ipynb` | Tutorial 3 | Monte Carlo, importance sampling, ESS | ⭐⭐⭐ Advanced |
+| `17_particle_filtering.ipynb` | Tutorial 3 | Particle filters, sequential inference | ⭐⭐⭐ Advanced |
+| `18_markov_chain_monte_carlo.ipynb` | Tutorial 3 | Metropolis–Hastings, Gibbs, mixing | ⭐⭐⭐ Advanced |
+| `19_sampling_the_mind.ipynb` | Tutorial 3 | MCMC with People, Kemp hierarchy sampler | ⭐⭐⭐⭐ Expert |
 
 ---
 

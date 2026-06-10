@@ -1,5 +1,5 @@
 +++
-date = "2026-06-03"
+date = "2026-06-10"
 title = "Memory Search as a Random Walk"
 weight = 15
 +++
@@ -391,7 +391,7 @@ The model opens two doors worth naming, both active research:
 
 **The toolkit.** You don't have to implement any of this from scratch. **SNAFU** — the *Semantic Network and Fluency Utility* — is an open-source Python package that automates fluency analysis (cluster sizes, switches, intrusions, perseverations) and implements U-INVITE and the other network estimators side by side. It's on GitHub at [`github.com/AusterweilLab/snafu-py`](https://github.com/AusterweilLab/snafu-py) (`pip install git+https://github.com/AusterweilLab/snafu-py`), and the accompanying paper is Zemla, Cao, Mueller & Austerweil (2020), *SNAFU: The Semantic Network and Fluency Utility*, **Behavior Research Methods** 52(4), 1681–1699 ([doi:10.3758/s13428-019-01343-w](https://doi.org/10.3758/s13428-019-01343-w)).
 
-**Sampling on purpose.** Throughout these three chapters we have *run* a chain and watched where it settles — using a Markov chain to *estimate* a distribution. That is **Monte Carlo**, and it is the subject of the next part of the course. The twist: instead of being handed a chain and finding its stationary distribution, we will start from a distribution we *want* to sample (a Bayesian posterior) and **design a chain whose stationary distribution is that target** — *Markov chain Monte Carlo* (MCMC). The walk you just used to model memory is the same tool, pointed the other way.
+**Sampling on purpose.** Throughout these three chapters we have *run* a chain and watched where it settles — using a Markov chain to *estimate* a distribution. That is **Monte Carlo**, and it is the subject of the next part of the course. [Chapter 16](../16_monte_carlo/) starts there: estimate an expectation — or a whole posterior — by *sampling and averaging*. Then [Chapter 18](../18_markov_chain_monte_carlo/) supplies the twist that brings the chain back: instead of being handed a chain and finding its stationary distribution, we start from a distribution we *want* to sample (a Bayesian posterior) and **design a chain whose stationary distribution is that target** — *Markov chain Monte Carlo* (MCMC). The walk you just used to model memory is the same tool, pointed the other way.
 {{% /notice %}}
 
 ---

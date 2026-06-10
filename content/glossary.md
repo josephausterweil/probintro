@@ -1,5 +1,5 @@
 +++
-date = "2026-06-03"
+date = "2026-06-10"
 title = "Glossary - All Tutorials"
 weight = 100
 +++
@@ -333,13 +333,11 @@ An inference method that approximates the posterior distribution by:
 trace, log_weight = target.importance(key, choicemap)
 ```
 
-**Key concept**: Effective sample size (ESS) measures how well the weights are distributed. ESS close to the number of samples is good; ESS of 1 means only one sample has meaningful weight (bad).
+**Key concept**: the [effective sample size](#effective-sample-size-) measures how well the weights are distributed. It is close to the number of samples when the proposal matches the target, and near 1 when a single sample dominates. The [importance weight](#importance-weight-) $w = p/q$ is the core correction.
 
-**Formula**: $\text{ESS} = \frac{(\sum w_i)^2}{\sum w_i^2}$
+**Used in 📊**: Posterior inference for Bayesian models, DPMM; introduced in full in [Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#importance-sampling-sample-the-wrong-distribution) (self-normalized form, likelihood weighting), and the sequential version drives the [particle filter](#particle-filter-) of [Chapter 17](../intro2/17_particle_filtering/).
 
-**Used in 📊**: Posterior inference for Bayesian models, DPMM
-
-**See also**: Target, Weight degeneracy
+**See also**: [Importance Weight](#importance-weight-), [Effective Sample Size](#effective-sample-size-), [Proposal Distribution](#proposal-distribution-), [Target](#target-), [Weight Degeneracy](#weight-degeneracy-)
 {{% /expand %}}
 
 ### JAX Key 💻
@@ -389,7 +387,9 @@ probability = event_count / 10000
 
 **When useful:** When outcome spaces are too large to enumerate by hand
 
-**See also**: vmap, Trace
+**Developed in 📊**: [Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#the-monte-carlo-estimator) builds the estimator $\hat\mu_n$ from the ground up (die rolls, $\pi$-by-darts), with its $1/\sqrt{n}$ error rate, [rejection sampling](#rejection-sampling-), and [importance sampling](#importance-sampling-).
+
+**See also**: [vmap](#vmap-), [Trace](#trace-), [Importance Sampling](#importance-sampling-), [Rejection Sampling](#rejection-sampling-), [Effective Sample Size](#effective-sample-size-)
 {{% /expand %}}
 
 ### Normal Distribution 💻📊
@@ -1251,9 +1251,9 @@ ESS = 1.0 / sum(w**2 for w in normalized_weights)
 - Different inference method (MCMC)
 - Fix model (e.g., remove extra randomization)
 
-**Tutorial 3, Chapter 6**: The DPMM notebook had weight degeneracy (ESS=1/10) due to double randomization bug, which was fixed
+**Tutorial 3, Chapter 6**: The DPMM notebook had weight degeneracy (ESS=1/10) due to double randomization bug, which was fixed. In the streaming setting it is the reason a [particle filter](#particle-filter-) must [resample](#resampling-) every step ([Chapter 17](../intro2/17_particle_filtering/#resampling-and-degeneracy)).
 
-**See also**: Importance Sampling, Effective Sample Size
+**See also**: [Importance Sampling](#importance-sampling-), [Effective Sample Size](#effective-sample-size-), [Resampling](#resampling-), [Particle Filter](#particle-filter-)
 {{% /expand %}}
 
 ### Surprise (Information Content) 📊
@@ -1413,9 +1413,9 @@ A Markov chain is *ergodic* when you can reach any state from any other (possibl
 
 **Useful fact:** any chain can be made ergodic by adding a small probability $\varepsilon$ of jumping to any state — the trick that makes [PageRank](#pagerank-) well-defined (its "teleport" / damping term).
 
-**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#why-the-start-doesnt-matter-ergodicity); the ε-trick reused in [Chapter 14](../intro2/14_random_walks_networks/#pagerank-the-same-π-at-web-scale).
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#why-the-start-doesnt-matter-ergodicity); the ε-trick reused in [Chapter 14](../intro2/14_random_walks_networks/#pagerank-the-same-π-at-web-scale); reused as the forgetting-the-start basis of MCMC **mixing** in [Chapter 18](../intro2/18_markov_chain_monte_carlo/#mixing-burn-in-and-the-multimodal-trap).
 
-**See also:** [Stationary Distribution](#stationary-distribution-), [PageRank](#pagerank-)
+**See also:** [Stationary Distribution](#stationary-distribution-), [PageRank](#pagerank-), [Mixing](#mixing-), [Burn-in](#burn-in-)
 {{% /expand %}}
 
 ### Random Walk 📊
@@ -1471,6 +1471,143 @@ In the random-walk model of memory search (Abbott, Austerweil & Griffiths 2012),
 **Appears in:** [Tutorial 3, Chapter 15: Memory Search](../intro2/15_memory_search/#the-censoring-function)
 
 **See also:** [Random Walk](#random-walk-), [Semantic Network](#semantic-network-)
+{{% /expand %}}
+
+### Importance Weight 📊
+{{% expand "Importance Weight" %}}
+When you sample from a **proposal** $q$ instead of the **target** $p$ you care about, the *importance weight* $w(x) = p(x)/q(x)$ corrects the mismatch, so that a weighted average under $q$ estimates an expectation under $p$: $\mathbb{E}_p[f] = \mathbb{E}_q[f \cdot w]$.
+
+**Good vs. bad weights:** a proposal that resembles the target gives weights near 1 (even, healthy); a mismatched proposal gives a few huge weights and many near-zero ones (the estimate gets noisy). The [effective sample size](#effective-sample-size-) measures this.
+
+**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#importance-sampling-sample-the-wrong-distribution)
+
+**See also:** [Importance Sampling](#importance-sampling-), [Proposal Distribution](#proposal-distribution-), [Effective Sample Size](#effective-sample-size-)
+{{% /expand %}}
+
+### Effective Sample Size 📊
+{{% expand "Effective Sample Size" %}}
+For a set of normalized weights $w_t$ (summing to 1), the *effective sample size* is $N_{\text{eff}} = 1 / \sum_t w_t^2$. It answers "my $T$ weighted samples are worth how many equally-weighted ones?"
+
+**Two limits:** perfectly even weights give $N_{\text{eff}} = T$ (every sample counts); one dominating weight gives $N_{\text{eff}} \approx 1$. It is a **diagnostic of how well the proposal $q$ matches the target $p$** — not a direct measure of an estimate's accuracy.
+
+**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#effective-sample-size); the streaming version (weight degeneracy) in [Chapter 17: Particle Filtering](../intro2/17_particle_filtering/#resampling-and-degeneracy).
+
+**See also:** [Importance Weight](#importance-weight-), [Importance Sampling](#importance-sampling-), [Weight Degeneracy](#weight-degeneracy-), [Resampling](#resampling-)
+{{% /expand %}}
+
+### Rejection Sampling 📊
+{{% expand "Rejection Sampling" %}}
+A way to sample from a target density $p$ you can *evaluate* but not directly draw from: put an easy **envelope** over $p$, throw points uniformly under the envelope, and **keep only those that fall under $p$**. The survivors are exact samples from $p$.
+
+**Trade-off:** if the envelope is much larger than the area under $p$, most proposals are rejected — wasted work. That inefficiency is what [importance sampling](#importance-sampling-) avoids by *reweighting* instead of rejecting.
+
+**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#when-you-cant-sample-p-rejection-and-inverse-cdf)
+
+**See also:** [Importance Sampling](#importance-sampling-), [Monte Carlo Simulation](#monte-carlo-simulation-)
+{{% /expand %}}
+
+### Proposal Distribution 📊
+{{% expand "Proposal Distribution" %}}
+In importance sampling and MCMC, the *proposal* $q$ is the distribution you actually draw from — usually one that is easy to sample — as a stand-in for a **target** that is hard. In importance sampling you correct for the swap with the [importance weight](#importance-weight-) $p/q$; in [Metropolis–Hastings](#metropolishastings-) the proposal generates a *candidate* next state that is then accepted or rejected.
+
+**Choosing it well:** a proposal close to the target keeps weights even (importance sampling) or mixing fast (MCMC); a poor proposal wrecks both.
+
+**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#importance-sampling-sample-the-wrong-distribution) and [Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#metropolishastings).
+
+**See also:** [Importance Weight](#importance-weight-), [Metropolis–Hastings](#metropolishastings-), [Acceptance Ratio](#acceptance-ratio-)
+{{% /expand %}}
+
+### Particle Filter 📊
+{{% expand "Particle Filter" %}}
+A method for **streaming** inference about a hidden state that changes over time. It represents the posterior with a swarm of weighted samples (*particles*) and updates them each time new data arrive by looping **weight → resample → propagate** — *sequential importance sampling* with a resampling step. The guiding idea: *yesterday's posterior is today's prior.*
+
+**As a process model:** a *small* particle filter — a handful of guesses updated left-to-right — predicts human limited memory, order effects, and run-to-run variability.
+
+**Appears in:** [Tutorial 3, Chapter 17: Particle Filtering](../intro2/17_particle_filtering/)
+
+**See also:** [Importance Sampling](#importance-sampling-), [Resampling](#resampling-), [Effective Sample Size](#effective-sample-size-)
+{{% /expand %}}
+
+### Resampling 📊
+{{% expand "Resampling" %}}
+In a [particle filter](#particle-filter-), *resampling* draws a new set of particles from the current ones *with probability proportional to their weights* (a Categorical draw of indices): heavy particles are cloned, light ones culled, and all weights reset to equal.
+
+**Why it's needed:** without it, weights multiply over time until one particle carries everything — *weight degeneracy*, measured by a collapsing [effective sample size](#effective-sample-size-). Resampling concentrates the swarm where the action is and keeps the filter useful indefinitely.
+
+**Appears in:** [Tutorial 3, Chapter 17: Particle Filtering](../intro2/17_particle_filtering/#sequential-importance-sampling)
+
+**See also:** [Particle Filter](#particle-filter-), [Weight Degeneracy](#weight-degeneracy-), [Effective Sample Size](#effective-sample-size-)
+{{% /expand %}}
+
+### Markov Chain Monte Carlo (MCMC) 📊
+{{% expand "Markov Chain Monte Carlo (MCMC)" %}}
+A family of methods that sample from a target distribution $\pi$ (typically a hard-to-sample Bayesian posterior) by **designing a Markov chain whose [stationary distribution](#stationary-distribution-) is exactly $\pi$**, then running it and collecting the states it visits. It runs [Chapter 13](../intro2/13_markov_chains/)'s logic backwards: instead of being handed a chain and finding its $\pi$, you start from the $\pi$ you want and build the chain.
+
+**Workhorses:** [Metropolis–Hastings](#metropolishastings-) (propose + accept/reject) and [Gibbs sampling](#gibbs-sampling-) (resample a coordinate from its conditional).
+
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/) and [Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/).
+
+**See also:** [Metropolis–Hastings](#metropolishastings-), [Gibbs Sampling](#gibbs-sampling-), [Stationary Distribution](#stationary-distribution-), [Burn-in](#burn-in-), [Mixing](#mixing-)
+{{% /expand %}}
+
+### Metropolis–Hastings 📊
+{{% expand "Metropolis-Hastings" %}}
+The most general MCMC recipe. From the current state $x$: **propose** a candidate $x'$ from a [proposal distribution](#proposal-distribution-), then accept it with probability given by the [acceptance ratio](#acceptance-ratio-) $A = \min(1, P(x')/P(x))$ (for a symmetric proposal); otherwise stay at $x$.
+
+**Why it works:** the rule forces *detailed balance* with respect to $P$, so $P$ is the chain's stationary distribution. Because only the **ratio** $P(x')/P(x)$ appears, the normalizer cancels — you can sample an *unnormalized* posterior.
+
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#metropolishastings) and [Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/).
+
+**See also:** [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-), [Acceptance Ratio](#acceptance-ratio-), [Proposal Distribution](#proposal-distribution-), [Gibbs Sampling](#gibbs-sampling-)
+{{% /expand %}}
+
+### Acceptance Ratio 📊
+{{% expand "Acceptance Ratio" %}}
+In [Metropolis–Hastings](#metropolishastings-), the probability of moving to a proposed state $x'$ from the current $x$: $A = \min\left(1, \frac{P(x')}{P(x)}\right)$ for a symmetric proposal. **Uphill** moves ($P(x') > P(x)$) are always accepted; **downhill** moves are accepted in proportion to their relative height.
+
+**Key feature:** only the *ratio* of target probabilities matters, so any normalizing constant cancels — the reason MCMC works on posteriors known only up to their evidence $p(\text{data})$.
+
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#metropolishastings)
+
+**See also:** [Metropolis–Hastings](#metropolishastings-), [Proposal Distribution](#proposal-distribution-)
+{{% /expand %}}
+
+### Gibbs Sampling 📊
+{{% expand "Gibbs Sampling" %}}
+An MCMC method that updates **one coordinate at a time**, drawing each from its exact full conditional $P(x_i \mid x_{-i})$ (the distribution of $x_i$ given the current values of all other coordinates). It **never rejects** — sampling from the true conditional automatically satisfies detailed balance — but requires those conditionals to be available, which they are when the model is built from **[conjugate](#conjugate-prior-)** pieces.
+
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#gibbs-sampling) and [Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/#step-1--gibbs-the-θᵢ-conjugate).
+
+**See also:** [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-), [Metropolis–Hastings](#metropolishastings-), [Conjugate Prior](#conjugate-prior-)
+{{% /expand %}}
+
+### Burn-in 📊
+{{% expand "Burn-in" %}}
+The initial portion of an MCMC run, *discarded* before collecting samples. Those early states reflect the chain's arbitrary starting point rather than the target distribution; once the chain has **mixed** (forgotten its start), the remaining states approximate the target and are kept.
+
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#mixing-burn-in-and-the-multimodal-trap)
+
+**See also:** [Mixing](#mixing-), [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-), [Ergodicity](#ergodicity-)
+{{% /expand %}}
+
+### Mixing 📊
+{{% expand "Mixing" %}}
+An MCMC chain has *mixed* when it has forgotten its starting point and is exploring the whole target distribution — the same forgetting-the-start property as [ergodicity](#ergodicity-). A well-mixed chain run from different starts gives the same answer.
+
+**The trap:** on a **multimodal** target, a chain can have a perfectly healthy local acceptance rate yet stay stuck in one mode, never crossing the low-probability valleys between peaks. *Good local acceptance does not imply good global mixing* — which is why running multiple chains from different starts and checking they agree matters.
+
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#mixing-burn-in-and-the-multimodal-trap)
+
+**See also:** [Burn-in](#burn-in-), [Ergodicity](#ergodicity-), [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-)
+{{% /expand %}}
+
+### MCMC with People 📊
+{{% expand "MCMC with People" %}}
+A method (Sanborn & Griffiths, 2007) that treats a *person* as the accept step of a Metropolis sampler: show them two options, let them choose, repeat. If the person accepts in proportion to their own posterior, the chain of choices converges to that posterior — and with no data to fit, it converges to the **prior in their head**. Run on cartoon animals, it recovers people's mental category prototypes.
+
+**Appears in:** [Tutorial 3, Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/#when-a-person-is-the-accept-step)
+
+**See also:** [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-), [Metropolis–Hastings](#metropolishastings-), [Prior Distribution](#prior-distribution-)
 {{% /expand %}}
 
 ---

@@ -1,5 +1,5 @@
 +++
-date = "2026-06-03"
+date = "2026-06-10"
 title = "Continuous Probability and Bayesian Learning"
 # NOTE: Ch7 (Bayesian Generalization) is a page bundle: content/intro2/07_generalization/ with
 #   _index.md (overview) + 4 part pages. The mermaid node below is a diagram label, not a link.
@@ -47,13 +47,16 @@ graph TB
     L --> M[13. Markov Chains]
     M --> N[14. Random Walks on Networks]
     N --> O[15. Memory Search]
+    O --> P[16. Monte Carlo]
+    P --> Q[17. Particle Filtering]
+    Q --> R[18. MCMC]
+    R --> S[19. Sampling the Mind]
 
     style B fill:#27ae60
     style D fill:#27ae60
     style E fill:#27ae60
     style G fill:#27ae60
     style L fill:#27ae60
-    style S fill:#555,stroke-dasharray: 5 5
 
     classDef foundational fill:#27ae60,stroke:#333,stroke-width:2px,color:#fff
 ```
@@ -158,6 +161,30 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - The censoring function: report each animal only on its first visit; first-hitting times $\tau(k)$ and the inter-item response time
 - One memoryless process reproduces the "switch-cost" signature with no switch rule — a simpler account than optimal foraging
 - **GenJAX**: a censored random walk that reproduces the position-1-slowest IRT curve; forward pointer to MCMC
+
+### Chapter 16: Monte Carlo — Estimating by Sampling
+- Estimating an expectation (and any probability, as the mean of an indicator) by sampling and averaging; the $1/\sqrt{n}$ error rate
+- Rejection sampling and inverse-CDF; importance sampling — draw from an easy proposal $q$, reweight by $w = p/q$
+- Self-normalized importance sampling for unnormalized posteriors; likelihood weighting; the effective sample size
+- **GenJAX**: importance sampling with `model.importance` → (trace, log_weight)
+
+### Chapter 17: Particle Filtering
+- Streaming inference: *yesterday's posterior is today's prior*; the state-space model (motion + observation)
+- The particle filter loop — weight, resample, propagate — and weight degeneracy as the reason resampling is needed
+- A worked 1-D tracking example; particle filters as a process model of human inference (limited memory, order effects)
+- **GenJAX**: the propagate step as a `@gen` motion model inside the filter loop
+
+### Chapter 18: Markov Chain Monte Carlo
+- Running Chapter 13 backwards: *design* a Markov chain whose stationary distribution is a chosen target
+- Metropolis–Hastings (why the normalizer cancels; detailed balance) and Gibbs sampling (resampling a full conditional, always accepting)
+- Burn-in, mixing, and the multimodal trap — good local acceptance does not imply good global mixing
+- **GenJAX**: assembling an MH step from the `assess` scoring primitive
+
+### Chapter 19: Sampling the Mind
+- MCMC with People — a person choosing between options *is* the Metropolis accept step, so the chain reveals their prior
+- A hybrid Gibbs–Metropolis sampler for the hierarchical Beta-Binomial: Gibbs the per-unit rates, collapse them out, Metropolis the population
+- The mean/concentration reparametrization $(\varphi, \kappa)$; reading off a predictive from the learned population
+- **GenJAX**: the Gibbs step as a conjugate `beta` draw; the Metropolis step scoring the Beta-Binomial marginal
 
 ## Prerequisites
 
