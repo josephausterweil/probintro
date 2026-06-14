@@ -1,0 +1,11 @@
+{{- /* Theme default: render page tags. Keep this call. */ -}}
+{{- partial "tags.html" . }}
+{{- /* Machine-translation disclaimer — Japanese pages only. */ -}}
+{{- if eq .Page.Language.Lang "ja" }}
+  <div class="mt-disclaimer" role="note">
+    <p><strong>{{ T "mt_banner_title" }}</strong></p>
+    <p>{{ T "mt_banner_body" }}</p>
+    <p class="mt-disclaimer-en">{{ T "mt_banner_en" }}</p>
+    <p>{{ T "mt_banner_corrections" }}<a href="mailto:joseph.austerweil@gmail.com">joseph.austerweil@gmail.com</a>{{ T "mt_banner_or" }}<a href="https://github.com/josephausterweil/probintro" target="_blank" rel="noopener">{{ T "mt_banner_github" }}</a>。</p>
+  </div>
+{{- end }}

@@ -1,8 +1,13 @@
 baseURL = 'https://josephausterweil.github.io/probintro/'
-languageCode = 'en-us'
+locale = 'en-us'
 title = 'Probability & Probabilistic Computing Tutorial'
 theme = 'hugo-theme-relearn'
 images = ['images/chibanyplain.png']
+
+# Multilingual: English at the site root (unchanged URLs), Japanese added under /ja/.
+# Translations are filename-based (*.ja.md siblings); both languages share content/.
+defaultContentLanguage = 'en'
+defaultContentLanguageInSubdir = false
 
 [params]
     math = true
@@ -64,3 +69,18 @@ images = ['images/chibanyplain.png']
 # Allow HTML in markdown (for embedded visualizations, etc.)
 [markup.goldmark.renderer]
   unsafe = true
+
+# Languages: English (default, served at root) + Japanese (machine-translated, /ja/).
+# Per-language overrides only; [params]/[markup]/[caches] above stay global so JA
+# inherits identical math + mermaid behavior.
+[languages]
+  [languages.en]
+    label = 'English'
+    locale = 'en-us'
+    weight = 1
+    title = 'Probability & Probabilistic Computing Tutorial'
+  [languages.ja]
+    label = '日本語'
+    locale = 'ja'
+    weight = 2
+    title = '確率と確率的計算のチュートリアル（機械翻訳）'
