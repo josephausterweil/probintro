@@ -1,11 +1,20 @@
 {{- /* Theme default: render page tags. Keep this call. */ -}}
 {{- partial "tags.html" . }}
-{{- /* Machine-translation disclaimer — Japanese pages only. */ -}}
 {{- if eq .Page.Language.Lang "ja" }}
+  {{- /* Japanese pages: machine-translation disclaimer. */ -}}
   <div class="mt-disclaimer" role="note">
     <p><strong>{{ T "mt_banner_title" }}</strong></p>
     <p>{{ T "mt_banner_body" }}</p>
     <p class="mt-disclaimer-en">{{ T "mt_banner_en" }}</p>
     <p>{{ T "mt_banner_corrections" }}<a href="mailto:joseph.austerweil@gmail.com">joseph.austerweil@gmail.com</a>{{ T "mt_banner_or" }}<a href="https://github.com/josephausterweil/probintro" target="_blank" rel="noopener">{{ T "mt_banner_github" }}</a>。</p>
   </div>
+{{- else }}
+  {{- /* English pages: prominent link to this page's Japanese translation, if one exists. */ -}}
+  {{- range .Page.Translations }}
+    {{- if eq .Language.Lang "ja" }}
+    <div class="ja-available" role="note">
+      <a href="{{ .RelPermalink }}"><span class="ja-flag">🇯🇵</span> <strong>日本語版はこちら</strong>&nbsp;&nbsp;·&nbsp;&nbsp;Read this page in Japanese&nbsp;→</a>
+    </div>
+    {{- end }}
+  {{- end }}
 {{- end }}
