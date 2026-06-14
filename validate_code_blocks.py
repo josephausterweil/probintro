@@ -319,7 +319,13 @@ def main():
         for d in tutorial_dirs:
             p = content_dir / d
             if p.exists():
-                markdown_files.extend(p.glob("**/*.md"))
+                # Skip *.ja.md machine-translation siblings: their code fences are
+                # byte-identical copies of the English files, so validating them is
+                # redundant and would fold JA bundle parts into the English shared
+                # namespace (double-running cells). Validate the English set only.
+                markdown_files.extend(
+                    f for f in p.glob("**/*.md") if not f.name.endswith(".ja.md")
+                )
         # glossary lives at content root
         gloss = content_dir / "glossary.md"
         if gloss.exists():

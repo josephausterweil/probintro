@@ -1,0 +1,21 @@
+# Site-level i18n overrides for English. The disclaimer banner is gated to JA
+# pages in the partial, so these keys are no-ops here; they exist only so the
+# `T` lookups never warn if evaluated in an English context.
+
+[mt_banner_title]
+other = ""
+
+[mt_banner_body]
+other = ""
+
+[mt_banner_en]
+other = ""
+
+[mt_banner_corrections]
+other = ""
+
+[mt_banner_or]
+other = ""
+
+[mt_banner_github]
+other = ""

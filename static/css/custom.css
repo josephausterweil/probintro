@@ -27,3 +27,33 @@
     /* Search text color */
     --MENU-SEARCH-color: rgba(255, 255, 255, 0.9) !important;
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Japanese (machine-translated) pages — served under /ja/.
+   Every rule below is scoped to lang="ja" (Hugo emits <html lang="ja"> on JA
+   pages), so English rendering is byte-unchanged.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* CJK font fallback. 0-byte: uses installed system fonts (macOS Hiragino,
+   Windows Yu Gothic/Meiryo, Linux/Android Noto Sans CJK JP). Code blocks keep
+   their monospace font because the theme sets font-family on pre/code explicitly,
+   which wins over this inherited body value. */
+:lang(ja) body,
+[lang="ja"] body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+                 "Yu Gothic", "YuGothic", "Noto Sans CJK JP",
+                 "Noto Sans JP", Meiryo, "Roboto Flex", sans-serif;
+}
+
+/* Machine-translation disclaimer banner (rendered above the H1 on JA pages by
+   layouts/partials/content-header.html). */
+.mt-disclaimer {
+    border-left: 4px solid #f0ad4e;
+    background: rgba(240, 173, 78, 0.12);
+    padding: 0.6rem 1rem;
+    margin: 0 0 1.2rem 0;
+    border-radius: 4px;
+    font-size: 0.95em;
+}
+.mt-disclaimer p { margin: 0.3rem 0; }
+.mt-disclaimer .mt-disclaimer-en { opacity: 0.7; font-size: 0.9em; }

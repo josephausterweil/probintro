@@ -1,0 +1,21 @@
+# Site-level i18n overrides (merged over the theme's i18n/ja.toml; non-colliding
+# keys are added, so the theme's UI strings stay intact). Used by the
+# machine-translation disclaimer banner in layouts/partials/content-header.html.
+
+[mt_banner_title]
+other = "⚠️ このページは機械翻訳されています"
+
+[mt_banner_body]
+other = "この日本語訳は機械翻訳によるもので、誤りや不自然な表現が含まれている場合があります。正確な内容については英語版をご参照ください。"
+
+[mt_banner_en]
+other = "This page was machine-translated and may contain errors. Please refer to the English version for accuracy."
+
+[mt_banner_corrections]
+other = "誤りを見つけられた場合は、"
+
+[mt_banner_or]
+other = " までご連絡いただくか、"
+
+[mt_banner_github]
+other = "GitHub リポジトリにプルリクエストをお送りください"
