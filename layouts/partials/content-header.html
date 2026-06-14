@@ -1,7 +1,14 @@
 {{- /* Theme default: render page tags. Keep this call. */ -}}
 {{- partial "tags.html" . }}
 {{- if eq .Page.Language.Lang "ja" }}
-  {{- /* Japanese pages: machine-translation disclaimer. */ -}}
+  {{- /* Japanese pages: link back to the English version, then the MT disclaimer. */ -}}
+  {{- range .Page.Translations }}
+    {{- if eq .Language.Lang "en" }}
+    <div class="ja-available" role="note">
+      <a href="{{ .RelPermalink }}"><span class="ja-flag">🇬🇧</span> <strong>English version</strong>&nbsp;&nbsp;·&nbsp;&nbsp;英語版を読む&nbsp;→</a>
+    </div>
+    {{- end }}
+  {{- end }}
   <div class="mt-disclaimer" role="note">
     <p><strong>{{ T "mt_banner_title" }}</strong></p>
     <p>{{ T "mt_banner_body" }}</p>

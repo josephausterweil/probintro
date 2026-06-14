@@ -1,0 +1,13 @@
+          <a id="R-logo" class="R-default" href="{{ partial "permalink.gotmpl" (dict "to" .Site.Home) }}">
+            <div class="logo-title">{{ .Site.Params.linkTitle | default .Site.Title }}</div>
+          </a>
+          {{- /* Prominent EN <-> JA language toggle at the top of the sidebar. Renders on
+                 any page that has a translation; the current language is highlighted, the
+                 other is a one-click link (so JA pages also have a clear way back to EN). */ -}}
+          {{- if .IsTranslated }}
+          <div class="lang-toggle" role="group" aria-label="Language / 言語">
+            {{- range .AllTranslations }}
+            <a class="lang-toggle-btn{{ if eq .Language.Lang $.Language.Lang }} active{{ end }}" href="{{ partial "permalink.gotmpl" (dict "to" .) }}" lang="{{ .Language.LanguageCode }}"{{ if eq .Language.Lang $.Language.Lang }} aria-current="page"{{ end }}>{{ .Language.LanguageName }}</a>
+            {{- end }}
+          </div>
+          {{- end }}

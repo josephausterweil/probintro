@@ -72,3 +72,31 @@
 .ja-available a { text-decoration: none; color: inherit; display: inline-block; }
 .ja-available a:hover { text-decoration: underline; }
 .ja-available .ja-flag { margin-right: 0.15rem; }
+
+/* Segmented English | 日本語 toggle at the top of the sidebar (layouts/partials/logo.html).
+   Sits on the blue sidebar: current language is a filled white pill, the other is a
+   clickable outline. Always visible, so switching either way is one click. */
+.lang-toggle {
+    display: flex;
+    margin: 0.6rem 1rem 0.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 6px;
+    overflow: hidden;
+    font-size: 0.9em;
+}
+.lang-toggle-btn {
+    flex: 1 1 0;
+    text-align: center;
+    padding: 0.3rem 0.4rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.lang-toggle-btn + .lang-toggle-btn { border-left: 1px solid rgba(255, 255, 255, 0.5); }
+.lang-toggle-btn:hover { background: rgba(255, 255, 255, 0.15); }
+.lang-toggle-btn.active {
+    background: #fff;
+    color: #1565c0;
+    font-weight: 700;
+    cursor: default;
+}
