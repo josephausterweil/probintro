@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCTS plays tic-tac-toe</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B; --orange:#FFA726;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;}
+  #app{display:flex;height:100vh;width:100vw;}
+  #left{flex:0 0 50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:14px;}
+  #right{flex:1;border-left:1px solid #2a2a33;padding:14px 18px;display:flex;flex-direction:column;min-width:0;}
+  #status{font-size:17px;font-weight:700;min-height:24px;text-align:center;}
+  #board{display:grid;grid-template-columns:repeat(3,96px);grid-template-rows:repeat(3,96px);gap:6px;}
+  .cell{background:#15151c;border:1px solid #2a2a33;border-radius:10px;position:relative;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:52px;font-weight:800;}
+  .cell:hover{border-color:var(--accent);}
+  .cell.x{color:var(--accent);} .cell.o{color:var(--orange);}
+  .cell.win{background:rgba(102,187,106,.18);border-color:var(--green);}
+  .cell .visit{position:absolute;bottom:4px;right:6px;font-size:13px;font-weight:700;color:var(--yellow);}
+  .cell .wr{position:absolute;top:4px;left:6px;font-size:11px;color:var(--dim);}
+  #controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;font-size:14px;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:6px;
+    padding:6px 12px;font-size:14px;cursor:pointer;font-weight:600;}
+  button:hover{border-color:var(--accent);}
+  label{color:var(--dim);display:flex;align-items:center;gap:6px;}
+  input[type=range]{width:120px;accent-color:var(--accent);}
+  h2{font-size:16px;margin:0 0 8px;}
+  .phase{display:flex;gap:5px;margin:6px 0 10px;}
+  .phase span{flex:1;text-align:center;font-size:11.5px;font-weight:700;color:#888;padding:5px 2px;
+    border:1px solid #2a2a33;border-radius:5px;}
+  .key{font-size:13px;color:#9a9aa3;line-height:1.55;}
+  .key b{color:var(--white);}
+  #stats{font-family:"DejaVu Sans Mono",monospace;font-size:13px;color:var(--dim);margin:8px 0;min-height:60px;}
+  #stats .top{color:var(--yellow);}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="left">
+    <div id="status">You are X — click a square to move.</div>
+    <div id="board"></div>
+    <div id="controls">
+      <button id="reset">⟲ New game</button>
+      <label>MCTS sims <input type="range" id="sims" min="200" max="6000" step="200" value="3000"><span id="simv" style="color:var(--yellow);font-weight:700">3000</span></label>
+      <label><input type="checkbox" id="showsearch" checked> show search</label>
+    </div>
+  </div>
+  <div id="right">
+    <h2>How the agent (O) thinks</h2>
+    <div class="phase"><span>1·SELECT</span><span>2·EXPAND</span><span>3·SIMULATE</span><span>4·BACKUP</span></div>
+    <div class="key">On its turn the agent runs thousands of the four-phase loop you stepped through on the
+      Chibany tree — but here each <b>simulate</b> is a random play-out of a whole tic-tac-toe game to a
+      win, loss, or draw. The numbers it builds up:</div>
+    <div id="stats"></div>
+    <div class="key"><b style="color:var(--yellow)">Yellow number</b> on a square = how many of its searches
+      tried that move (it plays the most-searched one); <b style="color:var(--dim)">top-left %</b> = its
+      estimated win rate from there. Beating it is hard — that's the point: the same loop that solved a
+      3-state toy plays a real game.</div>
+  </div>
+</div>
+<script>
+"use strict";
+const COL={accent:"#64B5F6",orange:"#FFA726",green:"#66BB6A",dim:"#999999",yellow:"#FFEB3B",red:"#EF5350"};
+const LINES=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const HUMAN=1, AGENT=2;
+let board=Array(9).fill(0), over=false, lastStats=null;
+
+function winner(b){ for(const[a,c,d]of LINES) if(b[a]&&b[a]===b[c]&&b[a]===b[d]) return b[a];
+  return b.every(x=>x)?0:null; }                       // 1 or 2 = winner, 0 = draw, null = ongoing
+function legal(b){ const m=[]; for(let i=0;i<9;i++) if(!b[i]) m.push(i); return m; }
+
+// ---- UCT: returns {move, visits:{i:n}, winrate:{i:w} } ----
+function uct(rootBoard, rootPlayer, nSim){
+  const T=new Map();
+  const K=(b,p)=>b.join("")+p;
+  function get(b,p){ const k=K(b,p);
+    if(!T.has(k)){ const w=winner(b); T.set(k,{N:0,W:0,children:new Map(),untried:w===null?legal(b):[],term:w}); }
+    return T.get(k); }
+  get(rootBoard,rootPlayer);
+  for(let i=0;i<nSim;i++){
+    let b=rootBoard.slice(), p=rootPlayer; const path=[];
+    // SELECT + EXPAND
+    while(true){
+      const nd=get(b,p); path.push(nd);
+      if(nd.term!==null) break;                        // terminal leaf
+      if(nd.untried.length){                           // EXPAND
+        const m=nd.untried.splice(Math.floor(Math.random()*nd.untried.length),1)[0];
+        b=b.slice(); b[m]=p; p=3-p; nd.children.set(m,K(b,p));
+        path.push(get(b,p)); break;
+      }
+      // SELECT by UCB (sign flips to the mover's perspective; W is from AGENT's view)
+      let best=-1,bestKey=null,bv=-1e9; const sign=(p===AGENT?1:-1);
+      for(const [m,ck] of nd.children){ const cn=T.get(ck);
+        const v=sign*(cn.W/cn.N)+1.4*Math.sqrt(Math.log(nd.N+1)/cn.N);
+        if(v>bv){bv=v;best=m;bestKey=ck;} }
+      b=b.slice(); b[best]=p; p=3-p;
+    }
+    // SIMULATE (random play-out from the expanded board)
+    let b2=path[path.length-1]===undefined?b:b.slice(), pp=p;
+    let res=winner(b2);
+    while(res===null){ const L=legal(b2); const m=L[Math.floor(Math.random()*L.length)];
+      b2[m]=pp; pp=3-pp; res=winner(b2); }
+    const val=(res===AGENT?1:(res===HUMAN?-1:0));      // global, agent's perspective
+    // BACKUP
+    for(const nd of path){ nd.N++; nd.W+=val; }
+  }
+  const root=get(rootBoard,rootPlayer);
+  const visits={}, wr={};
+  for(const [m,ck] of root.children){ const cn=T.get(ck); visits[m]=cn.N; wr[m]=cn.N?(cn.W/cn.N):0; }
+  let mv=-1,mx=-1; for(const m in visits) if(visits[m]>mx){mx=visits[m];mv=+m;}
+  return {move:mv, visits, wr};
+}
+
+// ---- rendering ----
+const boardEl=document.getElementById("board");
+function build(){ boardEl.innerHTML="";
+  for(let i=0;i<9;i++){ const c=document.createElement("div"); c.className="cell"; c.dataset.i=i;
+    c.onclick=()=>play(i); boardEl.appendChild(c); } }
+function render(winLine){
+  [...boardEl.children].forEach((c,i)=>{
+    c.className="cell"+(board[i]===1?" x":board[i]===2?" o":"");
+    c.textContent=board[i]===1?"✕":board[i]===2?"◯":"";
+    if(winLine&&winLine.includes(i)) c.classList.add("win");
+    if(lastStats && board[i]===0 && lastStats.visits[i]!==undefined){
+      const v=document.createElement("div"); v.className="visit"; v.textContent=lastStats.visits[i]; c.appendChild(v);
+      const w=document.createElement("div"); w.className="wr";
+      w.textContent=Math.round((lastStats.wr[i]+1)/2*100)+"%"; c.appendChild(w);
+    }
+  });
+}
+function winLineOf(b){ for(const ln of LINES){const[a,c,d]=ln; if(b[a]&&b[a]===b[c]&&b[a]===b[d])return ln;} return null; }
+function setStatus(t,col){ const s=document.getElementById("status"); s.textContent=t; s.style.color=col||COL.white; }
+function showStats(st){
+  const rows=Object.keys(st.visits).map(m=>[+m,st.visits[m],st.wr[m]]).sort((a,b)=>b[1]-a[1]);
+  const html=rows.map(([m,n,w],i)=>`<div class="${i===0?'top':''}">cell ${m}: ${n} searches, win ${Math.round((w+1)/2*100)}%${i===0?'  ← plays here':''}</div>`).join("");
+  document.getElementById("stats").innerHTML=html;
+}
+
+function endIf(){ const w=winner(board);
+  if(w!==null){ over=true; render(winLineOf(board));
+    setStatus(w===HUMAN?"You win! 🎉":w===AGENT?"The agent (O) wins.":"Draw.", w===HUMAN?COL.green:w===AGENT?COL.orange:COL.dim);
+    return true; }
+  return false; }
+
+function agentMove(){
+  setStatus("Agent (O) is searching…", COL.orange);
+  setTimeout(()=>{
+    const nSim=+document.getElementById("sims").value;
+    const st=uct(board, AGENT, nSim);
+    lastStats=document.getElementById("showsearch").checked?st:null;
+    showStats(st);
+    board[st.move]=AGENT;
+    render(); if(endIf())return;
+    lastStats=null; render();
+    setStatus("Your turn (X).", COL.accent);
+  }, 30);
+}
+function play(i){
+  if(over||board[i]!==0) return;
+  board[i]=HUMAN; lastStats=null; render();
+  if(endIf())return;
+  agentMove();
+}
+document.getElementById("reset").onclick=()=>{ board=Array(9).fill(0); over=false; lastStats=null;
+  render(); setStatus("You are X — click a square to move.", COL.white); document.getElementById("stats").innerHTML=""; };
+document.getElementById("sims").oninput=e=>document.getElementById("simv").textContent=e.target.value;
+build(); render();
+</script>
+</body>
+</html>

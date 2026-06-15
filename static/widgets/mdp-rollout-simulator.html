@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rollout simulator on the Chibany MDP</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:9px 14px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:12px;border-bottom:1px solid #2a2a33;font-size:14px;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:6px;
+    padding:6px 12px;font-size:14px;cursor:pointer;font-weight:600;}
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent);color:#06121f;border-color:var(--accent);}
+  button.disabled{opacity:.4;pointer-events:none;}
+  .rew{color:var(--dim);font-size:13px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+  .rew input{width:46px;background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:3px 5px;font-size:13px;}
+  .rew b{font-weight:700;}
+  #stage{flex:1;display:flex;min-height:0;}
+  #left{flex:0 0 40%;border-right:1px solid #2a2a33;position:relative;}
+  #right{flex:1;display:flex;flex-direction:column;padding:10px 16px;min-width:0;overflow-y:auto;}
+  canvas{display:block;width:100%;height:100%;}
+  h2{font-size:15px;margin:2px 0 6px;}
+  #status{font-size:13.5px;font-weight:700;min-height:20px;margin-bottom:3px;color:var(--accent);}
+  #traj{font-family:"DejaVu Sans Mono",monospace;font-size:14px;margin-bottom:8px;min-height:22px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #traj .lbl{color:var(--dim);font-family:inherit;}
+  table#tbl{border-collapse:collapse;font-size:13.5px;margin:2px 0 6px;width:100%;max-width:430px;}
+  table#tbl th,table#tbl td{padding:4px 10px;text-align:right;border-bottom:1px solid #2a2a33;}
+  table#tbl th{color:var(--dim);font-weight:600;font-size:12.5px;}
+  table#tbl td:first-child,table#tbl th:first-child{text-align:left;font-weight:700;}
+  table#tbl .mc{color:var(--yellow);font-weight:700;font-family:"DejaVu Sans Mono",monospace;}
+  table#tbl .ex{color:var(--green);font-family:"DejaVu Sans Mono",monospace;}
+  table#tbl .er{color:var(--dim);font-family:"DejaVu Sans Mono",monospace;}
+  .read{font-size:13px;color:var(--dim);margin:1px 0;}
+  .read b{color:var(--white);}
+  .key{font-size:12px;color:#9a9aa3;margin-top:auto;border-top:1px solid #2a2a33;padding-top:7px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="controls">
+    <button class="primary" id="one">Roll 1 trajectory ▸</button>
+    <button id="hundred">+100 ▸▸</button>
+    <button id="run">▶ Run</button>
+    <button id="reset">⟲ Reset</button>
+    <span style="color:var(--dim)">policy: Invest everywhere</span>
+    <span class="rew">discount&nbsp;<b style="color:var(--purple)">γ</b>
+      <input type="number" id="gam" value="0.9" step="0.05" min="0" max="0.99" style="width:54px">
+    </span>
+    <span class="rew">rewards:
+      R(<b style="color:var(--orange)">Junk</b>)<input type="number" id="rJ" value="1" step="1">
+      R(<b style="color:var(--red)">Trying</b>)<input type="number" id="rT" value="-2" step="1">
+      R(<b style="color:var(--green)">Healthy</b>)<input type="number" id="rH" value="5" step="1">
+    </span>
+  </div>
+  <div id="stage">
+    <div id="left"><canvas id="cv"></canvas></div>
+    <div id="right">
+      <h2>Value of every state by simulation</h2>
+      <div id="status">Press “Roll 1 trajectory” to sample one possible future from each state.</div>
+      <div id="traj"></div>
+      <table id="tbl">
+        <tr><th>start state</th><th>MC estimate</th><th>exact V<sup>*</sup></th><th>|error|</th></tr>
+        <tr data-s="0"><td style="color:var(--orange)">Junk</td><td class="mc">—</td><td class="ex">—</td><td class="er">—</td></tr>
+        <tr data-s="1"><td style="color:var(--red)">Trying</td><td class="mc">—</td><td class="ex">—</td><td class="er">—</td></tr>
+        <tr data-s="2"><td style="color:var(--green)">Healthy</td><td class="mc">—</td><td class="ex">—</td><td class="er">—</td></tr>
+      </table>
+      <div class="read" id="ntraj">trajectories per state: <b>0</b></div>
+      <canvas id="conv" style="flex:1;margin-top:6px;min-height:120px;"></canvas>
+      <div class="key">Each click rolls out one trajectory from <b>every</b> state, following the policy and summing
+        discounted rewards <b style="color:var(--yellow)">G = Σ γ<sup>k</sup>R</b>. This MDP has <b>no end state</b>, so a
+        trajectory would run forever — but the discounted tail γ<sup>H</sup> shrinks to ~0, so we sum a finite horizon of
+        <b id="hz">80</b> steps and stop (the horizon grows as γ → 1). Each state's running
+        average (colored line) homes in on its exact value (dashed). The left panel animates the trajectory from Junk.</div>
+    </div>
+  </div>
+</div>
+<script>
+"use strict";
+const COL={orange:"#FFA726",red:"#EF5350",green:"#66BB6A",accent:"#64B5F6",purple:"#BA68C8",
+  dim:"#999999",white:"#fff",yellow:"#FFEB3B"};
+const SCOL=[COL.orange,COL.red,COL.green];
+const SNAME=["Junk","Trying","Healthy"], SAB=["J","T","H"];
+const T=[[[.9,.1,0],[.7,.3,0],[.2,.5,.3]],[[.4,.6,0],[.1,.4,.5],[0,.1,.9]]];   // Chibany MDP (identical to the chapter)
+let R=[1,-2,5];                                          // editable state rewards
+let GAMMA=0.9, HORIZON=80; const POLICY=[1,1,1], VIS=14;
+// horizon where the discounted tail γ^H ≈ 0.0002 — grows as γ → 1 so the MC sum stays unbiased
+function horizonFor(g){ return g<=0 ? 1 : Math.min(2000, Math.max(40, Math.ceil(Math.log(0.0002)/Math.log(g)))); }
+let exact=[25.6,28.4,39.8];
+
+// exact value of the simulated (Invest-everywhere) policy, all three states, by policy evaluation
+function exactValues(){
+  let v=[0,0,0];
+  for(let i=0;i<700;i++){ const nv=[0,0,0];
+    for(let s=0;s<3;s++){ let a=R[s]; for(let sp=0;sp<3;sp++) a+=GAMMA*T[POLICY[s]][s][sp]*v[sp]; nv[s]=a; }
+    v=nv; }
+  return v;
+}
+
+let seed=12345>>>0;
+function rng(){ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed);
+  t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }
+function sampleNext(s,a){ const r=rng(); let c=0; for(let sp=0;sp<3;sp++){ c+=T[a][s][sp]; if(r<c) return sp; } return 2; }
+function rolloutFrom(s0){
+  let s=s0, disc=1, total=0; const path=[s];
+  for(let k=0;k<HORIZON;k++){ total+=disc*R[s]; disc*=GAMMA; s=sampleNext(s,POLICY[s]); path.push(s); }
+  return {total, path};
+}
+
+let n=0, sums=[0,0,0], hists=[[],[],[]];
+let walkPath=[0], anim=0, pendingTotals=[0,0,0], walking=false, running=false, timer=null;
+const $=id=>document.getElementById(id);
+
+// ---- left canvas: states + the animated trajectory from Junk ----
+const cv=$("cv"), ctx=cv.getContext("2d"); let W=0,H=0;
+function resizeL(){ const dpr=window.devicePixelRatio||1,p=cv.parentElement;
+  W=p.clientWidth;H=p.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);drawStates(); }
+function nodeXY(){ return [[W*0.30,H*0.30],[W*0.30,H*0.72],[W*0.74,H*0.50]]; }
+function arrow(ax,ay,bx,by,color){
+  const dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,rad=Math.min(W,H)*0.14;
+  const x1=ax+ux*rad,y1=ay+uy*rad,x2=bx-ux*rad,y2=by-uy*rad;
+  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=3.5;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1),hl=13;
+  ctx.beginPath();ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-hl*Math.cos(a-0.4),y2-hl*Math.sin(a-0.4));
+  ctx.lineTo(x2-hl*Math.cos(a+0.4),y2-hl*Math.sin(a+0.4));
+  ctx.closePath();ctx.fill();
+}
+function drawStates(){
+  ctx.clearRect(0,0,W,H);
+  const P=nodeXY(), rad=Math.min(W,H)*0.14;
+  const cur=walkPath[Math.min(anim,walkPath.length-1)], prev=anim>0?walkPath[anim-1]:null;
+  ctx.strokeStyle="#2a2a30"; ctx.lineWidth=1.5;
+  for(const [i,j] of [[0,1],[1,2],[0,2]]){ ctx.beginPath(); ctx.moveTo(P[i][0],P[i][1]); ctx.lineTo(P[j][0],P[j][1]); ctx.stroke(); }
+  if(prev!==null && prev!==cur) arrow(P[prev][0],P[prev][1],P[cur][0],P[cur][1],COL.yellow);
+  else if(prev===cur && prev!==null){ ctx.strokeStyle=COL.yellow; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(P[cur][0],P[cur][1]-rad-7,7,0,7); ctx.stroke(); }
+  for(let s=0;s<3;s++){
+    ctx.beginPath(); ctx.arc(P[s][0],P[s][1],rad,0,7);
+    ctx.fillStyle=(s===cur)?SCOL[s]:"#181820"; ctx.globalAlpha=(s===cur)?0.92:1; ctx.fill(); ctx.globalAlpha=1;
+    ctx.lineWidth=(s===cur)?4.5:3; ctx.strokeStyle=SCOL[s]; ctx.stroke();
+    ctx.fillStyle=(s===cur)?"#06121f":COL.white; ctx.font="bold 14px DejaVu Sans"; ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(SNAME[s],P[s][0],P[s][1]-6);
+    ctx.fillStyle=(s===cur)?"#06121f":COL.dim; ctx.font="12px DejaVu Sans";
+    ctx.fillText("R="+(R[s]>=0?"+":"")+R[s],P[s][0],P[s][1]+12);
+  }
+  ctx.fillStyle=COL.dim; ctx.font="12px DejaVu Sans"; ctx.textAlign="center";
+  const cap = walking ? ("step "+anim+" / "+HORIZON+" — now at "+SNAME[cur])
+            : (n>0 ? "trajectory from Junk (all states sampled each click)" : "the walk under the optimal policy");
+  ctx.fillText(cap, W*0.5, H-12);
+}
+
+// ---- right canvas: three running averages converging to three exact values ----
+const conv=$("conv"), cc=conv.getContext("2d"); let CW=0,CH=0;
+function resizeR(){ const dpr=window.devicePixelRatio||1; CW=conv.clientWidth;CH=conv.clientHeight;
+  conv.width=CW*dpr;conv.height=CH*dpr;cc.setTransform(dpr,0,0,dpr,0,0);drawConv(); }
+function drawConv(){
+  cc.clearRect(0,0,CW,CH);
+  const pad=24, y0=8, h=CH-y0-8;
+  const lo=Math.min(...exact)-6, hi=Math.max(...exact)+6;
+  const ypix=v=>y0+h-((v-lo)/(hi-lo))*h;
+  for(let s=0;s<3;s++){
+    cc.strokeStyle=SCOL[s]; cc.lineWidth=1.5; cc.globalAlpha=.55; cc.setLineDash([5,4]);
+    cc.beginPath(); cc.moveTo(pad,ypix(exact[s])); cc.lineTo(CW-pad,ypix(exact[s])); cc.stroke();
+    cc.setLineDash([]); cc.globalAlpha=1;
+    cc.fillStyle=SCOL[s]; cc.font="10px DejaVu Sans"; cc.textAlign="right"; cc.fillText(exact[s].toFixed(1), pad-2, ypix(exact[s])+3);
+    if(hists[s].length>1){
+      cc.strokeStyle=SCOL[s]; cc.lineWidth=2; cc.beginPath();
+      hists[s].forEach((v,i)=>{ const x=pad+(i/(hists[s].length-1))*(CW-pad-4), y=ypix(Math.max(lo,Math.min(hi,v)));
+        i?cc.lineTo(x,y):cc.moveTo(x,y); }); cc.stroke();
+    }
+  }
+  cc.fillStyle=COL.dim; cc.font="10px DejaVu Sans"; cc.textAlign="right"; cc.fillText("running average →", CW-2, y0+9);
+}
+
+function showPath(uptoStep, done){
+  const k=Math.min(uptoStep, walkPath.length-1), parts=[];
+  for(let i=0;i<=Math.min(k,VIS);i++){ const s=walkPath[i]; parts.push(`<span style="color:${SCOL[s]};font-weight:700">${SAB[s]}</span>`); }
+  let html=`<span class="lbl">from Junk: </span>`+parts.join('<span class="lbl"> → </span>');
+  if(done && walkPath.length-1>VIS) html+=`<span class="lbl"> → … (${HORIZON} steps)</span>`;
+  else if(k>=VIS && !done) html+=`<span class="lbl"> →…</span>`;
+  $("traj").innerHTML=html;
+}
+function updateTable(){
+  document.querySelectorAll("#tbl tr[data-s]").forEach(tr=>{
+    const s=+tr.dataset.s;
+    tr.querySelector(".mc").textContent = n? (sums[s]/n).toFixed(2) : "—";
+    tr.querySelector(".ex").textContent = exact[s].toFixed(1);
+    tr.querySelector(".er").textContent = n? Math.abs(sums[s]/n - exact[s]).toFixed(2) : "—";
+  });
+  $("ntraj").querySelector("b").textContent=n;
+}
+function disableWalkButtons(d){ for(const id of ["one","hundred","run"]) $(id).classList.toggle("disabled", d); }
+
+function rollOne(){
+  if(walking||running) return;
+  for(let s=0;s<3;s++){ const r=rolloutFrom(s); pendingTotals[s]=r.total; if(s===0){ walkPath=r.path; } }
+  anim=0; walking=true; disableWalkButtons(true);
+  $("status").style.color=COL.accent; $("status").textContent="Rolling out one trajectory from each state …";
+  showPath(0,false); drawStates(); stepOne();
+}
+function stepOne(){
+  if(anim<Math.min(VIS,walkPath.length-1)){ anim++; showPath(anim,false); drawStates(); setTimeout(stepOne,150); }
+  else finishOne();
+}
+function finishOne(){
+  walking=false; disableWalkButtons(false);
+  n++; for(let s=0;s<3;s++){ sums[s]+=pendingTotals[s]; hists[s].push(sums[s]/n); if(hists[s].length>400) hists[s].shift(); }
+  showPath(VIS,true); drawStates(); updateTable(); drawConv();
+  $("status").style.color=COL.green;
+  $("status").textContent = "✓ trajectory set #"+n+" — summed "+HORIZON+" steps each (γ kills the tail); added to the averages";
+}
+function addMany(count){
+  for(let i=0;i<count;i++){ n++; for(let s=0;s<3;s++){ const r=rolloutFrom(s); sums[s]+=r.total; hists[s].push(sums[s]/n); } }
+  for(let s=0;s<3;s++) if(hists[s].length>400) hists[s]=hists[s].slice(-400);
+  walkPath=[0]; anim=0; updateTable(); drawConv(); drawStates();
+  $("status").style.color=COL.dim; $("status").textContent="Added "+count+" trajectories from each state — watch the three averages settle.";
+}
+
+$("one").onclick=rollOne;
+$("hundred").onclick=()=>{ if(walking) return; addMany(100); };
+$("run").onclick=function(){
+  if(walking) return;
+  if(running){ running=false; clearInterval(timer); this.textContent="▶ Run"; disableWalkButtons(false); return; }
+  running=true; this.textContent="⏸ Pause"; $("one").classList.add("disabled"); $("hundred").classList.add("disabled");
+  timer=setInterval(()=>{ addMany(25); if(n>=5000){ running=false; clearInterval(timer); this.textContent="▶ Run";
+    $("one").classList.remove("disabled"); $("hundred").classList.remove("disabled"); } }, 60);
+};
+function resetAll(msg){
+  n=0;sums=[0,0,0];hists=[[],[],[]];walkPath=[0];anim=0;walking=false; seed=12345>>>0;
+  if(running){running=false;clearInterval(timer);$("run").textContent="▶ Run";} disableWalkButtons(false);
+  $("status").style.color=COL.accent; $("status").textContent=msg;
+  $("traj").innerHTML=""; updateTable(); drawStates(); drawConv();
+}
+$("reset").onclick=()=>resetAll("Press “Roll 1 trajectory” to sample one possible future from each state.");
+function applyParams(msg){
+  R=[(+$("rJ").value)||0,(+$("rT").value)||0,(+$("rH").value)||0];
+  let g=+$("gam").value; if(!(g>=0)) g=0; if(g>0.99) g=0.99; GAMMA=g;
+  HORIZON=horizonFor(GAMMA); $("hz").textContent=HORIZON;
+  exact=exactValues();
+  resetAll(msg);
+}
+for(const id of ["rJ","rT","rH"]) $(id).addEventListener("input", ()=>applyParams("Rewards changed — the three running averages restart."));
+$("gam").addEventListener("input", ()=>applyParams("Discount γ changed — the three running averages restart."));
+
+window.addEventListener("resize",()=>{ resizeL(); resizeR(); });
+HORIZON=horizonFor(GAMMA); $("hz").textContent=HORIZON;
+exact=exactValues(); resizeL(); resizeR(); updateTable();
+</script>
+</body>
+</html>

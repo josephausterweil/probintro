@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q-learning on the GardenPath gridworld</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --teal:#4DD0E1;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;
+    overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #stage{display:flex;flex:1;min-height:0;}
+  #left{flex:0 0 56%;position:relative;}
+  #right{flex:1;display:flex;flex-direction:column;min-width:0;border-left:1px solid #2a2a33;
+    padding:10px 14px;overflow-y:auto;}
+  canvas{display:block;width:100%;height:100%;}
+  /* algorithm stepper */
+  #stepper{list-style:none;margin:0 0 8px 0;padding:0;}
+  #stepper li{font-size:14px;color:#888;padding:3px 8px;border-radius:5px;margin:1px 0;
+    border-left:3px solid transparent;}
+  #stepper li .n{display:inline-block;width:18px;color:#666;font-weight:700;}
+  #stepper li.active{background:rgba(100,181,246,0.16);color:var(--white);
+    border-left-color:var(--accent);font-weight:700;}
+  #stepper li.done{color:var(--green);}
+  #stepper li.active .n{color:var(--accent);}
+  /* equation readout */
+  #eqbox{background:#0c0c12;border:1px solid #2a2a33;border-radius:7px;padding:9px 11px;
+    font-family:"DejaVu Sans Mono",monospace;font-size:14px;line-height:1.5;margin-bottom:8px;}
+  #eqbox .lbl{color:var(--dim);}
+  .tHi{color:var(--green);font-weight:700;} .qHi{color:var(--orange);font-weight:700;}
+  .aHi{color:var(--accent);font-weight:700;} .yHi{color:var(--yellow);font-weight:700;}
+  /* counters */
+  #verdict{font-size:17px;font-weight:800;min-height:24px;padding:9px 12px;border-radius:7px;
+    border:1.5px solid currentColor;margin-bottom:6px;}
+  /* hidden/untrained states: a light hint, not a heavy banner */
+  #verdict.placeholder{font-size:13.5px;font-weight:600;border-color:transparent;
+    padding:2px 2px;margin-bottom:2px;}
+  #cycleWarn{font-size:13px;line-height:1.4;min-height:18px;color:var(--orange);font-style:italic;margin-bottom:6px;}
+  #counters{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin-bottom:4px;color:var(--dim);}
+  #counters b{font-size:17px;}
+  /* controls */
+  #controls{flex:0 0 auto;background:var(--panel);padding:8px 14px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+    border-top:1px solid #2a2a33;font-size:14px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:6px;}
+  select,button{background:#222230;color:var(--white);border:1px solid #3a3a48;
+    border-radius:5px;padding:5px 10px;font-size:14px;cursor:pointer;}
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent);color:#06121f;border-color:var(--accent);font-weight:700;}
+  input[type=range]{width:96px;accent-color:var(--accent);cursor:pointer;}
+  input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px;}
+  .val{color:var(--yellow);font-weight:700;min-width:30px;display:inline-block;text-align:right;}
+  .schemeNote{font-size:12px;color:var(--dim);font-style:italic;margin-top:2px;}
+  h2{font-size:16px;margin:0 0 6px 0;color:var(--white);}
+  .key{font-size:12.5px;line-height:1.5;color:#9a9aa3;margin-top:auto;
+    border-top:1px solid #2a2a33;padding-top:7px;}
+  /* human-teacher feedback prompt */
+  #fbprompt{display:none;background:#15151c;border:1px solid var(--yellow);border-radius:8px;
+    padding:10px 12px;margin-bottom:8px;}
+  #fbtext{font-size:15px;margin-bottom:9px;}
+  #fbbtns{display:flex;gap:9px;}
+  #fbbtns button{flex:1;font-size:15px;font-weight:700;padding:11px 6px;}
+  #fbGood{border-color:var(--green);color:var(--green);}
+  #fbNeut{border-color:var(--dim);color:var(--dim);}
+  #fbBad{border-color:var(--red);color:var(--red);}
+  #fbGood:hover{background:rgba(102,187,106,.16);}
+  #fbBad:hover{background:rgba(239,83,80,.16);}
+  button.disabled{opacity:.32;pointer-events:none;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="left"><canvas id="grid"></canvas></div>
+    <div id="right">
+      <h2>Q-learning — one step at a time</h2>
+      <ul id="stepper">
+        <li data-s="0"><span class="n">1</span> select action a (ε-greedy)</li>
+        <li data-s="1"><span class="n">2</span> take a → observe reward r, next state s′</li>
+        <li data-s="2"><span class="n">3</span> look up best next value  max<sub>a′</sub> Q(s′,a′)</li>
+        <li data-s="3"><span class="n">4</span> form target = r + γ·max</li>
+        <li data-s="4"><span class="n">5</span> TD error = target − Q(s,a)</li>
+        <li data-s="5"><span class="n">6</span> update Q(s,a) ← Q(s,a) + α·error</li>
+      </ul>
+      <div id="fbprompt">
+        <div id="fbtext">🐱 …</div>
+        <div id="fbbtns">
+          <button id="fbGood">👍 good (+10)</button>
+          <button id="fbNeut">➖ neutral (0)</button>
+          <button id="fbBad">👎 bad (−10)</button>
+        </div>
+      </div>
+      <div id="eqbox">
+        <span class="lbl">Q(<span id="eS">s</span>,<span id="eA">a</span>) ← </span><span id="eQold">·</span>
+        <span class="lbl"> + </span><span class="aHi" id="eAlpha">α</span><span class="lbl">·( </span><span id="eR">r</span>
+        <span class="lbl"> + </span><span id="eGam">γ</span><span class="lbl">·</span><span class="tHi" id="eMax">max′</span>
+        <span class="lbl"> − </span><span class="qHi" id="eQ2">Q</span><span class="lbl"> ) = </span><span class="yHi" id="eNew">·</span>
+      </div>
+      <div id="verdict"></div>
+      <div id="cycleWarn"></div>
+      <button id="revealBtn" style="display:none;margin:2px 0 4px;">🔍 reveal: does your teaching reach the goal?</button>
+      <div id="counters">
+        <div>episode <b id="cEp" class="aHi">1</b></div>
+        <div>steps this ep <b id="cStep" class="yHi">0</b></div>
+        <div>goals hit <i>while exploring</i> <b id="cGoal" class="tHi">0</b></div>
+      </div>
+      <div class="key">
+        <b>Wedges</b> = the 4 action-values (<span style="color:var(--accent)">blue ≥ 0</span>, <span style="color:var(--red)">red &lt; 0</span>). &nbsp;
+        <b>Gray arrows</b> = current best action per cell. &nbsp;
+        The <b>thick route</b> = where 🐱 goes from the start by following those arrows:
+        <b style="color:var(--green)">green</b> reaches 🏠, <b style="color:var(--red)">red</b> = stuck in a loop (never reaches it). &nbsp;
+        <b style="color:var(--yellow)">Yellow</b> arrow = the move being taken now.
+      </div>
+    </div>
+  </div>
+  <div id="controls">
+    <label>feedback
+      <select id="scheme">
+        <option value="rm">reward-maximizing (outcome)</option>
+        <option value="af">action-feedback (how people teach)</option>
+        <option value="pot">potential-based shaping</option>
+        <option value="human" selected>human — YOU are the teacher</option>
+      </select>
+    </label>
+    <label>α <input type="range" id="alpha" min="0.05" max="1" step="0.05" value="0.9"><span class="val" id="vAlpha">0.9</span></label>
+    <label>γ <input type="range" id="gamma" min="0.5" max="0.99" step="0.01" value="0.95"><span class="val" id="vGamma">0.95</span></label>
+    <label>ε <input type="range" id="eps" min="0" max="0.5" step="0.01" value="0.1"><span class="val" id="vEps">0.10</span></label>
+    <button class="primary" id="step">Step ▸</button>
+    <button id="run">▶ Run</button>
+    <button id="train">Train ▸▸ 2000</button>
+    <button id="reset">⟲ Reset</button>
+    <label>speed <input type="range" id="speed" min="1" max="30" step="1" value="8"></label>
+    <label><input type="checkbox" id="showPol" checked> greedy policy + trace</label>
+  </div>
+</div>
+
+<script>
+"use strict";
+// ====================================================================
+//  GardenPath constants. state s=[row,col], row 1=bottom..3=top, col 1=left..3=right
+//  start (1,1) bottom-left, goal (3,3) top-right (terminal), garden = bottom-right 2x2
+// ====================================================================
+const COL = {bg:"#111111",dim:"#999999",white:"#ffffff",accent:"#64B5F6",
+  red:"#EF5350",green:"#66BB6A",yellow:"#FFEB3B",orange:"#FFA726",teal:"#4DD0E1"};
+const START=[1,1], GOAL=[3,3];
+const GARDEN = new Set(["1,2","1,3","2,2","2,3"]);
+const ACTS = ["U","D","L","R"];                 // indices 0..3
+const DR = {U:1,D:-1,L:0,R:0}, DC = {U:0,D:0,L:-1,R:1};
+const POS=10, NEG=-10, NO=0, GFB=20, WEAK=4;     // WEAK = faint praise for staying on the path
+const MAXSTEP = 30;                              // episode step cap → "cycling"
+// reward tables (verified) keyed "r,c" then action
+const RM = {
+ "1,1":{U:NO,R:NEG}, "2,1":{U:NO,R:NEG,D:NO}, "3,1":{R:NO,D:NO},
+ "1,2":{R:NEG,U:NEG,L:NO}, "2,2":{R:NEG,U:NO,L:NO,D:NEG}, "3,2":{R:GFB,L:NO,D:NEG},
+ "1,3":{U:NEG,L:NEG}, "2,3":{U:GFB,D:NEG,L:NEG}};
+// action-feedback ("how people teach"): +POS for forward progress along the path,
+// but only +WEAK (faint praise, NOT punishment) for BACKTRACKING along it — a human
+// positive-feedback bias. Forward > backward, yet both positive, so the path becomes a
+// farmable +reward cycle: the cat paces the good path collecting praise and never
+// finishes. (Backtrack entries (2,1)D, (3,1)D, (3,2)L were NEG → now WEAK.)
+const AF = {
+ "1,1":{U:POS,R:NEG}, "2,1":{U:POS,R:NEG,D:WEAK}, "3,1":{R:POS,D:WEAK},
+ "1,2":{R:NEG,U:NEG,L:POS}, "2,2":{R:NEG,U:POS,L:NEG,D:NEG}, "3,2":{R:GFB,L:WEAK,D:NEG},
+ "1,3":{U:POS,L:NEG}, "2,3":{U:POS,D:NEG,L:NEG}};
+
+const key = s => s[0]+","+s[1];
+const isGoal = s => s[0]===GOAL[0] && s[1]===GOAL[1];
+const isGarden = s => GARDEN.has(key(s));
+const mdist = s => Math.abs(GOAL[0]-s[0]) + Math.abs(GOAL[1]-s[1]);
+function stepS(s,a){ return [s[0]+DR[a], s[1]+DC[a]]; }
+function validActs(s){
+  const A=[]; if(s[0]<3)A.push("U"); if(s[0]>1)A.push("D"); if(s[1]>1)A.push("L"); if(s[1]<3)A.push("R");
+  return A;
+}
+function reward(s,a){
+  const sp = stepS(s,a);
+  if(params.scheme==="human") return 0;       // human supplies r interactively
+  if(params.scheme==="rm") return RM[key(s)][a];
+  if(params.scheme==="af") return AF[key(s)][a];
+  // potential-based: base(garden/goal) + γΦ(s') − Φ(s),  Φ = −dist
+  const base = isGoal(sp) ? GFB : (isGarden(sp) ? NEG : 0);
+  const Phi = x => -mdist(x);
+  return base + params.gamma*Phi(sp) - Phi(s);
+}
+
+// ====================================================================
+//  STATE
+// ====================================================================
+let Q;                                  // Q[r][c][a]
+let params = {alpha:0.9, gamma:0.95, eps:0.1, scheme:"human"};   // default: YOU teach the cat
+let s = START.slice();                  // current state
+let phase = 0;                          // 0..5 algorithm stage
+let cur = {};                           // pending computed values for the readout
+let episode=1, stepN=0, goals=0, lastCycled=false;
+let revealVerdict=false;                        // human-teacher mode: hide the outcome until revealed
+let running=false, raf=null, acc=0;
+let awaitingFeedback=false, shownEq=null;       // human-teacher mode
+const ACTNAME = {U:"UP", D:"DOWN", L:"LEFT", R:"RIGHT"};
+const humanMode = () => params.scheme==="human";
+
+function freshQ(){
+  Q = [];
+  for(let r=0;r<4;r++){ Q[r]=[]; for(let c=0;c<4;c++) Q[r][c]={U:0,D:0,L:0,R:0}; }
+}
+function qmax(s){           // max over valid actions; 0 if terminal
+  if(isGoal(s)) return 0;
+  let m=-Infinity; for(const a of validActs(s)) m=Math.max(m, Q[s[0]][s[1]][a]);
+  return m;
+}
+function anyQ(){            // has any learning happened yet?
+  for(let r=1;r<=3;r++) for(let c=1;c<=3;c++) for(const a of ACTS)
+    if(Math.abs(Q[r][c][a])>1e-6) return true;
+  return false;
+}
+function greedyAction(s){
+  let best=null, bv=-Infinity;
+  for(const a of validActs(s)){ const v=Q[s[0]][s[1]][a]; if(v>bv){bv=v;best=a;} }
+  return best;
+}
+function epsGreedy(s){
+  const A = validActs(s);
+  const rnd = Math.random();
+  if(rnd < params.eps){ return {a: A[Math.floor(Math.random()*A.length)], rand:rnd, greedy:false}; }
+  // greedy with random tie-break
+  let bv=-Infinity; for(const a of A) bv=Math.max(bv,Q[s[0]][s[1]][a]);
+  const ties = A.filter(a=>Q[s[0]][s[1]][a]===bv);
+  return {a: ties[Math.floor(Math.random()*ties.length)], rand:rnd, greedy:true};
+}
+
+// ---- one algorithm stage (the professor's "show what step it's in") ----
+function advance(){
+  if(phase===0){                              // SELECT
+    const g = epsGreedy(s);
+    cur = {s:s.slice(), a:g.a, rand:g.rand, greedy:g.greedy,
+           qold:Q[s[0]][s[1]][g.a]};
+    phase=1;
+  } else if(phase===1){                        // TAKE → observe r, s'
+    cur.sp = stepS(cur.s, cur.a);
+    cur.r  = reward(cur.s, cur.a);
+    phase=2;
+  } else if(phase===2){                        // look up max Q(s',·)
+    cur.maxq = qmax(cur.sp);
+    phase=3;
+  } else if(phase===3){                        // target
+    cur.target = cur.r + params.gamma*cur.maxq;
+    phase=4;
+  } else if(phase===4){                        // TD error
+    cur.err = cur.target - cur.qold;
+    phase=5;
+  } else if(phase===5){                        // update + advance
+    cur.qnew = cur.qold + params.alpha*cur.err;
+    Q[cur.s[0]][cur.s[1]][cur.a] = cur.qnew;
+    stepN++;
+    s = cur.sp;
+    if(isGoal(s)){ goals++; lastCycled=false; endEpisode(); }
+    else if(stepN>=MAXSTEP){ lastCycled=true; endEpisode(); }
+    phase=0;
+  }
+  render();
+}
+function endEpisode(){ episode++; stepN=0; s=START.slice(); }
+
+// ---- HUMAN-TEACHER mode: the agent moves, YOU supply the reward ----
+function proposeNextHumanMove(){
+  const g = epsGreedy(s);
+  cur = {s:s.slice(), a:g.a, rand:g.rand, greedy:g.greedy,
+         qold:Q[s[0]][s[1]][g.a], sp:stepS(s,g.a)};
+  phase=1; awaitingFeedback=true; render();      // stepper sits on "observe reward r"
+}
+function giveFeedback(val){
+  if(!awaitingFeedback) return;
+  cur.r = val;
+  cur.maxq = qmax(cur.sp);
+  cur.target = cur.r + params.gamma*cur.maxq;
+  cur.err = cur.target - cur.qold;
+  cur.qnew = cur.qold + params.alpha*cur.err;
+  Q[cur.s[0]][cur.s[1]][cur.a] = cur.qnew;        // learn from YOUR feedback
+  shownEq = Object.assign({done:true}, cur);      // keep the completed math on screen
+  awaitingFeedback = false;
+  stepN++;
+  s = cur.sp;
+  if(isGoal(s)){ goals++; lastCycled=false; endEpisode(); }
+  else if(stepN>=MAXSTEP){ lastCycled=true; endEpisode(); }
+  proposeNextHumanMove();                          // cat takes its next action, awaits you again
+}
+
+// ---- silent fast training (so the learned greedy policy can be inspected) ----
+function train(nSteps){
+  for(let i=0;i<nSteps;i++){
+    const g = epsGreedy(s);
+    const sp = stepS(s,g.a), r = reward(s,g.a);
+    const tgt = r + params.gamma*qmax(sp);
+    Q[s[0]][s[1]][g.a] += params.alpha*(tgt - Q[s[0]][s[1]][g.a]);
+    stepN++;
+    if(isGoal(sp)){ goals++; lastCycled=false; episode++; stepN=0; s=START.slice(); }
+    else if(stepN>=MAXSTEP){ lastCycled=true; episode++; stepN=0; s=START.slice(); }
+    else s=sp;
+  }
+  phase=0; cur={}; render();
+}
+
+// ---- greedy rollout from start: detect a positive cycle (never reaches goal) ----
+function greedyTrace(){
+  let p=START.slice();
+  const path=[p.slice()], idx=new Map([[key(p),0]]);
+  let cyc=false, net=null;
+  for(let i=0;i<40;i++){
+    if(isGoal(p)) break;
+    const a=greedyAction(p); if(a==null) break;
+    const np=stepS(p,a); path.push(np.slice());
+    if(idx.has(key(np))){                          // loop closes
+      cyc=true;
+      if(!humanMode()){                            // sum reward around the loop
+        const j=idx.get(key(np)); net=0;
+        for(let t=j;t<path.length-1;t++) net += reward(path[t], greedyAction(path[t]));
+      }
+      break;
+    }
+    idx.set(key(np), path.length-1); p=np;
+  }
+  return {path, reached:isGoal(path[path.length-1]), cyc, net};
+}
+
+// ====================================================================
+//  RENDER
+// ====================================================================
+const canvas=document.getElementById("grid"), ctx=canvas.getContext("2d");
+let W=0,H=0,cell=0,ox=0,oy=0;
+function resize(){
+  const dpr=window.devicePixelRatio||1, L=canvas.parentElement;
+  W=L.clientWidth; H=L.clientHeight;
+  canvas.width=W*dpr; canvas.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  cell=Math.min(W,H)*0.92/3; ox=(W-cell*3)/2; oy=(H-cell*3)/2;
+  render();
+}
+// cell (r,c) → pixel top-left  (row 1 at BOTTOM)
+function cellXY(r,c){ return [ox+(c-1)*cell, oy+(3-r)*cell]; }
+function ctr(r,c){ const [x,y]=cellXY(r,c); return [x+cell/2, y+cell/2]; }
+
+function wedge(r,c,a,val){
+  // triangle from cell center to the edge for action a, colored by Q value
+  const [cx,cy]=ctr(r,c), h=cell/2;
+  const mag=Math.min(1, Math.abs(val)/18);
+  const base = val>0.001?COL.green : val<-0.001?COL.red : "#444";
+  ctx.beginPath(); ctx.moveTo(cx,cy);
+  if(a==="U"){ ctx.lineTo(cx-h,cy-h); ctx.lineTo(cx+h,cy-h);}
+  else if(a==="D"){ ctx.lineTo(cx-h,cy+h); ctx.lineTo(cx+h,cy+h);}
+  else if(a==="L"){ ctx.lineTo(cx-h,cy-h); ctx.lineTo(cx-h,cy+h);}
+  else { ctx.lineTo(cx+h,cy-h); ctx.lineTo(cx+h,cy+h);}
+  ctx.closePath();
+  ctx.globalAlpha=0.18+0.62*mag; ctx.fillStyle=base; ctx.fill(); ctx.globalAlpha=1;
+  // numeric value
+  let tx=cx,ty=cy;
+  if(a==="U")ty=cy-h*0.62; else if(a==="D")ty=cy+h*0.62;
+  else if(a==="L")tx=cx-h*0.6; else tx=cx+h*0.6;
+  if(Math.abs(val)>=0.5){
+    ctx.fillStyle=COL.white;
+    ctx.font="11px DejaVu Sans, sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(val.toFixed(0), tx, ty);
+  }
+}
+function arrow(x1,y1,x2,y2,color,w){
+  ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=w;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  const ang=Math.atan2(y2-y1,x2-x1), hl=9+w;
+  ctx.beginPath(); ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-hl*Math.cos(ang-0.4), y2-hl*Math.sin(ang-0.4));
+  ctx.lineTo(x2-hl*Math.cos(ang+0.4), y2-hl*Math.sin(ang+0.4));
+  ctx.closePath(); ctx.fill();
+}
+function render(){
+  ctx.clearRect(0,0,W,H);
+  // cells
+  for(let r=1;r<=3;r++) for(let c=1;c<=3;c++){
+    const [x,y]=cellXY(r,c);
+    let fc = isGarden([r,c])?"#241015" : "#10241a";
+    if(r===3&&c===3) fc="#2a2410";
+    ctx.fillStyle=fc; ctx.fillRect(x,y,cell,cell);
+    ctx.strokeStyle="#2f3a36"; ctx.lineWidth=1.5; ctx.strokeRect(x,y,cell,cell);
+    // Q wedges (skip goal)
+    if(!(r===3&&c===3)) for(const a of validActs([r,c])) wedge(r,c,a,Q[r][c][a]);
+    // labels
+    ctx.fillStyle=COL.dim; ctx.font="11px DejaVu Sans"; ctx.textAlign="left"; ctx.textBaseline="top";
+    if(isGarden([r,c])){ ctx.fillStyle="#a05; "; ctx.fillStyle=COL.red; ctx.globalAlpha=0.7;
+      ctx.fillText("garden", x+5, y+5); ctx.globalAlpha=1; }
+  }
+  // goal & start glyphs
+  let p=ctr(3,3); ctx.font=Math.round(cell*0.34)+"px serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText("🏠", p[0], p[1]-cell*0.04);
+  ctx.fillStyle=COL.yellow; ctx.font="bold 13px DejaVu Sans"; ctx.fillText("GOAL", p[0], p[1]+cell*0.32);
+  p=ctr(1,1); ctx.fillStyle=COL.dim; ctx.font="12px DejaVu Sans"; ctx.fillText("start", p[0], oy+3*cell-12);
+
+  // greedy policy arrows + trace
+  if(showPol.checked && anyQ()){
+    // the learned (greedy) policy as plain WHITE arrows — no green/red classification;
+    // the verdict banner says whether following them reaches the goal or loops.
+    for(let r=1;r<=3;r++) for(let c=1;c<=3;c++){
+      if(r===3&&c===3) continue;
+      const a=greedyAction([r,c]); if(a==null) continue;
+      const [cx,cy]=ctr(r,c);
+      arrow(cx-DC[a]*cell*0.22, cy+DR[a]*cell*0.22, cx+DC[a]*cell*0.30, cy-DR[a]*cell*0.30, COL.white, 2.6);
+    }
+  }
+  // current-state highlight + next-state highlight during stepping
+  const hs = (phase>0&&cur.s)?cur.s:s;
+  let [hx,hy]=cellXY(hs[0],hs[1]);
+  ctx.strokeStyle=COL.yellow; ctx.lineWidth=3.5; ctx.strokeRect(hx+2,hy+2,cell-4,cell-4);
+  if(cur.sp && (awaitingFeedback || (phase>=2 && phase<=4))){
+    const [nx,ny]=cellXY(cur.sp[0],cur.sp[1]);
+    ctx.strokeStyle=COL.accent; ctx.lineWidth=3; ctx.strokeRect(nx+4,ny+4,cell-8,cell-8);
+  }
+  // chosen-action arrow during select/take
+  if(cur.a && phase>=1 && phase<=2){
+    const [cx,cy]=ctr(cur.s[0],cur.s[1]);
+    arrow(cx,cy, cx+DC[cur.a]*cell*0.42, cy-DR[cur.a]*cell*0.42, COL.yellow, 4);
+  }
+  // agent
+  const ag = (phase===0)?s:cur.s||s;
+  p=ctr(ag[0],ag[1]); ctx.font=Math.round(cell*0.3)+"px serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText("🐱", p[0], p[1]);
+
+  updatePanel();
+}
+
+// ====================================================================
+//  PANEL (stepper highlight + equation + counters + verdict)
+// ====================================================================
+const $=id=>document.getElementById(id);
+function fmt(x){ return (x===undefined||x===null)?"·":(Math.round(x*100)/100); }
+function updatePanel(){
+  // stepper
+  document.querySelectorAll("#stepper li").forEach(li=>{
+    const i=+li.dataset.s; li.classList.toggle("active", i===phase);
+    li.classList.toggle("done", i<phase && phase!==0);
+  });
+  // equation (in human mode, show the LAST completed move's full math)
+  const e = (humanMode() && shownEq) ? shownEq : cur;
+  const done = !!e.done;
+  $("eS").textContent = e.s?("["+e.s+"]"):"s";
+  $("eA").textContent = e.a||"a";
+  $("eQold").textContent = (e.qold!==undefined)?fmt(e.qold):"·";
+  $("eAlpha").textContent = params.alpha;
+  $("eR").textContent = ((done||phase>=2)&&e.r!==undefined)?fmt(e.r):"r";
+  $("eGam").textContent = params.gamma;
+  $("eMax").textContent = ((done||phase>=3)&&e.maxq!==undefined)?fmt(e.maxq):"max′";
+  $("eQ2").textContent = (e.qold!==undefined)?fmt(e.qold):"Q";
+  $("eNew").textContent = ((done||phase>=5)&&e.qnew!==undefined)?fmt(e.qnew):
+                          ((phase>=4&&e.err!==undefined)?("err "+fmt(e.err)):"·");
+  // human-teacher prompt
+  const fp=$("fbprompt");
+  if(awaitingFeedback && cur.a){ fp.style.display="block";
+    $("fbtext").innerHTML = "🐱 at ["+cur.s+"] chose <b>"+ACTNAME[cur.a]+"</b> → ["+cur.sp+"]"
+      + (isGoal(cur.sp)?" the goal!":(isGarden(cur.sp)?" the garden":"")) + ". &nbsp;Reward this move:";
+  } else fp.style.display="none";
+  // counters
+  $("cEp").textContent=episode; $("cStep").textContent=stepN; $("cGoal").textContent=goals;
+  // headline verdict = what the LEARNED (greedy) policy actually does.
+  // In human-teacher mode it stays HIDDEN behind a toggle so the outcome can be
+  // *discovered*: teach the cat first, then reveal whether your lessons reached the goal.
+  const v=$("verdict"), warn=$("cycleWarn"), rb=$("revealBtn");
+  rb.style.display = humanMode() ? "inline-block" : "none";
+  rb.textContent = revealVerdict ? "🙈 Hide the outcome" : "🔍 Reveal: does your teaching reach the goal?";
+  if(humanMode() && !revealVerdict){
+    v.classList.add("placeholder");
+    v.textContent = "🙈 Outcome hidden while you teach the cat.";
+    v.style.color=COL.dim; warn.textContent="";
+  } else if(!anyQ()){
+    v.classList.add("placeholder");
+    v.textContent = humanMode() ? "No lessons yet — give the cat feedback below." : "Untrained — press Step ▸ or Train ▸▸.";
+    v.style.color=COL.dim; warn.textContent="";
+  } else {
+    v.classList.remove("placeholder");
+    const tr=greedyTrace();
+    if(tr.reached){ v.textContent="✓ the learned policy REACHES THE GOAL"; v.style.color=COL.green; warn.textContent=""; }
+    else if(tr.cyc){
+      v.textContent = (tr.net!=null && tr.net>0)
+        ? "✗ the learned policy LOOPS — a +"+fmt(tr.net)+"/lap reward cycle, never reaching the goal"
+        : "✗ the learned policy LOOPS — never reaches the goal";
+      v.style.color=COL.red;
+      warn.textContent = goals>0 ? "🐱 still hits 🏠 sometimes by luck while exploring — but the policy it LEARNED just loops." : "";
+    }
+    else { v.textContent="• the learned policy hasn't settled yet"; v.style.color=COL.orange; warn.textContent=""; }
+  }
+}
+
+// ====================================================================
+//  CONTROLS
+// ====================================================================
+function setModeUI(){           // disable auto-controls while the human teaches
+  const h=humanMode();
+  ["step","run","train"].forEach(id=>{ $(id).disabled=h; $(id).classList.toggle("disabled",h); });
+}
+function resetAll(){
+  freshQ(); s=START.slice(); phase=0; cur={}; shownEq=null; awaitingFeedback=false;
+  episode=1; stepN=0; goals=0; lastCycled=false; revealVerdict=false;
+  stop(); setModeUI();
+  if(humanMode()) proposeNextHumanMove(); else render();
+}
+function stop(){ running=false; if(raf)cancelAnimationFrame(raf); raf=null; $("run").textContent="▶ Run"; }
+function loop(){
+  if(!running) return;
+  acc++; const every=Math.max(1,Math.round(31-$("speed").value));
+  if(acc%every===0) advance();
+  raf=requestAnimationFrame(loop);
+}
+$("step").onclick=()=>{ if(humanMode())return; stop(); advance(); };
+$("run").onclick=()=>{ if(humanMode())return; if(running){stop();} else {running=true; $("run").textContent="⏸ Pause"; acc=0; loop();} };
+$("train").onclick=()=>{ if(humanMode())return; stop(); train(2000); };
+$("reset").onclick=resetAll;
+$("fbGood").onclick=()=>giveFeedback(10);
+$("fbNeut").onclick=()=>giveFeedback(0);
+$("fbBad").onclick=()=>giveFeedback(-10);
+$("revealBtn").onclick=()=>{ revealVerdict=!revealVerdict; render(); };
+$("scheme").onchange=e=>{ params.scheme=e.target.value; resetAll(); };
+$("alpha").oninput=e=>{ params.alpha=+e.target.value; $("vAlpha").textContent=params.alpha.toFixed(2); render(); };
+$("gamma").oninput=e=>{ params.gamma=+e.target.value; $("vGamma").textContent=params.gamma.toFixed(2); render(); };
+$("eps").oninput=e=>{ params.eps=+e.target.value; $("vEps").textContent=params.eps.toFixed(2); };
+const showPol=$("showPol"); showPol.onchange=render;
+window.addEventListener("resize", resize);
+
+// init
+freshQ(); setModeUI(); resize();
+if(humanMode()) proposeNextHumanMove();   // default human mode → start the teaching flow
+</script>
+</body>
+</html>

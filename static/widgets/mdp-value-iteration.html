@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Value iteration on the Chibany MDP</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:9px 14px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:14px;border-bottom:1px solid #2a2a33;font-size:14px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:6px;}
+  input[type=range]{width:150px;accent-color:var(--accent);cursor:pointer;}
+  .val{color:var(--yellow);font-weight:700;min-width:34px;display:inline-block;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:6px;
+    padding:6px 12px;font-size:14px;cursor:pointer;font-weight:600;}
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent);color:#06121f;border-color:var(--accent);}
+  #sweep{margin-left:auto;color:var(--white);font-size:15px;}
+  #sweep b{color:var(--yellow);font-size:19px;}
+  #stage{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:7%;padding:18px 6% 0;min-height:0;}
+  .col{flex:0 0 22%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;}
+  .track{position:relative;width:62%;flex:1;display:flex;align-items:flex-end;
+    border-bottom:2px solid #3a3a48;min-height:0;}
+  .bar{width:100%;border-radius:6px 6px 0 0;transition:height .28s ease;position:relative;}
+  .bar .v{position:absolute;top:-22px;left:0;right:0;text-align:center;font-weight:800;font-size:15px;}
+  .target{position:absolute;left:-6px;right:-6px;border-top:2px dashed #777;}
+  .target span{position:absolute;right:0;top:-15px;font-size:10px;color:#888;}
+  .name{margin-top:8px;font-weight:700;font-size:15px;}
+  .rew{color:var(--dim);font-size:12px;margin-top:1px;}
+  .rew input{width:42px;background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:2px 4px;font-size:12px;text-align:center;}
+  .act{margin-top:7px;font-weight:800;font-size:14px;padding:3px 10px;border-radius:14px;border:1.5px solid currentColor;}
+  #note{flex:0 0 auto;text-align:center;color:var(--dim);font-size:13.5px;padding:8px 14px 12px;min-height:20px;}
+  #note b{color:var(--white);}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="controls">
+    <label>discount γ <input type="range" id="g" min="0" max="0.95" step="0.01" value="0.9"><span class="val" id="gv">0.90</span></label>
+    <button class="primary" id="step">Sweep ▸</button>
+    <button id="run">▶ Run</button>
+    <button id="reset">⟲ Reset</button>
+    <div id="sweep">sweep <b id="k">0</b></div>
+  </div>
+  <div id="stage">
+    <div class="col" data-s="0"><div class="track"><div class="bar"><span class="v"></span></div><div class="target"><span></span></div></div><div class="name">Junk</div><div class="rew">R = <input type="number" class="rin" data-s="0" value="1" step="1"></div><div class="act"></div></div>
+    <div class="col" data-s="1"><div class="track"><div class="bar"><span class="v"></span></div><div class="target"><span></span></div></div><div class="name">Trying</div><div class="rew">R = <input type="number" class="rin" data-s="1" value="-2" step="1"></div><div class="act"></div></div>
+    <div class="col" data-s="2"><div class="track"><div class="bar"><span class="v"></span></div><div class="target"><span></span></div></div><div class="name">Healthy</div><div class="rew">R = <input type="number" class="rin" data-s="2" value="5" step="1"></div><div class="act"></div></div>
+  </div>
+  <div id="note"></div>
+</div>
+<script>
+"use strict";
+const COL={orange:"#FFA726",red:"#EF5350",green:"#66BB6A",accent:"#64B5F6",purple:"#BA68C8",dim:"#999999"};
+const SCOL=[COL.orange,COL.red,COL.green];          // state colors: Junk / Trying / Healthy
+const ACOL=[COL.purple,COL.accent];                 // action colors: Indulge / Invest
+const ANAME=["Indulge","Invest"];
+// the Chibany MDP -- identical to the chapter code
+const T=[[[.9,.1,0],[.7,.3,0],[.2,.5,.3]],          // Indulge
+         [[.4,.6,0],[.1,.4,.5],[0,.1,.9]]];         // Invest
+let R=[1,-2,5];                                      // editable state rewards
+const VMAX=42;                                       // bar-scale floor (grows if values exceed it)
+
+let V=[0,0,0], pol=[0,0,0], sweep=0, gamma=0.9, running=false, timer=null;
+
+function bellman(V,g){
+  const Vn=[0,0,0], p=[0,0,0];
+  for(let s=0;s<3;s++){
+    let best=-1e9, ba=0;
+    for(let a=0;a<2;a++){
+      let q=R[s];
+      for(let sp=0;sp<3;sp++) q+=g*T[a][s][sp]*V[sp];
+      if(q>best){best=q;ba=a;}
+    }
+    Vn[s]=best; p[s]=ba;
+  }
+  return {Vn,p};
+}
+function converged(g){ let v=[0,0,0]; for(let i=0;i<400;i++) v=bellman(v,g).Vn; return {v, p:bellman(v,g).p}; }
+
+const $=s=>document.querySelector(s);
+const cols=[...document.querySelectorAll(".col")];
+function render(){
+  const star=converged(gamma);
+  const scale=Math.max(VMAX, ...star.v.map(x=>Math.max(0,x)), ...V.map(x=>Math.max(0,x)))*1.06;
+  cols.forEach((col,s)=>{
+    const bar=col.querySelector(".bar"), v=col.querySelector(".v"),
+          tgt=col.querySelector(".target"), tlab=tgt.querySelector("span"), act=col.querySelector(".act");
+    const h=Math.max(0,Math.min(1,V[s]/scale));
+    bar.style.height=(h*100)+"%";
+    bar.style.background=SCOL[s];
+    v.textContent=V[s].toFixed(1); v.style.color=SCOL[s];
+    const th=Math.max(0,Math.min(1,star.v[s]/scale));
+    tgt.style.bottom=(th*100)+"%"; tlab.textContent="→ "+star.v[s].toFixed(0);
+    act.textContent=ANAME[pol[s]]; act.style.color=ACOL[pol[s]];
+  });
+  $("#k").textContent=sweep;
+  // note: highlight Junk's policy + the gamma threshold
+  const jp=star.p[0];
+  $("#note").innerHTML = `at γ = <b>${gamma.toFixed(2)}</b>, the optimal policy is `
+    + `<b style="color:${ACOL[star.p[0]]}">${ANAME[star.p[0]]}</b> / `
+    + `<b style="color:${ACOL[star.p[1]]}">${ANAME[star.p[1]]}</b> / `
+    + `<b style="color:${ACOL[star.p[2]]}">${ANAME[star.p[2]]}</b> (Junk / Trying / Healthy). `
+    + (jp===1 ? `Junk braves the −2 trough to reach Healthy.` : `Junk stays in the rut — too impatient for the +5.`)
+    + `  <span style="color:#777">Dashed line = converged value.</span>`;
+}
+function step(){ const r=bellman(V,gamma); V=r.Vn; pol=r.p; sweep++; render();
+  if(running && sweep>=80) stop(); }
+function run(){ if(running){stop();return;} running=true; $("#run").textContent="⏸ Pause";
+  timer=setInterval(step,260); }
+function stop(){ running=false; if(timer)clearInterval(timer); timer=null; $("#run").textContent="▶ Run"; }
+function reset(){ stop(); V=[0,0,0]; pol=[0,0,0]; sweep=0; render(); }
+
+$("#step").onclick=()=>{ stop(); step(); };
+$("#run").onclick=run;
+$("#reset").onclick=reset;
+$("#g").oninput=e=>{ gamma=+e.target.value; $("#gv").textContent=gamma.toFixed(2); reset(); };
+document.querySelectorAll(".rin").forEach(inp=>inp.addEventListener("input",()=>{
+  R[+inp.dataset.s]=(+inp.value)||0; reset();        // new rewards -> restart the sweeps
+}));
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loss → estimator explorer</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;
+    overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:9px 14px;display:flex;
+    flex-wrap:wrap;align-items:center;gap:10px;border-bottom:1px solid #2a2a33;}
+  #controls .lbl{color:var(--dim);font-size:14px;margin-right:2px;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:6px;
+    padding:7px 13px;font-size:14px;cursor:pointer;font-weight:600;}
+  button:hover{border-color:var(--accent);}
+  button.active{color:#06121f;font-weight:800;}
+  button#b01.active{background:var(--orange);border-color:var(--orange);}
+  button#bsq.active{background:var(--accent);border-color:var(--accent);}
+  button#bab.active{background:var(--green);border-color:var(--green);}
+  #readout{flex:1 1 100%;font-size:15px;color:var(--white);padding-top:3px;min-width:0;}
+  #readout b{font-weight:800;}
+  canvas{display:block;width:100%;height:100%;}
+  #stage{flex:1;min-height:0;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="controls">
+    <span class="lbl">loss function:</span>
+    <button id="b01">0–1  → mode (MAP)</button>
+    <button id="bsq" class="active">squared L²  → mean</button>
+    <button id="bab">absolute L¹  → median</button>
+    <div id="readout"></div>
+  </div>
+  <div id="stage"><canvas id="cv"></canvas></div>
+</div>
+<script>
+"use strict";
+const COL = {bg:"#111111",dim:"#999999",white:"#fff",accent:"#64B5F6",red:"#EF5350",
+  green:"#66BB6A",yellow:"#FFEB3B",orange:"#FFA726",purple:"#BA68C8"};
+
+// ---- the SAME skewed posterior as the chapter code: dens ∝ x^2.3 · e^(-x/1.15) ----
+const N = 400, XMAX = 10;
+const grid = Array.from({length:N}, (_,i)=> i*XMAX/(N-1));
+const dx = grid[1]-grid[0];
+let dens = grid.map(x => Math.pow(x,2.3)*Math.exp(-x/1.15));
+const Z = dens.reduce((s,d)=>s+d*dx,0);
+dens = dens.map(d=>d/Z);
+
+// summaries read straight off the posterior
+const mode = grid[dens.reduce((bi,d,i,a)=> d>a[bi]?i:bi, 0)];
+const mean = grid.reduce((s,x,i)=> s + x*dens[i]*dx, 0);
+let cum=0, median=grid[0];
+for(let i=0;i<N;i++){ cum+=dens[i]*dx; if(cum>=0.5){ median=grid[i]; break; } }
+
+// loss functions and their target summaries
+const LOSSES = {
+  "01": {name:"0–1 loss", target:"mode (MAP)", est:mode, col:COL.orange,
+         f:(t,a)=> Math.abs(t-a)>0.10 ? 1 : 0},
+  "sq": {name:"squared loss L²", target:"mean", est:mean, col:COL.accent,
+         f:(t,a)=> (t-a)*(t-a)},
+  "ab": {name:"absolute loss L¹", target:"median", est:median, col:COL.green,
+         f:(t,a)=> Math.abs(t-a)},
+};
+let cur = "sq";
+
+// expected loss curve E[L](a) for the current loss, over every candidate a
+function expectedLoss(key){
+  const f = LOSSES[key].f;
+  const EL = new Array(N).fill(0);
+  for(let i=0;i<N;i++){
+    let s=0; const a=grid[i];
+    for(let j=0;j<N;j++) s += f(grid[j], a)*dens[j]*dx;
+    EL[i]=s;
+  }
+  return EL;
+}
+const ELcache = {"01":expectedLoss("01"), "sq":expectedLoss("sq"), "ab":expectedLoss("ab")};
+
+const cv=document.getElementById("cv"), ctx=cv.getContext("2d");
+let W=0,H=0;
+function resize(){
+  const dpr=window.devicePixelRatio||1, st=cv.parentElement;
+  W=st.clientWidth; H=st.clientHeight;
+  cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  render();
+}
+const xpix = (x, pad, w) => pad + (x/XMAX)*(w-2*pad);
+
+function panel(y0, h, title){
+  ctx.fillStyle=COL.dim; ctx.font="13px DejaVu Sans, sans-serif";
+  ctx.textAlign="left"; ctx.textBaseline="top";
+  ctx.fillText(title, 16, y0+4);
+}
+function axis(y0,h,pad){
+  ctx.strokeStyle="#2f3a36"; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(pad, y0+h-22); ctx.lineTo(W-pad/2, y0+h-22); ctx.stroke();
+  ctx.fillStyle=COL.dim; ctx.font="11px DejaVu Sans"; ctx.textAlign="center"; ctx.textBaseline="top";
+  for(let x=0;x<=XMAX;x+=2){ const px=xpix(x,pad,W); ctx.fillText(x.toFixed(0), px, y0+h-18); }
+}
+function vline(x, y0, h, color, label, dash){
+  const px=xpix(x, 60, W);
+  ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=2.4; if(dash) ctx.setLineDash([6,4]);
+  ctx.beginPath(); ctx.moveTo(px, y0+22); ctx.lineTo(px, y0+h-22); ctx.stroke(); ctx.restore();
+  if(label){ ctx.fillStyle=color; ctx.font="bold 12px DejaVu Sans"; ctx.textAlign="center";
+    ctx.textBaseline="bottom"; ctx.fillText(label, px, y0+24); }
+}
+
+function render(){
+  ctx.clearRect(0,0,W,H);
+  const pad=60, gap=14;
+  const h1=Math.round((H-gap)*0.52), h2=(H-gap)-h1, y1=0, y2=h1+gap;
+  const Lc=LOSSES[cur];
+
+  // ---------- top panel: the posterior, with all three summaries ----------
+  panel(y1,h1,"posterior over θ  (bento weight, ×100 g)");
+  const dmax=Math.max(...dens);
+  ctx.beginPath();
+  for(let i=0;i<N;i++){ const px=xpix(grid[i],pad,W), py=y1+h1-22-(dens[i]/dmax)*(h1-46);
+    i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+  ctx.lineTo(xpix(XMAX,pad,W), y1+h1-22); ctx.lineTo(xpix(0,pad,W), y1+h1-22); ctx.closePath();
+  ctx.fillStyle="rgba(186,104,200,0.18)"; ctx.fill();
+  ctx.strokeStyle=COL.purple; ctx.lineWidth=2.4; ctx.stroke();
+  axis(y1,h1,pad);
+  // faint markers for the two inactive summaries, bold for the active one
+  const marks=[["01",mode,"mode"],["ab",median,"median"],["sq",mean,"mean"]];
+  for(const [k,val,lab] of marks){
+    const active = (k===cur);
+    vline(val, y1, h1, active?LOSSES[k].col:"#555", active?(lab+" ✓"):lab, true);
+  }
+
+  // ---------- bottom panel: expected loss E[L](a) ----------
+  panel(y2,h2,"expected loss  E[L(θ, a)]  as a function of the action a");
+  const EL=ELcache[cur], emin=Math.min(...EL), emax=Math.max(...EL);
+  ctx.beginPath();
+  for(let i=0;i<N;i++){ const px=xpix(grid[i],pad,W),
+    py=y2+h2-22-((EL[i]-emin)/(emax-emin+1e-9))*(h2-46);
+    i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+  ctx.strokeStyle=Lc.col; ctx.lineWidth=2.8; ctx.stroke();
+  axis(y2,h2,pad);
+  // mark the minimum (= the optimal estimate)
+  const ai=EL.reduce((bi,e,i,a)=> e<a[bi]?i:bi,0);
+  const px=xpix(grid[ai],pad,W), py=y2+h2-22;
+  ctx.fillStyle=Lc.col; ctx.beginPath(); ctx.arc(px, py-( (EL[ai]-emin)/(emax-emin+1e-9))*(h2-46), 6, 0, 7); ctx.fill();
+  vline(grid[ai], y2, h2, Lc.col, "argmin", false);
+
+  // readout
+  document.getElementById("readout").innerHTML =
+    `<b style="color:${Lc.col}">${Lc.name}</b> → optimal estimate = <b style="color:${Lc.col}">${Lc.target}</b> `
+    + `= <b>${Lc.est.toFixed(2)}</b> &nbsp;·&nbsp; <span style="color:${COL.dim}">mode ${mode.toFixed(2)} · median ${median.toFixed(2)} · mean ${mean.toFixed(2)}</span>`;
+}
+
+function setLoss(k){
+  cur=k;
+  for(const [id,key] of [["b01","01"],["bsq","sq"],["bab","ab"]])
+    document.getElementById(id).classList.toggle("active", key===k);
+  render();
+}
+document.getElementById("b01").onclick=()=>setLoss("01");
+document.getElementById("bsq").onclick=()=>setLoss("sq");
+document.getElementById("bab").onclick=()=>setLoss("ab");
+window.addEventListener("resize", resize);
+resize();
+</script>
+</body>
+</html>

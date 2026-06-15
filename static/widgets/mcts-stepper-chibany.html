@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Step-by-step MCTS on the Chibany MDP</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:8px 14px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:12px;border-bottom:1px solid #2a2a33;font-size:14px;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:6px;
+    padding:6px 12px;font-size:14px;cursor:pointer;font-weight:600;}
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent);color:#06121f;border-color:var(--accent);}
+  .rew{color:var(--dim);font-size:12.5px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+  .rew input{width:42px;background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:3px 5px;font-size:12.5px;}
+  .rew b{font-weight:700;}
+  #iter{margin-left:auto;color:var(--white);}#iter b{color:var(--yellow);font-size:18px;}
+  #phases{display:flex;gap:6px;padding:9px 14px;flex:0 0 auto;}
+  .ph{flex:1;text-align:center;font-size:13px;font-weight:700;color:#777;padding:6px 4px;border-radius:6px;
+    border:1.5px solid #2a2a33;}
+  .ph.on{color:#06121f;}
+  .ph.on[data-p="0"]{background:var(--accent);border-color:var(--accent);}
+  .ph.on[data-p="1"]{background:var(--yellow);border-color:var(--yellow);}
+  .ph.on[data-p="2"]{background:var(--green);border-color:var(--green);}
+  .ph.on[data-p="3"]{background:var(--orange);border-color:var(--orange);}
+  #stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:0;padding:6px;}
+  #root{font-weight:800;font-size:16px;padding:8px 18px;border:2px solid var(--orange);border-radius:12px;color:var(--orange);}
+  #edges{display:flex;gap:48px;margin-top:4px;}
+  .child{width:210px;border:2px solid #3a3a48;border-radius:12px;padding:10px 12px;text-align:center;background:#15151c;}
+  .child.sel{border-color:var(--accent);box-shadow:0 0 0 3px rgba(100,181,246,.25);}
+  .child .lab{font-weight:800;font-size:15px;}
+  .child .stat{font-size:13px;color:var(--dim);margin-top:5px;font-family:"DejaVu Sans Mono",monospace;}
+  .child .q{color:var(--yellow);font-weight:700;}
+  .child .bar{height:7px;border-radius:4px;margin-top:7px;background:#2a2a33;overflow:hidden;}
+  .child .bar i{display:block;height:100%;background:var(--accent);}
+  #sim{min-height:46px;text-align:center;font-size:14px;color:var(--green);font-family:"DejaVu Sans Mono",monospace;}
+  #verdict{font-size:15px;font-weight:700;min-height:22px;}
+  .note{color:var(--dim);font-size:12.5px;text-align:center;max-width:560px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="controls">
+    <button class="primary" id="next">Next phase ▸</button>
+    <button id="run">▶ Run</button>
+    <button id="reset">⟲ Reset</button>
+    <span class="rew">rewards:
+      R(<b style="color:var(--orange)">Junk</b>)<input type="number" id="rJ" value="1" step="1">
+      R(<b style="color:var(--red)">Trying</b>)<input type="number" id="rT" value="-2" step="1">
+      R(<b style="color:var(--green)">Healthy</b>)<input type="number" id="rH" value="5" step="1">
+    </span>
+    <div id="iter">iteration <b id="it">0</b></div>
+  </div>
+  <div id="phases">
+    <div class="ph" data-p="0">1 · SELECT</div>
+    <div class="ph" data-p="1">2 · EXPAND</div>
+    <div class="ph" data-p="2">3 · SIMULATE</div>
+    <div class="ph" data-p="3">4 · BACKUP</div>
+  </div>
+  <div id="stage">
+    <div id="root">root: Junk rut  (R = <span id="rootR">+1</span>)</div>
+    <div style="color:#555">▼ choose an action ▼</div>
+    <div id="edges">
+      <div class="child" data-a="0"><div class="lab" style="color:var(--purple)">Indulge</div>
+        <div class="stat">visits N = <span class="n">0</span></div>
+        <div class="stat">value <span class="q">—</span></div>
+        <div class="stat">UCB <span class="u">∞</span></div>
+        <div class="bar"><i></i></div></div>
+      <div class="child" data-a="1"><div class="lab" style="color:var(--accent)">Invest</div>
+        <div class="stat">visits N = <span class="n">0</span></div>
+        <div class="stat">value <span class="q">—</span></div>
+        <div class="stat">UCB <span class="u">∞</span></div>
+        <div class="bar"><i></i></div></div>
+    </div>
+    <div id="sim"></div>
+    <div id="verdict"></div>
+    <div class="note">Each iteration: <b>select</b> an action by its UCB score, <b>expand</b> to the
+      next state the model samples, <b>simulate</b> by rolling out that strategy (keep taking the chosen
+      action) for its discounted return, then <b>back up</b> that return into the action's running value.
+      Invest's rollouts reach Healthy and pull ahead; Indulge's stay in the rut.</div>
+  </div>
+</div>
+<script>
+"use strict";
+const COL={purple:"#BA68C8",accent:"#64B5F6",green:"#66BB6A",dim:"#999999",yellow:"#FFEB3B"};
+const T=[[[.9,.1,0],[.7,.3,0],[.2,.5,.3]],[[.4,.6,0],[.1,.4,.5],[0,.1,.9]]];
+let R=[1,-2,5];                                       // editable state rewards
+const G=0.9, SN=["Junk","Trying","Healthy"], AN=["Indulge","Invest"], C=2.0;
+let seed=7>>>0;
+function rnd(){ seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296; }
+function sample(s,a){ const r=rnd();let c=0;for(let sp=0;sp<3;sp++){c+=T[a][s][sp];if(r<c)return sp;}return 2; }
+function rollout(s,a){ let tot=0,disc=1; for(let i=0;i<40;i++){tot+=disc*R[s];disc*=G;s=sample(s,a);} return tot; }
+
+let N=[0,0], W=[0,0], iter=0, phase=0, selA=null, expS=null, ret=0, running=false, timer=null;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function ucb(a){ if(N[a]===0) return Infinity; const tot=N[0]+N[1];
+  return W[a]/N[a] + C*Math.sqrt(Math.log(tot+1)/N[a]); }
+
+function render(){
+  $$(".ph").forEach(p=>p.classList.toggle("on", +p.dataset.p===phase));
+  $("#it").textContent=iter;
+  $("#rootR").textContent=(R[0]>=0?"+":"")+R[0];
+  const vmax=Math.max(15, ...[0,1].map(a=>N[a]?Math.abs(W[a]/N[a]):0))*1.05;   // adaptive bar scale
+  $$(".child").forEach(ch=>{
+    const a=+ch.dataset.a;
+    ch.querySelector(".n").textContent=N[a];
+    ch.querySelector(".q").textContent=N[a]?(W[a]/N[a]).toFixed(1):"—";
+    const u=ucb(a); ch.querySelector(".u").textContent=(u===Infinity)?"∞":u.toFixed(2);
+    ch.classList.toggle("sel", selA===a && phase>0);
+    const q=N[a]?(W[a]/N[a]):0; ch.querySelector(".bar i").style.width=Math.max(0,Math.min(100,q/vmax*100))+"%";
+  });
+  // verdict
+  if(N[0]+N[1]>0){
+    const best=(W[1]/Math.max(1,N[1]))>=(W[0]/Math.max(1,N[0]))?1:0;
+    $("#verdict").innerHTML=`MCTS currently favors <b style="color:${best?COL.accent:COL.purple}">${AN[best]}</b>`;
+    $("#verdict").style.color=COL.dim;
+  } else $("#verdict").textContent="";
+}
+function setSim(txt,col){ $("#sim").style.color=col||COL.green; $("#sim").innerHTML=txt; }
+
+function step(){
+  if(phase===0){                       // SELECT
+    selA = (ucb(0)>=ucb(1))?0:1;
+    setSim(`UCB(Indulge)=${ucb(0)===Infinity?"∞":ucb(0).toFixed(2)} , UCB(Invest)=${ucb(1)===Infinity?"∞":ucb(1).toFixed(2)} &nbsp;→ pick <b>${AN[selA]}</b>`, COL.accent);
+    phase=1;
+  } else if(phase===1){                 // EXPAND
+    expS = sample(0, selA);
+    setSim(`take <b>${AN[selA]}</b> from Junk → model samples next state <b>${SN[expS]}</b>`, COL.yellow);
+    phase=2;
+  } else if(phase===2){                 // SIMULATE
+    const roll = rollout(expS, selA);  // roll out the strategy "keep choosing the selected action"
+    ret = R[0] + G*roll;               // return = reward at root + discounted rollout from expanded state
+    setSim(`roll out "keep ${AN[selA]}-ing" from <b>${SN[expS]}</b> … discounted return <b>G = ${ret.toFixed(1)}</b>`, COL.green);
+    phase=3;
+  } else {                              // BACKUP
+    N[selA]++; W[selA]+=ret;
+    setSim(`back up G = ${ret.toFixed(1)} into <b>${AN[selA]}</b> → N=${N[selA]}, value=${(W[selA]/N[selA]).toFixed(1)}`, COL.orange||"#FFA726");
+    iter++; phase=0;
+  }
+  render();
+}
+function stop(){ running=false; if(timer)clearInterval(timer); timer=null; $("#run").textContent="▶ Run"; }
+$("#next").onclick=()=>{ stop(); step(); };
+$("#run").onclick=function(){ if(running){stop();return;} running=true; this.textContent="⏸ Pause";
+  timer=setInterval(()=>{ step(); if(iter>=60) stop(); }, 320); };
+function resetAll(){ stop(); N=[0,0];W=[0,0];iter=0;phase=0;selA=null;expS=null;ret=0;seed=7>>>0; setSim(""); render(); }
+$("#reset").onclick=resetAll;
+for(const id of ["rJ","rT","rH"]) $("#"+id).addEventListener("input",()=>{
+  R=[(+$("#rJ").value)||0,(+$("#rT").value)||0,(+$("#rH").value)||0]; resetAll();   // new rewards -> restart search
+});
+render();
+</script>
+</body>
+</html>
