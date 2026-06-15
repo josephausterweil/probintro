@@ -1,5 +1,5 @@
 +++
-date = "2026-06-10"
+date = "2026-06-15"
 title = "Continuous Probability and Bayesian Learning"
 # NOTE: Ch7 (Bayesian Generalization) is a page bundle: content/intro2/07_generalization/ with
 #   _index.md (overview) + 4 part pages. The mermaid node below is a diagram label, not a link.

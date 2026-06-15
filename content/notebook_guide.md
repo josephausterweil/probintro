@@ -1,5 +1,5 @@
 +++
-date = "2026-06-10"
+date = "2026-06-15"
 title = "Interactive Notebooks - All Tutorials"
 weight = 99
 +++
@@ -437,6 +437,66 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 
 ---
 
+### Statistical Decision Theory
+**Notebook**: [📓 Open in Colab: `20_statistical_decision_theory.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/20_statistical_decision_theory.ipynb)
+
+**What it covers:**
+- From beliefs to actions: the decision problem, loss, and risk
+- Bayes vs minimax criteria, disagreeing on the same numbers
+- The loss → estimator rule: 0–1 → mode (MAP), squared → mean, absolute → median
+- Expected loss by sampling the posterior in GenJAX
+- *One and Done*: why optimal decisions can come from a single sample (Vul et al.)
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**Topics:**
+- Decision theory, loss functions, risk, Bayes vs minimax
+- MAP / mean / median as Bayes estimators
+- Monte-Carlo decisions and probability matching
+
+---
+
+### Markov Decision Processes
+**Notebook**: [📓 Open in Colab: `21_markov_decision_processes.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/21_markov_decision_processes.ipynb)
+
+**What it covers:**
+- Building an MDP: Markov chain + reward + a choice of transition matrix
+- The transition as a GenJAX generative model
+- Value, the Bellman equation, and value iteration on the Chibany MDP
+- The discount factor γ and the policy-flip threshold
+- Estimating a value by simulating rollouts (the Monte-Carlo bridge)
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**Topics:**
+- MDPs, policies, the Bellman equation, value iteration
+- Discounting and the γ-flip
+- Planning by simulation
+
+---
+
+### Q-Learning
+**Notebook**: [📓 Open in Colab: `22_q_learning.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/22_q_learning.ipynb)
+
+**What it covers:**
+- The model-free TD update: learning rate α and the TD error
+- Q-learning on the GardenPath gridworld
+- Reward shaping and positive cycles; potential-based shaping as the fix
+- Dyna and MCTS: planning with a learned model (simulation-based RL)
+- Reward hacking → RLHF; the TD error → dopamine
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**Topics:**
+- Q-learning, TD error, ε-greedy exploration
+- Reward shaping, positive cycles, reward hacking
+- Dyna, Monte Carlo Tree Search, simulation-based RL
+
+---
+
 ## Recommended Learning Paths
 
 ### Path 1: Complete Beginner
@@ -477,6 +537,11 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 2. `17_particle_filtering.ipynb` - Streaming inference; weight → resample → propagate
 3. `18_markov_chain_monte_carlo.ipynb` - Designing a chain to hit a target; Metropolis–Hastings and Gibbs
 4. `19_sampling_the_mind.ipynb` - MCMC with People and a sampler for the hierarchical Beta-Binomial
+
+### Path 7: Decisions & Reinforcement Learning
+1. `20_statistical_decision_theory.ipynb` - From beliefs to actions: loss, risk, Bayes vs minimax, and one-and-done decisions
+2. `21_markov_decision_processes.ipynb` - MDPs, the Bellman equation, value iteration, and planning by simulation
+3. `22_q_learning.ipynb` - Model-free Q-learning, reward shaping and positive cycles, Dyna and MCTS
 
 ---
 
@@ -528,6 +593,9 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `17_particle_filtering.ipynb` | Tutorial 3 | Particle filters, sequential inference | ⭐⭐⭐ Advanced |
 | `18_markov_chain_monte_carlo.ipynb` | Tutorial 3 | Metropolis–Hastings, Gibbs, mixing | ⭐⭐⭐ Advanced |
 | `19_sampling_the_mind.ipynb` | Tutorial 3 | MCMC with People, Kemp hierarchy sampler | ⭐⭐⭐⭐ Expert |
+| `20_statistical_decision_theory.ipynb` | Tutorial 3 | Loss, risk, Bayes vs minimax, one-and-done | ⭐⭐⭐ Advanced |
+| `21_markov_decision_processes.ipynb` | Tutorial 3 | MDPs, Bellman, value iteration, simulation | ⭐⭐⭐ Advanced |
+| `22_q_learning.ipynb` | Tutorial 3 | Q-learning, reward shaping, Dyna, MCTS | ⭐⭐⭐⭐ Expert |
 
 ---
 

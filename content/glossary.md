@@ -1,5 +1,5 @@
 +++
-date = "2026-06-10"
+date = "2026-06-15"
 title = "Glossary - All Tutorials"
 weight = 100
 +++
@@ -1608,6 +1608,213 @@ A method (Sanborn & Griffiths, 2007) that treats a *person* as the accept step o
 **Appears in:** [Tutorial 3, Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/#when-a-person-is-the-accept-step)
 
 **See also:** [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-), [Metropolis–Hastings](#metropolishastings-), [Prior Distribution](#prior-distribution-)
+{{% /expand %}}
+
+### Statistical Decision Theory 📊
+{{% expand "Statistical Decision Theory" %}}
+The normative account of how to turn a belief into an action once you say what your mistakes cost. It has four pieces: the unknown state of the world $\theta$, an observation $x$, an action $a$ from a set $A$, and a **loss** $L(\theta,a)$; a decision rule $d(x)$ maps observations to actions, and the optimal rule minimizes expected loss.
+
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**See also:** [Loss Function](#loss-function-), [Risk](#risk-), [Bayes Estimator](#bayes-estimator-), [Minimax](#minimax-)
+{{% /expand %}}
+
+### Loss Function 📊
+{{% expand "Loss Function" %}}
+A function $L(\theta, a)$ giving the cost of taking action $a$ when the world is really $\theta$ — the mirror image of reward. The loss you choose determines which decision is optimal: **0–1 loss → posterior mode (MAP)**, **squared loss → posterior mean**, **absolute loss → posterior median**.
+
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**See also:** [Risk](#risk-), [Bayes Estimator](#bayes-estimator-), [MAP Estimate](#map-estimate-), [Reward](#reward-)
+{{% /expand %}}
+
+### Risk 📊
+{{% expand "Risk" %}}
+The expected loss of a decision rule, $R(\theta, d) = \mathbb{E}_x[L(\theta, d(x))]$ — a report card on a rule, averaged over the data. The **Bayes** criterion minimizes prior-/posterior-expected risk; the **minimax** criterion minimizes the worst-case risk over $\theta$.
+
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**See also:** [Loss Function](#loss-function-), [Minimax](#minimax-), [Bayes Estimator](#bayes-estimator-)
+{{% /expand %}}
+
+### Bayes Estimator 📊
+{{% expand "Bayes Estimator" %}}
+The action (often an estimate) that minimizes **posterior-expected loss**, $\arg\min_a \mathbb{E}_{\theta\mid x}[L(\theta,a)]$. Under 0–1, squared, and absolute loss it equals the posterior mode, mean, and median respectively.
+
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**See also:** [Loss Function](#loss-function-), [Risk](#risk-), [MAP Estimate](#map-estimate-), [Posterior Distribution](#posterior-distribution-)
+{{% /expand %}}
+
+### Minimax 📊
+{{% expand "Minimax" %}}
+A decision criterion that ignores the prior and minimizes the **worst-case** loss: $\arg\min_d \max_\theta R(\theta, d)$. The pessimist's rule — it buys insurance against the catastrophe at the cost of being worse in the typical case, where the Bayes rule wins.
+
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**See also:** [Risk](#risk-), [Bayes Estimator](#bayes-estimator-), [Statistical Decision Theory](#statistical-decision-theory-)
+{{% /expand %}}
+
+### MAP Estimate 📊
+{{% expand "MAP Estimate" %}}
+The **maximum a posteriori** estimate — the value that maximizes the posterior, i.e. the posterior **mode**. It is the Bayes estimator under **0–1 loss** (you pay 1 unless you are exactly right, so you bet on the densest point).
+
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**See also:** [Bayes Estimator](#bayes-estimator-), [Loss Function](#loss-function-), [Posterior Distribution](#posterior-distribution-)
+{{% /expand %}}
+
+### Probability Matching 📊
+{{% expand "Probability Matching" %}}
+Choosing options in proportion to their probability rather than always choosing the most likely one. Long seen as an "irrationality," it is exactly the policy of a sampler that values its time: **one and done** (Vul, Goodman, Griffiths & Tenenbaum, 2014) shows that when samples cost time, deciding from a *single* sample maximizes reward rate — and a one-sample decision matches the posterior.
+
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**See also:** [Monte Carlo Simulation](#monte-carlo-simulation-), [Bayes Estimator](#bayes-estimator-)
+{{% /expand %}}
+
+### Markov Decision Process 📊
+{{% expand "Markov Decision Process" %}}
+A model of sequential decision-making with five pieces: states $S$, actions $A$, a transition function $T(s'\mid s,a)$ (one transition matrix **per action**), a reward $R$, and a discount $\gamma$. An action selects *which* transition matrix governs the next state. A plain Markov chain is the special case with a single action.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**See also:** [Policy](#policy-), [Reward](#reward-), [Discount Factor](#discount-factor-), [Value Function](#value-function-), [Markov Chain](#markov-chain-)
+{{% /expand %}}
+
+### Policy 📊
+{{% expand "Policy" %}}
+An agent's rule for acting, $\pi(a\mid s)$ — which action to take in each state. Because the world is Markov, a policy needs only the *current* state, which is what tames the combinatorial blow-up of planning a whole sequence of actions. The **optimal policy** $\pi^*$ achieves the highest value in every state and is deterministic.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**See also:** [Markov Decision Process](#markov-decision-process-), [Value Function](#value-function-), [Value Iteration](#value-iteration-)
+{{% /expand %}}
+
+### Reward 📊
+{{% expand "Reward" %}}
+The payoff signal an agent seeks to maximize over time — the mirror image of loss. It may depend on the state, $R(s)$, or the state and action, $R(s,a)$. Agents maximize the **discounted return**, not the immediate reward, which is why far-sighted behavior can accept short-term losses.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**See also:** [Return](#return-), [Discount Factor](#discount-factor-), [Loss Function](#loss-function-), [Reward Shaping](#reward-shaping-)
+{{% /expand %}}
+
+### Discount Factor 📊
+{{% expand "Discount Factor" %}}
+The number $\gamma \in [0,1)$ that weights future rewards relative to immediate ones, making the infinite-horizon return finite. It encodes how far ahead the agent looks: small $\gamma$ is impatient, large $\gamma$ is far-sighted. Sweeping $\gamma$ can flip the optimal policy at a sharp threshold.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**See also:** [Return](#return-), [Value Function](#value-function-), [Reward](#reward-)
+{{% /expand %}}
+
+### Return 📊
+{{% expand "Return" %}}
+The discounted sum of all future rewards from time $t$, $G_t = \sum_{k\ge0}\gamma^k R_{t+k}$. The thing an agent actually maximizes; a state's **value** is the expected return from that state under a policy.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**See also:** [Discount Factor](#discount-factor-), [Value Function](#value-function-), [Reward](#reward-)
+{{% /expand %}}
+
+### Value Function 📊
+{{% expand "Value Function" %}}
+The expected return from a state (the **state value** $v_\pi(s)$) or from a state–action pair (the **action value** or **Q-value** $q_\pi(s,a)$) under a policy $\pi$. The optimal values $v^*$, $q^*$ satisfy the Bellman equation $v^*(s)=\max_a q^*(s,a)$ and determine the optimal policy.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**See also:** [Bellman Equation](#bellman-equation-), [Value Iteration](#value-iteration-), [Return](#return-), [Q-Learning](#q-learning-)
+{{% /expand %}}
+
+### Bellman Equation 📊
+{{% expand "Bellman Equation" %}}
+The recursion at the heart of dynamic programming: $v^*(s) = \max_a\big[R(s) + \gamma\sum_{s'}T(s'\mid s,a)\,v^*(s')\big]$ — the value of a state is the immediate reward plus the discounted value of the best next move. Recursive ($v^*$ on both sides), it is solved by iteration rather than by enumerating plans.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**See also:** [Value Function](#value-function-), [Value Iteration](#value-iteration-), [Markov Decision Process](#markov-decision-process-)
+{{% /expand %}}
+
+### Value Iteration 📊
+{{% expand "Value Iteration" %}}
+A dynamic-programming algorithm that finds the optimal values by applying the Bellman update repeatedly from any starting guess: $v_{k+1}(s)=\max_a[R(s)+\gamma\sum_{s'}T(s'\mid s,a)v_k(s')]$. It converges because the Bellman operator is a $\gamma$-contraction — each sweep shrinks the error by a factor of $\gamma$. Requires the model $T, R$.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**See also:** [Bellman Equation](#bellman-equation-), [Value Function](#value-function-), [Q-Learning](#q-learning-)
+{{% /expand %}}
+
+### Q-Learning 📊
+{{% expand "Q-Learning" %}}
+A **model-free** reinforcement-learning algorithm that estimates the optimal action values $Q(s,a)$ from raw experience — no transition model needed. After each step it nudges its estimate toward the **TD target** $r + \gamma\max_{a'}Q(s',a')$ by a fraction $\alpha$. It learns the same optimal policy value iteration would compute, using the single next state the world returned instead of the full expectation over $T$.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Temporal-Difference Error](#temporal-difference-error-), [Learning Rate](#learning-rate-), [Epsilon-Greedy Exploration](#epsilon-greedy-exploration-), [Value Iteration](#value-iteration-)
+{{% /expand %}}
+
+### Temporal-Difference Error 📊
+{{% expand "Temporal-Difference Error" %}}
+The "surprise" term in a TD update: target − current estimate $= r + \gamma\max_{a'}Q(s',a') - Q(s,a)$. Learning is repeatedly reducing this error. It is also a model of the brain: midbrain **dopamine** neurons signal a reward-*prediction* error that matches the TD error (Schultz, Dayan & Montague, 1997).
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Q-Learning](#q-learning-), [Learning Rate](#learning-rate-), [Value Function](#value-function-)
+{{% /expand %}}
+
+### Learning Rate 📊
+{{% expand "Learning Rate" %}}
+The step size $\alpha \in (0,1]$ in a TD update, controlling how far each estimate moves toward the target. Large $\alpha$ learns fast but noisily; small $\alpha$ is slow but stable. Convergence guarantees require $\alpha$ to shrink appropriately over time.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Q-Learning](#q-learning-), [Temporal-Difference Error](#temporal-difference-error-)
+{{% /expand %}}
+
+### Epsilon-Greedy Exploration 📊
+{{% expand "Epsilon-Greedy Exploration" %}}
+A simple exploration strategy: with probability $\varepsilon$ take a random action, otherwise take the current best (greedy) one. The random fraction guarantees the agent keeps trying every state–action pair, which Q-learning needs to converge. The tree-search analog is **UCB**.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Q-Learning](#q-learning-), [Monte Carlo Tree Search](#monte-carlo-tree-search-)
+{{% /expand %}}
+
+### Reward Shaping 📊
+{{% expand "Reward Shaping" %}}
+Adding extra reward to guide learning. Done carelessly it backfires: a reward you can **farm in a loop** creates a positive cycle and the agent never finishes the task. **Potential-based shaping** (Ng, Harada & Russell, 1999), $F=\gamma\Phi(s')-\Phi(s)$, is the principled fix: the shaping along any path collapses to a constant fixed by its endpoints, so it can't create a farmable cycle and provably preserves the optimal policy.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Reward](#reward-), [Reward Hacking](#reward-hacking-), [Policy](#policy-)
+{{% /expand %}}
+
+### Reward Hacking 📊
+{{% expand "Reward Hacking" %}}
+When an agent maximizes the reward you *specified* in a way that defeats what you *meant* — the positive-cycle trap at scale. In RLHF, agents farm a learned model of human approval without doing the task, exactly as a badly-shaped gridworld agent paces for praise instead of reaching the goal. A central problem in AI alignment.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Reward Shaping](#reward-shaping-), [Reward](#reward-)
+{{% /expand %}}
+
+### Simulation-Based RL 📊
+{{% expand "Simulation-Based RL" %}}
+Learning a model from experience and then planning by **simulating** with it — the middle ground between value iteration (needs the whole model) and Q-learning (needs many real trials). Also called model-based RL. **Dyna** (learn $\hat T$ by counting, then plan) and **MCTS** (plan by tree-structured rollouts) are examples; AlphaZero and MuZero are the same idea at scale.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Monte Carlo Tree Search](#monte-carlo-tree-search-), [Monte Carlo Simulation](#monte-carlo-simulation-), [Value Iteration](#value-iteration-)
+{{% /expand %}}
+
+### Monte Carlo Tree Search 📊
+{{% expand "Monte Carlo Tree Search" %}}
+A planning algorithm (MCTS) that simulates forward only from the current state, building a search tree through four repeated phases — **select** (descend by UCB), **expand** (add a node), **simulate** (random rollout to estimate value), **backup** (send the return up the path). It is the engine inside AlphaZero (which replaces the random rollout with a learned value network) and MuZero (which learns the model it searches).
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Simulation-Based RL](#simulation-based-rl-), [Monte Carlo Simulation](#monte-carlo-simulation-), [Epsilon-Greedy Exploration](#epsilon-greedy-exploration-)
 {{% /expand %}}
 
 ---
