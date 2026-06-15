@@ -1817,6 +1817,42 @@ A planning algorithm (MCTS) that simulates forward only from the current state, 
 **See also:** [Simulation-Based RL](#simulation-based-rl-), [Monte Carlo Simulation](#monte-carlo-simulation-), [Epsilon-Greedy Exploration](#epsilon-greedy-exploration-)
 {{% /expand %}}
 
+### Trajectory 📊
+{{% expand "Trajectory" %}}
+A single path the agent lives out: a sequence of states (and the rewards collected along the way) produced by starting in some state, following a policy to pick actions, and sampling each next state from the model. The Monte-Carlo value of a state is the average **discounted return** over many trajectories rolled out from it.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+
+**See also:** [Rollout](#rollout-), [Return](#return-), [Value Function](#value-function-), [Monte Carlo Simulation](#monte-carlo-simulation-)
+{{% /expand %}}
+
+### Rollout 📊
+{{% expand "Rollout" %}}
+Reinforcement learning's term for forward-simulating one **trajectory**: from a starting state, repeatedly pick an action (per the policy) and sample the next state from the model, stepping forward to a horizon or terminal state. "Roll out a trajectory" just means *generate one by simulation* — nothing more. In Monte Carlo Tree Search, *the rollout* often refers specifically to the simulation done with a random/default policy from a leaf node.
+
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/) and [Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Trajectory](#trajectory-), [Monte Carlo Tree Search](#monte-carlo-tree-search-), [Simulation-Based RL](#simulation-based-rl-)
+{{% /expand %}}
+
+### Decision Rule 📊
+{{% expand "Decision Rule" %}}
+A strategy $d(x)$ that maps each possible **observation** $x$ to an action — the object statistical decision theory optimizes. A concrete example is a *threshold*: "eat the bento if it's $\le k$ days old, else compost." With no observation, a decision rule collapses to a single action; stretched across time, it generalizes to a **policy**.
+
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**See also:** [Statistical Decision Theory](#statistical-decision-theory-), [Observation](#observation-), [Policy](#policy-), [Bayes Estimator](#bayes-estimator-)
+{{% /expand %}}
+
+### Observation 📊
+{{% expand "Observation" %}}
+The data $x$ you get to see before acting (a sniff, a day-count, a measurement). Bayesian inference turns it into a posterior $p(\theta \mid x)$; decision theory then maps it to an action through a **decision rule** $d(x)$. Writing $x$ as a single observation is just for tidiness — conditioning on a whole batch $x_1, \dots, x_n$ changes nothing about the framework.
+
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+
+**See also:** [Decision Rule](#decision-rule-), [Statistical Decision Theory](#statistical-decision-theory-), [Posterior Distribution](#posterior-distribution-)
+{{% /expand %}}
+
 ---
 
 ## Navigation
