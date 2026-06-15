@@ -5,9 +5,12 @@
                  any page that has a translation; the current language is highlighted, the
                  other is a one-click link (so JA pages also have a clear way back to EN). */ -}}
           {{- if .IsTranslated }}
-          <div class="lang-toggle" role="group" aria-label="Language / 言語">
-            {{- range .AllTranslations }}
-            <a class="lang-toggle-btn{{ if eq .Language.Lang $.Language.Lang }} active{{ end }}" href="{{ partial "permalink.gotmpl" (dict "to" .) }}" lang="{{ .Language.LanguageCode }}"{{ if eq .Language.Lang $.Language.Lang }} aria-current="page"{{ end }}>{{ .Language.LanguageName }}</a>
-            {{- end }}
+          <div class="lang-switch">
+            <div class="lang-switch-label">🌐 Language · 言語</div>
+            <div class="lang-toggle" role="group" aria-label="Switch language / 言語を切り替え">
+              {{- range .AllTranslations }}
+              <a class="lang-toggle-btn{{ if eq .Language.Lang $.Language.Lang }} active{{ end }}" href="{{ partial "permalink.gotmpl" (dict "to" .) }}" lang="{{ .Language.LanguageCode }}"{{ if eq .Language.Lang $.Language.Lang }} aria-current="page"{{ end }}>{{ .Language.LanguageName }}</a>
+              {{- end }}
+            </div>
           </div>
           {{- end }}

@@ -18,6 +18,9 @@ defaultContentLanguageInSubdir = false
     # Show a checkmark in the sidebar next to pages the reader has already
     # visited (tracked per-browser via localStorage).
     showVisitedLinks = true
+    # We provide our own prominent EN/JA toggle at the top of the sidebar
+    # (layouts/partials/logo.html), so hide relearn's subtle footer language switcher.
+    disableLanguageSwitchingButton = true
     # Description for SEO
     description = "Learn probability theory through sets and prepare for probabilistic programming"
     # Author info
