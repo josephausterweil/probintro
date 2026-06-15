@@ -102,7 +102,7 @@ A **list** is like a shopping list — an ordered collection of items.
 meals = ["HH", "HT", "TH", "TT"]
 ```
 
-**Connection to sets:** This is like $\Omega = \\{HH, HT, TH, TT\\}$ but with ordering!
+**Connection to sets:** This is like $\Omega = \{HH, HT, TH, TT\}$ but with ordering!
 
 ### Accessing Items
 

@@ -20,11 +20,11 @@ block-beta
 
 ## Sets
 
-This forms a [set](./06_glossary.md/#set) of four elements. A set is a collection of elements or members. In this case, an element is defined by the two meals given to Chibany that day. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\\{$" denotes the start of a set and "$\\}$" the end of a set.
+This forms a [set](./06_glossary.md/#set) of four elements. A set is a collection of elements or members. In this case, an element is defined by the two meals given to Chibany that day. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\{$" denotes the start of a set and "$\}$" the end of a set.
 
 ## Outcome Space
 
-In the context of probability theory, the basic elements of what can occur are called *outcomes*. Outcomes are the fundamental building blocks that probabilities are built from. As they are fundamental, the Greek letter $\Omega$ is frequently used to refer to this set of possible *outcomes*. Diligently noting their daily offerings, Chibany defines $\Omega = \\{HH, HT, TH, TT \\}$. The first letter defines their lunch offering, and the second letter defines their dinner offering. They note that $H$ now always refers to hamburgers and $T$ to tonkatsu.
+In the context of probability theory, the basic elements of what can occur are called *outcomes*. Outcomes are the fundamental building blocks that probabilities are built from. As they are fundamental, the Greek letter $\Omega$ is frequently used to refer to this set of possible *outcomes*. Diligently noting their daily offerings, Chibany defines $\Omega = \{HH, HT, TH, TT \}$. The first letter defines their lunch offering, and the second letter defines their dinner offering. They note that $H$ now always refers to hamburgers and $T$ to tonkatsu.
 
 {{% notice style="note" title="Why Sets?" %}}
 Sets are perfect for probability because they let us **visualize and count** possibilities. Every probability question becomes:
@@ -39,12 +39,12 @@ This makes probability **concrete** instead of abstract.
 
 ### A Note on Unique Elements
 
-Technically, the elements of a set are unique. So, if Chibany writes down getting a pair of hamburgers twice and a hamburger and a tonkatsu ($\\{HH, HH, HT\\}$), they've gotten the same set of possibilities as if they only got one pair of hamburgers and a hamburger and tonkatsu ($\\{HH, HT\\}$). In other words, $\\{HH, HH, HT\\} = \\{HH, HT\\}$.
+Technically, the elements of a set are unique. So, if Chibany writes down getting a pair of hamburgers twice and a hamburger and a tonkatsu ($\{HH, HH, HT\}$), they've gotten the same set of possibilities as if they only got one pair of hamburgers and a hamburger and tonkatsu ($\{HH, HT\}$). In other words, $\{HH, HH, HT\} = \{HH, HT\}$.
 
 Think of it like a list where duplicates automatically disappear; only what's **different** matters.
 
 {{% notice style="tip" title="For Chibany's meals" %}}
-Each element in $\Omega = \\{HH, HT, TH, TT\\}$ is unique because **position matters** (first meal vs. second meal). $HT$ ≠ $TH$ because getting tonkatsu for lunch is different from getting it for dinner!
+Each element in $\Omega = \{HH, HT, TH, TT\}$ is unique because **position matters** (first meal vs. second meal). $HT$ ≠ $TH$ because getting tonkatsu for lunch is different from getting it for dinner!
 {{% /notice %}}
 
 Chibany is skeptical, but will try to keep it in mind. It can be confusing!
@@ -61,11 +61,11 @@ Any event $A$ is a **subset** of the outcome space $\Omega$. Formally, this is w
 
 This means:
 - Every element in $A$ is also in $\Omega$
-- $A$ could be empty ($\\{\\}$, meaning nothing happens)
+- $A$ could be empty ($\{\}$, meaning nothing happens)
 - $A$ could be all of $\Omega$ (something definitely happens)
 - $A$ could be anything in between
 
-For Chibany's "contains tonkatsu" event: $A = \\{HT, TH, TT\\} \subseteq \Omega$
+For Chibany's "contains tonkatsu" event: $A = \{HT, TH, TT\} \subseteq \Omega$
 {{% /notice %}}
 
 ### Quick Check
@@ -81,15 +81,15 @@ Is $\Omega$ the set of all possible events?
 What is the set of all possible events for Chibany's situation?
 
 {{%expand "solution" %}}
-$\\{ \\{ \\}, \\{ HH \\}, \\{ HT\\}, \\{TH \\}, \\{TT\\},
-\\{HH,HT\\}, \\{HH,TH\\}, \\{HH,TT\\},
-\\{HT, TH\\}, \\{HT, TT \\},
-\\{TH, TT\\},
-\\{HH, HT, TH\\}, \\{HH, HT, TT \\}, \\{HH, TH, TT\\},
-\\{HT, TH, TT\\},
-\\{HH, HT, TH, TT\\}  \\}$
+$\{ \{ \}, \{ HH \}, \{ HT\}, \{TH \}, \{TT\},
+\{HH,HT\}, \{HH,TH\}, \{HH,TT\},
+\{HT, TH\}, \{HT, TT \},
+\{TH, TT\},
+\{HH, HT, TH\}, \{HH, HT, TT \}, \{HH, TH, TT\},
+\{HT, TH, TT\},
+\{HH, HT, TH, TT\}  \}$
 
-Note that $\\{ \\}$ is called the empty or null set and is a special set that contains no elements. It's the **impossible event** where nothing happens. Chibany would never allow himself to not get any meals!
+Note that $\{ \}$ is called the empty or null set and is a special set that contains no elements. It's the **impossible event** where nothing happens. Chibany would never allow himself to not get any meals!
 
 **Counting tip:** For an outcome space with $n$ outcomes, there are $2^n$ possible events. Here: $2^4 = 16$ events.
 {{% /expand %}}

@@ -127,7 +127,7 @@ There are two natural answers, and they give two different likelihoods.
 - **Weak sampling.** The examples came from somewhere *outside* the rule — the world handed them to you — and
   you merely *checked* whether each one happens to fall in $h$. Under this story the likelihood is exactly the
   size-blind one from §5:
-  $$p(X \mid h) = \begin{cases} 1 & \text{if every } x_i \in h \\\\ 0 & \text{otherwise} \end{cases}$$
+  $$p(X \mid h) = \begin{cases} 1 & \text{if every } x_i \in h \\ 0 & \text{otherwise} \end{cases}$$
   A rule either contains the data or it doesn't; its *size* never enters.
 
 - **Strong sampling.** The examples were drawn *from inside* the rule — as if someone reached into the set $h$
@@ -148,7 +148,7 @@ likelihood** — and the advantage grows *exponentially* with the number of exam
 principle**: among the rules consistent with your data, the data votes hardest for the *smallest* one, and
 ever more decisively as you see more examples.
 
-The intuition has a name: the **suspicious coincidence**. Suppose you see the numbers $\\{10, 20, 30\\}$.
+The intuition has a name: the **suspicious coincidence**. Suppose you see the numbers $\{10, 20, 30\}$.
 They're all multiples of 10 — but they're *also* all even numbers. If the true rule were "even numbers," it
 would be a suspicious coincidence that all three happened to land on multiples of 10: among our numbers 1–30
 there are 15 even numbers and only 3 of them are multiples of 10, so picking three multiples of 10 by chance

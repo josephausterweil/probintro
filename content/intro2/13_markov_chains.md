@@ -30,7 +30,7 @@ Alyssa, another labmate, looks up.
 
 Chibany's instinct — *to predict today, yesterday is all I need* — is the whole idea of this chapter. Let's name it.
 
-Write $X_t$ for the **state** at time $t$: the thing that is true on day $t$. For Chibany, $X_t$ is one of two values, $X_t \in \\{\text{T}, \text{H}\\}$ (tonkatsu or hamburger).
+Write $X_t$ for the **state** at time $t$: the thing that is true on day $t$. For Chibany, $X_t$ is one of two values, $X_t \in \{\text{T}, \text{H}\}$ (tonkatsu or hamburger).
 
 ---
 
@@ -82,7 +82,7 @@ the probability of moving *to* state $j$ given you are *in* state $i$. For Chiba
 
 Read down a column to see where tomorrow's choice comes from; read across a row to see where today leads. Row 1 says "if T today, then tomorrow is (T, H) with probabilities $(0.65, 0.35)$." Row 2 says "if H today." We'll write this same table as the matrix $P$, with rows indexed *from* and columns *to*, both in the order (T, H):
 
-$$P = \begin{pmatrix} 0.65 & 0.35 \\\\ 0.82 & 0.18 \end{pmatrix}.$$
+$$P = \begin{pmatrix} 0.65 & 0.35 \\ 0.82 & 0.18 \end{pmatrix}.$$
 
 Notice that **each row sums to 1**: $0.65 + 0.35 = 1$, and $0.82 + 0.18 = 1$. That has to be true — starting from any state, *something* happens tomorrow, so the probabilities of all possible next states must add up to one. A matrix whose every row is a probability distribution (non-negative, sums to 1) is called **row-stochastic**. This little fact does a lot of quiet work later: it is exactly why powers of $P$ stay valid probability tables, and (as we'll see) why $P$ always has a special eigenvalue equal to 1.
 
@@ -231,7 +231,7 @@ Does any of this depend on there being only two states? Not at all — the metho
 | **2** | $0.5$ | $0$ | $0.5$ |
 | **3** | $0.8$ | $0.2$ | $0$ |
 
-$$A = \begin{pmatrix} 0 & 0.1 & 0.9 \\\\ 0.5 & 0 & 0.5 \\\\ 0.8 & 0.2 & 0 \end{pmatrix}$$
+$$A = \begin{pmatrix} 0 & 0.1 & 0.9 \\ 0.5 & 0 & 0.5 \\ 0.8 & 0.2 & 0 \end{pmatrix}$$
 
 ```mermaid
 graph LR

@@ -39,7 +39,7 @@ block-beta
     style d stroke: #f33, stroke-width: 4px
 ```
 
-In the case where there is at least one tonkatsu, the space of possible outcomes is $\\{HT, TH, TT\\}$, which is outlined in blue. The event of interest for Chibany is outlined in red. It turns out Chibany is right! There is a two in three chance that they get a tonkatsu dinner. That's larger than one in two.
+In the case where there is at least one tonkatsu, the space of possible outcomes is $\{HT, TH, TT\}$, which is outlined in blue. The event of interest for Chibany is outlined in red. It turns out Chibany is right! There is a two in three chance that they get a tonkatsu dinner. That's larger than one in two.
 
 {{% notice style="warning" title="Common Pitfall: The Intuition Trap" %}}
 **Many students (and Tanaka-san!) think**: "If each meal is 50/50, learning about one meal shouldn't change the other. So it's still 1/2, right?"
@@ -53,7 +53,7 @@ Chibany kindly reminds Tanaka-san that you never stop learning and to consider t
 
 ## Defining conditional probability as set restriction
 
-What Chibany calculated is a [conditional probability](./06_glossary.md/#conditional-probability): the probability of an event (tonkatsu for dinner) conditioned on knowledge of another event (at least one tonkatsu). Conditioning on an event means that the possible outcomes in that event form the set of possibilities or outcome space. We then calculate probabilities as normal within that *restricted* outcome space. In our example, we're interested in the probability of the event $A= \\{TT\\}$ conditioned on the knowledge that there's at least one tonkatsu, $ B = \Omega_{\geq 1 T}= \\{HT, TH, TT\\}$. Formally, this is written as $P(A \mid B) = \frac{|A|}{|B|}$, where everything to the left of the $\mid$ is what we're interested in knowing the probability of and everything to the right of the $\mid$ is what we know to be true.
+What Chibany calculated is a [conditional probability](./06_glossary.md/#conditional-probability): the probability of an event (tonkatsu for dinner) conditioned on knowledge of another event (at least one tonkatsu). Conditioning on an event means that the possible outcomes in that event form the set of possibilities or outcome space. We then calculate probabilities as normal within that *restricted* outcome space. In our example, we're interested in the probability of the event $A= \{TT\}$ conditioned on the knowledge that there's at least one tonkatsu, $ B = \Omega_{\geq 1 T}= \{HT, TH, TT\}$. Formally, this is written as $P(A \mid B) = \frac{|A|}{|B|}$, where everything to the left of the $\mid$ is what we're interested in knowing the probability of and everything to the right of the $\mid$ is what we know to be true.
 
 {{% notice style="success" title="Key Insight: Conditional Probability" %}}
 **Conditional probability = restricting the outcome space**
@@ -107,7 +107,7 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 
 Tanaka-san explains to Chibany his reasoning: He did not think whether Chibany received a tonkatsu (T) for their first offering influenced whether they receive a tonkatsu (T) for their second offering.
 
-Chibany is curious. Tanaka-san's logic seems sound, but it sounds like a slightly different question. Chibany asks Tanaka-san to draw out the outcome space and events for this question to help clarify what is different. Tanaka-san states his question formally: What is the probability of getting a second tonkatsu ($\\{HT, TT\\}$) given the first offering was a tonkatsu ($\\{TH, TT\\}$) or $P(\\{HT, TT\\} \mid \\{TH, TT\\})$
+Chibany is curious. Tanaka-san's logic seems sound, but it sounds like a slightly different question. Chibany asks Tanaka-san to draw out the outcome space and events for this question to help clarify what is different. Tanaka-san states his question formally: What is the probability of getting a second tonkatsu ($\{HT, TT\}$) given the first offering was a tonkatsu ($\{TH, TT\}$) or $P(\{HT, TT\} \mid \{TH, TT\})$
 
 ```mermaid
 block-beta
@@ -127,7 +127,7 @@ block-beta
     style d stroke: #f33, stroke-width: 4px
 ```
 
-There's one outcome ($TT$) out of two possible outcomes ($\\{TH, TT\\}$). Thus the probability is $1/2$: $P(\\{HT, TT\\} \mid \\{TH, TT\\}) = 1/2$.
+There's one outcome ($TT$) out of two possible outcomes ($\{TH, TT\}$). Thus the probability is $1/2$: $P(\{HT, TT\} \mid \{TH, TT\}) = 1/2$.
 
 Tanaka-san says this time the result is what he expected. He says "If I just think about what the probability of the second meal is and make that my outcome space, then the probability of the second meal being tonkatsu should just be one-half." Chibany asks Tanaka-san to draw out this outcome space and calculate the probability this way instead. Chibany notes that probability is much more fun when you ask your friends to help you do the hard parts!
 
@@ -176,7 +176,7 @@ Every time you update your beliefs based on new information, you're using condit
 
 ### Chibany is sad (marginalization)
 
-The student that normally gives Chibany their second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \\{H, T\\}$.
+The student that normally gives Chibany their second offering is out sick. Now Chibany only gets one offering per day. Chibany lists out the new set of possibilities $\Omega_1 = \{H, T\}$.
 
 ```mermaid
 block-beta
@@ -190,7 +190,7 @@ block-beta
 
 They note this is a much sadder set of possibilities. At least the probability of getting Tonkatsu isn't too low! It's one of two possibilities.
 
-Thankfully, on the next day, the student is healthy again and Chibany is back to getting two offerings each day. This changes the set of possibilities back to the original one $\Omega_2 = \\{HH,HT, TH, TT \\}$. Chibany realizes they can calculate the probability of the first offering being Tonkatsu. Getting their second meal shouldn't influence the chance the first one is Tonkatsu, right? Let's check!
+Thankfully, on the next day, the student is healthy again and Chibany is back to getting two offerings each day. This changes the set of possibilities back to the original one $\Omega_2 = \{HH,HT, TH, TT \}$. Chibany realizes they can calculate the probability of the first offering being Tonkatsu. Getting their second meal shouldn't influence the chance the first one is Tonkatsu, right? Let's check!
 
 ```mermaid
 block-beta
@@ -203,7 +203,7 @@ block-beta
     style d stroke: #f33, stroke-width:4px
 ```
 
-In this case, they are interested in $P(\\{TH, TT \\}) = 2/4 = 1/2$. Phew!
+In this case, they are interested in $P(\{TH, TT \}) = 2/4 = 1/2$. Phew!
 
 What happened here? In both cases, we are interested in the same *event*: the probability the first meal is a Tonkatsu. In the first case, we did not include the second meal. This is called using [marginal probability](./06_glossary.md/#marginal-probability). In the second case, we did include the second meal. This is called using [joint probability](./06_glossary.md/#joint-probability). Technically it counts the number of outcomes in the intersection of the different events being considered jointly. This means the number of outcomes that are in all the events under consideration.
 
@@ -221,12 +221,12 @@ If you're unfamiliar with the notation $\sum_{b}$:
 - The subscript $b$ tells you **which values** to add up over
 - In this case: sum over all possible values $b$ that random variable $B$ could take
 
-**Example:** If $B \in \\{H, T\\}$, then:
+**Example:** If $B \in \{H, T\}$, then:
 $$\sum_{b} P(A, B=b) = P(A, B=H) + P(A, B=T)$$
 {{% /notice %}}
 
 
-In the last example, $A$ was Chibany's first meal and $B$ was Chibany's second meal. We were interested in whether Chibany's first meal was Tonkatsu or $P(A=T)$. The possible values for $B$ are Hamburger and Tonkatsu or $\\{H,T \\}$. What we showed was:
+In the last example, $A$ was Chibany's first meal and $B$ was Chibany's second meal. We were interested in whether Chibany's first meal was Tonkatsu or $P(A=T)$. The possible values for $B$ are Hamburger and Tonkatsu or $\{H,T \}$. What we showed was:
 
 $$P(A=T) = \sum_{b} P(A=T,B=b) = P(A=T, B=H) + P(A=T, B=T) = 1/4 + 1/4 = 2/4 = 1/2$$
 
@@ -238,7 +238,7 @@ $$P(A \mid B) = \frac{P(A,B)}{P(B)}$$
 
 Note that the probability of $B$ must be greater than zero ($P(B) > 0$). This makes sense to Chibany. How could they be given information that had zero chance of happening?
 
-Chibany is no fan of this other way of calculating conditional probabilities, but they decide to practice using it. They go back to their favorite example so far: the one where they had better than a one-half chance of getting two Tonkatsus. In that example, they learned they were going to get at least one Tonkatsu and were interested in finding the probability that there would be two Tonkatsus. So, $A$ is getting a tonkatsu dinner (second meal is tonkatsu) and $B$ is that there is at least one tonkatsu. So $A = \\{HT, TT\\}$ and $B=\\{HT, TH, TT\\}$. The intersection or common possibilities in $A$ and $B$ is $\\{HT,TT\\}$. Remember that there are four possible outcomes in the larger outcome space $\Omega = \\{HH,HT,TH,TT\\}$. This means $P(A,B) = |\\{HT,TT\\}|/ | \\{HH,HT,TH,TT\\}| = 2/4$. $P(B) = |\\{HT,TH,TT\\}|/|\\{HH,HT,TH,TT\\}| = 3/4$. Putting these together we get:
+Chibany is no fan of this other way of calculating conditional probabilities, but they decide to practice using it. They go back to their favorite example so far: the one where they had better than a one-half chance of getting two Tonkatsus. In that example, they learned they were going to get at least one Tonkatsu and were interested in finding the probability that there would be two Tonkatsus. So, $A$ is getting a tonkatsu dinner (second meal is tonkatsu) and $B$ is that there is at least one tonkatsu. So $A = \{HT, TT\}$ and $B=\{HT, TH, TT\}$. The intersection or common possibilities in $A$ and $B$ is $\{HT,TT\}$. Remember that there are four possible outcomes in the larger outcome space $\Omega = \{HH,HT,TH,TT\}$. This means $P(A,B) = |\{HT,TT\}|/ | \{HH,HT,TH,TT\}| = 2/4$. $P(B) = |\{HT,TH,TT\}|/|\{HH,HT,TH,TT\}| = 3/4$. Putting these together we get:
 
 $$P(A \mid B) = \frac{P(A,B)}{P(B)} = \frac{2/4}{3/4} = \frac{2}{3}$$
 

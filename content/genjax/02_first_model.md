@@ -6,7 +6,7 @@ weight = 3
 
 ## From Sets to Simulation
 
-Remember Chibany's daily meals? We listed out the outcome space $\Omega = \\{HH, HT, TH, TT\\}$ and counted possibilities.
+Remember Chibany's daily meals? We listed out the outcome space $\Omega = \{HH, HT, TH, TT\}$ and counted possibilities.
 
 Now we'll teach a computer to **generate** those outcomes instead!
 
@@ -64,10 +64,10 @@ This tutorial uses `flip()` throughout to ensure correct behavior.
 
 | Math Concept | Mathematical Notation | GenJAX Code |
 |--------------|----------------------|-------------|
-| **Outcome Space** | $\Omega = \\{HH, HT, TH, TT\\}$ | `@gen def chibany_day(): ...` |
+| **Outcome Space** | $\Omega = \{HH, HT, TH, TT\}$ | `@gen def chibany_day(): ...` |
 | **Random Variable** | $X \sim \text{Bernoulli}(0.5)$ | `flip(0.5) @ "lunch"` |
 | **Probability** | $P(A) = \frac{\|A\|}{\|\Omega\|}$ | `jnp.mean(condition_satisfied)` |
-| **Event** | $A = \\{HT, TH, TT\\}$ | `has_tonkatsu = (days[:, 0] == 1) \| (days[:, 1] == 1)` |
+| **Event** | $A = \{HT, TH, TT\}$ | `has_tonkatsu = (days[:, 0] == 1) \| (days[:, 1] == 1)` |
 
 **Key insights:**
 - **@gen function** = Generative process defining Ω
@@ -370,8 +370,8 @@ Let's connect this back to what you learned:
 **Example:**
 
 **Set-based:**
-- Event: "At least one tonkatsu" = $\\{HT, TH, TT\\}$
-- Probability: $|\\{HT, TH, TT\\}| / |\\{HH, HT, TH, TT\\}| = 3/4$
+- Event: "At least one tonkatsu" = $\{HT, TH, TT\}$
+- Probability: $|\{HT, TH, TT\}| / |\{HH, HT, TH, TT\}| = 3/4$
 
 **GenJAX:**
 ```python

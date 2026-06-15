@@ -13,18 +13,18 @@ The basic operation that we use to define probabilities is counting the number o
 {{% notice style="info" title="Math Notation: Cardinality" %}}
 We write the **size** of a set using vertical bars:
 - $|A|$ means "the size of set $A$" or "how many elements are in $A$"
-- Example: $|\\{H, T\\}| = 2$
+- Example: $|\{H, T\}| = 2$
 
 Think of it like: "How many elements are between these bars?"
 {{% /notice %}}
 
-For example, the set of Chibany's lunch options is $\\{H,T\\}$. Counting the number of elements determines its size, which is $\left|\\{H, T\\} \right| = 2$. The set of Chibany's meal offerings for a day, $\Omega = \\{HH, HT, TH, TT \\}$. There are four outcomes, so its size $|\Omega|$ is $4$.
+For example, the set of Chibany's lunch options is $\{H,T\}$. Counting the number of elements determines its size, which is $\left|\{H, T\} \right| = 2$. The set of Chibany's meal offerings for a day, $\Omega = \{HH, HT, TH, TT \}$. There are four outcomes, so its size $|\Omega|$ is $4$.
 
 ## Chibany is still hungry... and desires Tonkatsu
 
 Chibany is still hungry and wondering what their meal possibilities (or outcomes) are for the day. They wonder, what is the probability that students appease them today by giving them Tonkatsu?
 
-To make this calculation, Chibany lists out the outcome space $\Omega$ again. They then form the event "Tonkatsu offering today". They define the set of possible outcomes with a Tonkatsu as $A = \\{HT, TH, TT\\}$ to encode the event. They highlight those in red. Chibany thinks "wow... three of the four possible outcomes are red. Fortune must favor me today, right?"
+To make this calculation, Chibany lists out the outcome space $\Omega$ again. They then form the event "Tonkatsu offering today". They define the set of possible outcomes with a Tonkatsu as $A = \{HT, TH, TT\}$ to encode the event. They highlight those in red. Chibany thinks "wow... three of the four possible outcomes are red. Fortune must favor me today, right?"
 
 ```mermaid
 block-beta
@@ -42,7 +42,7 @@ Yes, Chibany, it does as it always should. Your chance of getting Tonkatsu at le
 
 ## Probability as Counting
 
-The [probability](./06_glossary.md/#probability) of an event $A$ is $\frac{|A|}{|\Omega|}$. It is written as $P(A)$. In the prior example, $|A| = | \\{HT, TH, TT\\} | = 3$ and $|\Omega| = | \\{HH, HT, TH, TT\\}| = 4$ have three and four elements, respectively.
+The [probability](./06_glossary.md/#probability) of an event $A$ is $\frac{|A|}{|\Omega|}$. It is written as $P(A)$. In the prior example, $|A| = | \{HT, TH, TT\} | = 3$ and $|\Omega| = | \{HH, HT, TH, TT\}| = 4$ have three and four elements, respectively.
 
 {{% notice style="success" title="The Core Idea" %}}
 **Probability = Counting**
@@ -112,7 +112,7 @@ prob = jnp.mean(has_tonkatsu)  # Equivalent to |A| / |Ω|
 
 ## Another Example
 
-What is the probability that Chibany gets Tonkatsu for their first offering? Well the possible outcomes with Tonkatsu for lunch are $\\{TH, TT\\}$. There are four possible outcomes for their offerings $\Omega = \\{HH,HT, TH, TT\\}$. So the probability they get Tonkatsu for their first offering is $|\\{TH, TT\\}|/|\\{HH,HT, TH, TT\\}| = 2/4=1/2$. Chibany draws the following table to illustrate their counting:
+What is the probability that Chibany gets Tonkatsu for their first offering? Well the possible outcomes with Tonkatsu for lunch are $\{TH, TT\}$. There are four possible outcomes for their offerings $\Omega = \{HH,HT, TH, TT\}$. So the probability they get Tonkatsu for their first offering is $|\{TH, TT\}|/|\{HH,HT, TH, TT\}| = 2/4=1/2$. Chibany draws the following table to illustrate their counting:
 
 ```mermaid
 block-beta
@@ -129,10 +129,10 @@ block-beta
 
 ### Chibany wants to know... how much Tonkatsu?
 
-Chibany wants to know how much Tonkatsu they get each day. To do so, they convert each outcome to a whole number: the number of Tonkatsu in that outcome. They call this a function $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$, meaning it takes an outcome out of the outcome space and maps it (changes it into) a number.
+Chibany wants to know how much Tonkatsu they get each day. To do so, they convert each outcome to a whole number: the number of Tonkatsu in that outcome. They call this a function $f : \Omega \rightarrow \{0, 1, 2, \ldots\}$, meaning it takes an outcome out of the outcome space and maps it (changes it into) a number.
 
 {{% notice style="info" title="Functions and Mappings" %}}
-A **function** $f : \Omega \rightarrow \\{0, 1, 2, \ldots\\}$ is like a machine:
+A **function** $f : \Omega \rightarrow \{0, 1, 2, \ldots\}$ is like a machine:
 - **Input:** An outcome from $\Omega$
 - **Process:** Apply the rule (count the tonkatsu!)
 - **Output:** A number
@@ -165,16 +165,16 @@ But really, it's just a **function on outcomes**!
 
 ### Calculating Probabilities with Random Variables
 
-What is the probability of having two tonkatsus? We count the number of outcomes with two tonkatsus ($\\{TT\\}$ highlighted in red) and divide by the number of possible outcomes ($|\Omega|=4$). So, it is 1 out of 4 or 1/4.
+What is the probability of having two tonkatsus? We count the number of outcomes with two tonkatsus ($\{TT\}$ highlighted in red) and divide by the number of possible outcomes ($|\Omega|=4$). So, it is 1 out of 4 or 1/4.
 
-What about the probability of having *exactly* one tonkatsu? We count the number of outcomes with *exactly* one tonkatsu ($\\{HT, TH\\}$ highlighted in blue) and divide by the number of possible outcomes ($|\Omega|=4$). So it is 2/4 or 1/2.
+What about the probability of having *exactly* one tonkatsu? We count the number of outcomes with *exactly* one tonkatsu ($\{HT, TH\}$ highlighted in blue) and divide by the number of possible outcomes ($|\Omega|=4$). So it is 2/4 or 1/2.
 
 {{% notice style="tip" title="Random Variables Create Events" %}}
 When we ask "What's $P(f = 1)$?", we're really asking:
 - Which outcomes give $f=1$? (Define the event)
 - Count them! (Calculate the probability)
 
-**Event:** $\\{\omega \in \Omega : f(\omega) = 1\\} = \\{HT, TH\\}$
+**Event:** $\{\omega \in \Omega : f(\omega) = 1\} = \{HT, TH\}$
 **Probability:** $P(f=1) = 2/4 = 1/2$
 {{% /notice %}}
 

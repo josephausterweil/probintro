@@ -126,7 +126,7 @@ Log probability: $\log(0.25) = -1.386...$
 | Math Concept | Mathematical Notation | GenJAX Trace Component |
 |--------------|----------------------|------------------------|
 | **Outcome** | $\omega \in \Omega$ | One trace (one execution) |
-| **Outcome Space** | $\Omega = \\{HH, HT, TH, TT\\}$ | All possible traces |
+| **Outcome Space** | $\Omega = \{HH, HT, TH, TT\}$ | All possible traces |
 | **Random Variable** | $X(\omega)$ | A choice in the choice map |
 | **Probability** | $P(\omega)$ | `jnp.exp(trace.get_score())` |
 | **Log Probability** | $\log P(\omega)$ | `trace.get_score()` |

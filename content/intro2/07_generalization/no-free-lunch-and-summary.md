@@ -32,7 +32,7 @@ prior assumptions, the data you've seen tells you *nothing* about what you haven
 That sounds abstract, so let's make it happen. To keep the full hypothesis space small enough to enumerate by
 brute force, shrink the universe to just the numbers **1 through 6**. All chapter long we used a small,
 sensible $\mathcal{H}$ of named rules. What if instead we go "unbiased" and throw in **every possible rule** —
-all $2^6 - 1 = 63$ non-empty subsets of $\\{1,2,3,4,5,6\\}$, with a uniform prior? We can build that and re-run
+all $2^6 - 1 = 63$ non-empty subsets of $\{1,2,3,4,5,6\}$, with a uniform prior? We can build that and re-run
 the prediction:
 
 ```python
@@ -147,12 +147,12 @@ reading independence and causation off it, is the subject of the next chapters o
 {{% notice style="info" title="Try it yourself" %}}
 1. **A second example.** In the §5/§6 number game, you saw what happens when you observe 10, then 10, 20, and
    30. Predict by hand (then check in code) what the strong-sampling posterior over the seven rules becomes if
-   instead the observations are $\\{2, 4, 8\\}$. Which rule should win, and why does the size principle pick it?
+   instead the observations are $\{2, 4, 8\}$. Which rule should win, and why does the size principle pick it?
    (Hint: which named rules contain all three, and which of those is the smallest?)
 2. **Tighter or looser?** In the 1-D interval learner, change the exponential-prior rate from $\lambda = 0.5$
    to $\lambda = 2.0$. Before running it: will generalization get *tighter* or *broader*? Run it and check
    against the relation "mean interval length $= 1/\lambda$."
-3. **Weak vs. strong, again.** Re-run the number game with the examples $\\{2, 4, 6, 8\\}$ and the two hypotheses
+3. **Weak vs. strong, again.** Re-run the number game with the examples $\{2, 4, 6, 8\}$ and the two hypotheses
    "even numbers" and "powers of 2." Which way does strong sampling lean, and does weak sampling have any
    opinion at all? (Hint: compute each hypothesis's size first.)
 4. **Break it yourself.** Following the No Free Lunch section, build the full 63-rule space but keep **strong**

@@ -86,7 +86,7 @@ hypothesis with a capital $H$; here we'll use a lowercase $h$ for *one* hypothes
 because in a moment we'll have a whole list of them — $h_1, h_2, \dots$ — and want a clean symbol for a single
 member. So, two competing possibilities,
 
-$$h \in \\{\text{blue},\ \text{green}\\}.$$
+$$h \in \{\text{blue},\ \text{green}\}.$$
 
 and Bayes' rule ranked them: a prior over the two colors, a likelihood for the witness's report, and a
 posterior that combined them. Two hypotheses, and we asked which one the data favored.
@@ -118,8 +118,8 @@ Let's make it concrete with just **two** rules, so the whole posterior fits on o
 tiny menu of four bentos and **numbers them by weight, lightest to heaviest** — so bento 0 is the lightest,
 bento 3 the heaviest. Two candidate rules for the golden sticker are on the table:
 
-- **Rule A — "the two lightest bentos":** the set $\\{0, 1\\}$.
-- **Rule B — "the lighter half":** the set $\\{0, 1, 2\\}$.
+- **Rule A — "the two lightest bentos":** the set $\{0, 1\}$.
+- **Rule B — "the lighter half":** the set $\{0, 1, 2\}$.
 
 Both rules contain bento 0 and bento 1; they differ only on bento 2 (in B, not in A) and agree that bento 3
 (the heaviest) is out. Suppose Chibany starts with no reason to prefer either rule — a **flat** (uniform)
@@ -137,7 +137,7 @@ rest** — exactly the "conditioning = restricting the outcome space" move from 
 Formally, writing $h$ for a hypothesis (a set) and $X$ for the observed items, the **weak-sampling
 likelihood** is
 
-$$p(X \mid h) = \begin{cases} 1 & \text{if every observed item is in } h \\\\ 0 & \text{otherwise} \end{cases}$$
+$$p(X \mid h) = \begin{cases} 1 & \text{if every observed item is in } h \\ 0 & \text{otherwise} \end{cases}$$
 
 (Later, in §6, we'll meet a sharper likelihood — *strong sampling* — that also prefers *smaller* rules. For
 now, weak sampling is all we need.)
@@ -300,7 +300,7 @@ before it appears in any formula.
   was "blue" or "green"; now it can overlap other hypotheses and vary in size, as in §2.)
 - **$\mathcal{H}$** — the **hypothesis space**: the whole *list* of candidate hypotheses under consideration.
   (The script letter $\mathcal{H}$ is new notation; read it as "the collection of all the $h$'s.")
-- **$X = \\{x_1, \dots, x_n\\}$** — the **observed examples**: the $n$ items we've seen to have the property
+- **$X = \{x_1, \dots, x_n\}$** — the **observed examples**: the $n$ items we've seen to have the property
   (the sticker'd bentos; the example numbers in the number game below).
 - **$y$** — a **novel item** we want to judge: does *it* have the property?
 - **$C$** — the **true** (unknown) set the property actually picks out. This is *not* one of our $h$'s — it is
@@ -329,7 +329,7 @@ notice: **what you refuse to consider, you can never learn.**
 One more symbol, and it is one you have *almost* seen. To write the prediction rule compactly we need a way to
 say "1 if $y$ is in the set $h$, and 0 otherwise." We write that as
 
-$$\mathbf{1}[y \in h] = \begin{cases} 1 & \text{if } y \in h \\\\ 0 & \text{if } y \notin h \end{cases}$$
+$$\mathbf{1}[y \in h] = \begin{cases} 1 & \text{if } y \in h \\ 0 & \text{if } y \notin h \end{cases}$$
 
 This **indicator** is nothing new in substance: it is exactly the **0/1 membership** you already used to write
 a rule as a row of 0s and 1s in §2. If $h$ is a row of the membership matrix, then $\mathbf{1}[y \in h]$ is

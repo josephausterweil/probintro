@@ -109,7 +109,7 @@ small hospital (15 births/day):  55 days over 60% boys
 
 $(x, y)$ のダーツが内側かどうか調べるには、$x^2 + y^2 \le 1$ を確認すればよい。このyes/noを平均できる数値に変えるために、**指示関数** $\mathbb{1}[\cdot]$ を使う：
 
-$$\mathbb{1}[\text{事象}] = \begin{cases} 1 & \text{事象が真の場合} \\\\ 0 & \text{偽の場合。} \end{cases}$$
+$$\mathbb{1}[\text{事象}] = \begin{cases} 1 & \text{事象が真の場合} \\ 0 & \text{偽の場合。} \end{cases}$$
 
 つまり $\mathbb{1}[x^2 + y^2 \le 1]$ は四分円内のダーツで $1$、外側で $0$ となり、多数のダーツにわたる**平均**が内側の割合そのものだ。（このトリックに注目：*確率*とは*指示関数の期待値*に他ならない。これを繰り返し使う。）
 

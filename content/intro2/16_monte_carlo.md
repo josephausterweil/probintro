@@ -109,7 +109,7 @@ Picture the unit square $[0,1] \times [0,1]$ with a quarter-circle of radius 1 d
 
 To check whether a dart at $(x, y)$ is inside, we ask whether $x^2 + y^2 \le 1$. To turn that yes/no into a number we can average, we use the **indicator function**, written $\mathbb{1}[\cdot]$:
 
-$$\mathbb{1}[\text{event}] = \begin{cases} 1 & \text{if the event is true} \\\\ 0 & \text{if it is false.} \end{cases}$$
+$$\mathbb{1}[\text{event}] = \begin{cases} 1 & \text{if the event is true} \\ 0 & \text{if it is false.} \end{cases}$$
 
 So $\mathbb{1}[x^2 + y^2 \le 1]$ is $1$ for darts inside the quarter-circle and $0$ for darts outside, and its **average** over many darts *is* the fraction inside. (Notice the move: a *probability* is just the *expected value of an indicator*. We'll lean on that again and again.)
 

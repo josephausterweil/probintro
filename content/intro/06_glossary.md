@@ -10,25 +10,25 @@ This glossary provides definitions for key terms used throughout the tutorial. C
 ## Core Concepts
 
 ### set
-{{% expand "set" %}}  A *set* is a collection of elements or members. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\\{$" denotes the start of a set and "$\\}$" the end of a set. Note that the elements of a set are unique.
+{{% expand "set" %}}  A *set* is a collection of elements or members. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\{$" denotes the start of a set and "$\}$" the end of a set. Note that the elements of a set are unique.
 
-**Example:** $\\{H, T\\}$ is a set containing two elements: H and T.
+**Example:** $\{H, T\}$ is a set containing two elements: H and T.
 {{% /expand %}}
 
 ### outcome space
 {{% expand "outcome space" %}} The *outcome space* (denoted $\Omega$, the Greek letter omega) is the set of all possible outcomes for a random process. It forms the foundation for calculating probabilities.
 
-**Example:** For Chibany's two daily meals, $\Omega = \\{HH, HT, TH, TT\\}$.
+**Example:** For Chibany's two daily meals, $\Omega = \{HH, HT, TH, TT\}$.
 {{% /expand %}}
 
 ### event
 {{% expand "event" %}} An *event* is a set that contains none, some, or all of the possible outcomes. In other words, an event is any subset of the outcome space $\Omega$.
 
-**Example:** "At least one tonkatsu" is the event $\\{HT, TH, TT\\} \subseteq \Omega$.
+**Example:** "At least one tonkatsu" is the event $\{HT, TH, TT\} \subseteq \Omega$.
 {{% /expand %}}
 
 ### cardinality
-{{% expand "cardinality" %}} The *cardinality* or *size* of a set is the number of elements it contains. If $A = \\{H, T\\}$, then the cardinality of $A$ is $|A|=2$.
+{{% expand "cardinality" %}} The *cardinality* or *size* of a set is the number of elements it contains. If $A = \{H, T\}$, then the cardinality of $A$ is $|A|=2$.
 
 **Notation:** $|A|$ means "the size of set $A$"
 {{% /expand %}}

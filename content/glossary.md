@@ -37,7 +37,7 @@ Click on any term to expand its definition with examples and code.
 
 ### Cardinality 📘
 {{% expand "Cardinality" %}}
-The *cardinality* or *size* of a set is the number of elements it contains. If $A = \\{H, T\\}$, then the cardinality of $A$ is $|A|=2$.
+The *cardinality* or *size* of a set is the number of elements it contains. If $A = \{H, T\}$, then the cardinality of $A$ is $|A|=2$.
 
 **Notation:** $|A|$ means "the size of set $A$"
 
@@ -70,7 +70,7 @@ When they do not influence each other, they are called *independent*. This is de
 {{% expand "Event" %}}
 An *event* is a set that contains none, some, or all of the possible outcomes. In other words, an event is any subset of the outcome space $\Omega$.
 
-**Example:** "At least one tonkatsu" is the event $\\{HT, TH, TT\\} \subseteq \Omega$.
+**Example:** "At least one tonkatsu" is the event $\{HT, TH, TT\} \subseteq \Omega$.
 
 **In programming**: Events correspond to filtering/counting samples that satisfy a condition
 {{% /expand %}}
@@ -131,7 +131,7 @@ A *Markov equivalence class* is the set of all directed acyclic graphs (DAGs) th
 {{% expand "Outcome Space" %}}
 The *outcome space* (denoted $\Omega$, the Greek letter omega) is the set of all possible outcomes for a random process. It forms the foundation for calculating probabilities.
 
-**Example:** For Chibany's two daily meals, $\Omega = \\{HH, HT, TH, TT\\}$.
+**Example:** For Chibany's two daily meals, $\Omega = \{HH, HT, TH, TT\}$.
 
 **In GenJAX 💻**: We generate outcomes from the outcome space by running `simulate()` many times
 {{% /expand %}}
@@ -160,9 +160,9 @@ Technically the output must be *measurable*. You shouldn't worry about that dist
 
 ### Set 📘
 {{% expand "Set" %}}
-A *set* is a collection of elements or members. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\\{$" denotes the start of a set and "$\\}$" the end of a set. Note that the elements of a set are unique.
+A *set* is a collection of elements or members. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\{$" denotes the start of a set and "$\}$" the end of a set. Note that the elements of a set are unique.
 
-**Example:** $\\{H, T\\}$ is a set containing two elements: H and T.
+**Example:** $\{H, T\}$ is a set containing two elements: H and T.
 
 **In programming**: Like a Python set `{0, 1}` or a list of unique elements
 {{% /expand %}}
@@ -1162,7 +1162,7 @@ A continuous distribution where all values in a range [a, b] are equally likely.
 
 **PDF**:
 $$p(x) = \begin{cases}
-\frac{1}{b-a} & \text{if } a \leq x \leq b \\\\
+\frac{1}{b-a} & \text{if } a \leq x \leq b \\
 0 & \text{otherwise}
 \end{cases}$$
 

@@ -102,7 +102,7 @@ total = add_numbers(5, 3)  # total is now 8
 meals = ["HH", "HT", "TH", "TT"]
 ```
 
-**集合との対応：** これは $\Omega = \\{HH, HT, TH, TT\\}$ に順序がついたものです！
+**集合との対応：** これは $\Omega = \{HH, HT, TH, TT\}$ に順序がついたものです！
 
 ### アイテムへのアクセス
 
