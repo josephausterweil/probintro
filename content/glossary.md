@@ -1814,7 +1814,16 @@ A planning algorithm (MCTS) that simulates forward only from the current state, 
 
 **Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
 
-**See also:** [Simulation-Based RL](#simulation-based-rl-), [Monte Carlo Simulation](#monte-carlo-simulation-), [Epsilon-Greedy Exploration](#epsilon-greedy-exploration-)
+**See also:** [Simulation-Based RL](#simulation-based-rl-), [Upper Confidence Bound (UCB)](#upper-confidence-bound-ucb-), [Monte Carlo Simulation](#monte-carlo-simulation-), [Epsilon-Greedy Exploration](#epsilon-greedy-exploration-)
+{{% /expand %}}
+
+### Upper Confidence Bound (UCB) 📊
+{{% expand "Upper Confidence Bound (UCB)" %}}
+The rule **Monte Carlo Tree Search** uses to pick which action to follow in its **select** phase. For each action $a$ at a node it scores $\frac{W_a}{N_a} + c\sqrt{\frac{\ln N_{\text{parent}}}{N_a}}$ and takes the highest: the first term is the action's **average return** so far (*exploit* — favor what has paid off), and the second is an **uncertainty bonus** (*explore*) that is large for actions tried few times ($N_a$ small) and shrinks as they are tried more. $N_a$ counts the visits to action $a$, $W_a$ sums their returns, $N_{\text{parent}} = \sum_{a'} N_{a'}$ is the node's total visits, and $c$ (the *exploration constant*, e.g. $1.4$) sets the balance. It is the tree-search cousin of **ε-greedy**, but it explores *where it is most uncertain* rather than at random — so an under-tried action can be selected even when its current average is lower.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Monte Carlo Tree Search](#monte-carlo-tree-search-), [Epsilon-Greedy Exploration](#epsilon-greedy-exploration-), [Simulation-Based RL](#simulation-based-rl-)
 {{% /expand %}}
 
 ### Trajectory 📊
