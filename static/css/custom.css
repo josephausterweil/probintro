@@ -58,21 +58,6 @@
 .mt-disclaimer p { margin: 0.3rem 0; }
 .mt-disclaimer .mt-disclaimer-en { opacity: 0.7; font-size: 0.9em; }
 
-/* "Also available in Japanese" bar — shown at the top of every English page that
-   has a Japanese translation (layouts/partials/content-header.html). Slim + on-brand
-   blue so it's obvious without shouting. */
-.ja-available {
-    border-left: 4px solid #1565c0;
-    background: rgba(21, 101, 192, 0.13);
-    padding: 0.45rem 0.9rem;
-    margin: 0 0 1rem 0;
-    border-radius: 4px;
-    font-size: 0.95em;
-}
-.ja-available a { text-decoration: none; color: inherit; display: inline-block; }
-.ja-available a:hover { text-decoration: underline; }
-.ja-available .ja-flag { margin-right: 0.15rem; }
-
 /* Prominent EN | 日本語 language switch at the top of the sidebar
    (layouts/partials/logo.html). A LABELED two-segment control on a darker track so BOTH
    options clearly read as buttons (the inactive one no longer blends into the blue
