@@ -73,6 +73,20 @@ defaultContentLanguageInSubdir = false
 [markup.goldmark.renderer]
   unsafe = true
 
+# Protect math from Goldmark's markdown processing (the "passthrough" extension).
+# WITHOUT this, Goldmark escapes backslash-punctuation INSIDE $...$ before MathJax
+# ever sees it — e.g. `\{` collapses to a bare `{` (an invisible grouping brace), so
+# set notation like $\{a, b\}$ renders with NO visible braces (and `\\`, `\%`, `_`
+# can misbehave too). Passthrough hands the math content to MathJax untouched.
+# Delimiters MUST match the theme's MathJax config (dependencies/math.html):
+# inline $...$ / \(...\) ; block $$...$$ / \[...\]. Safe here because the chapters
+# only ever use $ for math (no literal prose dollar amounts).
+[markup.goldmark.extensions.passthrough]
+  enable = true
+  [markup.goldmark.extensions.passthrough.delimiters]
+    block = [['\[', '\]'], ['$$', '$$']]
+    inline = [['\(', '\)'], ['$', '$']]
+
 # Languages: English (default, served at root) + Japanese (machine-translated, /ja/).
 # Per-language overrides only; [params]/[markup]/[caches] above stay global so JA
 # inherits identical math + mermaid behavior.

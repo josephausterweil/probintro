@@ -83,6 +83,22 @@ All notebook links should use Google Colab URLs in this format:
 - Check if running: `ps aux | grep hugo`
 - Public output: `public/` directory
 
+## Math rendering (MathJax) — the `\{` / set-brace gotcha (FIXED)
+
+Math is MathJax, delimiters `$...$` (inline) and `$$...$$` (block). There is a recurring
+trap: by default Goldmark (Hugo's markdown parser) processes the text *inside* `$...$`
+**before** MathJax sees it, and escapes backslash-punctuation — so `\{` collapses to a bare
+`{` (an invisible MathJax grouping brace) and set notation like `$\{a, b\}$` renders with **no
+visible braces** (`\\`, `\%`, `_` can misbehave too).
+
+**This is fixed at the source:** `hugo.toml` enables the Goldmark **passthrough** extension
+(`[markup.goldmark.extensions.passthrough]`) with delimiters matching MathJax, so math content
+is now handed to MathJax untouched. `$\{a, b\}$` renders correctly; you do **not** need to use
+`\lbrace`/`\rbrace`. Do not remove that config. The one caveat passthrough imposes: **never put
+a literal prose dollar sign next to text** (write "5 dollars", not "$5") — `$` is now a math
+delimiter at build time, so a stray `$...$` pair in prose would render as math. (All current
+chapters use `$` only for math, which is why this was safe to enable.)
+
 ## Git Workflow
 
 This project is hosted at: `git@github.com:josephausterweil/probintro.git`
