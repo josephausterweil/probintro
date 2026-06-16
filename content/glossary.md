@@ -1805,7 +1805,25 @@ Learning a model from experience and then planning by **simulating** with it —
 
 **Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
 
-**See also:** [Monte Carlo Tree Search](#monte-carlo-tree-search-), [Monte Carlo Simulation](#monte-carlo-simulation-), [Value Iteration](#value-iteration-)
+**See also:** [Monte Carlo Tree Search](#monte-carlo-tree-search-), [Monte Carlo Simulation](#monte-carlo-simulation-), [Value Iteration](#value-iteration-), [Certainty Equivalence](#certainty-equivalence-)
+{{% /expand %}}
+
+### Certainty Equivalence 📊
+{{% expand "Certainty Equivalence" %}}
+Planning with a single **point estimate** of an unknown model as if it were exactly correct: fit the model (e.g. the maximum-likelihood transition matrix $\hat T$ from empirical transition counts), then optimize against $\hat T$ and ignore the uncertainty that remains. **Dyna** is the canonical example. It is simple and works well once enough data has made the estimate sharp, but because it throws the uncertainty away it never reasons about *exploring to reduce* that uncertainty — the principled alternative keeps a posterior over the model (see Bayes-Adaptive MDP).
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Bayes-Adaptive MDP](#bayes-adaptive-mdp-), [Simulation-Based RL](#simulation-based-rl-), [Dirichlet Distribution](#dirichlet-distribution-)
+{{% /expand %}}
+
+### Bayes-Adaptive MDP 📊
+{{% expand "Bayes-Adaptive MDP" %}}
+The reformulation of *learning* an unknown MDP as a *planning* problem. Fold the unknown model parameters $\theta$ (e.g. the transition matrix) into the state as a **hidden, static** component: the true state becomes $(s, \theta)$ with $s$ observed and $\theta$ never seen directly, and each observed transition sharpens a posterior (belief) over $\theta$. The augmented problem is a **partially observable MDP (POMDP)** — a special "parameter-uncertainty" one — in which optimal behavior automatically trades off **exploration** (acting to reduce uncertainty about $\theta$) against **exploitation**. Solving it exactly is intractable; **posterior sampling** (Thompson sampling) is the common tractable approximation, and **certainty equivalence** (Dyna) is the point-estimate shortcut that ignores the belief entirely.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Certainty Equivalence](#certainty-equivalence-), [Simulation-Based RL](#simulation-based-rl-), [Dirichlet Distribution](#dirichlet-distribution-)
 {{% /expand %}}
 
 ### Monte Carlo Tree Search 📊

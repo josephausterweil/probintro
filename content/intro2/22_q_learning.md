@@ -249,6 +249,14 @@ Dyna (plan on the LEARNED model) policy: ['Invest', 'Invest', 'Invest']
 
 From nothing but random experience, the agent reconstructs enough of the world to recover the optimal **Invest-everywhere** policy — the same answer [Chapter 21](../21_markov_decision_processes/) computed from the true model. And this Dyna *is* GenJAX: every one of the 20 000 experience steps is a `transition.simulate` draw from the same `@gen` model as Chapter 21, and the whole random walk plus value iteration runs as a single JIT-compiled `lax.scan` — about 0.06 s.
 
+{{% notice style="note" title="Aside: Dyna point-estimates the model — the principled version is a POMDP" %}}
+Dyna takes a shortcut worth naming. The empirical frequencies $\hat T = \text{counts} / \text{row totals}$ are the **maximum-likelihood estimate** of the transition matrix, and Dyna then plans as if that single estimate were exactly correct — a strategy called [**certainty equivalence**](../../glossary/#certainty-equivalence-): collapse the uncertainty to a point, then optimize. It works cleanly here only because we first gathered 20 000 steps under a random policy, so $\hat T$ is already sharp.
+
+Keep the uncertainty instead and something elegant appears. Fold the unknown matrix into the state: let the true state be the pair $(s, \theta)$ where $\theta = T$ is **hidden and static**, and read every observed transition as an observation that sharpens a posterior over $\theta$ (a [Dirichlet](../../glossary/#dirichlet-distribution-) posterior — one per row, since each row's counts are multinomial). That augmented problem — $s$ fully observed, the *parameters* $\theta$ never seen — is a genuine **partially observable MDP (POMDP)**, the structured case known as a [**Bayes-adaptive MDP**](../../glossary/#bayes-adaptive-mdp-). In it, "explore to pin down the dynamics" and "exploit what you already know" stop being separate phases and become a *single* optimization, because reducing uncertainty about $\theta$ now has value.
+
+Solving that POMDP exactly is intractable, so the workhorse middle ground is **posterior sampling** (also called *Thompson sampling*): draw one plausible $T$ from the posterior, plan as if it were true, act, update, repeat — exploring each model in proportion to how plausible it still is. Dyna is the degenerate point-estimate corner of that same space. We meet *genuine* state-uncertainty POMDPs — where the agent cannot even see the true state — later in the course; the Bayes-adaptive view here is the bridge showing that **unknown parameters** and **unobserved state** are the same machinery aimed at different parts of the state.
+{{% /notice %}}
+
 The next tool — **Monte Carlo Tree Search (MCTS)** — samples the *same* model, but to estimate a state's value by **rollout**: simulate many random-policy trajectories from a state and average their discounted returns. Written in GenJAX, that is one `vmap`-batched, compiled call over thousands of trajectories — which is where JAX earns its speed:
 
 <!-- validate: tol=0.5 -->
@@ -449,7 +457,7 @@ You can run **Q-learning** — estimate action values $Q(s,a)$ from raw experien
 
 This closes the agency arc that began in [Chapter 20](../20_statistical_decision_theory/): from one decision, to planning a known world, to learning and acting in an unknown one. Next, the course turns to **inverse** RL — watching behavior and inferring the *goals* behind it.
 
-*Glossary:* [Q-learning](../../glossary/#q-learning-), [temporal-difference error](../../glossary/#temporal-difference-error-), [learning rate](../../glossary/#learning-rate-), [ε-greedy](../../glossary/#epsilon-greedy-exploration-), [reward shaping](../../glossary/#reward-shaping-), [reward hacking](../../glossary/#reward-hacking-), [simulation-based RL](../../glossary/#simulation-based-rl-), [Monte Carlo Tree Search](../../glossary/#monte-carlo-tree-search-), [UCB](../../glossary/#upper-confidence-bound-ucb-).
+*Glossary:* [Q-learning](../../glossary/#q-learning-), [temporal-difference error](../../glossary/#temporal-difference-error-), [learning rate](../../glossary/#learning-rate-), [ε-greedy](../../glossary/#epsilon-greedy-exploration-), [reward shaping](../../glossary/#reward-shaping-), [reward hacking](../../glossary/#reward-hacking-), [simulation-based RL](../../glossary/#simulation-based-rl-), [Monte Carlo Tree Search](../../glossary/#monte-carlo-tree-search-), [UCB](../../glossary/#upper-confidence-bound-ucb-), [certainty equivalence](../../glossary/#certainty-equivalence-), [Bayes-adaptive MDP](../../glossary/#bayes-adaptive-mdp-).
 {{% /notice %}}
 
 ---
