@@ -1823,7 +1823,16 @@ The reformulation of *learning* an unknown MDP as a *planning* problem. Fold the
 
 **Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
 
-**See also:** [Certainty Equivalence](#certainty-equivalence-), [Simulation-Based RL](#simulation-based-rl-), [Dirichlet Distribution](#dirichlet-distribution-)
+**See also:** [Certainty Equivalence](#certainty-equivalence-), [Simulation-Based RL](#simulation-based-rl-), [Dirichlet Distribution](#dirichlet-distribution-), [Partially Observable MDP (POMDP)](#partially-observable-mdp-pomdp-)
+{{% /expand %}}
+
+### Partially Observable MDP (POMDP) 📊
+{{% expand "Partially Observable MDP (POMDP)" %}}
+A Markov decision process in which the agent **cannot directly observe the state**. Instead of the state $s$, it receives an **observation** $o$ from an observation model $O(o \mid s)$ that depends on the hidden state; so it maintains a **belief** — a probability distribution over which state it is in — updates that belief by Bayes' rule after each action and observation, and chooses actions as a function of the belief rather than the unknown state. Optimal POMDP planning is much harder than MDP planning (the belief is a continuous state), and partial observability is the rule in realistic problems — noisy sensors, hidden diseases, unknown user intent. Learning an unknown MDP is itself a structured POMDP (see Bayes-Adaptive MDP). Covered in depth in later chapters.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Bayes-Adaptive MDP](#bayes-adaptive-mdp-), [Markov Decision Process](#markov-decision-process-), [Posterior Distribution](#posterior-distribution-)
 {{% /expand %}}
 
 ### Two-Step Task 📊
