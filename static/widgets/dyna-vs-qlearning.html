@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q-learning vs Dyna on the Chibany MDP</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:8px 14px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:14px;border-bottom:1px solid #2a2a33;font-size:13.5px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:6px;}
+  input[type=range]{width:130px;accent-color:var(--accent);cursor:pointer;}
+  .val{color:var(--yellow);font-weight:700;min-width:24px;display:inline-block;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:6px;
+    padding:6px 12px;font-size:13px;cursor:pointer;font-weight:600;}
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent);color:#06121f;border-color:var(--accent);}
+  #vi{margin-left:auto;font-size:12px;color:var(--dim);text-align:right;line-height:1.35;}
+  #vi b{color:var(--green);}
+  #steps{font-size:13px;}#steps b{color:var(--yellow);font-size:17px;}
+  #stage{flex:1;display:flex;min-height:0;}
+  .agent{flex:1;display:flex;flex-direction:column;min-width:0;padding:8px 12px 4px;}
+  .agent:first-child{border-right:1px solid #2a2a33;}
+  .agent h2{font-size:14.5px;margin:0;text-align:center;}
+  .agent .sub{font-size:11.5px;color:var(--dim);text-align:center;margin:1px 0 2px;min-height:15px;}
+  .bars{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:8%;padding:14px 5% 0;min-height:0;}
+  .col{flex:0 0 22%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;}
+  .track{position:relative;width:60%;flex:1;display:flex;align-items:flex-end;border-bottom:2px solid #3a3a48;min-height:0;}
+  .bar{width:100%;border-radius:5px 5px 0 0;transition:height .12s linear;position:relative;}
+  .bar .v{position:absolute;top:-20px;left:0;right:0;text-align:center;font-weight:800;font-size:13.5px;}
+  .target{position:absolute;left:-7px;right:-7px;border-top:2px dashed #888;}
+  .target span{position:absolute;right:0;top:-13px;font-size:9.5px;color:#888;}
+  .name{margin-top:7px;font-weight:700;font-size:13.5px;}
+  .pol{margin-top:5px;font-weight:800;font-size:12px;padding:2px 9px;border-radius:12px;border:1.5px solid currentColor;}
+  .upd{font-size:12px;text-align:center;color:var(--dim);min-height:18px;padding-bottom:3px;}
+  .upd b{color:var(--white);}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="controls">
+    <button class="primary" id="step">Step ▸</button>
+    <button id="run">▶ Run</button>
+    <button id="fast">+500 ▸▸</button>
+    <button id="reset">⟲ Reset</button>
+    <label>Dyna planning steps <input type="range" id="plan" min="0" max="50" step="1" value="10"><span class="val" id="planv">10</span></label>
+    <label>α <input type="range" id="alpha" min="0.05" max="0.5" step="0.05" value="0.1"><span class="val" id="alphav">0.10</span></label>
+    <div id="steps">real steps <b id="t">0</b></div>
+    <div id="vi">exact answer — <b>value iteration (Ch 21)</b>:<br>V* = Junk <b>25.6</b>, Trying <b>28.4</b>, Healthy <b>39.8</b> · optimal = <b>Invest</b> everywhere</div>
+  </div>
+  <div id="stage">
+    <div class="agent" id="ag0">
+      <h2 style="color:var(--orange)">Q-learning <span style="color:var(--dim);font-weight:400;font-size:12px">· model-free</span></h2>
+      <div class="sub">one TD update per real step</div>
+      <div class="bars"></div>
+      <div class="upd"></div>
+    </div>
+    <div class="agent" id="ag1">
+      <h2 style="color:var(--accent)">Dyna <span style="color:var(--dim);font-weight:400;font-size:12px">· model-based</span></h2>
+      <div class="sub">same TD update <i>plus</i> planning backups from a learned model</div>
+      <div class="bars"></div>
+      <div class="upd"></div>
+    </div>
+  </div>
+</div>
+<script>
+"use strict";
+const COL={orange:"#FFA726",red:"#EF5350",green:"#66BB6A",accent:"#64B5F6",purple:"#BA68C8",dim:"#999999",yellow:"#FFEB3B"};
+const SCOL=[COL.orange,COL.red,COL.green], SNAME=["Junk","Trying","Healthy"];
+const ACOL=[COL.purple,COL.accent], ANAME=["Indulge","Invest"];
+const T=[[[.9,.1,0],[.7,.3,0],[.2,.5,.3]],[[.4,.6,0],[.1,.4,.5],[0,.1,.9]]];
+const R=[1,-2,5], GA=0.9, VSTAR=[25.6,28.4,39.8], VMAX=46;
+let alpha=0.1, plan=10;
+
+let seed=2024>>>0;
+function rng(){ seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296; }
+function sample(s,a){ const r=rng();let c=0;for(let sp=0;sp<3;sp++){c+=T[a][s][sp];if(r<c)return sp;}return 2; }
+const maxQ=q=>Math.max(q[0],q[1]);
+
+// agent state
+function fresh(){ return {Q:[[0,0],[0,0],[0,0]], counts:[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]], seen:[]}; }
+let A=[fresh(),fresh()], env=0, steps=0, running=false, raf=null, lastUpd=["",""];
+
+function tdUpdate(Q,s,a,r,sp){ Q[s][a]+=alpha*(r+GA*maxQ(Q[sp])-Q[s][a]); }
+
+function realStep(){
+  const s=env, a=rng()<0.5?0:1, sp=sample(s,a), r=R[s];      // shared random-action experience
+  // agent 0: Q-learning (one TD update)
+  tdUpdate(A[0].Q,s,a,r,sp);
+  lastUpd[0]=`TD on (<b style="color:${SCOL[s]}">${SNAME[s]}</b>, <b style="color:${ACOL[a]}">${ANAME[a]}</b>) → ${SNAME[sp]}`;
+  // agent 1: Dyna (same TD update, learn model, then plan)
+  tdUpdate(A[1].Q,s,a,r,sp);
+  A[1].counts[a][s][sp]++; if(!A[1].seen.some(p=>p[0]===s&&p[1]===a)) A[1].seen.push([s,a]);
+  for(let k=0;k<plan;k++){
+    const [ps,pa]=A[1].seen[(rng()*A[1].seen.length)|0];
+    const c=A[1].counts[pa][ps], tot=c[0]+c[1]+c[2]; let rr=rng()*tot,acc=0,psp=2;
+    for(let j=0;j<3;j++){acc+=c[j];if(rr<acc){psp=j;break;}}
+    tdUpdate(A[1].Q,ps,pa,R[ps],psp);
+  }
+  lastUpd[1]= plan>0
+    ? `same TD update <b>+ ${plan}</b> planning backups from the learned model`
+    : `same TD update <b>+ 0</b> planning — identical to Q-learning`;
+  env=sp; steps++;
+}
+
+// ---- build DOM ----
+function buildPanel(id){ const bars=document.querySelector("#"+id+" .bars"); bars.innerHTML="";
+  for(let s=0;s<3;s++){ const col=document.createElement("div"); col.className="col";
+    col.innerHTML=`<div class="track"><div class="bar"><span class="v"></span></div><div class="target"><span></span></div></div>
+      <div class="name" style="color:${SCOL[s]}">${SNAME[s]}</div><div class="pol"></div>`;
+    bars.appendChild(col);
+  }
+}
+buildPanel("ag0"); buildPanel("ag1");
+
+function renderPanel(id,ag){
+  const cols=document.querySelectorAll("#"+id+" .col");
+  cols.forEach((col,s)=>{
+    const V=maxQ(ag.Q[s]), bestA=ag.Q[s][1]>=ag.Q[s][0]?1:0;
+    const bar=col.querySelector(".bar"),v=col.querySelector(".v"),tgt=col.querySelector(".target"),
+          tlab=tgt.querySelector("span"),pol=col.querySelector(".pol");
+    bar.style.height=(Math.max(0,Math.min(1,V/VMAX))*100)+"%"; bar.style.background=SCOL[s];
+    v.textContent=V.toFixed(1); v.style.color=SCOL[s];
+    tgt.style.bottom=(Math.max(0,Math.min(1,VSTAR[s]/VMAX))*100)+"%"; tlab.textContent="V* "+VSTAR[s].toFixed(0);
+    pol.textContent=ANAME[bestA]; pol.style.color=ACOL[bestA];
+    pol.style.opacity = (steps>0)?1:0.35;
+  });
+  document.querySelector("#"+id+" .upd").innerHTML = steps>0 ? lastUpd[id==="ag0"?0:1] : "press Step ▸";
+}
+function render(){ renderPanel("ag0",A[0]); renderPanel("ag1",A[1]); document.getElementById("t").textContent=steps; }
+
+function stop(){ running=false; if(raf)cancelAnimationFrame(raf); raf=null; document.getElementById("run").textContent="▶ Run"; }
+function loop(){ if(!running)return; for(let i=0;i<3;i++) realStep(); render(); raf=requestAnimationFrame(loop); }
+
+document.getElementById("step").onclick=()=>{ stop(); realStep(); render(); };
+document.getElementById("run").onclick=function(){ if(running){stop();return;} running=true; this.textContent="⏸ Pause"; loop(); };
+document.getElementById("fast").onclick=()=>{ stop(); for(let i=0;i<500;i++) realStep(); render(); };
+document.getElementById("reset").onclick=()=>{ stop(); A=[fresh(),fresh()]; env=0; steps=0; seed=2024>>>0; render(); };
+document.getElementById("plan").oninput=e=>{ plan=+e.target.value; document.getElementById("planv").textContent=plan; };
+document.getElementById("alpha").oninput=e=>{ alpha=+e.target.value; document.getElementById("alphav").textContent=alpha.toFixed(2); };
+window.addEventListener("resize",render);
+render();
+</script>
+</body>
+</html>

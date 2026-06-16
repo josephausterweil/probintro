@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The two-step task: one trial, two minds</title>
+<title>Chibany's two-step task: one day, two minds</title>
 <style>
   :root{
     --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
     --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
-    --orange:#FFA726; --teal:#4DD0E1; --pink:#F06292; --blue:#5C9DFF; --purple:#BA68C8;
+    --orange:#FFA726; --teal:#4DD0E1; --redbox:#EF5350; --bluebox:#5C9DFF;
+    --mei:#FFA726; --ken:#4DD0E1; --purple:#BA68C8;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
@@ -47,24 +48,24 @@
   .grid .cell.s{color:var(--green);} .grid .cell.w{color:var(--red);}
   .grid .cell.cur{outline:2px solid var(--yellow);outline-offset:-2px;}
   .key{font-size:12px;color:#9a9aa3;line-height:1.5;border-top:1px solid #2a2a33;padding-top:7px;margin-top:auto;}
-  .key b.pink{color:var(--pink);} .key b.blue{color:var(--blue);}
+  .key b.mei{color:var(--mei);} .key b.ken{color:var(--ken);} .key b.rb{color:var(--redbox);} .key b.bb{color:var(--bluebox);}
 </style>
 </head>
 <body>
 <div id="app">
   <div id="controls">
-    <div class="grp"><span class="lbl">you chose</span>
-      <div class="seg" id="segChoice"><button data-v="0" class="on">🚀 Left</button><button data-v="1">Right 🚀</button></div></div>
-    <div class="grp"><span class="lbl">transition</span>
-      <div class="seg" id="segTrans"><button data-v="1" class="on">Common 70%</button><button data-v="0">Rare 30%</button></div></div>
+    <div class="grp"><span class="lbl">Chibany packs</span>
+      <div class="seg" id="segChoice"><button data-v="0" class="on">🍱 Red box</button><button data-v="1">Blue box 🍱</button></div></div>
+    <div class="grp"><span class="lbl">who grabs it</span>
+      <div class="seg" id="segTrans"><button data-v="1" class="on">usual · 70%</button><button data-v="0">swap · 30%</button></div></div>
     <div class="grp"><span class="lbl">outcome</span>
-      <div class="seg" id="segRew"><button data-v="1" class="on">💎 Reward</button><button data-v="0">✗ None</button></div></div>
-    <button id="rand">🎲 Random trial</button>
+      <div class="seg" id="segRew"><button data-v="1" class="on">🍖 tonkatsu</button><button data-v="0">✗ none</button></div></div>
+    <button id="rand">🎲 Random day</button>
   </div>
   <div id="stage">
     <div id="left"><canvas id="cv"></canvas></div>
     <div id="right">
-      <h2>What does each mind do on the <i>next</i> trial?</h2>
+      <h2>What does each mind do <i>tomorrow</i>?</h2>
       <div class="minds">
         <div class="card">
           <h3 class="mf">🔁 Model-free <span class="tag mf">cache</span></h3>
@@ -80,39 +81,36 @@
         </div>
       </div>
       <div class="key">
-        <b>Left</b> rocket usually flies to the <b class="pink">Pink</b> planet (70%), the <b class="blue">Blue</b> planet rarely (30%);
-        <b>Right</b> is the mirror image. <b>Model-free</b> only remembers <i>which rocket was rewarded</i> — so it repeats a rewarded
-        rocket no matter which planet it reached. <b>Model-based</b> values the <i>planet</i>, then picks the rocket that <i>usually</i>
-        gets there — so a reward reached by a <i>rare</i> jump makes it switch. The split shows on the <b>rare</b> trials.
+        <b class="mei">Mei</b> usually grabs the <b class="rb">Red box</b> (70%), <b class="ken">Ken</b> usually grabs the <b class="bb">Blue box</b> (70%) —
+        but tastes wander, so 30% of the time the other student takes it. <b>Model-free</b> just repeats a box that <i>earned tonkatsu</i>,
+        no matter who took it. <b>Model-based</b> tracks <i>which student</i> has the tonkatsu, then packs the box that student <i>usually</i>
+        grabs — so tonkatsu reached by a rare swap makes it switch. The two split on the <b>swap</b> days.
       </div>
     </div>
   </div>
 </div>
 <script>
 "use strict";
-const C={orange:"#FFA726",teal:"#4DD0E1",pink:"#F06292",blue:"#5C9DFF",green:"#66BB6A",
+const C={redbox:"#EF5350",bluebox:"#5C9DFF",mei:"#FFA726",ken:"#4DD0E1",green:"#66BB6A",
   red:"#EF5350",yellow:"#FFEB3B",dim:"#999999",white:"#fff",accent:"#64B5F6"};
-const RCOL=[C.orange,C.teal];            // Left rocket, Right rocket
-const RNAME=["Left","Right"];
-const PCOL=[C.pink,C.blue];              // Pink planet (0), Blue planet (1)
-const PNAME=["Pink","Blue"];
-// Left(0) common planet = Pink(0); Right(1) common planet = Blue(1). rare = the other.
-const commonPlanet = a => a;             // identity: Left->Pink, Right->Blue
-let choice=0, common=1, rew=1;           // current scenario (transition: 1=common,0=rare)
+const BCOL=[C.redbox,C.bluebox];          // Red box (0), Blue box (1)
+const BNAME=["Red box","Blue box"];
+const SCOL=[C.mei,C.ken];                  // Mei (0), Ken (1)
+const SNAME=["Mei","Ken"];
+// Red box (0) usual student = Mei (0); Blue box (1) usual student = Ken (1). swap = the other.
+const usualStudent = b => b;               // identity: Red->Mei, Blue->Ken
+let choice=0, common=1, rew=1;             // current day (transition: 1=usual, 0=swap)
 
-// reached planet given choice + transition
-const reached = () => common ? commonPlanet(choice) : 1-commonPlanet(choice);
+const reached = () => common ? usualStudent(choice) : 1-usualStudent(choice);
 
-// ---- verdicts ----
-// model-free: rewarded -> stay, else switch (ignores transition)
+// model-free: rewarded -> stay (pack same color), else switch
 const mfStay = (r) => r===1;
-// model-based: pick rocket whose COMMON planet is the good one.
-//  rewarded -> target the reached planet; unrewarded -> target the OTHER planet.
+// model-based: pack the box whose USUAL student is the good one.
 function mbStayFor(ch, com, r){
-  const reachedP = com ? commonPlanet(ch) : 1-commonPlanet(ch);
-  const target = r ? reachedP : 1-reachedP;          // planet to head for
-  const bestRocket = target;                          // commonPlanet is identity, so rocket==planet index
-  return bestRocket===ch;
+  const reachedS = com ? usualStudent(ch) : 1-usualStudent(ch);
+  const target = r ? reachedS : 1-reachedS;          // student to aim for
+  const bestBox = target;                             // usualStudent is identity, so box==student index
+  return bestBox===ch;
 }
 const mbStay = () => mbStayFor(choice, common, rew);
 
@@ -120,10 +118,13 @@ const mbStay = () => mbStayFor(choice, common, rew);
 const cv=document.getElementById("cv"), ctx=cv.getContext("2d"); let W,H;
 function resize(){ const d=window.devicePixelRatio||1,p=cv.parentElement; W=p.clientWidth;H=p.clientHeight;
   cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0); draw(); }
-function rocketXY(){ return [[W*0.27,H*0.16],[W*0.73,H*0.16]]; }
-function planetXY(){ return [[W*0.27,H*0.62],[W*0.73,H*0.62]]; }
+function boxXY(){ return [[W*0.27,H*0.15],[W*0.73,H*0.15]]; }
+function studentXY(){ return [[W*0.27,H*0.62],[W*0.73,H*0.62]]; }
+function roundRect(x,y,w,h,r){ ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath(); }
 function arrow(ax,ay,bx,by,col,wd,dash){
-  const dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,r1=30,r2=40;
+  const dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,r1=32,r2=42;
   const x1=ax+ux*r1,y1=ay+uy*r1,x2=bx-ux*r2,y2=by-uy*r2;
   ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=wd;ctx.setLineDash(dash||[]);
   ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([]);
@@ -136,55 +137,57 @@ function disc(x,y,r,fill,stroke,wd){ ctx.beginPath();ctx.arc(x,y,r,0,7);
   if(fill){ctx.fillStyle=fill;ctx.fill();} if(stroke){ctx.lineWidth=wd||3;ctx.strokeStyle=stroke;ctx.stroke();} }
 function draw(){
   ctx.clearRect(0,0,W,H);
-  const RK=rocketXY(), PL=planetXY(), reachP=reached();
-  // faint full transition map (both rockets, common thick / rare thin)
-  for(let a=0;a<2;a++){
-    const cp=commonPlanet(a);
-    ctx.globalAlpha=(a===choice)?1:0.13;
-    arrow(RK[a][0],RK[a][1],PL[cp][0],PL[cp][1], a===choice?(common?C.yellow:"#555"):"#888", a===choice&&common?6:3.5);
-    arrow(RK[a][0],RK[a][1],PL[1-cp][0],PL[1-cp][1], a===choice?(!common?C.yellow:"#555"):"#888", a===choice&&!common?6:2, a===choice&&!common?[]:[5,5]);
+  const BX=boxXY(), ST=studentXY(), reachS=reached();
+  // transition arrows from the chosen box (usual thick / swap thin), other box faint
+  for(let b=0;b<2;b++){
+    const us=usualStudent(b);
+    ctx.globalAlpha=(b===choice)?1:0.12;
+    arrow(BX[b][0],BX[b][1],ST[us][0],ST[us][1], b===choice?(common?C.yellow:"#555"):"#888", b===choice&&common?6:3.5);
+    arrow(BX[b][0],BX[b][1],ST[1-us][0],ST[1-us][1], b===choice?(!common?C.yellow:"#555"):"#888", b===choice&&!common?6:2, b===choice&&!common?[]:[5,5]);
     ctx.globalAlpha=1;
   }
-  // probability labels on the chosen rocket's two arrows
   ctx.font="11px DejaVu Sans";ctx.textAlign="center";
-  const cp=commonPlanet(choice);
+  const us=usualStudent(choice);
   ctx.fillStyle=common?C.yellow:C.dim;
-  ctx.fillText("70%", (RK[choice][0]+PL[cp][0])/2+(choice?14:-14), (RK[choice][1]+PL[cp][1])/2);
+  ctx.fillText("70%", (BX[choice][0]+ST[us][0])/2+(choice?14:-14), (BX[choice][1]+ST[us][1])/2);
   ctx.fillStyle=!common?C.yellow:C.dim;
-  ctx.fillText("30%", (RK[choice][0]+PL[1-cp][0])/2, (RK[choice][1]+PL[1-cp][1])/2-6);
-  // rockets
-  for(let a=0;a<2;a++){
-    const sel=a===choice;
-    disc(RK[a][0],RK[a][1],30, sel?RCOL[a]:"#15151c", RCOL[a], sel?5:2.5);
-    ctx.globalAlpha=sel?1:0.55;
-    ctx.font=(sel?"bold ":"")+"22px serif";ctx.textAlign="center";ctx.textBaseline="middle";
-    ctx.fillText("🚀",RK[a][0],RK[a][1]-1);
-    ctx.fillStyle=sel?RCOL[a]:C.dim;ctx.font="bold 12px DejaVu Sans";
-    ctx.fillText(RNAME[a],RK[a][0],RK[a][1]+44);ctx.globalAlpha=1;
+  ctx.fillText("30%", (BX[choice][0]+ST[1-us][0])/2, (BX[choice][1]+ST[1-us][1])/2-6);
+  // bento boxes (stage 1)
+  for(let b=0;b<2;b++){
+    const sel=b===choice, w=58,h=40, x=BX[b][0]-w/2, y=BX[b][1]-h/2;
+    ctx.globalAlpha=sel?1:0.5;
+    roundRect(x,y,w,h,8); ctx.fillStyle=sel?BCOL[b]:"#181820"; ctx.fill();
+    ctx.lineWidth=sel?4:2.5; ctx.strokeStyle=BCOL[b]; ctx.stroke();
+    // lid line + chopsticks hint
+    ctx.strokeStyle=sel?"rgba(0,0,0,.35)":BCOL[b]; ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(x+8,BX[b][1]);ctx.lineTo(x+w-8,BX[b][1]);ctx.stroke();
+    ctx.fillStyle=sel?BCOL[b]:C.dim;ctx.font="bold 12px DejaVu Sans";ctx.textBaseline="middle";
+    ctx.fillText(BNAME[b],BX[b][0],BX[b][1]+34);ctx.globalAlpha=1;
   }
-  // planets
-  for(let p=0;p<2;p++){
-    const hit=p===reachP;
-    disc(PL[p][0],PL[p][1],38, hit?PCOL[p]:"#15151c", PCOL[p], hit?5:2.5);
+  // students (stage 2)
+  for(let s=0;s<2;s++){
+    const hit=s===reachS;
+    disc(ST[s][0],ST[s][1],36, hit?SCOL[s]:"#15151c", SCOL[s], hit?5:2.5);
     ctx.globalAlpha=hit?1:0.5;
-    ctx.fillStyle=hit?"#101015":PCOL[p];ctx.font="bold 12px DejaVu Sans";ctx.textAlign="center";ctx.textBaseline="middle";
-    ctx.fillText(PNAME[p],PL[p][0],PL[p][1]+(hit?2:0));ctx.globalAlpha=1;
-    if(hit){ ctx.font="26px serif"; ctx.fillText(rew?"💎":"✗",PL[p][0],PL[p][1]-54);
+    ctx.font="22px serif";ctx.textAlign="center";ctx.textBaseline="middle";
+    ctx.fillText("🧑‍🎓",ST[s][0],ST[s][1]-2);
+    ctx.fillStyle=hit?"#101015":SCOL[s];ctx.font="bold 12px DejaVu Sans";
+    ctx.fillText(SNAME[s],ST[s][0],ST[s][1]+50);ctx.globalAlpha=1;
+    if(hit){ ctx.font="24px serif"; ctx.fillText(rew?"🍖":"✗",ST[s][0],ST[s][1]-52);
       ctx.fillStyle=rew?C.green:C.red;ctx.font="bold 12px DejaVu Sans";
-      ctx.fillText(rew?"reward!":"no reward",PL[p][0],PL[p][1]+54); }
+      ctx.fillText(rew?"tonkatsu!":"no tonkatsu",ST[s][0],ST[s][1]-72); }
   }
   ctx.fillStyle=common?C.dim:C.yellow;ctx.font=(common?"":"bold ")+"12px DejaVu Sans";ctx.textAlign="center";
-  ctx.fillText(common?"common transition (70%)":"RARE transition (30%)", W*0.5, H*0.90);
+  ctx.fillText(common?"the usual student grabbed it (70%)":"a SWAP — the other student grabbed it (30%)", W*0.5, H*0.92);
 }
 
 // ---- panel ----
 const $=id=>document.getElementById(id);
 function setSeg(seg,val){ [...seg.children].forEach(b=>b.classList.toggle("on",+b.dataset.v===val)); }
 function gridHTML(stayFn){
-  // rows: rewarded / not; cols: common / rare
-  let h='<div class="hd"></div><div class="hd">common</div><div class="hd">rare</div>';
+  let h='<div class="hd"></div><div class="hd">usual</div><div class="hd">swap</div>';
   for(const r of [1,0]){
-    h+=`<div class="hd">${r?"💎 rew":"✗ none"}</div>`;
+    h+=`<div class="hd">${r?"🍖 tonkatsu":"✗ none"}</div>`;
     for(const c of [1,0]){
       const st=stayFn(choice,c,r), cur=(c===common&&r===rew);
       h+=`<div class="cell ${st?"s":"w"} ${cur?"cur":""}">${st?"stay":"switch"}</div>`;
@@ -194,20 +197,21 @@ function gridHTML(stayFn){
 }
 function render(){
   draw();
-  const reachP=reached(), rocketWanted = rew ? reachP : 1-reachP;
-  // model-free card
+  const reachS=reached(), boxWanted = rew ? reachS : 1-reachS;
   const mf=mfStay(rew);
   $("mfTxt").innerHTML = rew
-    ? `You picked <b class="mfk">${RNAME[choice]}</b> and it paid off. Model-free remembers only <i>“${RNAME[choice]} → reward”</i> — it never asks which planet you reached. So it leans toward <b>${RNAME[choice]}</b> again.`
-    : `You picked <b class="mfk">${RNAME[choice]}</b> and got nothing. Model-free just lowers <i>${RNAME[choice]}</i>'s value, regardless of the planet, and leans to the other rocket.`;
-  $("mfV").innerHTML = `→ <span class="${mf?"stay":"switch"}">${mf?"STAY with "+RNAME[choice]:"SWITCH to "+RNAME[1-choice]}</span>`;
+    ? `Chibany packed the <b class="mfk">${BNAME[choice]}</b> and it earned tonkatsu. Model-free remembers only <i>“${BNAME[choice]} → tonkatsu”</i> — it never asks who took it. So it packs the <b>${BNAME[choice]}</b> again.`
+    : `Chibany packed the <b class="mfk">${BNAME[choice]}</b> and got nothing. Model-free just lowers the <i>${BNAME[choice]}</i>'s value, regardless of who took it, and leans to the other box.`;
+  $("mfV").innerHTML = `→ <span class="${mf?"stay":"switch"}">${mf?"STAY · pack "+BNAME[choice]:"SWITCH · pack "+BNAME[1-choice]}</span>`;
   $("mfGrid").innerHTML = gridHTML((ch,c,r)=>mfStay(r));
-  // model-based card
   const mb=mbStay();
+  const rn = SNAME[reachS];
+  const rewNote = common ? " (the box Chibany just packed)" : " (the OTHER box — "+rn+" only took this one by a rare swap)";
+  const noNote  = common ? " (the OTHER box)" : " (the one Chibany packed — its rare swap landed on the empty-handed student)";
   $("mbTxt").innerHTML = rew
-    ? `The reward was on the <b style="color:${PCOL[reachP]}">${PNAME[reachP]}</b> planet. To get back there, model-based picks the rocket that <i>usually</i> flies to ${PNAME[reachP]} — that's <b class="mbk">${RNAME[rocketWanted]}</b>${common?" (the one you just took)":" (the OTHER one — you only reached it by a rare jump)"}.`
-    : `The <b style="color:${PCOL[reachP]}">${PNAME[reachP]}</b> planet just disappointed. Model-based steers toward the <i>other</i> planet, whose usual rocket is <b class="mbk">${RNAME[rocketWanted]}</b>${common?" (the OTHER rocket)":" (the one you took — its rare jump landed on the bad planet)"}.`;
-  $("mbV").innerHTML = `→ <span class="${mb?"stay":"switch"}">${mb?"STAY with "+RNAME[choice]:"SWITCH to "+RNAME[1-choice]}</span>`;
+    ? `The tonkatsu came from <b style="color:${SCOL[reachS]}">${rn}</b>. To reach ${rn} again, model-based packs the box ${rn} <i>usually</i> grabs — the <b class="mbk">${BNAME[boxWanted]}</b>${rewNote}.`
+    : `<b style="color:${SCOL[reachS]}">${rn}</b> had nothing to share. Model-based aims for the <i>other</i> student, who usually grabs the <b class="mbk">${BNAME[boxWanted]}</b>${noNote}.`;
+  $("mbV").innerHTML = `→ <span class="${mb?"stay":"switch"}">${mb?"STAY · pack "+BNAME[choice]:"SWITCH · pack "+BNAME[1-choice]}</span>`;
   $("mbGrid").innerHTML = gridHTML((ch,c,r)=>mbStayFor(ch,c,r));
 }
 

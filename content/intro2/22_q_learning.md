@@ -249,6 +249,17 @@ Dyna (plan on the LEARNED model) policy: ['Invest', 'Invest', 'Invest']
 
 From nothing but random experience, the agent reconstructs enough of the world to recover the optimal **Invest-everywhere** policy — the same answer [Chapter 21](../21_markov_decision_processes/) computed from the true model. And this Dyna *is* GenJAX: every one of the 20 000 experience steps is a `transition.simulate` draw from the same `@gen` model as Chapter 21, and the whole random walk plus value iteration runs as a single JIT-compiled `lax.scan` — about 0.06 s.
 
+This is a good moment to *watch* the two styles of learning side by side on the **same** Chibany MDP. Both agents see the identical stream of experience; the only difference is what they do with each step. **Q-learning** (model-free) makes one TD update per real step. **Dyna** (model-based) makes that *same* update **plus** a handful of **planning** backups from its learned model — replaying imagined experience to wring more out of every real step. Keep the exact answer from [Chapter 21](../21_markov_decision_processes/) in mind — value iteration gave $V^* = [25.6,\ 28.4,\ 39.8]$ with **Invest** optimal everywhere (the dashed targets). Watch both climb toward it; then drag Dyna's **planning steps to 0** and the two panels become identical — planning is the *only* difference:
+
+<iframe src="../../widgets/dyna-vs-qlearning.html"
+        width="100%" height="560"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Q-learning vs Dyna on the Chibany MDP, side by side: both learn from the same experience, but Dyna adds planning backups from a learned model and converges to the value-iteration answer in far fewer real steps">
+</iframe>
+
+With even a few planning steps, Dyna reaches the value-iteration answer in a fraction of the real experience Q-learning needs — the payoff of *having a model to imagine with*, the thread that runs from here to MCTS and AlphaZero.
+
 {{% notice style="note" title="Aside: Dyna point-estimates the model — the principled version is a POMDP" %}}
 Dyna takes a shortcut worth naming. The empirical frequencies $\hat T = \text{counts} / \text{row totals}$ are the **maximum-likelihood estimate** of the transition matrix, and Dyna then plans as if that single estimate were exactly correct — a strategy called [**certainty equivalence**](../../glossary/#certainty-equivalence-): collapse the uncertainty to a point, then optimize. It works cleanly here only because we first gathered 20 000 steps under a random policy, so $\hat T$ is already sharp.
 
@@ -441,39 +452,39 @@ The thread running through these three chapters — *write the world as a genera
 
 ## Telling Model-Free from Model-Based: The Two-Step Task
 
-This chapter built both kinds of agent. **Q-learning is model-free** — it caches values from experience and never represents the world's dynamics. **Dyna and MCTS are model-based** — they hold a model and *simulate* it to plan. That raises a question cognitive science cares about deeply: when a *person* (or a rat) learns a task, which kind of computation is the brain doing? You usually can't tell from choices alone — given enough trials, both strategies solve the same task equally well. The trick is to design a task whose two systems are *forced to predict different things*. The dual-system idea it probes — a *habitual* model-free controller competing with a *goal-directed* model-based one — goes back to **Daw, Niv & Dayan (2005)**; the **two-step task** that operationalized it is **Daw, Gershman, Seymour, Dayan & Dolan (2011)**, and it became one of the most influential paradigms in computational cognitive neuroscience.
+This chapter built both kinds of agent. **Q-learning is model-free** — it caches values from experience and never represents the world's dynamics. **Dyna and MCTS are model-based** — they hold a model and *simulate* it to plan. That raises a question cognitive science cares about deeply: when a *person* (or a rat) learns a task, which kind of computation is the brain doing? You usually can't tell from choices alone — given enough trials, both strategies solve the same task equally well. The trick is a task whose two systems are *forced to predict different things*. The framework it probes — a *habitual* model-free controller competing with a *goal-directed* model-based one — was introduced by **Daw, Niv & Dayan (2005)**, who already used it to account for animal (rat) behavior; the human **two-step task** we walk through here, the first to dissociate the two systems in *people*, is **Daw, Gershman, Seymour, Dayan & Dolan (2011)**, and it became one of the most influential paradigms in computational cognitive neuroscience.
 
-**The task.** Each trial has two stages. At **stage 1** you choose between two options — call them a **Left** and a **Right** rocket. Your choice sends you to one of two **stage-2** states — a **Pink** and a **Blue** planet — but only *probabilistically*: each rocket has a **common** destination it reaches 70% of the time and a **rare** one it reaches 30% of the time (Left usually → Pink, Right usually → Blue). At whichever planet you land, a second choice pays off with some reward probability, and those probabilities **drift slowly** over the session, so there is always something to keep learning.
+**The task.** Picture **Chibany** running a lunchtime errand each day, in two stages. At **stage 1** he packs a bento in one of two colors — a **Red** box or a **Blue** box. The box is then taken by one of two classmates — **Mei** or **Ken** — but only *probabilistically*: **Mei** *usually* grabs the **Red** box (the **common** outcome, 70%) and **Ken** *usually* grabs the **Blue** box (70% too); the other 30% of the time a **swap** (the **rare** outcome) happens and the other student takes it. Whoever ends up with the box sometimes shares **tonkatsu** back — the treat Chibany is after — and sometimes doesn't, and who is feeling generous **drifts slowly** day to day, so there is always something to keep learning. (Stage 1 = which color to pack; the two students are the two stage-2 states; the tonkatsu is the reward.)
 
 ```mermaid
 graph TD
-    S1["Stage 1: Left or Right?"]
-    S1 -->|"Left · 70% common"| PK["Pink planet"]
-    S1 -->|"Left · 30% rare"| BL["Blue planet"]
-    S1 -->|"Right · 70% common"| BL
-    S1 -->|"Right · 30% rare"| PK
-    PK --> R["reward? (slowly drifting)"]
-    BL --> R
+    S1["Chibany packs: Red box or Blue box?"]
+    S1 -->|"Red · 70% (Mei usually)"| MEI["Mei"]
+    S1 -->|"Red · 30% (swap)"| KEN["Ken"]
+    S1 -->|"Blue · 70% (Ken usually)"| KEN
+    S1 -->|"Blue · 30% (swap)"| MEI
+    MEI --> R["shares tonkatsu? (drifts slowly)"]
+    KEN --> R
     classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
-    class S1,PK,BL,R node
+    class S1,MEI,KEN,R node
     linkStyle default stroke:#9bbcff,stroke-width:2px,color:#fff
 ```
 
-The whole game lives in that **rare** transition. Ask the simplest behavioral question: after a trial, do you **stay** (repeat the same stage-1 choice) or **switch**? The two systems answer from completely different information.
+The whole game lives in that **swap** (the rare transition). Ask the simplest behavioral question: the next day, does Chibany **pack the same color** (stay) or **switch**? The two systems answer from completely different information.
 
-- **Model-free** asks only: *was the choice I made rewarded?* A first-stage action that was followed by reward gets reinforced, so it is more likely to be repeated — full stop. It never consults *which* planet it reached or *how* it got there. Prediction: a **main effect of reward** — rewarded → stay, unrewarded → switch — with the transition type making **no difference**.
-- **Model-based** asks: *which planet pays, and which rocket usually gets me there?* A reward makes the *planet* valuable, and it then picks the rocket that **commonly** reaches that planet. Here the rare transition bites. Say you took **Left**, got a **rare** jump to **Blue**, and were **rewarded**. Blue is now valuable — but the rocket that *commonly* flies to Blue is **Right**, not the Left you just took. So model-based **switches to Right**, *even though you were just rewarded*. Prediction: a **reward × transition interaction** (a crossover), not a plain reward effect.
+- **Model-free** asks only: *did the box I packed earn tonkatsu?* A bento color that was followed by tonkatsu gets reinforced, so it is more likely to be packed again — full stop. It never consults *which student* grabbed it or *how*. Prediction: a **main effect of reward** — tonkatsu → stay, none → switch — with the swap making **no difference**.
+- **Model-based** asks: *which student has the tonkatsu, and which color do they usually grab?* Tonkatsu makes that *student* valuable, and it then packs the color that student **usually** takes. Here the swap bites. Say Chibany packed the **Red** box, it was **swapped** to **Ken**, and **Ken shared tonkatsu**. Ken is now the student to reach — but the box Ken *usually* grabs is the **Blue** one, not the Red Chibany just packed. So model-based **switches to Blue**, *even though packing Red just earned tonkatsu*. Prediction: a **reward × transition interaction** (a crossover), not a plain reward effect.
 
-That rare-rewarded case is the crux, and it is genuinely easy to tangle — so step through every combination yourself. Set the choice, the transition, and the outcome, and watch what each mind concludes (the two verdicts agree on *common* trials and split on *rare* ones):
+That swap-with-tonkatsu case is the crux, and it is genuinely easy to tangle — so step through every combination yourself. Set the color, who grabbed it, and the outcome, and watch what each mind concludes (the two verdicts agree on *usual* days and split on *swap* days):
 
 <iframe src="../../widgets/two-step-task.html"
         width="100%" height="600"
         frameborder="0"
         style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive two-step task: set a trial's stage-1 choice, transition (common/rare), and reward, and see why model-free and model-based agents stay or switch">
+        title="Interactive two-step task: set the bento color Chibany packs, which student grabbed it (usual/swap), and whether they shared tonkatsu, and see why model-free and model-based stay or switch">
 </iframe>
 
-We can also just *simulate* both agents. A model-free learner caches a value for each first-stage action and nudges it toward the reward received; a model-based learner learns the planet values and combines them through the known 70/30 transition to score the first-stage actions. Run each for many trials and tally how often it stays, split by the previous trial's reward and transition:
+We can also just *simulate* both agents. A model-free learner caches a value for each **bento color** and nudges it toward the tonkatsu received; a model-based learner learns each **student's** value and combines them through the known 70/30 grab-rates to score the two colors. Run each for many days and tally how often Chibany **repeats the color**, split by the previous day's tonkatsu and whether the usual student grabbed it:
 
 <!-- validate: tol=0.05 -->
 ```python
@@ -481,25 +492,25 @@ import numpy as np
 
 def two_step_stay_probs(agent, n_trials=30000, alpha=0.5, beta=5.0, p_common=0.7, seed=0):
     rng = np.random.default_rng(seed)
-    Q1 = np.zeros(2)                              # model-free first-stage cache
-    Q2 = np.zeros((2, 2))                         # stage-2 action values (both agents learn these)
-    rp = rng.uniform(0.25, 0.75, size=(2, 2))     # drifting reward probabilities
+    Q1 = np.zeros(2)                              # model-free cache: one value per bento color
+    Q2 = np.zeros((2, 2))                         # value of each student's treats (both agents learn this)
+    rp = rng.uniform(0.25, 0.75, size=(2, 2))     # drifting tonkatsu probabilities
     choose = lambda q: int(rng.random() < np.exp(beta*q[1]) / np.exp(beta*q).sum())
     a1s, commons, rewards = [], [], []
     for _ in range(n_trials):
         if agent == "model-free":
             q1 = Q1                               # cached first-stage values
-        else:                                     # model-based: plan with the KNOWN transition
+        else:                                     # model-based: plan with the known 70/30 grab-rates
             V2 = Q2.max(axis=1)
             q1 = np.array([p_common*V2[a] + (1-p_common)*V2[1-a] for a in (0, 1)])
         a1 = choose(q1)
         common = rng.random() < p_common
-        s2 = a1 if common else 1 - a1             # common: action a -> state a
+        s2 = a1 if common else 1 - a1             # usual: color a -> its usual student a
         a2 = choose(Q2[s2])
         r = float(rng.random() < rp[s2, a2])
-        Q2[s2, a2] += alpha*(r - Q2[s2, a2])      # learn the stage-2 value
+        Q2[s2, a2] += alpha*(r - Q2[s2, a2])      # learn the student's value
         if agent == "model-free":
-            Q1[a1] += alpha*(r - Q1[a1])          # credit the first-stage CHOICE for the reward
+            Q1[a1] += alpha*(r - Q1[a1])          # credit the bento COLOR for the tonkatsu
         a1s.append(a1); commons.append(common); rewards.append(r)
         rp = np.clip(rp + rng.normal(0, 0.025, size=(2, 2)), 0.25, 0.75)
     a1s, commons, rewards = np.array(a1s), np.array(commons), np.array(rewards)
@@ -521,13 +532,13 @@ model-free    rew/common 0.9  rew/rare 0.9   unrew/common 0.57  unrew/rare 0.57
 model-based   rew/common 0.66  rew/rare 0.45   unrew/common 0.45  unrew/rare 0.66
 ```
 
-Those numbers *are* the signature. The model-free learner stays ~0.9 of the time after **any** reward and ~0.57 after **any** omission — flat across the transition. The model-based learner shows the **crossover**: stay after a common reward or a rare omission, switch after a rare reward or a common omission. Plot stay-probability as two lines — one for rewarded trials, one for unrewarded — across common vs. rare, and model-free gives **parallel** lines (reward just shifts them together) while model-based gives **crossing** lines (the interaction). The widget runs the simulation live; slide the model-based weight $w$ from 0 to 1 to morph one into the other:
+Those numbers *are* the signature. The model-free learner repeats the color ~0.9 of the time after **any** tonkatsu and ~0.57 after **any** empty-handed day — flat across the swap. The model-based learner shows the **crossover**: repeat after a usual-day tonkatsu or a swap-day miss, switch after a swap-day tonkatsu or a usual-day miss. Plot the repeat-probability as two lines — one for tonkatsu days, one for empty days — across *usual* vs. *swap*, and model-free gives **parallel** lines (tonkatsu just shifts them together) while model-based gives **crossing** lines (the interaction). The widget runs the simulation live; slide the model-based weight $w$ from 0 to 1 to morph one into the other:
 
 <iframe src="../../widgets/two-step-stay-prob.html"
         width="100%" height="560"
         frameborder="0"
         style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive two-step stay-probability signature: model-free gives parallel reward lines, model-based gives a crossing interaction, with a model-based-weight slider to mix them">
+        title="Interactive two-step signature: probability Chibany repeats the bento color — model-free gives parallel tonkatsu lines, model-based gives a crossing interaction, with a model-based-weight slider to mix them">
 </iframe>
 
 The result that made the task famous: **real people show *both*** — a reward main effect *and* an interaction, exactly the middle panel's blend. That mixture is read as evidence that the brain runs the two systems in parallel and arbitrates between them — the **habitual** (model-free) and **goal-directed** (model-based) controllers of Daw et al. (2005). The plain model-free/model-based distinction this chapter drew in code turns out to be a measurable axis of human cognition.
