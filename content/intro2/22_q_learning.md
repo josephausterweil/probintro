@@ -274,37 +274,37 @@ Solving that POMDP exactly is intractable, so the workhorse middle ground is **p
 
 This chapter built both kinds of agent. **Q-learning is model-free** — it caches values from experience and never represents the world's dynamics. **Dyna is model-based** — it holds a model and *simulates* it to plan, and the widget above let you watch the two learn side by side. That raises a question cognitive science cares about deeply: when a *person* (or a rat) learns a task, which kind of computation is the brain doing? You usually can't tell from choices alone — given enough trials, both strategies solve the same task equally well. The trick is a task whose two systems are *forced to predict different things*. The framework it probes — a *habitual* model-free controller competing with a *goal-directed* model-based one — was introduced by **Daw, Niv & Dayan (2005)**, who already used it to account for animal (rat) behavior; the human **two-step task** we walk through here, the first to dissociate the two systems in *people*, is **Daw, Gershman, Seymour, Dayan & Dolan (2011)**, and it became one of the most influential paradigms in computational cognitive neuroscience.
 
-**The task.** Picture **Chibany** running a lunchtime errand each day, in two stages. At **stage 1** he packs a bento in one of two colors — a **Red** box or a **Blue** box. The box is then taken by one of two classmates — **Mei** or **Ken** — but only *probabilistically*: **Mei** *usually* grabs the **Red** box (the **common** outcome, 70%) and **Ken** *usually* grabs the **Blue** box (70% too); the other 30% of the time a **swap** (the **rare** outcome) happens and the other student takes it. Whoever ends up with the box sometimes shares **tonkatsu** back — the treat Chibany is after — and sometimes doesn't, and who is feeling generous **drifts slowly** day to day, so there is always something to keep learning. (Stage 1 = which color to pack; the two students are the two stage-2 states; the tonkatsu is the reward.)
+**The task.** Recall from [Chapter 1](../01_mystery_bentos/) that **Chibany's students bring them bentos** — usually **tonkatsu** (Chibany's favorite), sometimes a **hamburger**. The two-step task turns that into a daily choice with two stages. At **stage 1** Chibany asks one of two students — **Aki** or **Mei** — for a bento. *Which color box arrives* is then only *probabilistic*: **Aki** *usually* brings the **Red** box (the **common** outcome, 70%) and **Mei** *usually* brings the **Blue** box (70% too); the other 30% of the time they **swap** (the **rare** outcome) and bring the other color. Inside, the box holds **tonkatsu** or a **hamburger**, and *which color box tends to hold the tonkatsu* **drifts slowly** day to day, so there is always something to keep learning. (Stage 1 = which friend to ask; the two color boxes are the two stage-2 states; tonkatsu is the reward.)
 
 ```mermaid
 graph TD
-    S1["Chibany packs: Red box or Blue box?"]
-    S1 -->|"Red · 70% (Mei usually)"| MEI["Mei"]
-    S1 -->|"Red · 30% (swap)"| KEN["Ken"]
-    S1 -->|"Blue · 70% (Ken usually)"| KEN
-    S1 -->|"Blue · 30% (swap)"| MEI
-    MEI --> R["shares tonkatsu? (drifts slowly)"]
-    KEN --> R
+    S1["Chibany asks: Aki or Mei?"]
+    S1 -->|"Aki · 70% (usual)"| RED["Red box"]
+    S1 -->|"Aki · 30% (swap)"| BLUE["Blue box"]
+    S1 -->|"Mei · 70% (usual)"| BLUE
+    S1 -->|"Mei · 30% (swap)"| RED
+    RED --> R["tonkatsu or hamburger? (drifts slowly)"]
+    BLUE --> R
     classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
-    class S1,MEI,KEN,R node
+    class S1,RED,BLUE,R node
     linkStyle default stroke:#9bbcff,stroke-width:2px,color:#fff
 ```
 
-The whole game lives in that **swap** (the rare transition). Ask the simplest behavioral question: the next day, does Chibany **pack the same color** (stay) or **switch**? The two systems answer from completely different information.
+The whole game lives in that **swap** (the rare transition). Ask the simplest behavioral question: the next day, does Chibany **ask the same friend** (stay) or **switch**? The two systems answer from completely different information.
 
-- **Model-free** asks only: *did the box I packed earn tonkatsu?* A bento color that was followed by tonkatsu gets reinforced, so it is more likely to be packed again — full stop. It never consults *which student* grabbed it or *how*. Prediction: a **main effect of reward** — tonkatsu → stay, none → switch — with the swap making **no difference**.
-- **Model-based** asks: *which student has the tonkatsu, and which color do they usually grab?* Tonkatsu makes that *student* valuable, and it then packs the color that student **usually** takes. Here the swap bites. Say Chibany packed the **Red** box, it was **swapped** to **Ken**, and **Ken shared tonkatsu**. Ken is now the student to reach — but the box Ken *usually* grabs is the **Blue** one, not the Red Chibany just packed. So model-based **switches to Blue**, *even though packing Red just earned tonkatsu*. Prediction: a **reward × transition interaction** (a crossover), not a plain reward effect.
+- **Model-free** asks only: *did the friend I asked bring tonkatsu?* A friend who brought tonkatsu gets reinforced, so Chibany is more likely to ask them again — full stop. It never consults *which color box* it came in. Prediction: a **main effect of reward** — tonkatsu → stay, hamburger → switch — with the swap making **no difference**.
+- **Model-based** asks: *which box held the tonkatsu, and which friend usually brings that box?* Tonkatsu makes that *box* valuable, and Chibany then asks the friend who **usually** brings it. Here the swap bites. Say Chibany asked **Aki**, she **swapped** and brought the **Blue** box, and it held **tonkatsu**. The Blue box is now the prize — but the friend who *usually* brings Blue is **Mei**, not the Aki just asked. So model-based **switches to Mei**, *even though asking Aki just got tonkatsu*. Prediction: a **reward × transition interaction** (a crossover), not a plain reward effect.
 
-That swap-with-tonkatsu case is the crux, and it is genuinely easy to tangle — so step through every combination yourself. Set the color, who grabbed it, and the outcome, and watch what each mind concludes (the two verdicts agree on *usual* days and split on *swap* days):
+That swap-with-tonkatsu case is the crux, and it is genuinely easy to tangle — so step through every combination yourself. Pick the friend, whether they brought their usual box or swapped, and what was inside, and watch what each mind concludes (the two verdicts agree on *usual* days and split on *swap* days):
 
 <iframe src="../../widgets/two-step-task.html"
         width="100%" height="600"
         frameborder="0"
         style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive two-step task: set the bento color Chibany packs, which student grabbed it (usual/swap), and whether they shared tonkatsu, and see why model-free and model-based stay or switch">
+        title="Interactive two-step task: pick which friend (Aki/Mei) Chibany asks, whether they brought their usual box or swapped colors, and whether it held tonkatsu or a hamburger, and see why model-free and model-based ask the same friend or switch">
 </iframe>
 
-We can also just *simulate* both agents. A model-free learner caches a value for each **bento color** and nudges it toward the tonkatsu received; a model-based learner learns each **student's** value and combines them through the known 70/30 grab-rates to score the two colors. Run each for many days and tally how often Chibany **repeats the color**, split by the previous day's tonkatsu and whether the usual student grabbed it:
+We can also just *simulate* both agents. A model-free learner caches a value for each **friend** and nudges it toward the tonkatsu received; a model-based learner learns each **color box's** value and combines them through the known 70/30 box habits to score the two friends. Run each for many days and tally how often Chibany **asks the same friend**, split by the previous day's bento and whether the friend brought their usual box:
 
 <!-- validate: tol=0.05 -->
 ```python
@@ -312,53 +312,53 @@ import numpy as np
 
 def two_step_stay_probs(agent, n_trials=30000, alpha=0.5, beta=5.0, p_common=0.7, seed=0):
     rng = np.random.default_rng(seed)
-    Q1 = np.zeros(2)                              # model-free cache: one value per bento color
-    Q2 = np.zeros((2, 2))                         # value of each student's treats (both agents learn this)
+    Q1 = np.zeros(2)                              # model-free cache: one value per friend
+    Q2 = np.zeros((2, 2))                         # value of each color box's contents (both agents learn this)
     rp = rng.uniform(0.25, 0.75, size=(2, 2))     # drifting tonkatsu probabilities
     choose = lambda q: int(rng.random() < np.exp(beta*q[1]) / np.exp(beta*q).sum())
     a1s, commons, rewards = [], [], []
     for _ in range(n_trials):
         if agent == "model-free":
-            q1 = Q1                               # cached first-stage values
-        else:                                     # model-based: plan with the known 70/30 grab-rates
+            q1 = Q1                               # cached friend values
+        else:                                     # model-based: plan with the known 70/30 box habits
             V2 = Q2.max(axis=1)
             q1 = np.array([p_common*V2[a] + (1-p_common)*V2[1-a] for a in (0, 1)])
         a1 = choose(q1)
         common = rng.random() < p_common
-        s2 = a1 if common else 1 - a1             # usual: color a -> its usual student a
+        s2 = a1 if common else 1 - a1             # usual: friend a -> their usual box a
         a2 = choose(Q2[s2])
         r = float(rng.random() < rp[s2, a2])
-        Q2[s2, a2] += alpha*(r - Q2[s2, a2])      # learn the student's value
+        Q2[s2, a2] += alpha*(r - Q2[s2, a2])      # learn the box's value
         if agent == "model-free":
-            Q1[a1] += alpha*(r - Q1[a1])          # credit the bento COLOR for the tonkatsu
+            Q1[a1] += alpha*(r - Q1[a1])          # credit the FRIEND for the tonkatsu
         a1s.append(a1); commons.append(common); rewards.append(r)
         rp = np.clip(rp + rng.normal(0, 0.025, size=(2, 2)), 0.25, 0.75)
     a1s, commons, rewards = np.array(a1s), np.array(commons), np.array(rewards)
     stay = a1s[1:] == a1s[:-1]
     pr, pc = rewards[:-1], commons[:-1]
-    return {f"{'rewarded' if rv else 'unrewarded'}/{'common' if cv else 'rare'}":
+    return {f"{'tonkatsu' if rv else 'hamburger'}/{'usual' if cv else 'swap'}":
             round(float(stay[(pr == rv) & (pc == cv)].mean()), 2)
             for rv in (1.0, 0.0) for cv in (True, False)}
 
 for agent in ("model-free", "model-based"):
     p = two_step_stay_probs(agent)
-    print(f"{agent:12s}  rew/common {p['rewarded/common']}  rew/rare {p['rewarded/rare']}"
-          f"   unrew/common {p['unrewarded/common']}  unrew/rare {p['unrewarded/rare']}")
+    print(f"{agent:12s}  tonkatsu/usual {p['tonkatsu/usual']}  tonkatsu/swap {p['tonkatsu/swap']}"
+          f"   burger/usual {p['hamburger/usual']}  burger/swap {p['hamburger/swap']}")
 ```
 
 **Output:**
 ```
-model-free    rew/common 0.9  rew/rare 0.9   unrew/common 0.57  unrew/rare 0.57
-model-based   rew/common 0.66  rew/rare 0.45   unrew/common 0.45  unrew/rare 0.66
+model-free    tonkatsu/usual 0.9  tonkatsu/swap 0.9   burger/usual 0.57  burger/swap 0.57
+model-based   tonkatsu/usual 0.66  tonkatsu/swap 0.45   burger/usual 0.45  burger/swap 0.66
 ```
 
-Those numbers *are* the signature. The model-free learner repeats the color ~0.9 of the time after **any** tonkatsu and ~0.57 after **any** empty-handed day — flat across the swap. The model-based learner shows the **crossover**: repeat after a usual-day tonkatsu or a swap-day miss, switch after a swap-day tonkatsu or a usual-day miss. Plot the repeat-probability as two lines — one for tonkatsu days, one for empty days — across *usual* vs. *swap*, and model-free gives **parallel** lines (tonkatsu just shifts them together) while model-based gives **crossing** lines (the interaction). The widget runs the simulation live; slide the model-based weight $w$ from 0 to 1 to morph one into the other:
+Those numbers *are* the signature. The model-free learner asks the same friend ~0.9 of the time after **any** tonkatsu and ~0.57 after **any** hamburger — flat across the swap. The model-based learner shows the **crossover**: ask again after a usual-day tonkatsu or a swap-day hamburger, switch after a swap-day tonkatsu or a usual-day hamburger. Plot the ask-again probability as two lines — one for tonkatsu days, one for hamburger days — across *usual* vs. *swap*, and model-free gives **parallel** lines (tonkatsu just shifts them together) while model-based gives **crossing** lines (the interaction). The widget runs the simulation live; slide the model-based weight $w$ from 0 to 1 to morph one into the other:
 
 <iframe src="../../widgets/two-step-stay-prob.html"
         width="100%" height="560"
         frameborder="0"
         style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive two-step signature: probability Chibany repeats the bento color — model-free gives parallel tonkatsu lines, model-based gives a crossing interaction, with a model-based-weight slider to mix them">
+        title="Interactive two-step signature: probability Chibany asks the same friend — model-free gives parallel tonkatsu lines, model-based gives a crossing interaction, with a model-based-weight slider to mix them">
 </iframe>
 
 The result that made the task famous: **real people show *both*** — a reward main effect *and* an interaction, exactly the middle panel's blend. That mixture is read as evidence that the brain runs the two systems in parallel and arbitrates between them — the **habitual** (model-free) and **goal-directed** (model-based) controllers of Daw et al. (2005). The plain model-free/model-based distinction this chapter drew in code turns out to be a measurable axis of human cognition.

@@ -40,14 +40,14 @@
     <label>α <input type="range" id="alpha" min="0.1" max="0.9" step="0.05" value="0.5"><span class="val" id="av">0.50</span></label>
     <button id="resample">↻ Resample</button>
     <div id="legend">
-      <span><i class="sw" style="background:var(--green)"></i> got tonkatsu</span>
-      <span><i class="sw" style="background:var(--orange)"></i> no tonkatsu</span>
+      <span><i class="sw" style="background:var(--green)"></i> tonkatsu</span>
+      <span><i class="sw" style="background:var(--orange)"></i> hamburger</span>
     </div>
   </div>
   <div id="stage"><canvas id="cv"></canvas></div>
   <div id="note">
-    Each panel: probability Chibany <b>packs the same bento color again</b>, split by yesterday's tonkatsu and whether the <b>usual</b> student grabbed it (a common transition) or the other did (a <b>swap</b>, the rare one).
-    <span class="g">Got-tonkatsu</span> and <span class="o">no-tonkatsu</span> lines that stay <b>parallel</b> = a pure <b>reward effect</b> (model-free);
+    Each panel: probability Chibany <b>asks the same friend again</b>, split by yesterday's bento (tonkatsu vs hamburger) and whether the friend brought their <b>usual</b> box (a common transition) or the other color (a <b>swap</b>, the rare one).
+    <span class="g">Tonkatsu</span> and <span class="o">hamburger</span> lines that stay <b>parallel</b> = a pure <b>reward effect</b> (model-free);
     lines that <b>cross</b> = a tonkatsu×swap <b>interaction</b> (model-based). Slide <b>w</b> to mix the two — the middle panel is the human-like blend.
   </div>
 </div>
@@ -135,7 +135,7 @@ function panel(x0,w0,title,sub,data,titleCol){
   // x labels
   ctx.fillStyle=C.dim; ctx.font="11px DejaVu Sans"; ctx.textAlign="center";
   ctx.fillText("usual", gc[0], py+ph+15); ctx.fillText("swap", gc[1], py+ph+15);
-  ctx.fillText("who grabbed yesterday's box", x0+w0/2, py+ph+33);
+  ctx.fillText("which box the friend brought", x0+w0/2, py+ph+33);
 }
 function draw(){
   ctx.clearRect(0,0,W,H);
@@ -145,7 +145,7 @@ function draw(){
   panel(2*w3, w3, "Model-based", "w = 1  ·  reward × transition", mb, C.accent);
   // y axis label
   ctx.save(); ctx.translate(11,H/2); ctx.rotate(-Math.PI/2); ctx.fillStyle=C.dim; ctx.font="11px DejaVu Sans";
-  ctx.textAlign="center"; ctx.fillText("P(repeat color)", 0,0); ctx.restore();
+  ctx.textAlign="center"; ctx.fillText("P(ask same friend)", 0,0); ctx.restore();
 }
 
 const $=id=>document.getElementById(id);

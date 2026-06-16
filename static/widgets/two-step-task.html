@@ -9,14 +9,14 @@
     --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
     --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
     --orange:#FFA726; --teal:#4DD0E1; --redbox:#EF5350; --bluebox:#5C9DFF;
-    --mei:#FFA726; --ken:#4DD0E1; --purple:#BA68C8;
+    --aki:#FFA726; --mei:#4DD0E1; --purple:#BA68C8;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;}
   #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
   #controls{flex:0 0 auto;background:var(--panel);padding:9px 14px;display:flex;flex-wrap:wrap;
-    align-items:center;gap:16px;border-bottom:1px solid #2a2a33;font-size:13.5px;}
+    align-items:center;gap:15px;border-bottom:1px solid #2a2a33;font-size:13.5px;}
   .grp{display:flex;align-items:center;gap:6px;}
   .grp .lbl{color:var(--dim);font-size:12.5px;}
   .seg{display:flex;border:1px solid #3a3a48;border-radius:7px;overflow:hidden;}
@@ -48,24 +48,25 @@
   .grid .cell.s{color:var(--green);} .grid .cell.w{color:var(--red);}
   .grid .cell.cur{outline:2px solid var(--yellow);outline-offset:-2px;}
   .key{font-size:12px;color:#9a9aa3;line-height:1.5;border-top:1px solid #2a2a33;padding-top:7px;margin-top:auto;}
-  .key b.mei{color:var(--mei);} .key b.ken{color:var(--ken);} .key b.rb{color:var(--redbox);} .key b.bb{color:var(--bluebox);}
+  .key b.aki{color:var(--aki);} .key b.mei{color:var(--mei);} .key b.rb{color:var(--redbox);} .key b.bb{color:var(--bluebox);}
+  .key b.tk{color:#E3A93F;}
 </style>
 </head>
 <body>
 <div id="app">
   <div id="controls">
-    <div class="grp"><span class="lbl">Chibany packs</span>
-      <div class="seg" id="segChoice"><button data-v="0" class="on">🍱 Red box</button><button data-v="1">Blue box 🍱</button></div></div>
-    <div class="grp"><span class="lbl">who grabs it</span>
+    <div class="grp"><span class="lbl">Chibany asks</span>
+      <div class="seg" id="segChoice"><button data-v="0" class="on">🧑‍🎓 Aki</button><button data-v="1">Mei 🧑‍🎓</button></div></div>
+    <div class="grp"><span class="lbl">box they bring</span>
       <div class="seg" id="segTrans"><button data-v="1" class="on">usual · 70%</button><button data-v="0">swap · 30%</button></div></div>
-    <div class="grp"><span class="lbl">outcome</span>
-      <div class="seg" id="segRew"><button data-v="1" class="on">🍖 tonkatsu</button><button data-v="0">✗ none</button></div></div>
+    <div class="grp"><span class="lbl">inside</span>
+      <div class="seg" id="segRew"><button data-v="1" class="on">🍤 tonkatsu</button><button data-v="0">🍔 hamburger</button></div></div>
     <button id="rand">🎲 Random day</button>
   </div>
   <div id="stage">
     <div id="left"><canvas id="cv"></canvas></div>
     <div id="right">
-      <h2>What does each mind do <i>tomorrow</i>?</h2>
+      <h2>Who does each mind ask <i>tomorrow</i>?</h2>
       <div class="minds">
         <div class="card">
           <h3 class="mf">🔁 Model-free <span class="tag mf">cache</span></h3>
@@ -81,36 +82,36 @@
         </div>
       </div>
       <div class="key">
-        <b class="mei">Mei</b> usually grabs the <b class="rb">Red box</b> (70%), <b class="ken">Ken</b> usually grabs the <b class="bb">Blue box</b> (70%) —
-        but tastes wander, so 30% of the time the other student takes it. <b>Model-free</b> just repeats a box that <i>earned tonkatsu</i>,
-        no matter who took it. <b>Model-based</b> tracks <i>which student</i> has the tonkatsu, then packs the box that student <i>usually</i>
-        grabs — so tonkatsu reached by a rare swap makes it switch. The two split on the <b>swap</b> days.
+        <b class="aki">Aki</b> usually brings the <b class="rb">Red box</b> (70%), <b class="mei">Mei</b> usually the <b class="bb">Blue box</b> (70%) —
+        but they swap colors 30% of the time. A box holds <b class="tk">tonkatsu</b> (Chibany's favorite) or a <b>hamburger</b> (fine, not the favorite),
+        and the lucky color drifts. <b>Model-free</b> re-asks a friend who brought tonkatsu, no matter the box. <b>Model-based</b> tracks <i>which box</i>
+        the tonkatsu came in, then asks the friend who <i>usually</i> brings that box — so tonkatsu reached by a rare swap makes it switch friends.
       </div>
     </div>
   </div>
 </div>
 <script>
 "use strict";
-const C={redbox:"#EF5350",bluebox:"#5C9DFF",mei:"#FFA726",ken:"#4DD0E1",green:"#66BB6A",
-  red:"#EF5350",yellow:"#FFEB3B",dim:"#999999",white:"#fff",accent:"#64B5F6"};
-const BCOL=[C.redbox,C.bluebox];          // Red box (0), Blue box (1)
+const C={redbox:"#EF5350",bluebox:"#5C9DFF",aki:"#FFA726",mei:"#4DD0E1",green:"#66BB6A",
+  red:"#EF5350",yellow:"#FFEB3B",dim:"#999999",white:"#fff",accent:"#64B5F6",cutlet:"#E3A93F"};
+const STCOL=[C.aki,C.mei];                 // Aki (0), Mei (1)  -- stage-1 friends
+const STNAME=["Aki","Mei"];
+const BCOL=[C.redbox,C.bluebox];           // Red box (0), Blue box (1)  -- stage-2 states
 const BNAME=["Red box","Blue box"];
-const SCOL=[C.mei,C.ken];                  // Mei (0), Ken (1)
-const SNAME=["Mei","Ken"];
-// Red box (0) usual student = Mei (0); Blue box (1) usual student = Ken (1). swap = the other.
-const usualStudent = b => b;               // identity: Red->Mei, Blue->Ken
-let choice=0, common=1, rew=1;             // current day (transition: 1=usual, 0=swap)
+// Aki (0) usual box = Red (0); Mei (1) usual box = Blue (1). swap = the other.
+const usualBox = s => s;                    // identity: Aki->Red, Mei->Blue
+let choice=0, common=1, rew=1;              // current day (transition: 1=usual, 0=swap; rew: 1=tonkatsu, 0=hamburger)
 
-const reached = () => common ? usualStudent(choice) : 1-usualStudent(choice);
+const reached = () => common ? usualBox(choice) : 1-usualBox(choice);
 
-// model-free: rewarded -> stay (pack same color), else switch
+// model-free: tonkatsu -> re-ask same friend, else switch
 const mfStay = (r) => r===1;
-// model-based: pack the box whose USUAL student is the good one.
+// model-based: ask the friend whose USUAL box is the good one.
 function mbStayFor(ch, com, r){
-  const reachedS = com ? usualStudent(ch) : 1-usualStudent(ch);
-  const target = r ? reachedS : 1-reachedS;          // student to aim for
-  const bestBox = target;                             // usualStudent is identity, so box==student index
-  return bestBox===ch;
+  const reachedB = com ? usualBox(ch) : 1-usualBox(ch);
+  const target = r ? reachedB : 1-reachedB;          // box to aim for
+  const bestFriend = target;                          // usualBox is identity, so friend==box index
+  return bestFriend===ch;
 }
 const mbStay = () => mbStayFor(choice, common, rew);
 
@@ -118,13 +119,13 @@ const mbStay = () => mbStayFor(choice, common, rew);
 const cv=document.getElementById("cv"), ctx=cv.getContext("2d"); let W,H;
 function resize(){ const d=window.devicePixelRatio||1,p=cv.parentElement; W=p.clientWidth;H=p.clientHeight;
   cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0); draw(); }
-function boxXY(){ return [[W*0.27,H*0.15],[W*0.73,H*0.15]]; }
-function studentXY(){ return [[W*0.27,H*0.62],[W*0.73,H*0.62]]; }
+function friendXY(){ return [[W*0.27,H*0.15],[W*0.73,H*0.15]]; }
+function boxXY(){ return [[W*0.27,H*0.60],[W*0.73,H*0.60]]; }
 function roundRect(x,y,w,h,r){ ctx.beginPath();
   ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
   ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath(); }
 function arrow(ax,ay,bx,by,col,wd,dash){
-  const dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,r1=32,r2=42;
+  const dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,r1=34,r2=40;
   const x1=ax+ux*r1,y1=ay+uy*r1,x2=bx-ux*r2,y2=by-uy*r2;
   ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=wd;ctx.setLineDash(dash||[]);
   ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([]);
@@ -135,50 +136,61 @@ function arrow(ax,ay,bx,by,col,wd,dash){
 }
 function disc(x,y,r,fill,stroke,wd){ ctx.beginPath();ctx.arc(x,y,r,0,7);
   if(fill){ctx.fillStyle=fill;ctx.fill();} if(stroke){ctx.lineWidth=wd||3;ctx.strokeStyle=stroke;ctx.stroke();} }
+// a little sliced tonkatsu cutlet
+function drawCutlet(cx,cy,s){
+  const w=38*s,h=22*s;
+  roundRect(cx-w/2,cy-h/2,w,h,7*s); ctx.fillStyle="#C8852E"; ctx.fill();          // breaded edge
+  roundRect(cx-w/2+2.5*s,cy-h/2+2.5*s,w-5*s,h-5*s,5*s); ctx.fillStyle=C.cutlet; ctx.fill(); // golden inside
+  ctx.strokeStyle="#B5762A"; ctx.lineWidth=1.6*s;
+  for(let i=1;i<4;i++){ const x=cx-w/2+i*w/4; ctx.beginPath(); ctx.moveTo(x,cy-h/2+3.5*s); ctx.lineTo(x,cy+h/2-3.5*s); ctx.stroke(); }
+  ctx.fillStyle="#9c6520"; for(const[dx,dy]of[[-9,-3],[6,2],[-2,4],[10,-4]]){ ctx.beginPath(); ctx.arc(cx+dx*s,cy+dy*s,1.1*s,0,7); ctx.fill(); }
+}
 function draw(){
   ctx.clearRect(0,0,W,H);
-  const BX=boxXY(), ST=studentXY(), reachS=reached();
-  // transition arrows from the chosen box (usual thick / swap thin), other box faint
-  for(let b=0;b<2;b++){
-    const us=usualStudent(b);
-    ctx.globalAlpha=(b===choice)?1:0.12;
-    arrow(BX[b][0],BX[b][1],ST[us][0],ST[us][1], b===choice?(common?C.yellow:"#555"):"#888", b===choice&&common?6:3.5);
-    arrow(BX[b][0],BX[b][1],ST[1-us][0],ST[1-us][1], b===choice?(!common?C.yellow:"#555"):"#888", b===choice&&!common?6:2, b===choice&&!common?[]:[5,5]);
+  const FR=friendXY(), BX=boxXY(), reachB=reached();
+  // transition arrows from the chosen friend (usual thick / swap thin), other friend faint
+  for(let f=0;f<2;f++){
+    const ub=usualBox(f);
+    ctx.globalAlpha=(f===choice)?1:0.12;
+    arrow(FR[f][0],FR[f][1],BX[ub][0],BX[ub][1], f===choice?(common?C.yellow:"#555"):"#888", f===choice&&common?6:3.5);
+    arrow(FR[f][0],FR[f][1],BX[1-ub][0],BX[1-ub][1], f===choice?(!common?C.yellow:"#555"):"#888", f===choice&&!common?6:2, f===choice&&!common?[]:[5,5]);
     ctx.globalAlpha=1;
   }
   ctx.font="11px DejaVu Sans";ctx.textAlign="center";
-  const us=usualStudent(choice);
+  const ub=usualBox(choice);
   ctx.fillStyle=common?C.yellow:C.dim;
-  ctx.fillText("70%", (BX[choice][0]+ST[us][0])/2+(choice?14:-14), (BX[choice][1]+ST[us][1])/2);
+  ctx.fillText("70%", (FR[choice][0]+BX[ub][0])/2+(choice?14:-14), (FR[choice][1]+BX[ub][1])/2);
   ctx.fillStyle=!common?C.yellow:C.dim;
-  ctx.fillText("30%", (BX[choice][0]+ST[1-us][0])/2, (BX[choice][1]+ST[1-us][1])/2-6);
-  // bento boxes (stage 1)
-  for(let b=0;b<2;b++){
-    const sel=b===choice, w=58,h=40, x=BX[b][0]-w/2, y=BX[b][1]-h/2;
-    ctx.globalAlpha=sel?1:0.5;
-    roundRect(x,y,w,h,8); ctx.fillStyle=sel?BCOL[b]:"#181820"; ctx.fill();
-    ctx.lineWidth=sel?4:2.5; ctx.strokeStyle=BCOL[b]; ctx.stroke();
-    // lid line + chopsticks hint
-    ctx.strokeStyle=sel?"rgba(0,0,0,.35)":BCOL[b]; ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.moveTo(x+8,BX[b][1]);ctx.lineTo(x+w-8,BX[b][1]);ctx.stroke();
-    ctx.fillStyle=sel?BCOL[b]:C.dim;ctx.font="bold 12px DejaVu Sans";ctx.textBaseline="middle";
-    ctx.fillText(BNAME[b],BX[b][0],BX[b][1]+34);ctx.globalAlpha=1;
-  }
-  // students (stage 2)
-  for(let s=0;s<2;s++){
-    const hit=s===reachS;
-    disc(ST[s][0],ST[s][1],36, hit?SCOL[s]:"#15151c", SCOL[s], hit?5:2.5);
-    ctx.globalAlpha=hit?1:0.5;
+  ctx.fillText("30%", (FR[choice][0]+BX[1-ub][0])/2, (FR[choice][1]+BX[1-ub][1])/2-6);
+  // friends (stage 1)
+  for(let f=0;f<2;f++){
+    const sel=f===choice;
+    disc(FR[f][0],FR[f][1],30, sel?STCOL[f]:"#15151c", STCOL[f], sel?5:2.5);
+    ctx.globalAlpha=sel?1:0.55;
     ctx.font="22px serif";ctx.textAlign="center";ctx.textBaseline="middle";
-    ctx.fillText("🧑‍🎓",ST[s][0],ST[s][1]-2);
-    ctx.fillStyle=hit?"#101015":SCOL[s];ctx.font="bold 12px DejaVu Sans";
-    ctx.fillText(SNAME[s],ST[s][0],ST[s][1]+50);ctx.globalAlpha=1;
-    if(hit){ ctx.font="24px serif"; ctx.fillText(rew?"🍖":"✗",ST[s][0],ST[s][1]-52);
-      ctx.fillStyle=rew?C.green:C.red;ctx.font="bold 12px DejaVu Sans";
-      ctx.fillText(rew?"tonkatsu!":"no tonkatsu",ST[s][0],ST[s][1]-72); }
+    ctx.fillText("🧑‍🎓",FR[f][0],FR[f][1]-1);
+    ctx.fillStyle=sel?STCOL[f]:C.dim;ctx.font="bold 12px DejaVu Sans";
+    ctx.fillText(STNAME[f],FR[f][0],FR[f][1]+44);ctx.globalAlpha=1;
+  }
+  // color boxes (stage 2) + reward inside the reached one
+  for(let b=0;b<2;b++){
+    const hit=b===reachB, w=60,h=42, x=BX[b][0]-w/2, y=BX[b][1]-h/2;
+    ctx.globalAlpha=hit?1:0.5;
+    roundRect(x,y,w,h,8); ctx.fillStyle=hit?BCOL[b]:"#181820"; ctx.fill();
+    ctx.lineWidth=hit?4.5:2.5; ctx.strokeStyle=BCOL[b]; ctx.stroke();
+    ctx.strokeStyle=hit?"rgba(0,0,0,.35)":BCOL[b]; ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(x+8,BX[b][1]);ctx.lineTo(x+w-8,BX[b][1]);ctx.stroke();
+    ctx.fillStyle=hit?"#101015":BCOL[b];ctx.font="bold 12px DejaVu Sans";ctx.textBaseline="middle";ctx.textAlign="center";
+    ctx.fillText(BNAME[b],BX[b][0],BX[b][1]+36);ctx.globalAlpha=1;
+    if(hit){
+      if(rew) drawCutlet(BX[b][0],BX[b][1]-54,1.0);
+      else { ctx.font="26px serif"; ctx.fillText("🍔",BX[b][0],BX[b][1]-54); }
+      ctx.fillStyle=rew?C.cutlet:"#c98b5a";ctx.font="bold 12px DejaVu Sans";
+      ctx.fillText(rew?"tonkatsu!":"hamburger",BX[b][0],BX[b][1]-74);
+    }
   }
   ctx.fillStyle=common?C.dim:C.yellow;ctx.font=(common?"":"bold ")+"12px DejaVu Sans";ctx.textAlign="center";
-  ctx.fillText(common?"the usual student grabbed it (70%)":"a SWAP — the other student grabbed it (30%)", W*0.5, H*0.92);
+  ctx.fillText(common?"they brought their usual box (70%)":"a SWAP — they brought the other color (30%)", W*0.5, H*0.92);
 }
 
 // ---- panel ----
@@ -187,7 +199,7 @@ function setSeg(seg,val){ [...seg.children].forEach(b=>b.classList.toggle("on",+
 function gridHTML(stayFn){
   let h='<div class="hd"></div><div class="hd">usual</div><div class="hd">swap</div>';
   for(const r of [1,0]){
-    h+=`<div class="hd">${r?"🍖 tonkatsu":"✗ none"}</div>`;
+    h+=`<div class="hd">${r?"🍤 tonkatsu":"🍔 burger"}</div>`;
     for(const c of [1,0]){
       const st=stayFn(choice,c,r), cur=(c===common&&r===rew);
       h+=`<div class="cell ${st?"s":"w"} ${cur?"cur":""}">${st?"stay":"switch"}</div>`;
@@ -197,21 +209,22 @@ function gridHTML(stayFn){
 }
 function render(){
   draw();
-  const reachS=reached(), boxWanted = rew ? reachS : 1-reachS;
+  const reachB=reached(), friendWanted = rew ? reachB : 1-reachB;
   const mf=mfStay(rew);
+  const food = rew ? "tonkatsu" : "a hamburger";
   $("mfTxt").innerHTML = rew
-    ? `Chibany packed the <b class="mfk">${BNAME[choice]}</b> and it earned tonkatsu. Model-free remembers only <i>“${BNAME[choice]} → tonkatsu”</i> — it never asks who took it. So it packs the <b>${BNAME[choice]}</b> again.`
-    : `Chibany packed the <b class="mfk">${BNAME[choice]}</b> and got nothing. Model-free just lowers the <i>${BNAME[choice]}</i>'s value, regardless of who took it, and leans to the other box.`;
-  $("mfV").innerHTML = `→ <span class="${mf?"stay":"switch"}">${mf?"STAY · pack "+BNAME[choice]:"SWITCH · pack "+BNAME[1-choice]}</span>`;
+    ? `Chibany asked <b class="mfk">${STNAME[choice]}</b> and got <b>tonkatsu</b>. Model-free remembers only <i>“${STNAME[choice]} → tonkatsu”</i> — it never asks which box it came in. So it asks <b>${STNAME[choice]}</b> again.`
+    : `Chibany asked <b class="mfk">${STNAME[choice]}</b> and got a <b>hamburger</b> (fine, not the favorite). Model-free lowers <i>${STNAME[choice]}</i>'s value, regardless of the box, and leans to the other friend.`;
+  $("mfV").innerHTML = `→ <span class="${mf?"stay":"switch"}">${mf?"STAY · ask "+STNAME[choice]:"SWITCH · ask "+STNAME[1-choice]}</span>`;
   $("mfGrid").innerHTML = gridHTML((ch,c,r)=>mfStay(r));
   const mb=mbStay();
-  const rn = SNAME[reachS];
-  const rewNote = common ? " (the box Chibany just packed)" : " (the OTHER box — "+rn+" only took this one by a rare swap)";
-  const noNote  = common ? " (the OTHER box)" : " (the one Chibany packed — its rare swap landed on the empty-handed student)";
+  const rb = BNAME[reachB], bf = STNAME[friendWanted];
+  const rewNote = common ? " (the friend Chibany just asked)" : " (the OTHER friend — "+STNAME[choice]+" brought this box only by a rare swap)";
+  const noNote  = common ? " (the OTHER friend)" : " (the friend Chibany asked — their rare swap brought the hamburger box)";
   $("mbTxt").innerHTML = rew
-    ? `The tonkatsu came from <b style="color:${SCOL[reachS]}">${rn}</b>. To reach ${rn} again, model-based packs the box ${rn} <i>usually</i> grabs — the <b class="mbk">${BNAME[boxWanted]}</b>${rewNote}.`
-    : `<b style="color:${SCOL[reachS]}">${rn}</b> had nothing to share. Model-based aims for the <i>other</i> student, who usually grabs the <b class="mbk">${BNAME[boxWanted]}</b>${noNote}.`;
-  $("mbV").innerHTML = `→ <span class="${mb?"stay":"switch"}">${mb?"STAY · pack "+BNAME[choice]:"SWITCH · pack "+BNAME[1-choice]}</span>`;
+    ? `The tonkatsu came in the <b style="color:${BCOL[reachB]}">${rb}</b>. The friend who <i>usually</i> brings the ${rb} is <b class="mbk">${bf}</b>, so to get tonkatsu again, ask <b class="mbk">${bf}</b>${rewNote}.`
+    : `The <b style="color:${BCOL[reachB]}">${rb}</b> just held a hamburger. Model-based aims for the <i>other</i> box, usually brought by <b class="mbk">${bf}</b>${noNote}.`;
+  $("mbV").innerHTML = `→ <span class="${mb?"stay":"switch"}">${mb?"STAY · ask "+STNAME[choice]:"SWITCH · ask "+STNAME[1-choice]}</span>`;
   $("mbGrid").innerHTML = gridHTML((ch,c,r)=>mbStayFor(ch,c,r));
 }
 
