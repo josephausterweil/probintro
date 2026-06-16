@@ -85,6 +85,10 @@ def extract_blocks(markdown_path: Path) -> List[Block]:
     """Extract python/jax code blocks, their expected-output (if any), and any
     ``<!-- validate: ... -->`` directives on the line before the fence."""
     content = markdown_path.read_text(encoding="utf-8")
+    # Blank out relearn collapsible-wrapper lines ({{% expand %}} / {{% /expand %}})
+    # so a code block wrapped in a show/hide toggle still pairs with the **Output:**
+    # that follows it. Replacing with "" (not deleting the line) preserves line numbers.
+    content = re.sub(r"(?m)^[ \t]*\{\{%\s*/?\s*expand\b[^\n]*%\}\}[ \t]*$", "", content)
     blocks: List[Block] = []
 
     fence = re.compile(r"```(?:python|jax)\n(.*?)```", re.DOTALL)

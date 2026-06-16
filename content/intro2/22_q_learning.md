@@ -40,6 +40,7 @@ To watch Q-learning work, we need a world it can stumble around in. **GardenPath
 
 The agent doesn't know any of this. It only learns by moving (up/down/left/right) and collecting whatever reward each move returns. Here is the world and the Q-learning loop — $\varepsilon$-greedy exploration (act randomly a fraction $\varepsilon$ of the time, greedily otherwise), and the TD update on every step:
 
+{{% expand "Show the GardenPath setup code (grid, reward tables, helpers)" %}}
 <!-- validate: skip-output -->
 ```python
 import numpy as np
@@ -72,6 +73,7 @@ def reward(s, a, scheme, g=0.95):
     if scheme == 'af': return AF[s][a]                       # action-feedback (how people teach)
     return RM[s][a] + g*Phi(move(s, a)) - Phi(s)            # potential-based shaping
 ```
+{{% /expand %}}
 
 ```python
 def qlearn(scheme, episodes=4000, alpha=0.9, g=0.95, eps=0.1, seed=0):
@@ -126,6 +128,7 @@ Q-learning does *exactly what you reward it for*. That is its strength and its t
 
 Here is the trap, and it comes straight from how **people** naturally teach. When the agent does something good, you praise it ($+10$); when it backtracks along the path, you don't punish it — you give *faint praise* ($+4$), because it's still "on the right track." That is the **action-feedback** scheme (`af`), and it encodes a real human bias: we reward effort and progress, not just outcomes. Watch what optimal behavior looks like under each scheme — solve all three exactly with value iteration (we know the rewards, so we can), and roll out the resulting greedy policy:
 
+{{% expand "Show the value-iteration check (solve each reward scheme exactly)" %}}
 ```python
 def vi(scheme, g=0.95, n=4000):
     states = [(r, c) for r in range(1, 4) for c in range(1, 4)]
@@ -142,6 +145,7 @@ for scheme in ['rm', 'af', 'potential']:
     _, reached = greedy_path(vi(scheme))
     print(f"{scheme:9s}: reaches the goal = {reached}")
 ```
+{{% /expand %}}
 
 **Output:**
 ```
@@ -306,6 +310,7 @@ That swap-with-tonkatsu case is the crux, and it is genuinely easy to tangle —
 
 We can also just *simulate* both agents. A model-free learner caches a value for each **friend** and nudges it toward the tonkatsu received; a model-based learner learns each **color box's** value and combines them through the known 70/30 box habits to score the two friends. Run each for many days and tally how often Chibany **asks the same friend**, split by the previous day's bento and whether the friend brought their usual box:
 
+{{% expand "Show the two-step simulation (both agents + the stay analysis)" %}}
 <!-- validate: tol=0.05 -->
 ```python
 import numpy as np
@@ -345,6 +350,7 @@ for agent in ("model-free", "model-based"):
     print(f"{agent:12s}  tonkatsu/usual {p['tonkatsu/usual']}  tonkatsu/swap {p['tonkatsu/swap']}"
           f"   burger/usual {p['hamburger/usual']}  burger/swap {p['hamburger/swap']}")
 ```
+{{% /expand %}}
 
 **Output:**
 ```
@@ -503,6 +509,7 @@ This is the bridge to the most famous agents in AI. **AlphaZero** (Silver et al.
 
 The trick that makes it compile is to *not* grow a Python `dict` tree. Because the Chibany MDP has only three states, every statistic the search needs fits in two fixed $(3, 2)$ arrays — $N[s, a]$ (visit counts) and $W[s, a]$ (return sums), exactly the `(state, action)` keys the NumPy version used. Those two arrays are the **carry** of an outer `lax.scan` over simulations: each simulation reads them to choose actions by UCB and writes its results back with a scatter-add (`.at[s, a].add(...)`). Inside one simulation, an inner `lax.scan` walks `horizon` steps — descending by UCB while it can, then rolling out a random policy — with `jnp.where` standing in for every Python `if` so the whole thing is traceable:
 
+{{% expand "Show the JAX MCTS implementation" %}}
 <!-- validate: tol=0.5 -->
 ```python
 @jit
@@ -531,6 +538,7 @@ q = mcts_jax(jr.key(3))
 print(f"JAX MCTS from Junk picks: {'Invest' if int(jnp.argmax(q)) else 'Indulge'}  "
       f"(Q_Indulge={float(q[0]):.1f}, Q_Invest={float(q[1]):.1f})")
 ```
+{{% /expand %}}
 
 **Output:**
 ```
