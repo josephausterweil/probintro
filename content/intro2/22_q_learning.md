@@ -1,5 +1,5 @@
 +++
-date = "2026-06-15"
+date = "2026-06-16"
 title = "Q-Learning: Acting Without a Map"
 weight = 22
 +++
@@ -29,6 +29,12 @@ Two new symbols, each named as it lands: the **learning rate** $\alpha \in (0,1]
 ![A color-coded breakdown of the Q-learning update equation. The new estimate of Q(s,a) equals the old estimate plus the learning rate alpha times the TD error. The TD error is the target — reward r plus gamma times the best next action-value — minus the current estimate. Each piece is labeled: learning rate, target, current estimate, TD error.](../../images/intro2/qlearning_update.png)
 
 Notice what Q-learning *doesn't* need: it never uses $T(s'\mid s,a)$. Where Chapter 21's Bellman backup *averaged* over every next state with $\sum_{s'} T(s'\mid s,a)$, Q-learning uses the single $s'$ the world actually handed back — and over many visits those samples average out to the same expectation. That is what "model-free" means: you learn from the world's responses, not from a map of the world. (The reward $r$ may now depend on the action too — the general $R(s,a)$ form Chapter 21 noted — since it's whatever came back from the move you took.)
+
+{{% notice style="note" title="The TD error is a signal in your brain" %}}
+That bracketed surprise term — the **TD error** $r + \gamma\max_{a'}Q(s',a') - Q(s,a)$ — is not just a learning trick. It turns out to match, almost neuron for neuron, the moment-to-moment firing of midbrain **dopamine** neurons (Schultz, Dayan & Montague, 1997): they fire to **reward *prediction error*** — *better or worse than expected* — not to reward itself. A reward that is fully predicted produces no dopamine burst; a surprising one does; and an expected reward that fails to arrive produces a *dip* below baseline. That is exactly the TD error, with its sign. The little algebra you just wrote down is one of the best-supported theories of how brains learn to act — we'll see its limits and the *model-based* counterpart later in the chapter.
+{{% /notice %}}
+
+![A schematic showing the temporal-difference error delta equals reward plus discounted next-state value minus current value, with an arrow indicating that this same quantity matches the reward-prediction-error signal carried by midbrain dopamine neurons.](../../images/intro2/dopamine_td.png)
 
 ---
 
@@ -567,12 +573,11 @@ The journey from a $3\times3$ grid to the frontier is one of **scale**, but ever
 
 ![A timeline of reinforcement-learning milestones from 1989 to the present: tabular Q-learning, then deep Q-networks playing Atari, AlphaGo, AlphaZero, MuZero, and Dreamer-style world models, captioned as the addition of function approximation and simulation.](../../images/intro2/rl_timeline.png)
 
-Tabular $Q$ became a neural network ($Q(s,a)$ predicted by a deep net — **DQN** (Mnih et al., 2015), which learned to play Atari from pixels); rollouts gained learned value and policy networks (**AlphaGo**, Silver et al., 2016; **AlphaZero**, Silver et al., 2018); and the model itself became learned (**MuZero**, Schrittwieser et al., 2020; **Dreamer**, Hafner et al., 2020). Two themes from this chapter scale all the way up:
+Tabular $Q$ became a neural network ($Q(s,a)$ predicted by a deep net — **DQN** (Mnih et al., 2015), which learned to play Atari from pixels); rollouts gained learned value and policy networks (**AlphaGo**, Silver et al., 2016; **AlphaZero**, Silver et al., 2018); and the model itself became learned (**MuZero**, Schrittwieser et al., 2020; **Dreamer**, Hafner et al., 2020). And the chapter's central warning scales right along with it:
 
 - **Reward hacking is the positive cycle, at frontier scale.** When a large language model is tuned with RL from human feedback (**RLHF**), the "reward" is a learned model of human approval — and agents reliably find ways to *farm that approval* without doing the underlying task, exactly as the action-feedback cat paced for praise. "Specify the reward you can measure, get the behavior you didn't mean" is the same bug from the GardenPath, now a central problem in AI alignment (Weeks 11–13).
-- **The TD error is a signal in your brain.** The bracketed surprise term $r + \gamma\max_{a'}Q(s',a') - Q(s,a)$ turns out to match the firing of midbrain **dopamine** neurons (Schultz, Dayan & Montague, 1997) — they signal *reward prediction error*, not reward. And the **model-free vs. model-based** split is exactly the *habitual*-vs.-*goal-directed* axis the two-step task above dissociates (Daw et al., 2005, 2011). Reinforcement learning is not just an engineering tool; it is one of our best theories of how brains learn to act.
 
-![A schematic showing the temporal-difference error delta equals reward plus discounted next-state value minus current value, with an arrow indicating that this same quantity matches the reward-prediction-error signal carried by midbrain dopamine neurons.](../../images/intro2/dopamine_td.png)
+These ideas are not only engineering, either. The **TD error** you met at the start is a **dopamine** signal in the brain, and the **model-free vs. model-based** split is a measurable axis of cognition — the *habitual*-vs.-*goal-directed* systems the two-step task dissociates (Daw et al., 2005, 2011). Reinforcement learning is not just an engineering tool; it is one of our best theories of how brains learn to act.
 
 {{% notice style="success" title="What you can do now" %}}
 You can run **Q-learning** — estimate action values $Q(s,a)$ from raw experience with the **TD update**, using a **learning rate** $\alpha$, $\varepsilon$-greedy exploration, and no model of the world — and you understand it learns the same optimal policy value iteration would, model-free. You know the central danger of **reward design**: a reward you can *farm* creates a **positive cycle** (the agent loops forever collecting praise), and that **potential-based shaping** is the principled fix because the shaping along any path collapses to a constant fixed by its endpoints, so no loop can farm it — the optimal policy is preserved. You can plan with a *learned* model — **Dyna** (count, then value-iterate) and **MCTS** (select → expand → simulate → backup) — which is **simulation-based RL**, the engine inside AlphaZero and MuZero. And you can see the two big through-lines: reward hacking is the positive cycle at scale, and the TD error is a dopamine signal in the brain.
