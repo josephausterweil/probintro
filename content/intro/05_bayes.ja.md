@@ -310,3 +310,10 @@ Chibany が食事を数えることから始まり、結果空間と事象につ
 
 |[← 前：条件付き確率](./04_conditional.md) | [次：用語集 →](./06_glossary.md)|
 | :--- | ---: |
+
+---
+
+## 参考文献
+
+- Bar-Hillel, M. (1980). The base-rate fallacy in probability judgments. *Acta Psychologica, 44*(3), 211–233. <https://doi.org/10.1016/0001-6918(80)90046-3>
+- Kahneman, D., & Tversky, A. (1972). Subjective probability: A judgment of representativeness. *Cognitive Psychology, 3*(3), 430–454. <https://doi.org/10.1016/0010-0285(72)90016-3>

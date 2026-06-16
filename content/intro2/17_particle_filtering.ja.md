@@ -1,5 +1,5 @@
 +++
-date = "2026-06-14"
+date = "2026-06-16"
 title = "パーティクルフィルタリング：昨日の事後分布は今日の事前分布"
 weight = 17
 +++
@@ -247,3 +247,10 @@ genjax filter estimate: [1.04, 1.98, 3.1, 4.03, 5.08]
 ---
 
 [JPPCA](https://jpcca.org/)がこのチュートリアルシリーズを寛大にご支援いただいたことに深く感謝します。
+
+---
+
+## 参考文献
+
+- Austerweil, J. L., & Griffiths, T. L. (2013). A nonparametric Bayesian framework for constructing flexible feature representations. *Psychological Review, 120*(4), 817–851. <https://doi.org/10.1037/a0034194>
+- Sanborn, A. N., Griffiths, T. L., & Navarro, D. J. (2010). Rational approximations to rational models: Alternative algorithms for category learning. *Psychological Review, 117*(4), 1144–1167. <https://doi.org/10.1037/a0020511>

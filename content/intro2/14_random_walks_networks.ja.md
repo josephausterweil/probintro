@@ -1,5 +1,5 @@
 +++
-date = "2026-06-14"
+date = "2026-06-16"
 title = "ネットワーク上のランダムウォーク"
 weight = 14
 +++
@@ -356,6 +356,13 @@ page D: PageRank 0.038
 付属のノートブックがこれらすべてをインタラクティブに解説しています：
 
 **📓 [Colab で開く: `14_random_walks_networks.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/14_random_walks_networks.ipynb)**
+
+---
+
+## 参考文献
+
+- Erdős, P., & Rényi, A. (1959). On random graphs I. *Publicationes Mathematicae Debrecen, 6*, 290–297.
+- Griffiths, T. L., Steyvers, M., & Firl, A. (2007). Google and the mind: Predicting fluency with PageRank. *Psychological Science, 18*(12), 1069–1076. <https://doi.org/10.1111/j.1467-9280.2007.02027.x>
 
 ---
 

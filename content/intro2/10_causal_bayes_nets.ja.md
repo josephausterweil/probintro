@@ -1,5 +1,5 @@
 +++
-date = "2026-06-14"
+date = "2026-06-16"
 title = "因果ベイズネットとdo演算子"
 weight = 10
 +++
@@ -237,3 +237,12 @@ P(cancer | do(teeth = yellow))  = 0.052   (intervene — base rate)
 ---
 
 このチュートリアルシリーズへの多大なるご支援に、[JPPCA](https://jpcca.org/)に特別な感謝を申し上げます。
+
+---
+
+## 参考文献
+
+- Gopnik, A., & Sobel, D. M. (2000). Detecting blickets: How young children use information about novel causal powers in categorization and induction. *Child Development, 71*(5), 1205–1222. <https://doi.org/10.1111/1467-8624.00224>
+- Gopnik, A., Glymour, C., Sobel, D. M., Schulz, L. E., Kushnir, T., & Danks, D. (2004). A theory of causal learning in children: Causal maps and Bayes nets. *Psychological Review, 111*(1), 3–32. <https://doi.org/10.1037/0033-295X.111.1.3>
+- Pearl, J. (2009). *Causality: Models, reasoning, and inference* (2nd ed.). Cambridge University Press.
+- Pearl, J., & Mackenzie, D. (2018). *The book of why: The new science of cause and effect*. Basic Books.

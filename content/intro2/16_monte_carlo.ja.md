@@ -1,5 +1,5 @@
 +++
-date = "2026-06-14"
+date = "2026-06-16"
 title = "モンテカルロ法：サンプリングによる推定"
 weight = 16
 +++
@@ -432,6 +432,13 @@ GenJAX self-normalized IS posterior mean = 0.600  (closed form 0.600)
 付属ノートブックがこれら全てをインタラクティブに解説している：
 
 **📓 [Colab で開く: `16_monte_carlo.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/16_monte_carlo.ipynb)**
+
+---
+
+## 参考文献
+
+- Nosofsky, R. M. (1986). Attention, similarity, and the identification–categorization relationship. *Journal of Experimental Psychology: General, 115*(1), 39–61. <https://doi.org/10.1037/0096-3445.115.1.39>
+- Tversky, A., & Kahneman, D. (1974). Judgment under uncertainty: Heuristics and biases. *Science, 185*(4157), 1124–1131. <https://doi.org/10.1126/science.185.4157.1124>
 
 ---
 

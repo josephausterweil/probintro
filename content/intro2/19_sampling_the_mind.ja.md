@@ -1,5 +1,5 @@
 +++
-date = "2026-06-14"
+date = "2026-06-16"
 title = "心をサンプリングする：人とKemp階層モデル"
 weight = 19
 +++
@@ -295,3 +295,10 @@ print(f"marginal log-score at (phi=0.56, kappa=5): {log_marg_all(0.56, jnp.log(5
 ---
 
 このチュートリアルシリーズへの寛大なご支援に、[JPPCA](https://jpcca.org/) に特別の感謝を申し上げます。
+
+---
+
+## 参考文献
+
+- Kemp, C., Perfors, A., & Tenenbaum, J. B. (2007). Learning overhypotheses with hierarchical Bayesian models. *Developmental Science, 10*(3), 307–321. <https://doi.org/10.1111/j.1467-7687.2007.00585.x>
+- Sanborn, A. N., & Griffiths, T. L. (2007). Markov chain Monte Carlo with people. In *Advances in Neural Information Processing Systems, 20* (pp. 1265–1272). <https://papers.nips.cc/paper_files/paper/2007/hash/89d4402dc03d3b7318bbac10203034ab-Abstract.html>

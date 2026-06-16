@@ -1,5 +1,5 @@
 +++
-date = "2026-06-14"
+date = "2026-06-16"
 title = "マルコフ連鎖：未来は過去を忘れる"
 weight = 13
 +++
@@ -455,3 +455,14 @@ from state 2: (0.42, 0.13, 0.45)
 ---
 
 このチュートリアルシリーズへの寛大なご支援に[JPCCA](https://jpcca.org/)に特別の感謝を申し上げます。
+
+---
+
+## 参考文献
+
+- Assaf, S., Diaconis, P., & Soundararajan, K. (2011). A rule of thumb for riffle shuffling. *The Annals of Applied Probability, 21*(3), 843–875. <https://doi.org/10.1214/10-AAP701>
+- Bayer, D., & Diaconis, P. (1992). Trailing the dovetail shuffle to its lair. *The Annals of Applied Probability, 2*(2), 294–313. <https://doi.org/10.1214/aoap/1177005705>
+- Berger, P. D. (1973). On the distribution of hand patterns in bridge: Man-dealt versus computer-dealt. *The Canadian Journal of Statistics, 1*(2), 261–266.
+- Conger, M., & Viswanath, D. (2006). Riffle shuffles of decks with repeated cards. *The Annals of Probability, 34*(2), 804–819. <https://doi.org/10.1214/009117905000000675>
+- Diaconis, P. (2003). Mathematical developments from the analysis of riffle shuffling. In A. A. Ivanov, M. W. Liebeck, & J. Saxl (Eds.), *Groups, combinatorics and geometry* (pp. 73–97). World Scientific.
+- Thorp, E. O. (1973). Nonrandom shuffling with applications to the game of Faro. *Journal of the American Statistical Association, 68*(344), 842–847. <https://doi.org/10.1080/01621459.1973.10481434>
