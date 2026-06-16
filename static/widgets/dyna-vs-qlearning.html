@@ -52,7 +52,7 @@
     <button id="fast">+500 ▸▸</button>
     <button id="reset">⟲ Reset</button>
     <label>Dyna planning steps <input type="range" id="plan" min="0" max="50" step="1" value="10"><span class="val" id="planv">10</span></label>
-    <label>α <input type="range" id="alpha" min="0.05" max="0.5" step="0.05" value="0.1"><span class="val" id="alphav">0.10</span></label>
+    <label title="learning rate: how big each TD update is — the same α used throughout the chapter">α · learning rate <input type="range" id="alpha" min="0.05" max="0.5" step="0.05" value="0.1"><span class="val" id="alphav">0.10</span></label>
     <div id="steps">real steps <b id="t">0</b></div>
     <div id="vi">exact answer — <b>value iteration (Ch 21)</b>:<br>V* = Junk <b>25.6</b>, Trying <b>28.4</b>, Healthy <b>39.8</b> · optimal = <b>Invest</b> everywhere</div>
   </div>

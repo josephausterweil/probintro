@@ -34,10 +34,10 @@
 <body>
 <div id="app">
   <div id="controls">
-    <label>model-based weight <b style="color:var(--accent)">w</b>
+    <label title="how much each agent plans with the model (model-based) vs. just caches what paid off (model-free)">model-based weight <b style="color:var(--accent)">w</b>
       <input type="range" id="w" min="0" max="1" step="0.05" value="0.5"><span class="val" id="wv">0.50</span></label>
-    <label>β <input type="range" id="beta" min="1" max="10" step="0.5" value="5"><span class="val" id="bv">5.0</span></label>
-    <label>α <input type="range" id="alpha" min="0.1" max="0.9" step="0.05" value="0.5"><span class="val" id="av">0.50</span></label>
+    <label title="softmax inverse temperature: how sharply the agent prefers the higher-valued option (high β = greedy, low β = more random)">β · choice sharpness <input type="range" id="beta" min="1" max="10" step="0.5" value="5"><span class="val" id="bv">5.0</span></label>
+    <label title="learning rate: how fast value estimates update each day — the same α used elsewhere in the chapter">α · learning rate <input type="range" id="alpha" min="0.1" max="0.9" step="0.05" value="0.5"><span class="val" id="av">0.50</span></label>
     <button id="resample">↻ Resample</button>
     <div id="legend">
       <span><i class="sw" style="background:var(--green)"></i> tonkatsu</span>
@@ -49,6 +49,7 @@
     Each panel: probability Chibany <b>asks the same friend again</b>, split by yesterday's bento (tonkatsu vs hamburger) and whether the friend brought their <b>usual</b> box (a common transition) or the other color (a <b>swap</b>, the rare one).
     <span class="g">Tonkatsu</span> and <span class="o">hamburger</span> lines that stay <b>parallel</b> = a pure <b>reward effect</b> (model-free);
     lines that <b>cross</b> = a tonkatsu×swap <b>interaction</b> (model-based). Slide <b>w</b> to mix the two — the middle panel is the human-like blend.
+    <br><span style="color:#7e7e88">Knobs: <b>w</b> = plan (model-based) vs. cache (model-free) · <b>β</b> = how sharply each agent picks the higher-valued option (softmax inverse temperature) · <b>α</b> = its learning rate (same α as the chapter's Q-learning update).</span>
   </div>
 </div>
 <script>
