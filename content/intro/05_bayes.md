@@ -308,5 +308,12 @@ You started with Chibany counting meals, learned about outcome spaces and events
 
 ---
 
+## References
+
+- Bar-Hillel, M. (1980). The base-rate fallacy in probability judgments. *Acta Psychologica, 44*(3), 211–233. <https://doi.org/10.1016/0001-6918(80)90046-3>
+- Kahneman, D., & Tversky, A. (1972). Subjective probability: A judgment of representativeness. *Cognitive Psychology, 3*(3), 430–454. <https://doi.org/10.1016/0010-0285(72)90016-3>
+
+---
+
 |[← Previous: Conditional Probability](./04_conditional.md) | [Next: Glossary →](./06_glossary.md)|
 | :--- | ---: |

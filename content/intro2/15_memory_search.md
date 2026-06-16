@@ -1,5 +1,5 @@
 +++
-date = "2026-06-10"
+date = "2026-06-16"
 title = "Memory Search as a Random Walk"
 weight = 15
 +++
@@ -407,6 +407,19 @@ The model opens two doors worth naming, both active research:
 A companion notebook works through all of this interactively:
 
 **📓 [Open in Colab: `15_memory_search.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/15_memory_search.ipynb)**
+
+---
+
+## References
+
+- Austerweil, J. L., Abbott, J. T., & Griffiths, T. L. (2012). Human memory search as a random walk in a semantic network. In *Advances in Neural Information Processing Systems, 25*. <https://proceedings.neurips.cc/paper/2012/hash/14d9e8007c9b41f57891c48e07c23f57-Abstract.html>
+- Bousfield, W. A., & Sedgewick, C. H. W. (1944). An analysis of sequences of restricted associative responses. *The Journal of General Psychology, 30*(2), 149–165. <https://doi.org/10.1080/00221309.1944.10544467>
+- Charnov, E. L. (1976). Optimal foraging, the marginal value theorem. *Theoretical Population Biology, 9*(2), 129–136. <https://doi.org/10.1016/0040-5809(76)90040-X>
+- Hills, T. T., Jones, M. N., & Todd, P. M. (2012). Optimal foraging in semantic memory. *Psychological Review, 119*(2), 431–440. <https://doi.org/10.1037/a0027373>
+- Troyer, A. K., Moscovitch, M., & Winocur, G. (1997). Clustering and switching as two components of verbal fluency: Evidence from younger and older healthy adults. *Neuropsychology, 11*(1), 138–146. <https://doi.org/10.1037/0894-4105.11.1.138>
+- Zemla, J. C., & Austerweil, J. L. (2018). Estimating semantic networks of groups and individuals from fluency data. *Computational Brain & Behavior, 1*(1), 36–58. <https://doi.org/10.1007/s42113-018-0003-7>
+- Zemla, J. C., & Austerweil, J. L. (2019). Analyzing knowledge retrieval impairments associated with Alzheimer's disease using network analyses. *Complexity, 2019*, 4203158. <https://doi.org/10.1155/2019/4203158>
+- Zemla, J. C., Cao, K., Mueller, K. D., & Austerweil, J. L. (2020). SNAFU: The Semantic Network and Fluency Utility. *Behavior Research Methods, 52*(4), 1681–1699. <https://doi.org/10.3758/s13428-019-01343-w>
 
 ---
 

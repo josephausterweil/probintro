@@ -1,5 +1,5 @@
 +++
-date = "2026-06-03"
+date = "2026-06-16"
 title = "Random Walks on Networks"
 weight = 14
 +++
@@ -356,6 +356,13 @@ Next, [Chapter 15](../15_memory_search/) cashes all of this in for cognition: it
 A companion notebook works through all of this interactively:
 
 **📓 [Open in Colab: `14_random_walks_networks.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/14_random_walks_networks.ipynb)**
+
+---
+
+## References
+
+- Erdős, P., & Rényi, A. (1959). On random graphs I. *Publicationes Mathematicae Debrecen, 6*, 290–297.
+- Griffiths, T. L., Steyvers, M., & Firl, A. (2007). Google and the mind: Predicting fluency with PageRank. *Psychological Science, 18*(12), 1069–1076. <https://doi.org/10.1111/j.1467-9280.2007.02027.x>
 
 ---
 

@@ -1,5 +1,5 @@
 +++
-date = "2026-06-10"
+date = "2026-06-16"
 title = "Particle Filtering: Yesterday's Posterior Is Today's Prior"
 weight = 17
 +++
@@ -243,6 +243,13 @@ Next, [Chapter 18](../18_markov_chain_monte_carlo/) keeps the target *fixed* but
 A companion notebook works through all of this interactively:
 
 **📓 [Open in Colab: `17_particle_filtering.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/17_particle_filtering.ipynb)**
+
+---
+
+## References
+
+- Austerweil, J. L., & Griffiths, T. L. (2013). A nonparametric Bayesian framework for constructing flexible feature representations. *Psychological Review, 120*(4), 817–851. <https://doi.org/10.1037/a0034194>
+- Sanborn, A. N., Griffiths, T. L., & Navarro, D. J. (2010). Rational approximations to rational models: Alternative algorithms for category learning. *Psychological Review, 117*(4), 1144–1167. <https://doi.org/10.1037/a0020511>
 
 ---
 

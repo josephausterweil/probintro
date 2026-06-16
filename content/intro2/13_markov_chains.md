@@ -1,5 +1,5 @@
 +++
-date = "2026-06-03"
+date = "2026-06-16"
 title = "Markov Chains: The Future Forgets the Past"
 weight = 13
 +++
@@ -451,6 +451,17 @@ Next, [Chapter 14](../14_random_walks_networks/) takes the states and gives them
 A companion notebook works through all of this interactively:
 
 **📓 [Open in Colab: `13_markov_chains.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/13_markov_chains.ipynb)**
+
+---
+
+## References
+
+- Assaf, S., Diaconis, P., & Soundararajan, K. (2011). A rule of thumb for riffle shuffling. *The Annals of Applied Probability, 21*(3), 843–875. <https://doi.org/10.1214/10-AAP701>
+- Bayer, D., & Diaconis, P. (1992). Trailing the dovetail shuffle to its lair. *The Annals of Applied Probability, 2*(2), 294–313. <https://doi.org/10.1214/aoap/1177005705>
+- Berger, P. D. (1973). On the distribution of hand patterns in bridge: Man-dealt versus computer-dealt. *The Canadian Journal of Statistics, 1*(2), 261–266.
+- Conger, M., & Viswanath, D. (2006). Riffle shuffles of decks with repeated cards. *The Annals of Probability, 34*(2), 804–819. <https://doi.org/10.1214/009117905000000675>
+- Diaconis, P. (2003). Mathematical developments from the analysis of riffle shuffling. In A. A. Ivanov, M. W. Liebeck, & J. Saxl (Eds.), *Groups, combinatorics and geometry* (pp. 73–97). World Scientific.
+- Thorp, E. O. (1973). Nonrandom shuffling with applications to the game of Faro. *Journal of the American Statistical Association, 68*(344), 842–847. <https://doi.org/10.1080/01621459.1973.10481434>
 
 ---
 

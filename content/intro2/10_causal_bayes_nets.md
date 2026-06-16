@@ -1,5 +1,5 @@
 +++
-date = "2026-06-03"
+date = "2026-06-16"
 title = "Causal Bayes Nets and the Do-Operator"
 weight = 10
 +++
@@ -233,6 +233,15 @@ You can tell apart the three causal stories behind a single correlation, perform
 A companion notebook works through these interactively:
 
 **📓 [Open in Colab: `10_causal_bayes_nets.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/10_causal_bayes_nets.ipynb)**
+
+---
+
+## References
+
+- Gopnik, A., & Sobel, D. M. (2000). Detecting blickets: How young children use information about novel causal powers in categorization and induction. *Child Development, 71*(5), 1205–1222. <https://doi.org/10.1111/1467-8624.00224>
+- Gopnik, A., Glymour, C., Sobel, D. M., Schulz, L. E., Kushnir, T., & Danks, D. (2004). A theory of causal learning in children: Causal maps and Bayes nets. *Psychological Review, 111*(1), 3–32. <https://doi.org/10.1037/0033-295X.111.1.3>
+- Pearl, J. (2009). *Causality: Models, reasoning, and inference* (2nd ed.). Cambridge University Press.
+- Pearl, J., & Mackenzie, D. (2018). *The book of why: The new science of cause and effect*. Basic Books.
 
 ---
 

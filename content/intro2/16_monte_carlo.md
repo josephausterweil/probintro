@@ -1,5 +1,5 @@
 +++
-date = "2026-06-10"
+date = "2026-06-16"
 title = "Monte Carlo: Estimating by Sampling"
 weight = 16
 +++
@@ -432,6 +432,13 @@ Next, [Chapter 17](../17_particle_filtering/) puts importance sampling in motion
 A companion notebook works through all of this interactively:
 
 **📓 [Open in Colab: `16_monte_carlo.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/16_monte_carlo.ipynb)**
+
+---
+
+## References
+
+- Nosofsky, R. M. (1986). Attention, similarity, and the identification–categorization relationship. *Journal of Experimental Psychology: General, 115*(1), 39–61. <https://doi.org/10.1037/0096-3445.115.1.39>
+- Tversky, A., & Kahneman, D. (1974). Judgment under uncertainty: Heuristics and biases. *Science, 185*(4157), 1124–1131. <https://doi.org/10.1126/science.185.4157.1124>
 
 ---
 

@@ -1,5 +1,5 @@
 +++
-date = "2026-06-03"
+date = "2026-06-16"
 title = "Dirichlet Process Mixture Models"
 weight = 6
 +++
@@ -825,7 +825,7 @@ So the mystery bentos were just the beginning: the rest of Tutorial 3 is about g
 ### Practical Implementations
 - Neal (2000): "Markov Chain Sampling Methods for Dirichlet Process Mixture Models" (MCMC inference)
 - Walker (2007): "Sampling the Dirichlet Mixture Model with Slices" (the slice sampler used in this chapter)
-- Kalli, Griffiths, & Walker (2011): "Slice sampling mixture models" (refinements and a clear exposition)
+- Kalli, Griffin, & Walker (2011): "Slice sampling mixture models" (refinements and a clear exposition)
 - Blei & Jordan (2006): "Variational Inference for Dirichlet Process Mixtures" (scalable inference)
 - Stephens (2000): "Dealing with label switching in mixture models" (post-hoc relabeling for valid per-component summaries)
 
@@ -868,3 +868,18 @@ The notebook includes:
 - Guided exercises to deepen understanding
 
 This is a great way to build intuition for how α, K_max, and the data itself interact to produce the posterior distribution.
+
+---
+
+## References
+
+- Ascolani, F., Lijoi, A., Rebaudo, G., & Zanella, G. (2023). Clustering consistency with Dirichlet process mixtures. *Biometrika, 110*(2), 551–558. <https://doi.org/10.1093/biomet/asac051>
+- Austerweil, J. L., Gershman, S. J., Tenenbaum, J. B., & Griffiths, T. L. (2015). Structure and flexibility in Bayesian models of cognition. In J. R. Busemeyer, Z. Wang, J. T. Townsend, & A. Eidels (Eds.), *The Oxford handbook of computational and mathematical psychology* (pp. 187–208). Oxford University Press.
+- Blei, D. M., & Jordan, M. I. (2006). Variational inference for Dirichlet process mixtures. *Bayesian Analysis, 1*(1), 121–143. <https://doi.org/10.1214/06-BA104>
+- Ferguson, T. S. (1973). A Bayesian analysis of some nonparametric problems. *The Annals of Statistics, 1*(2), 209–230. <https://doi.org/10.1214/aos/1176342360>
+- Kalli, M., Griffin, J. E., & Walker, S. G. (2011). Slice sampling mixture models. *Statistics and Computing, 21*(1), 93–105. <https://doi.org/10.1007/s11222-009-9150-y>
+- Miller, J. W., & Harrison, M. T. (2014). Inconsistency of Pitman–Yor process mixtures for the number of components. *Journal of Machine Learning Research, 15*(96), 3333–3370. <https://jmlr.org/papers/v15/miller14a.html>
+- Neal, R. M. (2000). Markov chain sampling methods for Dirichlet process mixture models. *Journal of Computational and Graphical Statistics, 9*(2), 249–265. <https://doi.org/10.1080/10618600.2000.10474879>
+- Stephens, M. (2000). Dealing with label switching in mixture models. *Journal of the Royal Statistical Society: Series B (Statistical Methodology), 62*(4), 795–809. <https://doi.org/10.1111/1467-9868.00265>
+- Teh, Y. W., Jordan, M. I., Beal, M. J., & Blei, D. M. (2006). Hierarchical Dirichlet processes. *Journal of the American Statistical Association, 101*(476), 1566–1581. <https://doi.org/10.1198/016214506000000302>
+- Walker, S. G. (2007). Sampling the Dirichlet mixture model with slices. *Communications in Statistics — Simulation and Computation, 36*(1), 45–54. <https://doi.org/10.1080/03610910601096262>

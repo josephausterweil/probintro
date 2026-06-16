@@ -1,5 +1,5 @@
 +++
-date = "2026-06-10"
+date = "2026-06-16"
 title = "Sampling the Mind: People and the Kemp Hierarchy"
 weight = 19
 +++
@@ -291,6 +291,13 @@ This closes Tutorial 3's sampling arc. The tools here — Monte Carlo, importanc
 A companion notebook works through all of this interactively:
 
 **📓 [Open in Colab: `19_sampling_the_mind.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/19_sampling_the_mind.ipynb)**
+
+---
+
+## References
+
+- Kemp, C., Perfors, A., & Tenenbaum, J. B. (2007). Learning overhypotheses with hierarchical Bayesian models. *Developmental Science, 10*(3), 307–321. <https://doi.org/10.1111/j.1467-7687.2007.00585.x>
+- Sanborn, A. N., & Griffiths, T. L. (2007). Markov chain Monte Carlo with people. In *Advances in Neural Information Processing Systems, 20* (pp. 1265–1272). <https://papers.nips.cc/paper_files/paper/2007/hash/89d4402dc03d3b7318bbac10203034ab-Abstract.html>
 
 ---
 
