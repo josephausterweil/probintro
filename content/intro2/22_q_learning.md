@@ -439,6 +439,101 @@ The thread running through these three chapters — *write the world as a genera
 
 ---
 
+## Telling Model-Free from Model-Based: The Two-Step Task
+
+This chapter built both kinds of agent. **Q-learning is model-free** — it caches values from experience and never represents the world's dynamics. **Dyna and MCTS are model-based** — they hold a model and *simulate* it to plan. That raises a question cognitive science cares about deeply: when a *person* (or a rat) learns a task, which kind of computation is the brain doing? You usually can't tell from choices alone — given enough trials, both strategies solve the same task equally well. The trick is to design a task whose two systems are *forced to predict different things*. That task — from **Daw, Gershman, Seymour, Dayan & Dolan (2011)** — is the **two-step task**, and it became one of the most influential paradigms in computational cognitive neuroscience.
+
+**The task.** Each trial has two stages. At **stage 1** you choose between two options — call them a **Left** and a **Right** rocket. Your choice sends you to one of two **stage-2** states — a **Pink** and a **Blue** planet — but only *probabilistically*: each rocket has a **common** destination it reaches 70% of the time and a **rare** one it reaches 30% of the time (Left usually → Pink, Right usually → Blue). At whichever planet you land, a second choice pays off with some reward probability, and those probabilities **drift slowly** over the session, so there is always something to keep learning.
+
+```mermaid
+graph TD
+    S1["Stage 1: Left or Right?"]
+    S1 -->|"Left · 70% common"| PK["Pink planet"]
+    S1 -->|"Left · 30% rare"| BL["Blue planet"]
+    S1 -->|"Right · 70% common"| BL
+    S1 -->|"Right · 30% rare"| PK
+    PK --> R["reward? (slowly drifting)"]
+    BL --> R
+    classDef node fill:none,stroke:#9bbcff,stroke-width:2px,color:#fff
+    class S1,PK,BL,R node
+    linkStyle default stroke:#9bbcff,stroke-width:2px,color:#fff
+```
+
+The whole game lives in that **rare** transition. Ask the simplest behavioral question: after a trial, do you **stay** (repeat the same stage-1 choice) or **switch**? The two systems answer from completely different information.
+
+- **Model-free** asks only: *was the choice I made rewarded?* A first-stage action that was followed by reward gets reinforced, so it is more likely to be repeated — full stop. It never consults *which* planet it reached or *how* it got there. Prediction: a **main effect of reward** — rewarded → stay, unrewarded → switch — with the transition type making **no difference**.
+- **Model-based** asks: *which planet pays, and which rocket usually gets me there?* A reward makes the *planet* valuable, and it then picks the rocket that **commonly** reaches that planet. Here the rare transition bites. Say you took **Left**, got a **rare** jump to **Blue**, and were **rewarded**. Blue is now valuable — but the rocket that *commonly* flies to Blue is **Right**, not the Left you just took. So model-based **switches to Right**, *even though you were just rewarded*. Prediction: a **reward × transition interaction** (a crossover), not a plain reward effect.
+
+That rare-rewarded case is the crux, and it is genuinely easy to tangle — so step through every combination yourself. Set the choice, the transition, and the outcome, and watch what each mind concludes (the two verdicts agree on *common* trials and split on *rare* ones):
+
+<iframe src="../../widgets/two-step-task.html"
+        width="100%" height="600"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Interactive two-step task: set a trial's stage-1 choice, transition (common/rare), and reward, and see why model-free and model-based agents stay or switch">
+</iframe>
+
+We can also just *simulate* both agents. A model-free learner caches a value for each first-stage action and nudges it toward the reward received; a model-based learner learns the planet values and combines them through the known 70/30 transition to score the first-stage actions. Run each for many trials and tally how often it stays, split by the previous trial's reward and transition:
+
+<!-- validate: tol=0.05 -->
+```python
+import numpy as np
+
+def two_step_stay_probs(agent, n_trials=30000, alpha=0.5, beta=5.0, p_common=0.7, seed=0):
+    rng = np.random.default_rng(seed)
+    Q1 = np.zeros(2)                              # model-free first-stage cache
+    Q2 = np.zeros((2, 2))                         # stage-2 action values (both agents learn these)
+    rp = rng.uniform(0.25, 0.75, size=(2, 2))     # drifting reward probabilities
+    choose = lambda q: int(rng.random() < np.exp(beta*q[1]) / np.exp(beta*q).sum())
+    a1s, commons, rewards = [], [], []
+    for _ in range(n_trials):
+        if agent == "model-free":
+            q1 = Q1                               # cached first-stage values
+        else:                                     # model-based: plan with the KNOWN transition
+            V2 = Q2.max(axis=1)
+            q1 = np.array([p_common*V2[a] + (1-p_common)*V2[1-a] for a in (0, 1)])
+        a1 = choose(q1)
+        common = rng.random() < p_common
+        s2 = a1 if common else 1 - a1             # common: action a -> state a
+        a2 = choose(Q2[s2])
+        r = float(rng.random() < rp[s2, a2])
+        Q2[s2, a2] += alpha*(r - Q2[s2, a2])      # learn the stage-2 value
+        if agent == "model-free":
+            Q1[a1] += alpha*(r - Q1[a1])          # credit the first-stage CHOICE for the reward
+        a1s.append(a1); commons.append(common); rewards.append(r)
+        rp = np.clip(rp + rng.normal(0, 0.025, size=(2, 2)), 0.25, 0.75)
+    a1s, commons, rewards = np.array(a1s), np.array(commons), np.array(rewards)
+    stay = a1s[1:] == a1s[:-1]
+    pr, pc = rewards[:-1], commons[:-1]
+    return {f"{'rewarded' if rv else 'unrewarded'}/{'common' if cv else 'rare'}":
+            round(float(stay[(pr == rv) & (pc == cv)].mean()), 2)
+            for rv in (1.0, 0.0) for cv in (True, False)}
+
+for agent in ("model-free", "model-based"):
+    p = two_step_stay_probs(agent)
+    print(f"{agent:12s}  rew/common {p['rewarded/common']}  rew/rare {p['rewarded/rare']}"
+          f"   unrew/common {p['unrewarded/common']}  unrew/rare {p['unrewarded/rare']}")
+```
+
+**Output:**
+```
+model-free    rew/common 0.9  rew/rare 0.9   unrew/common 0.57  unrew/rare 0.57
+model-based   rew/common 0.66  rew/rare 0.45   unrew/common 0.45  unrew/rare 0.66
+```
+
+Those numbers *are* the signature. The model-free learner stays ~0.9 of the time after **any** reward and ~0.57 after **any** omission — flat across the transition. The model-based learner shows the **crossover**: stay after a common reward or a rare omission, switch after a rare reward or a common omission. Plot stay-probability as two lines — one for rewarded trials, one for unrewarded — across common vs. rare, and model-free gives **parallel** lines (reward just shifts them together) while model-based gives **crossing** lines (the interaction). The widget runs the simulation live; slide the model-based weight $w$ from 0 to 1 to morph one into the other:
+
+<iframe src="../../widgets/two-step-stay-prob.html"
+        width="100%" height="560"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Interactive two-step stay-probability signature: model-free gives parallel reward lines, model-based gives a crossing interaction, with a model-based-weight slider to mix them">
+</iframe>
+
+The result that made the task famous: **real people show *both*** — a reward main effect *and* an interaction, exactly the middle panel's blend. That mixture is read as evidence that the brain runs the two systems in parallel and arbitrates between them — the **habitual** (model-free) and **goal-directed** (model-based) controllers of Daw et al. (2005) — with the balance tipping under stress, time pressure, and across development and psychiatric conditions. The plain model-free/model-based distinction this chapter drew in code turns out to be a measurable axis of human cognition.
+
+---
+
 ## Where RL Is Now
 
 The journey from a $3\times3$ grid to the frontier is one of **scale**, but every milestone is a piece you've now met:
@@ -448,7 +543,7 @@ The journey from a $3\times3$ grid to the frontier is one of **scale**, but ever
 Tabular $Q$ became a neural network ($Q(s,a)$ predicted by a deep net — **DQN** (Mnih et al., 2015), which learned to play Atari from pixels); rollouts gained learned value and policy networks (**AlphaGo**, Silver et al., 2016; **AlphaZero**, Silver et al., 2018); and the model itself became learned (**MuZero**, Schrittwieser et al., 2020; **Dreamer**, Hafner et al., 2020). Two themes from this chapter scale all the way up:
 
 - **Reward hacking is the positive cycle, at frontier scale.** When a large language model is tuned with RL from human feedback (**RLHF**), the "reward" is a learned model of human approval — and agents reliably find ways to *farm that approval* without doing the underlying task, exactly as the action-feedback cat paced for praise. "Specify the reward you can measure, get the behavior you didn't mean" is the same bug from the GardenPath, now a central problem in AI alignment (Weeks 11–13).
-- **The TD error is a signal in your brain.** The bracketed surprise term $r + \gamma\max_{a'}Q(s',a') - Q(s,a)$ turns out to match the firing of midbrain **dopamine** neurons (Schultz, Dayan & Montague, 1997) — they signal *reward prediction error*, not reward. And the **model-free vs. simulation-based** split mirrors a split in cognition between *habitual* and *goal-directed* control (Daw et al., 2005). Reinforcement learning is not just an engineering tool; it is one of our best theories of how brains learn to act.
+- **The TD error is a signal in your brain.** The bracketed surprise term $r + \gamma\max_{a'}Q(s',a') - Q(s,a)$ turns out to match the firing of midbrain **dopamine** neurons (Schultz, Dayan & Montague, 1997) — they signal *reward prediction error*, not reward. And the **model-free vs. model-based** split is exactly the *habitual*-vs.-*goal-directed* axis the two-step task above dissociates (Daw et al., 2005, 2011). Reinforcement learning is not just an engineering tool; it is one of our best theories of how brains learn to act.
 
 ![A schematic showing the temporal-difference error delta equals reward plus discounted next-state value minus current value, with an arrow indicating that this same quantity matches the reward-prediction-error signal carried by midbrain dopamine neurons.](../../images/intro2/dopamine_td.png)
 
@@ -457,7 +552,7 @@ You can run **Q-learning** — estimate action values $Q(s,a)$ from raw experien
 
 This closes the agency arc that began in [Chapter 20](../20_statistical_decision_theory/): from one decision, to planning a known world, to learning and acting in an unknown one. Next, the course turns to **inverse** RL — watching behavior and inferring the *goals* behind it.
 
-*Glossary:* [Q-learning](../../glossary/#q-learning-), [temporal-difference error](../../glossary/#temporal-difference-error-), [learning rate](../../glossary/#learning-rate-), [ε-greedy](../../glossary/#epsilon-greedy-exploration-), [reward shaping](../../glossary/#reward-shaping-), [reward hacking](../../glossary/#reward-hacking-), [simulation-based RL](../../glossary/#simulation-based-rl-), [Monte Carlo Tree Search](../../glossary/#monte-carlo-tree-search-), [UCB](../../glossary/#upper-confidence-bound-ucb-), [certainty equivalence](../../glossary/#certainty-equivalence-), [Bayes-adaptive MDP](../../glossary/#bayes-adaptive-mdp-).
+*Glossary:* [Q-learning](../../glossary/#q-learning-), [temporal-difference error](../../glossary/#temporal-difference-error-), [learning rate](../../glossary/#learning-rate-), [ε-greedy](../../glossary/#epsilon-greedy-exploration-), [reward shaping](../../glossary/#reward-shaping-), [reward hacking](../../glossary/#reward-hacking-), [simulation-based RL](../../glossary/#simulation-based-rl-), [Monte Carlo Tree Search](../../glossary/#monte-carlo-tree-search-), [UCB](../../glossary/#upper-confidence-bound-ucb-), [certainty equivalence](../../glossary/#certainty-equivalence-), [Bayes-adaptive MDP](../../glossary/#bayes-adaptive-mdp-), [two-step task](../../glossary/#two-step-task-).
 {{% /notice %}}
 
 ---
@@ -479,6 +574,7 @@ A companion notebook works through all of this interactively:
 ## References
 
 - Daw, N. D., Niv, Y., & Dayan, P. (2005). Uncertainty-based competition between prefrontal and dorsolateral striatal systems for behavioral control. *Nature Neuroscience, 8*(12), 1704–1711. <https://doi.org/10.1038/nn1560>
+- Daw, N. D., Gershman, S. J., Seymour, B., Dayan, P., & Dolan, R. J. (2011). Model-based influences on humans' choices and striatal prediction errors. *Neuron, 69*(6), 1204–1215. <https://doi.org/10.1016/j.neuron.2011.02.027>
 - Hafner, D., Lillicrap, T., Ba, J., & Norouzi, M. (2020). Dream to control: Learning behaviors by latent imagination. *International Conference on Learning Representations (ICLR)*. <https://arxiv.org/abs/1912.01603>
 - Ho, M. K., Littman, M. L., Cushman, F., & Austerweil, J. L. (2015). Teaching with rewards and punishments: Reinforcement or communication? *Proceedings of the 37th Annual Conference of the Cognitive Science Society*, 920–925.
 - Levine, S. (2018). Reinforcement learning and control as probabilistic inference: Tutorial and review. *arXiv:1805.00909*. <https://arxiv.org/abs/1805.00909>

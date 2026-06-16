@@ -1826,6 +1826,15 @@ The reformulation of *learning* an unknown MDP as a *planning* problem. Fold the
 **See also:** [Certainty Equivalence](#certainty-equivalence-), [Simulation-Based RL](#simulation-based-rl-), [Dirichlet Distribution](#dirichlet-distribution-)
 {{% /expand %}}
 
+### Two-Step Task 📊
+{{% expand "Two-Step Task" %}}
+A two-stage decision task (Daw et al., 2011) designed to **dissociate model-free from model-based control** behaviorally. A first-stage choice leads *probabilistically* — a **common** (70%) or **rare** (30%) transition — to one of two second-stage states, where a slowly drifting reward is collected. The diagnostic is whether the agent **repeats** its first-stage choice (*stays*) as a function of the previous trial's *reward* and *transition type*: a **model-free** learner shows only a **main effect of reward** (rewarded → stay, regardless of transition), whereas a **model-based** learner shows a **reward × transition interaction** (a *rare* reward makes it *switch*, since the other first-stage option commonly reaches the now-valuable state). People show both, taken as evidence for parallel habitual and goal-directed systems.
+
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+
+**See also:** [Simulation-Based RL](#simulation-based-rl-), [Q-Learning](#q-learning-), [Temporal-Difference Error](#temporal-difference-error-)
+{{% /expand %}}
+
 ### Monte Carlo Tree Search 📊
 {{% expand "Monte Carlo Tree Search" %}}
 A planning algorithm (MCTS) that simulates forward only from the current state, building a search tree through four repeated phases — **select** (descend by UCB), **expand** (add a node), **simulate** (random rollout to estimate value), **backup** (send the return up the path). It is the engine inside AlphaZero (which replaces the random rollout with a learned value network) and MuZero (which learns the model it searches).
