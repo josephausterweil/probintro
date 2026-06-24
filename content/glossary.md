@@ -6,11 +6,12 @@ weight = 100
 
 ## How to Use This Glossary
 
-This glossary covers all three tutorials in the Probability with GenJAX series. Terms are tagged to show which tutorial introduces them:
+This glossary covers all three tutorials in the Probability with GenJAX series. Most terms are tagged to show which tutorial introduces them; one tag is cross-cutting:
 
 - 📘 **Tutorial 1** (Discrete Probability) - Sets and counting approach
 - 💻 **Tutorial 2** (GenJAX Programming) - Probabilistic programming basics
 - 📊 **Tutorial 3** (Continuous Probability) - Advanced topics and Bayesian learning
+- 🔧 **Implementation Trick** - numerical & coding patterns that make implementations actually work (used across tutorials). These are the things that are usually buried in a code comment like `# numerical stability` and never explained — collected and explained here, and cross-referenced wherever they appear.
 
 Click on any term to expand its definition with examples and code.
 
@@ -2112,6 +2113,84 @@ A world-model agent (Schrittwieser et al. 2020) that learns a **latent** model �
 **Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
 
 **See also:** [World Model](#world-model-), [Simulation-Based RL](#simulation-based-rl-), [Monte Carlo Tree Search](#monte-carlo-tree-search-)
+{{% /expand %}}
+
+## Implementation Tricks 🔧
+
+*The numerical and coding patterns that make probabilistic implementations actually work — usually buried in a one-word code comment and never explained. Each is cross-referenced from the chapters where it appears.*
+
+### Log-Sum-Exp Trick 🔧
+{{% expand "Log-Sum-Exp Trick" %}}
+The single most important numerical-stability trick in probabilistic computing. To turn a vector of log-quantities back into normalized probabilities without overflow, compute the log-of-the-sum-of-exponentials as
+$$\log\sum_i e^{x_i} \;=\; m + \log\sum_i e^{x_i - m}, \qquad m = \max_i x_i.$$
+Subtracting the max $m$ leaves the largest term at $e^0 = 1$ (so nothing overflows to `inf`), while the identity guarantees the answer is exactly unchanged. The normalized weights are then $p_i = e^{x_i - \text{logsumexp}(x)}$. **What breaks without it:** $e^{\text{large}}$ overflows to `inf` and $e^{\text{very negative}}$ underflows to $0$, so the naive `exp(x)/sum(exp(x))` returns `nan` — silently wrong. In code it is usually written `w = jnp.exp(x - jnp.max(x)); w = w / w.sum()`.
+
+**Used in:** almost every inference chapter — mixture models (Ch 5), generalization (Ch 7), Bayes nets (Ch 8–10), Monte Carlo and particle filtering (Ch 16–17), and inverse RL (Ch 23). First explained in [Chapter 5: Mixture Models](../intro2/05_mixture_models/).
+
+**See also:** [Log-Space Arithmetic](#log-space-arithmetic-), [Self-Normalized Importance Weights](#self-normalized-importance-weights-), [Softmax Policy](#softmax-policy-)
+{{% /expand %}}
+
+### Log-Space Arithmetic 🔧
+{{% expand "Log-Space Arithmetic" %}}
+Probabilities of many independent events *multiply*, and a product of thousands of small numbers **underflows to 0** in floating point. The fix is to work with **log-probabilities**: a product becomes a sum, $\log\prod_i p_i = \sum_i \log p_i$, which never underflows. This is why GenJAX's `assess`, `importance`, and `get_score` all return *log*-probabilities, and why inference code adds log-scores instead of multiplying probabilities. To return to a normalized probability at the end, use the [log-sum-exp trick](#log-sum-exp-trick-).
+
+**Used in:** Ch 7 (the number game's log-likelihood), Ch 16–19 (sampling), Ch 23–25, and everywhere GenJAX scores a trace.
+
+**See also:** [Log-Sum-Exp Trick](#log-sum-exp-trick-), [Self-Normalized Importance Weights](#self-normalized-importance-weights-)
+{{% /expand %}}
+
+### Self-Normalized Importance Weights 🔧
+{{% expand "Self-Normalized Importance Weights" %}}
+When the posterior is known only up to a constant ($p(x) \propto \tilde p(x)$, with the normalizer $Z$ unknown), you cannot compute $Z$ — but you don't need to. Draw samples, compute unnormalized weights $w_i$, and estimate any expectation as a **ratio**, $\mathbb{E}[f] \approx \sum_i w_i\,f(x_i) \big/ \sum_i w_i$: the unknown $Z$ cancels top and bottom. In code this is `w = jnp.exp(logw - jnp.max(logw)); w = w / w.sum()` — the [log-sum-exp trick](#log-sum-exp-trick-) applied to the weights, which is why it shows up everywhere importance sampling does.
+
+**Used in:** Ch 4–5, Ch 8–10, Ch 16–17 (importance sampling and particle filters), Ch 25 (recovering a reward from preferences). The *why-it-works* is spelled out in [Chapter 16: Monte Carlo](../intro2/16_monte_carlo/).
+
+**See also:** [Log-Sum-Exp Trick](#log-sum-exp-trick-), [Log-Space Arithmetic](#log-space-arithmetic-)
+{{% /expand %}}
+
+### Epsilon Clipping 🔧
+{{% expand "Epsilon Clipping" %}}
+Guarding a value before a numerically dangerous operation by clamping it away from the bad point. The classic case is $\log p$: since $\log 0 = -\infty$, code clips first — `p = jnp.clip(p, 1e-12, 1 - 1e-12)` — so the logarithm stays finite. Similarly `jnp.maximum(var, 1e-6)` before dividing by a variance avoids a divide-by-zero. The tiny $\varepsilon$ changes the answer negligibly while keeping it finite. Common in entropy/cross-entropy and likelihood code.
+
+**Used in:** Ch 11 (information theory / entropy), Ch 15, Ch 6 (DPMM).
+
+**See also:** [Log-Space Arithmetic](#log-space-arithmetic-)
+{{% /expand %}}
+
+### Logits vs Probabilities 🔧
+{{% expand "Logits vs Probabilities" %}}
+A **logit** is a log-(unnormalized-)probability. Many samplers — including GenJAX's `categorical` — take *logits* and apply the softmax internally, rather than expecting already-normalized probabilities. Two consequences: `categorical(jnp.log(p))` passes a probability vector by logging it first, and `categorical(beta * Q)` *is* a softmax policy $\pi(a)\propto e^{\beta Q(a)}$ with no extra code. **The silent bug:** passing already-normalized probabilities where logits are expected double-softmaxes them and samples from the wrong distribution.
+
+**Used in:** Ch 21 (the MDP transition model), Ch 23 (the softmax policy), Ch 25 (Bradley–Terry preferences).
+
+**See also:** [Softmax Policy](#softmax-policy-), [Log-Space Arithmetic](#log-space-arithmetic-)
+{{% /expand %}}
+
+### Vectorization with vmap 🔧
+{{% expand "Vectorization with vmap" %}}
+`jax.vmap` runs a function across a batch axis *in parallel*, replacing a Python `for` loop over (say) random keys with one vectorized, JIT-compilable call: `vmap(lambda k: model.simulate(k, args))(keys)`. It is far faster than a Python loop and the standard idiom for drawing many samples or scoring many particles in JAX.
+
+**Used in:** from Ch 5 onward throughout the GenJAX chapters; Ch 25 vmaps the importance-sampling step.
+
+**See also:** [Scan vs Python Loop](#scan-vs-python-loop-), [PRNG Key Splitting](#prng-key-splitting-)
+{{% /expand %}}
+
+### PRNG Key Splitting 🔧
+{{% expand "PRNG Key Splitting" %}}
+JAX randomness is **stateless**: every random draw is a deterministic function of an explicit *key*, so reusing the same key gives the *same* "random" number every time. `random.split(key)` (or `split(key, n)`) produces fresh, independent keys to pass onward — which is how you get *different* samples across a loop or batch. Forgetting to split is the classic JAX bug: identical "random" samples everywhere.
+
+**Used in:** every chapter that samples.
+
+**See also:** [Vectorization with vmap](#vectorization-with-vmap-)
+{{% /expand %}}
+
+### Scan vs Python Loop 🔧
+{{% expand "Scan vs Python Loop" %}}
+`jax.lax.scan` (and GenJAX's `Scan` combinator) is the JIT-friendly version of a sequential loop: carry a state, step through inputs, collect outputs. It is used when a loop must run *inside* compiled JAX code — value iteration, a filtering sweep, a rollout. Plain Python `for` loops are kept in the textbook for readability, but production JAX uses `scan` so the loop compiles instead of unrolling into a giant graph.
+
+**Used in:** Ch 14–15, Ch 21–22 (value iteration and RL loops).
+
+**See also:** [Vectorization with vmap](#vectorization-with-vmap-)
 {{% /expand %}}
 
 ---

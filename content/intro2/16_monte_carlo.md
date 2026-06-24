@@ -416,7 +416,7 @@ You can estimate an **expected value** — including any **probability**, since 
 
 Next, [Chapter 17](../17_particle_filtering/) puts importance sampling in motion: when data arrive one at a time, *yesterday's posterior becomes today's prior*, and a cloud of weighted samples tracks a moving target.
 
-*Glossary:* [Monte Carlo](../../glossary/#monte-carlo-simulation-), [expected value](../../glossary/#expected-value-), [importance sampling](../../glossary/#importance-sampling-), [importance weight](../../glossary/#importance-weight-), [effective sample size](../../glossary/#effective-sample-size-), [rejection sampling](../../glossary/#rejection-sampling-), [proposal distribution](../../glossary/#proposal-distribution-).
+*Glossary:* [Monte Carlo](../../glossary/#monte-carlo-simulation-), [expected value](../../glossary/#expected-value-), [importance sampling](../../glossary/#importance-sampling-), [importance weight](../../glossary/#importance-weight-), [effective sample size](../../glossary/#effective-sample-size-), [rejection sampling](../../glossary/#rejection-sampling-), [proposal distribution](../../glossary/#proposal-distribution-). &nbsp; 🔧 [log-sum-exp trick](../../glossary/#log-sum-exp-trick-), [self-normalized importance weights](../../glossary/#self-normalized-importance-weights-), [vectorization with vmap](../../glossary/#vectorization-with-vmap-), [PRNG key splitting](../../glossary/#prng-key-splitting-).
 {{% /notice %}}
 
 ---

@@ -303,6 +303,12 @@ print(f"Posterior mean for mu_0: {post_mu_0:.1f}")
 print(f"Posterior mean for mu_1: {post_mu_1:.1f}")
 ```
 
+{{% notice style="note" title="🔧 The log-sum-exp trick — why subtract the max?" %}}
+Those two normalization lines hide the **most important numerical trick in probabilistic computing**, and you will see it in almost every chapter from here on. GenJAX returns a **log**-weight per particle, because the probability of many observations is a *product* of small numbers that would underflow to zero — so we [work in log space](../../glossary/#log-space-arithmetic-) and add log-probabilities instead of multiplying. To turn those log-weights back into normalized weights you *cannot* just write `exp(log_w)`: a large log-weight overflows to `inf` and a very negative one underflows to `0`, and the naive normalization returns `nan`. The fix is the **[log-sum-exp trick](../../glossary/#log-sum-exp-trick-)** — subtract the largest log-weight first,
+$$w_i = \frac{e^{\,\ell_i - \max_j \ell_j}}{\sum_k e^{\,\ell_k - \max_j \ell_j}},$$
+so the biggest term is $e^0 = 1$ (nothing overflows) and the answer is mathematically unchanged. And since we only ever use the *ratio* of weights, the unknown normalizer $Z$ cancels — that is [self-normalized importance sampling](../../glossary/#self-normalized-importance-weights-). All three live, with the other coding patterns that make implementations work, in the 🔧 **Implementation Tricks** section of the [glossary](../../glossary/).
+{{% /notice %}}
+
 **Note**: This is *importance sampling* — the simplest inference method, and
 deliberately so. Don't expect the printed posterior means to land neatly on 350
 and 500: with 20 observations and a vague prior, most randomly-drawn particles

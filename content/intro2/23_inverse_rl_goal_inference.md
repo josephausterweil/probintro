@@ -250,7 +250,7 @@ You can frame **inverse reinforcement learning** as Bayes' rule with a planner i
 
 Next, [Chapter 24](../24_pomdps_belief_inference/) makes the hidden variable richer than a goal — a **belief** — by inverting a partially observable MDP, then flips the whole inversion into **teaching**.
 
-*Glossary:* [inverse reinforcement learning](../../glossary/#inverse-reinforcement-learning-), [goal inference](../../glossary/#goal-inference-), [softmax policy](../../glossary/#softmax-policy-), [rationality (inverse temperature)](../../glossary/#rationality-inverse-temperature-), [ill-posed problem](../../glossary/#ill-posed-problem-), [Theory of Mind](../../glossary/#theory-of-mind-), [maximum-entropy IRL](../../glossary/#maximum-entropy-irl-), [GAIL](../../glossary/#gail-), [AIRL](../../glossary/#airl-).
+*Glossary:* [inverse reinforcement learning](../../glossary/#inverse-reinforcement-learning-), [goal inference](../../glossary/#goal-inference-), [softmax policy](../../glossary/#softmax-policy-), [rationality (inverse temperature)](../../glossary/#rationality-inverse-temperature-), [ill-posed problem](../../glossary/#ill-posed-problem-), [Theory of Mind](../../glossary/#theory-of-mind-), [maximum-entropy IRL](../../glossary/#maximum-entropy-irl-), [GAIL](../../glossary/#gail-), [AIRL](../../glossary/#airl-). &nbsp; 🔧 [log-sum-exp trick](../../glossary/#log-sum-exp-trick-), [log-space arithmetic](../../glossary/#log-space-arithmetic-), [logits vs probabilities](../../glossary/#logits-vs-probabilities-).
 {{% /notice %}}
 
 ---

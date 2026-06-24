@@ -227,7 +227,7 @@ You can set up a **state-space model** — a hidden state with a **motion model*
 
 Next, [Chapter 18](../18_markov_chain_monte_carlo/) keeps the target *fixed* but makes the samples themselves into a Markov chain — running [Chapter 13](../13_markov_chains/) backwards to *design* a chain whose stationary distribution is whatever posterior we want.
 
-*Glossary:* [particle filter](../../glossary/#particle-filter-), [resampling](../../glossary/#resampling-), [importance sampling](../../glossary/#importance-sampling-), [effective sample size](../../glossary/#effective-sample-size-).
+*Glossary:* [particle filter](../../glossary/#particle-filter-), [resampling](../../glossary/#resampling-), [importance sampling](../../glossary/#importance-sampling-), [effective sample size](../../glossary/#effective-sample-size-). &nbsp; 🔧 [log-sum-exp trick](../../glossary/#log-sum-exp-trick-), [self-normalized importance weights](../../glossary/#self-normalized-importance-weights-).
 {{% /notice %}}
 
 ---

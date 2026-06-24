@@ -37,20 +37,20 @@ import jax, jax.numpy as jnp
 from jax import random, vmap
 from genjax import gen, normal, flip, ChoiceMap
 
-K = 3                                              # three candidate answers
-ITEMS = ["A", "B", "C"]
-TRUE_R = jnp.array([2.0, 0.5, -1.0])               # hidden quality (A > B > C)
-PAIRS = jnp.array([[0, 1], [0, 2], [1, 2]])        # the three head-to-head comparisons
+K = 3                                              # three foods on the menu
+ITEMS = ["tonkatsu", "hamburger", "ramen"]
+TRUE_R = jnp.array([2.0, 0.5, -1.0])               # Chibany's hidden tastes: tonkatsu > hamburger > ramen
+PAIRS = jnp.array([[0, 1], [0, 2], [1, 2]])        # tonkatsu-vs-hamburger, tonkatsu-vs-ramen, hamburger-vs-ramen
 
 @gen
 def pref_model(pairs):                             # Bradley-Terry: P(i > j) = sigmoid(r_i - r_j)
-    r = jnp.array([normal(0.0, 2.0) @ f"r_{k}" for k in range(K)])     # latent reward, normal prior
+    r = jnp.array([normal(0.0, 2.0) @ f"r_{k}" for k in range(K)])     # latent taste, normal prior
     for n in range(pairs.shape[0]):
         i, j = pairs[n, 0], pairs[n, 1]
-        flip(jax.nn.sigmoid(r[i] - r[j])) @ f"pref_{n}"                 # True => i preferred over j
+        flip(jax.nn.sigmoid(r[i] - r[j])) @ f"pref_{n}"                 # True => Chibany picks food i over j
     return r
 
-def make_dataset(n_each=30, key=random.PRNGKey(0)):                     # noisy human prefs from TRUE_R
+def make_dataset(n_each=30, key=random.PRNGKey(0)):                     # Chibany's noisy choices from its tastes
     pairs = jnp.repeat(PAIRS, n_each, axis=0)
     pi = jax.nn.sigmoid(TRUE_R[pairs[:, 0]] - TRUE_R[pairs[:, 1]])
     return pairs, random.bernoulli(key, pi)
@@ -147,7 +147,7 @@ You can see the modern frontier as the inverse-RL machine at scale. You built th
 
 This closes the agency-and-minds arc: from one decision ([Chapter 20](../20_statistical_decision_theory/)), to planning a known world, to learning an unknown one, to **inverting** behavior to read goals, beliefs, rewards, and — at the edge of what we can verify — minds.
 
-*Glossary:* [RLHF](../../glossary/#rlhf-), [DPO](../../glossary/#dpo-), [Bradley–Terry model](../../glossary/#bradley-terry-model-), [reward model](../../glossary/#reward-model-), [reward hacking](../../glossary/#reward-hacking-), [amortized inference](../../glossary/#amortized-inference-), [ToMnet](../../glossary/#tomnet-), [world model](../../glossary/#world-model-), [MuZero](../../glossary/#muzero-).
+*Glossary:* [RLHF](../../glossary/#rlhf-), [DPO](../../glossary/#dpo-), [Bradley–Terry model](../../glossary/#bradley-terry-model-), [reward model](../../glossary/#reward-model-), [reward hacking](../../glossary/#reward-hacking-), [amortized inference](../../glossary/#amortized-inference-), [ToMnet](../../glossary/#tomnet-), [world model](../../glossary/#world-model-), [MuZero](../../glossary/#muzero-). &nbsp; 🔧 [self-normalized importance weights](../../glossary/#self-normalized-importance-weights-), [vectorization with vmap](../../glossary/#vectorization-with-vmap-), [PRNG key splitting](../../glossary/#prng-key-splitting-), [log-space arithmetic](../../glossary/#log-space-arithmetic-).
 {{% /notice %}}
 
 ---

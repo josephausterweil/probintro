@@ -296,7 +296,7 @@ You can build a **Markov Decision Process** from its five pieces — states $S$,
 
 Next, [Chapter 22](../22_q_learning/) removes the one thing this chapter assumed: the model. When you *don't* know $T$ and $R$, you can't run the Bellman backup — you have to **learn** to act from experience alone.
 
-*Glossary:* [Markov Decision Process](../../glossary/#markov-decision-process-), [policy](../../glossary/#policy-), [reward](../../glossary/#reward-), [discount factor](../../glossary/#discount-factor-), [return](../../glossary/#return-), [trajectory](../../glossary/#trajectory-), [rollout](../../glossary/#rollout-), [value function](../../glossary/#value-function-), [Bellman equation](../../glossary/#bellman-equation-), [value iteration](../../glossary/#value-iteration-).
+*Glossary:* [Markov Decision Process](../../glossary/#markov-decision-process-), [policy](../../glossary/#policy-), [reward](../../glossary/#reward-), [discount factor](../../glossary/#discount-factor-), [return](../../glossary/#return-), [trajectory](../../glossary/#trajectory-), [rollout](../../glossary/#rollout-), [value function](../../glossary/#value-function-), [Bellman equation](../../glossary/#bellman-equation-), [value iteration](../../glossary/#value-iteration-). &nbsp; 🔧 [logits vs probabilities](../../glossary/#logits-vs-probabilities-), [scan vs Python loop](../../glossary/#scan-vs-python-loop-).
 {{% /notice %}}
 
 ---

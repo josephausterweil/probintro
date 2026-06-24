@@ -278,7 +278,7 @@ You can model a **partially observable MDP**: an agent that never sees the state
 
 Next, [Chapter 25](../25_modern_rl_world_models/) scales this to modern systems — RLHF as preference-based inverse RL, world models, and the contested question of machine Theory of Mind.
 
-*Glossary:* [POMDP](../../glossary/#partially-observable-mdp-pomdp-), [belief state](../../glossary/#belief-state-), [belief MDP](../../glossary/#belief-mdp-), [alpha-vector](../../glossary/#alpha-vector-), [Tiger problem](../../glossary/#tiger-problem-), [Bayesian Theory of Mind](../../glossary/#bayesian-theory-of-mind-), [legibility](../../glossary/#legibility-), [cooperative inverse RL](../../glossary/#cooperative-inverse-rl-).
+*Glossary:* [POMDP](../../glossary/#partially-observable-mdp-pomdp-), [belief state](../../glossary/#belief-state-), [belief MDP](../../glossary/#belief-mdp-), [alpha-vector](../../glossary/#alpha-vector-), [Tiger problem](../../glossary/#tiger-problem-), [Bayesian Theory of Mind](../../glossary/#bayesian-theory-of-mind-), [legibility](../../glossary/#legibility-), [cooperative inverse RL](../../glossary/#cooperative-inverse-rl-). &nbsp; 🔧 [log-sum-exp trick](../../glossary/#log-sum-exp-trick-), [logits vs probabilities](../../glossary/#logits-vs-probabilities-), [log-space arithmetic](../../glossary/#log-space-arithmetic-).
 {{% /notice %}}
 
 ---
