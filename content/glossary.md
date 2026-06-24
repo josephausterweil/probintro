@@ -1,5 +1,5 @@
 +++
-date = "2026-06-15"
+date = "2026-06-24"
 title = "Glossary - All Tutorials"
 weight = 100
 +++
@@ -1896,6 +1896,222 @@ The data $x$ you get to see before acting (a sniff, a day-count, a measurement).
 **Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
 
 **See also:** [Decision Rule](#decision-rule-), [Statistical Decision Theory](#statistical-decision-theory-), [Posterior Distribution](#posterior-distribution-)
+{{% /expand %}}
+
+### Inverse Reinforcement Learning 📊
+{{% expand "Inverse Reinforcement Learning" %}}
+Recovering the **reward or goal** behind observed behavior — running a planner backwards. Forward RL turns a goal into actions; inverse RL (IRL) watches actions and infers the goal, via Bayes' rule with a policy as the likelihood: $P(\text{goal}\mid\text{actions})\propto P(\text{actions}\mid\text{goal})\,P(\text{goal})$. Fundamentally **ill-posed** (many rewards fit), so a prior and a rationality assumption do the disambiguating.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+**See also:** [Goal Inference](#goal-inference-), [Softmax Policy](#softmax-policy-), [Ill-Posed Problem](#ill-posed-problem-), [Theory of Mind](#theory-of-mind-)
+{{% /expand %}}
+
+### Goal Inference 📊
+{{% expand "Goal Inference" %}}
+The special case of inverse RL where the hidden cause is a discrete **goal**. Watch a few steps, score each candidate goal by the probability its softmax policy assigns the observed actions, and normalize to a posterior. The posterior **slides** as more behavior is seen — the basis of the Baker, Saxe & Tenenbaum (2009) "freeze the video, where's it headed?" experiments.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+**See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [Theory of Mind](#theory-of-mind-), [Bayes' Theorem](#bayes-theorem-)
+{{% /expand %}}
+
+### Softmax Policy 📊
+{{% expand "Softmax Policy" %}}
+A **noisy-rational** policy that turns action values into action probabilities: $\pi(a\mid s)\propto e^{\beta Q(s,a)}$ (also called the Boltzmann policy). The best action is most likely but every action keeps some probability. As a likelihood for inverse RL, it is what lets a *detour* be informative.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+**See also:** [Rationality (Inverse Temperature)](#rationality-inverse-temperature-), [Q-Learning](#q-learning-), [Inverse Reinforcement Learning](#inverse-reinforcement-learning-)
+{{% /expand %}}
+
+### Rationality (Inverse Temperature) 📊
+{{% expand "Rationality (Inverse Temperature)" %}}
+The parameter $\beta\ge 0$ in the softmax policy controlling **how rational** an agent is assumed to be. $\beta\to 0$ gives a random (coin-flipping) agent; $\beta\to\infty$ gives a greedy, pure-exploitation one. It is a **modeling assumption we choose**, not something inferred from the data — and it sets how much we read into behavior.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+**See also:** [Softmax Policy](#softmax-policy-), [Inverse Reinforcement Learning](#inverse-reinforcement-learning-)
+{{% /expand %}}
+
+### Ill-Posed Problem 📊
+{{% expand "Ill-Posed Problem" %}}
+A problem whose solution is not uniquely determined by the data. Inverse RL is ill-posed: many rewards explain the same behavior (a flat reward makes every policy optimal; value-preserving reshaping leaves the policy unchanged). The **prior** and the **rationality assumption** are what pin down a single answer — not the behavior alone.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+**See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [Reward Shaping](#reward-shaping-)
+{{% /expand %}}
+
+### Theory of Mind 📊
+{{% expand "Theory of Mind" %}}
+Attributing mental states — goals, beliefs, desires — to others to explain their behavior. The computational claim of this unit is that **Theory of Mind is inverse RL**: reading a mind is inverting a planner (Baker & Tenenbaum's inverse planning, reviewed by Jara-Ettinger 2019). Same Bayes-with-a-planner computation; only the name of the hidden cause changes.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/), [Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [Bayesian Theory of Mind](#bayesian-theory-of-mind-), [ToMnet](#tomnet-)
+{{% /expand %}}
+
+### Maximum-Entropy IRL 📊
+{{% expand "Maximum-Entropy IRL" %}}
+The foundational scalable inverse-RL method (Ziebart 2008). It resolves IRL's ill-posedness by picking, among all reward-consistent trajectory distributions, the one of **maximum entropy** — the least-committal explanation — giving trajectory probability $P(\tau)\propto e^{\text{reward}(\tau)}$, the softmax-over-value form at trajectory scale.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+**See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [GAIL](#gail-), [AIRL](#airl-)
+{{% /expand %}}
+
+### GAIL 📊
+{{% expand "GAIL" %}}
+**Generative Adversarial Imitation Learning** (Ho & Ermon 2016): casts imitation as a GAN — a discriminator separates expert from learner behavior, and the policy is trained to fool it. Scales imitation to high-dimensional control, but *skips* recovering a reward, so it yields no transferable objective.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+**See also:** [Maximum-Entropy IRL](#maximum-entropy-irl-), [AIRL](#airl-)
+{{% /expand %}}
+
+### AIRL 📊
+{{% expand "AIRL" %}}
+**Adversarial Inverse RL** (Fu, Luo & Levine 2018): keeps GAIL's adversarial training but structures the discriminator so a **reward falls out**, disentangled from the dynamics — combining GAIL's scale with a *transferable* reward you can re-optimize under new dynamics.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+**See also:** [GAIL](#gail-), [Maximum-Entropy IRL](#maximum-entropy-irl-)
+{{% /expand %}}
+
+### Belief State 📊
+{{% expand "Belief State" %}}
+In a POMDP, the agent never sees the world state, only noisy observations; its **belief** $b(s)=P(s\mid\text{history})$ is the posterior over the hidden state, updated by Bayes after each observation: $b'(s)\propto P(o\mid s)\,b(s)$. A belief is *just a probability*, and it is a **sufficient statistic** — it encodes everything the history says about the future.
+
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Partially Observable MDP (POMDP)](#partially-observable-mdp-pomdp-), [Belief MDP](#belief-mdp-), [Alpha-Vector](#alpha-vector-)
+{{% /expand %}}
+
+### Belief MDP 📊
+{{% expand "Belief MDP" %}}
+Because the belief is a sufficient statistic, a POMDP is equivalent to an ordinary MDP whose **state is the belief**: the belief simplex is the state space, the belief update is the transition, and the α-vectors give the (piecewise-linear, convex) value. Everything from MDPs transfers — it just runs on beliefs.
+
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Belief State](#belief-state-), [Markov Decision Process](#markov-decision-process-), [Alpha-Vector](#alpha-vector-)
+{{% /expand %}}
+
+### Alpha-Vector 📊
+{{% expand "Alpha-Vector" %}}
+The value of **committing** to one action, as a (linear) function of the belief — one line per action. Expected value is a weighted average, hence linear in the belief; the optimal value is the **upper envelope** of the action-lines, and its breakpoints are the decision thresholds (in the Tiger problem, open-right overtakes listen at belief $0.90$).
+
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Belief State](#belief-state-), [Tiger Problem](#tiger-problem-), [Belief MDP](#belief-mdp-)
+{{% /expand %}}
+
+### Tiger Problem 📊
+{{% expand "Tiger Problem" %}}
+The canonical POMDP (Kaelbling, Littman & Cassandra 1998): a tiger behind one of two doors, an 85%-accurate "listen," and rewards listen $-1$ / correct $+10$ / tiger $-100$. Repeated agreeing growls slide the belief $0.5\to 0.85\to 0.97$; opening beats listening once the belief crosses $0.90$. The cleanest illustration of belief updating and decision thresholds.
+
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Belief State](#belief-state-), [Alpha-Vector](#alpha-vector-), [Partially Observable MDP (POMDP)](#partially-observable-mdp-pomdp-)
+{{% /expand %}}
+
+### Bayesian Theory of Mind 📊
+{{% expand "Bayesian Theory of Mind" %}}
+Inverting a POMDP-planning agent to recover **both** what it wants (desire) and what it believes — which can be *false* (Baker, Jara-Ettinger, Saxe & Tenenbaum 2017). Explains detours that look irrational under known-state inference: the food-truck walker hedged because they *believed* the first truck might be closed.
+
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Theory of Mind](#theory-of-mind-), [Belief State](#belief-state-), [Inverse Reinforcement Learning](#inverse-reinforcement-learning-)
+{{% /expand %}}
+
+### Legibility 📊
+{{% expand "Legibility" %}}
+Acting so an observer can *read* your goal quickly — the flip of inverse planning (Dragan, Lee & Srinivasa 2013; Ho et al. 2016, "showing vs. doing"). A **legible** path resolves the observer's posterior early ($0.61$ vs $0.50$ on the first move) even when it is no longer than the **efficient** (predictable) one. Teaching is inverse planning run one level up.
+
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Goal Inference](#goal-inference-), [Cooperative Inverse RL](#cooperative-inverse-rl-)
+{{% /expand %}}
+
+### Cooperative Inverse RL 📊
+{{% expand "Cooperative Inverse RL" %}}
+**CIRL** (Hadfield-Menell et al. 2016): a human and robot in a shared world, both rewarded by the *human's* reward, which only the human knows. The robot infers it from behavior; the human, knowing this, should **teach**. Efficient expert demonstration is provably suboptimal, and CIRL reduces to a **POMDP whose hidden state is the human's reward** — alignment as a teaching game.
+
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Legibility](#legibility-), [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [RLHF](#rlhf-)
+{{% /expand %}}
+
+### RLHF 📊
+{{% expand "RLHF" %}}
+**Reinforcement Learning from Human Feedback**: collect pairwise human **preferences** between model outputs, fit a **reward model** to them (Bradley-Terry), then optimize the policy against that learned reward. The reward-modeling step is literally inverse RL — recover a hidden reward from human choices — which is why it aligns today's large language models.
+
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+
+**See also:** [DPO](#dpo-), [Reward Model](#reward-model-), [Bradley-Terry Model](#bradley-terry-model-), [Reward Hacking](#reward-hacking-)
+{{% /expand %}}
+
+### DPO 📊
+{{% expand "DPO" %}}
+**Direct Preference Optimization** (Rafailov et al. 2023): shows the optimal RLHF policy implies an *implicit* reward, so the policy can be optimized **directly** on preferences — folding the reward-model and policy-optimization steps into one. The underlying inference problem (recover a reward from preferences) is identical to RLHF's.
+
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+
+**See also:** [RLHF](#rlhf-), [Bradley-Terry Model](#bradley-terry-model-)
+{{% /expand %}}
+
+### Bradley-Terry Model 📊
+{{% expand "Bradley-Terry Model" %}}
+The standard choice model for pairwise preferences: $P(i\succ j)=\sigma(r_i-r_j)=\frac{e^{r_i}}{e^{r_i}+e^{r_j}}$ — a **pairwise softmax** over latent item rewards. Better items win more often, not always. Reward is identifiable only up to an additive constant, since preferences depend only on reward *differences*.
+
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+
+**See also:** [RLHF](#rlhf-), [Softmax Policy](#softmax-policy-), [Reward Model](#reward-model-)
+{{% /expand %}}
+
+### Reward Model 📊
+{{% expand "Reward Model" %}}
+A learned function that scores outputs by predicted human preference — the object RLHF fits from pairwise comparisons and then optimizes against. Because it only *approximates* human values, optimizing hard against it invites **reward hacking** (the policy finds high-scoring outputs that aren't actually good).
+
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+
+**See also:** [RLHF](#rlhf-), [Bradley-Terry Model](#bradley-terry-model-), [Reward Hacking](#reward-hacking-)
+{{% /expand %}}
+
+### Amortized Inference 📊
+{{% expand "Amortized Inference" %}}
+Paying the cost of inference *once*, up front, by training a network to map data straight to the answer — rather than running inference (enumeration, importance sampling) at query time. Fast but inherits its training distribution; the opposite tradeoff from exact Bayesian inference (interpretable, sample-efficient, but slow).
+
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+
+**See also:** [ToMnet](#tomnet-), [Importance Sampling](#importance-sampling-)
+{{% /expand %}}
+
+### ToMnet 📊
+{{% expand "ToMnet" %}}
+The "Theory-of-Mind network" (Rabinowitz et al. 2018): a neural net that watches many agents and **learns** to predict their behavior and (possibly false) beliefs in a single forward pass — the learned, scalable, but opaque cousin of explicit Bayesian Theory of Mind. Same inverse problem, traded from exact-but-slow to learned-but-opaque.
+
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+
+**See also:** [Theory of Mind](#theory-of-mind-), [Amortized Inference](#amortized-inference-), [Bayesian Theory of Mind](#bayesian-theory-of-mind-)
+{{% /expand %}}
+
+### World Model 📊
+{{% expand "World Model" %}}
+A learned model of an environment's dynamics, used to **plan by imagining** rollouts rather than acting in the costly real world — simulation-based RL with a *learned, compressed* model. A world model that tracks hidden state from partial observations is maintaining a **belief**, the POMDP machinery learned by a network.
+
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+
+**See also:** [MuZero](#muzero-), [Simulation-Based RL](#simulation-based-rl-), [Belief State](#belief-state-)
+{{% /expand %}}
+
+### MuZero 📊
+{{% expand "MuZero" %}}
+A world-model agent (Schrittwieser et al. 2020) that learns a **latent** model — a state space only rich enough to predict reward, value, and policy — and runs Monte-Carlo Tree Search inside it, mastering Go, chess, and Atari **without being told the rules**. The Chapter-22 simulation-based-RL idea with a learned, abstract model.
+
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+
+**See also:** [World Model](#world-model-), [Simulation-Based RL](#simulation-based-rl-), [Monte Carlo Tree Search](#monte-carlo-tree-search-)
 {{% /expand %}}
 
 ---

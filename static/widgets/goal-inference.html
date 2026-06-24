@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Goal inference as inverse planning</title>
+<style>
+  :root{ --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #stage{display:flex;flex:1;min-height:0;}
+  #left{flex:0 0 50%;position:relative;}
+  #right{flex:1;display:flex;flex-direction:column;min-width:0;border-left:1px solid #2a2a33;padding:12px 16px;overflow:hidden;}
+  canvas{display:block;width:100%;height:100%;}
+  h2{font-size:16px;margin:0 0 4px 0;}
+  .sub{font-size:13px;color:var(--dim);margin-bottom:12px;line-height:1.4;}
+  .bar{display:flex;align-items:center;gap:8px;margin:8px 0;}
+  .bar .lab{width:46px;font-size:14px;font-weight:700;}
+  .bar .track{flex:1;height:26px;background:#222230;border-radius:5px;overflow:hidden;position:relative;}
+  .bar .fill{height:100%;border-radius:5px 0 0 5px;transition:width .35s cubic-bezier(.4,0,.2,1);}
+  .bar .pct{width:48px;text-align:right;font-size:14px;font-variant-numeric:tabular-nums;}
+  .bar.truth .lab::after{content:" ◀ true";color:var(--yellow);font-size:11px;font-weight:400;}
+  #readout{margin-top:auto;font-size:13px;color:var(--dim);border-top:1px solid #2a2a33;padding-top:8px;line-height:1.5;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:10px 16px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:14px;border-top:1px solid #2a2a33;font-size:14px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:6px;}
+  select,button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:6px 11px;font-size:14px;cursor:pointer;}
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent);color:#06121f;border-color:var(--accent);font-weight:700;}
+  button.on{background:var(--accent);color:#06121f;border-color:var(--accent);font-weight:700;}
+  button.disabled{opacity:.35;pointer-events:none;}
+  input[type=range]{width:120px;accent-color:var(--accent);cursor:pointer;}
+  .val{color:var(--yellow);font-weight:700;min-width:26px;display:inline-block;text-align:right;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="left"><canvas id="grid"></canvas></div>
+    <div id="right">
+      <h2>What is the agent trying to reach?</h2>
+      <div class="sub">Pick a goal and press <b>Step</b> — or hit <b>🎮 you drive</b> and move the agent yourself with the
+        <b>arrow keys</b> (or WASD). The bars show the observer's belief about its goal — Bayesian inverse planning,
+        <b>P(goal&nbsp;|&nbsp;actions) ∝ P(actions&nbsp;|&nbsp;goal)·P(goal)</b>.</div>
+      <div id="bars"></div>
+      <div id="readout"></div>
+    </div>
+  </div>
+  <div id="controls">
+    <label>true goal
+      <select id="trueGoal"><option value="0">top-left</option><option value="1">top-mid</option><option value="2" selected>top-right</option></select>
+    </label>
+    <label>rationality β <input type="range" id="beta" min="0.1" max="8" step="0.1" value="3"><span class="val" id="betaV">3.0</span></label>
+    <button id="mWalk" class="on">🚶 agent walks</button>
+    <button id="mDrive">🎮 you drive</button>
+    <button id="step" class="primary">Step ▸</button>
+    <button id="auto">▶ auto</button>
+    <button id="reset">⟲ reset</button>
+  </div>
+</div>
+<script>
+// ── gridworld (matches genjax_goal_inference.py) ──────────────────────────
+const NR=3,NC=3,NS=9,NA=4, UP=0,DOWN=1,LEFT=2,RIGHT=3, START=0, GAMMA=0.9;
+const GOALS=[6,7,8], GNAME=["top-left","top-mid","top-right"], GCOL=["#EF5350","#FFEB3B","#66BB6A"];
+function step(s,a){let r=(s/NC)|0,c=s%NC;
+  if(a===UP)r=Math.min(r+1,NR-1);else if(a===DOWN)r=Math.max(r-1,0);
+  else if(a===LEFT)c=Math.max(c-1,0);else if(a===RIGHT)c=Math.min(c+1,NC-1);return r*NC+c;}
+const TRANS=[];for(let s=0;s<NS;s++){TRANS.push([0,1,2,3].map(a=>step(s,a)));}
+function qForGoal(goal){const reward=TRANS.map(row=>row.map(sp=>sp===goal?1:0));
+  let V=new Array(NS).fill(0);
+  for(let it=0;it<60;it++){const Vn=new Array(NS);
+    for(let s=0;s<NS;s++){if(s===goal){Vn[s]=0;continue;}
+      Vn[s]=Math.max(...[0,1,2,3].map(a=>reward[s][a]+GAMMA*V[TRANS[s][a]]));}
+    V=Vn;}
+  return TRANS.map((row,s)=>row.map((sp,a)=>reward[s][a]+GAMMA*V[sp]));}
+const Q=GOALS.map(qForGoal);
+function softmax(xs,beta){const m=Math.max(...xs);const e=xs.map(x=>Math.exp(beta*(x-m)));
+  const z=e.reduce((a,b)=>a+b,0);return e.map(x=>x/z);}
+// observer posterior over goals given the action sequence
+function posterior(states,actions,beta){
+  const logp=GOALS.map((g,gi)=>{let lp=0;
+    for(let t=0;t<actions.length;t++){lp+=Math.log(softmax(Q[gi][states[t]],beta)[actions[t]]+1e-12);}
+    return lp;});
+  const m=Math.max(...logp);const e=logp.map(x=>Math.exp(x-m));const z=e.reduce((a,b)=>a+b,0);
+  return e.map(x=>x/z);}
+
+// ── agent: AUTO mode walks a clean optimal path to its TRUE goal; DRIVE mode
+//    lets you move it with the keys. β is the OBSERVER's assumed rationality.
+const PATHS={0:[UP,UP], 1:[RIGHT,UP,UP], 2:[RIGHT,RIGHT,UP,UP]};
+let trueG=2, beta=3, states=[], actions=[], cur=START, done=false, k=0, mode='auto';
+function reset(){trueG=+document.getElementById('trueGoal').value;beta=+document.getElementById('beta').value;
+  states=[];actions=[];cur=START;done=false;k=0;draw();}
+function move(a){states.push(cur);actions.push(a);cur=step(cur,a);draw();}  // one step, any source
+function agentStep(){if(mode!=='auto')return;const path=PATHS[trueG];if(k>=path.length){done=true;draw();return;}
+  move(path[k]);k++;if(k>=path.length)done=true;}
+function setMode(m){mode=m;
+  document.getElementById('mWalk').classList.toggle('on',m==='auto');
+  document.getElementById('mDrive').classList.toggle('on',m==='drive');
+  document.getElementById('step').classList.toggle('disabled',m==='drive');
+  document.getElementById('auto').classList.toggle('disabled',m==='drive');
+  reset();}
+// keyboard driving — arrows or WASD. The iframe receives these when it has focus
+// (click it once), so they don't trigger slide navigation in the parent deck.
+window.addEventListener('keydown',e=>{
+  if(mode!=='drive')return;
+  const KEY={ArrowUp:UP,w:UP,W:UP,ArrowDown:DOWN,s:DOWN,S:DOWN,ArrowLeft:LEFT,a:LEFT,A:LEFT,ArrowRight:RIGHT,d:RIGHT,D:RIGHT};
+  if(e.key in KEY){e.preventDefault();done=false;move(KEY[e.key]);}
+});
+
+// ── drawing ───────────────────────────────────────────────────────────────
+const cv=document.getElementById('grid'),cx=cv.getContext('2d');
+function cellXY(s,W,H,pad){const r=(s/NC)|0,c=s%NC;const cw=(W-2*pad)/NC,ch=(H-2*pad)/NR;
+  return[pad+c*cw+cw/2, pad+(NR-1-r)*ch+ch/2, cw, ch];}
+function draw(){const dpr=window.devicePixelRatio||1;const W=cv.clientWidth,H=cv.clientHeight;
+  cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,W,H);
+  const pad=Math.min(W,H)*0.08;
+  // grid
+  cx.strokeStyle="#444";cx.lineWidth=1;
+  for(let s=0;s<NS;s++){const[x,y,cw,ch]=cellXY(s,W,H,pad);cx.strokeRect(x-cw/2,y-ch/2,cw,ch);}
+  // goals
+  GOALS.forEach((g,gi)=>{const[x,y,cw,ch]=cellXY(g,W,H,pad);
+    cx.fillStyle=GCOL[gi]+"33";cx.fillRect(x-cw/2,y-ch/2,cw,ch);
+    drawStar(x,y-ch*0.08,cw*0.18,GCOL[gi]);
+    cx.fillStyle=GCOL[gi];cx.font="13px sans-serif";cx.textAlign="center";
+    cx.fillText(GNAME[gi],x,y+ch*0.34);});
+  // path
+  if(states.length){cx.strokeStyle="#FFEB3B";cx.lineWidth=4;cx.lineJoin="round";cx.beginPath();
+    const seq=states.concat([cur]);
+    seq.forEach((s,i)=>{const[x,y]=cellXY(s,W,H,pad);i?cx.lineTo(x,y):cx.moveTo(x,y);});cx.stroke();}
+  // agent
+  const[ax,ay,cw]=cellXY(cur,W,H,pad);cx.fillStyle="#fff";cx.beginPath();cx.arc(ax,ay,cw*0.16,0,7);cx.fill();
+  const[sx,sy]=cellXY(START,W,H,pad);cx.fillStyle=states.length?"#888":"#fff";cx.font="12px sans-serif";
+  cx.fillText("start",sx,sy+cw*0.42);
+  updateBars();}
+function drawStar(cx0,cy0,r,col){cx.fillStyle=col;cx.beginPath();
+  for(let i=0;i<10;i++){const ang=Math.PI/5*i-Math.PI/2;const rr=i%2?r*0.45:r;
+    const x=cx0+rr*Math.cos(ang),y=cy0+rr*Math.sin(ang);i?cx.lineTo(x,y):cx.moveTo(x,y);}
+  cx.closePath();cx.fill();}
+function updateBars(){const post=actions.length?posterior(states,actions,beta):[1/3,1/3,1/3];
+  const box=document.getElementById('bars');box.innerHTML="";
+  post.forEach((p,gi)=>{const d=document.createElement('div');d.className="bar"+(gi===trueG?" truth":"");
+    d.innerHTML=`<span class="lab" style="color:${GCOL[gi]}">${["L","M","R"][gi]}</span>
+      <span class="track"><span class="fill" style="width:${(p*100).toFixed(1)}%;background:${GCOL[gi]}"></span></span>
+      <span class="pct">${(p*100).toFixed(0)}%</span>`;box.appendChild(d);});
+  const ro=document.getElementById('readout');
+  if(!actions.length){ro.textContent = mode==='drive'
+      ? "You're driving — click the grid, then use the arrow keys (or WASD) to move."
+      : "No actions yet — the prior is flat (⅓ each). Press Step.";}
+  else{const top=post.indexOf(Math.max(...post));
+    ro.innerHTML=`After <b>${actions.length}</b> action(s): the observer's best guess is
+      <b style="color:${GCOL[top]}">${GNAME[top]}</b> (${(post[top]*100).toFixed(0)}%).
+      ${beta<0.8?"<br>Low β — the observer assumes the agent is nearly random, so it can't commit.":
+        done?"<br>Reached the goal — the committed path made it obvious.":""}`;}}
+
+// ── controls ───────────────────────────────────────────────────────────────
+let timer=null;
+document.getElementById('step').onclick=agentStep;
+document.getElementById('reset').onclick=()=>{clearTimeout(timer);reset();};
+document.getElementById('auto').onclick=function(){clearTimeout(timer);
+  const tick=()=>{if(!done){agentStep();timer=setTimeout(tick,650);}};tick();};
+document.getElementById('mWalk').onclick=()=>{clearTimeout(timer);setMode('auto');};
+document.getElementById('mDrive').onclick=()=>{clearTimeout(timer);setMode('drive');};
+document.getElementById('trueGoal').onchange=reset;
+document.getElementById('beta').oninput=function(){beta=+this.value;
+  document.getElementById('betaV').textContent=beta.toFixed(1);draw();};
+window.addEventListener('resize',draw);
+reset();
+</script>
+</body>
+</html>

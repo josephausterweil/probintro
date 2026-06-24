@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Tiger POMDP — belief tracking</title>
+<style>
+  :root{ --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #stage{display:flex;flex:1;min-height:0;}
+  #left{flex:0 0 50%;display:flex;flex-direction:column;padding:14px 18px;min-width:0;}
+  #right{flex:1;display:flex;flex-direction:column;border-left:1px solid #2a2a33;padding:12px 16px;min-width:0;}
+  h2{font-size:16px;margin:0 0 4px 0;}
+  .sub{font-size:13px;color:var(--dim);margin-bottom:10px;line-height:1.4;}
+  #doors{display:flex;gap:18px;margin:6px 0 12px;}
+  .door{flex:1;border:2px solid #3a3a48;border-radius:8px;padding:10px;text-align:center;background:#15151c;}
+  .door h3{margin:0 0 8px;font-size:15px;}
+  .belief{height:120px;background:#222230;border-radius:6px;position:relative;overflow:hidden;display:flex;align-items:flex-end;}
+  .belief .fill{width:100%;background:linear-gradient(#64B5F6,#3a6ea5);transition:height .4s cubic-bezier(.4,0,.2,1);}
+  .belief .num{position:absolute;top:6px;left:0;right:0;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;}
+  #log{flex:1;overflow-y:auto;font-size:13px;color:var(--dim);border-top:1px solid #2a2a33;padding-top:6px;line-height:1.7;}
+  #valplot{flex:0 0 auto;width:100%;height:185px;}
+  #rec{font-size:18px;font-weight:800;padding:10px 12px;border-radius:8px;border:1.5px solid currentColor;margin:8px 0;}
+  .ev{font-size:13.5px;color:var(--dim);line-height:1.8;font-variant-numeric:tabular-nums;margin-bottom:4px;}
+  .ev b{color:var(--white);}
+  #verdict{font-size:16px;font-weight:800;min-height:22px;margin-top:6px;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:10px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-top:1px solid #2a2a33;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:7px 13px;font-size:14px;cursor:pointer;}
+  button:hover{border-color:var(--accent);}
+  button.primary{background:var(--accent);color:#06121f;border-color:var(--accent);font-weight:700;}
+  button.open{border-color:var(--yellow);color:var(--yellow);}
+  #params{flex:0 0 auto;background:#13131a;padding:8px 16px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;border-top:1px solid #2a2a33;font-size:12.5px;}
+  #params label{color:var(--dim);display:flex;align-items:center;gap:5px;}
+  #params input[type=range]{width:84px;accent-color:var(--accent);cursor:pointer;}
+  .pv{color:var(--yellow);font-weight:700;min-width:30px;display:inline-block;text-align:right;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="left">
+      <h2>🐯 Two doors — one hides a tiger</h2>
+      <div class="sub">You can't see in. <b>Listen</b> — the growl is only ~85% reliable. Your <b>belief</b> updates by Bayes.
+        Open the wrong door (tiger): a big penalty; the <b>correct</b> one: a reward. Tune the payoffs &amp; noise below.</div>
+      <div id="doors">
+        <div class="door"><h3 style="color:var(--accent)">tiger LEFT</h3>
+          <div class="belief"><div class="num" id="numL">50%</div><div class="fill" id="fillL" style="height:50%"></div></div></div>
+        <div class="door"><h3 style="color:var(--accent)">tiger RIGHT</h3>
+          <div class="belief"><div class="num" id="numR">50%</div><div class="fill" id="fillR" style="height:50%"></div></div></div>
+      </div>
+      <div id="log"></div>
+    </div>
+    <div id="right">
+      <h2>Should you open, or listen again?</h2>
+      <canvas id="valplot"></canvas>
+      <div class="ev" id="evbox"></div>
+      <div id="rec"></div>
+      <div id="verdict"></div>
+    </div>
+  </div>
+  <div id="params">
+    <label>noise: growl accuracy <input type="range" id="pAcc" min="0.55" max="0.99" step="0.01" value="0.85"><span class="pv" id="vAcc">0.85</span></label>
+    <label>listen cost <input type="range" id="pListen" min="-5" max="0" step="0.5" value="-1"><span class="pv" id="vListen">−1</span></label>
+    <label>correct reward <input type="range" id="pCorrect" min="1" max="40" step="1" value="10"><span class="pv" id="vCorrect">+10</span></label>
+    <label>tiger penalty <input type="range" id="pTiger" min="-200" max="-10" step="5" value="-100"><span class="pv" id="vTiger">−100</span></label>
+  </div>
+  <div id="controls">
+    <button id="listen" class="primary">👂 Listen</button>
+    <button id="openL" class="open">🚪 Open left</button>
+    <button id="openR" class="open">🚪 Open right</button>
+    <button id="reset">⟲ New game</button>
+  </div>
+</div>
+<script>
+let ACC=0.85, R_LISTEN=-1, R_CORRECT=10, R_TIGER=-100;   // all adjustable below
+let bL=0.5, tiger=Math.random()<0.5?0:1, history=[], finished=false, rng=Math.random;
+
+function updateBelief(growlLeft){ // Bayes: b'(left) ∝ b(left) P(growl|left)
+  const pgl = growlLeft ? ACC : 1-ACC;          // P(growl-left | tiger-left)
+  const pgr = growlLeft ? 1-ACC : ACC;          // P(growl-left | tiger-right)... symmetric
+  const num = bL*pgl, den = bL*pgl + (1-bL)*pgr;
+  bL = num/den;
+}
+function evValues(){ // immediate expected reward of each action
+  const openL = bL*R_TIGER + (1-bL)*R_CORRECT;  // open left: tiger-left ⇒ -100
+  const openR = bL*R_CORRECT + (1-bL)*R_TIGER;  // open right: tiger-left ⇒ +10
+  return {openL, openR, listen:R_LISTEN};
+}
+function listen(){ if(finished) return;
+  // sample a growl from the TRUE tiger location at 85% accuracy
+  const correct = rng()<ACC;
+  const growlLeft = (tiger===0)===correct ? true : false; // tiger left & correct ⇒ growl left
+  updateBelief(growlLeft);
+  history.push("👂 heard "+(growlLeft?"LEFT":"RIGHT")+"  →  P(tiger-left)="+(bL*100).toFixed(1)+"%");
+  draw();
+}
+function open(side){ if(finished) return; finished=true;
+  const win = (side!==tiger);                    // open the door WITHOUT the tiger ⇒ win
+  const v=document.getElementById('verdict');
+  v.textContent = win ? "✓ +10 — treasure! (tiger was "+(tiger?"right":"left")+")"
+                      : "✗ −100 — tiger! (it was "+(tiger?"right":"left")+")";
+  v.style.color = win ? "var(--green)" : "var(--red)";
+  history.push("🚪 opened "+(side?"RIGHT":"LEFT")+" → "+(win?"+10":"−100"));
+  draw();
+}
+function reset(){ bL=0.5; tiger=Math.random()<0.5?0:1; history=[]; finished=false;
+  document.getElementById('verdict').textContent=""; draw(); }
+
+// ── value plot: E[open-left], E[open-right], listen, with current belief ───
+const cv=document.getElementById('valplot'), cx=cv.getContext('2d');
+function draw(){
+  // belief bars
+  document.getElementById('fillL').style.height=(bL*100)+'%';
+  document.getElementById('fillR').style.height=((1-bL)*100)+'%';
+  document.getElementById('numL').textContent=(bL*100).toFixed(0)+'%';
+  document.getElementById('numR').textContent=((1-bL)*100).toFixed(0)+'%';
+  document.getElementById('log').innerHTML=history.slice(-7).map(h=>'• '+h).join('<br>');
+  // expected values + recommendation
+  const ev=evValues();
+  document.getElementById('evbox').innerHTML=
+    `E[open-left] = <b>${ev.openL.toFixed(1)}</b> &nbsp;·&nbsp; E[open-right] = <b>${ev.openR.toFixed(1)}</b>`+
+    ` &nbsp;·&nbsp; listen = <b>${R_LISTEN}</b>`;
+  const bestOpen=Math.max(ev.openL,ev.openR);
+  const rec=document.getElementById('rec');
+  if(finished){rec.textContent="—";rec.style.color="var(--dim)";}
+  else if(bestOpen>R_LISTEN){const side=ev.openR>ev.openL?"RIGHT":"LEFT";
+    rec.textContent="▶ OPEN "+side+" (E ="+bestOpen.toFixed(1)+" beats listening)";rec.style.color="var(--green)";}
+  else{rec.textContent="▶ LISTEN again (opening risks the tiger — E ="+bestOpen.toFixed(1)+" < "+R_LISTEN+")";rec.style.color="var(--yellow)";}
+  drawPlot();
+}
+function drawPlot(){const dpr=window.devicePixelRatio||1;const W=cv.clientWidth,H=cv.clientHeight;
+  cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,W,H);
+  const pad=42, x0=pad, x1=W-10, y0=H-22, y1=10;
+  const vmin=R_TIGER-6, vmax=R_CORRECT+8;                    // adapt the y-range to the rewards
+  const X=b=>x0+(x1-x0)*b, Y=v=>y1+(y0-y1)*(1-(v-vmin)/(vmax-vmin));
+  // axes
+  cx.strokeStyle="#444";cx.lineWidth=1;cx.beginPath();cx.moveTo(x0,y1);cx.lineTo(x0,y0);cx.lineTo(x1,y0);cx.stroke();
+  cx.strokeStyle="#2c2c34";cx.beginPath();cx.moveTo(x0,Y(0));cx.lineTo(x1,Y(0));cx.stroke();   // zero line
+  cx.fillStyle="#999";cx.font="11px sans-serif";cx.textAlign="center";
+  cx.fillText("belief  P(tiger-left)",(x0+x1)/2,H-4);
+  cx.textAlign="right";cx.fillText("+"+R_CORRECT,x0-4,Y(R_CORRECT)+3);cx.fillText(String(R_TIGER),x0-4,Y(R_TIGER));cx.fillText("0",x0-4,Y(0)+3);
+  // lines: open-left (red), open-right (green), listen (blue)
+  const line=(f,col)=>{cx.strokeStyle=col;cx.lineWidth=2.5;cx.beginPath();
+    for(let i=0;i<=60;i++){const b=i/60;const v=f(b);i?cx.lineTo(X(b),Y(v)):cx.moveTo(X(b),Y(v));}cx.stroke();};
+  line(b=>b*R_TIGER+(1-b)*R_CORRECT,"#EF5350");   // open left
+  line(b=>b*R_CORRECT+(1-b)*R_TIGER,"#66BB6A");   // open right
+  line(_=>R_LISTEN,"#64B5F6");                      // listen
+  // current belief marker
+  cx.strokeStyle="#FFEB3B";cx.lineWidth=1.5;cx.setLineDash([4,3]);
+  cx.beginPath();cx.moveTo(X(bL),y1);cx.lineTo(X(bL),y0);cx.stroke();cx.setLineDash([]);
+  cx.fillStyle="#FFEB3B";cx.beginPath();cx.arc(X(bL),Y(Math.max(bL*R_CORRECT+(1-bL)*R_TIGER,bL*R_TIGER+(1-bL)*R_CORRECT)),4,0,7);cx.fill();
+  // legend
+  cx.font="11px sans-serif";cx.textAlign="left";
+  cx.fillStyle="#EF5350";cx.fillText("open L",x0+6,y1+10);
+  cx.fillStyle="#66BB6A";cx.fillText("open R",x0+58,y1+10);
+  cx.fillStyle="#64B5F6";cx.fillText("listen",x0+112,y1+10);
+}
+document.getElementById('listen').onclick=listen;
+document.getElementById('openL').onclick=()=>open(0);
+document.getElementById('openR').onclick=()=>open(1);
+document.getElementById('reset').onclick=reset;
+// adjustable parameters — noise (accuracy), listen cost, correct reward, tiger penalty
+const neg=v=>v<0?'−'+Math.abs(v):''+v;
+function bindParam(id,span,fmt,set){const el=document.getElementById(id);
+  el.oninput=function(){set(+this.value);document.getElementById(span).textContent=fmt(+this.value);draw();};}
+bindParam('pAcc','vAcc',v=>v.toFixed(2),v=>ACC=v);
+bindParam('pListen','vListen',neg,v=>R_LISTEN=v);
+bindParam('pCorrect','vCorrect',v=>'+'+v,v=>R_CORRECT=v);
+bindParam('pTiger','vTiger',neg,v=>R_TIGER=v);
+window.addEventListener('resize',draw);
+reset();
+</script>
+</body>
+</html>

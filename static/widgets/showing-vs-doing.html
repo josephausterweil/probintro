@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Showing vs. doing — legibility</title>
+<style>
+  :root{ --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #stage{display:flex;flex:1;min-height:0;}
+  #left{flex:0 0 50%;position:relative;}
+  #right{flex:1;display:flex;flex-direction:column;border-left:1px solid #2a2a33;padding:12px 16px;min-width:0;}
+  canvas{display:block;width:100%;height:100%;}
+  h2{font-size:16px;margin:0 0 4px;}
+  .sub{font-size:13px;color:var(--dim);margin-bottom:12px;line-height:1.45;}
+  #post{font-size:15px;margin:6px 0 4px;}
+  #post b{font-size:24px;font-variant-numeric:tabular-nums;}
+  .barwrap{margin:14px 0;}
+  .barwrap .lab{font-size:13px;color:var(--dim);margin-bottom:3px;}
+  .track{height:24px;background:#222230;border-radius:5px;overflow:hidden;}
+  .fill{height:100%;transition:width .4s cubic-bezier(.4,0,.2,1);}
+  #note{margin-top:auto;font-size:13px;color:var(--dim);border-top:1px solid #2a2a33;padding-top:8px;line-height:1.5;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-top:1px solid #2a2a33;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:7px 13px;font-size:14px;cursor:pointer;}
+  button:hover{border-color:var(--accent);}
+  button.on{background:var(--accent);color:#06121f;border-color:var(--accent);font-weight:700;}
+  button.primary{background:var(--green);color:#06121f;border-color:var(--green);font-weight:700;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="left"><canvas id="grid"></canvas></div>
+    <div id="right">
+      <h2>You're heading to the <span style="color:var(--green)">green</span> goal — make it obvious</h2>
+      <div class="sub">Both paths are the same length (3 steps). <b>Doing</b> goes straight up the middle (ambiguous);
+        <b>showing</b> commits to the right immediately. Watch the observer's belief that you're going <i>green</i>.</div>
+      <div id="post"></div>
+      <div class="barwrap">
+        <div class="lab">observer's P(true goal = green)</div>
+        <div class="track"><div class="fill" id="fill" style="width:50%;background:var(--green)"></div></div>
+      </div>
+      <div id="note"></div>
+    </div>
+  </div>
+  <div id="controls">
+    <button id="mDo" class="on">efficient — "doing"</button>
+    <button id="mShow">legible — "showing"</button>
+    <button id="step" class="primary">Step ▸</button>
+    <button id="reset">⟲ reset</button>
+  </div>
+</div>
+<script>
+const NR=3,NC=3,NS=9, UP=0,DOWN=1,LEFT=2,RIGHT=3, START=1, GAMMA=0.9, BETA=3;
+const GOALS=[6,8], GCOL=["#EF5350","#66BB6A"], TRUE=1; // green=right=index1
+function step(s,a){let r=(s/NC)|0,c=s%NC;
+  if(a===UP)r=Math.min(r+1,NR-1);else if(a===DOWN)r=Math.max(r-1,0);
+  else if(a===LEFT)c=Math.max(c-1,0);else if(a===RIGHT)c=Math.min(c+1,NC-1);return r*NC+c;}
+const TRANS=[];for(let s=0;s<NS;s++)TRANS.push([0,1,2,3].map(a=>step(s,a)));
+function qForGoal(goal){const reward=TRANS.map(row=>row.map(sp=>sp===goal?1:0));let V=new Array(NS).fill(0);
+  for(let it=0;it<60;it++){const Vn=new Array(NS);
+    for(let s=0;s<NS;s++){Vn[s]=s===goal?0:Math.max(...[0,1,2,3].map(a=>reward[s][a]+GAMMA*V[TRANS[s][a]]));}V=Vn;}
+  return TRANS.map((row,s)=>row.map((sp,a)=>reward[s][a]+GAMMA*V[sp]));}
+const Q=GOALS.map(qForGoal);
+function softmax(xs){const m=Math.max(...xs);const e=xs.map(x=>Math.exp(BETA*(x-m)));const z=e.reduce((a,b)=>a+b,0);return e.map(x=>x/z);}
+function posteriorTrue(states,actions){const logp=GOALS.map((g,gi)=>{let lp=0;
+  for(let t=0;t<actions.length;t++)lp+=Math.log(softmax(Q[gi][states[t]])[actions[t]]+1e-12);return lp;});
+  const m=Math.max(...logp);const e=logp.map(x=>Math.exp(x-m));const z=e.reduce((a,b)=>a+b,0);return e[TRUE]/z;}
+
+const DOING=[UP,UP,RIGHT], SHOWING=[RIGHT,UP,UP];
+let mode="do", k=0;
+function path(){return mode==="do"?DOING:SHOWING;}
+function statesOf(acts){let s=START,out=[];for(const a of acts){out.push(s);s=step(s,a);}return out;}
+
+const cv=document.getElementById('grid'),cx=cv.getContext('2d');
+function cellXY(s,W,H,pad){const r=(s/NC)|0,c=s%NC;const cw=(W-2*pad)/NC,ch=(H-2*pad)/NR;
+  return[pad+c*cw+cw/2, pad+(NR-1-r)*ch+ch/2, cw, ch];}
+function drawStar(x0,y0,r,col){cx.fillStyle=col;cx.beginPath();
+  for(let i=0;i<10;i++){const a=Math.PI/5*i-Math.PI/2,rr=i%2?r*0.45:r;
+    const x=x0+rr*Math.cos(a),y=y0+rr*Math.sin(a);i?cx.lineTo(x,y):cx.moveTo(x,y);}cx.closePath();cx.fill();}
+function draw(){const dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;
+  cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,W,H);
+  const pad=Math.min(W,H)*0.09;
+  cx.strokeStyle="#444";cx.lineWidth=1;
+  for(let s=0;s<NS;s++){const[x,y,cw,ch]=cellXY(s,W,H,pad);cx.strokeRect(x-cw/2,y-ch/2,cw,ch);}
+  GOALS.forEach((g,gi)=>{const[x,y,cw,ch]=cellXY(g,W,H,pad);cx.fillStyle=GCOL[gi]+"33";cx.fillRect(x-cw/2,y-ch/2,cw,ch);
+    drawStar(x,y,cw*0.2,GCOL[gi]);});
+  const col=mode==="do"?"#64B5F6":"#FFEB3B";
+  const acts=path().slice(0,k), seq=statesOf(path()).slice(0,k+1).slice(0,acts.length+1);
+  const st=statesOf(path()); let drawSeq=[START];for(let i=0;i<k;i++)drawSeq.push(step(drawSeq[drawSeq.length-1]||START, path()[i]));
+  if(k>0){cx.strokeStyle=col;cx.lineWidth=5;cx.lineJoin="round";cx.beginPath();
+    drawSeq.forEach((s,i)=>{const[x,y]=cellXY(s,W,H,pad);i?cx.lineTo(x,y):cx.moveTo(x,y);});cx.stroke();}
+  const here=drawSeq[drawSeq.length-1];const[ax,ay,cw]=cellXY(here,W,H,pad);
+  cx.fillStyle="#fff";cx.beginPath();cx.arc(ax,ay,cw*0.17,0,7);cx.fill();
+  const[sx,sy,,ch]=cellXY(START,W,H,pad);cx.fillStyle="#888";cx.font="12px sans-serif";cx.textAlign="center";
+  cx.fillText("start",sx,sy+ch*0.34);
+  update();}
+function update(){const acts=path().slice(0,k);const states=statesOf(path()).slice(0,k);
+  const p=acts.length?posteriorTrue(states,acts):0.5;
+  document.getElementById('fill').style.width=(p*100)+'%';
+  document.getElementById('post').innerHTML=`observer thinks green: <b style="color:var(--green)">${(p*100).toFixed(0)}%</b>`;
+  const n=document.getElementById('note');
+  if(k===0)n.textContent="Step 0 — no actions yet, belief is 50/50.";
+  else if(mode==="do"&&k<3)n.innerHTML="Going straight up — this fits <i>both</i> goals, so the observer still can't tell.";
+  else if(mode==="show"&&k>=1)n.innerHTML="The very first move to the right gives it away — that's a <b>legible</b> (teaching) path.";
+  else n.textContent="";}
+function reset(){k=0;draw();}
+document.getElementById('step').onclick=()=>{if(k<3){k++;draw();}};
+document.getElementById('reset').onclick=reset;
+document.getElementById('mDo').onclick=function(){mode="do";this.classList.add('on');document.getElementById('mShow').classList.remove('on');reset();};
+document.getElementById('mShow').onclick=function(){mode="show";this.classList.add('on');document.getElementById('mDo').classList.remove('on');reset();};
+window.addEventListener('resize',draw);
+reset();
+</script>
+</body>
+</html>
