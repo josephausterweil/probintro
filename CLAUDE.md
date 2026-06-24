@@ -215,6 +215,16 @@ were written against a dead API):
 4. The full rationale and the flaky-tool-channel defenses (trust `git hash-object`/refs over command stdout;
    write probe output in-repo not `/tmp`) live in the memory note `feedback_genjax_block_workflow.md`.
 
+## Chapter quality bar — companion code, interactivity, and a clarity-review loop (do NOT skip before declaring a chapter done)
+
+The code validator (above) proves a cell *runs*; it does not prove the chapter is *rich* or *clear*. Three standing requirements, mirroring how the lectures are built:
+
+1. **Maximize runnable GenJAX companion code.** Interweave a runnable `@gen` GenJAX cell next to every concept that can carry one — this is the textbook's version of the lecture's "make as much as possible have GenJAX code." **Reuse the verified lecture backbones** (`course/weekNN_*/genjax_*.py`, already run against genjax 0.10.3) as the chapter's spine rather than re-deriving. Hard rule before completing: every code cell either **executes under the validator with a matching `**Output:**`**, or is *deliberately* marked `<!-- validate: skip -->` **with a one-line reason** — never leave a cell that silently can't run, and never ship a chapter whose GenJAX hasn't passed a fresh validator run. If a cell won't run, fix it or cut it; don't paper over it.
+
+2. **Embed the interactivity.** The lecture widgets are dual-purpose (Week 8/9 pattern: a widget lives once and is referenced from both the deck and the chapter). Iframe the relevant widget(s) into the chapter, each with a static fallback image and a one-line "what to try." A chapter that has a matching lecture widget but doesn't embed it is incomplete.
+
+3. **Student-agent clarity review, iterated to convergence.** Before declaring a chapter done, **spawn 2–3 student-persona `Explore` agents** (at minimum a non-CS / non-math reader and a CS reader) to read the BUILT chapter and report: undefined notation/terms, broken conceptual bridges, claims asserted without intuition, and any code/output that contradicts the prose. Apply the fixes, then **re-run the review until a pass returns only minor or no changes.** Record the review + the fixes applied (mirror the lecture's PLAN clarity-review note). This is the same loop used on the decks — a fresh reader catches what the author's pattern-matching misses. Do not mark a chapter complete on a single unreviewed pass.
+
 ## Every-time checklist when a chapter is added or updated (Joe's standing rule, 2026-06-03)
 
 Whenever you ship a **new chapter** or materially update one, do ALL of the following in the same pass —
