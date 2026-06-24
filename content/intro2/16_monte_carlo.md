@@ -1,5 +1,5 @@
 +++
-date = "2026-06-16"
+date = "2026-06-24"
 title = "Monte Carlo: Estimating by Sampling"
 weight = 16
 +++

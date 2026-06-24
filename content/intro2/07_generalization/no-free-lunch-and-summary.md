@@ -1,5 +1,5 @@
 +++
-date = "2026-05-31"
+date = "2026-06-24"
 title = "No Free Lunch & Summary"
 weight = 4
 +++
@@ -142,6 +142,10 @@ A nearer step: every hypothesis space in this chapter was a flat *list* of rules
 *structure* — variables that depend on each other in specific ways. Writing that structure down as a graph, and
 reading independence and causation off it, is the subject of the next chapters on **Bayesian networks**.
 
+{{% notice style="note" title="🧠 Do large models generalize like this?" %}}
+The Bayesian generalization story of this chapter — a prior over hypotheses, the **size principle**, similarity — is now a live testbed for frontier models: do today's large (and multimodal) models generalize the way people do? Strikingly often, yes. Large language models reproduce human **similarity judgments across six perceptual modalities** (color, pitch, taste, …), recovering structures like the color wheel mostly *from language alone* (Marjieh, Sucholutsky, van Rijn, Jacoby & Griffiths 2024), and a meta-learned network can be pushed to human-like **systematic, compositional** generalization (Lake & Baroni 2023). But matching human *outputs* is not the same as sharing the human *mechanism* — the same caution this book raises about machine Theory of Mind in [Chapter 25](../25_modern_rl_world_models/).
+{{% /notice %}}
+
 ### Practice
 
 {{% notice style="info" title="Try it yourself" %}}
@@ -168,6 +172,14 @@ reading independence and causation off it, is the subject of the next chapters o
 - Attneave, F. (1950). Dimensions of similarity. *American Journal of Psychology*, 63(4), 516–556.
   [https://doi.org/10.2307/1418869](https://doi.org/10.2307/1418869) — an early report of exponential-like
   similarity/generalization falloff, predating Shepard's normative account.
+- Lake, B. M., & Baroni, M. (2023). Human-like systematic generalization through a meta-learning neural
+  network. *Nature*, 623(7985), 115–121.
+  [https://doi.org/10.1038/s41586-023-06668-3](https://doi.org/10.1038/s41586-023-06668-3) — a meta-learned
+  network reaching human-like compositional generalization.
+- Marjieh, R., Sucholutsky, I., van Rijn, P., Jacoby, N., & Griffiths, T. L. (2024). Large language models
+  predict human sensory judgments across six modalities. *Scientific Reports*, 14, 21445.
+  [https://doi.org/10.1038/s41598-024-72071-1](https://doi.org/10.1038/s41598-024-72071-1) — LLMs reproduce
+  human similarity structure across perceptual modalities, largely from language.
 - Shepard, R. N. (1987). Toward a universal law of generalization for psychological science. *Science*,
   237(4820), 1317–1323. [https://doi.org/10.1126/science.3629243](https://doi.org/10.1126/science.3629243) —
   states the universal exponential law *and* gives the first normative (Bayesian) argument for why it holds.

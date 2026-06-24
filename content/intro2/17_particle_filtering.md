@@ -1,5 +1,5 @@
 +++
-date = "2026-06-16"
+date = "2026-06-24"
 title = "Particle Filtering: Yesterday's Posterior Is Today's Prior"
 weight = 17
 +++

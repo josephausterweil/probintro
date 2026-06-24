@@ -1,5 +1,5 @@
 +++
-date = "2026-06-15"
+date = "2026-06-24"
 title = "Markov Decision Processes: Planning When You Know the World"
 weight = 21
 +++
