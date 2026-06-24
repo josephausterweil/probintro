@@ -1,5 +1,5 @@
 +++
-date = "2026-06-15"
+date = "2026-06-24"
 title = "Interactive Notebooks - All Tutorials"
 weight = 99
 +++
@@ -490,6 +490,45 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 **Related Tutorial Chapters:**
 - [Tutorial 3 (Intro2), Chapter 22: Q-Learning](../intro2/22_q_learning/)
 
+### Inverse RL: Reading Goals from Behavior
+**Notebook**: [📓 Open in Colab: `23_inverse_rl_goal_inference.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/23_inverse_rl_goal_inference.ipynb)
+
+**What it covers:**
+- Goal inference as Bayes' rule with a softmax policy as the likelihood
+- The GenJAX observer: posterior over goals, and the freeze-frame curve
+- Ill-posedness, and how the prior + rationality β resolve it
+- Theory of Mind = inverse RL (Baker & Tenenbaum)
+- IRL at scale: MaxEnt, GAIL, AIRL
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+### POMDPs and Belief: Inferring a Hidden World
+**Notebook**: [📓 Open in Colab: `24_pomdps_belief_inference.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/24_pomdps_belief_inference.ipynb)
+
+**What it covers:**
+- Belief states b(s) and the Tiger belief update in GenJAX
+- α-vectors and the decision threshold (open vs. listen)
+- A POMDP is an MDP over beliefs
+- Bayesian Theory of Mind (belief + desire)
+- Teaching, legibility, and Cooperative IRL
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+### Modern RL: Preferences, World Models, and Machine Minds
+**Notebook**: [📓 Open in Colab: `25_modern_rl_world_models.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/25_modern_rl_world_models.ipynb)
+
+**What it covers:**
+- RLHF/DPO as preference-based inverse RL (Bradley–Terry reward model in GenJAX)
+- Recovering a reward from pairwise preferences; the additive-constant ambiguity
+- Amortized vs. Bayesian Theory of Mind (ToMnet)
+- World models (MuZero, Dreamer)
+- The skeptical LLM Theory-of-Mind debate
+
+**Related Tutorial Chapters:**
+- [Tutorial 3 (Intro2), Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+
 **Topics:**
 - Q-learning, TD error, ε-greedy exploration
 - Reward shaping, positive cycles, reward hacking
@@ -542,6 +581,9 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 1. `20_statistical_decision_theory.ipynb` - From beliefs to actions: loss, risk, Bayes vs minimax, and one-and-done decisions
 2. `21_markov_decision_processes.ipynb` - MDPs, the Bellman equation, value iteration, and planning by simulation
 3. `22_q_learning.ipynb` - Model-free Q-learning, reward shaping and positive cycles, Dyna and MCTS
+4. `23_inverse_rl_goal_inference.ipynb` - Inverse RL: goal inference, softmax likelihood, ill-posedness, ToM = IRL
+5. `24_pomdps_belief_inference.ipynb` - POMDPs, belief updates, α-vectors, Bayesian ToM, teaching & legibility
+6. `25_modern_rl_world_models.ipynb` - RLHF/DPO as inverse RL, world models, the LLM theory-of-mind debate
 
 ---
 
@@ -596,6 +638,9 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `20_statistical_decision_theory.ipynb` | Tutorial 3 | Loss, risk, Bayes vs minimax, one-and-done | ⭐⭐⭐ Advanced |
 | `21_markov_decision_processes.ipynb` | Tutorial 3 | MDPs, Bellman, value iteration, simulation | ⭐⭐⭐ Advanced |
 | `22_q_learning.ipynb` | Tutorial 3 | Q-learning, reward shaping, Dyna, MCTS | ⭐⭐⭐⭐ Expert |
+| `23_inverse_rl_goal_inference.ipynb` | Tutorial 3 | Inverse RL, goal inference, softmax, ToM = IRL | ⭐⭐⭐⭐ Expert |
+| `24_pomdps_belief_inference.ipynb` | Tutorial 3 | POMDPs, belief, α-vectors, BToM, legibility | ⭐⭐⭐⭐ Expert |
+| `25_modern_rl_world_models.ipynb` | Tutorial 3 | RLHF/DPO as IRL, world models, LLM ToM | ⭐⭐⭐⭐ Expert |
 
 ---
 
