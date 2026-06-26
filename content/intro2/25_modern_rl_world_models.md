@@ -1,5 +1,5 @@
 +++
-date = "2026-06-24"
+date = "2026-06-26"
 title = "Modern RL: Preferences, World Models, and Machine Minds"
 weight = 25
 +++
@@ -106,6 +106,10 @@ The Bradley–Terry model is not just an engineering convenience. In its general
 [Chapter 22](../22_q_learning/) showed an agent **farm** a badly-shaped reward — pacing a praise-giving path forever instead of finishing. A *learned* reward model has the same failure mode, now at frontier scale: the policy discovers inputs that score high on the reward model without being genuinely good (sycophancy, length-gaming, confident nonsense). The reward model is an *approximation* of human values, and optimizing hard against an approximation finds its cracks. This is **reward hacking** — the same shape as the Chapter-22 positive cycle (optimize a proxy, discover its loopholes), though the cure differs: we can't reshape true human values, so the effort goes into making the *learned* reward robust to adversarial inputs.
 {{% /notice %}}
 
+{{% notice style="note" title="🧠 A reward model is a crowd — and crowds can be wise or mad" %}}
+RLHF distills the preferences of *many* people into a single reward, and whether aggregating human signals yields wisdom or noise is itself a science. Computational studies of **collective intelligence** show the answer turns on the *social-learning strategy*: conformist (frequency-dependent) copying drives large, uncertain crowds to **herd**, while smaller groups and easier judgments produce genuine wisdom-of-the-crowd (Toyokawa, Whalen & Laland 2019). And people generalize from *others'* choices using the very machinery of this unit — folding peers' behavior into their own value-generalization, just down-weighted as noisier (Wu, Schulz, Speekenbrink, Nelson & Meder 2018; Witt, Toyokawa, Laland, Gaissmaier & Wu 2024) — *social* inverse RL. So an RLHF pipeline is a multi-agent version of everything in this unit: many minds, read and aggregated.
+{{% /notice %}}
+
 ---
 
 ## Two Ways to Read a Mind
@@ -130,7 +134,7 @@ This is the same exact-versus-amortized tradeoff you will see everywhere in mode
 Both are the Chapter-22 idea — *know a model, simulate to plan* — with the model **learned and compressed**. And the connection back to this unit is direct: a world model that must track a hidden environment state from partial observations is maintaining a **belief**, exactly the POMDP machinery of [Chapter 24](../24_pomdps_belief_inference/), now learned by a network rather than written by hand — which means the belief-updating and decision tools from that chapter (filtering the hidden state, α-vectors, posterior sampling) apply, in principle, to planning *inside* the learned model — Dreamer's latent state, for instance, is refreshed from each new observation, a learned belief filter.
 
 {{% notice style="note" title="🧠 The mind as a physics engine" %}}
-"Plan by imagining" is also a leading account of how *people* think. Cognitive scientists argue the mind runs an **intuitive physics engine** — a noisy mental simulation of how the world will unfold — and uses it to predict and act: you catch a ball, stack dishes, or judge whether a tower will topple by *imagining* the outcome (Battaglia, Hamrick & Tenenbaum 2013; Hamrick 2019). Tomer Ullman and colleagues put it sharply — the mind runs something like a **game engine in the head** (Ullman, Spelke, Battaglia & Tenenbaum 2017). MuZero and Dreamer are the engineering rediscovery of the same principle: a *learned* world model you roll forward in imagination to decide. This is why the thread belongs to computational cognitive science as much as to RL — both fields converged on simulation-as-planning.
+"Plan by imagining" is also a leading account of how *people* think. Cognitive scientists argue the mind runs an **intuitive physics engine** — a noisy mental simulation of how the world will unfold — and uses it to predict and act: you catch a ball, stack dishes, or judge whether a tower will topple by *imagining* the outcome (Battaglia, Hamrick & Tenenbaum 2013; Hamrick 2019). Tomer Ullman and colleagues put it sharply — the mind runs something like a **game engine in the head** (Ullman, Spelke, Battaglia & Tenenbaum 2017). The same engine grounds **causal and moral judgment**: to decide whether one event *caused* another — or who is to *blame* — people imagine the **counterfactual**, re-running the simulation with the candidate cause removed or perturbed to see whether the outcome would change (Gerstenberg's **counterfactual simulation model**; Gerstenberg & Stephan 2021; Gerstenberg 2024). MuZero and Dreamer are the engineering rediscovery of the same principle: a *learned* world model you roll forward in imagination to decide. This is why the thread belongs to computational cognitive science as much as to RL — both fields converged on simulation-as-planning.
 {{% /notice %}}
 
 ---
@@ -185,6 +189,8 @@ A companion notebook works through all of this interactively:
 - Battaglia, P. W., Hamrick, J. B., & Tenenbaum, J. B. (2013). Simulation as an engine of physical scene understanding. *Proceedings of the National Academy of Sciences, 110*(45), 18327–18332. <https://doi.org/10.1073/pnas.1306572110>
 - Bradley, R. A., & Terry, M. E. (1952). Rank analysis of incomplete block designs: I. The method of paired comparisons. *Biometrika, 39*(3/4), 324–345. <https://doi.org/10.2307/2334029>
 - Christiano, P. F., Leike, J., Brown, T., Martic, M., Legg, S., & Amodei, D. (2017). Deep reinforcement learning from human preferences. *Advances in Neural Information Processing Systems (NeurIPS), 30*. <https://arxiv.org/abs/1706.03741>
+- Gerstenberg, T. (2024). Counterfactual simulation in causal cognition. *Trends in Cognitive Sciences, 28*(10), 924–936. <https://doi.org/10.1016/j.tics.2024.07.001>
+- Gerstenberg, T., & Stephan, S. (2021). A counterfactual simulation model of causation by omission. *Cognition, 216*, 104842. <https://doi.org/10.1016/j.cognition.2021.104842>
 - Hafner, D., Lillicrap, T., Ba, J., & Norouzi, M. (2020). Dream to control: Learning behaviors by latent imagination. *International Conference on Learning Representations (ICLR)*. <https://arxiv.org/abs/1912.01603>
 - Hamrick, J. B. (2019). Analogues of mental simulation and imagination in deep learning. *Current Opinion in Behavioral Sciences, 29*, 8–16. <https://doi.org/10.1016/j.cobeha.2018.12.011>
 - Jara-Ettinger, J., Gweon, H., Schulz, L. E., & Tenenbaum, J. B. (2016). The naïve utility calculus: Computational principles underlying commonsense psychology. *Trends in Cognitive Sciences, 20*(8), 589–604. <https://doi.org/10.1016/j.tics.2016.05.011>
@@ -199,8 +205,11 @@ A companion notebook works through all of this interactively:
 - Rafailov, R., Sharma, A., Mitchell, E., Ermon, S., Manning, C. D., & Finn, C. (2023). Direct preference optimization: Your language model is secretly a reward model. *Advances in Neural Information Processing Systems (NeurIPS), 36*. <https://arxiv.org/abs/2305.18290>
 - Schrittwieser, J., Antonoglou, I., Hubert, T., et al. (2020). Mastering Atari, Go, chess and shogi by planning with a learned model. *Nature, 588*(7839), 604–609. <https://doi.org/10.1038/s41586-020-03051-4>
 - Strachan, J. W. A., et al. (2024). Testing theory of mind in large language models and humans. *Nature Human Behaviour, 8*, 1285–1295. <https://doi.org/10.1038/s41562-024-01882-z>
+- Toyokawa, W., Whalen, A., & Laland, K. N. (2019). Social learning strategies regulate the wisdom and madness of interactive crowds. *Nature Human Behaviour, 3*(2), 183–193. <https://doi.org/10.1038/s41562-018-0518-x>
 - Ullman, T. D., Spelke, E., Battaglia, P., & Tenenbaum, J. B. (2017). Mind games: Game engines as an architecture for intuitive physics. *Trends in Cognitive Sciences, 21*(9), 649–665. <https://doi.org/10.1016/j.tics.2017.05.012>
 - Ullman, T. (2023). Large language models fail on trivial alterations to theory-of-mind tasks. *arXiv:2302.08399*. <https://arxiv.org/abs/2302.08399>
+- Witt, A., Toyokawa, W., Laland, K. N., Gaissmaier, W., & Wu, C. M. (2024). Humans flexibly integrate social information despite interindividual differences in reward. *Proceedings of the National Academy of Sciences, 121*(39), e2404928121. <https://doi.org/10.1073/pnas.2404928121>
+- Wu, C. M., Schulz, E., Speekenbrink, M., Nelson, J. D., & Meder, B. (2018). Generalization guides human exploration in vast decision spaces. *Nature Human Behaviour, 2*, 915–924. <https://doi.org/10.1038/s41562-018-0467-4>
 
 ---
 

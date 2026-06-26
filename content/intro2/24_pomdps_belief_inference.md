@@ -1,5 +1,5 @@
 +++
-date = "2026-06-24"
+date = "2026-06-26"
 title = "POMDPs and Belief: Inferring a Hidden World"
 weight = 24
 +++
@@ -271,6 +271,10 @@ Two results make the frame click. First, a theorem: **efficient expert demonstra
 
 So every beat of these two chapters has been the same machine: a **POMDP over "which MDP are we in?"** — inferring a goal, a world state, a belief, or a reward, by conditioning behavior on a forward model. [Chapter 25](../25_modern_rl_world_models/) scales that machine to the frontier, where **RLHF** turns human *preferences* into a reward model and the question becomes whether today's largest models infer minds at all.
 
+{{% notice style="tip" title="Going further: a fast language for reasoning about reasoning" %}}
+Every model in these two chapters built **recursive Theory of Mind by hand** in GenJAX — inverting a planner, tracking a belief, a robot reasoning about what a human wants. That pattern now has a purpose-built tool: **[memo](https://github.com/kach/memo)** (Chandra, Chen, Tenenbaum & Ragan-Kelley 2025), a probabilistic programming language for "recursive reasoning about reasoning." It compiles enumerative inference to vectorized **JAX** array programs (the same substrate as GenJAX), reporting order-of-magnitude speedups and much shorter code — a full **POMDP solver in ~15 lines**, plus ready-made inverse-planning, false-belief, and Rational-Speech-Acts examples. When your nested-agent models outgrow a hand-written enumeration, memo is where this thread goes next.
+{{% /notice %}}
+
 ---
 
 {{% notice style="success" title="What you can do now" %}}
@@ -300,6 +304,7 @@ A companion notebook works through all of this interactively:
 ## References
 
 - Baker, C. L., Jara-Ettinger, J., Saxe, R., & Tenenbaum, J. B. (2017). Rational quantitative attribution of beliefs, desires and percepts in human mentalizing. *Nature Human Behaviour, 1*(4), 0064. <https://doi.org/10.1038/s41562-017-0064>
+- Chandra, K., Chen, T., Tenenbaum, J. B., & Ragan-Kelley, J. (2025). A domain-specific probabilistic programming language for reasoning about reasoning (Or: A memo on memo). *Proceedings of the ACM on Programming Languages, 9*(OOPSLA2), Article 300. <https://doi.org/10.1145/3763078>
 - Dragan, A. D., Lee, K. C. T., & Srinivasa, S. S. (2013). Legibility and predictability of robot motion. *Proceedings of the 8th ACM/IEEE International Conference on Human-Robot Interaction (HRI)*, 301–308. <https://doi.org/10.1109/HRI.2013.6483603>
 - Hadfield-Menell, D., Russell, S. J., Abbeel, P., & Dragan, A. (2016). Cooperative inverse reinforcement learning. *Advances in Neural Information Processing Systems (NeurIPS), 29*. <https://arxiv.org/abs/1606.03137>
 - Ho, M. K., Littman, M., MacGlashan, J., Cushman, F., & Austerweil, J. L. (2016). Showing versus doing: Teaching by demonstration. *Advances in Neural Information Processing Systems (NeurIPS), 29*. <https://arxiv.org/abs/1612.00779>
