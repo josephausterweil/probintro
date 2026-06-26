@@ -1,5 +1,5 @@
 +++
-date = "2026-06-24"
+date = "2026-06-26"
 title = "Inverse RL: Reading Goals from Behavior"
 weight = 23
 +++
@@ -209,7 +209,9 @@ At $\beta=0.1$ the agent is barely trying, so the path tells us almost nothing �
 
 ## Theory of Mind Is Inverse RL
 
-Step back and notice what we just built. We took *another agent's behavior* and recovered the hidden *goal* in its head. That is **Theory of Mind** — attributing mental states to explain action — and the computational claim of this chapter is that **Theory of Mind is inverse RL**: reading a mind is inverting a planner. The two are the *same computation* — both condition on observed behavior to update a posterior over an unobserved cause, using Bayes' rule with a forward planner inside the likelihood; only the name of the cause changes (a "goal" to a roboticist, a "desire" to a psychologist).
+Step back and notice what we just built. We took *another agent's behavior* and recovered the hidden *goal* in its head. That is **Theory of Mind** — and the computational claim of this chapter is that **Theory of Mind is inverse RL**: reading a mind is inverting a planner. The two are the *same computation* — both condition on observed behavior to update a posterior over an unobserved cause, using Bayes' rule with a forward planner inside the likelihood; only the name of the cause changes (a "goal" to a roboticist, a "desire" to a psychologist).
+
+**What "Theory of Mind" means in psychology.** The phrase comes from comparative and developmental psychology. **Premack & Woodruff (1978)** coined it for the capacity to *attribute mental states* — beliefs, desires, goals — to others in order to explain and predict their behavior. The sharpest test of it is the **false-belief task**: can you represent a belief you *know* to be false? Its classic form is the **Sally-Anne** task (Baron-Cohen, Leslie & Frith 1985): Sally hides a marble in a basket and leaves the room; while she is gone, Anne moves it to a box; the child is asked *where will Sally look for her marble?* Reality says "the box," but Sally's *belief* says "the basket" — answering correctly means holding a belief that **differs from the world**, and children reliably pass only around **age 4**. A harder, nested version is the **faux-pas test**: recognizing a social gaffe means tracking *two* mental states at once — the speaker's false belief (they didn't know it was a secret) *plus* the listener's knowledge of how the remark would land. That is a **second-order** false belief (a belief about a belief), and it is passed years later, around **age 9–11**. Hold onto that nesting: it returns in [Chapter 25](../25_modern_rl_world_models/), where the faux-pas structure is exactly what large language models are tested on.
 
 This framing comes from **Baker & Tenenbaum's** inverse-planning program (Baker, Tenenbaum & Saxe 2007; Baker, Saxe & Tenenbaum 2009), later extended to jointly infer *beliefs and desires* (Baker et al. 2017) and reviewed under the banner "Theory of Mind as inverse reinforcement learning" by Jara-Ettinger (2019). The attribution matters: the framework is Baker & Tenenbaum's; Jara-Ettinger's contribution is the synthesis and the developmental "naïve utility calculus" — children reasoning about others as agents who trade off *costs* against *rewards*.
 
@@ -226,8 +228,8 @@ Goal inference picks one cell out of three. The grown-up version recovers an ent
 ![A timeline of inverse-RL methods. MaxEnt IRL (Ziebart 2008) leads to GAIL (Ho and Ermon 2016), which leads to AIRL (Fu et al. 2018), which leads to RLHF and DPO. Each is annotated with its one-line contribution.](../../images/intro2/irl-methods-timeline.png)
 
 - **Maximum-entropy IRL** (Ziebart 2008) confronts the ill-posedness head-on. Among all reward-consistent trajectory distributions, it picks the one of **maximum entropy** — the *least committal* explanation, assuming no more structure than the data forces. That single principle yields a well-defined reward by maximum likelihood, with trajectory probability $P(\tau)\propto e^{\text{reward}(\tau)}$ — the *same* softmax-over-value form we used above, now over whole trajectories. MaxEnt IRL is the bridge from this chapter's toy inversion to deep, scalable reward learning.
-- **GAIL** (Generative Adversarial Imitation Learning; Ho & Ermon 2016) casts imitation as a **GAN**: a discriminator learns to tell expert behavior from the learner's, and the policy is trained to fool it. It scales imitation to high-dimensional control — but it *skips* recovering a reward, so there is no transferable objective to hand to a new task.
-- **AIRL** (Adversarial IRL; Fu et al. 2018) keeps the adversarial training but *structures the discriminator so a reward falls out*, disentangled from the environment's dynamics — combining GAIL's scale with a **transferable** reward you can re-optimize in a changed world.
+- **GAIL** (Generative Adversarial Imitation Learning; Ho & Ermon 2016) sets up a contest between two learners. A **critic** learns to tell the expert's behavior apart from the imitator's; the imitator keeps adjusting until the critic *can no longer tell them apart* — at which point the imitator's behavior is statistically indistinguishable from the expert's. (This is a GAN, if you have seen them.) It scales imitation to high-dimensional control — but it *skips* recovering a reward, so there is no transferable objective to hand to a new task.
+- **AIRL** (Adversarial IRL; Fu et al. 2018) keeps the same critic-versus-imitator contest but *structures the critic so that a transferable reward falls out* of it, disentangled from the environment's dynamics — combining GAIL's scale with a **reward** you can re-optimize in a changed world.
 
 The honest caveat from our toy carries all the way up: a recovered reward is **one explanation among many**. MaxEnt's entropy principle and AIRL's disentanglement are *regularizers* that pick *a* reward, not *the* reward.
 
@@ -250,7 +252,7 @@ You can frame **inverse reinforcement learning** as Bayes' rule with a planner i
 
 Next, [Chapter 24](../24_pomdps_belief_inference/) makes the hidden variable richer than a goal — a **belief** — by inverting a partially observable MDP, then flips the whole inversion into **teaching**.
 
-*Glossary:* [inverse reinforcement learning](../../glossary/#inverse-reinforcement-learning-), [goal inference](../../glossary/#goal-inference-), [softmax policy](../../glossary/#softmax-policy-), [rationality (inverse temperature)](../../glossary/#rationality-inverse-temperature-), [ill-posed problem](../../glossary/#ill-posed-problem-), [Theory of Mind](../../glossary/#theory-of-mind-), [maximum-entropy IRL](../../glossary/#maximum-entropy-irl-), [GAIL](../../glossary/#gail-), [AIRL](../../glossary/#airl-). &nbsp; 🔧 [log-sum-exp trick](../../glossary/#log-sum-exp-trick-), [log-space arithmetic](../../glossary/#log-space-arithmetic-), [logits vs probabilities](../../glossary/#logits-vs-probabilities-).
+*Glossary:* [inverse reinforcement learning](../../glossary/#inverse-reinforcement-learning-), [goal inference](../../glossary/#goal-inference-), [softmax policy](../../glossary/#softmax-policy-), [rationality (inverse temperature)](../../glossary/#rationality-inverse-temperature-), [ill-posed problem](../../glossary/#ill-posed-problem-), [Theory of Mind](../../glossary/#theory-of-mind-), [false-belief task](../../glossary/#false-belief-task-), [faux-pas test](../../glossary/#faux-pas-test-), [maximum-entropy IRL](../../glossary/#maximum-entropy-irl-), [GAIL](../../glossary/#gail-), [AIRL](../../glossary/#airl-). &nbsp; 🔧 [log-sum-exp trick](../../glossary/#log-sum-exp-trick-), [log-space arithmetic](../../glossary/#log-space-arithmetic-), [logits vs probabilities](../../glossary/#logits-vs-probabilities-).
 {{% /notice %}}
 
 ---
@@ -274,10 +276,12 @@ A companion notebook works through all of this interactively:
 - Baker, C. L., Tenenbaum, J. B., & Saxe, R. R. (2007). Goal inference as inverse planning. *Proceedings of the 29th Annual Conference of the Cognitive Science Society*, 779–784.
 - Baker, C. L., Saxe, R., & Tenenbaum, J. B. (2009). Action understanding as inverse planning. *Cognition, 113*(3), 329–349. <https://doi.org/10.1016/j.cognition.2009.07.005>
 - Baker, C. L., Jara-Ettinger, J., Saxe, R., & Tenenbaum, J. B. (2017). Rational quantitative attribution of beliefs, desires and percepts in human mentalizing. *Nature Human Behaviour, 1*(4), 0064. <https://doi.org/10.1038/s41562-017-0064>
+- Baron-Cohen, S., Leslie, A. M., & Frith, U. (1985). Does the autistic child have a "theory of mind"? *Cognition, 21*(1), 37–46. <https://doi.org/10.1016/0010-0277(85)90022-8>
 - Fu, J., Luo, K., & Levine, S. (2018). Learning robust rewards with adversarial inverse reinforcement learning. *International Conference on Learning Representations (ICLR)*. <https://arxiv.org/abs/1710.11248>
 - Ho, J., & Ermon, S. (2016). Generative adversarial imitation learning. *Advances in Neural Information Processing Systems (NeurIPS), 29*. <https://arxiv.org/abs/1606.03476>
 - Jara-Ettinger, J. (2019). Theory of mind as inverse reinforcement learning. *Current Opinion in Behavioral Sciences, 29*, 105–110. <https://doi.org/10.1016/j.cobeha.2019.04.010>
 - Ng, A. Y., & Russell, S. J. (2000). Algorithms for inverse reinforcement learning. *Proceedings of the 17th International Conference on Machine Learning (ICML)*, 663–670.
+- Premack, D., & Woodruff, G. (1978). Does the chimpanzee have a theory of mind? *Behavioral and Brain Sciences, 1*(4), 515–526. <https://doi.org/10.1017/S0140525X00076512>
 - Ziebart, B. D., Maas, A., Bagnell, J. A., & Dey, A. K. (2008). Maximum entropy inverse reinforcement learning. *Proceedings of the 23rd AAAI Conference on Artificial Intelligence*, 1433–1438.
 
 ---

@@ -24,7 +24,7 @@ The choice model is **Bradley–Terry**, the same logistic form we have met as t
 
 $$P(i \succ j) \;=\; \sigma\!\big(r_i - r_j\big), \qquad \sigma(x)=\frac{1}{1+e^{-x}}.$$
 
-This is just a **pairwise softmax** — $P(i \succ j) = \frac{e^{r_i}}{e^{r_i}+e^{r_j}} = \sigma(r_i - r_j)$ — the two-item version of [Chapter 23](../23_inverse_rl_goal_inference/)'s policy. Better items win *more often*, not always — noisy-rational raters, exactly like the noisy-rational agents of Chapter 23. And fitting the latent rewards $r$ from observed preferences is **inverse RL by the same Bayes' rule as goal inference**:
+In words: the probability you prefer $i$ over $j$ is a **logistic** function of the **reward gap** $r_i - r_j$. The new symbol $\sigma$ (sigma) is the **logistic** (or *sigmoid*) function — the **S-shaped curve** that squashes any real number into the interval $(0,1)$, so it can serve as a probability. A large positive gap pushes $\sigma$ toward $1$ (you almost always pick $i$); a large negative gap toward $0$; and a gap of zero gives exactly $\sigma(0) = 0.5$, a coin flip between two items you value equally. This is just a **pairwise softmax** — $P(i \succ j) = \frac{e^{r_i}}{e^{r_i}+e^{r_j}} = \sigma(r_i - r_j)$ — the two-item version of [Chapter 23](../23_inverse_rl_goal_inference/)'s policy. Better items win *more often*, not always — noisy-rational raters, exactly like the noisy-rational agents of Chapter 23. And fitting the latent rewards $r$ from observed preferences is **inverse RL by the same Bayes' rule as goal inference**:
 
 $$P(\text{reward} \mid \text{preferences}) \;\propto\; P(\text{preferences} \mid \text{reward})\;P(\text{reward}),$$
 

@@ -1,5 +1,5 @@
 +++
-date = "2026-06-24"
+date = "2026-06-26"
 title = "Glossary - All Tutorials"
 weight = 100
 +++
@@ -1950,7 +1950,25 @@ Attributing mental states — goals, beliefs, desires — to others to explain t
 
 **Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/), [Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
 
-**See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [Bayesian Theory of Mind](#bayesian-theory-of-mind-), [ToMnet](#tomnet-)
+**See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [Bayesian Theory of Mind](#bayesian-theory-of-mind-), [False-Belief Task](#false-belief-task-), [ToMnet](#tomnet-)
+{{% /expand %}}
+
+### False-Belief Task 📊
+{{% expand "False-Belief Task" %}}
+The benchmark test of Theory of Mind: can you represent a belief you *know* to be false? In its classic **Sally-Anne** form (Baron-Cohen, Leslie & Frith 1985), Sally hides a marble in a basket and leaves; Anne moves it to a box; *where will Sally look?* Passing requires holding Sally's belief ("basket") **apart from reality** ("box") — children reliably manage it only around **age 4**. Formally it is a **POMDP**: the marble's location is a hidden world state, and Sally's belief is a *separate* latent that can drift from the truth.
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/), [Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Theory of Mind](#theory-of-mind-), [Faux-Pas Test](#faux-pas-test-), [Belief State](#belief-state-)
+{{% /expand %}}
+
+### Faux-Pas Test 📊
+{{% expand "Faux-Pas Test" %}}
+A harder Theory-of-Mind test: recognizing a social gaffe requires a **nested**, *second-order* false belief — the speaker's false belief (they didn't know it was a secret) **plus** the listener's knowledge of how the remark lands. Because it stacks one mental state inside another, it is passed years after the basic false-belief task, around **age 9–11**. That nested structure is what large-language-model Theory-of-Mind batteries probe in [Chapter 25](../intro2/25_modern_rl_world_models/).
+
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+
+**See also:** [False-Belief Task](#false-belief-task-), [Theory of Mind](#theory-of-mind-)
 {{% /expand %}}
 
 ### Maximum-Entropy IRL 📊
@@ -1964,7 +1982,7 @@ The foundational scalable inverse-RL method (Ziebart 2008). It resolves IRL's il
 
 ### GAIL 📊
 {{% expand "GAIL" %}}
-**Generative Adversarial Imitation Learning** (Ho & Ermon 2016): casts imitation as a GAN — a discriminator separates expert from learner behavior, and the policy is trained to fool it. Scales imitation to high-dimensional control, but *skips* recovering a reward, so it yields no transferable objective.
+**Generative Adversarial Imitation Learning** (Ho & Ermon 2016): a contest between two learners — a **critic** learns to tell the expert's behavior from the imitator's, and the imitator keeps improving until the critic can no longer tell them apart. (This is a GAN, if you have seen one.) Scales imitation to high-dimensional control, but *skips* recovering a reward, so it yields no transferable objective.
 
 **Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
 
@@ -1973,7 +1991,7 @@ The foundational scalable inverse-RL method (Ziebart 2008). It resolves IRL's il
 
 ### AIRL 📊
 {{% expand "AIRL" %}}
-**Adversarial Inverse RL** (Fu, Luo & Levine 2018): keeps GAIL's adversarial training but structures the discriminator so a **reward falls out**, disentangled from the dynamics — combining GAIL's scale with a *transferable* reward you can re-optimize under new dynamics.
+**Adversarial Inverse RL** (Fu, Luo & Levine 2018): keeps GAIL's critic-versus-imitator contest but structures the **critic** so a transferable **reward falls out** of it, disentangled from the dynamics — combining GAIL's scale with a *transferable* reward you can re-optimize under new dynamics.
 
 **Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
 
@@ -2031,7 +2049,16 @@ Acting so an observer can *read* your goal quickly — the flip of inverse plann
 
 **Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
 
-**See also:** [Goal Inference](#goal-inference-), [Cooperative Inverse RL](#cooperative-inverse-rl-)
+**See also:** [Goal Inference](#goal-inference-), [Communicative Demonstration](#communicative-demonstration-), [Cooperative Inverse RL](#cooperative-inverse-rl-)
+{{% /expand %}}
+
+### Communicative Demonstration 📊
+{{% expand "Communicative Demonstration" %}}
+**Belief-directed planning** for teaching (Ho, Cushman, Littman & Austerweil 2021): a **level-0** observer inverts your actions into a posterior over your goal (inverse planning), and you, the **level-1** demonstrator, choose actions to drive that posterior toward the truth. Because the observer's belief is *hidden* to you, planning the demonstration is **itself a POMDP whose hidden state is the observer's belief** — teaching is inverse planning, one level up. It *predicts* the legibility effect: the legible path lifts the observer to $0.61$ on the first move versus $0.50$ for the merely efficient one.
+
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+
+**See also:** [Legibility](#legibility-), [Cooperative Inverse RL](#cooperative-inverse-rl-), [Partially Observable MDP (POMDP)](#partially-observable-mdp-pomdp-)
 {{% /expand %}}
 
 ### Cooperative Inverse RL 📊
