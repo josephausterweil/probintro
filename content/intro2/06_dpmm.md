@@ -31,7 +31,7 @@ Almost everything written about the DPMM introduces *three* constructions — th
 
 A draw $G \sim \mathrm{DP}(\alpha, G_0)$ is not a number and not a vector — it is a **random probability distribution**. It has two knobs:
 
-- the **base measure** $G_0$ — where the atoms of $G$ tend to land (for our bentos, $G_0 = \mathcal{N}(\mu_0, \sigma_0^2)$, the prior on a cluster's mean weight);
+- the **base measure** $G_0$ — where the atoms of $G$ tend to land (for our bentos, $G_0 = \mathcal{N}(\mu_0, \sigma_0^2)$, the prior on a cluster's **mean weight** $\mu_k$);
 - the **concentration** $\alpha > 0$ — how the unit of probability splits up among atoms (small $\alpha$ → a few dominant atoms; large $\alpha$ → many small ones).
 
 The single most important fact about the DP is this:
@@ -39,7 +39,11 @@ The single most important fact about the DP is this:
 {{% notice style="info" title="Why a DPMM clusters at all" %}}
 **A draw $G \sim \mathrm{DP}(\alpha, G_0)$ is almost surely *discrete*** — even when the base measure $G_0$ is a smooth, continuous density. All of $G$'s probability piles up on a *countable* set of atoms $\theta_1, \theta_2, \dots$ with weights $\pi_1, \pi_2, \dots$:
 $$G = \sum_{k=1}^{\infty} \pi_k\, \delta_{\theta_k},$$
-where $\delta_{\theta}$ is a point mass at $\theta$. Because $G$ is discrete, drawing parameters $\theta \sim G$ independently produces **ties** — the same atom comes up again and again. *A tie is exactly two data points sharing a cluster.* The clustering in a DPMM is not bolted on; it falls out of the discreteness of $G$.
+where $\delta_{\theta}$ is a point mass at $\theta$. (In DP notation each atom is written $\theta_k$; for our bentos $\theta_k = \mu_k$, the cluster's Gaussian mean weight introduced just above.)
+
+*Why* is a DP draw discrete — what forces all that mass onto a countable comb of spikes? The **stick-breaking construction** (Lens 3, below) is the mechanism: it breaks the unit stick of probability into a *countably infinite* set of positive weights $\pi_1, \pi_2, \dots$, and pins each one to its own atom $\theta_k \sim G_0$ — so a draw is literally $G = \sum_{k=1}^{\infty} \pi_k\, \delta_{\theta_k}$, **discrete by construction, not by magic**. Contrast a plain continuous measure (or a Gaussian process): it smears its mass smoothly, puts *zero* probability on any single point, and so independent draws from it never repeat a value. The DP is *designed* to do the opposite — to make repeated draws $\theta \sim G$ land on the *same* atoms, with positive probability.
+
+Because $G$ is discrete, drawing parameters $\theta \sim G$ independently therefore produces **ties** — the same atom comes up again and again. *A tie is exactly two data points sharing a cluster.* The clustering in a DPMM is not bolted on; it falls out of the discreteness of $G$.
 {{% /notice %}}
 
 ![Two panels. Left: a smooth continuous bump labeled base measure G-zero, over an axis theta where cluster parameters can live. Right: the same axis but now a forest of sharp vertical spikes of varying height, labeled a draw G from DP(alpha, G-zero) is discrete; the spike locations are theta-k drawn from G-zero and the spike heights are the stick-breaking weights pi-k.](../../images/intro2/dp_g0_to_g.png)
@@ -124,13 +128,17 @@ $$\theta_{n+1} \mid \theta_1, \dots, \theta_n \;\sim\; \frac{\alpha}{n+\alpha}\,
 
 In words: the next parameter is, with probability $\frac{\alpha}{n+\alpha}$, a **brand-new draw from $G_0$** (open a new table, get a new dish), and otherwise a **copy of one of the parameters already seen** (sit at an existing table, eat its dish) — each existing value reused in proportion to how many times it has already appeared. That reuse is the rich-get-richer dynamic, expressed over parameter *values* instead of table *labels*.
 
-Here is the subtle and important part. We obtained this rule by imagining $\theta_1, \dots, \theta_n$ drawn i.i.d. from a single $G \sim \mathrm{DP}(\alpha, G_0)$ and then **integrating $G$ out**. The random measure has vanished from the formula — there is no $G$ on the right-hand side, only the past draws and $G_0$. That is why the Pólya urn is the DP's **predictive marginal**, not the DP itself: it is what one *parameter draw predicts about the next* once the underlying random distribution has been marginalized away. (This marginalization is exactly what makes "collapsed" Gibbs samplers for the DPMM possible — you never have to represent the infinite $G$.)
+Here is the subtle and important part — *where does this rule come from?* Imagine drawing $\theta_1, \dots, \theta_{n+1} \stackrel{\text{iid}}{\sim} G$ from a single random measure $G \sim \mathrm{DP}(\alpha, G_0)$. Conditional on $G$ the draws are independent, so the joint factors as
+$$p(\theta_{1:n+1},\, G) = p(G)\,\prod_{i=1}^{n+1} p(\theta_i \mid G).$$
+Now **marginalize the random measure away** — integrate $G$ out of the joint:
+$$p(\theta_{1:n+1}) = \int p(G)\,\prod_{i=1}^{n+1} p(\theta_i \mid G)\; dG.$$
+By the DP's conjugacy and exchangeability this integral is tractable, and the resulting predictive $p(\theta_{n+1} \mid \theta_{1:n})$ collapses to *exactly* the rule above: **with probability $\propto n_k$, copy an existing atom $\theta^*_k$; with probability $\propto \alpha$, draw a fresh $\theta \sim G_0$.** The crucial point is that **$G$ no longer appears** on the right-hand side — only the past draws and $G_0$ remain. That is why the Pólya urn is the DP's **predictive marginal**, not the DP itself: it is the random measure *averaged out*, what one *parameter draw predicts about the next* once the underlying random distribution has been integrated away. (Blackwell & MacQueen (1973) — and Pitman's later work on exchangeable partitions — give the full proof. This same marginalization is what makes "collapsed" Gibbs samplers for the DPMM possible: you never have to represent the infinite $G$.)
 
 ---
 
 ## Lens 3 — Stick-Breaking (the explicit construction of $G$)
 
-The CRP and Pólya urn are *marginal* views — they never write down $G$. **Stick-breaking** (Sethuraman, 1994) is the opposite: it constructs the random measure $G$ directly, giving us the spike heights $\pi_k$ and locations $\theta_k$ from the picture above. This is the lens our GenJAX code will use.
+The CRP and Pólya urn are *marginal* views — they never write down $G$. **Stick-breaking** (Sethuraman, 1994) is the opposite: it constructs the random measure $G$ directly, giving us the spike heights $\pi_k$ and locations $\theta_k$ from the picture above. Put the contrast in one line: the **CRP** describes the *seating order* of customers $1, 2, 3, \dots$ arriving one at a time, while **stick-breaking** builds the *weights* $\pi_1, \pi_2, \dots$ of the measure directly — the same DP seen as a *process over arrivals* versus a *construction of the measure*. This is the lens our GenJAX code will use.
 
 ### The Process
 
@@ -179,7 +187,7 @@ Drag **$\alpha$** and watch *both* panels react together. At small $\alpha$ the 
 
 ## The Partition Law (EPPF)
 
-We can now close the loop between the lenses with a single formula. Run the CRP to seat $n$ customers and you get a **partition** — a grouping of the $n$ points into $K$ blocks of sizes $n_1, \dots, n_K$. What is the probability of that partition? Multiply the CRP's one-customer-at-a-time probabilities along the arrival order; the factors telescope, and — remarkably — you get the *same* value for **every** order consistent with the partition. That common value is the **exchangeable partition probability function (EPPF)**:
+We can now close the loop between the lenses with a single formula. Run the CRP to seat $n$ customers and you get a **partition** — a grouping of the $n$ points into $K$ blocks of sizes $n_1, \dots, n_K$. What is the probability of that partition? Multiply the CRP's one-customer-at-a-time probabilities along the arrival order and the product simplifies — the numerators collect each table's within-table arrival factors $1 \cdot 2 \cdots (n_k - 1)$, while the denominators combine into one running normalizer — and, remarkably, you get the *same* value for **every** order consistent with the partition. That common value is the **exchangeable partition probability function (EPPF)**:
 
 $$P(\text{partition}) \;=\; \frac{\alpha^{K}\,\prod_{k=1}^{K}(n_k - 1)!}{\alpha(\alpha+1)\cdots(\alpha+n-1)}.$$
 
@@ -187,7 +195,7 @@ Every piece is readable:
 
 - **$\alpha^{K}$** — each of the $K$ occupied tables "cost" a factor $\alpha$ to open. More tables ⇒ a higher power of $\alpha$, so larger $\alpha$ favors more clusters. This is the rich-get-*started* term.
 - **$\prod_k (n_k-1)!$** — rewards *big* tables (a table of size $n_k$ contributes $(n_k-1)!$). This is the rich-get-*richer* term: lopsided partitions (a few large blocks) are far more probable than evenly-split ones.
-- **$\alpha(\alpha+1)\cdots(\alpha+n-1)$** — the normalizer (the rising factorial $\alpha^{(n)}$), just the product of the $n$ denominators $n+\alpha$ from the seating rule.
+- **$\alpha(\alpha+1)\cdots(\alpha+n-1)$** — the normalizer (the rising factorial $\alpha^{(n)}$). It is the product of the seating rule's per-customer normalizers: when the $i$-th customer arrives (for $i = 0, 1, \dots, n-1$) she sees $i$ customers already seated plus the new-table mass $\alpha$, a normalizer of $(i + \alpha)$; multiplying these across all $n$ arrivals gives $\prod_{i=0}^{n-1}(i+\alpha) = \alpha(\alpha+1)\cdots(\alpha+n-1)$.
 
 The defining feature is what is **absent**: the formula depends only on the *block sizes* $\{n_k\}$, not on which customer is which or the order they arrived. That invariance is **exchangeability**, and it is what lets a Gibbs sampler pluck any point out and reseat it as if it were the last to arrive.
 
