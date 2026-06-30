@@ -179,7 +179,7 @@ Drag **$\alpha$** and watch *both* panels react together. At small $\alpha$ the 
 
 ## The Partition Law (EPPF)
 
-We can now close the loop between the lenses with a single formula. Run the CRP to seat $n$ customers and you get a **partition** — a grouping of the $n$ points into $K$ blocks of sizes $n_1, \dots, n_K$. What is the probability of that partition? Multiplying the CRP's one-customer-at-a-time rule together (and summing over the orders the customers could have arrived in) gives the **exchangeable partition probability function (EPPF)**:
+We can now close the loop between the lenses with a single formula. Run the CRP to seat $n$ customers and you get a **partition** — a grouping of the $n$ points into $K$ blocks of sizes $n_1, \dots, n_K$. What is the probability of that partition? Multiply the CRP's one-customer-at-a-time probabilities along the arrival order; the factors telescope, and — remarkably — you get the *same* value for **every** order consistent with the partition. That common value is the **exchangeable partition probability function (EPPF)**:
 
 $$P(\text{partition}) \;=\; \frac{\alpha^{K}\,\prod_{k=1}^{K}(n_k - 1)!}{\alpha(\alpha+1)\cdots(\alpha+n-1)}.$$
 
@@ -1037,18 +1037,21 @@ This is a great way to build intuition for how α, K_max, and the data itself in
 
 ## References
 
-- Ascolani, F., Lijoi, A., Rebaudo, G., & Zanella, G. (2023). Clustering consistency with Dirichlet process mixtures. *Biometrika, 110*(2), 551–558. <https://doi.org/10.1093/biomet/asac051>
 - Antoniak, C. E. (1974). Mixtures of Dirichlet processes with applications to Bayesian nonparametric problems. *The Annals of Statistics, 2*(6), 1152–1174. <https://doi.org/10.1214/aos/1176342871>
+- Ascolani, F., Lijoi, A., Rebaudo, G., & Zanella, G. (2023). Clustering consistency with Dirichlet process mixtures. *Biometrika, 110*(2), 551–558. <https://doi.org/10.1093/biomet/asac051>
 - Austerweil, J. L., Gershman, S. J., Tenenbaum, J. B., & Griffiths, T. L. (2015). Structure and flexibility in Bayesian models of cognition. In J. R. Busemeyer, Z. Wang, J. T. Townsend, & A. Eidels (Eds.), *The Oxford handbook of computational and mathematical psychology* (pp. 187–208). Oxford University Press.
 - Blackwell, D., & MacQueen, J. B. (1973). Ferguson distributions via Pólya urn schemes. *The Annals of Statistics, 1*(2), 353–355. <https://doi.org/10.1214/aos/1176342372>
 - Blei, D. M., & Jordan, M. I. (2006). Variational inference for Dirichlet process mixtures. *Bayesian Analysis, 1*(1), 121–143. <https://doi.org/10.1214/06-BA104>
 - Blei, D. M., Ng, A. Y., & Jordan, M. I. (2003). Latent Dirichlet allocation. *Journal of Machine Learning Research, 3*, 993–1022. <https://www.jmlr.org/papers/v3/blei03a.html>
-- Griffiths, T. L., & Ghahramani, Z. (2011). The Indian buffet process: An introduction and review. *Journal of Machine Learning Research, 12*, 1185–1224. <https://www.jmlr.org/papers/v12/griffiths11a.html>
-- Kingman, J. F. C. (1978). The representation of partition structures. *Journal of the London Mathematical Society, s2-18*(2), 374–380. <https://doi.org/10.1112/jlms/s2-18.2.374>
 - Ferguson, T. S. (1973). A Bayesian analysis of some nonparametric problems. *The Annals of Statistics, 1*(2), 209–230. <https://doi.org/10.1214/aos/1176342360>
+- Griffiths, T. L., & Ghahramani, Z. (2011). The Indian buffet process: An introduction and review. *Journal of Machine Learning Research, 12*, 1185–1224. <https://www.jmlr.org/papers/v12/griffiths11a.html>
 - Kalli, M., Griffin, J. E., & Walker, S. G. (2011). Slice sampling mixture models. *Statistics and Computing, 21*(1), 93–105. <https://doi.org/10.1007/s11222-009-9150-y>
+- Kingman, J. F. C. (1978). The representation of partition structures. *Journal of the London Mathematical Society, s2-18*(2), 374–380. <https://doi.org/10.1112/jlms/s2-18.2.374>
 - Miller, J. W., & Harrison, M. T. (2014). Inconsistency of Pitman–Yor process mixtures for the number of components. *Journal of Machine Learning Research, 15*(96), 3333–3370. <https://jmlr.org/papers/v15/miller14a.html>
 - Neal, R. M. (2000). Markov chain sampling methods for Dirichlet process mixture models. *Journal of Computational and Graphical Statistics, 9*(2), 249–265. <https://doi.org/10.1080/10618600.2000.10474879>
+- Pitman, J. (1995). Exchangeable and partially exchangeable random partitions. *Probability Theory and Related Fields, 102*(2), 145–158. <https://doi.org/10.1007/BF01213386>
+- Sethuraman, J. (1994). A constructive definition of Dirichlet priors. *Statistica Sinica, 4*(2), 639–650. <https://www.jstor.org/stable/24305538>
 - Stephens, M. (2000). Dealing with label switching in mixture models. *Journal of the Royal Statistical Society: Series B (Statistical Methodology), 62*(4), 795–809. <https://doi.org/10.1111/1467-9868.00265>
 - Teh, Y. W., Jordan, M. I., Beal, M. J., & Blei, D. M. (2006). Hierarchical Dirichlet processes. *Journal of the American Statistical Association, 101*(476), 1566–1581. <https://doi.org/10.1198/016214506000000302>
+- Thibaux, R., & Jordan, M. I. (2007). Hierarchical beta processes and the Indian buffet process. In *Proceedings of the 11th International Conference on Artificial Intelligence and Statistics (AISTATS)* (PMLR 2, pp. 564–571). <https://proceedings.mlr.press/v2/thibaux07a.html>
 - Walker, S. G. (2007). Sampling the Dirichlet mixture model with slices. *Communications in Statistics — Simulation and Computation, 36*(1), 45–54. <https://doi.org/10.1080/03610910601096262>
