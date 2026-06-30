@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DPMM · KDE · GMM — density explorer</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --teal:#4DD0E1; --orange:#FFA726; --yellow:#FFEB3B;
+    --red:#EF5350; --green:#66BB6A; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  .ttl{padding:6px 12px 2px;font-size:13px;font-weight:700;letter-spacing:.01em;}
+  .ttl small{font-weight:400;color:var(--dim);}
+  #stage{flex:1;position:relative;min-height:0;}
+  canvas{display:block;width:100%;height:100%;cursor:crosshair;}
+  .overlay{position:absolute;font-size:11.5px;z-index:3;pointer-events:none;text-shadow:0 1px 3px #000;line-height:1.5;}
+  #leg{top:8px;left:14px;}
+  #info{top:8px;right:14px;text-align:right;color:var(--dim);}
+  .swatch{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:middle;margin-right:4px;}
+  .cap{padding:2px 12px 4px;font-size:11px;color:var(--dim);}
+  #controls{flex:0 0 auto;background:var(--panel);padding:8px 12px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:7px 16px;border-top:1px solid #2a2a33;font-size:13px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  #controls .grp{display:flex;align-items:center;gap:6px;padding:2px 8px;border:1px solid #2a2a33;border-radius:6px;}
+  .val{color:var(--yellow);font-weight:700;min-width:30px;display:inline-block;text-align:right;}
+  input[type=range]{cursor:pointer;}
+  #alpha{accent-color:var(--accent);width:120px;} #hk{accent-color:var(--teal);width:110px;} #kk{accent-color:var(--orange);width:90px;}
+  input[type=checkbox].dp{accent-color:var(--accent);} input[type=checkbox].kd{accent-color:var(--teal);} input[type=checkbox].gm{accent-color:var(--orange);}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:4px 10px;font-size:13px;cursor:pointer;}
+  button:hover{border-color:var(--accent);}
+  b.dp{color:var(--accent);} b.kd{color:var(--teal);} b.gm{color:var(--orange);}
+  @media (max-width:820px){
+    html,body{overflow-y:auto;overflow-x:hidden;height:auto;}
+    #app{height:auto;min-height:100svh;} #stage{height:58vh;}
+    #controls{font-size:15px;gap:10px 14px;padding:10px 12px 30px;}
+    #controls .grp{flex:1 1 100%;justify-content:space-between;}
+    #alpha,#hk,#kk{flex:1;min-width:0;width:auto;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ttl">Bento-weight density — <b class="dp">DPMM</b> vs <b class="kd">KDE</b> vs <b class="gm">GMM</b>
+    <small>— click anywhere on the plot to add a bento weight; all three models update live</small></div>
+  <div id="stage">
+    <div class="overlay" id="leg"></div>
+    <div class="overlay" id="info"></div>
+    <canvas id="plot"></canvas>
+  </div>
+  <div class="cap" id="cap">DPMM = Dirichlet-process mixture (lets the data choose the number of clusters). KDE = kernel density estimate. GMM = K-component Gaussian mixture (you fix K).</div>
+  <div id="controls">
+    <div class="grp"><input type="checkbox" id="tdp" class="dp" checked>
+      <label for="adummy"><b class="dp">DPMM</b> α <input type="range" id="alpha" min="-1.3" max="1.3" step="0.05" value="0"> <span class="val" id="aval">1.0</span></label></div>
+    <div class="grp"><input type="checkbox" id="tkd" class="kd" checked>
+      <label><b class="kd">KDE</b> bandwidth h <input type="range" id="hk" min="5" max="120" step="1" value="40"> <span class="val" id="hval">40</span>g</label></div>
+    <div class="grp"><input type="checkbox" id="tgm" class="gm" checked>
+      <label><b class="gm">GMM</b> K <input type="range" id="kk" min="1" max="8" step="1" value="2"> <span class="val" id="kval">2</span></label></div>
+    <span style="flex:1"></span>
+    <button id="clear">Clear points</button>
+    <button id="reset">Reset demo</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+// =====================================================================
+//  One shared density plot over bento weight (grams). Click adds a point.
+//  Three models drawn live:
+//   • DPMM — Dirichlet-process Gaussian mixture, inferred by COLLAPSED CRP
+//     Gibbs (Neal 2000). Known likelihood sd σx; conjugate Normal–Normal
+//     marginalizes the cluster means, so each customer "picks a table"
+//     with prob ∝ nₖ·(predictive) or ∝ α·(base predictive). Number of
+//     clusters is NOT fixed — the data grows it. Points are colored by the
+//     cluster they land in (ranked by mean, to dodge label-switching).
+//   • KDE — Gaussian kernel density estimate, bandwidth h.
+//   • GMM — K-component Gaussian mixture fit by EM (k-means++ init, restarts).
+// =====================================================================
+const XLO=250, XHI=600;                 // bento-weight axis (g)
+const MU0=425, SIG0=80, SIGX=20;        // DPMM: base-measure mean/sd, likelihood sd (g)
+const VAR0=SIG0*SIG0, VARX=SIGX*SIGX;
+const VARFLOOR=25;                      // GMM variance floor (5 g)²
+const NG=260, GRID=Array.from({length:NG},(_,i)=>XLO+(XHI-XLO)*i/(NG-1));
+const COL={bg:"#111111",dim:"#999999",white:"#ffffff",accent:"#64B5F6",teal:"#4DD0E1",
+  orange:"#FFA726",yellow:"#FFEB3B",red:"#EF5350",green:"#66BB6A",purple:"#BA68C8"};
+const CLUST=["#EF5350","#66BB6A","#FFEB3B","#BA68C8","#4DD0E1","#FF8A65","#9CCC65","#F06292"];
+function mb(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function npdf(x,mu,v){const d=x-mu;return Math.exp(-0.5*d*d/v)/Math.sqrt(2*Math.PI*v);}
+
+// ---------------- state ----------------
+let pts=[];                 // bento weights
+let alpha=1.0, hKDE=40, KGMM=2;
+let showDP=true, showKD=true, showGM=true;
+let dpPred=null, dpColors=[], dpK=0, kdeDen=null, gmm=null;
+
+function autoSeed(){ const r=mb(7); pts=[];
+  for(let i=0;i<8;i++)pts.push(350+(r()*2-1)*14);     // Hamburger bento ≈ 350 g
+  for(let i=0;i<6;i++)pts.push(500+(r()*2-1)*14);     // Tonkatsu bento ≈ 500 g
+  pts.push(275);                                       // one light outlier
+}
+
+// ---------------- DPMM: collapsed CRP Gibbs ----------------
+function dpmmRun(){
+  const N=pts.length; if(!N){dpPred=null;dpColors=[];dpK=0;return;}
+  const r=mb(2024);
+  let z=pts.map((_,i)=>i);                              // start: every point its own table
+  const burn=25, keep=35;
+  const acc=new Float64Array(NG); let kept=0; const kHist={}, zByK={};
+  for(let s=0;s<burn+keep;s++){
+    // build cluster stats {n,sum} keyed by id
+    const cl=new Map();
+    for(let i=0;i<N;i++){const k=z[i];const c=cl.get(k)||{n:0,sum:0};c.n++;c.sum+=pts[i];cl.set(k,c);}
+    for(let i=0;i<N;i++){
+      const xi=pts[i], k0=z[i];
+      const c0=cl.get(k0); c0.n--; c0.sum-=xi; if(c0.n===0)cl.delete(k0);   // remove i
+      // candidate weights
+      const ids=[...cl.keys()], wts=[]; let tot=0;
+      for(const k of ids){const c=cl.get(k);
+        const v=1/(1/VAR0+c.n/VARX), m=v*(MU0/VAR0+c.sum/VARX);            // posterior mean of μ_k | others
+        const w=c.n*npdf(xi,m,v+VARX); wts.push(w); tot+=w;}
+      const wnew=alpha*npdf(xi,MU0,VAR0+VARX); tot+=wnew;                   // a fresh table
+      let u=r()*tot, pick=-1;
+      for(let j=0;j<ids.length;j++){u-=wts[j];if(u<=0){pick=ids[j];break;}}
+      if(pick<0){ let nid=0; while(cl.has(nid))nid++; pick=nid; }           // new table id
+      z[i]=pick; const c=cl.get(pick)||{n:0,sum:0}; c.n++; c.sum+=xi; cl.set(pick,c);
+    }
+    if(s>=burn){
+      // accumulate posterior predictive density over the grid
+      const ids=[...cl.keys()];
+      for(let g=0;g<NG;g++){const x=GRID[g];let s2=0;
+        for(const k of ids){const c=cl.get(k);const v=1/(1/VAR0+c.n/VARX),m=v*(MU0/VAR0+c.sum/VARX);
+          s2+=c.n*npdf(x,m,v+VARX);}
+        s2+=alpha*npdf(x,MU0,VAR0+VARX); acc[g]+=s2/(N+alpha);}
+      kept++; const Kk=ids.length; kHist[Kk]=(kHist[Kk]||0)+1; zByK[Kk]=z.slice();
+    }
+  }
+  for(let g=0;g<NG;g++)acc[g]/=kept; dpPred=acc;
+  // representative clustering = a kept sweep matching the MODAL cluster count (robust to per-sweep noise)
+  let modeK=1,modeC=-1; for(const k in kHist){if(kHist[k]>modeC){modeC=kHist[k];modeK=+k;}}
+  const lastZ=zByK[modeK]; dpK=modeK;
+  // color points by cluster rank (sorted by cluster mean)
+  const means=new Map(), counts=new Map();
+  for(let i=0;i<N;i++){means.set(lastZ[i],(means.get(lastZ[i])||0)+pts[i]);counts.set(lastZ[i],(counts.get(lastZ[i])||0)+1);}
+  const order=[...means.keys()].sort((a,b)=>(means.get(a)/counts.get(a))-(means.get(b)/counts.get(b)));
+  const rank=new Map(order.map((k,i)=>[k,i]));
+  dpColors=lastZ.map(k=>CLUST[rank.get(k)%CLUST.length]);
+}
+
+// ---------------- KDE ----------------
+function silverman(){ const N=pts.length; if(N<2)return 40;
+  let mu=0;for(const x of pts)mu+=x;mu/=N; let s=0;for(const x of pts){const d=x-mu;s+=d*d;}
+  const sd=Math.sqrt(s/(N-1)); return Math.max(5, 1.06*sd*Math.pow(N,-0.2)); }
+function kdeRun(){ const N=pts.length; if(!N){kdeDen=null;return;} const h=hKDE, out=new Float64Array(NG);
+  for(let g=0;g<NG;g++){const x=GRID[g];let s=0;for(const xi of pts)s+=Math.exp(-0.5*((x-xi)/h)**2);out[g]=s/(N*h*Math.sqrt(2*Math.PI));}
+  kdeDen=out; }
+
+// ---------------- GMM via EM ----------------
+function kmeanspp(K,r){ const N=pts.length; const mu=[pts[Math.floor(r()*N)]];
+  while(mu.length<K){ const d2=pts.map(x=>{let m=Infinity;for(const c of mu){const e=(x-c)*(x-c);if(e<m)m=e;}return m;});
+    let tot=d2.reduce((a,b)=>a+b,0)||1; let u=r()*tot,pick=N-1;
+    for(let i=0;i<N;i++){u-=d2[i];if(u<=0){pick=i;break;}} mu.push(pts[pick]); }
+  return mu; }
+function gmmRun(){ const N=pts.length; if(!N){gmm=null;return;} const K=Math.min(KGMM,N);
+  let mu0=0;for(const x of pts)mu0+=x;mu0/=N; let dv=0;for(const x of pts){const d=x-mu0;dv+=d*d;}dv=Math.max(dv/N,VARFLOOR);
+  const r=mb(99); let best=null,bestLL=-Infinity;
+  for(let rep=0;rep<4;rep++){
+    let mu=kmeanspp(K,r), w=new Array(K).fill(1/K), va=new Array(K).fill(dv), ll=-Infinity;
+    for(let it=0;it<100;it++){
+      const resp=[]; let nll=0;
+      for(const x of pts){const p=new Float64Array(K);let tot=0;
+        for(let k=0;k<K;k++){p[k]=w[k]*npdf(x,mu[k],va[k]);tot+=p[k];}
+        if(tot<1e-300)tot=1e-300;for(let k=0;k<K;k++)p[k]/=tot;resp.push(p);nll+=Math.log(tot);}
+      for(let k=0;k<K;k++){let Nk=0,sx=0;for(let i=0;i<N;i++){Nk+=resp[i][k];sx+=resp[i][k]*pts[i];}
+        Nk=Math.max(Nk,1e-9);w[k]=Nk/N;mu[k]=sx/Nk;
+        let sv=0;for(let i=0;i<N;i++){const d=pts[i]-mu[k];sv+=resp[i][k]*d*d;}va[k]=Math.max(sv/Nk,VARFLOOR);}
+      if(Math.abs(nll-ll)<1e-7){ll=nll;break;} ll=nll;
+    }
+    if(ll>bestLL){bestLL=ll;best={mu:mu.slice(),va:va.slice(),w:w.slice(),K};}
+  }
+  const out=new Float64Array(NG);
+  for(let g=0;g<NG;g++){const x=GRID[g];let s=0;for(let k=0;k<best.K;k++)s+=best.w[k]*npdf(x,best.mu[k],best.va[k]);out[g]=s;}
+  best.density=out; gmm=best;
+}
+
+function recompute(){ dpmmRun(); kdeRun(); gmmRun(); draw(); }
+
+// ---------------- rendering ----------------
+const cv=document.getElementById("plot"), cx=cv.getContext("2d");
+function size(){const r=cv.getBoundingClientRect();const dpr=window.devicePixelRatio||1;
+  cv.width=Math.max(60,Math.floor(r.width*dpr));cv.height=Math.max(50,Math.floor(r.height*dpr));
+  cx.setTransform(dpr,0,0,dpr,0,0);return{w:r.width,h:r.height};}
+function draw(){
+  const {w,h}=size(); cx.clearRect(0,0,w,h); cx.fillStyle=COL.bg; cx.fillRect(0,0,w,h);
+  const padL=10,padR=12,padT=14,padB=34, rug=padB-12;
+  const X=g=>padL+(g-XLO)/(XHI-XLO)*(w-padL-padR);
+  // y-scale from the shown curves
+  let ymax=1e-9;
+  if(showDP&&dpPred)for(const v of dpPred)ymax=Math.max(ymax,v);
+  if(showKD&&kdeDen)for(const v of kdeDen)ymax=Math.max(ymax,v);
+  if(showGM&&gmm)for(const v of gmm.density)ymax=Math.max(ymax,v);
+  ymax*=1.18;
+  const Y=d=>h-padB-(d/ymax)*(h-padT-padB);
+  // x-axis + grams ticks
+  cx.strokeStyle="#2a2a33";cx.lineWidth=1;cx.beginPath();cx.moveTo(padL,h-padB);cx.lineTo(w-padR,h-padB);cx.stroke();
+  cx.fillStyle=COL.dim;cx.font="10px sans-serif";cx.textAlign="center";
+  for(const t of [250,300,350,400,425,450,500,550,600]){const px=X(t);
+    cx.strokeStyle="#1d1d26";cx.beginPath();cx.moveTo(px,padT);cx.lineTo(px,h-padB);cx.stroke();
+    cx.fillStyle=(t===425?COL.dim:COL.dim);cx.fillText(t+(t===600?" g":""),px,h-padB+13);}
+  // base-measure hint (μ0)
+  const pm=X(MU0);cx.strokeStyle="rgba(100,181,246,0.25)";cx.setLineDash([3,4]);cx.beginPath();cx.moveTo(pm,padT);cx.lineTo(pm,h-padB);cx.stroke();cx.setLineDash([]);
+  const plot=(den,c,wd)=>{cx.strokeStyle=c;cx.lineWidth=wd;cx.beginPath();
+    for(let g=0;g<NG;g++){const px=X(GRID[g]),py=Y(den[g]);g?cx.lineTo(px,py):cx.moveTo(px,py);}cx.stroke();};
+  // GMM component fills (faint), then curves
+  if(showGM&&gmm){cx.globalAlpha=0.10;
+    for(let k=0;k<gmm.K;k++){cx.fillStyle=COL.orange;cx.beginPath();cx.moveTo(X(XLO),Y(0));
+      for(let g=0;g<NG;g++){cx.lineTo(X(GRID[g]),Y(gmm.w[k]*npdf(GRID[g],gmm.mu[k],gmm.va[k])));}
+      cx.lineTo(X(XHI),Y(0));cx.closePath();cx.fill();}
+    cx.globalAlpha=1;}
+  if(showKD&&kdeDen)plot(kdeDen,COL.teal,1.8);
+  if(showGM&&gmm)plot(gmm.density,COL.orange,2.0);
+  if(showDP&&dpPred)plot(dpPred,COL.accent,2.8);
+  // data rug (points), colored by DPMM cluster
+  for(let i=0;i<pts.length;i++){const px=X(pts[i]);
+    cx.strokeStyle=(showDP&&dpColors[i])?dpColors[i]:COL.white;cx.lineWidth=2;
+    cx.beginPath();cx.moveTo(px,h-rug);cx.lineTo(px,h-rug-12);cx.stroke();}
+  // legend + info
+  document.getElementById("leg").innerHTML =
+    (showDP?`<span class="swatch" style="background:${COL.accent}"></span>DPMM predictive&nbsp;&nbsp;`:"")+
+    (showKD?`<span class="swatch" style="background:${COL.teal}"></span>KDE&nbsp;&nbsp;`:"")+
+    (showGM?`<span class="swatch" style="background:${COL.orange}"></span>GMM (K=${KGMM})`:"");
+  document.getElementById("info").innerHTML =
+    `${pts.length} bento${pts.length===1?"":"s"}`+
+    (showDP?` · DPMM found <b style="color:${COL.accent}">${dpK}</b> cluster${dpK===1?"":"s"}`:"");
+}
+
+// ---------------- interaction ----------------
+cv.addEventListener("pointerdown",e=>{
+  const r=cv.getBoundingClientRect(); const padL=10,padR=12;
+  const x=XLO+((e.clientX-r.left)-padL)/(r.width-padL-padR)*(XHI-XLO);
+  if(x>=XLO-5&&x<=XHI+5){ pts.push(Math.max(XLO,Math.min(XHI,x))); recompute(); }
+});
+const $=id=>document.getElementById(id);
+$("alpha").oninput=e=>{ alpha=Math.pow(10,+e.target.value); $("aval").textContent=alpha.toFixed(alpha<1?2:1); dpmmRun(); draw(); };
+$("hk").oninput=e=>{ hKDE=+e.target.value; $("hval").textContent=hKDE; kdeRun(); draw(); };
+$("kk").oninput=e=>{ KGMM=+e.target.value; $("kval").textContent=KGMM; gmmRun(); draw(); };
+$("tdp").onchange=e=>{ showDP=e.target.checked; draw(); };
+$("tkd").onchange=e=>{ showKD=e.target.checked; draw(); };
+$("tgm").onchange=e=>{ showGM=e.target.checked; draw(); };
+$("clear").onclick=()=>{ pts=[]; recompute(); };
+$("reset").onclick=()=>{ autoSeed(); alpha=1.0;$("alpha").value=0;$("aval").textContent="1.0";
+  KGMM=2;$("kk").value=2;$("kval").textContent=2; hKDE=Math.round(silverman());$("hk").value=hKDE;$("hval").textContent=hKDE;
+  showDP=showKD=showGM=true;$("tdp").checked=$("tkd").checked=$("tgm").checked=true; recompute(); };
+window.addEventListener("resize",draw);
+window.addEventListener("load",()=>{ autoSeed(); hKDE=Math.round(silverman());$("hk").value=hKDE;$("hval").textContent=hKDE; recompute(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stick-breaking & the Pólya urn — two views of DP(α)</title>
+<style>
+  :root{ --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff; --accent:#64B5F6; --yellow:#FFEB3B; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  .ttl{padding:6px 12px 1px;font-size:13px;font-weight:700;}
+  .ttl small{font-weight:400;color:var(--dim);}
+  .sub{padding:6px 12px 0;font-size:12px;color:var(--dim);font-weight:700;}
+  .sub span{color:var(--white);}
+  #stick,#urn{position:relative;min-height:0;}
+  #stick{flex:0 0 86px;} #urn{flex:1;}
+  canvas{display:block;width:100%;height:100%;}
+  .cap{padding:2px 12px 4px;font-size:11px;color:var(--dim);line-height:1.4;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:8px 12px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:8px 18px;border-top:1px solid #2a2a33;font-size:13px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:7px;white-space:nowrap;}
+  #alpha{accent-color:var(--accent);width:220px;}
+  .val{color:var(--yellow);font-weight:700;min-width:34px;display:inline-block;text-align:right;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:4px 10px;font-size:13px;cursor:pointer;}
+  button:hover{border-color:var(--accent);}
+  @media (max-width:820px){ html,body{overflow-y:auto;height:auto;} #app{height:auto;min-height:100svh;}
+    #stick{height:24vh;} #urn{height:40vh;} #alpha{flex:1;width:auto;} #controls label{flex:1 1 100%;} }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ttl">Two views of one object: <b>DP(α)</b>
+    <small>— the concentration α controls how a unit of probability splits into clusters</small></div>
+  <div class="sub">① Stick-breaking <span>— GEM(α): break a unit stick, βₖ ~ Beta(1, α), πₖ = βₖ·∏(1−βⱼ)</span></div>
+  <div id="stick"><canvas id="cstick"></canvas></div>
+  <div class="sub">② Pólya urn <span>— draw balls one-by-one: new color with prob ∝ α, an existing color ∝ its count</span></div>
+  <div id="urn"><canvas id="curn"></canvas></div>
+  <div class="cap" id="cap">Same α, two mechanisms — the explicit construction (top) and the sequential predictive rule (bottom). Both are the Dirichlet process: a few big clusters and a long tail of small ones. Drag α and watch the number of clusters change.</div>
+  <div id="controls">
+    <label>concentration α <input type="range" id="alpha" min="-1.3" max="1.5" step="0.02" value="0"> <span class="val" id="aval">1.0</span></label>
+    <span id="readout" style="color:var(--dim)"></span>
+    <span style="flex:1"></span>
+    <button id="redraw">Redraw</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+// Two equivalent constructions of a Dirichlet process, side by side, driven by α:
+//   ① stick-breaking (Sethuraman 1994): βₖ~Beta(1,α), πₖ=βₖ∏_{j<k}(1−βⱼ).
+//   ② Pólya urn / Blackwell–MacQueen (1973): the DP's sequential predictive rule.
+// Beta(1,α) inverse-CDF sample: β = 1 − u^{1/α},  u~Uniform(0,1).
+const COL={bg:"#111111",dim:"#999999",white:"#ffffff",accent:"#64B5F6",yellow:"#FFEB3B"};
+const PAL=["#64B5F6","#EF5350","#66BB6A","#FFEB3B","#BA68C8","#4DD0E1","#FF8A65","#9CCC65","#F06292","#FFB74D","#7986CB","#4DB6AC"];
+function mb(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const col=i=>PAL[i%PAL.length];
+
+let alpha=1.0, seed=11, shown=0, anim=null, urnData=null, stickData=null;
+const NBALLS=150;
+
+function buildStick(){ const r=mb(seed*7+1); const pis=[]; let rem=1;
+  for(let k=0;k<60;k++){ const b=1-Math.pow(r(),1/alpha); const pi=b*rem; pis.push(pi); rem*=(1-b); if(rem<2e-3)break; }
+  stickData={pis,rem}; }
+function buildUrn(){ const r=mb(seed*13+3); const counts=[]; const draws=[]; let total=0;
+  for(let n=0;n<NBALLS;n++){ const pNew=alpha/(alpha+total);
+    let c; if(r()<pNew){c=counts.length;counts.push(0);} else {let u=r()*total,acc=0;c=0;for(let j=0;j<counts.length;j++){acc+=counts[j];if(u<acc){c=j;break;}}}
+    counts[c]++; total++; draws.push(c); }
+  // color balls by frequency rank so the biggest cluster matches PAL[0] (≈ the stick's π₁)
+  const order=counts.map((c,i)=>[c,i]).sort((a,b)=>b[0]-a[0]).map(x=>x[1]);
+  const rank=new Map(order.map((id,i)=>[id,i]));
+  urnData={draws,counts,colorOf:draws.map(c=>col(rank.get(c)))}; }
+
+const cs=document.getElementById("cstick"), sx=cs.getContext("2d");
+const cu=document.getElementById("curn"), ux=cu.getContext("2d");
+function size(c){const r=c.parentElement.getBoundingClientRect();const dpr=window.devicePixelRatio||1;
+  c.width=Math.max(60,Math.floor(r.width*dpr));c.height=Math.max(40,Math.floor(r.height*dpr));
+  c.getContext("2d").setTransform(dpr,0,0,dpr,0,0);return{w:r.width,h:r.height};}
+
+function drawStick(){ const {w,h}=size(cs); sx.clearRect(0,0,w,h); sx.fillStyle=COL.bg; sx.fillRect(0,0,w,h);
+  if(!stickData)return; const padL=14,padR=14,padT=14, bh=Math.min(46,h-padT-26), y=padT;
+  const W=w-padL-padR; let x=padL;
+  sx.font="11px sans-serif";
+  for(let k=0;k<stickData.pis.length;k++){ const pw=stickData.pis[k]*W; if(pw<0.4)continue;
+    sx.fillStyle=col(k); sx.fillRect(x,y,Math.max(pw-1,0.5),bh);
+    if(pw>34){ sx.fillStyle="#111"; sx.textAlign="center";
+      sx.fillText((stickData.pis[k]*100).toFixed(0)+"%", x+pw/2, y+bh/2+4); }
+    x+=pw;
+  }
+  if(stickData.rem*W>1){ sx.fillStyle="#333"; sx.fillRect(x,y,Math.max((stickData.rem*W)-1,1),bh);
+    sx.fillStyle=COL.dim;sx.textAlign="left";if(stickData.rem*W>20)sx.fillText("…tail",x+4,y+bh/2+4); }
+  sx.fillStyle=COL.dim;sx.textAlign="left";sx.fillText("π₁",padL,y+bh+16);
+  sx.textAlign="right";sx.fillText("unit stick = 1",w-padR,y+bh+16);
+}
+
+function drawUrn(){ const {w,h}=size(cu); ux.clearRect(0,0,w,h); ux.fillStyle=COL.bg; ux.fillRect(0,0,w,h);
+  if(!urnData)return; const padL=14,padR=14,padT=10, barH=16;
+  // stacked proportion bar of the balls drawn SO FAR
+  const cnt=[]; for(let i=0;i<shown;i++){ /* recolor-rank handled below via colorOf */ }
+  const W=w-padL-padR;
+  // proportions by displayed color
+  const tally=new Map();
+  for(let i=0;i<shown;i++){const c=urnData.colorOf[i];tally.set(c,(tally.get(c)||0)+1);}
+  let x=padL; const entries=[...tally.entries()].sort((a,b)=>b[1]-a[1]);
+  for(const [c,n] of entries){ const pw=n/Math.max(shown,1)*W; ux.fillStyle=c; ux.fillRect(x,padT,Math.max(pw-1,0.5),barH); x+=pw; }
+  ux.strokeStyle="#2a2a33";ux.strokeRect(padL,padT,W,barH);
+  // balls grid
+  const gy=padT+barH+16; const R=7, gap=4, cell=2*R+gap; const cols=Math.max(1,Math.floor(W/cell));
+  for(let i=0;i<shown;i++){ const cxp=padL+R+(i%cols)*cell, cyp=gy+R+Math.floor(i/cols)*cell;
+    if(cyp+R>h-4)break;
+    ux.fillStyle=urnData.colorOf[i]; ux.beginPath(); ux.arc(cxp,cyp,R,0,7); ux.fill();
+  }
+}
+
+function redraw(){ drawStick(); drawUrn(); updateReadout(); }
+function updateReadout(){ const nClust=stickData?stickData.pis.length:0;
+  const urnColors=urnData?new Set(urnData.draws.slice(0,shown)).size:0;
+  document.getElementById("readout").innerHTML =
+    `stick: ~<b style="color:#fff">${nClust}</b> pieces · urn: <b style="color:#fff">${shown}</b> balls, <b style="color:#fff">${urnColors}</b> colors`; }
+
+function startAnim(){ if(anim)cancelAnimationFrame(anim); shown=0;
+  const step=()=>{ shown=Math.min(NBALLS, shown+3); drawUrn(); updateReadout();
+    if(shown<NBALLS)anim=requestAnimationFrame(step); else anim=null; };
+  anim=requestAnimationFrame(step); }
+function recompute(full){ buildStick(); buildUrn(); drawStick(); if(full)startAnim(); else {drawUrn();updateReadout();} }
+
+const $=id=>document.getElementById(id);
+$("alpha").oninput=e=>{ alpha=Math.pow(10,+e.target.value); $("aval").textContent=alpha.toFixed(alpha<1?2:1); recompute(true); };
+$("redraw").onclick=()=>{ seed=(seed*1103515245+12345)>>>0%100000; recompute(true); };
+window.addEventListener("resize",redraw);
+window.addEventListener("load",()=>{ recompute(true); });
+</script>
+</body>
+</html>

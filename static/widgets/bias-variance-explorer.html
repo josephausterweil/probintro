@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bias–Variance & Double Descent explorer</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --teal:#4DD0E1; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  #stage{display:flex;flex:1;min-height:0;}
+  #left,#right{flex:1;position:relative;min-width:0;display:flex;flex-direction:column;}
+  #left{border-right:1px solid #2a2a33;}
+  canvas{display:block;width:100%;flex:1;min-height:0;}
+  .ttl{padding:5px 10px 2px;font-size:12.5px;font-weight:700;color:var(--white);letter-spacing:.01em;}
+  .ttl small{font-weight:400;color:var(--dim);}
+  .cap{padding:0 10px 5px;font-size:11px;color:var(--dim);line-height:1.35;}
+  .overlay{position:absolute;font-size:11px;z-index:3;pointer-events:none;text-shadow:0 1px 3px #000;line-height:1.45;}
+  #leg{top:30px;left:12px;}
+  #rd{bottom:8px;left:12px;color:var(--dim);}
+  #regime{top:30px;right:12px;font-weight:700;text-align:right;}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:middle;margin-right:3px;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:7px 12px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:6px 16px;border-top:1px solid #2a2a33;font-size:13px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  .val{color:var(--yellow);font-weight:700;min-width:26px;display:inline-block;text-align:right;}
+  input[type=range]{accent-color:var(--accent);cursor:pointer;}
+  #deg{width:130px;} #pcap{width:200px;} #lam{width:150px;} #titer{width:160px;} #nobs{width:90px;} #sig{width:90px;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:4px 9px;font-size:13px;cursor:pointer;}
+  button:hover{border-color:var(--accent);}
+  .sep{flex-basis:100%;height:0;}
+  /* classical-regime embed (?view=classical): show ONLY the left bias–variance
+     panel + its three knobs (n, noise, degree), so the double-descent reveal
+     can't spoil the "predict what happens past p=n" poll. Class is set on <html>
+     before render (inline script below) → no flash. */
+  /* classical view shows BOTH panels; the right one is capped at p=n in JS — the
+     first half of the bias-variance story (the U-curve), no second descent. Hide
+     only the double-descent-specific bits: ridge λ, the model selector + its
+     subtitle, and the ‖weights‖₂ diagnostic panel. */
+  .classical-view #lamLabel,.classical-view #model,.classical-view #modelsub{display:none;}
+  .classical-view #normwrap{display:none;}
+  /* phone / narrow: stack panels vertically and let the PAGE scroll, so the
+     controls bar (and the capacity-p slider) is always reachable — the old fixed
+     100vh layout pushed the bottom controls off-screen on iOS. */
+  @media (max-width:820px){
+    html,body{overflow-y:auto;overflow-x:hidden;height:auto;}
+    #app{height:auto;min-height:100svh;}
+    #stage{flex-direction:column;}
+    #left{border-right:none;border-bottom:1px solid #2a2a33;}
+    #left,#right{height:60vh;}
+    #controls{font-size:15px;gap:10px 14px;padding:10px 12px 30px;}
+    #controls label{flex:1 1 100%;}            /* one slider per row, full width */
+    #deg,#pcap,#lam,#titer,#nobs,#sig{flex:1;min-width:0;width:auto;}
+    .ttl{font-size:13px;} .cap{font-size:12px;}
+  }
+</style>
+<script>if((new URLSearchParams(location.search).get('view'))==='classical')document.documentElement.classList.add('classical-view');</script>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="left">
+      <div class="ttl">① Classical bias–variance <small>— polynomial fit (1-D), the regime you know</small></div>
+      <div id="leftwrap" style="position:relative;flex:1;min-height:0;">
+        <div class="overlay" id="leg">
+          <span class="swatch" style="background:#ffffff"></span>truth&nbsp;
+          <span class="swatch" style="background:#64B5F6"></span>avg fit&nbsp;
+          <span class="swatch" style="background:rgba(100,181,246,.5)"></span>per-dataset
+        </div>
+        <div class="overlay" id="rd"></div>
+        <canvas id="fit"></canvas>
+      </div>
+      <div class="cap" id="leftcap"></div>
+    </div>
+    <div id="right">
+      <div class="ttl"><span id="rtitle">② Double descent</span>
+        <select id="model" style="background:#222230;color:#fff;border:1px solid #3a3a48;border-radius:4px;font-size:11px;padding:1px 4px;margin:0 4px;cursor:pointer;">
+          <option value="analytic">closed-form min-norm</option>
+          <option value="nn">neural net + GD</option>
+        </select>
+        <small id="modelsub">— push capacity past p = n (needs high dimensions)</small></div>
+      <div id="rightwrap" style="position:relative;flex:1;min-height:0;">
+        <div class="overlay" id="leg2" style="top:6px;left:12px;">
+          <span class="swatch" style="background:#64B5F6"></span>test&nbsp;
+          <span class="swatch" style="background:#EF5350"></span>bias²&nbsp;
+          <span class="swatch" style="background:#FFA726"></span>variance&nbsp;
+          <span class="swatch" style="background:#66BB6A"></span>train
+        </div>
+        <div class="overlay" id="regime"></div>
+        <canvas id="curve"></canvas>
+      </div>
+      <div id="normwrap" style="position:relative;flex:0 0 84px;min-height:0;border-top:1px solid #2a2a33;">
+        <div class="overlay" id="leg3" style="top:4px;left:12px;"><span class="swatch" style="background:#BA68C8"></span>‖weights‖₂ — the solution size the min-norm (ℓ₂) bias keeps small</div>
+        <canvas id="norm"></canvas>
+      </div>
+      <div class="cap" id="rightcap"></div>
+    </div>
+  </div>
+  <div id="controls">
+    <label>training points&nbsp; n <input type="range" id="nobs" min="0.903" max="3" step="0.02" value="1.301"> <span class="val" id="nval">20</span></label>
+    <label>noise σ <input type="range" id="sig" min="0.02" max="0.7" step="0.01" value="0.25"> <span class="val" id="sigval">0.25</span></label>
+    <span style="flex:1"></span>
+    <label id="degLabel">① polynomial degree <input type="range" id="deg" min="1" max="14" step="1" value="3"> <span class="val" id="degval">3</span></label>
+    <label id="pcapLabel">② <span id="pcapname">capacity p</span> <input type="range" id="pcap" min="1" max="160" step="1" value="20"> <span class="val" id="pval">20</span></label>
+    <label id="lamLabel">② ridge λ <input type="range" id="lam" min="-8" max="1.5" step="0.1" value="-8"> <span class="val" id="lamval" style="min-width:62px">0 (off)</span></label>
+    <label id="tLabel" style="display:none">② GD iterations T <input type="range" id="titer" min="0" max="4" step="0.02" value="3"> <span class="val" id="tval" style="min-width:48px">1000</span></label>
+    <label id="logyLabel"><input type="checkbox" id="logy" checked> log-y</label>
+    <button id="reset">Reset</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+// =====================================================================
+//  Two linked views of model complexity:
+//   ① LEFT  — classical 1-D polynomial regression. Degree d = complexity.
+//             Shows underfit / good fit / overfit + per-dataset spaghetti.
+//   ② RIGHT — double descent in a high-dimensional ISOTROPIC model
+//             (z~N(0,I_D), y=z·θ*+noise; capacity p = first p coords, min-norm
+//             least squares). Excess risk = ||θ*_{<=p}-β||² + ||θ*_{>p}||²,
+//             decomposed into bias²/variance by Monte Carlo. This is the model
+//             in which double descent is a theorem (Hastie/Belkin); 1-D
+//             correlated features cannot show it — itself a teaching point.
+// =====================================================================
+const COL={bg:"#111111",dim:"#999999",white:"#ffffff",accent:"#64B5F6",red:"#EF5350",
+  green:"#66BB6A",yellow:"#FFEB3B",orange:"#FFA726",teal:"#4DD0E1",purple:"#BA68C8"};
+function mb(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function gaussFrom(r){let s=null;return function(){if(s!==null){const v=s;s=null;return v;}let u=0,v=0;while(!u)u=r();while(!v)v=r();const R=Math.sqrt(-2*Math.log(u));s=R*Math.sin(2*Math.PI*v);return R*Math.cos(2*Math.PI*v);};}
+function solveSPD(A,b){const m=A.length,L=[];for(let i=0;i<m;i++)L.push(new Float64Array(m));
+  for(let i=0;i<m;i++)for(let j=0;j<=i;j++){let s=A[i][j];for(let k=0;k<j;k++)s-=L[i][k]*L[j][k];
+    if(i===j)L[i][i]=Math.sqrt(Math.max(s,1e-12));else L[i][j]=s/L[j][j];}
+  const y=new Float64Array(m);for(let i=0;i<m;i++){let s=b[i];for(let k=0;k<i;k++)s-=L[i][k]*y[k];y[i]=s/L[i][i];}
+  const x=new Float64Array(m);for(let i=m-1;i>=0;i--){let s=y[i];for(let k=i+1;k<m;k++)s-=L[k][i]*x[k];x[i]=s/L[i][i];}return x;}
+// symmetric eigendecomposition (cyclic Jacobi) — vecs[row][col], column c = c-th eigenvector
+function jacobiEig(Ain){const n=Ain.length;const A=[];for(let i=0;i<n;i++)A.push(Float64Array.from(Ain[i]));
+  const V=[];for(let i=0;i<n;i++){V.push(new Float64Array(n));V[i][i]=1;}
+  for(let sw=0;sw<80;sw++){let off=0;for(let p=0;p<n;p++)for(let q=p+1;q<n;q++)off+=A[p][q]*A[p][q];
+    if(off<1e-24)break;
+    for(let p=0;p<n;p++)for(let q=p+1;q<n;q++){const apq=A[p][q];if(Math.abs(apq)<1e-300)continue;
+      const app=A[p][p],aqq=A[q][q],th=0.5*Math.atan2(2*apq,aqq-app),c=Math.cos(th),s=Math.sin(th);
+      A[p][p]=c*c*app-2*s*c*apq+s*s*aqq; A[q][q]=s*s*app+2*s*c*apq+c*c*aqq; A[p][q]=0; A[q][p]=0;
+      for(let i=0;i<n;i++){if(i!==p&&i!==q){const aip=A[i][p],aiq=A[i][q];
+        A[i][p]=c*aip-s*aiq;A[p][i]=A[i][p];A[i][q]=s*aip+c*aiq;A[q][i]=A[i][q];}}
+      for(let i=0;i<n;i++){const vip=V[i][p],viq=V[i][q];V[i][p]=c*vip-s*viq;V[i][q]=s*vip+c*viq;}}}
+  const vals=new Float64Array(n);for(let i=0;i<n;i++)vals[i]=A[i][i];return{vals,vecs:V};}
+
+// ---- shared state -----------------------------------------------------
+let n=20, sigma=0.25, deg=3, pCur=20, logy=true, lamUser=0, mode='analytic', tIter=1000;
+const RIDGE=1e-8, MNN=10;
+// ---- view mode --------------------------------------------------------
+//  ?view=classical → show only the LEFT (classical bias–variance) panel so the
+//  double-descent curve can't pre-empt the "predict past p=n" poll. With the
+//  heavy right panel off, n can range much larger (log slider, up to 1000) to
+//  show variance collapsing as data grows. Default 'full' = both panels.
+const VIEW=(new URLSearchParams(location.search).get('view')||'full');
+const CLASSICAL=(VIEW==='classical');
+const NMAX_FULL=40, NMAX_CLASSICAL=40;   // classical now shows the right panel capped at p=n, whose O(n³) isotropic solve needs n small
+// In classical view the right panel is truncated at the interpolation point p=n —
+// the first half of the bias-variance story (U-curve), no second descent.
+function calcPMaxR(){ return CLASSICAL ? Math.max(4,Math.round(n)) : Math.min(DAMB,8*n); }
+function nFromLog(v){ const x=Math.pow(10,v);
+  if(x<24)return Math.round(x); if(x<60)return Math.round(x/2)*2;
+  if(x<120)return Math.round(x/5)*5; if(x<320)return Math.round(x/10)*10; return Math.round(x/50)*50; }
+function applyNRange(){ const nb=document.getElementById('nobs');
+  // min=0.900 (→ n≈8) chosen so (max−min) is an exact multiple of step in the
+  // classical view (3.000−0.900 = 2.10 = 105·0.02) → the far right reaches n=1000.
+  nb.min='0.900'; nb.max=Math.log10(CLASSICAL?NMAX_CLASSICAL:NMAX_FULL).toFixed(3);
+  nb.step='0.02'; nb.value=Math.log10(n).toFixed(3); }
+function applyView(){ if(!CLASSICAL)return;
+  const lt=document.querySelector('#left .ttl');
+  if(lt)lt.innerHTML='① The fits <small>— polynomial (1-D): spaghetti = variance, average vs. truth = bias</small>';
+  const rt=document.getElementById('rtitle');
+  if(rt)rt.innerHTML='② Error vs. capacity <small>— test = bias² + variance, shown up to p = n</small>';
+  pCur=Math.max(2,Math.round(n*0.45));
+  const pc=document.getElementById('pcap'), pv=document.getElementById('pval');
+  if(pc)pc.value=pCur; if(pv)pv.textContent=pCur; }
+
+// ======================= ① LEFT: polynomial model =====================
+const MLEFT=22;
+function trueFn(x){ return 1.7*(x-0.18)*(x-0.55)*(x-0.88)*5; }   // a cubic on [0,1], ~[-1,1]
+function polyRow(x,d){ const t=2*x-1, r=new Float64Array(d+1); let v=1; for(let j=0;j<=d;j++){r[j]=v;v*=t;} return r; }
+function polyFit(xs,ys,d){
+  const N=xs.length, P=d+1, Phi=xs.map(x=>polyRow(x,d));
+  const A=[];for(let a=0;a<P;a++)A.push(new Float64Array(P));const rhs=new Float64Array(P);
+  for(let i=0;i<N;i++){const ro=Phi[i],yi=ys[i];for(let a=0;a<P;a++){rhs[a]+=ro[a]*yi;for(let b=a;b<P;b++)A[a][b]+=ro[a]*ro[b];}}
+  for(let a=0;a<P;a++){A[a][a]+=RIDGE;for(let b=a+1;b<P;b++)A[b][a]=A[a][b];}
+  return solveSPD(A,rhs);
+}
+function polyEval(c,x){const t=2*x-1;let v=0,tp=1;for(let j=0;j<c.length;j++){v+=c[j]*tp;tp*=t;}return v;}
+let leftData=[];
+function rebuildLeft(){
+  const rng=mb(321), g=gaussFrom(rng); leftData=[];
+  for(let m=0;m<MLEFT;m++){const xs=[],ys=[];for(let i=0;i<n;i++){const x=rng();xs.push(x);ys.push(trueFn(x)+sigma*g());}leftData.push({xs,ys});}
+}
+
+// ======================= ② RIGHT: isotropic model =====================
+const DAMB=180, decay=0.98, MRIGHT=30;
+let THETA=null, rightData=[], curve=null, pMaxR=160;
+function rebuildRight(){
+  const g=gaussFrom(mb(99)); THETA=new Float64Array(DAMB); let nrm=0;
+  for(let j=0;j<DAMB;j++){THETA[j]=g()*Math.pow(decay,j);nrm+=THETA[j]*THETA[j];}
+  const sc=1/Math.sqrt(nrm); for(let j=0;j<DAMB;j++)THETA[j]*=sc;          // ||θ*||=1 (signal var=1)
+  const rng=mb(5), gz=gaussFrom(rng); rightData=[];
+  for(let m=0;m<MRIGHT;m++){const Z=[];const y=new Float64Array(n);
+    for(let i=0;i<n;i++){const zi=new Float64Array(DAMB);let dot=0;for(let j=0;j<DAMB;j++){zi[j]=gz();dot+=zi[j]*THETA[j];}Z.push(zi);y[i]=dot+sigma*gz();}
+    rightData.push({Z,y});}
+}
+function minNormFit(Z,y,p,lam){
+  const N=Z.length, r=Math.max(lam||0,1e-9); let beta=new Float64Array(p);   // r = ridge λ (floored for numerics)
+  if(p<=N){const A=[];for(let a=0;a<p;a++)A.push(new Float64Array(p));const rhs=new Float64Array(p);
+    for(let i=0;i<N;i++){const zi=Z[i],yi=y[i];for(let a=0;a<p;a++){rhs[a]+=zi[a]*yi;for(let b=a;b<p;b++)A[a][b]+=zi[a]*zi[b];}}
+    for(let a=0;a<p;a++){A[a][a]+=r;for(let b=a+1;b<p;b++)A[b][a]=A[a][b];}beta=solveSPD(A,rhs);}
+  else{const Gm=[];for(let i=0;i<N;i++)Gm.push(new Float64Array(N));
+    for(let i=0;i<N;i++){const zi=Z[i];for(let k=i;k<N;k++){const zk=Z[k];let s=0;for(let a=0;a<p;a++)s+=zi[a]*zk[a];Gm[i][k]=s;}}
+    for(let i=0;i<N;i++){Gm[i][i]+=r;for(let k=i+1;k<N;k++)Gm[k][i]=Gm[i][k];}
+    const al=solveSPD(Gm,Float64Array.from(y));for(let a=0;a<p;a++){let s=0;for(let i=0;i<N;i++)s+=Z[i][a]*al[i];beta[a]=s;}}
+  return beta;
+}
+function recomputeCurve(){
+  pMaxR=calcPMaxR();
+  const set=new Set([1,pMaxR]); const step=Math.max(1,Math.round(pMaxR/48));
+  for(let p=1;p<=pMaxR;p+=step)set.add(p);
+  for(let d=-3;d<=3;d++){const p=n+d;if(p>=1&&p<=pMaxR)set.add(p);}
+  const ps=[...set].sort((a,b)=>a-b);
+  const bias2=[],varr=[],test=[],train=[],norm=[];
+  for(const p of ps){
+    const betas=rightData.map(d=>minNormFit(d.Z,d.y,p,lamUser));
+    const mean=new Float64Array(p);for(const b of betas)for(let a=0;a<p;a++)mean[a]+=b[a]/MRIGHT;
+    let b2=0;for(let a=0;a<p;a++){const d=THETA[a]-mean[a];b2+=d*d;}
+    for(let j=p;j<DAMB;j++)b2+=THETA[j]*THETA[j];                     // un-modelled coords = bias
+    let vv=0;for(const b of betas)for(let a=0;a<p;a++){const d=b[a]-mean[a];vv+=d*d/MRIGHT;}
+    // reuse the same fits for training error AND the solution norm ||β||₂
+    let tr=0,nm=0;
+    for(let m=0;m<MRIGHT;m++){const b=betas[m],d=rightData[m];
+      let e=0;for(let i=0;i<n;i++){let pr=0;for(let a=0;a<p;a++)pr+=d.Z[i][a]*b[a];e+=(d.y[i]-pr)**2;}tr+=e/n;
+      let s=0;for(let a=0;a<p;a++)s+=b[a]*b[a];nm+=Math.sqrt(s);}
+    bias2.push(b2);varr.push(vv);test.push(b2+vv);train.push(tr/MRIGHT);norm.push(nm/MRIGHT);
+  }
+  curve={ps,bias2,varr,test,train,norm};
+}
+
+// ======================= ②-NN: neural net + GD ========================
+//  1-hidden-layer net  ŷ = v·tanh(Wz+b).  Hidden layer (W,b) is random and
+//  FIXED — those are the network's features; the output layer v is trained by
+//  gradient descent from v=0 on squared loss. Because ŷ is linear in v, the GD
+//  iterate after T steps has a closed form via eig(K), K=ΦΦᵀ:  each eigen-mode k
+//  is filtered by  g_k = (1−(1−ηλ_k/n)^T)/λ_k.  So T iterations = EARLY STOPPING
+//  = an implicit ℓ₂ (ridge) regularizer (g_k → 1/λ_k only as T→∞). Sweeping the
+//  width H gives width-wise double descent (peak at H=n); raising T makes the
+//  peak grow (full interpolation); lowering T flattens it (early stopping).
+//  Heavy work (features, eig) is keyed on the data/width and cached in prepNN();
+//  recomputeNN(T) is a cheap re-filter, so dragging the T slider is instant.
+let NN=null;
+function prepNN(){
+  const D=DAMB, NT=80;
+  const gw=gaussFrom(mb(1234)), Wm=[], bm=new Float64Array(pMaxR);          // fixed hidden layer
+  for(let j=0;j<pMaxR;j++){const w=new Float64Array(D);for(let k=0;k<D;k++)w[k]=gw()/Math.sqrt(D);Wm.push(w);bm[j]=gw()*0.7;}
+  const gz=gaussFrom(mb(7)), Ztr=[];                                        // FIXED training design
+  for(let i=0;i<n;i++){const z=new Float64Array(D);for(let k=0;k<D;k++)z[k]=gz();Ztr.push(z);}
+  const ftr=new Float64Array(n);for(let i=0;i<n;i++){let d=0;for(let k=0;k<D;k++)d+=Ztr[i][k]*THETA[k];ftr[i]=d;}
+  const sg=gaussFrom(mb(8)), Ym=[];                                         // resample label noise per dataset
+  for(let m=0;m<MNN;m++){const y=new Float64Array(n);for(let i=0;i<n;i++)y[i]=ftr[i]+sigma*sg();Ym.push(y);}
+  const gt=gaussFrom(mb(303)), Zte=[], yte=new Float64Array(NT);            // shared test set + clean targets
+  for(let i=0;i<NT;i++){const z=new Float64Array(D);let d=0;for(let k=0;k<D;k++){z[k]=gt();d+=z[k]*THETA[k];}Zte.push(z);yte[i]=d;}
+  const set=new Set([1,pMaxR]); const step=Math.max(1,Math.round(pMaxR/40));
+  for(let H=1;H<=pMaxR;H+=step)set.add(H); for(let dd=-2;dd<=2;dd++){const H=n+dd;if(H>=1&&H<=pMaxR)set.add(H);}
+  const Hs=[...set].sort((a,b)=>a-b), per=[];
+  for(const H of Hs){
+    const Phi=[];for(let i=0;i<n;i++){const r=new Float64Array(H),z=Ztr[i];
+      for(let j=0;j<H;j++){let s=bm[j];const w=Wm[j];for(let k=0;k<D;k++)s+=w[k]*z[k];r[j]=Math.tanh(s);}Phi.push(r);}
+    const K=[];for(let i=0;i<n;i++)K.push(new Float64Array(n));
+    for(let i=0;i<n;i++)for(let l=i;l<n;l++){let s=0;for(let j=0;j<H;j++)s+=Phi[i][j]*Phi[l][j];K[i][l]=s;K[l][i]=s;}
+    const {vals,vecs}=jacobiEig(K); let lmax=1e-9;for(const v of vals)if(v>lmax)lmax=v; const eta=n/lmax;
+    const B=[], phite=new Float64Array(H);                                  // B = K_test·U  (NT×n)
+    for(let i=0;i<NT;i++){const z=Zte[i];
+      for(let j=0;j<H;j++){let s=bm[j];const w=Wm[j];for(let k=0;k<D;k++)s+=w[k]*z[k];phite[j]=Math.tanh(s);}
+      const kt=new Float64Array(n);for(let l=0;l<n;l++){let s=0;for(let j=0;j<H;j++)s+=phite[j]*Phi[l][j];kt[l]=s;}
+      const bi=new Float64Array(n);for(let c=0;c<n;c++){let s=0;for(let l=0;l<n;l++)s+=kt[l]*vecs[l][c];bi[c]=s;}B.push(bi);}
+    const yhat=[];for(let m=0;m<MNN;m++){const yh=new Float64Array(n);     // ŷ_m = Uᵀy_m
+      for(let c=0;c<n;c++){let s=0;for(let l=0;l<n;l++)s+=vecs[l][c]*Ym[m][l];yh[c]=s;}yhat.push(yh);}
+    per.push({vals,vecs,eta,B,yhat});
+  }
+  NN={Hs,per,Ym,yte,NT};
+}
+function recomputeNN(){
+  const T=tIter, ps=NN.Hs, NT=NN.NT, bias2=[],varr=[],test=[],train=[],norm=[];
+  for(const P of NN.per){
+    const {vals,vecs,eta,B,yhat}=P, nn=vals.length, g=new Float64Array(nn);
+    const lmax=n/eta, tol=1e-7*lmax;                              // pseudoinverse cutoff: skip near-zero-curvature modes
+    for(let c=0;c<nn;c++){const lk=vals[c];g[c]= lk>tol ? (1-Math.pow(1-eta*lk/n,T))/lk : 0;}   // GD/early-stop filter
+    const mbar=new Float64Array(NT), preds=[]; let nm=0, tr=0;
+    for(let m=0;m<MNN;m++){
+      const yh=yhat[m], gh=new Float64Array(nn);for(let c=0;c<nn;c++)gh[c]=g[c]*yh[c];
+      const pr=new Float64Array(NT);
+      for(let i=0;i<NT;i++){let s=0;const Bi=B[i];for(let c=0;c<nn;c++)s+=Bi[c]*gh[c];pr[i]=s;mbar[i]+=s/MNN;}
+      preds.push(pr);
+      let vn=0;for(let c=0;c<nn;c++)vn+=vals[c]*gh[c]*gh[c];nm+=Math.sqrt(vn);                  // ||v||² = Σ λ g² ŷ²
+      let e=0;for(let i=0;i<nn;i++){let f=0;for(let c=0;c<nn;c++)f+=vecs[i][c]*vals[c]*gh[c];e+=(f-NN.Ym[m][i])**2;}tr+=e/nn;
+    }
+    let b2=0,vv=0;for(let i=0;i<NT;i++){const d=mbar[i]-NN.yte[i];b2+=d*d;
+      let v=0;for(let m=0;m<MNN;m++){const e=preds[m][i]-mbar[i];v+=e*e;}vv+=v/MNN;}
+    bias2.push(b2/NT);varr.push(vv/NT);test.push((b2+vv)/NT);train.push(tr/MNN);norm.push(nm/MNN);
+  }
+  curve={ps,bias2,varr,test,train,norm};
+}
+
+// ===== ②-NN on the LEFT: the actual 1-D NN fit (early-stopping GD) =====
+//  Same 1-hidden-layer random-feature net as the right panel, but on the 1-D
+//  problem so we can DRAW it: H tanh features of x, output trained by GD-from-0
+//  for T steps (closed form via eig(K)). Spaghetti over datasets = variance; the
+//  gap of the average fit from the truth = bias. Fixed design + resampled noise,
+//  so an H-drag re-eigs once and a T-drag only re-filters (instant). NOTE the
+//  left is 1-D (drawable, classical-looking at interpolation); the *right* lives
+//  in high dimensions, where the benign second descent is a theorem — the same
+//  "two linked views" split as the polynomial/min-norm mode.
+const FMAX=180, GLEFT=121;
+let nnFeat=null, leftNN=null;
+function ensureFeat(){ if(nnFeat)return; const g=gaussFrom(mb(4242));
+  const W=new Float64Array(FMAX),B=new Float64Array(FMAX);
+  for(let j=0;j<FMAX;j++){W[j]=g()*4.0;B[j]=g()*2.0;} nnFeat={W,B}; }     // ω≈4 random tanh features
+function nnPhiRow(x,H){ const u=2*x-1,r=new Float64Array(H);
+  for(let j=0;j<H;j++)r[j]=Math.tanh(nnFeat.W[j]*u+nnFeat.B[j]); return r; }
+function prepLeftNN(){ ensureFeat(); const rng=mb(771);
+  const xs=new Float64Array(n); for(let i=0;i<n;i++)xs[i]=rng();
+  const ftrue=new Float64Array(n); for(let i=0;i<n;i++)ftrue[i]=trueFn(xs[i]);
+  const gn=gaussFrom(mb(99)), noises=[];
+  for(let m=0;m<MLEFT;m++){const e=new Float64Array(n);for(let i=0;i<n;i++)e[i]=gn();noises.push(e);}
+  leftNN={xs,ftrue,noises,H:-1}; }
+function computeLeftNN(){ const H=Math.max(1,Math.min(pCur,FMAX)), xs=leftNN.xs;
+  const Phi=[]; for(let i=0;i<n;i++)Phi.push(nnPhiRow(xs[i],H));
+  const K=[]; for(let i=0;i<n;i++)K.push(new Float64Array(n));
+  for(let i=0;i<n;i++)for(let l=i;l<n;l++){let s=0;for(let j=0;j<H;j++)s+=Phi[i][j]*Phi[l][j];K[i][l]=s;K[l][i]=s;}
+  const {vals,vecs}=jacobiEig(K); let lmax=1e-9;for(const v of vals)if(v>lmax)lmax=v;
+  const Kstar=[]; for(let gg=0;gg<GLEFT;gg++){const xg=gg/(GLEFT-1),fg=nnPhiRow(xg,H),row=new Float64Array(n);
+    for(let i=0;i<n;i++){let s=0;for(let j=0;j<H;j++)s+=fg[j]*Phi[i][j];row[i]=s;}Kstar.push(row);}
+  leftNN.H=H; leftNN.vals=vals; leftNN.vecs=vecs; leftNN.eta=n/lmax; leftNN.Kstar=Kstar; }
+function filterLeftNN(){ const {vals,vecs,eta,Kstar,ftrue,noises}=leftNN, nn=vals.length, T=tIter;
+  const lmax=n/eta, tol=1e-7*lmax, g=new Float64Array(nn);
+  for(let c=0;c<nn;c++){const lk=vals[c]; g[c]= lk>tol ? (1-Math.pow(1-eta*lk/n,T))/lk : 0;}
+  const preds=[];
+  for(let m=0;m<MLEFT;m++){ const y=new Float64Array(n);
+    for(let i=0;i<n;i++)y[i]=ftrue[i]+sigma*noises[m][i];
+    const Uty=new Float64Array(nn); for(let c=0;c<nn;c++){let s=0;for(let i=0;i<n;i++)s+=vecs[i][c]*y[i];Uty[c]=s*g[c];}
+    const cv=new Float64Array(n); for(let i=0;i<n;i++){let s=0;for(let c=0;c<nn;c++)s+=vecs[i][c]*Uty[c];cv[i]=s;}
+    const fg=new Float64Array(GLEFT); for(let gg=0;gg<GLEFT;gg++){let s=0;const row=Kstar[gg];for(let i=0;i<n;i++)s+=row[i]*cv[i];fg[gg]=s;}
+    preds.push(fg); }
+  leftNN.preds=preds; }
+function recomputeLeftNN(reEig){ if(!leftNN||leftNN.xs.length!==n)prepLeftNN();
+  if(reEig||leftNN.H!==Math.max(1,Math.min(pCur,FMAX)))computeLeftNN(); filterLeftNN(); }
+function drawNNLeft(){
+  const {w,h}=sizeC(fitC); fitX.clearRect(0,0,w,h); fitX.fillStyle=COL.bg; fitX.fillRect(0,0,w,h);
+  const padL=8,padR=8,padT=8,padB=8, yLo=-2.4,yHi=2.4;
+  const X=x=>padL+x*(w-padL-padR), Y=y=>padT+(yHi-y)/(yHi-yLo)*(h-padT-padB);
+  fitX.strokeStyle="#262630";fitX.lineWidth=1;fitX.beginPath();fitX.moveTo(padL,Y(0));fitX.lineTo(w-padR,Y(0));fitX.stroke();
+  if(!leftNN||!leftNN.preds){return;}
+  const preds=leftNN.preds, G=GLEFT-1;
+  fitX.lineWidth=1;
+  for(const fg of preds){fitX.strokeStyle="rgba(100,181,246,0.16)";fitX.beginPath();
+    for(let i=0;i<=G;i++){const py=Y(Math.max(yLo,Math.min(yHi,fg[i])));i?fitX.lineTo(X(i/G),py):fitX.moveTo(X(i/G),py);}fitX.stroke();}
+  fitX.strokeStyle=COL.white;fitX.lineWidth=2.4;fitX.beginPath();
+  for(let i=0;i<=G;i++){const x=i/G;i?fitX.lineTo(X(x),Y(trueFn(x))):fitX.moveTo(X(x),Y(trueFn(x)));}fitX.stroke();
+  fitX.strokeStyle=COL.accent;fitX.lineWidth=2.4;fitX.setLineDash([6,4]);fitX.beginPath();
+  for(let i=0;i<=G;i++){let m=0;for(const fg of preds)m+=fg[i];m/=preds.length;const py=Y(Math.max(yLo,Math.min(yHi,m)));i?fitX.lineTo(X(i/G),py):fitX.moveTo(X(i/G),py);}fitX.stroke();fitX.setLineDash([]);
+  const xs=leftNN.xs,y0=leftNN.ftrue,e0=leftNN.noises[0];
+  fitX.strokeStyle=COL.yellow;fitX.lineWidth=1.4;
+  for(let i=0;i<n;i++){const px=X(xs[i]),py=Y(Math.max(yLo,Math.min(yHi,y0[i]+sigma*e0[i])));
+    fitX.beginPath();fitX.moveTo(px-3,py-3);fitX.lineTo(px+3,py+3);fitX.moveTo(px+3,py-3);fitX.lineTo(px-3,py+3);fitX.stroke();}
+  let b2=0,vv=0,GG=60;
+  for(let i=0;i<=GG;i++){const x=0.1+0.8*i/GG, gi=Math.round(x*G);
+    let m=0;for(const fg of preds)m+=fg[gi];m/=preds.length; const db=trueFn(x)-m;b2+=db*db;
+    let v=0;for(const fg of preds){const e=fg[gi]-m;v+=e*e;}vv+=v/preds.length;}
+  b2/=(GG+1);vv/=(GG+1);
+  const Hd=Math.max(1,Math.min(pCur,FMAX));
+  document.getElementById("rd").innerHTML=`H=${Hd} units · T=${tIter} · <span style="color:${COL.red}">bias² ${b2.toFixed(3)}</span> · <span style="color:${COL.orange}">var ${vv.toFixed(3)}</span>`;
+  document.getElementById("leftcap").textContent =
+    Hd<n ? "Fewer hidden units than data → the net can't bend to the curve: high bias (underfit)."
+    : tIter<200 ? "Wide net but few GD steps (early stopping) → the fit stays smooth: low variance."
+    : "Wide net trained long → it chases the noise; the spaghetti fans out: high variance.";
+}
+
+// ======================= rendering ====================================
+const fitC=document.getElementById("fit"), fitX=fitC.getContext("2d");
+const curC=document.getElementById("curve"), curX=curC.getContext("2d");
+const normC=document.getElementById("norm"), normX=normC.getContext("2d");
+function sizeC(c){const r=c.parentElement.getBoundingClientRect();const dpr=window.devicePixelRatio||1;
+  c.width=Math.max(60,Math.floor(r.width*dpr));c.height=Math.max(50,Math.floor(r.height*dpr));
+  c.getContext("2d").setTransform(dpr,0,0,dpr,0,0);return{w:r.width,h:r.height};}
+
+function drawLeft(){
+  if(mode==='nn'&&!CLASSICAL){ drawNNLeft(); return; }
+  const {w,h}=sizeC(fitC); fitX.clearRect(0,0,w,h); fitX.fillStyle=COL.bg; fitX.fillRect(0,0,w,h);
+  const padL=8,padR=8,padT=8,padB=8, yLo=-2.4,yHi=2.4;
+  const X=x=>padL+x*(w-padL-padR), Y=y=>padT+(yHi-y)/(yHi-yLo)*(h-padT-padB);
+  fitX.strokeStyle="#262630";fitX.lineWidth=1;fitX.beginPath();fitX.moveTo(padL,Y(0));fitX.lineTo(w-padR,Y(0));fitX.stroke();
+  const d=Math.min(deg, n-1);
+  const fits=leftData.map(ds=>polyFit(ds.xs,ds.ys,d));
+  // per-dataset spaghetti
+  fitX.lineWidth=1;
+  for(const c of fits){fitX.strokeStyle="rgba(100,181,246,0.16)";fitX.beginPath();
+    for(let i=0;i<=120;i++){const x=i/120;const py=Y(Math.max(yLo,Math.min(yHi,polyEval(c,x))));i?fitX.lineTo(X(x),py):fitX.moveTo(X(x),py);}fitX.stroke();}
+  // true function
+  fitX.strokeStyle=COL.white;fitX.lineWidth=2.4;fitX.beginPath();
+  for(let i=0;i<=120;i++){const x=i/120;i?fitX.lineTo(X(x),Y(trueFn(x))):fitX.moveTo(X(x),Y(trueFn(x)));}fitX.stroke();
+  // average fit
+  fitX.strokeStyle=COL.accent;fitX.lineWidth=2.4;fitX.setLineDash([6,4]);fitX.beginPath();
+  for(let i=0;i<=120;i++){const x=i/120;let m=0;for(const c of fits)m+=polyEval(c,x);m/=fits.length;const py=Y(Math.max(yLo,Math.min(yHi,m)));i?fitX.lineTo(X(x),py):fitX.moveTo(X(x),py);}fitX.stroke();fitX.setLineDash([]);
+  // dataset[0] points
+  const d0=leftData[0];fitX.strokeStyle=COL.yellow;fitX.lineWidth=n>200?1:1.4;
+  const hs=n>300?1.0:n>120?1.7:3;                       // shrink the X markers as the data gets dense
+  for(let i=0;i<n;i++){const px=X(d0.xs[i]),py=Y(Math.max(yLo,Math.min(yHi,d0.ys[i])));
+    fitX.beginPath();fitX.moveTo(px-hs,py-hs);fitX.lineTo(px+hs,py+hs);fitX.moveTo(px+hs,py-hs);fitX.lineTo(px-hs,py+hs);fitX.stroke();}
+  // bias/variance readout (on the grid)
+  // measure bias/variance on the interior [0.1,0.9] so high-degree edge blow-up
+  // (Runge extrapolation) doesn't masquerade as bias — keeps the readout textbook.
+  let b2=0,vv=0,G=60;
+  for(let i=0;i<=G;i++){const x=0.1+0.8*i/G;let m=0;for(const c of fits)m+=polyEval(c,x);m/=fits.length;const db=trueFn(x)-m;b2+=db*db;
+    let v=0;for(const c of fits){const e=polyEval(c,x)-m;v+=e*e;}vv+=v/fits.length;}
+  b2/=(G+1);vv/=(G+1);
+  document.getElementById("rd").innerHTML=`degree ${d}${deg>n-1?" (capped at n−1)":""} · <span style="color:${COL.red}">bias² ${b2.toFixed(3)}</span> · <span style="color:${COL.orange}">var ${vv.toFixed(3)}</span>`;
+  document.getElementById("leftcap").textContent =
+    deg<=2 ? "Low degree → the average fit misses the curve: high bias, low variance (underfit)."
+    : deg<=4 ? "Matched degree → average fit tracks the truth and the spaghetti is tight: low bias, low variance."
+    : "High degree → fits chase the noise; the spaghetti fans out: low bias, high variance (overfit).";
+}
+
+function drawCurve(){
+  const {w,h}=sizeC(curC); curX.clearRect(0,0,w,h); curX.fillStyle=COL.bg; curX.fillRect(0,0,w,h);
+  if(!curve) return;
+  const padL=20,padR=10,padT=24,padB=22, {ps,bias2,varr,test,train}=curve;
+  const XN=(mode==='nn')?"H":"p";
+  const X=p=>padL+(p-1)/(pMaxR-1)*(w-padL-padR);
+  let lo=Infinity,hi=-Infinity;
+  for(const arr of [test,bias2,varr,train]) for(const v of arr){if(v>hi)hi=v; if(v>1e-4&&v<lo)lo=v;}
+  let Y;
+  if(logy){ const a=Math.log10(Math.max(lo,1e-3)), b=Math.log10(hi*1.3);
+    Y=e=>padT+(1-(Math.log10(Math.max(e,Math.pow(10,a)))-a)/(b-a))*(h-padT-padB);
+    // decade gridlines
+    curX.strokeStyle="#1d1d26";curX.fillStyle=COL.dim;curX.font="9px sans-serif";curX.textAlign="left";
+    for(let k=Math.ceil(a);k<=Math.floor(b);k++){const yy=Y(Math.pow(10,k));curX.beginPath();curX.moveTo(padL,yy);curX.lineTo(w-padR,yy);curX.stroke();curX.fillText("1e"+k,padL+2,yy-2);}
+  } else { const b=hi*1.1; Y=e=>padT+(1-Math.min(e,b)/b)*(h-padT-padB); }
+  curX.strokeStyle="#2a2a33";curX.lineWidth=1;curX.beginPath();curX.moveTo(padL,padT);curX.lineTo(padL,h-padB);curX.lineTo(w-padR,h-padB);curX.stroke();
+  curX.fillStyle=COL.dim;curX.font="10px sans-serif";curX.textAlign="center";curX.fillText((mode==='nn'?"hidden units  H  →":"capacity  p  →"),(padL+w-padR)/2,h-6);
+  // interpolation threshold
+  const xn=X(n);curX.strokeStyle="rgba(239,83,80,0.5)";curX.setLineDash([4,4]);curX.lineWidth=1.3;
+  curX.beginPath();curX.moveTo(xn,padT);curX.lineTo(xn,h-padB);curX.stroke();curX.setLineDash([]);
+  curX.fillStyle=COL.red;curX.textAlign=(xn>w*0.6?"right":"left");curX.font="10px sans-serif";
+  curX.fillText(" "+XN+" = n ",xn+(xn>w*0.6?-3:3),h-padB-4);
+  const plot=(arr,c,wd,dash)=>{curX.strokeStyle=c;curX.lineWidth=wd;curX.setLineDash(dash||[]);curX.beginPath();
+    for(let i=0;i<ps.length;i++){const px=X(ps[i]),py=Y(arr[i]);i?curX.lineTo(px,py):curX.moveTo(px,py);}curX.stroke();curX.setLineDash([]);};
+  plot(train,COL.green,1.5,[5,3]); plot(bias2,COL.red,1.4); plot(varr,COL.orange,1.4); plot(test,COL.accent,2.6);
+  // current p marker
+  const xp=X(Math.min(pCur,pMaxR));curX.strokeStyle=COL.yellow;curX.globalAlpha=0.9;curX.lineWidth=1.4;
+  curX.beginPath();curX.moveTo(xp,padT);curX.lineTo(xp,h-padB);curX.stroke();curX.globalAlpha=1;
+  // regime label + caption
+  const reg=document.getElementById("regime");
+  if(pCur<n){reg.textContent="underparameterized\np < n";reg.style.color=COL.green;}
+  else if(pCur<=n+1){reg.textContent="interpolation\nthreshold";reg.style.color=COL.red;}
+  else{reg.textContent="overparameterized\np > n";reg.style.color=COL.teal;}
+  reg.style.whiteSpace="pre";
+  document.getElementById("rightcap").innerHTML = CLASSICAL
+    ? "Bias falls, variance rises → their sum (test) is U-shaped; as p → n the model interpolates and variance blows up."
+    : (mode==='nn')
+    ? (pCur<n ? "Underparameterized net: fewer hidden units than data points — it can't even fit the training noise."
+      : pCur<=n+1 ? "Hidden units ≈ data: the net can just interpolate — run GD long enough (raise T) and test error spikes."
+      : "Wide net: many weight settings interpolate; GD-from-zero drifts to a small-norm one → second descent. Small T ≈ ridge (early stopping).")
+    : (pCur<n ? "Classical regime: this is the left half — the U-curve you already teach."
+      : pCur<=n+1 ? "At p = n the model just barely interpolates the noisy data — variance explodes (the peak)."
+      : "Past the threshold: many interpolating solutions exist; min-norm picks a simple one → variance falls again (the second descent).");
+}
+
+function drawNorm(){
+  const {w,h}=sizeC(normC); normX.clearRect(0,0,w,h); normX.fillStyle=COL.bg; normX.fillRect(0,0,w,h);
+  if(!curve||!curve.norm) return;
+  const padL=20,padR=10,padT=15,padB=4, {ps,norm}=curve;
+  const X=p=>padL+(p-1)/(pMaxR-1)*(w-padL-padR);
+  const pos=norm.filter(v=>v>0); const hi=Math.max(...norm,1e-6), lo=Math.max(Math.min(...pos),1e-3);
+  const a=Math.log10(lo), b=Math.log10(hi*1.4);
+  const Y=v=>padT+(1-(Math.log10(Math.max(v,lo))-a)/(b-a))*(h-padT-padB);
+  // interpolation threshold (the solution norm peaks here)
+  const xn=X(n); normX.strokeStyle="rgba(239,83,80,0.5)";normX.setLineDash([4,4]);normX.lineWidth=1.2;
+  normX.beginPath();normX.moveTo(xn,padT);normX.lineTo(xn,h-padB);normX.stroke();normX.setLineDash([]);
+  // ||β||₂ curve
+  normX.strokeStyle=COL.purple;normX.lineWidth=2.2;normX.beginPath();
+  for(let i=0;i<ps.length;i++){const px=X(ps[i]),py=Y(norm[i]);i?normX.lineTo(px,py):normX.moveTo(px,py);}normX.stroke();
+  // current-p marker
+  const xp=X(Math.min(pCur,pMaxR));normX.strokeStyle=COL.yellow;normX.globalAlpha=0.85;normX.lineWidth=1.3;
+  normX.beginPath();normX.moveTo(xp,padT);normX.lineTo(xp,h-padB);normX.stroke();normX.globalAlpha=1;
+}
+
+// ======================= orchestration ================================
+function recomputeAll(){ pMaxR=calcPMaxR(); rebuildLeft(); rebuildRight();
+  if(!CLASSICAL && mode==='nn'){ prepLeftNN(); computeLeftNN(); filterLeftNN(); prepNN(); recomputeNN(); }
+  else { recomputeCurve(); }
+  redraw(); }
+function applyMode(){ const nn=(mode==='nn');
+  document.getElementById("tLabel").style.display=nn?"":"none";
+  document.getElementById("lamLabel").style.display=nn?"none":"";
+  document.getElementById("degLabel").style.display=nn?"none":"";
+  document.getElementById("pcapname").textContent=nn?"hidden units H":"capacity p";
+  const lt=document.querySelector('#left .ttl');
+  if(lt&&!CLASSICAL) lt.innerHTML = nn
+    ? '① Neural-net fit <small>— H tanh units, output trained by GD (early stopping = T steps)</small>'
+    : '① Classical bias–variance <small>— polynomial fit (1-D), the regime you know</small>';
+  document.getElementById("modelsub").textContent=nn
+    ?"— a real NN trained by GD; sweep width H, set iterations T"
+    :"— push capacity past p = n (needs high dimensions)"; }
+function redraw(){ drawLeft(); drawCurve(); if(!CLASSICAL) drawNorm(); }
+const $=id=>document.getElementById(id);
+function syncP(){ $("pcap").max=pMaxR; if(pCur>pMaxR){pCur=pMaxR;$("pcap").value=pCur;$("pval").textContent=pCur;} }
+$("nobs").oninput=e=>{ n=nFromLog(+e.target.value); $("nval").textContent=n; pMaxR=calcPMaxR(); syncP();
+  recomputeAll(); };
+$("sig").oninput=e=>{ sigma=+e.target.value; $("sigval").textContent=sigma.toFixed(2); recomputeAll(); };
+$("deg").oninput=e=>{ deg=+e.target.value; $("degval").textContent=deg; drawLeft(); };
+$("pcap").oninput=e=>{ pCur=+e.target.value; $("pval").textContent=pCur;
+  if(mode==='nn'&&!CLASSICAL&&leftNN){ computeLeftNN(); filterLeftNN(); drawLeft(); }
+  drawCurve(); drawNorm(); };
+$("lam").oninput=e=>{ const v=+e.target.value; lamUser=(v<=-7.5?0:Math.pow(10,v));
+  $("lamval").textContent=(lamUser===0?"0 (off)":lamUser.toPrecision(2)); recomputeCurve(); drawCurve(); drawNorm(); };
+$("titer").oninput=e=>{ tIter=Math.round(Math.pow(10,+e.target.value)); $("tval").textContent=tIter;
+  if(mode==='nn'&&NN){ recomputeNN(); if(leftNN){ filterLeftNN(); drawLeft(); } drawCurve(); drawNorm(); } };
+$("model").onchange=e=>{ mode=e.target.value; applyMode(); recomputeAll(); };
+$("logy").onchange=e=>{ logy=e.target.checked; drawCurve(); };
+$("reset").onclick=()=>{ n=20;sigma=0.25;deg=3;pCur=20;logy=true;lamUser=0;mode='analytic';tIter=1000;
+  applyNRange();$("nval").textContent=20;$("sig").value=0.25;$("sigval").textContent="0.25";
+  $("deg").value=3;$("degval").textContent=3;$("pcap").value=20;$("pval").textContent=20;$("logy").checked=true;
+  $("lam").value=-8;$("lamval").textContent="0 (off)";$("model").value='analytic';$("titer").value=3;$("tval").textContent=1000;applyMode();
+  pMaxR=calcPMaxR(); syncP(); recomputeAll(); };
+window.addEventListener("resize",()=>{ if(curve) redraw(); });
+window.addEventListener("load",()=>{ applyView(); applyNRange(); pMaxR=calcPMaxR(); applyMode(); syncP(); recomputeAll(); });
+</script>
+</body>
+</html>

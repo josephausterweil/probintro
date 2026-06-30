@@ -1,5 +1,5 @@
 +++
-date = "2026-06-15"
+date = "2026-06-30"
 title = "Continuous Probability and Bayesian Learning"
 # NOTE: Ch7 (Bayesian Generalization) is a page bundle: content/intro2/07_generalization/ with
 #   _index.md (overview) + 4 part pages. The mermaid node below is a diagram label, not a link.
@@ -100,11 +100,23 @@ This tutorial builds directly on GenJAX (Tutorial 2) to explore:
 - The complete bento model
 - **GenJAX**: Building and inferring mixture models
 
-### Chapter 6: Dirichlet Process Mixture Models
-- Infinite mixture models
-- The Dirichlet Process prior
-- Automatic model selection
-- **GenJAX**: Implementing DPMM for clustering
+### Chapter 5a: The Bias-Variance Dilemma
+- How complex should a model be? Underfitting vs. overfitting
+- The bias–variance decomposition and the U-curve
+- Ridge regression *is* a Gaussian prior; double descent (a high-dimensional phenomenon)
+- **GenJAX**: Bayesian polynomial regression; the bias²/variance/test sweep
+
+### Chapter 6: Discrete Bayesian Nonparametrics
+- The Dirichlet Process: one object, three lenses (CRP / Pólya urn / stick-breaking)
+- Why a DP draw is discrete → why a DPMM infers the number of clusters
+- The building block: HDP / LDA topics, the IBP for features
+- **GenJAX**: a stick-breaking DPMM + a slice-Gibbs sampler
+
+### Chapter 6a: Continuous Bayesian Nonparametrics — Gaussian Processes
+- A prior over *functions*; kernels and the marginal likelihood
+- GP → neural networks: Neal / NNGP (at initialization) / NTK (under gradient descent)
+- Neural processes; nonparametric memory (RAG / kNN-LM); the unifying synthesis
+- **GenJAX**: a GP prior (Cholesky trick) + closed-form posterior
 
 ### Chapter 7: Bayesian Generalization
 - Concepts as hypotheses: a hypothesis is a *set*
