@@ -554,22 +554,17 @@ def stick_breaking(alpha):
 
 ### Chinese Restaurant Process (CRP) 📊
 {{% expand "Chinese Restaurant Process" %}}
-A metaphor and algorithm for understanding the Dirichlet Process. Imagine customers entering a restaurant with infinite tables:
-- First customer sits at table 1
-- Next customer: sit at an occupied table with probability proportional to its occupancy, OR sit at a new table with probability proportional to α
+A metaphor, an algorithm, and one of the **three lenses** on the [Dirichlet process](#dirichlet-process-dp-) — the lens that describes the **partition** (who clusters with whom). Imagine a restaurant with infinitely many tables. Customers (observations) enter one at a time; customer $n+1$ sits:
+- at an **occupied table** $k$ with probability $\frac{n_k}{n+\alpha}$ (proportional to how many already sit there), or
+- at a **new table** with probability $\frac{\alpha}{n+\alpha}$,
 
-**Parameters**: α (concentration parameter)
+where $n_k$ is the occupancy of table $k$, $n$ the customers so far, and $\alpha$ the [concentration parameter](#concentration-parameter-α-). This is the **rich-get-richer** dynamic: popular tables attract more customers (clustering), but a new table can always open (flexibility), with larger $\alpha$ ⇒ more tables.
 
-**Properties**:
-- "Rich get richer" - popular tables attract more customers
-- But always a chance to start new tables
-- α controls tendency to create new clusters
+**The dish is a cluster's parameter.** Each table serves a **dish** $\theta_k \sim G_0$ drawn once when it opens and shared by everyone seated there — for bentos $\theta_k = \mu_k$, the cluster's Gaussian mean. The CRP fixes the *partition*; the dishes fix *where each cluster sits* on the weight axis. Put the dish values back into the sequence and you get the [Pólya urn](#pólya-urn-) (the DP's predictive marginal); the probability of a whole seating is the [EPPF](#exchangeable-partition-probability-function-eppf-); and by [Kingman's paintbox](#kingman-paintbox-) theorem the CRP partition is exactly a paintbox painted with the DP's [stick-breaking](#stick-breaking-construction-) weights.
 
-**Connection to DPMM**: Each table = a cluster. CRP determines cluster assignments, then each cluster has its own Gaussian distribution.
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
 
-**Not used directly in code**: Stick-breaking construction is mathematically equivalent but more practical for implementation
-
-**See also**: Dirichlet Process, DPMM, Stick-breaking
+**See also**: [Dirichlet Process (DP)](#dirichlet-process-dp-), [Pólya Urn](#pólya-urn-), [Stick-Breaking Construction](#stick-breaking-construction-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-), [Kingman Paintbox](#kingman-paintbox-), [DPMM](#dirichlet-process-mixture-model-dpmm-)
 {{% /expand %}}
 
 ### Concentration Parameter (α) 📊
@@ -590,7 +585,11 @@ beta_k = beta(1.0, alpha) @ f"beta_{k}"
 
 **Typical range**: 0.1 to 10 for most applications
 
-**See also**: Dirichlet Process, DPMM, Stick-breaking
+**Caveat**: fixing α makes the DPMM's posterior over the *number* of clusters inconsistent (Miller & Harrison, 2014); putting a prior on α restores it.
+
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+
+**See also**: [Dirichlet Process (DP)](#dirichlet-process-dp-), [Base Measure (G₀)](#base-measure-), [Stick-Breaking Construction](#stick-breaking-construction-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-)
 {{% /expand %}}
 
 ### Conjugate Prior 📊
@@ -676,28 +675,17 @@ def mixture_weights(alpha_vector):
 
 ### Dirichlet Process (DP) 📊
 {{% expand "Dirichlet Process" %}}
-A distribution over distributions. It's a *prior* for mixture models when you don't know how many clusters/components you need.
+A **distribution over distributions** — the *prior* for mixture models when you don't know how many clusters you need. A draw $G \sim \mathrm{DP}(\alpha, G_0)$ is itself a random probability distribution, with two knobs: the [base measure](#base-measure-) $G_0$ (where the atoms land — for bentos $G_0 = \mathcal{N}(\mu_0, \sigma_0^2)$) and the [concentration](#concentration-parameter-α-) $\alpha$ (how the unit of probability splits among atoms).
 
-**Parameters**:
-- α (concentration parameter) - controls cluster formation
-- G₀ (base distribution) - the "prototype" distribution for clusters
+**Why a DPMM clusters at all:** a DP draw is **almost surely discrete** — even when $G_0$ is a smooth, continuous density. All of $G$'s mass piles onto a *countable* comb of atoms, $G = \sum_{k=1}^{\infty} \pi_k\, \delta_{\theta_k}$, with weights $\pi_k$ and locations $\theta_k \sim G_0$. Because $G$ is discrete, drawing parameters $\theta \sim G$ independently produces **ties** — the same atom comes up again and again — and *a tie is exactly two data points sharing a cluster*. The clustering is not bolted on; it falls out of the discreteness. Each atom $\theta_k$ *is* a cluster's parameter: for the bentos $\theta_k = \mu_k$, the cluster's Gaussian **mean weight**.
 
-**Key properties**:
-- **Infinite mixture**: Can have arbitrarily many clusters
-- **Automatic model selection**: Data determines effective number of clusters
-- **Clustering property**: Enforces that some samples share the same parameter values (clusters)
+**One object, three lenses** (not three models): [stick-breaking](#stick-breaking-construction-) **constructs** $G$ (the spike heights $\pi_k$ and locations $\theta_k$); the [Pólya urn](#pólya-urn-) is its **predictive marginal** (integrate $G$ out); the [CRP](#chinese-restaurant-process-crp-) is the **partition** it induces (a [Kingman paintbox](#kingman-paintbox-)).
 
-**Two representations**:
-1. **Chinese Restaurant Process** (CRP) - metaphorical, sequential
-2. **Stick-breaking** - constructive, practical for implementation
+**Why "Dirichlet Process"**: it generalizes the [Dirichlet distribution](#dirichlet-distribution-) (a finite probability *vector*) to a random *measure* over infinitely many atoms. In practice it is used via the [DPMM](#dirichlet-process-mixture-model-dpmm-) to cluster without specifying $K$ — and far beyond clustering, as a modular "unknown-cardinality" prior ([HDP](#hierarchical-dirichlet-process-hdp-) topics, [IBP](#indian-buffet-process-ibp-) / [Beta process](#beta-process-) features).
 
-**Why "Dirichlet Process"**: It's a generalization of the Dirichlet distribution to infinite dimensions
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
 
-**In practice**: Used via DPMM for clustering without specifying K
-
-**Tutorial 3, Chapter 6** covers DP in detail
-
-**See also**: DPMM, Stick-breaking, Chinese Restaurant Process
+**See also**: [DPMM](#dirichlet-process-mixture-model-dpmm-), [Stick-Breaking Construction](#stick-breaking-construction-), [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Pólya Urn](#pólya-urn-), [Base Measure (G₀)](#base-measure-), [Concentration Parameter (α)](#concentration-parameter-α-)
 {{% /expand %}}
 
 ### Dirichlet Process Mixture Model (DPMM) 📊
@@ -1068,7 +1056,7 @@ z = normal(0.0, 1.0) @ "z"  # Standard normal
 
 ### Stick-Breaking Construction 📊
 {{% expand "Stick-Breaking Construction" %}}
-A way to construct the infinite mixture weights in a Dirichlet Process by "breaking sticks."
+The **explicit construction** of a [Dirichlet process](#dirichlet-process-dp-) draw $G$ (Sethuraman, 1994) — the lens that builds the random measure directly, by "breaking sticks." It produces both the spike *heights* $\pi_k$ and, paired with locations $\theta_k \sim G_0$ from the [base measure](#base-measure-), writes the whole measure $G = \sum_k \pi_k\, \delta_{\theta_k}$. The weight sequence $\pi_1, \pi_2, \dots$ on its own has its own name — the **GEM($\alpha$)** distribution (after Griffiths, Engen and McCloskey).
 
 **Metaphor**: Start with a stick of length 1. Repeatedly:
 1. Break off a fraction (β) of the remaining stick
@@ -1113,9 +1101,9 @@ def stick_breaking(alpha, K):
 
 **Used in**: DPMM implementation
 
-**Tutorial 3, Chapter 6** explains stick-breaking in detail
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
 
-**See also**: Dirichlet Process, DPMM, Beta Distribution
+**See also**: [Dirichlet Process (DP)](#dirichlet-process-dp-), [DPMM](#dirichlet-process-mixture-model-dpmm-), [Pólya Urn](#pólya-urn-), [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-), [Base Measure (G₀)](#base-measure-), [Beta Distribution](#beta-distribution-)
 {{% /expand %}}
 
 ### Truncation (in DPMM) 📊
@@ -1369,6 +1357,171 @@ Overfitting that **does not hurt**: a model interpolates noisy training data (ze
 **Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#double-descent)
 
 **See also**: Double Descent, Interpolation Threshold, Overfitting, Ridge Regression and Regularization
+{{% /expand %}}
+
+<!-- ===== Bayesian Nonparametrics: Discrete (DPMM, Ch 6) and Continuous (Gaussian Processes, Ch 6a) ===== -->
+
+### Base Measure 📊
+{{% expand "Base Measure (G₀)" %}}
+The *base measure* $G_0$ is one of the two knobs of a [Dirichlet process](#dirichlet-process-dp-) $\mathrm{DP}(\alpha, G_0)$: the distribution the DP's atoms are drawn from — *where* a new cluster's parameter tends to land. For Chibany's bentos $G_0 = \mathcal{N}(\mu_0, \sigma_0^2)$, the prior on a cluster's mean weight, so each atom (each "dish" a table serves) is a draw $\theta_k \sim G_0$. $G_0$ sets the *locations* of the spikes in a DP draw $G = \sum_k \pi_k\, \delta_{\theta_k}$; the [concentration parameter](#concentration-parameter-α-) $\alpha$ sets their *heights*.
+
+**Note:** even when $G_0$ is a smooth, continuous density, a DP draw $G$ is almost surely **discrete** — and that discreteness, not $G_0$, is what makes a DPMM cluster.
+
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+
+**See also:** [Dirichlet Process (DP)](#dirichlet-process-dp-), [Concentration Parameter (α)](#concentration-parameter-α-), [Stick-Breaking Construction](#stick-breaking-construction-)
+{{% /expand %}}
+
+### Pólya Urn 📊
+{{% expand "Pólya Urn" %}}
+The *Pólya urn* (Blackwell & MacQueen, 1973) is the Dirichlet process's **predictive marginal** — what the *sequence of parameter draws* $\theta_1, \theta_2, \dots$ looks like once the random measure $G$ has been **integrated out**:
+$$\theta_{n+1} \mid \theta_{1:n} \;\sim\; \frac{\alpha}{n+\alpha}\, G_0 \;+\; \frac{1}{n+\alpha}\sum_{i=1}^{n} \delta_{\theta_i}.$$
+In words: the next parameter is a **fresh draw from $G_0$** with probability $\propto \alpha$ (open a new cluster), or a **copy of a value already seen** with probability $\propto$ its count (the rich-get-richer reuse). It is the same rule as the [CRP](#chinese-restaurant-process-crp-), but tracking the actual parameter *values* (dishes) rather than just the table *labels* — and it is a *consequence* of the DP, not the DP itself. This marginalization is what makes "collapsed" Gibbs samplers possible: you never have to represent the infinite $G$.
+
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+
+**See also:** [Dirichlet Process (DP)](#dirichlet-process-dp-), [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Stick-Breaking Construction](#stick-breaking-construction-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-)
+{{% /expand %}}
+
+### Exchangeable Partition Probability Function (EPPF) 📊
+{{% expand "Exchangeable Partition Probability Function (EPPF)" %}}
+The *EPPF* is the probability the Dirichlet process / [CRP](#chinese-restaurant-process-crp-) assigns to a **partition** of $n$ points into $K$ blocks of sizes $n_1, \dots, n_K$:
+$$P(\text{partition}) = \frac{\alpha^{K}\,\prod_{k=1}^{K}(n_k - 1)!}{\alpha(\alpha+1)\cdots(\alpha+n-1)}.$$
+Reading it: $\alpha^{K}$ charges a factor $\alpha$ to *open* each of the $K$ tables (larger $\alpha$ ⇒ more clusters); $\prod_k (n_k-1)!$ rewards *big* tables (rich-get-richer, so lopsided partitions dominate); the denominator is the rising factorial that normalizes the seating rule. Its defining feature is what is **absent** — it depends only on the block *sizes*, not on which point is which or the order they arrived. That invariance is **exchangeability**, and it is what lets a Gibbs sampler pluck any point out and reseat it as if it were the last to arrive.
+
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+
+**See also:** [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Pólya Urn](#pólya-urn-), [Kingman Paintbox](#kingman-paintbox-), [Dirichlet Process (DP)](#dirichlet-process-dp-)
+{{% /expand %}}
+
+### Kingman Paintbox 📊
+{{% expand "Kingman Paintbox" %}}
+*Kingman's paintbox* (Kingman, 1978) is the representation theorem behind the [CRP](#chinese-restaurant-process-crp-): **every** exchangeable random partition arises by sampling labels from a random discrete measure. Pour the unit of probability into colored "boxes" of weights $\pi_1, \pi_2, \dots$, then color each point by the box it lands in; points sharing a color share a block. The CRP partition is exactly a paintbox painted with the Dirichlet process's [stick-breaking](#stick-breaking-construction-) weights — which is *why* the three lenses (CRP, [Pólya urn](#pólya-urn-), stick-breaking) describe one object.
+
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+
+**See also:** [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-), [Stick-Breaking Construction](#stick-breaking-construction-)
+{{% /expand %}}
+
+### Hierarchical Dirichlet Process (HDP) 📊
+{{% expand "Hierarchical Dirichlet Process (HDP)" %}}
+The *HDP* (Teh, Jordan, Beal & Blei, 2006) stacks Dirichlet processes so several grouped datasets can **share** their discovered components. A *top-level* DP draws a global menu of atoms (e.g. topics); each group then gets its *own* DP whose **base measure is that shared global draw**, so groups reuse the same atoms instead of inventing private ones. Applied to topic modeling it gives **HDP-LDA** — [LDA](#latent-dirichlet-allocation-lda-) that learns the *number* of topics from the corpus. It is the "[hierarchical Bayes](../intro2/12_hierarchical_bayes/) — a prior on the prior" idea applied to a random *measure* rather than a scalar.
+
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+
+**See also:** [Dirichlet Process (DP)](#dirichlet-process-dp-), [Latent Dirichlet Allocation (LDA)](#latent-dirichlet-allocation-lda-), [Base Measure (G₀)](#base-measure-)
+{{% /expand %}}
+
+### Latent Dirichlet Allocation (LDA) 📊
+{{% expand "Latent Dirichlet Allocation (LDA)" %}}
+*LDA* (Blei, Ng & Jordan, 2003) is the canonical **topic model**: each *topic* is a distribution over words (a "lunch" topic leans on *bento, rice, sauce*), and each *document* is a mixture over a **fixed** number $T$ of topics, with per-document topic proportions drawn from a finite [Dirichlet distribution](#dirichlet-distribution-). It works beautifully but forces you to choose $T$ — the same fixed-cardinality problem the DP cures, one level up. Replacing the finite topic Dirichlet with a [hierarchical Dirichlet process](#hierarchical-dirichlet-process-hdp-) gives HDP-LDA, which learns $T$ from the corpus.
+
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+
+**See also:** [Hierarchical Dirichlet Process (HDP)](#hierarchical-dirichlet-process-hdp-), [Dirichlet Distribution](#dirichlet-distribution-), [Mixture Model](#mixture-model-)
+{{% /expand %}}
+
+### Indian Buffet Process (IBP) 📊
+{{% expand "Indian Buffet Process (IBP)" %}}
+The *IBP* (Griffiths & Ghahramani, 2011) is the **feature** analogue of the [CRP](#chinese-restaurant-process-crp-). Where the CRP gives each object exactly **one** cluster, the IBP gives it a **binary feature vector** over an unbounded set of features: customers file past an infinitely long buffet and sample *each* dish (feature) independently, with probability proportional to how many earlier customers took it, plus a $\mathrm{Poisson}(\alpha/n)$ helping of brand-new dishes. So an object can have glasses **and** a beard **and** a hat at once — many present-or-absent features, not a single label. The IBP is the predictive marginal of the [Beta process](#beta-process-), exactly as the CRP/Pólya urn is the predictive marginal of the Dirichlet process.
+
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+
+**See also:** [Beta Process](#beta-process-), [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Dirichlet Process (DP)](#dirichlet-process-dp-)
+{{% /expand %}}
+
+### Beta Process 📊
+{{% expand "Beta Process" %}}
+The *Beta process* (Thibaux & Jordan, 2007) is the Dirichlet process's sibling: a random measure whose draws describe **subsets** (which features an object has) rather than a **single assignment** (which cluster it belongs to). It is the random measure underlying the [Indian Buffet Process](#indian-buffet-process-ibp-) — the IBP is its predictive marginal — just as the DP underlies the [CRP](#chinese-restaurant-process-crp-). Same recipe ("put a prior on a measure of unbounded size"), different measure, and clusters become features.
+
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+
+**See also:** [Indian Buffet Process (IBP)](#indian-buffet-process-ibp-), [Dirichlet Process (DP)](#dirichlet-process-dp-)
+{{% /expand %}}
+
+### Kernel 📊
+{{% expand "Kernel" %}}
+A *kernel* $k(x, x')$ scores **how similar two inputs are**, and therefore how tightly their function values are tied together — it is the covariance of a [Gaussian process](#gaussian-process-) ($K_{ij} = k(x_i, x_j)$), so choosing the kernel *is* choosing the model's inductive bias before seeing any data. The workhorse is the **RBF** (squared-exponential) kernel
+$$k(x, x') = \sigma_f^2 \, \exp\!\left(-\frac{(x - x')^2}{2\,\ell^2}\right),$$
+with a **signal std** $\sigma_f$ (how far the function swings) and a [length-scale](#length-scale-) $\ell$ (how far a point's influence reaches). Similarity is maximal ($\sigma_f^2$) at zero distance and decays toward zero past a few length-scales. It is the same object as a kernel-density-estimation bump, carried from estimating a *density* to estimating a *function*.
+
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+
+**See also:** [Gaussian Process](#gaussian-process-), [Length-scale](#length-scale-), [Marginal Likelihood](#marginal-likelihood-)
+{{% /expand %}}
+
+### Length-scale 📊
+{{% expand "Length-scale" %}}
+The *length-scale* $\ell$ is the [RBF kernel](#kernel-)'s knob for **how far a point's influence reaches**: two inputs closer than $\ell$ are strongly correlated, and far past $\ell$ they are nearly independent. It *is* a [Gaussian process](#gaussian-process-)'s smoothness prior — **small $\ell$** = spiky, wiggly, local (the model expects rapid change); **large $\ell$** = broad, smooth, global. It is the same dial as a **bandwidth** in kernel density estimation. The data can choose it by maximizing the [marginal likelihood](#marginal-likelihood-).
+
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+
+**See also:** [Kernel](#kernel-), [Gaussian Process](#gaussian-process-), [Marginal Likelihood](#marginal-likelihood-)
+{{% /expand %}}
+
+### Gaussian Process 📊
+{{% expand "Gaussian Process (GP)" %}}
+A *Gaussian process* (GP) is a **prior over functions** such that any finite set of function values is jointly Gaussian: pick inputs $x_1, \dots, x_n$ and the vector $(f(x_1), \dots, f(x_n))$ is multivariate normal with mean $\mathbf{m}$ (usually $\mathbf{0}$) and covariance $K_{ij} = k(x_i, x_j)$ from a [kernel](#kernel-). It is the **continuous** Bayesian nonparametric — a prior over the *shape of a curve*, the twin of the [DPMM](#dirichlet-process-mixture-model-dpmm-)'s prior over partitions. With Gaussian observation noise the **posterior is closed form** (no MCMC): the posterior mean $k(X_\ast, X)\,[K+\sigma_n^2 I]^{-1}y$ is a similarity-weighted combination of the observed outputs, and the posterior band **pinches at the data and widens away from it**. Taken to the infinite-width limit, a neural network *is* a GP ([NNGP](#nngp-) / [NTK](#ntk-)).
+
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+
+**See also:** [Kernel](#kernel-), [Length-scale](#length-scale-), [Marginal Likelihood](#marginal-likelihood-), [Ridge Regression and Regularization](#ridge-regression-and-regularization-), [NNGP](#nngp-), [NTK](#ntk-)
+{{% /expand %}}
+
+### Marginal Likelihood 📊
+{{% expand "Marginal Likelihood (evidence)" %}}
+The *marginal likelihood* (or **evidence**) is the probability a model assigns to the observed data with the unknowns **integrated out**, $p(y \mid X) = \int p(y \mid f)\,p(f)\,df$ — the denominator $P(D)$ of [Bayes' theorem](#bayes-theorem-), read as a score for the *model itself*. For a [Gaussian process](#gaussian-process-) it is closed form,
+$$\log p(y \mid X) = -\tfrac{1}{2}\, y^\top K^{-1} y - \tfrac{1}{2}\log|K| - \tfrac{n}{2}\log 2\pi, \qquad K = k(X,X) + \sigma_n^2 I,$$
+and its two data-dependent terms encode **Occam's razor automatically**: $y^\top K^{-1} y$ rewards fitting the data while $\log|K|$ penalizes an over-flexible kernel (which spreads its prior mass thin). Maximizing it over the kernel's [length-scale](#length-scale-), signal std, and noise is how a GP **lets the data choose its own inductive bias** — the continuous cousin of the DPMM letting the data choose the number of clusters.
+
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+
+**See also:** [Gaussian Process](#gaussian-process-), [Kernel](#kernel-), [Length-scale](#length-scale-), [Bayes Theorem](#bayes-theorem-)
+{{% /expand %}}
+
+### NNGP 📊
+{{% expand "NNGP" %}}
+The *Neural Network Gaussian Process* is the [Gaussian process](#gaussian-process-) that a neural network becomes **at initialization** as its layers grow infinitely wide. A network's output is a sum of many iid random features, so by the **Central Limit Theorem** it is jointly Gaussian (Neal, 1996); for a *deep* net the kernel is built by a layer-by-layer recursion (Lee et al., 2018). The consequence: **exact Bayesian inference in an infinitely wide net = GP regression** with the NNGP kernel — the same closed-form posterior, no gradient descent. The NNGP describes the network's **prior** (what's random is the weights). Its training-time partner is the [NTK](#ntk-).
+
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+
+**See also:** [NTK](#ntk-), [Gaussian Process](#gaussian-process-), [Kernel](#kernel-)
+{{% /expand %}}
+
+### NTK 📊
+{{% expand "NTK" %}}
+The *Neural Tangent Kernel* (Jacot et al., 2018) describes a wide neural network **during gradient-descent training**: $\Theta(x, x') = \langle \nabla_\theta f(x),\, \nabla_\theta f(x') \rangle$, the similarity of the network's gradients at two inputs. In the infinite-width limit the NTK is **deterministic and constant throughout training**, the weights barely move (the "lazy" regime), and gradient-descent training reduces to **kernel regression with the NTK**. Where the [NNGP](#nngp-) is the net's *prior* (the weights are random), the NTK is what *training* does (nothing is random — the kernel is fixed). **Caveat:** both are "lazy" limits with **no feature learning** — the very thing that makes real, finite networks powerful.
+
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+
+**See also:** [NNGP](#nngp-), [Gaussian Process](#gaussian-process-), [Kernel](#kernel-)
+{{% /expand %}}
+
+### Neural Process 📊
+{{% expand "Neural Process" %}}
+A *neural process* (Garnelo et al., 2018) is a neural network **trained to imitate a Gaussian process**: it maps a context set of observations straight to a predictive distribution over functions in a single forward pass, **learning** the kernel-like inductive bias from many related tasks instead of fixing it by hand. It trades the GP's exactness and $n\times n$ matrix inversion for **amortized** speed and a learned prior — meta-learning wearing a GP's clothes. It is to the GP what [amortized inference](#amortized-inference-) is to exact Bayesian inference.
+
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+
+**See also:** [Gaussian Process](#gaussian-process-), [Amortized Inference](#amortized-inference-), [Nonparametric Memory](#nonparametric-memory-)
+{{% /expand %}}
+
+### Nonparametric Memory 📊
+{{% expand "Nonparametric Memory" %}}
+*Nonparametric memory* is the Bayesian-nonparametric spirit — *let the model grow with the data* — applied to language models: instead of baking all knowledge into fixed ("parametric") weights, the model keeps an explicit, growable **datastore** and **looks things up at inference time**. The link to Gaussian processes is exact: the [GP](#gaussian-process-) posterior mean $k(X_\ast, X)\,K^{-1}y$ is a *similarity-weighted combination of remembered outputs* — precisely what retrieval does, with a learned embedding as the kernel and the corpus as the training set. See [RAG / kNN-LM](#rag--knn-lm-) for the two main instances.
+
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+
+**See also:** [RAG / kNN-LM](#rag--knn-lm-), [Gaussian Process](#gaussian-process-), [Neural Process](#neural-process-)
+{{% /expand %}}
+
+### RAG / kNN-LM 📊
+{{% expand "RAG / kNN-LM" %}}
+Two instances of [nonparametric memory](#nonparametric-memory-) for language models. **kNN-LM** (Khandelwal et al., 2020) interpolates a model's next-token distribution with a **nearest-neighbor search** over a datastore of (context-embedding → next-token) pairs. **RAG** (Retrieval-Augmented Generation; Lewis et al., 2020) **retrieves** relevant documents and conditions generation on them. Both are the [Gaussian process](#gaussian-process-) posterior mean in disguise — *keep the data, define a similarity, predict by weighted lookup* — with a learned embedding playing the role of the kernel. Retrieval is nonparametric prediction at LLM scale.
+
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+
+**See also:** [Nonparametric Memory](#nonparametric-memory-), [Gaussian Process](#gaussian-process-), [Kernel](#kernel-)
 {{% /expand %}}
 
 ### Surprise (Information Content) 📊

@@ -1016,6 +1016,8 @@ So the mystery bentos were just the beginning: the rest of Tutorial 3 is about g
 6. **A building block, not just a clustering tool**: the move "finite parameter → random measure" recurs everywhere — **HDP** topic models (the nonparametric LDA) and the **IBP / Beta process** for *features*. The DPMM-as-clustering is niche; the DP as a Lego brick is everywhere.
 {{% /notice %}}
 
+*Glossary:* [Dirichlet Process](../../glossary/#dirichlet-process-dp-) · [concentration $\alpha$](../../glossary/#concentration-parameter-α-) · [base measure](../../glossary/#base-measure-) · [Chinese Restaurant Process](../../glossary/#chinese-restaurant-process-crp-) · [Pólya urn](../../glossary/#pólya-urn-) · [stick-breaking](../../glossary/#stick-breaking-construction-) · [EPPF](../../glossary/#exchangeable-partition-probability-function-eppf-) · [Kingman paintbox](../../glossary/#kingman-paintbox-) · [HDP](../../glossary/#hierarchical-dirichlet-process-hdp-) · [LDA](../../glossary/#latent-dirichlet-allocation-lda-) · [IBP](../../glossary/#indian-buffet-process-ibp-) · [Beta process](../../glossary/#beta-process-)
+
 ---
 
 ## Interactive Exploration
