@@ -1,6 +1,6 @@
 +++
-date = "2026-06-16"
-title = "Dirichlet Process Mixture Models"
+date = "2026-06-30"
+title = "Discrete Bayesian Nonparametrics"
 weight = 6
 +++
 
@@ -13,26 +13,62 @@ What if:
 - The number of types changes over time?
 - We want the model to discover the number of clusters automatically?
 
-**Enter the Dirichlet Process Mixture Model (DPMM)**: A Bayesian nonparametric approach that learns the number of components from the data.
+The honest difficulty is that "how should we cluster these points?" has an *astronomical* number of answers. The number of ways to partition $n$ points into groups is the **Bell number** $B_n$, and it explodes far faster than the $2^n$ subsets of a set — by $n = 15$ there are already over a billion possible clusterings.
+
+![Two curves on a log scale against the number of data points n. A dashed gray line is 2 to the n; a blue line is the Bell number B-n, the number of ways to partition n points, which rises far faster, reaching B-15 = 1,382,958,545.](../../images/intro2/partition_blowup.png)
+
+We cannot enumerate clusterings; we need a *prior over partitions* that a sampler can explore. **Bayesian nonparametrics** supplies one. The word "nonparametric" is a misnomer — these models have *infinitely* many parameters, not zero. The point is that the *effective* number of parameters (here, clusters) is not fixed in advance; it **grows with the data**.
+
+**Enter the Dirichlet Process Mixture Model (DPMM)**: a Bayesian nonparametric model that learns the number of components from the data. This chapter is about the object underneath it — the **Dirichlet Process (DP)** — and the family of "let the data choose the cardinality" models it unlocks.
 
 ---
 
-## The Intuition: Infinite Clusters
+## One Object, Three Lenses
 
-Imagine Chibany's supplier keeps adding new bento types over time. With a fixed-K GMM, they'd have to:
-1. Notice a new type appeared
-2. Re-run model selection (BIC) to choose new K
-3. Refit the entire model
+Almost everything written about the DPMM introduces *three* constructions — the Chinese Restaurant Process, the Pólya urn, and stick-breaking — and it is easy to come away thinking they are three different models. They are not. **They are three lenses on one object: the Dirichlet Process.** Getting this straight now will save you real confusion later.
 
-With a DPMM, the model **automatically** discovers new clusters as data arrives, without needing to specify K upfront.
+### The object: a random *distribution*
 
-**Key insight**: The DPMM places a prior over an **infinite** number of potential clusters, but only a finite number will actually be "active" (have observations assigned to them).
+A draw $G \sim \mathrm{DP}(\alpha, G_0)$ is not a number and not a vector — it is a **random probability distribution**. It has two knobs:
+
+- the **base measure** $G_0$ — where the atoms of $G$ tend to land (for our bentos, $G_0 = \mathcal{N}(\mu_0, \sigma_0^2)$, the prior on a cluster's mean weight);
+- the **concentration** $\alpha > 0$ — how the unit of probability splits up among atoms (small $\alpha$ → a few dominant atoms; large $\alpha$ → many small ones).
+
+The single most important fact about the DP is this:
+
+{{% notice style="info" title="Why a DPMM clusters at all" %}}
+**A draw $G \sim \mathrm{DP}(\alpha, G_0)$ is almost surely *discrete*** — even when the base measure $G_0$ is a smooth, continuous density. All of $G$'s probability piles up on a *countable* set of atoms $\theta_1, \theta_2, \dots$ with weights $\pi_1, \pi_2, \dots$:
+$$G = \sum_{k=1}^{\infty} \pi_k\, \delta_{\theta_k},$$
+where $\delta_{\theta}$ is a point mass at $\theta$. Because $G$ is discrete, drawing parameters $\theta \sim G$ independently produces **ties** — the same atom comes up again and again. *A tie is exactly two data points sharing a cluster.* The clustering in a DPMM is not bolted on; it falls out of the discreteness of $G$.
+{{% /notice %}}
+
+![Two panels. Left: a smooth continuous bump labeled base measure G-zero, over an axis theta where cluster parameters can live. Right: the same axis but now a forest of sharp vertical spikes of varying height, labeled a draw G from DP(alpha, G-zero) is discrete; the spike locations are theta-k drawn from G-zero and the spike heights are the stick-breaking weights pi-k.](../../images/intro2/dp_g0_to_g.png)
+
+The picture is the whole idea: feed in a *continuous* $G_0$ (left), and a DP draw hands back a *discrete* $G$ (right) — a comb of spikes at locations $\theta_k \sim G_0$ with heights $\pi_k$. Now the three "constructions" are just three ways of looking at this comb:
+
+| Lens | What it describes | A.k.a. |
+|------|-------------------|--------|
+| **Stick-breaking** | builds $G$ explicitly — the spike *heights* $\pi_k$ and *locations* $\theta_k$ | Sethuraman (1994); GEM($\alpha$) weights |
+| **Pólya urn** | the DP's **predictive marginal** — draw $\theta_1, \theta_2, \dots \sim G$, then integrate $G$ out | Blackwell–MacQueen (1973) |
+| **Chinese Restaurant Process** | the **partition** those draws induce (who shares with whom) | a Kingman paintbox |
+
+{{% notice style="warning" title="A terminology trap worth getting right" %}}
+People often say "we put a DP on the assignments" when they really mean the **Pólya urn / CRP**. Keep the distinction sharp:
+
+- The **Dirichlet process** is the random measure $G$ itself (the comb of spikes). **Stick-breaking constructs it.**
+- The **Pólya urn** (Blackwell–MacQueen 1973) is the DP's **predictive marginal** — what the *sequence of parameter draws* looks like *after you integrate $G$ out*. It is a consequence of the DP, **not** the DP.
+- The **Chinese Restaurant Process** is the law of the **partition** those draws induce, forgetting the actual parameter values. By **Kingman's paintbox theorem**, every such exchangeable partition arises from sampling labels from a random discrete measure exactly like $G$ — so the CRP partition *is* a Kingman paintbox painted with the DP's weights.
+
+In short: **one object (the DP), seen as a construction (stick-breaking), as a predictive rule (Pólya urn), or as a partition (CRP).**
+{{% /notice %}}
+
+We now walk the three lenses, starting with the friendliest.
 
 ---
 
-## The Chinese Restaurant Process Analogy
+## Lens 1 — The Chinese Restaurant Process (the partition)
 
-The most intuitive way to understand the DPMM is through the **Chinese Restaurant Process (CRP)**.
+The most intuitive lens on the DP is the **Chinese Restaurant Process (CRP)**.
 
 ### The Setup
 
@@ -61,11 +97,40 @@ This creates a **rich-get-richer** dynamic:
 - **Seating choice** = cluster assignment
 - α = how likely new bento types appear
 
+### The dish at a table is a Gaussian center
+
+The restaurant metaphor has one more piece, and it is the bridge to the actual model. Each table serves a **dish** — a parameter $\theta_k$ drawn *once* from the menu $G_0$ when the table opens, and **shared by everyone seated there**. For Chibany's bentos the menu is $G_0 = \mathcal{N}(\mu_0, \sigma_0^2)$, so **the dish *is* a cluster's Gaussian mean**, $\theta_k = \mu_k \sim G_0$. Opening a new table means drawing a fresh Gaussian center; a customer's observed weight is then $x_i \sim \mathcal{N}(\theta_{\text{table}(i)}, \sigma_x)$. The CRP decides *the partition* (who sits together); the dishes $\theta_k$ decide *where each cluster sits on the weight axis*.
+
+Watch the seating dynamics — and how $\alpha$ tunes the appetite for new tables — in the widget below.
+
+<iframe src="../../widgets/crp-seating.html"
+        width="100%" height="520"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Interactive Chinese Restaurant Process: seat customers one at a time and watch tables (clusters) form; a slider controls the concentration alpha.">
+</iframe>
+
+{{% notice style="info" title="Drive it yourself" %}}
+Press **Auto-seat** and watch the rich-get-richer dynamic: the first few tables grab most customers, and the bar at the top shows the probability the *next* customer opens a brand-new table (∝ $\alpha$). Now drag **$\alpha$**: near $\alpha = 0.2$ almost everyone crowds onto one or two tables; near $\alpha = 5$ the restaurant sprays customers across many small tables. The number of tables is **never fixed** — the data grow it. (Static fallback: see the discovered-clusters figure later in the chapter.)
+{{% /notice %}}
+
 ---
 
-## The Math: Stick-Breaking Construction
+## Lens 2 — The Pólya Urn (the DP's predictive marginal)
 
-The DPMM uses a **stick-breaking** construction to define mixing proportions for infinitely many components.
+The CRP told us *who sits with whom* but threw away the dish values. Put the dishes back in and you get the **Pólya urn** of Blackwell & MacQueen (1973) — the same sequential rule, now tracking the actual parameters $\theta_i$:
+
+$$\theta_{n+1} \mid \theta_1, \dots, \theta_n \;\sim\; \frac{\alpha}{n+\alpha}\, G_0 \;+\; \frac{1}{n+\alpha}\sum_{i=1}^{n} \delta_{\theta_i}.$$
+
+In words: the next parameter is, with probability $\frac{\alpha}{n+\alpha}$, a **brand-new draw from $G_0$** (open a new table, get a new dish), and otherwise a **copy of one of the parameters already seen** (sit at an existing table, eat its dish) — each existing value reused in proportion to how many times it has already appeared. That reuse is the rich-get-richer dynamic, expressed over parameter *values* instead of table *labels*.
+
+Here is the subtle and important part. We obtained this rule by imagining $\theta_1, \dots, \theta_n$ drawn i.i.d. from a single $G \sim \mathrm{DP}(\alpha, G_0)$ and then **integrating $G$ out**. The random measure has vanished from the formula — there is no $G$ on the right-hand side, only the past draws and $G_0$. That is why the Pólya urn is the DP's **predictive marginal**, not the DP itself: it is what one *parameter draw predicts about the next* once the underlying random distribution has been marginalized away. (This marginalization is exactly what makes "collapsed" Gibbs samplers for the DPMM possible — you never have to represent the infinite $G$.)
+
+---
+
+## Lens 3 — Stick-Breaking (the explicit construction of $G$)
+
+The CRP and Pólya urn are *marginal* views — they never write down $G$. **Stick-breaking** (Sethuraman, 1994) is the opposite: it constructs the random measure $G$ directly, giving us the spike heights $\pi_k$ and locations $\theta_k$ from the picture above. This is the lens our GenJAX code will use.
 
 ### The Process
 
@@ -90,6 +155,43 @@ Imagine a stick of length 1. We break it into pieces:
 
 - **α large** (e.g., α=10): Breaks are more even → many components with similar weights
 - **α small** (e.g., α=0.5): First few breaks take most of the stick → few dominant components
+
+### Heights *and* locations: this is $G$
+
+Stick-breaking gives the **heights** $\pi_1, \pi_2, \dots$ of the spikes in the $\mathrm{DP}$ picture. The **locations** are just as simple: each atom gets an independent draw $\theta_k \sim G_0$ from the base measure (for us, a Gaussian center $\mu_k \sim \mathcal{N}(\mu_0, \sigma_0^2)$). Together they *are* the random measure:
+$$G = \sum_{k=1}^{\infty} \pi_k\, \delta_{\theta_k}, \qquad \pi_k = \beta_k \textstyle\prod_{j<k}(1-\beta_j), \quad \beta_k \sim \mathrm{Beta}(1,\alpha), \quad \theta_k \sim G_0.$$
+That is the whole DP, written out. (The weight sequence $\pi_1, \pi_2, \dots$ on its own is so useful it has its own name, the **GEM($\alpha$)** distribution, after Griffiths, Engen and McCloskey.)
+
+The widget below puts **two** of our lenses side by side at the same $\alpha$: stick-breaking (top) explicitly breaks a unit stick into the weights $\pi_k$, while the Pólya urn (bottom) draws balls one at a time by the predictive rule. Same object, two mechanisms.
+
+<iframe src="../../widgets/stick-breaking-polya.html"
+        width="100%" height="520"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Two views of one Dirichlet process: stick-breaking weights on top, the Polya urn sequential draws on the bottom, both driven by a shared concentration slider alpha.">
+</iframe>
+
+{{% notice style="info" title="Drive it yourself" %}}
+Drag **$\alpha$** and watch *both* panels react together. At small $\alpha$ the stick's first piece $\pi_1$ swallows most of the unit length **and** the urn fills with mostly one color — a few big clusters. At large $\alpha$ the stick shatters into many thin pieces **and** the urn shows many colors — many small clusters. The two panels never look identical (different random draws), but they always tell the *same story* about how many clusters $\alpha$ produces, because they are the same object. (Static fallback: the $G_0 \to G$ figure above shows one such discrete draw.)
+{{% /notice %}}
+
+---
+
+## The Partition Law (EPPF)
+
+We can now close the loop between the lenses with a single formula. Run the CRP to seat $n$ customers and you get a **partition** — a grouping of the $n$ points into $K$ blocks of sizes $n_1, \dots, n_K$. What is the probability of that partition? Multiplying the CRP's one-customer-at-a-time rule together (and summing over the orders the customers could have arrived in) gives the **exchangeable partition probability function (EPPF)**:
+
+$$P(\text{partition}) \;=\; \frac{\alpha^{K}\,\prod_{k=1}^{K}(n_k - 1)!}{\alpha(\alpha+1)\cdots(\alpha+n-1)}.$$
+
+Every piece is readable:
+
+- **$\alpha^{K}$** — each of the $K$ occupied tables "cost" a factor $\alpha$ to open. More tables ⇒ a higher power of $\alpha$, so larger $\alpha$ favors more clusters. This is the rich-get-*started* term.
+- **$\prod_k (n_k-1)!$** — rewards *big* tables (a table of size $n_k$ contributes $(n_k-1)!$). This is the rich-get-*richer* term: lopsided partitions (a few large blocks) are far more probable than evenly-split ones.
+- **$\alpha(\alpha+1)\cdots(\alpha+n-1)$** — the normalizer (the rising factorial $\alpha^{(n)}$), just the product of the $n$ denominators $n+\alpha$ from the seating rule.
+
+The defining feature is what is **absent**: the formula depends only on the *block sizes* $\{n_k\}$, not on which customer is which or the order they arrived. That invariance is **exchangeability**, and it is what lets a Gibbs sampler pluck any point out and reseat it as if it were the last to arrive.
+
+**Connecting back to stick-breaking (at a handwave).** Stick-breaking built the discrete $G = \sum_k \pi_k \delta_{\theta_k}$ explicitly. Draw $\theta_1, \dots, \theta_n$ i.i.d. from this $G$: each draw lands on atom $k$ with probability $\pi_k$, and two draws *collide* — share a cluster — whenever they pick the same atom. If you write down the probability of a given collision pattern and **average over the random stick weights** $\pi$ (which are GEM($\alpha$)-distributed) and over which atom is which, you recover *exactly* the EPPF above. So the three lenses are provably one object: stick-breaking's weights generate the very partition law the CRP and Pólya urn write down directly. (The full calculation is in Pitman's work on exchangeable partitions; we take the agreement as given.)
 
 ---
 
@@ -397,6 +499,14 @@ The good news is that this is fixable, and the fix is one careful practitioners 
 We allocated `KMAX = 20` storage slots, but never assumed 20 clusters: in any sweep, only the components whose weight clears some observation's slice ($\pi_k > u_i$) are live. The data, through the slice, decide how many clusters exist — which is the whole point of going nonparametric.
 {{% /notice %}}
 
+### The same sampler on real bento weights
+
+We used abstract weights at $-10, 0, +10$ to keep the three clusters obvious. The Week-10 lecture runs this *same* slice-sampled DPMM on realistic bento weights in grams: eight Hamburger bentos near 350 g, six Tonkatsu near 500 g — and one stray 275 g bento. With no $K$ specified, the sampler settles on **three** clusters, and the lone light bento earns its **own** table rather than being forced into the 350 g group. That is the nonparametric promise made concrete: *let the data decide how complex the model should be.*
+
+![A density plot over bento weight in grams. A blue posterior-predictive curve has two large modes near 350 and 500 grams; yellow ticks along the bottom mark the observed bento weights, with one isolated tick near 275 grams. Dashed purple lines mark the three discovered cluster centers near 275, 350, and 500 grams.](../../images/intro2/genjax_dpmm.png)
+
+The blue curve is the posterior **predictive** density — a mixture of the discovered Gaussian clusters — and the dashed lines are the recovered centers $\theta_k$. The 275 g outlier produces a small, low third mode: the model is genuinely uncertain whether it is a rare third type or a fluke, which is precisely the kind of structured uncertainty a fixed-$K$ GMM cannot express. (This figure is generated by the lecture backbone `genjax_dpmm.py`, which shares the exact Gibbs machinery you just ran above.)
+
 ---
 
 ## Analyzing the Posterior
@@ -625,6 +735,21 @@ plt.show()
 - Computational efficiency matters
 - Simpler implementation preferred
 
+### See all three density estimators at once
+
+The widget below estimates the density of a set of bento weights three ways simultaneously: a **DPMM** (lets the data choose the number of clusters), a **KDE** (kernel density estimate — a bump on every point, no clusters at all), and a fixed-**K GMM** (you pick $K$). Click on the plot to add a bento weight and watch all three update live.
+
+<iframe src="../../widgets/dpmm-kde-gmm.html"
+        width="100%" height="560"
+        frameborder="0"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="Interactive density explorer comparing a DPMM, a kernel density estimate, and a fixed-K Gaussian mixture on bento weights; click to add data points and adjust each model's parameters.">
+</iframe>
+
+{{% notice style="info" title="Drive it yourself" %}}
+Start with the three clusters preloaded. Drag the **GMM $K$** down to 2 and add a few points far to the right — the fixed-$K$ fit *cannot* grow a new mode and smears one Gaussian to cover them, while the **DPMM** simply spins up a fourth cluster. Then crank the **KDE bandwidth $h$**: too small and it spikes on every point; too large and the three modes blur into one. The DPMM needs no such knob — it reads the cluster count off the data via $\alpha$. (Static fallback: the discovered-clusters figure earlier in the chapter.)
+{{% /notice %}}
+
 ---
 
 ## The Role of α (Concentration Parameter)
@@ -680,6 +805,36 @@ plt.show()
 - **α = 1.0**: Moderate spread (balanced)
 - **α = 5.0**: More components active (many clusters)
 - **α = 20.0**: Very even spread (diffuse)
+
+---
+
+## The DP as a Building Block: One Machine, Many Models
+
+Here is the payoff for all this machinery, and it is bigger than clustering. There is **one structural move** behind every Bayesian nonparametric model:
+
+> **Replace a finite parameter with a random measure, and let the data decide how much of it to use.**
+
+A finite mixture has a *finite* parameter — a length-$K$ vector of mixing weights $\pi \sim \mathrm{Dirichlet}(\alpha/K, \dots, \alpha/K)$ over exactly $K$ clusters. Take the limit $K \to \infty$ and that finite Dirichlet *vector* becomes the random *measure* $G \sim \mathrm{DP}(\alpha, G_0)$ we have been studying. The DPMM is just "finite Gaussian mixture, with this one substitution." But the substitution is *modular*: drop a DP (or a cousin) into any model that has a "how many?" knob, and the knob disappears — the data set it. Three examples show the range.
+
+### Topics: from LDA to HDP-LDA
+
+**Latent Dirichlet Allocation** (LDA; **Blei, Ng & Jordan, 2003**) is the canonical topic model. Each *topic* is a distribution over words ("lunch" leans on *bento, rice, sauce*; "studying" leans on *exam, study, grade*), and each *document* is a mixture over a **fixed** number $T$ of topics, with the per-document topic proportions drawn from a finite Dirichlet. It works beautifully — but **you must choose $T$**, the very fixed-cardinality problem we started with, one level up.
+
+![Two bar charts, each a distribution over the same nine words. The left chart, Topic 1 labeled lunch, puts most mass on bento, rice, and sauce. The right chart, Topic 2 labeled studying, puts most mass on exam, study, and grade. Each topic is a word distribution discovered from a tiny corpus.](../../images/intro2/lda_topic_emergence.png)
+
+Apply the move. Replace the finite topic Dirichlet with a Dirichlet process and you get **HDP-LDA** (**Teh, Jordan, Beal & Blei, 2006**), which learns the number of topics from the corpus. The "H" is **Hierarchical**, and it is essential: a *top-level* DP draws a **shared global menu of topics**, and each document gets its *own* DP that draws from that shared menu. Without the hierarchy, each document's DP would invent private topics that never align across documents; the shared base measure is what lets two documents *reuse the same topic*. The HDP is exactly the "stack a prior on the prior" idea from [Chapter 12 (Hierarchical Bayes)](../12_hierarchical_bayes/) — applied to a random *measure* instead of a scalar.
+
+### Features: the Indian Buffet Process
+
+The DP/CRP gives each item **exactly one** cluster — one table per customer. But many objects are better described by a *set* of present-or-absent **features**: a face has glasses **and** a beard **and** a hat; a gene belongs to several pathways at once. The feature analogue of the CRP is the **Indian Buffet Process** (IBP; **Griffiths & Ghahramani, 2011**). Customers file past an infinitely long buffet and sample *each* dish (feature) independently, with probability proportional to how many earlier customers took it, plus a $\mathrm{Poisson}(\alpha/n)$ helping of **brand-new** dishes. Each object walks away with a **binary feature vector** over an unbounded set of features — not a single label.
+
+The relationship mirrors the DP exactly. Just as the CRP/Pólya urn is the predictive marginal of the **Dirichlet process**, the **IBP is the predictive marginal of the Beta process** (**Thibaux & Jordan, 2007**) — the DP's sibling, a random measure whose draws are *subsets* rather than *single assignments*. Same recipe ("put a prior on a measure of unbounded size"), different measure, and clusters become features.
+
+{{% notice style="note" title="The honest status of the DPMM in 2026" %}}
+**As a stand-alone clustering algorithm, the DPMM is now somewhat niche.** If you only want point clusters, a well-tuned finite mixture or a method like HDBSCAN is often simpler and faster, and — as the Miller–Harrison result above warns — the DPMM's *cluster count* needs care (put a prior on $\alpha$). Reviewers rarely reach for a vanilla DPMM to cluster a dataset today.
+
+**As a building block, the DP is everywhere.** Its real value is as a reusable, modular "unknown-cardinality" prior you drop *inside* a larger model: topic models (HDP), feature models (IBP / Beta process), infinite HMMs, nonparametric mixtures of experts, and Bayesian components of neural models. The reason to learn the Dirichlet process is less "a clustering tool" and more "**a Lego brick for models that grow with the data**." Master the three lenses, and you can read — and build — that whole family.
+{{% /notice %}}
 
 ---
 
@@ -794,8 +949,8 @@ We started with a mystery: bentos with an average weight that doesn't match any 
 2. **Chapter 2**: Learned continuous probability (PDFs, CDFs)
 3. **Chapter 3**: Mastered the Gaussian distribution
 4. **Chapter 4**: Performed Bayesian learning for parameters
-5. **Chapter 5**: Built Gaussian Mixture Models with EM
-6. **Chapter 6**: Extended to infinite mixtures with DPMM
+5. **Chapter 5**: Built Gaussian Mixture Models with Bayesian posterior inference
+6. **Chapter 6**: Extended to infinite mixtures with the Dirichlet Process — one object seen through three lenses (CRP, Pólya urn, stick-breaking), and a building block far beyond clustering
 
 **You now have the tools to**:
 - Model complex, multimodal data
@@ -817,10 +972,19 @@ So the mystery bentos were just the beginning: the rest of Tutorial 3 is about g
 
 ## Further Reading
 
-### Theoretical Foundations
-- Ferguson (1973): "A Bayesian Analysis of Some Nonparametric Problems" (original DP paper)
-- Teh et al. (2006): "Hierarchical Dirichlet Processes" (extensions to HDP)
+### Theoretical Foundations (the three lenses)
+- Ferguson (1973): "A Bayesian Analysis of Some Nonparametric Problems" (defines the DP)
+- Blackwell & MacQueen (1973): "Ferguson Distributions via Pólya Urn Schemes" (the **Pólya urn** — the DP's predictive marginal)
+- Sethuraman (1994): "A Constructive Definition of Dirichlet Priors" (the **stick-breaking** construction)
+- Kingman (1978): "The Representation of Partition Structures" (the **paintbox** theorem behind the CRP)
+- Pitman (1995): "Exchangeable and Partially Exchangeable Random Partitions" (the **EPPF** / partition law)
 - Austerweil, Gershman, Tenenbaum, & Griffiths (2015): "Structure and Flexibility in Bayesian Models of Cognition" (Chapter in The Oxford Handbook of Computational and Mathematical Psychology - comprehensive overview of Bayesian nonparametric approaches to cognitive modeling)
+
+### The DP as a building block
+- Blei, Ng & Jordan (2003): "Latent Dirichlet Allocation" (the finite-$T$ topic model)
+- Teh, Jordan, Beal & Blei (2006): "Hierarchical Dirichlet Processes" (HDP-LDA — the nonparametric topic model)
+- Griffiths & Ghahramani (2011): "The Indian Buffet Process: An Introduction and Review" (nonparametric **features**)
+- Thibaux & Jordan (2007): "Hierarchical Beta Processes and the Indian Buffet Process" (the Beta process — the IBP's underlying random measure)
 
 ### Practical Implementations
 - Neal (2000): "Markov Chain Sampling Methods for Dirichlet Process Mixture Models" (MCMC inference)
@@ -836,12 +1000,12 @@ So the mystery bentos were just the beginning: the rest of Tutorial 3 is about g
 ---
 
 {{% notice style="tip" title="Key Takeaways" %}}
-1. **DPMM**: Bayesian nonparametric model that learns K automatically
-2. **Stick-breaking**: Defines mixing proportions for infinite components
-3. **CRP**: Intuitive "customers and tables" interpretation
-4. **α**: Concentration parameter controlling cluster tendency
-5. **Slice sampler**: Auxiliary slice variables $u_i$ adaptively truncate the infinite stick, so each Gibbs sweep only handles finitely many live clusters
-6. **Label switching**: Cluster labels are arbitrary — summarize with label-invariant quantities (co-clustering, posterior over $K$) or a single relabeled sample, never raw per-label averages
+1. **One object, three lenses**: the Dirichlet Process $G \sim \mathrm{DP}(\alpha, G_0)$ is *one* random discrete distribution. **Stick-breaking** (Sethuraman) constructs it; the **Pólya urn** (Blackwell–MacQueen) is its **predictive marginal** (integrate $G$ out); the **CRP** is the **partition** it induces (a Kingman paintbox). They are not three models.
+2. **Why a DPMM clusters**: a DP draw is almost surely *discrete*, so i.i.d. parameter draws $\theta \sim G$ repeat — and a repeat is two points sharing a cluster. The dish $\theta_k \sim G_0$ *is* a cluster's Gaussian mean.
+3. **EPPF**: the partition probability $\dfrac{\alpha^{K}\prod_k (n_k-1)!}{\alpha(\alpha+1)\cdots(\alpha+n-1)}$ depends only on block sizes — that invariance is exchangeability. Larger **α** ⇒ more clusters.
+4. **Slice sampler**: auxiliary slice variables $u_i$ adaptively truncate the infinite stick, so each Gibbs sweep handles only finitely many live clusters.
+5. **Label switching**: cluster labels are arbitrary — summarize with label-invariant quantities (co-clustering, posterior over $K$) or a single relabeled sample, never raw per-label averages.
+6. **A building block, not just a clustering tool**: the move "finite parameter → random measure" recurs everywhere — **HDP** topic models (the nonparametric LDA) and the **IBP / Beta process** for *features*. The DPMM-as-clustering is niche; the DP as a Lego brick is everywhere.
 {{% /notice %}}
 
 ---
@@ -874,8 +1038,13 @@ This is a great way to build intuition for how α, K_max, and the data itself in
 ## References
 
 - Ascolani, F., Lijoi, A., Rebaudo, G., & Zanella, G. (2023). Clustering consistency with Dirichlet process mixtures. *Biometrika, 110*(2), 551–558. <https://doi.org/10.1093/biomet/asac051>
+- Antoniak, C. E. (1974). Mixtures of Dirichlet processes with applications to Bayesian nonparametric problems. *The Annals of Statistics, 2*(6), 1152–1174. <https://doi.org/10.1214/aos/1176342871>
 - Austerweil, J. L., Gershman, S. J., Tenenbaum, J. B., & Griffiths, T. L. (2015). Structure and flexibility in Bayesian models of cognition. In J. R. Busemeyer, Z. Wang, J. T. Townsend, & A. Eidels (Eds.), *The Oxford handbook of computational and mathematical psychology* (pp. 187–208). Oxford University Press.
+- Blackwell, D., & MacQueen, J. B. (1973). Ferguson distributions via Pólya urn schemes. *The Annals of Statistics, 1*(2), 353–355. <https://doi.org/10.1214/aos/1176342372>
 - Blei, D. M., & Jordan, M. I. (2006). Variational inference for Dirichlet process mixtures. *Bayesian Analysis, 1*(1), 121–143. <https://doi.org/10.1214/06-BA104>
+- Blei, D. M., Ng, A. Y., & Jordan, M. I. (2003). Latent Dirichlet allocation. *Journal of Machine Learning Research, 3*, 993–1022. <https://www.jmlr.org/papers/v3/blei03a.html>
+- Griffiths, T. L., & Ghahramani, Z. (2011). The Indian buffet process: An introduction and review. *Journal of Machine Learning Research, 12*, 1185–1224. <https://www.jmlr.org/papers/v12/griffiths11a.html>
+- Kingman, J. F. C. (1978). The representation of partition structures. *Journal of the London Mathematical Society, s2-18*(2), 374–380. <https://doi.org/10.1112/jlms/s2-18.2.374>
 - Ferguson, T. S. (1973). A Bayesian analysis of some nonparametric problems. *The Annals of Statistics, 1*(2), 209–230. <https://doi.org/10.1214/aos/1176342360>
 - Kalli, M., Griffin, J. E., & Walker, S. G. (2011). Slice sampling mixture models. *Statistics and Computing, 21*(1), 93–105. <https://doi.org/10.1007/s11222-009-9150-y>
 - Miller, J. W., & Harrison, M. T. (2014). Inconsistency of Pitman–Yor process mixtures for the number of components. *Journal of Machine Learning Research, 15*(96), 3333–3370. <https://jmlr.org/papers/v15/miller14a.html>

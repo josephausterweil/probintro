@@ -1,5 +1,5 @@
 +++
-date = "2026-06-26"
+date = "2026-06-30"
 title = "Glossary - All Tutorials"
 weight = 100
 +++
@@ -1218,7 +1218,11 @@ std_dev = jnp.sqrt(variance)
 
 **Interpretation**: "How spread out is the data?"
 
-**See also**: Expected Value, Standard Deviation, Gaussian
+**In the bias-variance sense 📊**: In [the Bias-Variance Dilemma](../intro2/05a_bias_variance/#the-bias-variance-decomposition), "variance" names the spread of the *fitted model* $\hat{y}(x)$ as the **training set** changes — how much a model's predictions jump around when it is refit on different data. A flexible (high-degree) model has high variance: it reshapes itself to each dataset's noise. Same definition, $\text{Var}(\hat{y}) = \mathbb{E}[(\hat{y} - \mathbb{E}[\hat{y}])^2]$, but now the randomness is over which dataset you happened to draw.
+
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#the-bias-variance-decomposition)
+
+**See also**: Expected Value, Standard Deviation, Gaussian, Bias, Bias-Variance Decomposition
 {{% /expand %}}
 
 ### Weight Degeneracy 📊
@@ -1255,6 +1259,116 @@ ESS = 1.0 / sum(w**2 for w in normalized_weights)
 **Tutorial 3, Chapter 6**: The DPMM notebook had weight degeneracy (ESS=1/10) due to double randomization bug, which was fixed. In the streaming setting it is the reason a [particle filter](#particle-filter-) must [resample](#resampling-) every step ([Chapter 17](../intro2/17_particle_filtering/#resampling-and-degeneracy)).
 
 **See also**: [Importance Sampling](#importance-sampling-), [Effective Sample Size](#effective-sample-size-), [Resampling](#resampling-), [Particle Filter](#particle-filter-)
+{{% /expand %}}
+
+### Bias 📊
+{{% expand "Bias" %}}
+In the bias-variance decomposition, *bias* is the error that survives because **the fitted model family is the wrong shape** for the truth — it persists no matter how much data you collect. Formally, $\text{bias}(x) = \bar{y}(x) - f(x)$, the gap between the *average* fit $\bar{y}(x) = \mathbb{E}_D[\hat{y}(x)]$ (averaged over datasets) and the true function $f(x)$.
+
+**Plain words**: "On average — across all the datasets we might have drawn — how far off is this kind of model?" A straight line fit to a cubic has high bias: even the *best* line is not a cubic. Bias is a property of the **model class**, not of any one dataset.
+
+**High bias ⇒ underfitting.** Lowered by making the model more flexible (higher degree, less shrinkage).
+
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#the-bias-variance-decomposition)
+
+**See also**: Variance, Bias-Variance Decomposition, Underfitting, Ridge Regression and Regularization
+{{% /expand %}}
+
+### Bias-Variance Decomposition 📊
+{{% expand "Bias-Variance Decomposition" %}}
+The identity that splits a model's **expected test error** at a point into three non-negative pieces:
+
+$$\mathbb{E}\big[(\hat{y}(x) - y)^2\big] = \underbrace{(\bar{y}(x) - f(x))^2}_{\text{bias}^2} + \underbrace{\mathbb{E}_D[(\hat{y}(x) - \bar{y}(x))^2]}_{\text{variance}} + \underbrace{\sigma^2}_{\text{noise}}.$$
+
+- **bias²** — the fitted family is systematically wrong (too rigid);
+- **variance** — the fit is over-sensitive to the particular dataset (too flexible);
+- **σ²** — *irreducible* noise no model can explain away.
+
+The expectation is taken over both the observation noise and the random training set $D$. The first two terms trade off as you change model complexity (that trade-off is the **dilemma**); the third is a fixed floor.
+
+**Why it matters**: it proves you cannot drive both bias and variance to zero by tuning complexity — the best you can do is minimize their **sum**, which is why training error alone is a bad guide.
+
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#the-bias-variance-decomposition)
+
+**See also**: Bias, Variance, Overfitting, Underfitting
+{{% /expand %}}
+
+### Overfitting 📊
+{{% expand "Overfitting" %}}
+*Overfitting* is when a model fits the **noise** in its training data, not just the signal — it scores low training error but generalizes poorly to new data. In the decomposition it is the **high-variance** regime: the model is flexible enough to mold itself to each dataset's quirks, so it draws a very different curve for each dataset and is wrong between the points it memorized.
+
+**Tell-tale sign**: training error keeps falling while test (held-out) error rises — a widening gap between the two.
+
+**Cures**: reduce complexity (lower degree, fewer parameters), or **regularize** (shrink the coefficients with a prior — ridge), or get more data.
+
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#underfitting-and-overfitting)
+
+**See also**: Underfitting, Variance, Ridge Regression and Regularization, Benign Overfitting
+{{% /expand %}}
+
+### Underfitting 📊
+{{% expand "Underfitting" %}}
+*Underfitting* is the opposite failure: a model **too rigid** to capture the structure that is really in the data — it is wrong even on its training set, and no amount of extra data rescues it. In the decomposition it is the **high-bias** regime (a straight line trying to be a cubic).
+
+**Tell-tale sign**: both training error and test error are high *and similar* (no gap to close).
+
+**Cure**: add flexibility (higher degree, more features, less shrinkage). Beware: over-correcting lands you in overfitting — the dilemma in one sentence.
+
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#underfitting-and-overfitting)
+
+**See also**: Overfitting, Bias, Bias-Variance Decomposition
+{{% /expand %}}
+
+### Ridge Regression and Regularization 📊
+{{% expand "Ridge Regression and Regularization" %}}
+*Regularization* is any technique that adds a preference for "simpler" solutions to a fit, to control variance. *Ridge regression* (also $L_2$ regularization) is the most common form: minimize the squared error **plus** a penalty on the size of the coefficients,
+
+$$\sum_i (y_i - \Phi_i\beta)^2 + \lambda \sum_j \beta_j^2.$$
+
+**The Bayesian view (the key identity 💻📊)**: that penalty *is* an i.i.d. Gaussian **prior** on the coefficients, $\beta_j \sim \text{Normal}(0, \tau)$, with penalty strength
+
+$$\lambda = \frac{\sigma^2}{\tau^2}$$
+
+($\sigma$ = observation-noise std, $\tau$ = prior width). A tighter prior (small $\tau$) ⇒ larger $\lambda$ ⇒ stronger shrinkage ⇒ lower variance but higher bias. A **moderate** $\lambda$ can give the lowest test error of all; pushing it too far **underfits**. When the prior width is held fixed, $\lambda = \sigma^2$ — the bridge to **Gaussian processes**.
+
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#ridge-regression-is-a-gaussian-prior)
+
+**See also**: Prior Distribution, Bias, Variance, Overfitting, Conjugate Prior
+{{% /expand %}}
+
+### Interpolation Threshold 📊
+{{% expand "Interpolation Threshold" %}}
+The model capacity at which a model has **exactly enough parameters to fit every training point exactly** — for $n$ data points, the capacity $p = n$. Here training error hits zero and, with no regularization, the fit must contort wildly to thread all the points, so **test error spikes** to its worst value.
+
+It is the boundary between two regimes: **under-parameterized** ($p < n$, the classical bias-variance U) and **over-parameterized** ($p > n$, where benign overfitting and the second descent live). The spike sits exactly at $p = n$.
+
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#double-descent)
+
+**See also**: Double Descent, Benign Overfitting, Overfitting
+{{% /expand %}}
+
+### Double Descent 📊
+{{% expand "Double Descent" %}}
+The modern correction to the classical "more complexity is eventually always worse" picture. As capacity grows, test error first traces the classical **U** (descent 1), then **spikes** at the [interpolation threshold](#interpolation-threshold-) $p = n$, then — past the threshold, in the over-parameterized regime — **descends a second time** (descent 2). Hence *double* descent: a U, a spike, and a second fall.
+
+**Why the second descent happens**: among the infinitely many parameter settings that interpolate the data, the fitting procedure prefers the **minimum-norm** one, and that implicit preference acts like a regularizer.
+
+**Important caveat**: this is a **high-dimensional** phenomenon. A 1-D polynomial / low-dim feature model does *not* show a benign second descent — its min-norm interpolant diverges past $p = n$.
+
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#double-descent)
+
+**See also**: Interpolation Threshold, Benign Overfitting, Bias-Variance Decomposition, Ridge Regression and Regularization
+{{% /expand %}}
+
+### Benign Overfitting 📊
+{{% expand "Benign Overfitting" %}}
+Overfitting that **does not hurt**: a model interpolates noisy training data (zero training error) yet still **generalizes well**. It is the explanation for the second descent in double descent, and for why a hugely over-parameterized neural network can memorize its training set and still predict accurately.
+
+**The mechanism**: in **high dimensions**, the minimum-norm interpolant spreads the fit thinly across very many directions, so the noise it must absorb to interpolate is diluted harmlessly — the implicit min-norm bias behaves like a useful prior. In **low** dimensions there are too few directions for this to work, and overfitting is *not* benign. So benign overfitting is something high dimensions buy you, not a universal free lunch.
+
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#double-descent)
+
+**See also**: Double Descent, Interpolation Threshold, Overfitting, Ridge Regression and Regularization
 {{% /expand %}}
 
 ### Surprise (Information Content) 📊

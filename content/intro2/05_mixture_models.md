@@ -1,5 +1,5 @@
 +++
-date = "2026-06-24"
+date = "2026-06-30"
 title = "Gaussian Mixture Models"
 weight = 5
 +++
@@ -53,7 +53,7 @@ If you haven't already, work through the **Gaussian Clusters** assignment from C
 **In this chapter**, we tackle the harder problem:
 - Given: Only observations x₁, x₂, ..., xₙ
 - Infer: Categories **AND** parameters μ₁, μ₂, σ₁², σ₂², θ
-- Method: Expectation-Maximization (EM) algorithm
+- Method: Bayesian posterior inference — here, importance sampling over the parameters *and* the assignments (not EM; we keep the full posterior, not a single point estimate)
 
 Think of it as:
 1. **First** (Chapter 4 Problem 2): "I know the recipe for tonkatsu (μ₁, σ₁²) and hamburger (μ₂, σ₂²). Given a weight, which is it?"
