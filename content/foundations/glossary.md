@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Glossary"
 weight = 50
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro/06_glossary/"]
 +++
 
 This glossary provides definitions for key terms used throughout the tutorial. Click on any term to expand its definition.
@@ -183,5 +184,5 @@ def coin_flip():
 
 ---
 
-|[← Previous: Bayes' Theorem](./05_bayes.md) | |
+|[← Previous: Bayes' Theorem](../bayes-rule/) | |
 | :--- | ---: |

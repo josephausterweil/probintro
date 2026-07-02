@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Python Essentials for GenJAX"
 weight = 20
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/01_python_basics/"]
 +++
 
 ## You Don't Need to Become a Programmer!
@@ -414,5 +415,5 @@ You now know enough Python to:
 
 ---
 
-|[← Previous: Getting Started](./00_getting_started.md) | [Next: Your First GenJAX Model →](./02_first_model.md)|
+|[← Previous: Getting Started](../getting-started/) | [Next: Your First GenJAX Model →](../first-model/)|
 | :--- | ---: |

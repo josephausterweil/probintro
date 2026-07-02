@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Gaussian Mixture Models"
 weight = 50
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro2/05_mixture_models/"]
 +++
 
 ## Returning to the Mystery
@@ -122,9 +123,9 @@ This is exactly what GenJAX is built for!
 
 **The power:** Mixture models show that discrete and continuous probability aren't separate worlds—they work together to model rich, real-world phenomena.
 
-[← Review random variables in Tutorial 1, Chapter 3](../../intro/03_prob_count/#random-variables)
+[← Review random variables in Tutorial 1, Chapter 3](../../foundations/probability-as-counting/#random-variables)
 
-[← Review continuous distributions in Tutorial 3, Chapter 2](../02_continuous/)
+[← Review continuous distributions in Tutorial 3, Chapter 2](../continuous/)
 {{% /notice %}}
 
 ---
@@ -490,4 +491,4 @@ In Chapter 6, we'll learn about **Dirichlet Process Mixture Models (DPMM)**: a B
 
 ---
 
-**Next Chapter**: [Dirichlet Process Mixture Models →](./06_dpmm.md)
+**Next Chapter**: [Dirichlet Process Mixture Models →](../../complexity/dpmm/)

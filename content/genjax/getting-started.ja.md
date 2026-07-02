@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Google Colabを使い始める"
 weight = 10
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/00_getting_started/"]
 +++
 
 ## Google Colabとは？
@@ -178,8 +179,8 @@ import matplotlib.pyplot as plt
 ✅ インターフェースの基本を理解している
 
 **次のステップ：**
-- [第1章：Python入門 →](./01_python_basics.md) - 必要最低限のPythonを学ぶ
-- [第2章：はじめてのGenJAXモデル →](./02_first_model.md) - すぐにコーディングを始めましょう！
+- [第1章：Python入門 →](../python-basics/) - 必要最低限のPythonを学ぶ
+- [第2章：はじめてのGenJAXモデル →](../first-model/) - すぐにコーディングを始めましょう！
 
 {{% notice style="success" %}}
 **プロのヒント：** ノートブックを進める間、このタブを参照用に開いたままにしておきましょう！
@@ -187,5 +188,5 @@ import matplotlib.pyplot as plt
 
 ---
 
-|[← 前：はじめに](./index.md) | [次：Python入門 →](./01_python_basics.md)|
+|[← 前：はじめに](../index/) | [次：Python入門 →](../python-basics/)|
 | :--- | ---: |

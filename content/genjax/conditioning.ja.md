@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "条件付けと推論"
 weight = 50
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/04_conditioning/"]
 +++
 
 ## シミュレーションから推論へ
@@ -52,7 +53,7 @@ $$P(A \mid B) = \frac{|A \cap B|}{|B|}$$
 
 **ロジックは同じです** ―― 条件付け＝観測に合わせて可能性を制限すること！
 
-[← チュートリアル 1・第 4 章で条件付き確率を復習](../../intro/04_conditional/)
+[← チュートリアル 1・第 4 章で条件付き確率を復習](../../foundations/conditional-probability/)
 {{% /notice %}}
 
 ---
@@ -151,7 +152,7 @@ $$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
 
 **重要な洞察：** GenJAX がベイズの定理の代数計算をすべてやってくれます！生成ストーリー（事前分布 + 尤度）を書くだけで、条件付けが事後分布を与えてくれます。
 
-[← チュートリアル 1・第 5 章でベイズの定理を復習](../../intro/05_bayes/)
+[← チュートリアル 1・第 5 章でベイズの定理を復習](../../foundations/bayes-rule/)
 {{% /notice %}}
 
 ---
@@ -505,7 +506,7 @@ print(f"   Change: +{(posterior_blue - prior_blue):.1%}")
 
 **重要な洞察：** 証拠によって青への信念は 15% から 41% に増加しましたが、ベースレートが非常に強いため**まだ 50% にも達しません**！
 
-![事前分布と事後分布の確率分布](../../images/genjax/taxicab_prior_posterior.png)
+![事前分布と事後分布の確率分布](../../../images/genjax/taxicab_prior_posterior.png)
 
 ---
 
@@ -620,7 +621,7 @@ plt.show()
 
 このグラフが示すこと：**80% の精度でも、事後確率はベースレートに強く依存します！**
 
-![ベースレートが推論に与える影響](../../images/genjax/taxicab_base_rate_effect.png)
+![ベースレートが推論に与える影響](../../../images/genjax/taxicab_base_rate_effect.png)
 
 {{% notice style="success" title="教訓" %}}
 **ベースレートは実世界の推論において非常に重要です！**
@@ -920,5 +921,5 @@ $$P = \frac{0.64 \times 0.15}{0.64 \times 0.15 + 0.04 \times 0.85} = \frac{0.096
 
 ---
 
-|[← 前：トレースを理解する](./03_traces.md) | [次：自分のモデルを構築する →](./06_building_models.md)|
+|[← 前：トレースを理解する](../traces/) | [次：自分のモデルを構築する →](../building-models/)|
 | :--- | ---: |

@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Chibany is hungry"
 weight = 10
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro/02_hungry/"]
 +++
 
 
@@ -22,7 +23,7 @@ block-beta
 
 ## Sets
 
-This forms a [set](./06_glossary.md/#set) of four elements. A set is a collection of elements or members. In this case, an element is defined by the two meals given to Chibany that day. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\{$" denotes the start of a set and "$\}$" the end of a set.
+This forms a [set](../glossary/#set) of four elements. A set is a collection of elements or members. In this case, an element is defined by the two meals given to Chibany that day. Sets are defined by the elements they do or do not contain. The elements are listed with commas between them and "$\{$" denotes the start of a set and "$\}$" the end of a set.
 
 ## Outcome Space
 
@@ -56,7 +57,7 @@ So far, we have discussed sets, possible outcomes and the set of all possible ou
 
 $\{HT, TH, TT\}$
 
-This is an example of an [event](./06_glossary.md/#event). Technically, an event is a set that contains none, some, or all of the possible outcomes.
+This is an example of an [event](../glossary/#event). Technically, an event is a set that contains none, some, or all of the possible outcomes.
 
 {{% notice style="info" title="Events are Subsets" %}}
 Any event $A$ is a **subset** of the outcome space $\Omega$. Formally, this is written as $A \subseteq \Omega$.
@@ -110,5 +111,5 @@ Next, we'll see how to turn these into actual probabilities!
 
 ---
 
-|[← Previous: Goals](./01_goals.md) | [Next: Probability and Counting →](./03_prob_count.md)|
+|[← Previous: Goals](../../start/) | [Next: Probability and Counting →](../probability-as-counting/)|
 | :--- | ---: |

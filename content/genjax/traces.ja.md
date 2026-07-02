@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "トレースを理解する"
 weight = 40
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/03_traces/"]
 +++
 
 ## コードが実行されるとき何が記録されるか？
@@ -585,5 +586,5 @@ P(lunch=T | dinner=T) ≈ 0.505
 
 ---
 
-|[← 前の章：最初の GenJAX モデル](./02_first_model.md) | [次の章：条件付けと観測 →](./04_conditioning.md)|
+|[← 前の章：最初の GenJAX モデル](../first-model/) | [次の章：条件付けと観測 →](../conditioning/)|
 | :--- | ---: |

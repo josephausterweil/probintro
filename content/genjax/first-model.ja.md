@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "はじめてのGenJAXモデル"
 weight = 30
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/02_first_model/"]
 +++
 
 ## 集合からシミュレーションへ
@@ -282,7 +283,7 @@ $$P(A) = \frac{|A|}{|\Omega|} = \frac{\text{events in event}}{\text{total outcom
 
 **原理は同一です** — 好ましい結果を数えて合計で割るだけです。しかし、シミュレーションによって手では列挙不可能なモデルも扱えるようになります！
 
-[← チュートリアル1、第3章でカウントとしての確率を復習する](../../intro/03_prob_count/)
+[← チュートリアル1、第3章でカウントとしての確率を復習する](../../foundations/probability-as-counting/)
 {{% /notice %}}
 
 ---
@@ -318,7 +319,7 @@ plt.show()
 
 **表示される内容：** 四つの棒がほぼ同じ高さ（それぞれ約2500）で表示され、各結果の理論的期待値 $1/4$ に一致します！
 
-![10,000回のシミュレーションによる結果の分布](../../images/genjax/first_model_outcome_distribution.png)
+![10,000回のシミュレーションによる結果の分布](../../../images/genjax/first_model_outcome_distribution.png)
 
 ---
 
@@ -514,5 +515,5 @@ def chibany_three_meals():
 
 ---
 
-|[← 前：Pythonの基礎](./01_python_basics.md) | [次：トレースを理解する →](./03_traces.md)|
+|[← 前：Pythonの基礎](../python-basics/) | [次：トレースを理解する →](../traces/)|
 | :--- | ---: |

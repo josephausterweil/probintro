@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "自分でモデルを作る"
 weight = 70
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/06_building_models/"]
 +++
 
 ## レシピを使うことから、自分で作ることへ
@@ -948,9 +949,9 @@ GenJAX は `flip` 以外にも多くの分布をサポートしています：
 
 **ここで学んだ確率的プログラミングのスキルは直接応用できます！**
 
-[**チュートリアル 3：連続確率へ進む →**](/probintro/intro2/)
+[**チュートリアル 3：連続確率へ進む →**](../../probintro/intro2/)
 
 ---
 
-|[← 前へ：行動する推論](./05_inference.md) | [チュートリアル 3：連続確率 →](/probintro/intro2/)|
+|[← 前へ：行動する推論](../inference-in-action/) | [チュートリアル 3：連続確率 →](../../probintro/intro2/)|
 | :--- | ---: |

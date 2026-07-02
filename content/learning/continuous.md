@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "The Continuum: Continuous Probability"
 weight = 20
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro2/02_continuous/"]
 +++
 
 ## From Counting to Measuring
@@ -68,7 +69,7 @@ This worked perfectly for **discrete** outcomes like {hamburger, tonkatsu} becau
 
 **Chibany's realization**: "I need a new tool for this new type of problem, but the core idea of probability hasn't changed!"
 
-[← Review counting approach in Tutorial 1, Chapter 3](../../intro/03_prob_count/)
+[← Review counting approach in Tutorial 1, Chapter 3](../../foundations/probability-as-counting/)
 {{% /notice %}}
 
 ## The Resolution: Probability Density
@@ -535,6 +536,6 @@ Example: For Uniform(60, 80), $P(X = 90)$ is not just zero - it's impossible bec
 
 ---
 
-**Next:** [Chapter 3 - The Gaussian Distribution →](./03_gaussian.md)
+**Next:** [Chapter 3 - The Gaussian Distribution →](../gaussian/)
 
 Where we finally meet the bell curve and understand why it's everywhere in nature!

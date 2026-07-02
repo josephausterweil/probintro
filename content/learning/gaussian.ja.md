@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "ガウス分布"
 weight = 30
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro2/03_gaussian/"]
 +++
 
 ## ベルカーブ
@@ -208,7 +209,7 @@ plt.show()
 
 </details>
 
-![ガウス分布のバリエーション](../../images/intro2/gaussian_variations.png)
+![ガウス分布のバリエーション](../../../images/intro2/gaussian_variations.png)
 
 **主な観察点:**
 - **左のグラフ**: μ を変えると曲線が水平方向にシフトする（位置の変化）
@@ -298,7 +299,7 @@ plt.show()
 
 </details>
 
-![2つのガウス成分を持つ現実的な弁当混合モデル](../../images/intro2/realistic_bento_mixture.png)
+![2つのガウス成分を持つ現実的な弁当混合モデル](../../../images/intro2/realistic_bento_mixture.png)
 
 これで、2つのピークに自然なばらつきが生まれました（500g と 350g の完全なスパイクではなく）。しかし、平均値は依然として個々の弁当が存在しない谷間に落ちています！
 
@@ -539,4 +540,4 @@ b) Required std dev: 0.388mm
 
 ---
 
-**次の章**: [ガウス分布によるベイズ学習 →](./04_bayesian_learning.md)
+**次の章**: [ガウス分布によるベイズ学習 →](../bayesian-learning/)

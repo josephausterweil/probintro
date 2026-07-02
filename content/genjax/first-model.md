@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Your First GenJAX Model"
 weight = 30
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/02_first_model/"]
 +++
 
 ## From Sets to Simulation
@@ -282,7 +283,7 @@ We calculated $P(\text{at least one tonkatsu}) = \frac{|\{HT, TH, TT\}|}{|\{HH, 
 
 **The principle is identical** — count favorable outcomes and divide by total. But simulation lets us handle models that are impossible to enumerate by hand!
 
-[← Review probability as counting in Tutorial 1, Chapter 3](../../intro/03_prob_count/)
+[← Review probability as counting in Tutorial 1, Chapter 3](../../foundations/probability-as-counting/)
 {{% /notice %}}
 
 ---
@@ -514,5 +515,5 @@ That's **inference**, and it's where GenJAX really shines!
 
 ---
 
-|[← Previous: Python Essentials](./01_python_basics.md) | [Next: Understanding Traces →](./03_traces.md)|
+|[← Previous: Python Essentials](../python-basics/) | [Next: Understanding Traces →](../traces/)|
 | :--- | ---: |

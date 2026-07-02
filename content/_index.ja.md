@@ -9,7 +9,7 @@ type = "home"
 **確率・確率的機械学習・確率的計算——千葉工大マスコットChibanyの一年の物語と
 して。**
 
-![Chibanyが横になっている](images/chibanylayingdown.png)
+![Chibanyが横になっている](../images/chibanylayingdown.png)
 
 数学の予備知識は不要です。すべてのアイデアはまず具体的な場面（弁当の謎）から
 始まり、それが要求する数学、そして実行可能なGenJAXコードへと進みます。

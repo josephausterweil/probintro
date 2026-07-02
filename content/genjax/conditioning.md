@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Conditioning and Inference"
 weight = 50
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/04_conditioning/"]
 +++
 
 ## From Simulation to Inference
@@ -52,7 +53,7 @@ $$P(A \mid B) = \frac{|A \cap B|}{|B|}$$
 
 **The logic is identical** — conditioning = restricting possibilities to match observations!
 
-[← Review conditional probability in Tutorial 1, Chapter 4](../../intro/04_conditional/)
+[← Review conditional probability in Tutorial 1, Chapter 4](../../foundations/conditional-probability/)
 {{% /notice %}}
 
 ---
@@ -151,7 +152,7 @@ $$P(H \mid E) = \frac{P(E \mid H) \cdot P(H)}{P(E)}$$
 
 **Key insight:** GenJAX does all the Bayes' Theorem algebra for you! You just write the generative story (prior + likelihood), and conditioning gives you the posterior.
 
-[← Review Bayes' Theorem in Tutorial 1, Chapter 5](../../intro/05_bayes/)
+[← Review Bayes' Theorem in Tutorial 1, Chapter 5](../../foundations/bayes-rule/)
 {{% /notice %}}
 
 ---
@@ -920,5 +921,5 @@ You now know:
 
 ---
 
-|[← Previous: Understanding Traces](./03_traces.md) | [Next: Building Your Own Models →](./06_building_models.md)|
+|[← Previous: Understanding Traces](../traces/) | [Next: Building Your Own Models →](../building-models/)|
 | :--- | ---: |

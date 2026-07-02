@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "GenJAXのためのPython基礎"
 weight = 20
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/01_python_basics/"]
 +++
 
 ## プログラマーになる必要はありません！
@@ -414,5 +415,5 @@ def coin_flips(n):
 
 ---
 
-|[← 前の章：はじめに](./00_getting_started.md) | [次の章：最初のGenJAXモデル →](./02_first_model.md)|
+|[← 前の章：はじめに](../getting-started/) | [次の章：最初のGenJAXモデル →](../first-model/)|
 | :--- | ---: |

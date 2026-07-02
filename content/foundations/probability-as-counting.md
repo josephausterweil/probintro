@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Probability and Counting"
 weight = 20
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro/03_prob_count/"]
 +++
 
 
@@ -10,7 +11,7 @@ One goal of this tutorial is to show you that **probability is counting**. When 
 
 ## Counting
 
-The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the [cardinality](./06_glossary.md/#cardinality) or size of the set.
+The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the [cardinality](../glossary/#cardinality) or size of the set.
 
 {{% notice style="info" title="Math Notation: Cardinality" %}}
 We write the **size** of a set using vertical bars:
@@ -44,7 +45,7 @@ Yes, Chibany, it does as it always should. Your chance of getting Tonkatsu at le
 
 ## Probability as Counting
 
-The [probability](./06_glossary.md/#probability) of an event $A$ is $\frac{|A|}{|\Omega|}$. It is written as $P(A)$. In the prior example, $|A| = | \{HT, TH, TT\} | = 3$ and $|\Omega| = | \{HH, HT, TH, TT\}| = 4$ have three and four elements, respectively.
+The [probability](../glossary/#probability) of an event $A$ is $\frac{|A|}{|\Omega|}$. It is written as $P(A)$. In the prior example, $|A| = | \{HT, TH, TT\} | = 3$ and $|\Omega| = | \{HH, HT, TH, TT\}| = 4$ have three and four elements, respectively.
 
 {{% notice style="success" title="The Core Idea" %}}
 **Probability = Counting**
@@ -77,7 +78,7 @@ $$P(A) = \frac{\text{circled outcomes}}{\text{total outcomes}} = \frac{3}{4} = 0
 
 ### When Outcomes Aren't Equally Likely
 
-Note that if the possible outcomes were not equally likely, we would sum their individual relative likelihoods to calculate their "sizes". Everything works in the same way: the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this [later](./04_conditional.md#weighted-possibilities)!
+Note that if the possible outcomes were not equally likely, we would sum their individual relative likelihoods to calculate their "sizes". Everything works in the same way: the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this [later](../conditional-probability/#weighted-possibilities)!
 
 {{% notice style="tip" title="💻 See This in Code" %}}
 **In GenJAX (Tutorial 2)**, we don't calculate $P(A) = |A|/|\Omega|$ by hand. Instead, we:
@@ -107,7 +108,7 @@ prob = jnp.mean(has_tonkatsu)  # Equivalent to |A| / |Ω|
 
 **The principle is identical**: counting favorable outcomes and dividing by total outcomes. But instead of listing Ω by hand, we generate samples!
 
-[→ See full implementation in Tutorial 2, Chapter 2](../../genjax/02_first_model/#counting-outcomes)
+[→ See full implementation in Tutorial 2, Chapter 2](../../genjax/first-model/#counting-outcomes)
 
 **Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/first_model.ipynb)
 {{% /notice %}}
@@ -142,7 +143,7 @@ A **function** $f : \Omega \rightarrow \{0, 1, 2, \ldots\}$ is like a machine:
 The arrow "$\rightarrow$" means "maps to" or "produces".
 {{% /notice %}}
 
-They note: mapping every outcome to a whole number is like making each whole number an event! Their Tonkatsu counter $f$ is defined as $f(HH) = 0$, $f(HT) = 1$, $f(TH)=1$, and $f(TT) = 2$. Chibany defined their first [random variable](./06_glossary.md/#random-variable).
+They note: mapping every outcome to a whole number is like making each whole number an event! Their Tonkatsu counter $f$ is defined as $f(HH) = 0$, $f(HT) = 1$, $f(TH)=1$, and $f(TT) = 2$. Chibany defined their first [random variable](../glossary/#random-variable).
 
 ```mermaid
 block-beta
@@ -195,5 +196,5 @@ Next, we'll explore what happens when we **learn new information**: conditional 
 
 ---
 
-|[← Previous: Chibany is Hungry](./02_hungry.md) | [Next: Conditional Probability →](./04_conditional.md)|
+|[← Previous: Chibany is Hungry](../hungry/) | [Next: Conditional Probability →](../conditional-probability/)|
 | :--- | ---: |

@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Building Your Own Models"
 weight = 70
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/06_building_models/"]
 +++
 
 ## From Following Recipes to Creating Your Own
@@ -953,9 +954,9 @@ In **Tutorial 3: Continuous Probability & Bayesian Learning**, you'll:
 
 **The probabilistic programming skills you've learned here will transfer directly!**
 
-[**Continue to Tutorial 3: Continuous Probability →**](/probintro/intro2/)
+[**Continue to Tutorial 3: Continuous Probability →**](../../probintro/intro2/)
 
 ---
 
-|[← Previous: Inference in Action](./05_inference.md) | [Tutorial 3: Continuous Probability →](/probintro/intro2/)|
+|[← Previous: Inference in Action](../inference-in-action/) | [Tutorial 3: Continuous Probability →](../../probintro/intro2/)|
 | :--- | ---: |

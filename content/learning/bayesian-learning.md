@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Bayesian Learning with Gaussians"
 weight = 40
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro2/04_bayesian_learning/"]
 +++
 
 ## The Learning Problem
@@ -79,7 +80,7 @@ We used it for **discrete events** like "Was the taxi blue?" given "Chibany said
 
 **What's new:** Instead of discrete probabilities (0.15, 0.85), we're working with continuous densities (Gaussians). But the **belief-updating principle** is exactly the same!
 
-[← Review Bayes' Theorem in Tutorial 1, Chapter 5](../../intro/05_bayes/)
+[← Review Bayes' Theorem in Tutorial 1, Chapter 5](../../foundations/bayes-rule/)
 {{% /notice %}}
 
 ### The Gaussian-Gaussian Conjugate Prior
@@ -829,4 +830,4 @@ In Chapter 5, we'll tackle the full problem: learning which bentos are tonkatsu 
 
 ---
 
-**Next Chapter**: [Gaussian Mixture Models →](./05_mixture_models.md)
+**Next Chapter**: [Gaussian Mixture Models →](../../04_bayesian_learning/05_mixture_models/)

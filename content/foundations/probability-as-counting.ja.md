@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "確率と数え上げ"
 weight = 20
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro/03_prob_count/"]
 +++
 
 
@@ -10,7 +11,7 @@ tracks = ["beginner", "cogsci"]
 
 ## 数え上げ
 
-確率を定義するために使う基本的な操作は、集合の要素の数を数えることです。$A$ が集合であれば、$|A|$ はその集合の[濃度（カーディナリティ）](./06_glossary.md/#cardinality)またはサイズです。
+確率を定義するために使う基本的な操作は、集合の要素の数を数えることです。$A$ が集合であれば、$|A|$ はその集合の[濃度（カーディナリティ）](../glossary/#cardinality)またはサイズです。
 
 {{% notice style="info" title="数学的記法：濃度（カーディナリティ）" %}}
 集合の**サイズ**を縦棒を使って表します：
@@ -44,7 +45,7 @@ block-beta
 
 ## 数え上げとしての確率
 
-事象 $A$ の[確率](./06_glossary.md/#probability)は $\frac{|A|}{|\Omega|}$ です。これは $P(A)$ と書かれます。先の例では、$|A| = | \{HT, TH, TT\} | = 3$ かつ $|\Omega| = | \{HH, HT, TH, TT\}| = 4$ であり、それぞれ3つと4つの要素を持ちます。
+事象 $A$ の[確率](../glossary/#probability)は $\frac{|A|}{|\Omega|}$ です。これは $P(A)$ と書かれます。先の例では、$|A| = | \{HT, TH, TT\} | = 3$ かつ $|\Omega| = | \{HH, HT, TH, TT\}| = 4$ であり、それぞれ3つと4つの要素を持ちます。
 
 {{% notice style="success" title="核心的なアイデア" %}}
 **確率 ＝ 数え上げ**
@@ -77,7 +78,7 @@ $$P(A) = \frac{\text{丸で囲まれた結果}}{\text{結果の総数}} = \frac{
 
 ### 結果が等しく起こりやすくない場合
 
-可能な結果が等しく起こりやすくない場合は、それぞれの相対的な尤度を合計して「サイズ」を計算します。すべては同じように機能します：事象の確率は、事象内の可能な結果の総「サイズ」または「重み」を、すべての可能な結果の総サイズまたは重みと比較したものです。この例は[後で](./04_conditional.md#weighted-possibilities)見ていきます！
+可能な結果が等しく起こりやすくない場合は、それぞれの相対的な尤度を合計して「サイズ」を計算します。すべては同じように機能します：事象の確率は、事象内の可能な結果の総「サイズ」または「重み」を、すべての可能な結果の総サイズまたは重みと比較したものです。この例は[後で](../conditional-probability/#weighted-possibilities)見ていきます！
 
 {{% notice style="tip" title="💻 コードで確認する" %}}
 **GenJAX（チュートリアル2）では**、$P(A) = |A|/|\Omega|$ を手で計算しません。代わりに：
@@ -107,7 +108,7 @@ prob = jnp.mean(has_tonkatsu)  # Equivalent to |A| / |Ω|
 
 **原理は同じです**：有利な結果を数えて総結果数で割る。ただし Ω を手で列挙する代わりに、サンプルを生成します！
 
-[→ チュートリアル2、第2章で完全な実装を見る](../../genjax/02_first_model/#counting-outcomes)
+[→ チュートリアル2、第2章で完全な実装を見る](../../genjax/first-model/#counting-outcomes)
 
 **自分で試してみましょう：** [インタラクティブな Colab ノートブックを開く](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/first_model.ipynb)
 {{% /notice %}}
@@ -142,7 +143,7 @@ Chibany は毎日どれだけとんかつをもらえるか知りたいと思っ
 矢印「$\rightarrow$」は「対応付ける」または「生成する」を意味します。
 {{% /notice %}}
 
-彼らは気づきます：すべての結果を整数に対応付けることは、各整数を事象にするようなものです！とんかつカウンター $f$ は $f(HH) = 0$、$f(HT) = 1$、$f(TH)=1$、$f(TT) = 2$ と定義されます。Chibany は最初の[確率変数](./06_glossary.md/#random-variable)を定義しました。
+彼らは気づきます：すべての結果を整数に対応付けることは、各整数を事象にするようなものです！とんかつカウンター $f$ は $f(HH) = 0$、$f(HT) = 1$、$f(TH)=1$、$f(TT) = 2$ と定義されます。Chibany は最初の[確率変数](../glossary/#random-variable)を定義しました。
 
 ```mermaid
 block-beta
@@ -195,5 +196,5 @@ block-beta
 
 ---
 
-|[← 前：Chibany はお腹が空いている](./02_hungry.md) | [次：条件付き確率 →](./04_conditional.md)|
+|[← 前：Chibany はお腹が空いている](../hungry/) | [次：条件付き確率 →](../conditional-probability/)|
 | :--- | ---: |

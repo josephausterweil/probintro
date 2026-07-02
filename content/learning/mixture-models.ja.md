@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "ガウス混合モデル"
 weight = 50
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro2/05_mixture_models/"]
 +++
 
 ## 謎に立ち返る
@@ -122,9 +123,9 @@ $$p(x) = \sum_{k=1}^{K} \pi_k \cdot \mathcal{N}(x | \mu_k, \sigma_k^2)$$
 
 **強み：** 混合モデルは、離散確率と連続確率が別々の世界ではなく、豊かな現実世界の現象をモデル化するために協力して機能することを示しています。
 
-[← Tutorial 1 第3章で確率変数を復習する](../../intro/03_prob_count/#random-variables)
+[← Tutorial 1 第3章で確率変数を復習する](../../foundations/probability-as-counting/#random-variables)
 
-[← Tutorial 3 第2章で連続分布を復習する](../02_continuous/)
+[← Tutorial 3 第2章で連続分布を復習する](../continuous/)
 {{% /notice %}}
 
 ---
@@ -471,4 +472,4 @@ def coffee_gmm():
 
 ---
 
-**次の章**：[ディリクレ過程混合モデル →](./06_dpmm.md)
+**次の章**：[ディリクレ過程混合モデル →](../../complexity/dpmm/)

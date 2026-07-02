@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "連続体：連続確率"
 weight = 20
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro2/02_continuous/"]
 +++
 
 ## 数えることから測ることへ
@@ -68,7 +69,7 @@ $$P(A) = \frac{|A|}{|\Omega|} = \frac{\text{outcomes in event}}{\text{total outc
 
 **Chibanyの気づき**：「この新しい種類の問題には新しいツールが必要だが、確率の核心的な考え方は変わっていない！」
 
-[← チュートリアル1第3章で数え方のアプローチを復習する](../../intro/03_prob_count/)
+[← チュートリアル1第3章で数え方のアプローチを復習する](../../foundations/probability-as-counting/)
 {{% /notice %}}
 
 ## 解決策：確率密度
@@ -164,7 +165,7 @@ plt.show()
 
 </details>
 
-![コーヒー温度の分布](../../images/intro2/coffee_temperature_histogram.png)
+![コーヒー温度の分布](../../../images/intro2/coffee_temperature_histogram.png)
 
 
 **重要な観察：**
@@ -235,7 +236,7 @@ plt.show()
 
 </details>
 
-![一様分布のPDFとCDF](../../images/intro2/pdf_vs_cdf.png)
+![一様分布のPDFとCDF](../../../images/intro2/pdf_vs_cdf.png)
 
 <!-- validate: tol=0.02 -->
 ```python
@@ -347,7 +348,7 @@ plt.show()
 
 </details>
 
-![PDF曲線の下の面積としての確率](../../images/intro2/area_under_pdf.png)
+![PDF曲線の下の面積としての確率](../../../images/intro2/area_under_pdf.png)
 
 **CDFの読み方：**
 - x = 70°Cのとき、F(70) = 0.5：「コーヒーの50%は70°C以下」
@@ -535,6 +536,6 @@ $P(X = 505.0 \text{ exactly}) = 0$であるなら、Chibanyがちょうど505.0g
 
 ---
 
-**次へ：** [第3章 - ガウス分布 →](./03_gaussian.md)
+**次へ：** [第3章 - ガウス分布 →](../gaussian/)
 
 いよいよ鐘型曲線と出会い、それが自然界のあちこちに見られる理由を理解します！

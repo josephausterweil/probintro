@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Understanding Traces"
 weight = 40
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/03_traces/"]
 +++
 
 ## What Gets Recorded When Code Runs?
@@ -585,5 +586,5 @@ This is where GenJAX really shines compared to regular simulation.
 
 ---
 
-|[← Previous: Your First GenJAX Model](./02_first_model.md) | [Next: Conditioning and Observations →](./04_conditioning.md)|
+|[← Previous: Your First GenJAX Model](../first-model/) | [Next: Conditioning and Observations →](../conditioning/)|
 | :--- | ---: |

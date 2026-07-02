@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Getting Started with Google Colab"
 weight = 10
 tracks = ["beginner", "cogsci"]
+aliases = ["/genjax/00_getting_started/"]
 +++
 
 ## What is Google Colab?
@@ -178,8 +179,8 @@ Now you have:
 ✅ Basic understanding of the interface
 
 **Next steps:**
-- [Chapter 1: Python Essentials →](./01_python_basics.md) - Learn just enough Python
-- [Chapter 2: Your First GenJAX Model →](./02_first_model.md) - Jump right into coding!
+- [Chapter 1: Python Essentials →](../python-basics/) - Learn just enough Python
+- [Chapter 2: Your First GenJAX Model →](../first-model/) - Jump right into coding!
 
 {{% notice style="success" %}}
 **Pro tip:** Keep this tab open as a reference while you work through the notebooks!
@@ -187,5 +188,5 @@ Now you have:
 
 ---
 
-|[← Previous: Introduction](./index.md) | [Next: Python Essentials →](./01_python_basics.md)|
+|[← Previous: Introduction](../index/) | [Next: Python Essentials →](../python-basics/)|
 | :--- | ---: |

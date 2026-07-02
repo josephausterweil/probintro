@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Bayes' Theorem: Updating Beliefs"
 weight = 40
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro/05_bayes/"]
 +++
 
 ## The Most Surprising Result in Probability
@@ -29,7 +30,7 @@ Imagine you have a **belief** about the world (a hypothesis), and then you **obs
 
 ### The Formula
 
-[Bayes' Theorem](./06_glossary.md/#bayes-theorem) (Bayes' rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let's say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let's encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).
+[Bayes' Theorem](../glossary/#bayes-theorem) (Bayes' rule) provides a way to update our beliefs in one random variable given information about a different random variable. Let's say we have certain hypotheses about how the world works, which we denote as random variable $H$. Further, we have senses that provide us information. Let's encode the information that we might get from our senses as $D$ (maybe an image from our eyes) and we currently observe $d$ (maybe a picture of tonkatsu).
 
 Bayes Theorem tells us to update our beliefs in hypothesis $h$ being the way the world works after learning $D=d$ in the following manner:
 
@@ -54,7 +55,7 @@ We have all the information to prove this! Feel free to skip to the next subsect
 
 ## Proving Bayes' rule
 
-Using the [other definition of conditional probability](./06_glossary.md/#the-other-definition-of-conditional-probability), we know that $P(H \mid D) = \frac{P(H,D)}{P(D)}$. If we multiply both sides of the equation by $P(D)$, we get $P(H,D) = P(H \mid D) P(D)$. We can do the same thing but for the opposite way of conditioning (the joint probability can be written in either order and it is the same as it is the common elements of two sets which is the same no matter which order you consider the two sets), so $P(D \mid H) = \frac{P(H,D)}{P(H)}$. We can solve for $P(H,D)$ in a similar manner: multiply both sides of the equation by $P(H)$ and we get $P(H,D) = P(D \mid H) P(H)$. Putting these together, we can prove Bayes' rule:
+Using the [other definition of conditional probability](../glossary/#the-other-definition-of-conditional-probability), we know that $P(H \mid D) = \frac{P(H,D)}{P(D)}$. If we multiply both sides of the equation by $P(D)$, we get $P(H,D) = P(H \mid D) P(D)$. We can do the same thing but for the opposite way of conditioning (the joint probability can be written in either order and it is the same as it is the common elements of two sets which is the same no matter which order you consider the two sets), so $P(D \mid H) = \frac{P(H,D)}{P(H)}$. We can solve for $P(H,D)$ in a similar manner: multiply both sides of the equation by $P(H)$ and we get $P(H,D) = P(D \mid H) P(H)$. Putting these together, we can prove Bayes' rule:
 
 $$P(H \mid D) P(D) = P(H,D) = P(D \mid H) P(H)$$
 $$\Rightarrow P(H \mid D) = \frac{P(H,D)}{P(D)} = \frac{P(D \mid H) P(H)}{P(D)}$$
@@ -195,7 +196,7 @@ If we can solve probability problems via symbol manipulation, why learn the set-
 
 Here are some reasons:
 
-1. **Scales to computation**: As variables become more complex, explicitly solving problems becomes infeasible. Thinking through how to count is a strong starting point for a [generative process](./06_glossary.md/#generative-process) perspective, which discusses how outcomes are produced according to computer programs with random choices. These define probabilistic models! [Probabilistic computing](./06_glossary.md/#probabilistic-computing) frameworks are programming languages for specifying probabilistic models and built to calculate different probabilities according to this model in an efficient manner. We will build to exploring how to do this over the next few tutorials.
+1. **Scales to computation**: As variables become more complex, explicitly solving problems becomes infeasible. Thinking through how to count is a strong starting point for a [generative process](../glossary/#generative-process) perspective, which discusses how outcomes are produced according to computer programs with random choices. These define probabilistic models! [Probabilistic computing](../glossary/#probabilistic-computing) frameworks are programming languages for specifying probabilistic models and built to calculate different probabilities according to this model in an efficient manner. We will build to exploring how to do this over the next few tutorials.
 
 2. **Clarity on joint vs. conditional**: Many probability novices find the distinction between joint and conditional probabilities confusing and unintuitive. From the set-based perspective, their difference is clear. Joint probabilities count outcomes where multiple events occur simultaneously. Conditional probabilities change the outcome space to be whatever is consistent with the conditioned information and then count in that new space.
 
@@ -248,9 +249,9 @@ trace, log_weight = target.importance(key, ChoiceMap.empty())
 
 **The principle is identical**: update beliefs with evidence. But GenJAX handles all the formula manipulation!
 
-[→ See Bayesian learning in Tutorial 2, Chapter 5](../../genjax/05_bayesian_learning/)
+[→ See Bayesian learning in Tutorial 2, Chapter 5](../../genjax/inference-in-action/)
 
-[→ See advanced Bayesian inference in Tutorial 3, Chapter 4](../../intro2/04_bayesian_gaussian/)
+[→ See advanced Bayesian inference in Tutorial 3, Chapter 4](../../learning/bayesian-learning/)
 
 **Try it yourself:** [Open Interactive Colab Notebook](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/bayesian_learning.ipynb)
 {{% /notice %}}
@@ -317,5 +318,5 @@ You started with Chibany counting meals, learned about outcome spaces and events
 
 ---
 
-|[← Previous: Conditional Probability](./04_conditional.md) | [Next: Glossary →](./06_glossary.md)|
+|[← Previous: Conditional Probability](../conditional-probability/) | [Next: Glossary →](../glossary/)|
 | :--- | ---: |

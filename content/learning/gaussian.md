@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "The Gaussian Distribution"
 weight = 30
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro2/03_gaussian/"]
 +++
 
 ## The Bell Curve
@@ -539,4 +540,4 @@ In Chapter 4, we'll learn **Bayesian learning**: how to estimate these parameter
 
 ---
 
-**Next Chapter**: [Bayesian Learning with Gaussians →](./04_bayesian_learning.md)
+**Next Chapter**: [Bayesian Learning with Gaussians →](../bayesian-learning/)

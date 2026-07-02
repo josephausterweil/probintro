@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "Chibanyの謎の弁当"
 weight = 10
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro2/01_mystery_bentos/"]
 +++
 
 ## 重さの問題
@@ -98,7 +99,7 @@ plt.show()
 
 </details>
 
-![謎の弁当 - 重さの分布](../../images/intro2/mystery_bentos_histogram.png)
+![謎の弁当 - 重さの分布](../../../images/intro2/mystery_bentos_histogram.png)
 
 **出力：**
 ```
@@ -364,7 +365,7 @@ plt.show()
 
 </details>
 
-![謎の弁当のシーソーバランス](../../images/intro2/seesaw_visualization.png)
+![謎の弁当のシーソーバランス](../../../images/intro2/seesaw_visualization.png)
 
 **期待値E[X] = 455gは、分布がバランスを保つ唯一の位置だ。**
 
@@ -433,7 +434,7 @@ plt.show()
 
 </details>
 
-![10,000個のシミュレートされた謎の弁当](../../images/intro2/simulation_validation.png)
+![10,000個のシミュレートされた謎の弁当](../../../images/intro2/simulation_validation.png)
 
 **出力：**
 ```

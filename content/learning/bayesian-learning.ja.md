@@ -3,6 +3,7 @@ date = "2026-07-02"
 title = "ガウス分布によるベイズ学習"
 weight = 40
 tracks = ["beginner", "cogsci"]
+aliases = ["/intro2/04_bayesian_learning/"]
 +++
 
 ## 学習問題
@@ -79,7 +80,7 @@ $$P(H | E) = \frac{P(E | H) \cdot P(H)}{P(E)}$$
 
 **新しい点：** 離散確率（0.15、0.85）ではなく、連続密度（ガウス分布）を扱っています。しかし **信念更新の原理** はまったく同じです！
 
-[← チュートリアル 1 第 5 章でベイズの定理を復習する](../../intro/05_bayes/)
+[← チュートリアル 1 第 5 章でベイズの定理を復習する](../../foundations/bayes-rule/)
 {{% /notice %}}
 
 ### ガウス-ガウス共役事前分布
@@ -390,7 +391,7 @@ plt.show()
 
 </details>
 
-![ベイズ学習：事後分布の更新](../../images/intro2/posterior_updates.png)
+![ベイズ学習：事後分布の更新](../../../images/intro2/posterior_updates.png)
 
 **プロットが示すストーリー**：
 - **黒の破線**：事前信念（幅広く、500g を中心）
@@ -829,4 +830,4 @@ Chibany が不透明な 425g の弁当を受け取ったとします。どちら
 
 ---
 
-**次の章**：[ガウス混合モデル →](./05_mixture_models.md)
+**次の章**：[ガウス混合モデル →](../../04_bayesian_learning/05_mixture_models/)
