@@ -191,12 +191,7 @@ The Bellman update is a **contraction**: applying it to two different value gues
 
 Step through value iteration yourself below — advance it one sweep at a time and watch the value bars fill and the policy arrows settle:
 
-<iframe src="../../widgets/mdp-value-iteration.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive value-iteration explorer for the Chibany MDP, with a discount-factor slider and per-sweep value bars and policy arrows">
-</iframe>
+{{< widget src="mdp-value-iteration" height="560" title="Interactive value-iteration explorer for the Chibany MDP, with a discount-factor slider and per-sweep value bars and policy arrows" >}}
 
 ---
 
@@ -278,12 +273,7 @@ For an addressed chain of arbitrary length, the right tool is GenJAX's **`Scan` 
 
 Watch the rollouts pile up and the running average home in on $v^*$:
 
-<iframe src="../../widgets/mdp-rollout-simulator.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive rollout simulator for the Chibany MDP: sample trajectories under the optimal policy and watch the Monte-Carlo value estimate converge to the exact value">
-</iframe>
+{{< widget src="mdp-rollout-simulator" height="560" title="Interactive rollout simulator for the Chibany MDP: sample trajectories under the optimal policy and watch the Monte-Carlo value estimate converge to the exact value" >}}
 
 This is the punchline: *if you know the dynamics, you can sit and **simulate** the optimal policy — no learning required.* Planning, in a known world, is just simulation. It is the bridge to everything that follows.
 

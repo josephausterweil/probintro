@@ -67,12 +67,7 @@ graph LR
 
 さらに良いのは、ループを自分で動かすことです。以下のウィジェットは、この後に出てくる作業例の廊下エピソードを1クリックごとに1フェーズずつ実行し、今行った動きを説明します：
 
-<iframe src="../../widgets/particle-filter.html"
-        width="100%" height="520"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive particle filter stepper: weight, resample, propagate">
-</iframe>
+{{< widget src="particle-filter" height="520" title="Interactive particle filter stepper: weight, resample, propagate" >}}
 
 （M = 200で完全なエピソードをステップ実行してください。次に**M = 20**に切り替えて何度か再実行してください——パーティクルが少ないと推定がどれほど不安定になるかを観察しましょう。その揺れは最後のセクションの「限られたメモリ」テーマを可視化したものです。）
 

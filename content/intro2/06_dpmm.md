@@ -107,12 +107,7 @@ The restaurant metaphor has one more piece, and it is the bridge to the actual m
 
 Watch the seating dynamics — and how $\alpha$ tunes the appetite for new tables — in the widget below.
 
-<iframe src="../../widgets/crp-seating.html"
-        width="100%" height="520"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive Chinese Restaurant Process: seat customers one at a time and watch tables (clusters) form; a slider controls the concentration alpha.">
-</iframe>
+{{< widget src="crp-seating" height="520" title="Interactive Chinese Restaurant Process: seat customers one at a time and watch tables (clusters) form; a slider controls the concentration alpha." >}}
 
 {{% notice style="info" title="Drive it yourself" %}}
 Press **Auto-seat** and watch the rich-get-richer dynamic: the first few tables grab most customers, and the bar at the top shows the probability the *next* customer opens a brand-new table (∝ $\alpha$). Now drag **$\alpha$**: near $\alpha = 0.2$ almost everyone crowds onto one or two tables; near $\alpha = 5$ the restaurant sprays customers across many small tables. The number of tables is **never fixed** — the data grow it. (Static fallback: see the discovered-clusters figure later in the chapter.)
@@ -172,12 +167,7 @@ That is the whole DP, written out. (The weight sequence $\pi_1, \pi_2, \dots$ on
 
 The widget below puts **two** of our lenses side by side at the same $\alpha$: stick-breaking (top) explicitly breaks a unit stick into the weights $\pi_k$, while the Pólya urn (bottom) draws balls one at a time by the predictive rule. Same object, two mechanisms.
 
-<iframe src="../../widgets/stick-breaking-polya.html"
-        width="100%" height="520"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Two views of one Dirichlet process: stick-breaking weights on top, the Polya urn sequential draws on the bottom, both driven by a shared concentration slider alpha.">
-</iframe>
+{{< widget src="stick-breaking-polya" height="520" title="Two views of one Dirichlet process: stick-breaking weights on top, the Polya urn sequential draws on the bottom, both driven by a shared concentration slider alpha." >}}
 
 {{% notice style="info" title="Drive it yourself" %}}
 Drag **$\alpha$** and watch *both* panels react together. At small $\alpha$ the stick's first piece $\pi_1$ swallows most of the unit length **and** the urn fills with mostly one color — a few big clusters. At large $\alpha$ the stick shatters into many thin pieces **and** the urn shows many colors — many small clusters. The two panels never look identical (different random draws), but they always tell the *same story* about how many clusters $\alpha$ produces, because they are the same object. (Static fallback: the $G_0 \to G$ figure above shows one such discrete draw.)
@@ -747,12 +737,7 @@ plt.show()
 
 The widget below estimates the density of a set of bento weights three ways simultaneously: a **DPMM** (lets the data choose the number of clusters), a **KDE** (kernel density estimate — a bump on every point, no clusters at all), and a fixed-**K GMM** (you pick $K$). Click on the plot to add a bento weight and watch all three update live.
 
-<iframe src="../../widgets/dpmm-kde-gmm.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive density explorer comparing a DPMM, a kernel density estimate, and a fixed-K Gaussian mixture on bento weights; click to add data points and adjust each model's parameters.">
-</iframe>
+{{< widget src="dpmm-kde-gmm" height="560" title="Interactive density explorer comparing a DPMM, a kernel density estimate, and a fixed-K Gaussian mixture on bento weights; click to add data points and adjust each model's parameters." >}}
 
 {{% notice style="info" title="Drive it yourself" %}}
 Start with the three clusters preloaded. Drag the **GMM $K$** down to 2 and add a few points far to the right — the fixed-$K$ fit *cannot* grow a new mode and smears one Gaussian to cover them, while the **DPMM** simply spins up a fourth cluster. Then crank the **KDE bandwidth $h$**: too small and it spikes on every point; too large and the three modes blur into one. The DPMM needs no such knob — it reads the cluster count off the data via $\alpha$. (Static fallback: the discovered-clusters figure earlier in the chapter.)

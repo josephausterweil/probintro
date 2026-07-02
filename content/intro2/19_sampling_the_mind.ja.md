@@ -47,12 +47,7 @@ $$\theta_i \sim \text{Beta}(a, b), \qquad k_i \sim \text{Binomial}(n_i, \theta_i
 
 サンプリングする前に2つのつまみに慣れておきましょう。以下のエクスプローラーでは、$\varphi$ と $\kappa$ をドラッグすると集団事前分布 $\text{Beta}(\kappa\varphi, \kappa(1-\varphi))$ が描かれます——*平均*がバンプをスライドさせ、*集中度*がその全体的な性格を変える様子を観察してください。「全店舗が極端」（U字型、$\kappa < 1$）から「全店舗が同じ」（スパイク）まで変化します。
 
-<iframe src="../../widgets/beta-explorer.html"
-        width="100%" height="440"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive Beta distribution explorer in the mean/concentration parametrization">
-</iframe>
+{{< widget src="beta-explorer" height="440" title="Interactive Beta distribution explorer in the mean/concentration parametrization" >}}
 
 （$\varphi$ を0.6に保ったまま $\kappa$ を一方の極端からもう一方へスライドしてみてください——そのたった一つのつまみが、Metropolisステップが店舗から*学習*するものです。）
 

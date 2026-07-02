@@ -192,12 +192,7 @@ Each summary falls out of one short derivation, using the identity from [Chapter
 
 Click between the loss types yourself and watch the optimal estimate jump between the three summaries — and watch the expected-loss curve below it slide its minimum to match:
 
-<iframe src="../../widgets/decision-loss-explorer.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive loss-to-estimator explorer: switch between 0-1, squared, and absolute loss and watch the Bayes estimate move between mode, mean, and median">
-</iframe>
+{{< widget src="decision-loss-explorer" height="560" title="Interactive loss-to-estimator explorer: switch between 0-1, squared, and absolute loss and watch the Bayes estimate move between mode, mean, and median" >}}
 
 (Switch to squared loss and note where the minimum sits; then to absolute, and watch it slide left to the median; then to $0$–$1$, and watch it jump to the peak.)
 

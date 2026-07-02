@@ -129,12 +129,7 @@ There's a vivid way to *run* d-separation by hand, called the **Bayes-Ball algor
 
 Step through the three key scenarios below — watch the ball **block** at a conditioned chain middle, **block** at an unobserved collider, and then **pass through** that same collider once you condition on it (the explaining-away surprise, animated):
 
-<iframe src="../../widgets/bayes_ball.html"
-        width="100%" height="460"
-        frameborder="0"
-        style="background:#1a1a1a; border-radius:6px; margin:1rem 0;"
-        title="Interactive Bayes-Ball d-separation demo">
-</iframe>
+{{< widget src="bayes_ball" height="460" title="Interactive Bayes-Ball d-separation demo" >}}
 
 The collider case is the one to dwell on: in scenario 2 the ball **can't** get through (the collider is closed), but in scenario 3 — once you condition on the collider — it suddenly **can**. That's exactly the "conditioning opens a collider" rule, now something you can watch happen.
 

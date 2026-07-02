@@ -191,12 +191,7 @@ sweep   V(Junk)  V(Trying)  V(Healthy)   Junk's best action
 
 下で自分で価値反復法をステップ実行してみよう——一度に1スイープずつ進め、価値バーが埋まり、方策の矢印が落ち着くのを見よう：
 
-<iframe src="../../widgets/mdp-value-iteration.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive value-iteration explorer for the Chibany MDP, with a discount-factor slider and per-sweep value bars and policy arrows">
-</iframe>
+{{< widget src="mdp-value-iteration" height="560" title="Interactive value-iteration explorer for the Chibany MDP, with a discount-factor slider and per-sweep value bars and policy arrows" >}}
 
 ---
 
@@ -278,12 +273,7 @@ Chibanyのありうる未来を五千通りシミュレートし、その割引�
 
 ロールアウトが積み重なり、移動平均が $v^*$ に収束していく様子を見よう：
 
-<iframe src="../../widgets/mdp-rollout-simulator.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive rollout simulator for the Chibany MDP: sample trajectories under the optimal policy and watch the Monte-Carlo value estimate converge to the exact value">
-</iframe>
+{{< widget src="mdp-rollout-simulator" height="560" title="Interactive rollout simulator for the Chibany MDP: sample trajectories under the optimal policy and watch the Monte-Carlo value estimate converge to the exact value" >}}
 
 これがオチだ：*ダイナミクスを知っているなら、座って最適方策を**シミュレート**できる——学習は不要だ。*計画立案とは、既知の世界では、ただのシミュレーションだ。それがこの先に続くすべてへの架け橋となる。
 

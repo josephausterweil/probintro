@@ -132,11 +132,7 @@ Put the belief update and the threshold together and a POMDP policy is a *walk a
 
 You ride the listen line gathering cheap evidence, until the belief crosses a threshold where a terminal action's value rises above it — then you act. Drive it yourself; the widget lets you send growls (and adjust the accuracy, costs, and rewards) and watch the belief and the decision move:
 
-<iframe src="../../widgets/pomdp-belief.html"
-        width="100%" height="540"
-        style="border:1px solid #2a2a33; border-radius:8px; background:#111;"
-        loading="lazy">
-</iframe>
+{{< widget src="pomdp-belief" height="540" title="pomdp-belief" >}}
 
 *If the widget doesn't load: it is the Tiger tracker — click to send left/right growls, watch $P(\text{tiger-left})$ update and the marker ride the α-vector plot, and drag the sliders for listening accuracy and the listen / open / tiger payoffs to move the decision threshold.*
 
@@ -257,11 +253,7 @@ The numbers tell the whole story. After the first move, the efficient path leave
 
 What turns "showing versus doing" from an *effect* into a *model* is making the teacher reason about the learner's mind explicitly. **Ho, Cushman, Littman & Austerweil (2021)** formalize a **communicative demonstration** as **belief-directed planning** with two levels of inference. A **level-0** observer just inverts your actions into a posterior over your goal — the inverse planning of [Chapter 23](../23_inverse_rl_goal_inference/). You, the **level-1** demonstrator, then choose actions not to reach the goal cheaply but to *drive that posterior toward the truth* — to push the observer's $P(\text{true goal} \mid \text{your actions})$ as high as you can. But the observer's belief is **hidden** to you: you never see it, only nudge it through what you do. Planning the demonstration is therefore **itself a POMDP**, whose hidden state is *the observer's belief about your goal* — the same belief-inference machinery as the Tiger, but now the "world" you are tracking is another mind. **Teaching is inverse planning, one level up.** That model *predicts* the numbers we just computed: the legible path's $0.613$ on the first move (versus the efficient path's $0.500$) is precisely a level-1 demonstrator spending a small detour to move the level-0 observer's posterior toward the truth.
 
-<iframe src="../../widgets/showing-vs-doing.html"
-        width="100%" height="540"
-        style="border:1px solid #2a2a33; border-radius:8px; background:#111;"
-        loading="lazy">
-</iframe>
+{{< widget src="showing-vs-doing" height="540" title="showing-vs-doing" >}}
 
 *If the widget doesn't load: it shows the two same-length paths to one goal; toggle "doing" (efficient) versus "showing" (legible) and watch the observer's belief bar — the legible path commits the observer's posterior on the first step, the efficient one stays at 50/50 until the end.*
 

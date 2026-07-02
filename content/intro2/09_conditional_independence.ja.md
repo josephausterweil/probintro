@@ -129,12 +129,7 @@ d分離を手で*実行*する視覚的な方法がある。**ベイズボール
 
 以下の3つの主要なシナリオを順に確認しよう——条件付きチェーンの中間でボールが**遮断**され、観測されていないコライダーで**遮断**され、そして同じコライダーを条件付けると（説明消去の驚き、アニメーション付き）突然**通過**する様子を見てほしい。
 
-<iframe src="../../widgets/bayes_ball.html"
-        width="100%" height="460"
-        frameborder="0"
-        style="background:#1a1a1a; border-radius:6px; margin:1rem 0;"
-        title="Interactive Bayes-Ball d-separation demo">
-</iframe>
+{{< widget src="bayes_ball" height="460" title="Interactive Bayes-Ball d-separation demo" >}}
 
 最も注目すべきはコライダーのケースだ。シナリオ2ではボールは通過**できない**（コライダーは閉じている）が、シナリオ3では——コライダーを条件付けると——突然通過**できる**ようになる。これがまさに「コライダーを条件付けると開く」というルールであり、実際に起きる様子を見ることができる。
 

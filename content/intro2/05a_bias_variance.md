@@ -369,12 +369,7 @@ Notice the honest detail in the numbers: the best over-parameterized error (0.60
 
 The widget below is the whole chapter in one canvas. In **classical view** it draws the bias-variance U as you drag the polynomial degree; switch to the **double-descent view** to push capacity $p$ through the interpolation threshold and watch the spike form and the second descent appear.
 
-<iframe src="../../widgets/bias-variance-explorer.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive bias-variance and double-descent explorer">
-</iframe>
+{{< widget src="bias-variance-explorer" height="560" title="Interactive bias-variance and double-descent explorer" >}}
 
 *What to try:* drag **degree** up and watch the red bias curve fall while the orange variance curve rises; then flip to the double-descent view, push **capacity $p$** past $n$ to make the spike erupt, and finally raise the **ridge $\lambda$** slider — the spike melts away. If the widget doesn't load, the two figures above show the same two curves.
 

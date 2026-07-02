@@ -215,12 +215,7 @@ the two disagree -> the chain has NOT mixed (each is trapped near its start)
 
 このセクションのすべてを今*見る*ことができます。以下の可視化は、**多峰性の2次元ガウス混合**（4つのよく分離したブロブ）に対してMetropolis–Hastingsまたはギブスをライブで実行します。左パネルは目標密度、連鎖の軌跡、そしてMHの場合は各提案が**緑（採択）**または**赤（棄却）**に色付けされた提案円を示します。右上パネルは**トレース**（反復回数に対するx座標：平ら＝スタック、レベル間を跳び回る＝混合）；右下は真の周辺分布に対する累積**ヒストグラム**です。コーナーの読み取り値はライブの**採択比**と**訪問モード数**カウンタを示します——「実際に探索したか？」という正直な数値です。
 
-<iframe src="../../widgets/mcmc-gmm.html"
-        width="100%" height="620"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive MCMC demo: Metropolis-Hastings and Gibbs on a multimodal 2-D Gaussian mixture">
-</iframe>
+{{< widget src="mcmc-gmm" height="620" title="Interactive MCMC demo: Metropolis-Hastings and Gibbs on a multimodal 2-D Gaussian mixture" >}}
 
 {{% notice style="info" title="自分で操作してみよう——5つの実験" %}}
 デフォルトの**4ブロブ（分離）**の目標を維持し、各実験の前に**リセット**を押してください。

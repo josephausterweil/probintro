@@ -215,12 +215,7 @@ Crucially, the *local* acceptance rate looks perfectly healthy; the chain is hap
 
 Everything in this section you can now *see*. The visualization below runs Metropolis–Hastings or Gibbs live on a **multimodal 2-D Gaussian mixture** (four well-separated blobs). The left panel shows the target density, the chain's trail, and — for MH — the proposal circle with each proposal colored **green (accepted)** or **red (rejected)**. The top-right panel is the **trace** (the x-coordinate against iteration: flat = stuck, hopping between levels = mixing); the bottom-right is the accumulated **histogram** against the true marginal. The readout in the corner gives the live **acceptance ratio** and a **modes-visited** counter — the honest "did it actually explore?" number.
 
-<iframe src="../../widgets/mcmc-gmm.html"
-        width="100%" height="620"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive MCMC demo: Metropolis-Hastings and Gibbs on a multimodal 2-D Gaussian mixture">
-</iframe>
+{{< widget src="mcmc-gmm" height="620" title="Interactive MCMC demo: Metropolis-Hastings and Gibbs on a multimodal 2-D Gaussian mixture" >}}
 
 {{% notice style="info" title="Drive it yourself — five experiments" %}}
 Keep the default **4 blobs (separated)** target and hit **Reset** before each experiment.

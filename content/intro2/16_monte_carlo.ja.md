@@ -149,12 +149,7 @@ pi estimate = 4 x 78345/100000 = 3.134
 
 自分でダーツを投げてみよう——最初は推定値の経路が激しく跳ね、その後 $1/\sqrt{n}$ のルールが約束するとおり落ち着くのを体感してほしい：
 
-<iframe src="../../widgets/mc-darts.html"
-        width="100%" height="540"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive dart-throwing estimator of pi">
-</iframe>
+{{< widget src="mc-darts" height="540" title="Interactive dart-throwing estimator of pi" >}}
 
 （まず1本ずつ投げて——推定値がどれほど不安定か感じて——次に一度に1万本追加して固定していく様子を見よう。）
 
@@ -361,12 +356,7 @@ poorly-matched q ~ N(760,30): ESS =       22  out of 100000
 
 それが $N_{\text{eff}}$ の*目的*だ：提案がターゲットをカバーしているかどうかの素早い確認。次は自分の手で感じてみよう——提案をドラッグして、重みとESSがどう反応するか観察しよう：
 
-<iframe src="../../widgets/is-proposal.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive importance-sampling proposal explorer with live ESS">
-</iframe>
+{{< widget src="is-proposal" height="560" title="Interactive importance-sampling proposal explorer with live ESS" >}}
 
 （3つの位置を試してみよう：提案がターゲットの真上、裾から遠く離れた位置、陰影の $W > 700$ 事象に駐在。毎回*両方*の表示を確認しよう。）
 

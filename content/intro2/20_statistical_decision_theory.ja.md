@@ -192,12 +192,7 @@ argmin absolute loss = 3.39   (lands on the median)
 
 自分で損失タイプを切り替えてみて、最適な推定値が三つの要約の間を跳ぶのを見よう——そしてその下の期待損失曲線が、それに合わせて最小値をスライドさせるのを見よう：
 
-<iframe src="../../widgets/decision-loss-explorer.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive loss-to-estimator explorer: switch between 0-1, squared, and absolute loss and watch the Bayes estimate move between mode, mean, and median">
-</iframe>
+{{< widget src="decision-loss-explorer" height="560" title="Interactive loss-to-estimator explorer: switch between 0-1, squared, and absolute loss and watch the Bayes estimate move between mode, mean, and median" >}}
 
 （二乗損失に切り替えて最小値がどこに座るか見よう；次に絶対損失にして、それが左へ中央値までスライドするのを見よう；次に $0$–$1$ にして、それがピークへ跳ぶのを見よう。）
 

@@ -117,12 +117,7 @@ Q-learning (rm) greedy path: (1,1) -> (2,1) -> (3,1) -> (3,2) -> (3,3) | reaches
 
 自然な**報酬最大化**スキーム——ゴール到達で $+20$、庭に踏み込むと $-10$、それ以外は $0$ ——のもとで、Q学習は最初は何も知らない状態から、数千回のノイズだらけの試行を通じて、正確なL字パスを発見する。ウィジェットで自分でステップを追ってみよう：アルゴリズムを1ステップずつ進め、現在のステップを示すインジケーターを表示し、ライブの $Q$ 値を色付きの扇形として、貪欲方策を矢印として示し、報酬スキームを切り替えられる——**あなた**が教師になるモードも含めて。
 
-<iframe src="../../widgets/qlearning-gridworld.html"
-        width="100%" height="800"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive Q-learning on the GardenPath gridworld: step the algorithm, watch Q-values and the greedy policy, switch reward schemes, or teach the agent yourself">
-</iframe>
+{{< widget src="qlearning-gridworld" height="800" title="Interactive Q-learning on the GardenPath gridworld: step the algorithm, watch Q-values and the greedy policy, switch reward schemes, or teach the agent yourself" >}}
 
 （**「human — YOU are the teacher（人間——あなたが教師）」**モードを試してみよう：猫に一手ごとにフィードバックを与え、それからあなたのレッスンが実際にゴールに到達するかどうかを確かめる。見た目より難しい——それこそが次節の核心だ。）
 
@@ -261,12 +256,7 @@ Dyna (plan on the LEARNED model) policy: ['Invest', 'Invest', 'Invest']
 
 これは、**同じ**Chibany MDP上で2つの学習スタイルを並べて*観察する*絶好のタイミングだ。両方のエージェントは同一の経験のストリームを見る；唯一の違いは、各ステップで何をするかだ。**Q学習**（モデルフリー）は、実ステップごとに1回のTD更新を行う。**Dyna**（モデルベース）は、その*同じ*更新に**加えて**、学習したモデルから一握りの**計画**バックアップを行う——想像上の経験を再生して、各実ステップからより多くを絞り出す。[第21章](../21_markov_decision_processes/)の厳密な答えを念頭に置いておこう——価値反復は $V^* = [25.6,\ 28.4,\ 39.8]$ を与え、どこでも**投資**が最適だった（破線のターゲット）。両方がそれに向かって登っていく様子を観察しよう；それからDynaの**計画ステップを0に**ドラッグすると、2つのパネルは同一になる——計画こそが*唯一の*違いなのだ：
 
-<iframe src="../../widgets/dyna-vs-qlearning.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Q-learning vs Dyna on the Chibany MDP, side by side: both learn from the same experience, but Dyna adds planning backups from a learned model and converges to the value-iteration answer in far fewer real steps">
-</iframe>
+{{< widget src="dyna-vs-qlearning" height="560" title="Q-learning vs Dyna on the Chibany MDP, side by side: both learn from the same experience, but Dyna adds planning backups from a learned model and converges to the value-iteration answer in far fewer real steps" >}}
 
 わずか数回の計画ステップでも、DynaはQ学習が必要とする実経験のほんの一部で価値反復の答えに到達する——*想像に使えるモデルを持つこと*の見返りであり、ここからMCTSとAlphaZeroへと続く糸だ。
 
@@ -307,12 +297,7 @@ graph TD
 
 その入れ替わり＋とんかつのケースが核心であり、それは本当に絡まりやすい——だから自分ですべての組み合わせをステップしてみよう。友人を選び、いつもの箱を持ってきたか入れ替わったか、そして中身は何だったかを選び、それぞれの心が何を結論するか観察しよう（2つの判定は*いつもの*日には一致し、*入れ替わり*の日には分かれる）：
 
-<iframe src="../../widgets/two-step-task.html"
-        width="100%" height="600"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive two-step task: pick which friend (Aki/Mei) Chibany asks, whether they brought their usual box or swapped colors, and whether it held tonkatsu or a hamburger, and see why model-free and model-based ask the same friend or switch">
-</iframe>
+{{< widget src="two-step-task" height="600" title="Interactive two-step task: pick which friend (Aki/Mei) Chibany asks, whether they brought their usual box or swapped colors, and whether it held tonkatsu or a hamburger, and see why model-free and model-based ask the same friend or switch" >}}
 
 両方のエージェントをただ*シミュレート*することもできる。モデルフリーの学習器は各**友人**に対して価値をキャッシュし、それを受け取ったとんかつへと近づける；モデルベースの学習器は各**色の箱**の価値を学習し、それらを既知の70/30の箱の習慣を通して組み合わせて2人の友人を採点する。それぞれを多数の日にわたって実行し、Chibanyが**同じ友人に頼む**頻度を、前日の弁当と友人がいつもの箱を持ってきたかどうかで分けて集計しよう：
 
@@ -366,12 +351,7 @@ model-based   tonkatsu/usual 0.66  tonkatsu/swap 0.45   burger/usual 0.45  burge
 
 これらの数値*こそ*そのサインだ。モデルフリーの学習器は、**どんな**とんかつの後でも約0.9の確率で同じ友人に頼み、**どんな**ハンバーガーの後でも約0.57で頼む——入れ替わりにわたって平らだ。モデルベースの学習器は**クロスオーバー**を示す：いつもの日のとんかつ、または入れ替わりの日のハンバーガーの後には再び頼み、入れ替わりの日のとんかつ、またはいつもの日のハンバーガーの後には切り替える。再び頼む確率を2本の線——1本はとんかつの日、1本はハンバーガーの日——として、*いつも*対*入れ替わり*にわたってプロットすると、モデルフリーは**平行**な線を与え（とんかつが両方を一緒にシフトさせるだけ）、モデルベースは**交差する**線を与える（交互作用）。ウィジェットはシミュレーションをライブで実行する；モデルベースの重み $w$ を0から1までスライドさせて、一方をもう一方へと変形させよう：
 
-<iframe src="../../widgets/two-step-stay-prob.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive two-step signature: probability Chibany asks the same friend — model-free gives parallel tonkatsu lines, model-based gives a crossing interaction, with a model-based-weight slider to mix them">
-</iframe>
+{{< widget src="two-step-stay-prob" height="560" title="Interactive two-step signature: probability Chibany asks the same friend — model-free gives parallel tonkatsu lines, model-based gives a crossing interaction, with a model-based-weight slider to mix them" >}}
 
 この課題を有名にした結果：**現実の人々は*両方*を示す**——報酬の主効果*と*交互作用、まさに中央パネルのブレンドだ。その混合は、脳が2つのシステムを並列に走らせ、それらの間で調停しているという証拠として読まれる——Daw ら（2005）の**習慣的**（モデルフリー）制御器と**目標指向的**（モデルベース）制御器だ。本章がコードで描いた素朴なモデルフリー／モデルベースの区別は、人間の認知の測定可能な軸であることが判明したのだ。
 
@@ -489,21 +469,11 @@ MCTS from Junk picks: Invest  (Q_Indulge=13.4, Q_Invest=17.0)
 
 MCTSは最適な行動——**投資**——を、純粋にロールアウトをシミュレートしてスコアを記録することによって回復する、ベルマン方程式を一度も解かずに。（一つの正直な注意点：素の*ランダム*ロールアウトは、Chibanyのような罠の後に報酬があるMDPでは、これを**ノイズの多い**推定量にする——Junkでの最適なギャップは薄く、ランダムなプレイがめったに $-2$ の谷を通り抜けないので、いくつかのシードは怠惰を好みさえする。そのノイズこそが、**AlphaZero**がランダム・ロールアウトを*学習された*価値ネットワークで置き換える理由だ。）4つのフェーズは一度に1つずつ*見る*のが一番わかりやすい。最初のウィジェットは、この小さなChibany木でMCTSをステップし、選択 → 展開 → シミュレート → バックアップを点灯させて、単一のノードの推定値が形成される様子を観察できるようにする：
 
-<iframe src="../../widgets/mcts-stepper-chibany.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Step-by-step MCTS on the small Chibany MDP: advance one phase at a time through select, expand, simulate, and backup">
-</iframe>
+{{< widget src="mcts-stepper-chibany" height="560" title="Step-by-step MCTS on the small Chibany MDP: advance one phase at a time through select, expand, simulate, and backup" >}}
 
 *同じ*4フェーズのループが、本物のゲームへとスケールする。2番目のウィジェットは**三目並べ**——決定論的で完全情報のゲーム——でMCTSを実行し、一手ごとに探索木を成長させる；それから、それと対戦できる：
 
-<iframe src="../../widgets/mcts-tictactoe.html"
-        width="100%" height="600"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="MCTS playing tic-tac-toe: watch the search tree grow through the four phases, then play against the agent">
-</iframe>
+{{< widget src="mcts-tictactoe" height="600" title="MCTS playing tic-tac-toe: watch the search tree grow through the four phases, then play against the agent" >}}
 
 これがAIで最も有名なエージェントへの橋だ。**AlphaZero**（Silver ら、2018）は、まさにこのループのランダム・ロールアウトを学習された価値・方策ネットワークで置き換えたものだ；**MuZero**（Schrittwieser ら、2020）は、探索するモデル自体を学習する。それらはMCTSを、スケールさせたものだ。
 

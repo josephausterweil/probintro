@@ -47,12 +47,7 @@ We sample one more level down, in $\ell = \log \kappa$, so that the concentratio
 
 Get a feel for the two knobs before we sample them. The explorer below draws the population prior $\text{Beta}(\kappa\varphi, \kappa(1-\varphi))$ as you drag $\varphi$ and $\kappa$ — watch how the *mean* slides the bump while the *concentration* changes its whole character, from "every shop is extreme" (U-shaped, $\kappa < 1$) to "all shops identical" (a spike):
 
-<iframe src="../../widgets/beta-explorer.html"
-        width="100%" height="440"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive Beta distribution explorer in the mean/concentration parametrization">
-</iframe>
+{{< widget src="beta-explorer" height="440" title="Interactive Beta distribution explorer in the mean/concentration parametrization" >}}
 
 (Slide $\kappa$ from one extreme to the other while holding $\varphi$ at 0.6 — that single knob is what the Metropolis step will be *learning* from the shops.)
 

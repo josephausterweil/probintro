@@ -149,12 +149,7 @@ A hundred thousand random darts pin $\pi$ to two decimal places. With the $1/\sq
 
 And throw some darts yourself — watch the estimate's path bounce hard at first, then calm down exactly as the $1/\sqrt{n}$ rule promises:
 
-<iframe src="../../widgets/mc-darts.html"
-        width="100%" height="540"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive dart-throwing estimator of pi">
-</iframe>
+{{< widget src="mc-darts" height="540" title="Interactive dart-throwing estimator of pi" >}}
 
 (Throw one dart at a time first — feel how jumpy the estimate is — then add ten thousand at once and watch it lock on.)
 
@@ -361,12 +356,7 @@ A well-matched proposal keeps almost all of its 100,000 samples; a badly-matched
 
 That is what $N_{\text{eff}}$ is *for*: a quick read on whether your proposal covers your target. Now build the feel for it with your own hands — drag the proposal around and watch the weights and the ESS respond:
 
-<iframe src="../../widgets/is-proposal.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive importance-sampling proposal explorer with live ESS">
-</iframe>
+{{< widget src="is-proposal" height="560" title="Interactive importance-sampling proposal explorer with live ESS" >}}
 
 (Try three positions: the proposal right on the target; far off in a tail; and parked on the shaded $W > 700$ event. Watch *both* readouts each time.)
 

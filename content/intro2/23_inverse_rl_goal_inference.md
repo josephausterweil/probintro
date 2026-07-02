@@ -163,11 +163,7 @@ After **one** rightward step the model can barely separate *mid* from *right* ($
 
 Drive it yourself. The widget below is the same gridworld; move the agent (or let it walk) and watch the posterior bars respond to every step — including the "freeze partway and guess" interaction:
 
-<iframe src="../../widgets/goal-inference.html"
-        width="100%" height="540"
-        style="border:1px solid #2a2a33; border-radius:8px; background:#111;"
-        loading="lazy">
-</iframe>
+{{< widget src="goal-inference" height="540" title="goal-inference" >}}
 
 *If the widget doesn't load: it is the same $3\times3$ grid; you move the agent one step at a time (or let it walk), and the bars show $P(\text{goal}\mid\text{actions so far})$ updating after every move — the freeze-frame curve, live.*
 
@@ -235,11 +231,7 @@ The honest caveat from our toy carries all the way up: a recovered reward is **o
 
 You can feel the ill-posedness directly. In the widget below you *paint* a true reward — click cells to cycle each between $+1$, $0$, and $-1$ — then add demonstrations of an agent that seeks the $+1$ cells and routes around the $-1$ ones. The middle panel recovers a reward from those demonstrations (MaxEnt-style: reward $\propto$ where the agent is drawn versus where it avoids). Watch it light up the goals — and also light up cells that are merely *on the way*, which it cannot cleanly distinguish from truly rewarded ones. That fuzziness is not a bug in the widget; it *is* the ill-posedness:
 
-<iframe src="../../widgets/reward-recovery.html"
-        width="100%" height="560"
-        style="border:1px solid #2a2a33; border-radius:8px; background:#111;"
-        loading="lazy">
-</iframe>
+{{< widget src="reward-recovery" height="560" title="reward-recovery" >}}
 
 *If the widget doesn't load: paint a true reward on a grid (click cells to cycle $+1$ / $0$ / $-1$), add demonstrations of an agent that seeks the $+1$ cells, and the middle panel recovers an inferred reward — which lights up the true goals **and** the neutral cells merely on the way to them, making the ill-posedness visible.*
 

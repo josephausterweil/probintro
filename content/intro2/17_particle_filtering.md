@@ -67,12 +67,7 @@ Here is one full tick of the loop, drawn with just five particles so every move 
 
 Better still, drive the loop yourself. The widget below runs the exact corridor episode from the worked example coming up — same pings, same models — one phase per click, narrating which move it just made:
 
-<iframe src="../../widgets/particle-filter.html"
-        width="100%" height="520"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive particle filter stepper: weight, resample, propagate">
-</iframe>
+{{< widget src="particle-filter" height="520" title="Interactive particle filter stepper: weight, resample, propagate" >}}
 
 (Step through a full episode at M = 200. Then switch to **M = 20** and run it again a few times — watch the estimate get jumpier with fewer particles. That wobble is the "limited memory" theme of the last section, made visible.)
 

@@ -117,12 +117,7 @@ Q-learning (rm) greedy path: (1,1) -> (2,1) -> (3,1) -> (3,2) -> (3,3) | reaches
 
 With the natural **reward-maximizing** scheme — $+20$ for reaching the goal, $-10$ for stepping into the garden, $0$ otherwise — Q-learning, knowing nothing at the start, discovers the exact L-path from thousands of noisy trials. Step through it yourself in the widget: it single-steps the algorithm with a current-step indicator, shows the live $Q$-values as colored wedges and the greedy policy as arrows, and lets you switch the reward scheme — including a mode where **you** are the teacher.
 
-<iframe src="../../widgets/qlearning-gridworld.html"
-        width="100%" height="800"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive Q-learning on the GardenPath gridworld: step the algorithm, watch Q-values and the greedy policy, switch reward schemes, or teach the agent yourself">
-</iframe>
+{{< widget src="qlearning-gridworld" height="800" title="Interactive Q-learning on the GardenPath gridworld: step the algorithm, watch Q-values and the greedy policy, switch reward schemes, or teach the agent yourself" >}}
 
 (Try the **"human — YOU are the teacher"** mode: give the cat feedback move by move, then reveal whether your lessons actually reach the goal. It is harder than it looks — which is the whole point of the next section.)
 
@@ -261,12 +256,7 @@ From nothing but random experience, the agent reconstructs enough of the world t
 
 This is a good moment to *watch* the two styles of learning side by side on the **same** Chibany MDP. Both agents see the identical stream of experience; the only difference is what they do with each step. **Q-learning** (model-free) makes one TD update per real step. **Dyna** (model-based) makes that *same* update **plus** a handful of **planning** backups from its learned model — replaying imagined experience to wring more out of every real step. Keep the exact answer from [Chapter 21](../21_markov_decision_processes/) in mind — value iteration gave $V^* = [25.6,\ 28.4,\ 39.8]$ with **Invest** optimal everywhere (the dashed targets). Watch both climb toward it; then drag Dyna's **planning steps to 0** and the two panels become identical — planning is the *only* difference:
 
-<iframe src="../../widgets/dyna-vs-qlearning.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Q-learning vs Dyna on the Chibany MDP, side by side: both learn from the same experience, but Dyna adds planning backups from a learned model and converges to the value-iteration answer in far fewer real steps">
-</iframe>
+{{< widget src="dyna-vs-qlearning" height="560" title="Q-learning vs Dyna on the Chibany MDP, side by side: both learn from the same experience, but Dyna adds planning backups from a learned model and converges to the value-iteration answer in far fewer real steps" >}}
 
 With even a few planning steps, Dyna reaches the value-iteration answer in a fraction of the real experience Q-learning needs — the payoff of *having a model to imagine with*, the thread that runs from here to MCTS and AlphaZero.
 
@@ -307,12 +297,7 @@ The whole game lives in that **swap** (the rare transition). Ask the simplest be
 
 That swap-with-tonkatsu case is the crux, and it is genuinely easy to tangle — so step through every combination yourself. Pick the friend, whether they brought their usual box or swapped, and what was inside, and watch what each mind concludes (the two verdicts agree on *usual* days and split on *swap* days):
 
-<iframe src="../../widgets/two-step-task.html"
-        width="100%" height="600"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive two-step task: pick which friend (Aki/Mei) Chibany asks, whether they brought their usual box or swapped colors, and whether it held tonkatsu or a hamburger, and see why model-free and model-based ask the same friend or switch">
-</iframe>
+{{< widget src="two-step-task" height="600" title="Interactive two-step task: pick which friend (Aki/Mei) Chibany asks, whether they brought their usual box or swapped colors, and whether it held tonkatsu or a hamburger, and see why model-free and model-based ask the same friend or switch" >}}
 
 We can also just *simulate* both agents. A model-free learner caches a value for each **friend** and nudges it toward the tonkatsu received; a model-based learner learns each **color box's** value and combines them through the known 70/30 box habits to score the two friends. Run each for many days and tally how often Chibany **asks the same friend**, split by the previous day's bento and whether the friend brought their usual box:
 
@@ -366,12 +351,7 @@ model-based   tonkatsu/usual 0.66  tonkatsu/swap 0.45   burger/usual 0.45  burge
 
 Those numbers *are* the signature. The model-free learner asks the same friend ~0.9 of the time after **any** tonkatsu and ~0.57 after **any** hamburger — flat across the swap. The model-based learner shows the **crossover**: ask again after a usual-day tonkatsu or a swap-day hamburger, switch after a swap-day tonkatsu or a usual-day hamburger. Plot the ask-again probability as two lines — one for tonkatsu days, one for hamburger days — across *usual* vs. *swap*, and model-free gives **parallel** lines (tonkatsu just shifts them together) while model-based gives **crossing** lines (the interaction). The widget runs the simulation live; slide the model-based weight $w$ from 0 to 1 to morph one into the other:
 
-<iframe src="../../widgets/two-step-stay-prob.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Interactive two-step signature: probability Chibany asks the same friend — model-free gives parallel tonkatsu lines, model-based gives a crossing interaction, with a model-based-weight slider to mix them">
-</iframe>
+{{< widget src="two-step-stay-prob" height="560" title="Interactive two-step signature: probability Chibany asks the same friend — model-free gives parallel tonkatsu lines, model-based gives a crossing interaction, with a model-based-weight slider to mix them" >}}
 
 The result that made the task famous: **real people show *both*** — a reward main effect *and* an interaction, exactly the middle panel's blend. That mixture is read as evidence that the brain runs the two systems in parallel and arbitrates between them — the **habitual** (model-free) and **goal-directed** (model-based) controllers of Daw et al. (2005). The plain model-free/model-based distinction this chapter drew in code turns out to be a measurable axis of human cognition.
 
@@ -489,21 +469,11 @@ MCTS from Junk picks: Invest  (Q_Indulge=13.4, Q_Invest=17.0)
 
 MCTS recovers the optimal action — **Invest** — purely by simulating rollouts and keeping score, never once solving the Bellman equation. (One honest caveat: plain *random* rollouts make this a **noisy** estimator on a trap-then-reward MDP like Chibany's — the optimal gap at Junk is thin, and random play rarely threads the $-2$ trough, so some seeds even prefer Indulge. That noise is exactly why **AlphaZero** replaces the random rollout with a *learned* value network.) The four phases are easiest to *see* one at a time. The first widget steps MCTS on this tiny Chibany tree, lighting up Select → Expand → Simulate → Backup so you can watch a single node's estimate form:
 
-<iframe src="../../widgets/mcts-stepper-chibany.html"
-        width="100%" height="560"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="Step-by-step MCTS on the small Chibany MDP: advance one phase at a time through select, expand, simulate, and backup">
-</iframe>
+{{< widget src="mcts-stepper-chibany" height="560" title="Step-by-step MCTS on the small Chibany MDP: advance one phase at a time through select, expand, simulate, and backup" >}}
 
 The *same* four-phase loop scales to a real game. The second widget runs MCTS on **tic-tac-toe** — a deterministic, perfect-information game — growing a search tree move by move; then you can play against it:
 
-<iframe src="../../widgets/mcts-tictactoe.html"
-        width="100%" height="600"
-        frameborder="0"
-        style="background:#111111; border-radius:6px; margin:1rem 0;"
-        title="MCTS playing tic-tac-toe: watch the search tree grow through the four phases, then play against the agent">
-</iframe>
+{{< widget src="mcts-tictactoe" height="600" title="MCTS playing tic-tac-toe: watch the search tree grow through the four phases, then play against the agent" >}}
 
 This is the bridge to the most famous agents in AI. **AlphaZero** (Silver et al., 2018) is exactly this loop with the random rollout replaced by a learned value-and-policy network; **MuZero** (Schrittwieser et al., 2020) learns the model it searches in. They are MCTS, scaled.
 
