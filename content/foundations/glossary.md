@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "Glossary"
-weight = 6
+weight = 50
+tracks = ["beginner", "cogsci"]
 +++
 
 This glossary provides definitions for key terms used throughout the tutorial. Click on any term to expand its definition.

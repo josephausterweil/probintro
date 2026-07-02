@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "Probability and Counting"
-weight = 3
+weight = 20
+tracks = ["beginner", "cogsci"]
 +++
 
 

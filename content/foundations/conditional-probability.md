@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "Conditional probability as changing the possible outcomes"
-weight = 4
+weight = 30
+tracks = ["beginner", "cogsci"]
 +++
 
 ## The Big Question

@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "ベイズの定理：信念の更新"
-weight = 5
+weight = 40
+tracks = ["beginner", "cogsci"]
 +++
 
 ## 確率論における最も驚くべき結果

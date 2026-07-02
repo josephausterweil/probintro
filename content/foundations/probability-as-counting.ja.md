@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "確率と数え上げ"
-weight = 3
+weight = 20
+tracks = ["beginner", "cogsci"]
 +++
 
 

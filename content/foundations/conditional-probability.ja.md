@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "条件付き確率――可能な結果を絞り込む"
-weight = 4
+weight = 30
+tracks = ["beginner", "cogsci"]
 +++
 
 ## 本章の大きな問い

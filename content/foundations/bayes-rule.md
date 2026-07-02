@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "Bayes' Theorem: Updating Beliefs"
-weight = 5
+weight = 40
+tracks = ["beginner", "cogsci"]
 +++
 
 ## The Most Surprising Result in Probability

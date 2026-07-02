@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "Chibany is hungry"
-weight = 2
+weight = 10
+tracks = ["beginner", "cogsci"]
 +++
 
 
