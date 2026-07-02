@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "条件付けと推論"
-weight = 5
+weight = 50
+tracks = ["beginner", "cogsci"]
 +++
 
 ## シミュレーションから推論へ

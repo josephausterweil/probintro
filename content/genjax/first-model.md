@@ -1,7 +1,8 @@
 +++
-date = "2026-01-19"
+date = "2026-07-02"
 title = "Your First GenJAX Model"
-weight = 3
+weight = 30
+tracks = ["beginner", "cogsci"]
 +++
 
 ## From Sets to Simulation

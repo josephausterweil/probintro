@@ -1,7 +1,8 @@
 +++
-date = "2026-06-14"
+date = "2026-07-02"
 title = "自分でモデルを作る"
-weight = 6
+weight = 70
+tracks = ["beginner", "cogsci"]
 +++
 
 ## レシピを使うことから、自分で作ることへ

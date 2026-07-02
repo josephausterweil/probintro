@@ -1,7 +1,8 @@
 +++
-date = "2026-06-14"
+date = "2026-07-02"
 title = "トレースを理解する"
-weight = 4
+weight = 40
+tracks = ["beginner", "cogsci"]
 +++
 
 ## コードが実行されるとき何が記録されるか？

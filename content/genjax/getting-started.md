@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "Getting Started with Google Colab"
-weight = 1
+weight = 10
+tracks = ["beginner", "cogsci"]
 +++
 
 ## What is Google Colab?

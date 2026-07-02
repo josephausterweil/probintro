@@ -1,7 +1,8 @@
 +++
-date = "2026-06-14"
+date = "2026-07-02"
 title = "はじめてのGenJAXモデル"
-weight = 3
+weight = 30
+tracks = ["beginner", "cogsci"]
 +++
 
 ## 集合からシミュレーションへ

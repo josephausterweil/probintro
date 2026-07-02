@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "Conditioning and Inference"
-weight = 5
+weight = 50
+tracks = ["beginner", "cogsci"]
 +++
 
 ## From Simulation to Inference

@@ -1,7 +1,8 @@
 +++
-date = "2026-05-31"
+date = "2026-07-02"
 title = "Understanding Traces"
-weight = 4
+weight = 40
+tracks = ["beginner", "cogsci"]
 +++
 
 ## What Gets Recorded When Code Runs?

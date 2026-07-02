@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "GenJAXのためのPython基礎"
-weight = 2
+weight = 20
+tracks = ["beginner", "cogsci"]
 +++
 
 ## プログラマーになる必要はありません！

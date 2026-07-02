@@ -1,7 +1,8 @@
 +++
-date = "2026-05-31"
+date = "2026-07-02"
 title = "Building Your Own Models"
-weight = 6
+weight = 70
+tracks = ["beginner", "cogsci"]
 +++
 
 ## From Following Recipes to Creating Your Own
