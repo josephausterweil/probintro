@@ -830,4 +830,4 @@ Chibany が不透明な 425g の弁当を受け取ったとします。どちら
 
 ---
 
-**次の章**：[ガウス混合モデル →](../../04_bayesian_learning/05_mixture_models/)
+**次の章**：[ガウス混合モデル →](../mixture-models/)

@@ -830,4 +830,4 @@ In Chapter 5, we'll tackle the full problem: learning which bentos are tonkatsu 
 
 ---
 
-**Next Chapter**: [Gaussian Mixture Models →](../../04_bayesian_learning/05_mixture_models/)
+**Next Chapter**: [Gaussian Mixture Models →](../mixture-models/)

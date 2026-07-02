@@ -16,16 +16,16 @@ Everything in this chapter is built out of tools you have used in earlier chapte
 
 - **Bayes' rule as posterior ∝ likelihood × prior.** You have used this in every chapter that involved
   learning — updating a belief by multiplying a prior by a likelihood and renormalizing.
-  [← Review in Chapter 4](../../../intro2/07_generalization/04_bayesian_learning/)
+  [← Review in Chapter 4](../../../learning/bayesian-learning/)
 - **The predictive distribution** — "given what I've seen, what should I expect for the *next* observation?"
   You met the *posterior-predictive* in Chapter 4 ("what weight should I expect for the next bento?").
-  [← Review in Chapter 4](../../../intro2/07_generalization/04_bayesian_learning/)
+  [← Review in Chapter 4](../../../learning/bayesian-learning/)
 - **Conditioning = restricting to what's consistent with the data.** Observing something throws away every
   possibility that disagrees with it, and you renormalize over what survives.
-  [← Review in the GenJAX tutorial, Chapter 4](../../../intro2/genjax/04_conditioning/)
+  [← Review in the GenJAX tutorial, Chapter 4](../../../genjax/conditioning/)
 - **Categorization** — computing P(category | observation) when an item could belong to one of several
   groups. You met this with two Gaussians in the Chapter 4 preview and the Gaussian-clusters work.
-  [← Review in Chapter 5](../../../intro2/07_generalization/05_mixture_models/)
+  [← Review in Chapter 5](../../../learning/mixture-models/)
 
 **The one new idea:** in every one of those chapters, the *unknown* you reasoned about was either a **number**
 (a mean μ) or a **yes/no fact** (is this bento tonkatsu? is the taxi blue?). In this chapter, the unknown

@@ -954,9 +954,9 @@ In **Tutorial 3: Continuous Probability & Bayesian Learning**, you'll:
 
 **The probabilistic programming skills you've learned here will transfer directly!**
 
-[**Continue to Tutorial 3: Continuous Probability →**](../../probintro/intro2/)
+[**Continue to Tutorial 3: Continuous Probability →**](../../learning/)
 
 ---
 
-|[← Previous: Inference in Action](../inference-in-action/) | [Tutorial 3: Continuous Probability →](../../probintro/intro2/)|
+|[← Previous: Inference in Action](../inference-in-action/) | [Tutorial 3: Continuous Probability →](../../learning/)|
 | :--- | ---: |
