@@ -1,7 +1,7 @@
 +++
 date = "2026-06-01"
 title = "Acknowledgements - All Tutorials"
-weight = 101
+weight = 920
 +++
 
 Written by Joe Austerweil. Thank you to Tim Burness, Grisha Szep, Kyana Burhite, Hongtao Hao, and the many students who took Human and Machine Learning over the years who have provided invaluable feedback on an early draft of this tutorial.

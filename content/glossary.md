@@ -1,7 +1,7 @@
 +++
 date = "2026-06-30"
 title = "Glossary - All Tutorials"
-weight = 100
+weight = 900
 +++
 
 ## How to Use This Glossary

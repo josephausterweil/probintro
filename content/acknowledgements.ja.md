@@ -1,7 +1,7 @@
 +++
 date = "2026-06-14"
 title = "謝辞 - 全チュートリアル"
-weight = 101
+weight = 920
 +++
 
 執筆：Joe Austerweil。Tim Burness、Grisha Szep、Kyana Burhite、Hongtao Hao、そして長年にわたり「人間と機械学習」を受講し、このチュートリアルの草稿に対して貴重なフィードバックを提供してくださった多くの学生の皆さんに感謝いたします。

@@ -1,7 +1,7 @@
 +++
 date = "2026-06-24"
 title = "Interactive Notebooks - All Tutorials"
-weight = 99
+weight = 910
 +++
 
 ## Interactive Jupyter Notebooks
