@@ -1,3 +1,11 @@
 <!-- Custom header additions for probintro tutorial -->
 <!-- Include custom CSS for color overrides -->
 <link rel="stylesheet" href="{{ "css/custom.css" | relURL }}">
+<!-- Reading-track choice: applied pre-paint so off-track dimming never flashes -->
+<script>
+document.documentElement.setAttribute('data-track', (function () {
+  try { return localStorage.getItem('probintro-track') || 'all'; }
+  catch (e) { return 'all'; }
+})());
+</script>
+<script defer src="{{ "js/tracks.js" | relURL }}"></script>

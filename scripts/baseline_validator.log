@@ -1,0 +1,475 @@
+WARNING:2026-07-02 23:27:03,074:jax._src.xla_bridge:967: An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+Found 52 markdown files to validate
+Executing blocks in: intro2, genjax, learning, structure, sampling, decisions, complexity, deep, ethics  (syntax-only elsewhere; use --exec-all to widen, --no-exec to disable)
+
+Validating content/genjax/00_getting_started.md...
+  Found 2 code blocks (executing)
+  ✅ Block at line 59 (ran; no Output block)
+  ✅ Block at line 100 (ran; no Output block)
+
+Validating content/genjax/01_python_basics.md...
+  Found 21 code blocks (executing)
+  ✅ Block at line 21 (ran; no Output block)
+  ✅ Block at line 31 (ran; no Output block)
+  ✅ Block at line 41 (ran; no Output block)
+  ✅ Block at line 53 (ran + output matches)
+  ✅ Block at line 71 (ran; no Output block)
+  ✅ Block at line 85 (ran; no Output block)
+  ✅ Block at line 101 (ran; no Output block)
+  ✅ Block at line 109 (ran; no Output block)
+  ✅ Block at line 124 (ran; no Output block)
+  ✅ Block at line 137 (ran + output matches)
+  ✅ Block at line 154 (ran + output matches)
+  ⚠️  Block at line 176 (ran; no Output block):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+  ⚠️  Block at line 189 (ran; no Output block):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+  ✅ Block at line 211 (skip-exec)
+  ✅ Block at line 231 (skip-exec)
+  ✅ Block at line 247 (ran; no Output block)
+  ✅ Block at line 267 (skip-exec)
+  ✅ Block at line 282 (ran; no Output block)
+  ✅ Block at line 289 (ran; no Output block)
+  ✅ Block at line 306 (ran; no Output block)
+  ⚠️  Block at line 331 (ran; no Output block):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+
+Validating content/genjax/02_first_model.md...
+  Found 15 code blocks (executing)
+  ✅ Block at line 32 (ran; no Output block)
+  ✅ Block at line 90 (ran; no Output block)
+  ✅ Block at line 98 (ran; no Output block)
+  ✅ Block at line 105 (skip-exec)
+  ✅ Block at line 117 (ran; no Output block)
+  ✅ Block at line 154 (ran; no Output block)
+  ✅ Block at line 177 (ran; no Output block)
+  ✅ Block at line 207 (ran; no Output block)
+  ✅ Block at line 236 (ran; no Output block)
+  ✅ Block at line 293 (ran; no Output block)
+  ✅ Block at line 377 (ran; no Output block)
+  ✅ Block at line 396 (ran; no Output block)
+  ✅ Block at line 438 (ran; no Output block)
+  ✅ Block at line 454 (ran; no Output block)
+  ✅ Block at line 472 (ran; no Output block)
+
+Validating content/genjax/03_traces.md...
+  Found 14 code blocks (executing)
+  ✅ Block at line 42 (ran; no Output block)
+  ✅ Block at line 55 (ran; no Output block)
+  ✅ Block at line 66 (ran; no Output block)
+  ✅ Block at line 77 (ran; no Output block)
+  ✅ Block at line 100 (ran; no Output block)
+  ✅ Block at line 187 (ran; no Output block)
+  ✅ Block at line 251 (ran; no Output block)
+  ✅ Block at line 284 (skip-exec)
+  ✅ Block at line 306 (ran; no Output block)
+  ✅ Block at line 374 (ran; no Output block)
+  ✅ Block at line 430 (ran; no Output block)
+  ✅ Block at line 459 (ran; no Output block)
+  ✅ Block at line 472 (ran; no Output block)
+  ✅ Block at line 506 (ran + output matches)
+
+Validating content/genjax/04_conditioning.md...
+  Found 17 code blocks (executing)
+  ✅ Block at line 86 (ran; no Output block)
+  ✅ Block at line 220 (ran; no Output block)
+  ✅ Block at line 241 (ran; no Output block)
+  ✅ Block at line 264 (ran; no Output block)
+  ✅ Block at line 281 (ran + output matches)
+  ✅ Block at line 329 (ran + output matches)
+  ✅ Block at line 374 (skip-exec)
+  ✅ Block at line 382 (skip-exec)
+  ✅ Block at line 415 (ran + output matches)
+  ✅ Block at line 458 (ran; no Output block)
+  ✅ Block at line 517 (ran + output matches)
+  ✅ Block at line 548 (ran + output matches)
+  ✅ Block at line 572 (ran; no Output block)
+  ✅ Block at line 679 (ran; no Output block)
+  ✅ Block at line 749 (ran; no Output block)
+  ✅ Block at line 783 (ran; no Output block)
+  ✅ Block at line 820 (ran; no Output block)
+
+Validating content/genjax/06_building_models.md...
+  Found 20 code blocks (executing)
+  ⚠️  Block at line 71 (skip-exec):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+  ✅ Block at line 152 (ran; no Output block)
+  ✅ Block at line 189 (ran; output not compared)
+  ✅ Block at line 209 (ran; no Output block)
+  ✅ Block at line 229 (ran + output matches)
+  ✅ Block at line 273 (ran; no Output block)
+  ✅ Block at line 294 (ran + output matches)
+  ⚠️  Block at line 345 (ran; output not compared):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 390 (ran; no Output block)
+  ✅ Block at line 440 (ran; no Output block)
+  ✅ Block at line 463 (ran + output matches)
+  ✅ Block at line 522 (skip-exec)
+  ✅ Block at line 533 (skip-exec)
+  ✅ Block at line 548 (skip-exec)
+  ✅ Block at line 580 (skip-exec)
+  ✅ Block at line 591 (skip-exec)
+  ✅ Block at line 631 (ran + output matches)
+  ✅ Block at line 692 (ran + output matches)
+  ✅ Block at line 748 (ran; no Output block)
+  ✅ Block at line 779 (ran + output matches)
+
+Validating content/genjax/_index.md...
+  No code blocks found
+
+Validating content/genjax/images/README.md...
+  Found 3 code blocks (executing)
+  ✅ Block at line 19 (skip-exec)
+  ✅ Block at line 38 (skip-exec)
+  ✅ Block at line 53 (skip-exec)
+
+Validating content/glossary.md...
+  Found 35 code blocks
+  ✅ Block at line 87 (syntax-only)
+  ✅ Block at line 180 (syntax-only)
+  ✅ Block at line 204 (syntax-only)
+  ✅ Block at line 232 (syntax-only)
+  ✅ Block at line 260 (syntax-only)
+  ✅ Block at line 286 (syntax-only)
+  ✅ Block at line 308 (syntax-only)
+  ✅ Block at line 333 (syntax-only)
+  ✅ Block at line 351 (syntax-only)
+  ⚠️  Block at line 379 (syntax-only):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 406 (syntax-only)
+  ✅ Block at line 418 (syntax-only)
+  ✅ Block at line 435 (syntax-only)
+  ✅ Block at line 446 (syntax-only)
+  ✅ Block at line 463 (syntax-only)
+  ✅ Block at line 473 (syntax-only)
+  ✅ Block at line 498 (syntax-only)
+  ✅ Block at line 535 (syntax-only)
+  ✅ Block at line 580 (syntax-only)
+  ✅ Block at line 607 (syntax-only)
+  ✅ Block at line 656 (syntax-only)
+  ✅ Block at line 712 (syntax-only)
+  ⚠️  Block at line 751 (syntax-only):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 782 (syntax-only)
+  ✅ Block at line 821 (syntax-only)
+  ✅ Block at line 859 (syntax-only)
+  ✅ Block at line 919 (syntax-only)
+  ✅ Block at line 949 (syntax-only)
+  ✅ Block at line 989 (syntax-only)
+  ✅ Block at line 1050 (syntax-only)
+  ⚠️  Block at line 1083 (syntax-only):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 1118 (syntax-only)
+  ✅ Block at line 1159 (syntax-only)
+  ⚠️  Block at line 1193 (syntax-only):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 1224 (skip-exec)
+
+Validating content/intro/01_goals.md...
+  No code blocks found
+
+Validating content/intro/02_hungry.md...
+  No code blocks found
+
+Validating content/intro/03_prob_count.md...
+  Found 1 code blocks
+  ⚠️  Block at line 90 (syntax-only):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+
+Validating content/intro/04_conditional.md...
+  Found 1 code blocks
+  ✅ Block at line 80 (syntax-only)
+
+Validating content/intro/05_bayes.md...
+  Found 1 code blocks
+  ⚠️  Block at line 220 (syntax-only):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+
+Validating content/intro/06_glossary.md...
+  Found 1 code blocks
+  ✅ Block at line 165 (syntax-only)
+
+Validating content/intro/_index.md...
+  No code blocks found
+
+Validating content/intro2/01_mystery_bentos.md...
+  Found 8 code blocks (executing)
+  ✅ Block at line 59 (ran; no Output block)
+  ✅ Block at line 79 (ran; no Output block)
+  ⚠️  Block at line 228 (ran; no Output block):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+  ✅ Block at line 379 (ran; no Output block)
+  ✅ Block at line 412 (ran; no Output block)
+  ✅ Block at line 491 (ran; no Output block)
+  ✅ Block at line 525 (ran; output not compared)
+  ✅ Block at line 583 (ran; output not compared)
+
+Validating content/intro2/02_continuous.md...
+  Found 8 code blocks (executing)
+  ✅ Block at line 116 (ran; no Output block)
+  ✅ Block at line 129 (ran; no Output block)
+  ✅ Block at line 194 (ran; no Output block)
+  ✅ Block at line 220 (ran; no Output block)
+  ✅ Block at line 240 (ran + output matches)
+  ✅ Block at line 295 (ran; no Output block)
+  ✅ Block at line 314 (ran; no Output block)
+  ✅ Block at line 465 (ran + output matches)
+
+Validating content/intro2/03_gaussian.md...
+  Found 12 code blocks (executing)
+  ✅ Block at line 85 (ran + output matches)
+  ✅ Block at line 132 (ran + output matches)
+  ✅ Block at line 160 (ran; no Output block)
+  ✅ Block at line 173 (ran; no Output block)
+  ✅ Block at line 232 (ran + output matches)
+  ✅ Block at line 274 (ran; no Output block)
+  ✅ Block at line 281 (ran; no Output block)
+  ✅ Block at line 344 (ran + output matches)
+  ✅ Block at line 364 (ran + output matches)
+  ✅ Block at line 394 (ran; no Output block)
+  ✅ Block at line 420 (ran + output matches)
+  ✅ Block at line 483 (ran + output matches)
+
+Validating content/intro2/04_bayesian_learning.md...
+  Found 9 code blocks (executing)
+  ✅ Block at line 150 (ran + output matches)
+  ✅ Block at line 213 (ran + output matches)
+  ✅ Block at line 272 (ran + output matches)
+  ⚠️  Block at line 339 (ran; no Output block):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+  ✅ Block at line 363 (ran; no Output block)
+  ✅ Block at line 484 (ran + output matches)
+  ✅ Block at line 515 (ran + output matches)
+  ✅ Block at line 625 (ran + output matches)
+  ✅ Block at line 685 (ran + output matches)
+
+Validating content/intro2/05_mixture_models.md...
+  Found 3 code blocks (executing)
+  ✅ Block at line 145 (ran; no Output block)
+  ✅ Block at line 229 (ran; no Output block)
+  ✅ Block at line 378 (ran; no Output block)
+
+Validating content/intro2/05a_bias_variance.md...
+  Found 7 code blocks (executing)
+  ✅ Block at line 26 (ran + output matches)
+  ✅ Block at line 97 (ran + output matches)
+  ✅ Block at line 191 (ran + output matches)
+  ⚠️  Block at line 260 (skip-exec):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 280 (ran + output matches)
+  ✅ Block at line 319 (ran + output matches)
+  ✅ Block at line 388 (ran + output matches)
+
+Validating content/intro2/06_dpmm.md...
+  Found 11 code blocks (executing)
+  ✅ Block at line 237 (ran; output not compared)
+  ✅ Block at line 375 (ran + output matches)
+  ✅ Block at line 529 (ran + output matches)
+  ✅ Block at line 556 (ran + output matches)
+  ✅ Block at line 619 (ran + output matches)
+  ✅ Block at line 654 (ran; no Output block)
+  ✅ Block at line 662 (ran; no Output block)
+  ✅ Block at line 767 (ran; no Output block)
+  ⚠️  Block at line 775 (ran; no Output block):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+  ✅ Block at line 889 (ran + output matches)
+  ✅ Block at line 935 (skip-exec)
+
+Validating content/intro2/06a_continuous_bnp.md...
+  Found 7 code blocks (executing)
+  ✅ Block at line 51 (ran + output matches)
+  ✅ Block at line 93 (ran + output matches)
+  ✅ Block at line 149 (ran + output matches)
+  ✅ Block at line 222 (skip-exec)
+  ✅ Block at line 262 (ran + output matches)
+  ✅ Block at line 315 (ran + output matches)
+  ✅ Block at line 403 (ran + output matches)
+
+Validating content/intro2/07_generalization/_index.md...
+  No code blocks found
+
+Validating content/intro2/07_generalization/setup-and-framework.md...
+  Found 3 code blocks (executing)
+  ✅ Block at line 176 (ran + output matches)
+  ✅ Block at line 351 (ran; no Output block)
+  ✅ Block at line 403 (ran + output matches)
+
+Validating content/intro2/07_generalization/number-game-size-principle.md...
+  Found 3 code blocks (executing)
+  ✅ Block at line 34 (ran + output matches)
+  ✅ Block at line 75 (ran + output matches)
+  ✅ Block at line 174 (ran + output matches)
+
+Validating content/intro2/07_generalization/continuous-and-shepards-law.md...
+  Found 3 code blocks (executing)
+  ✅ Block at line 48 (ran + output matches)
+  ✅ Block at line 133 (ran + output matches)
+  ✅ Block at line 204 (ran + output matches)
+
+Validating content/intro2/07_generalization/no-free-lunch-and-summary.md...
+  Found 1 code blocks (executing)
+  ✅ Block at line 38 (ran + output matches)
+
+Validating content/intro2/08_bayes_nets.md...
+  Found 4 code blocks (executing)
+  ✅ Block at line 205 (ran + output matches)
+  ✅ Block at line 245 (ran + output matches)
+  ✅ Block at line 277 (ran + output matches)
+  ✅ Block at line 321 (ran + output matches)
+
+Validating content/intro2/09_conditional_independence.md...
+  Found 1 code blocks (executing)
+  ✅ Block at line 220 (ran + output matches)
+
+Validating content/intro2/10_causal_bayes_nets.md...
+  Found 1 code blocks (executing)
+  ✅ Block at line 160 (ran + output matches)
+
+Validating content/intro2/11_information_theory.md...
+  Found 1 code blocks (executing)
+  ✅ Block at line 204 (ran + output matches)
+
+Validating content/intro2/12_hierarchical_bayes/_index.md...
+  Found 1 code blocks (executing)
+  ✅ Block at line 62 (ran + output matches)
+
+Validating content/intro2/12_hierarchical_bayes/the-beta-distribution.md...
+  Found 1 code blocks (executing)
+  ✅ Block at line 47 (ran + output matches)
+
+Validating content/intro2/12_hierarchical_bayes/partial-pooling-and-shrinkage.md...
+  Found 2 code blocks (executing)
+  ✅ Block at line 14 (ran + output matches)
+  ✅ Block at line 112 (ran + output matches)
+
+Validating content/intro2/12_hierarchical_bayes/learning-the-prior.md...
+  Found 2 code blocks (executing)
+  ✅ Block at line 33 (ran + output matches)
+  ✅ Block at line 138 (ran + output matches)
+
+Validating content/intro2/12_hierarchical_bayes/connections-and-summary.md...
+  No code blocks found
+
+Validating content/intro2/13_markov_chains.md...
+  Found 5 code blocks (executing)
+  ✅ Block at line 276 (ran + output matches)
+  ✅ Block at line 314 (ran + output matches)
+  ✅ Block at line 346 (ran + output matches)
+  ✅ Block at line 389 (ran + output matches)
+  ✅ Block at line 414 (ran + output matches)
+
+Validating content/intro2/14_random_walks_networks.md...
+  Found 4 code blocks (executing)
+  ✅ Block at line 194 (ran + output matches)
+  ✅ Block at line 243 (ran + output matches)
+  ✅ Block at line 274 (ran + output matches)
+  ✅ Block at line 304 (ran + output matches)
+
+Validating content/intro2/15_memory_search.md...
+  Found 5 code blocks (executing)
+  ✅ Block at line 118 (ran + output matches)
+  ✅ Block at line 161 (ran + output matches)
+  ✅ Block at line 190 (ran + output matches)
+  ⚠️  Block at line 276 (ran; no Output block):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+  ✅ Block at line 317 (ran + output matches)
+
+Validating content/intro2/16_monte_carlo.md...
+  Found 9 code blocks (executing)
+  ✅ Block at line 42 (ran + output matches)
+  ✅ Block at line 78 (ran + output matches)
+  ✅ Block at line 129 (ran + output matches)
+  ✅ Block at line 172 (ran + output matches)
+  ✅ Block at line 227 (ran + output matches)
+  ✅ Block at line 264 (ran + output matches)
+  ✅ Block at line 299 (ran + output matches)
+  ✅ Block at line 339 (ran + output matches)
+  ✅ Block at line 386 (ran + output matches)
+
+Validating content/intro2/17_particle_filtering.md...
+  Found 3 code blocks (executing)
+  ✅ Block at line 86 (ran + output matches)
+  ✅ Block at line 138 (ran + output matches)
+  ✅ Block at line 194 (ran + output matches)
+
+Validating content/intro2/18_markov_chain_monte_carlo.md...
+  Found 4 code blocks (executing)
+  ✅ Block at line 61 (ran + output matches)
+  ✅ Block at line 123 (ran + output matches)
+  ✅ Block at line 190 (ran + output matches)
+  ✅ Block at line 246 (ran + output matches)
+
+Validating content/intro2/19_sampling_the_mind.md...
+  Found 4 code blocks (executing)
+  ✅ Block at line 81 (ran; output not compared)
+  ✅ Block at line 126 (ran + output matches)
+  ✅ Block at line 169 (ran + output matches)
+  ⚠️  Block at line 231 (ran; output not compared):
+      Missing import: 'import jax.numpy as jnp'
+      Missing import: 'import jax.random as jr'
+
+Validating content/intro2/20_statistical_decision_theory.md...
+  Found 7 code blocks (executing)
+  ✅ Block at line 100 (ran; output not compared)
+  ✅ Block at line 112 (ran + output matches)
+  ✅ Block at line 147 (ran + output matches)
+  ⚠️  Block at line 223 (ran; output not compared):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 235 (ran + output matches)
+  ✅ Block at line 280 (ran; output not compared)
+  ✅ Block at line 294 (ran + output matches)
+
+Validating content/intro2/21_markov_decision_processes.md...
+  Found 6 code blocks (executing)
+  ✅ Block at line 57 (ran; output not compared)
+  ✅ Block at line 80 (ran + output matches)
+  ✅ Block at line 141 (ran + output matches)
+  ✅ Block at line 165 (ran + output matches)
+  ✅ Block at line 207 (ran + output matches)
+  ✅ Block at line 247 (ran + output matches)
+
+Validating content/intro2/22_q_learning.md...
+  Found 10 code blocks (executing)
+  ⚠️  Block at line 51 (ran; output not compared):
+      Consider using jnp.where() instead of Python if/else for JAX compatibility
+  ✅ Block at line 84 (ran + output matches)
+  ✅ Block at line 138 (ran + output matches)
+  ✅ Block at line 169 (ran + output matches)
+  ✅ Block at line 185 (ran + output matches)
+  ✅ Block at line 219 (ran + output matches)
+  ✅ Block at line 321 (ran + output matches)
+  ✅ Block at line 391 (ran + output matches)
+  ✅ Block at line 454 (ran + output matches)
+  ✅ Block at line 520 (ran + output matches)
+
+Validating content/intro2/23_inverse_rl_goal_inference.md...
+  Found 5 code blocks (executing)
+  ✅ Block at line 53 (ran; output not compared)
+  ⚠️  Block at line 88 (ran; no Output block):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 119 (ran + output matches)
+  ✅ Block at line 146 (ran + output matches)
+  ✅ Block at line 189 (ran + output matches)
+
+Validating content/intro2/24_pomdps_belief_inference.md...
+  Found 6 code blocks (executing)
+  ✅ Block at line 37 (ran; output not compared)
+  ✅ Block at line 67 (ran + output matches)
+  ✅ Block at line 99 (ran + output matches)
+  ✅ Block at line 151 (ran + output matches)
+  ⚠️  Block at line 187 (ran; output not compared):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 235 (ran + output matches)
+
+Validating content/intro2/25_modern_rl_world_models.md...
+  Found 2 code blocks (executing)
+  ⚠️  Block at line 37 (ran; output not compared):
+      Missing import: 'import jax.numpy as jnp'
+  ✅ Block at line 74 (ran + output matches)
+
+Validating content/intro2/_index.md...
+  No code blocks found
+
+============================================================
+Executed: 127 output-checked, 104 ran-only, 20 skip-exec  |  Failures: 0 syntax, 0 runtime, 0 output-mismatch
+✅ All code blocks validated successfully

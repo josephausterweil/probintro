@@ -1,0 +1,16 @@
+{{- /* DFS-flattened list of all book pages (Parts -> chapters -> bundle
+     parts), in exactly the sidebar's order (same ordering partial). Called
+     with the site as context; cache per language. */ -}}
+{{- $flat := slice }}
+{{- range partialCached "_relearn/pages.gotmpl" (dict "page" site.Home "by" "auto") site.Home.Path site.Language.Lang }}
+  {{- if .Params.book_part }}
+    {{- $flat = $flat | append . }}
+    {{- range partialCached "_relearn/pages.gotmpl" (dict "page" . "by" "auto") .Path site.Language.Lang }}
+      {{- $flat = $flat | append . }}
+      {{- range partialCached "_relearn/pages.gotmpl" (dict "page" . "by" "auto") .Path site.Language.Lang }}
+        {{- $flat = $flat | append . }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- return $flat }}

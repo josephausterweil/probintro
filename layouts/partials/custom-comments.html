@@ -1,0 +1,20 @@
+{{- /* Theme hook rendered directly after the article body. Renders the
+     "next chapter in your track" footer for book pages. Both tracks' links
+     are computed server-side; CSS shows only the one matching the reader's
+     html[data-track] choice (none when "all" — the theme's own topbar
+     next/prev covers linear order). */ -}}
+{{- if .Params.tracks }}
+{{- $labels := dict "beginner" (T "Track_beginner" | default "Beginner") "cogsci" (T "Track_cogsci" | default "CogSci") }}
+{{- $badges := dict "beginner" "🤖" "cogsci" "🧠" }}
+<div class="track-next-container">
+{{- range $track := slice "beginner" "cogsci" }}
+{{- with partial "_probintro/next-in-track.gotmpl" (dict "page" $ "track" $track) }}
+<div class="next-in-track" data-track="{{ $track }}">
+<a href="{{ partial "permalink.gotmpl" (dict "to" .) }}">
+{{- index $badges $track }} {{ T "Track_next" | default "Next in your track" }} ({{ index $labels $track }}):
+{{ with partial "_probintro/number.gotmpl" . }}{{ . }} {{ end }}{{ partial "title.gotmpl" (dict "page" . "linkTitle" true) }} →</a>
+</div>
+{{- end }}
+{{- end }}
+</div>
+{{- end }}

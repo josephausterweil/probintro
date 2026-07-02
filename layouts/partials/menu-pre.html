@@ -1,0 +1,5 @@
+{{- /* Project override of the theme's per-menu-item "pre" hook: prepend the
+     computed book number (Part / chapter / bundle part), then fall back to
+     the theme's own behavior (menuPre / Pre params). */ -}}
+{{- with partial "_probintro/number.gotmpl" . }}<span class="chapter-number">{{ . }}</span> {{ end }}
+{{- if .Params.menuPre }}{{ .Params.menuPre | safeHTML }}{{ else }}{{ .Params.Pre | safeHTML }}{{ end }}

@@ -19,3 +19,35 @@ other = ""
 
 [mt_banner_github]
 other = ""
+
+# ── Reading-track picker / next-in-track footer ─────────────────────────────
+[Track_label]
+other = "Reading track"
+
+[Track_all]
+other = "All"
+
+[Track_beginner]
+other = "Beginner"
+
+[Track_cogsci]
+other = "CogSci"
+
+[Track_next]
+other = "Next in your track"
+
+# ── Lecture links + imported lecture polls ───────────────────────────────────
+[Lecture_from]
+other = "From the lecture"
+
+[Lecture_week]
+other = "Week"
+
+[Quiz_check]
+other = "Check answer"
+
+[Quiz_source]
+other = "From the"
+
+[Quiz_lecture_poll]
+other = "lecture poll"

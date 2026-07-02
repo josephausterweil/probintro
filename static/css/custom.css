@@ -94,3 +94,160 @@
     font-weight: 700;
     cursor: default;
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Reading-track picker + sidebar badges + dimming
+   (html[data-track] is set pre-paint from localStorage; see custom-header.html)
+   ─────────────────────────────────────────────────────────────────────────── */
+.track-switch {
+    margin: 0.15rem 0.6rem 0.55rem;
+    font-size: 0.78rem;
+}
+.track-switch-label {
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0.15rem;
+}
+.track-toggle {
+    display: flex;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 6px;
+    overflow: hidden;
+}
+.track-toggle-btn {
+    flex: 1 1 0;
+    text-align: center;
+    padding: 0.3rem 0.25rem;
+    color: #fff;
+    background: transparent;
+    border: 0;
+    font-size: 0.78rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.track-toggle-btn + .track-toggle-btn { border-left: 1px solid rgba(255, 255, 255, 0.65); }
+.track-toggle-btn:hover { background: rgba(255, 255, 255, 0.2); }
+.track-toggle-btn.active {
+    background: #fff;
+    color: #1565c0;
+    font-weight: 700;
+    cursor: default;
+}
+
+/* Sidebar: computed book numbers and track badges */
+#R-sidebar .chapter-number {
+    opacity: 0.75;
+    font-variant-numeric: tabular-nums;
+    margin-right: 0.15em;
+}
+#R-sidebar .track-badge {
+    font-size: 0.72em;
+    margin-left: 0.3em;
+}
+
+/* Dim (never hide) off-track menu rows. tracks.js copies data-tracks from the
+   badge span onto the enclosing <li>. Items with both tracks match both
+   selectors' :not() exclusions, so they never dim. */
+html[data-track="beginner"] #R-sidebar li[data-tracks]:not([data-tracks~="beginner"]) { opacity: 0.38; }
+html[data-track="cogsci"]   #R-sidebar li[data-tracks]:not([data-tracks~="cogsci"])   { opacity: 0.38; }
+
+/* Next-in-track footer: server renders one block per track; show the one
+   matching the current choice ('all' shows none — the theme's own topbar
+   next/prev covers linear order). */
+.next-in-track { display: none; }
+html[data-track="beginner"] .next-in-track[data-track="beginner"] { display: block; }
+html[data-track="cogsci"]   .next-in-track[data-track="cogsci"]   { display: block; }
+.track-next-container { margin: 1.6rem 0 0.4rem; }
+.next-in-track a {
+    display: inline-block;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid rgba(21, 101, 192, 0.65);
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Widget embeds ({{< widget >}})
+   ─────────────────────────────────────────────────────────────────────────── */
+.widget-embed { margin: 1rem 0; }
+.widget-caption {
+    font-size: 0.88em;
+    opacity: 0.8;
+    margin: 0.25rem 0 0;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   "From the lecture" box ({{< lecture >}})
+   ─────────────────────────────────────────────────────────────────────────── */
+.lecture-box {
+    display: flex;
+    gap: 0.55rem;
+    align-items: baseline;
+    margin: 1rem 0;
+    padding: 0.55rem 0.9rem;
+    border-left: 4px solid #1565c0;
+    background: rgba(21, 101, 192, 0.12);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.92em;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Self-check quizzes imported from lecture polls ({{< quiz >}})
+   ─────────────────────────────────────────────────────────────────────────── */
+form.pi-quiz {
+    margin: 1.2rem 0;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid rgba(21, 101, 192, 0.55);
+    border-radius: 8px;
+}
+.pi-quiz-question { font-weight: 600; }
+.pi-quiz-choices { margin: 0.6rem 0 0.8rem 1.2rem; }
+.pi-quiz-choices li { margin: 0.3rem 0; }
+.pi-quiz-choices label { cursor: pointer; }
+.pi-quiz-check {
+    padding: 0.35rem 0.9rem;
+    border: 1px solid #1565c0;
+    border-radius: 6px;
+    background: #1565c0;
+    color: #fff;
+    cursor: pointer;
+}
+.pi-quiz-check:disabled { opacity: 0.55; cursor: default; }
+.pi-quiz-reveal { display: none; margin-top: 0.7rem; }
+form.pi-quiz.revealed .pi-quiz-reveal { display: block; }
+/* After the reveal: outline the correct option; strike the wrong pick */
+form.pi-quiz.revealed input[data-correct] + .pi-quiz-choice-text {
+    outline: 2px solid #2e7d32;
+    outline-offset: 3px;
+    border-radius: 3px;
+    font-weight: 700;
+}
+form.pi-quiz.revealed input:checked:not([data-correct]) + .pi-quiz-choice-text {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+.pi-quiz-note {
+    font-size: 0.92em;
+    border-left: 3px solid #2e7d32;
+    padding-left: 0.7rem;
+}
+.pi-quiz-provenance {
+    margin-top: 0.6rem;
+    font-size: 0.8em;
+    opacity: 0.75;
+}
+
+/* Homepage track cards */
+.track-cards {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 1.2rem 0;
+}
+.track-card {
+    flex: 1 1 260px;
+    border: 1px solid rgba(21, 101, 192, 0.55);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+}
+.track-card h3 { margin-top: 0.2rem; }

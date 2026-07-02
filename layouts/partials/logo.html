@@ -14,3 +14,15 @@
             </div>
           </div>
           {{- end }}
+          {{- /* Reading-track picker (Beginner / CogSci), mirroring the EN/JA
+                 toggle above. Persisted in localStorage by js/tracks.js; the
+                 pre-paint script in custom-header.html sets html[data-track]
+                 before first render so there is no flash. */ -}}
+          <div class="track-switch">
+            <div class="track-switch-label">🧭 {{ T "Track_label" | default "Reading track" }}</div>
+            <div class="track-toggle" role="group" aria-label="{{ T "Track_label" | default "Reading track" }}">
+              <button type="button" class="track-toggle-btn" data-track-choice="all">{{ T "Track_all" | default "All" }}</button>
+              <button type="button" class="track-toggle-btn" data-track-choice="beginner">🤖 {{ T "Track_beginner" | default "Beginner" }}</button>
+              <button type="button" class="track-toggle-btn" data-track-choice="cogsci">🧠 {{ T "Track_cogsci" | default "CogSci" }}</button>
+            </div>
+          </div>

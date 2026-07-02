@@ -19,3 +19,35 @@ other = " までご連絡いただくか、"
 
 [mt_banner_github]
 other = "GitHub リポジトリにプルリクエストをお送りください"
+
+# ── 読書トラック切り替え / トラック内の次章リンク ─────────────────────────────
+[Track_label]
+other = "読書トラック"
+
+[Track_all]
+other = "すべて"
+
+[Track_beginner]
+other = "入門"
+
+[Track_cogsci]
+other = "認知科学"
+
+[Track_next]
+other = "あなたのトラックの次章"
+
+# ── 講義リンク・講義ポーリング ─────────────────────────────────────────────
+[Lecture_from]
+other = "講義より"
+
+[Lecture_week]
+other = "第"
+
+[Quiz_check]
+other = "答え合わせ"
+
+[Quiz_source]
+other = "出典："
+
+[Quiz_lecture_poll]
+other = "週の講義ポーリング"
