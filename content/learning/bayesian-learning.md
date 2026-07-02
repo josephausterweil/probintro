@@ -1,7 +1,8 @@
 +++
-date = "2026-06-03"
+date = "2026-07-02"
 title = "Bayesian Learning with Gaussians"
-weight = 4
+weight = 40
+tracks = ["beginner", "cogsci"]
 +++
 
 ## The Learning Problem

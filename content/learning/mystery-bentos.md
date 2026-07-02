@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "Chibany's Mystery Bentos"
-weight = 1
+weight = 10
+tracks = ["beginner", "cogsci"]
 +++
 
 ## The Weight of the Matter

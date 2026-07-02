@@ -1,7 +1,8 @@
 +++
-date = "2026-06-14"
+date = "2026-07-02"
 title = "ガウス混合モデル"
-weight = 5
+weight = 50
+tracks = ["beginner", "cogsci"]
 +++
 
 ## 謎に立ち返る

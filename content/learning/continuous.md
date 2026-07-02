@@ -1,7 +1,8 @@
 +++
-date = "2026-06-03"
+date = "2026-07-02"
 title = "The Continuum: Continuous Probability"
-weight = 2
+weight = 20
+tracks = ["beginner", "cogsci"]
 +++
 
 ## From Counting to Measuring

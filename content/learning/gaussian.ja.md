@@ -1,7 +1,8 @@
 +++
-date = "2026-06-14"
+date = "2026-07-02"
 title = "ガウス分布"
-weight = 3
+weight = 30
+tracks = ["beginner", "cogsci"]
 +++
 
 ## ベルカーブ

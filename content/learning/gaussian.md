@@ -1,7 +1,8 @@
 +++
-date = "2026-05-31"
+date = "2026-07-02"
 title = "The Gaussian Distribution"
-weight = 3
+weight = 30
+tracks = ["beginner", "cogsci"]
 +++
 
 ## The Bell Curve

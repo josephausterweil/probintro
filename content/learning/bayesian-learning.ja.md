@@ -1,7 +1,8 @@
 +++
-date = "2026-06-14"
+date = "2026-07-02"
 title = "ガウス分布によるベイズ学習"
-weight = 4
+weight = 40
+tracks = ["beginner", "cogsci"]
 +++
 
 ## 学習問題

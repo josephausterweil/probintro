@@ -1,7 +1,8 @@
 +++
-date = "2026-06-30"
+date = "2026-07-02"
 title = "Gaussian Mixture Models"
-weight = 5
+weight = 50
+tracks = ["beginner", "cogsci"]
 +++
 
 ## Returning to the Mystery

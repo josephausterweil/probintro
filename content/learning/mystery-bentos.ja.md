@@ -1,6 +1,8 @@
 +++
+date = "2026-07-02"
 title = "Chibanyの謎の弁当"
-weight = 1
+weight = 10
+tracks = ["beginner", "cogsci"]
 +++
 
 ## 重さの問題

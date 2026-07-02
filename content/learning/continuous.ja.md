@@ -1,7 +1,8 @@
 +++
-date = "2026-06-14"
+date = "2026-07-02"
 title = "連続体：連続確率"
-weight = 2
+weight = 20
+tracks = ["beginner", "cogsci"]
 +++
 
 ## 数えることから測ることへ
