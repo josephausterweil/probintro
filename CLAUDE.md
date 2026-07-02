@@ -15,9 +15,9 @@ This file provides guidance to Claude Code when working with this repository.
 ### Files to Check
 
 When modifying content, always check these locations for date fields:
-- `content/intro2/_index.md` - Tutorial 3 main page
-- `content/genjax/_index.md` - Tutorial 2 main page
-- `content/intro/_index.md` - Tutorial 1 main page
+- every Part's `content/<part>/_index.md` (foundations, genjax, learning,
+  structure, sampling, decisions, complexity, deep, ethics)
+- `content/start/_index.md` - reading guide + track landing pages
 - `content/notebook_guide.md` - Notebook guide page
 - `content/glossary.md` - Glossary page
 - Any other `_index.md` or standalone `.md` files in content/
@@ -47,7 +47,7 @@ After editing files, run:
 TODAY=$(date +%Y-%m-%d)
 
 # Example: Update a specific file
-sed -i "s/^date = \".*\"/date = \"$TODAY\"/" content/intro2/_index.md
+sed -i "s/^date = \".*\"/date = \"$TODAY\"/" content/learning/_index.md
 ```
 
 ## Project Structure
@@ -56,10 +56,23 @@ This is a Hugo-based tutorial website for probability and probabilistic computin
 
 ### Key Directories
 
-- `content/` - Markdown content files organized by tutorial
-  - `intro/` - Tutorial 1: Discrete Probability
-  - `genjax/` - Tutorial 2: GenJAX Programming
-  - `intro2/` - Tutorial 3: Continuous Probability & Bayesian Learning
+- `content/` - one canonical book of Parts (top-level sections, `book_part = true`
+  in each `_index.md`; ordering is weight-driven, slugs are number-free):
+  - `start/` - "Start Here" reading guide + Beginner/CogSci track landing pages
+  - `foundations/` - Part I: discrete probability from counting (was `intro/`)
+  - `genjax/` - Part II: GenJAX probabilistic programming (root unchanged)
+  - `learning/` - Part III: continuous probability & Bayesian learning (was `intro2/` 01–05)
+  - `structure/` - Part IV: generalization, Bayes nets, causality, info theory, hierarchical Bayes
+  - `sampling/` - Part V: Markov chains, walks, MC/PF/MCMC, sampling the mind
+  - `decisions/` - Part VI: decision theory, MDPs, Q-learning, IRL, POMDPs, modern RL
+  - `complexity/` - Part VII: bias-variance, DPMM, Gaussian processes
+  - `deep/` - Part VIII: neural nets, transformers, LLMs (stubs, being authored)
+  - `ethics/` - Part IX: adversarial ML, fairness, alignment (stubs, being authored)
+  Old URLs redirect via per-page `aliases` frontmatter; the migration map is
+  `scripts/url_map.csv` (also consumed by the course repo's `docs/_build.py`).
+  Two reading tracks (`tracks = ["beginner","cogsci"]` frontmatter) drive the
+  sidebar badges/dimming and the next-in-track footer; see CHIBANY_CANON.md
+  for the narrative canon that all rewrites must follow.
 - `notebooks/` - Jupyter notebooks (linked via symlink in static/)
 - `static/` - Static assets (CSS, images, notebooks symlink)
 - `public/` - Hugo build output (generated)
@@ -176,9 +189,11 @@ Always include this acknowledgment in new pages.
 
 `validate_code_blocks.py` now **executes** every Python block and **compares its stdout against the
 `**Output:**` block** — not just syntax. Run it before committing; a block can be syntactically valid and still
-crash at runtime or print numbers that no longer match the prose. Default scope executes `intro2/` and
-`genjax/`; `--exec-all` adds `intro/` + `glossary.md`; `--no-exec` is the old syntax-only behavior; pass file
-paths to scope to specific files.
+crash at runtime or print numbers that no longer match the prose. Default scope executes the code-bearing
+Parts (`genjax/`, `learning/`, `structure/`, `sampling/`, `decisions/`, `complexity/`, `deep/`, `ethics/`);
+`--exec-all` adds `foundations/`, `start/` + `glossary.md`; `--no-exec` is the old syntax-only behavior; pass
+file paths to scope to specific files. Sections are discovered dynamically (any `content/*/` with an
+`_index.md`) and bundles are detected by depth, so new Parts are picked up automatically.
 
 **Per-block directives** (HTML comment on the line *immediately before* the ` ```python ` fence):
 - `<!-- validate: skip -->` — don't execute (still syntax-checked). For illustrative fragments / pseudo-code /
@@ -248,11 +263,11 @@ not just the chapter file:
    (`markov-property-`). Don't guess slugs; grep `id="..."` in the built HTML.
 3. **HML homepage lecture card.** In the COURSE repo (not the textbook), edit the week's
    `course/weekNN_*/PLAN.md` **"Textbook Chapters"** section to tag the chapters in the order-robust NAME form
-   `- T3: <stable-name> — \`intro2/NN_slug.md\` (note)`, where `<stable-name>` is the slug minus its `NN_`
-   prefix with `_`→spaces and **must match the slug exactly** (e.g. `random walks networks`, NOT "random walks
-   *on* networks" — the matcher normalizes against the slug). Then run `python3 docs/_build.py` (never
-   hand-edit `docs/index.html`) and confirm the three deep-links render on the week's card. Commit PLAN.md +
-   the regenerated index.html to the course repo's main.
+   `- Bk: <stable-name> — \`<part>/<slug>.md\` (note)`, where `<stable-name>` is the chapter slug with
+   separators as spaces and **must match the slug exactly** (e.g. `random walks networks` for
+   `sampling/random-walks-networks.md` — the matcher normalizes both sides; legacy `T3: <name>` tags still
+   resolve). Then run `python3 docs/_build.py` (never hand-edit `docs/index.html`) and confirm the deep-links
+   render on the week's card. Commit PLAN.md + the regenerated index.html to the course repo's main.
 
 Bump `date` on every file you touch. The notebook-guide/glossary/index.html are easy to forget because they
 live away from the chapter — this checklist exists because they were forgotten on the first Ch 13–15 pass.
