@@ -42,11 +42,11 @@ Cross a yes/no prediction with a yes/no truth and you get four counts — the **
 - **FN** (false negative): denied but would have succeeded.
 - **TN** (true negative): denied and would fail.
 
-From these four we read three **rates**, each a conditional probability:
+From these four we read three **rates**, each a conditional probability. Every rate is computed *within a group* $G$ — one set for Sakura, one for Kaede — so read each $P(\cdot)$ as conditioned on $G$ even where the symbol is dropped for brevity:
 
-- **TPR**, the **true-positive rate** $= P(\hat{Y}=1 \mid Y=1) = \frac{\text{TP}}{\text{TP}+\text{FN}}$ — of the trucks that *would* succeed, what fraction did we approve? (Also called *sensitivity* or *recall*.)
-- **FPR**, the **false-positive rate** $= P(\hat{Y}=1 \mid Y=0) = \frac{\text{FP}}{\text{FP}+\text{TN}}$ — of the trucks that would *fail*, what fraction did we wrongly approve?
-- **PPV**, the **positive predictive value** $= P(Y=1 \mid \hat{Y}=1) = \frac{\text{TP}}{\text{TP}+\text{FP}}$ — of the trucks we approved, what fraction actually succeed? (Also called *precision*.)
+- **TPR**, the **true-positive rate** $= P(\hat{Y}=1 \mid Y=1, G) = \frac{\text{TP}}{\text{TP}+\text{FN}}$ — of the trucks that *would* succeed, what fraction did we approve? (Also called *sensitivity* or *recall*.)
+- **FPR**, the **false-positive rate** $= P(\hat{Y}=1 \mid Y=0, G) = \frac{\text{FP}}{\text{FP}+\text{TN}}$ — of the trucks that would *fail*, what fraction did we wrongly approve?
+- **PPV**, the **positive predictive value** $= P(Y=1 \mid \hat{Y}=1, G) = \frac{\text{TP}}{\text{TP}+\text{FP}}$ — of the trucks we approved, what fraction actually succeed? (Also called *precision*.)
 {{% /notice %}}
 
 Let us compute those rates for each dorm. The `bins` table below is our whole dataset; the code just does the arithmetic the box above defines.
@@ -100,6 +100,8 @@ Here are the three criteria that dominate the field, each stated the way Alyssa 
 | **Demographic parity** | $P(\hat{Y}{=}1 \mid G{=}a) = P(\hat{Y}{=}1 \mid G{=}b)$ | both groups are approved at the same **rate** | $0.80$ vs $0.20$ — **fails** |
 | **Equalized odds** | $P(\hat{Y}{=}1 \mid Y{=}y, G{=}a) = P(\hat{Y}{=}1 \mid Y{=}y, G{=}b)$ for each $y$ | equal **error rates**: TPR and FPR matched across groups | TPR $0.92$/$0.43$, FPR $0.57$/$0.08$ — **fails** |
 | **Calibration** (sufficiency) | $P(Y{=}1 \mid \hat{S}{=}s, G{=}a) = P(Y{=}1 \mid \hat{S}{=}s, G{=}b)$ | a **score means the same thing** in each group | $0.75$ / $0.25$ in both — **holds** |
+
+This is the one row that conditions on the **score** $\hat{S}$ rather than the decision $\hat{Y}$ — because it asks what a score is *worth*, not what the model *did*. Here the two coincide: the model approves exactly the high-bin trucks, so the high score *is* the set of approvals. With a two-valued score, calibration on "high" is therefore the same statement as **predictive parity** — equal PPV — which is the form the impossibility below actually uses.
 
 Three sentences of intuition, one per row:
 
@@ -194,14 +196,14 @@ for dorm in ("Sakura", "Kaede"):
     print(f"{dorm:6s}  p={p:.2f}  identity FPR={fpr_from_identity(p, ppv, fnr):.3f}  "
           f"actual FPR={FP/(FP+TN):.3f}")
 
-# Demand equalized odds while keeping predictive parity: fix PPV and FNR to Sakura's,
-# then ask what base rate Kaede would need to ALSO match Sakura's FPR.
-p_a, ppv, fnr_a = 325/500, 0.75, 25/325
-fpr_a = fpr_from_identity(p_a, ppv, fnr_a)
-odds = fpr_a / (((1 - ppv) / ppv) * (1 - fnr_a))     # solve identity for the odds p/(1-p)
-p_needed = odds / (1 + odds)
-print(f"\nEqual FPR *and* equal FNR *and* equal PPV would require Kaede's base rate = "
-      f"{p_needed:.2f}, but it is {175/500:.2f}. Equal base rates are the only escape.")
+# Now TRY THE FIX: impose equal PPV (calibration already gives it, 0.75) AND equal FNR
+# (the other half of equalized odds) on BOTH dorms. The identity then pins each dorm's
+# FPR to its own base rate alone — so watch the two FPRs refuse to match.
+ppv, fnr = 0.75, 25/325                       # imposed equally on both dorms
+print()
+for dorm, p in (("Sakura", 0.65), ("Kaede", 0.35)):
+    print(f"forced   {dorm:6s}  p={p:.2f}  FPR pinned to {fpr_from_identity(p, ppv, fnr):.3f}")
+print("Equal PPV and equal FNR still leave the FPRs unequal — unless the base rates match.")
 ```
 
 **Output:**
@@ -209,10 +211,12 @@ print(f"\nEqual FPR *and* equal FNR *and* equal PPV would require Kaede's base r
 Sakura  p=0.65  identity FPR=0.571  actual FPR=0.571
 Kaede   p=0.35  identity FPR=0.077  actual FPR=0.077
 
-Equal FPR *and* equal FNR *and* equal PPV would require Kaede's base rate = 0.65, but it is 0.35. Equal base rates are the only escape.
+forced   Sakura  p=0.65  FPR pinned to 0.571
+forced   Kaede   p=0.35  FPR pinned to 0.166
+Equal PPV and equal FNR still leave the FPRs unequal — unless the base rates match.
 ```
 
-The identity reproduces both dorms' FPRs from base rate, PPV, and FNR alone — no free parameters. And the last line is the theorem made concrete: to force equal FPR while keeping equal PPV and equal FNR, Kaede's base rate would have to *become* 0.65 — it is 0.35. There is no threshold, no reweighting, no clever loss that escapes it. **Calibrated and error-rate-balanced, with unequal base rates: pick at most one.**
+The first two lines show the identity reproduces both dorms' actual FPRs from base rate, PPV, and FNR alone — no free parameters. The last block is the theorem made concrete: even after we *impose* equal PPV and equal FNR on both dorms — everything equalized odds and calibration jointly demand except FPR itself — the identity still pins Sakura's FPR to $0.571$ and Kaede's to $0.166$, because their base rates differ. Equalized odds needs *both* rates matched; the arithmetic hands us equal FNR and then forces unequal FPR. There is no threshold, no reweighting, no clever loss that escapes it. **Calibrated and error-rate-balanced, with unequal base rates: pick at most one.**
 
 This is not a contrived toy. It is precisely the shape of the most famous fairness dispute in machine learning.
 
