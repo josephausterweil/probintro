@@ -55,7 +55,34 @@ poll→chapter mapping is in the approved plan (`~/.claude/plans/
 tidy-purring-zephyr.md`) and the quiz shortcode already renders provenance.
 `{{< lecture >}}` boxes per chapter alongside.
 
-## Phase D — Part VIII: deep nets / LLMs  [status: pending · P1 — FLAGSHIP]
+## Capstone convention (Joe, 2026-07-04 — applies to Phase D onward, retrofit earlier Parts during their passes)
+
+Every chapter ends with a **Capstone** box: a mini-project with its own Colab
+notebook (`notebooks/capstone_<slug>.ipynb`), modeled on the class
+assignments (clusters / generalization / mc / rl — scaffolded setup + data +
+TODO cells, solutions kept separate like the class `solutions/` pattern)
+and/or a *real paper* replicated in miniature. Paper anchors per Part VIII
+chapter: vectors → Mikolov 2013 analogy arithmetic on real (small) embeddings;
+from-rules-to-weights → ridge-vs-NNGP experiment (the Week 10 bridge);
+fundamentals → Minsky & Papert's XOR, then a real digit pair;
+transformers → probe attention patterns in a tiny trained transformer;
+**llms-in-context-learning → replicate Xie et al.'s HMM-ICL toy AND run the
+Falck et al. martingale test on it — the contested lens as a runnable
+experiment**; world-models → Mozer-1994-style next-note prediction.
+
+## Why GenJAX? (Joe, 2026-07-04)  [status: active · P1]
+
+New chapter `genjax/why-genjax.md`: the honest answer to "why not PyMC or
+Stan," anchored in what this book actually does with it — (1) **the planner
+in the likelihood** (Week 9 / inverse-rl chapter: value iteration + softmax
+policy INSIDE the generative model, conditioned on trajectories — no
+Stan/PyMC path without hand-flattening the planner), (2) **unbounded
+structure** (CRP/DPMM sampled directly vs truncated stick-breaking),
+(3) models as first-class JAX values (vmap/grad/jit over *models*).
+Honest flip side: fixed-structure continuous hierarchical models are
+BETTER served by Stan/PyMC (NUTS quality, ArviZ, diagnostics); say so.
+
+## Phase D — Part VIII: deep nets / LLMs  [status: ACTIVE · P1 — FLAGSHIP]
 
 Author the five stubbed chapters (`from-rules-to-weights`,
 `neural-net-fundamentals`, `transformers-attention`,
