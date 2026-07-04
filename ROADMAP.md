@@ -84,8 +84,9 @@ glossary anchor mismatch (EN-style anchors on JA headings).
 
 ## Housekeeping  [status: pending · P3]
 
-- Dedupe the two identical deploy workflows (`main.yml` / `hugo.yaml`) —
-  they race; both now pin Hugo 0.163.3 (0.150 broke per-language aliases).
+- ~~Dedupe the two identical deploy workflows~~ — DONE 2026-07-04
+  (`main.yml` removed after a live deploy-race failure; `hugo.yaml` is the
+  single pipeline, pinned to Hugo 0.163.3 — 0.150 broke per-language aliases).
 - PR #7 (Beta-Bernoulli exercise, Dec 2025) — review or close.
 - `~/work/isableFastRender-quarantine` — junk build artifact; delete when
   confirmed unneeded.
