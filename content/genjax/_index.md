@@ -1,5 +1,5 @@
 +++
-date = "2026-07-02"
+date = "2026-07-04"
 title = "The Tools: Probabilistic Programming with GenJAX"
 linkTitle = "The Tools: GenJAX"
 weight = 20
@@ -40,6 +40,8 @@ graph TB
 **Core chapters** (yellow): generative models, conditioning, and inference —
 the three ideas every later Part leans on. Later chapters' code assumes this
 Part; whenever a code block puzzles you, come back here.
+
+Wondering why this book teaches GenJAX instead of Stan or PyMC? [The honest answer](why-genjax/).
 
 ## Chapters
 

@@ -1,5 +1,5 @@
 +++
-date = "2026-07-02"
+date = "2026-07-04"
 title = "道具：GenJAXによる確率的プログラミング"
 linkTitle = "道具：GenJAX"
 weight = 20
@@ -20,6 +20,8 @@ tracks = ["beginner", "cogsci"]
 **プログラミング未経験者のために設計されています。**[Google Colab](getting-started/)
 （インストール不要、ブラウザで動作）を使い、必要最小限のPythonだけを教え、
 すべてのコード行をすでに知っている集合の概念に結びつけます。
+
+なぜStanやPyMCではなくGenJAXなのか？[正直な答え](why-genjax/)。
 
 ## 章一覧
 
