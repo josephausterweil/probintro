@@ -646,4 +646,4 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 
 **Need help?** Return to the [main tutorial page](../) or consult the [glossary](../glossary/) for term definitions.
 
-**Enjoying the notebooks?** This tutorial series is generously funded by the [Japanese Probabilistic Computing Consortium Association (JPCCA)](https://jpcca.org/).
+**Enjoying the notebooks?** This tutorial series is generously funded by the [Japanese Probabilistic Computing Consortium Association ([JPCCA](https://jpcca.org/))](https://jpcca.org/).

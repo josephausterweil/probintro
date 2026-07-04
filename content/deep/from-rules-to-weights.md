@@ -23,4 +23,4 @@ Bayesian toolkit doesn't get thrown away at the door.
 ---
 
 *This project is generously funded by the Japanese Probabilistic Computing
-Consortium Association (JPCCA).*
+Consortium Association ([JPCCA](https://jpcca.org/)).*

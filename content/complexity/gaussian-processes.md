@@ -478,4 +478,4 @@ You can:
 
 ---
 
-*This material was developed for the "Narrative Introduction to Probability" textbook, generously funded by the [Japanese Probabilistic Computing Consortium Association (JPCCA)](https://jpcca.org/).*
+*This material was developed for the "Narrative Introduction to Probability" textbook, generously funded by the [Japanese Probabilistic Computing Consortium Association ([JPCCA](https://jpcca.org/))](https://jpcca.org/).*
