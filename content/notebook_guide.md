@@ -542,6 +542,17 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 **Related Tutorial Chapters:**
 - [Part VIII, From Bentos to Vectors](../deep/vectors-and-spaces/)
 
+### Capstone — From Rules to Weights
+**Notebook**: [📓 Open in Colab: `capstone_from_rules_to_weights.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/capstone_from_rules_to_weights.ipynb)
+
+**What it covers:**
+- A three-way race on the bento data as data grows: ridge on hand features, a 2-4-1 learned-feature net, and RBF kernel ridge
+- Fixed features win when data is scarce; learned/kernel methods overtake as it grows
+- Optional stretch: the Belkin et al. (2019) double-descent curve
+
+**Related Tutorial Chapters:**
+- [Part VIII, From Rules to Weights](../deep/from-rules-to-weights/)
+
 **Topics:**
 - Q-learning, TD error, ε-greedy exploration
 - Reward shaping, positive cycles, reward hacking
@@ -598,6 +609,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 5. `24_pomdps_belief_inference.ipynb` - POMDPs, belief updates, α-vectors, Bayesian ToM, teaching & legibility
 6. `25_modern_rl_world_models.ipynb` - RLHF/DPO as inverse RL, world models, the LLM theory-of-mind debate
 7. `vectors_and_spaces.ipynb` - Linear algebra from zero: vectors, dot products, matrices as transformations (the Part VIII on-ramp)
+8. `capstone_from_rules_to_weights.ipynb` - Capstone: ridge vs learned features vs kernel ridge as data grows
 
 ---
 
@@ -656,6 +668,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `24_pomdps_belief_inference.ipynb` | Tutorial 3 | POMDPs, belief, α-vectors, BToM, legibility | ⭐⭐⭐⭐ Expert |
 | `25_modern_rl_world_models.ipynb` | Tutorial 3 | RLHF/DPO as IRL, world models, LLM ToM | ⭐⭐⭐⭐ Expert |
 | `vectors_and_spaces.ipynb` | Part VIII | Vectors, dot product, cosine, matrices, ReLU | ⭐⭐ Beginner |
+| `capstone_from_rules_to_weights.ipynb` | Part VIII | Capstone: ridge vs learned features vs kernel ridge | ⭐⭐⭐ Intermediate |
 
 ---
 
