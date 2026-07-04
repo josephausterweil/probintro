@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attention is a soft dictionary lookup</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --teal:#4DD0E1; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  .ttl{padding:5px 10px 2px;font-size:12.5px;font-weight:700;letter-spacing:.01em;}
+  .ttl small{font-weight:400;color:var(--dim);}
+  .cap{padding:0 10px 4px;font-size:11px;color:var(--dim);line-height:1.35;}
+  #chips{display:flex;gap:10px;justify-content:center;align-items:center;padding:6px 10px 2px;}
+  .chip{background:#222230;border:2px solid #3a3a48;border-radius:7px;color:var(--white);
+    padding:6px 16px;font-size:16px;cursor:pointer;transition:border-color .2s,outline .2s;}
+  .chip:hover{border-color:var(--accent);}
+  .chip.sel{outline:2px solid var(--yellow);outline-offset:2px;}
+  #chipnote{font-size:11px;color:var(--dim);text-align:center;padding:1px 0 0;}
+  #cols{display:flex;justify-content:center;gap:26px;flex:1;min-height:0;padding:4px 10px 0;}
+  .col{display:flex;flex-direction:column;align-items:center;width:64px;min-height:0;}
+  .score{font-size:11px;color:var(--dim);font-family:ui-monospace,Menlo,Consolas,monospace;
+    height:16px;visibility:hidden;}
+  #cols.showsc .score{visibility:visible;}
+  .barwrap{flex:1;min-height:0;width:100%;display:flex;align-items:flex-end;justify-content:center;}
+  .bar{width:44px;border-radius:3px 3px 0 0;transition:height .45s ease;}
+  .pct{font-size:12.5px;font-weight:700;height:18px;padding-top:2px;}
+  .tok{font-size:12.5px;color:var(--dim);}
+  #mixrow{padding:4px 14px 2px;}
+  #mixlab{font-size:11.5px;color:var(--dim);padding-bottom:3px;}
+  #mixlab b{color:var(--white);}
+  #hard{color:var(--yellow);font-weight:700;display:none;}
+  #soft{color:var(--dim);display:none;}
+  #mixbar{display:flex;height:30px;border-radius:4px;overflow:hidden;border:1px solid #2a2a33;}
+  #mixbar div{transition:width .45s ease;display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;color:#111111;overflow:hidden;white-space:nowrap;min-width:0;}
+  #mixdesc{font-size:11px;color:var(--dim);padding:3px 0 0;min-height:16px;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:7px 12px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:6px 18px;border-top:1px solid #2a2a33;font-size:13px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:7px;white-space:nowrap;cursor:pointer;}
+  #controls input[type=range]{width:200px;accent-color:var(--accent);cursor:pointer;}
+  #controls input[type=checkbox]{accent-color:var(--accent);}
+  .val{color:var(--yellow);font-weight:700;min-width:36px;display:inline-block;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ttl">Attention is a soft dictionary lookup <small>— weight<sub>j</sub> = softmax<sub>j</sub>(β · q·k<sub>j</sub>), &nbsp;output = Σ<sub>j</sub> weight<sub>j</sub> · value<sub>j</sub></small></div>
+  <div class="cap">Every token stores a key vector k and a value (shown as its color). Click a token to make it the query: its q is dotted with all five keys, softmax turns those scores into mixing weights, and the output blends the values.</div>
+  <div id="chips"></div>
+  <div id="chipnote">↑ click a token — the yellow outline marks the current query</div>
+  <div id="cols"></div>
+  <div id="mixrow">
+    <div id="mixlab"><b>mixed value</b> (the attention output for this query) &nbsp;
+      <span id="hard">hard lookup — max weight &gt; 0.95, softmax ≈ argmax</span><span id="soft">≈ uniform average — β small, lookup very soft</span></div>
+    <div id="mixbar"></div>
+    <div id="mixdesc"></div>
+  </div>
+  <div id="controls">
+    <label>sharpness β <input type="range" id="beta" min="-1" max="1" step="0.01" value="0"> <span class="val" id="bval">1.0</span>
+      <span style="color:var(--dim)">— the same softmax you met in Week 9</span></label>
+    <label><input type="checkbox" id="showsc"> show scores (raw q·k)</label>
+  </div>
+</div>
+
+<script>
+"use strict";
+// Fixed toy sentence; hand-set 4-d query/key vectors (dims ≈ noun/verb/prep/det-ness)
+// tuned offline so that at β=1 "sat" attends mostly to "cat"+"mat" (~87%) and at
+// β=10 every query collapses to a hard argmax lookup (max weight > 0.95).
+const $=id=>document.getElementById(id);
+const TOK=[{w:"the",c:"#999999"},{w:"cat",c:"#64B5F6"},{w:"sat",c:"#66BB6A"},
+           {w:"on",c:"#FFA726"},{w:"mat",c:"#BA68C8"}];
+const K=[[0,0,0,2.0],[1.8,0,0,0],[0,1.8,0,0],[0,0,0.8,0],[1.4,0,0.6,0]];
+const Q=[[1.2,0,0,0.3],[0.2,1.5,0,0],[1.5,0.2,0,0],[0.6,0,1.6,0],[0,0,1.5,0.8]];
+const S=Q.map(q=>K.map(k=>k.reduce((s,v,d)=>s+v*q[d],0)));   // 5×5 raw scores q·k
+let qi=2, beta=1;                                             // default query: "sat"
+function weights(){ const s=S[qi], m=Math.max(...s.map(v=>beta*v));
+  const e=s.map(v=>Math.exp(beta*v-m)), Z=e.reduce((a,b)=>a+b,0);
+  return e.map(v=>v/Z); }
+// ---- build DOM ----
+const chips=[], bars=[], pcts=[], scores=[], segs=[];
+TOK.forEach((t,j)=>{
+  const ch=document.createElement('button'); ch.className='chip'; ch.textContent=t.w;
+  ch.style.borderColor=t.c; ch.onclick=()=>{ qi=j; render(); };
+  $('chips').appendChild(ch); chips.push(ch);
+  const col=document.createElement('div'); col.className='col';
+  const sc=document.createElement('div'); sc.className='score'; col.appendChild(sc); scores.push(sc);
+  const bw=document.createElement('div'); bw.className='barwrap';
+  const bar=document.createElement('div'); bar.className='bar'; bar.style.background=t.c;
+  bar.style.height='0%'; bw.appendChild(bar); col.appendChild(bw); bars.push(bar);
+  const pc=document.createElement('div'); pc.className='pct'; pc.style.color=t.c;
+  col.appendChild(pc); pcts.push(pc);
+  const tk=document.createElement('div'); tk.className='tok'; tk.textContent=t.w; col.appendChild(tk);
+  $('cols').appendChild(col);
+  const seg=document.createElement('div'); seg.style.background=t.c; seg.style.width='20%';
+  $('mixbar').appendChild(seg); segs.push(seg);
+});
+// ---- render ----
+function render(){
+  const w=weights(), s=S[qi], mx=Math.max(...w);
+  TOK.forEach((t,j)=>{
+    chips[j].classList.toggle('sel',j===qi);
+    bars[j].style.height=(w[j]*100).toFixed(1)+'%';
+    pcts[j].textContent=Math.round(w[j]*100)+'%';
+    scores[j].textContent=s[j].toFixed(2);
+    segs[j].style.width=(w[j]*100).toFixed(1)+'%';
+    segs[j].textContent = w[j]>=0.09 ? t.w+' '+Math.round(w[j]*100)+'%' : '';
+  });
+  $('hard').style.display = mx>0.95 ? 'inline' : 'none';
+  $('soft').style.display = mx<0.30 ? 'inline' : 'none';
+  const parts=TOK.map((t,j)=>({t,w:w[j]})).filter(p=>p.w>=0.01).sort((a,b)=>b.w-a.w)
+    .map(p=>p.w.toFixed(2)+'·value('+p.t.w+')');
+  $('mixdesc').textContent='output for “'+TOK[qi].w+'” ≈ '+parts.join(' + ');
+}
+$('beta').oninput=e=>{ beta=Math.pow(10,+e.target.value);
+  $('bval').textContent = beta<1 ? beta.toFixed(2) : beta.toFixed(1); render(); };
+$('showsc').onchange=e=>{ $('cols').classList.toggle('showsc',e.target.checked); };
+render();
+</script>
+</body>
+</html>

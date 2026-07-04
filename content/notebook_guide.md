@@ -553,6 +553,52 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 **Related Tutorial Chapters:**
 - [Part VIII, From Rules to Weights](../deep/from-rules-to-weights/)
 
+### Capstone — Neural Network Fundamentals
+**Notebook**: [📓 Open in Colab: `capstone_neural_net_fundamentals.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/capstone_neural_net_fundamentals.ipynb)
+
+**What it covers:**
+- Part A: replicate Minsky & Papert — a linear unit fails XOR, a hidden layer solves it
+- Part B: the same 2-layer net on a real task (sklearn digits, 0 vs. 1)
+- Anchor: Minsky & Papert (1969) + Rumelhart, Hinton & Williams (1986)
+
+**Related Tutorial Chapters:**
+- [Part VIII, Neural Network Fundamentals](../deep/neural-net-fundamentals/)
+
+### Capstone — Transformers & Attention
+**Notebook**: [📓 Open in Colab: `capstone_transformers_attention.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/capstone_transformers_attention.ipynb)
+
+**What it covers:**
+- Build single-head attention from scratch; hand-set keys/queries for a "look at the previous token" head
+- Then a mini induction pattern; visualize the weight matrices as heatmaps
+- Anchor: Vaswani et al. (2017) + Olsson et al. (2022) induction heads
+
+**Related Tutorial Chapters:**
+- [Part VIII, Transformers & Attention](../deep/transformers-attention/)
+
+### Capstone — LLMs & In-Context Learning (the flagship)
+**Notebook**: [📓 Open in Colab: `capstone_llms_in_context_learning.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/capstone_llms_in_context_learning.ipynb)
+
+**What it covers:**
+- Part A: the exact Bayesian posterior-predictive of a latent-mixture model vs. a genuinely-trained predictor — watch the posterior sharpen with examples (Xie-style)
+- Part B: implement the Falck-style martingale test and run it on both — the exact Bayesian passes; is your trained model's gap noise or systematic drift?
+- Part C (stretch): sketch the same test on a real LLM
+- **Runs both sides of the ICL-is-Bayesian debate**
+
+**Related Tutorial Chapters:**
+- [Part VIII, LLMs & In-Context Learning](../deep/llms-in-context-learning/)
+
+### Capstone — World Models & Imagination
+**Notebook**: [📓 Open in Colab: `capstone_world_models_imagination.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/capstone_world_models_imagination.ipynb)
+
+**What it covers:**
+- Part A: fit a dynamics model on a gridworld from random-policy data
+- Part B: plan by imagination (random-shooting rollouts) and race it against model-free Q-learning on sample efficiency
+- Part C (stretch): inject model error and watch planning degrade
+- Anchor: Dyna (Sutton 1991) + MuZero (Schrittwieser 2020)
+
+**Related Tutorial Chapters:**
+- [Part VIII, World Models & Imagination](../deep/world-models-imagination/)
+
 **Topics:**
 - Q-learning, TD error, ε-greedy exploration
 - Reward shaping, positive cycles, reward hacking
@@ -610,6 +656,10 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 6. `25_modern_rl_world_models.ipynb` - RLHF/DPO as inverse RL, world models, the LLM theory-of-mind debate
 7. `vectors_and_spaces.ipynb` - Linear algebra from zero: vectors, dot products, matrices as transformations (the Part VIII on-ramp)
 8. `capstone_from_rules_to_weights.ipynb` - Capstone: ridge vs learned features vs kernel ridge as data grows
+9. `capstone_neural_net_fundamentals.ipynb` - Capstone: XOR from Minsky & Papert to a real digit classifier
+10. `capstone_transformers_attention.ipynb` - Capstone: build attention from scratch; previous-token and induction heads
+11. `capstone_llms_in_context_learning.ipynb` - Capstone: run both sides of the ICL-is-Bayesian debate (Xie/Ye vs Falck)
+12. `capstone_world_models_imagination.ipynb` - Capstone: learn a world model, plan by imagination vs model-free Q-learning
 
 ---
 
@@ -669,6 +719,10 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `25_modern_rl_world_models.ipynb` | Tutorial 3 | RLHF/DPO as IRL, world models, LLM ToM | ⭐⭐⭐⭐ Expert |
 | `vectors_and_spaces.ipynb` | Part VIII | Vectors, dot product, cosine, matrices, ReLU | ⭐⭐ Beginner |
 | `capstone_from_rules_to_weights.ipynb` | Part VIII | Capstone: ridge vs learned features vs kernel ridge | ⭐⭐⭐ Intermediate |
+| `capstone_neural_net_fundamentals.ipynb` | Part VIII | Capstone: XOR → real digit classification | ⭐⭐⭐ Intermediate |
+| `capstone_transformers_attention.ipynb` | Part VIII | Capstone: attention from scratch, induction heads | ⭐⭐⭐⭐ Expert |
+| `capstone_llms_in_context_learning.ipynb` | Part VIII | Capstone: run the ICL-is-Bayesian debate | ⭐⭐⭐⭐ Expert |
+| `capstone_world_models_imagination.ipynb` | Part VIII | Capstone: learn a world model, plan by imagination | ⭐⭐⭐⭐ Expert |
 
 ---
 

@@ -2586,6 +2586,87 @@ The rectified linear unit, $g(x) = \max(0, x)$ applied per coordinate: negatives
 **See also:** [Matrix](#matrix-)
 {{% /expand %}}
 
+### Perceptron 🤖
+{{% expand "Perceptron" %}}
+The simplest neural unit: score an input by its dot product with a weight vector, then take the sign — $\operatorname{sign}(\mathbf{w}\cdot\mathbf{x})$. It draws a single straight decision boundary, so it can learn AND and OR but provably *not* XOR (Minsky & Papert, 1969) — the limit that motivates hidden layers.
+
+**Appears in:** [Neural Network Fundamentals](../deep/neural-net-fundamentals/)
+
+**See also:** [Dot Product](#dot-product-), [Backpropagation](#backpropagation-)
+{{% /expand %}}
+
+### Backpropagation 🤖
+{{% expand "Backpropagation" %}}
+The training algorithm for multilayer networks (Rumelhart, Hinton & Williams, 1986): run the input forward, measure the output error, then apportion the blame backward through the layers by the chain rule. It *is* reverse-mode automatic differentiation — exactly what `jax.grad` computes — so there are no hand-derived update rules.
+
+**Appears in:** [Neural Network Fundamentals](../deep/neural-net-fundamentals/)
+
+**See also:** [ReLU](#relu-), [Loss Function](#loss-function-)
+{{% /expand %}}
+
+### Attention 🤖
+{{% expand "Attention" %}}
+A soft dictionary lookup: each token issues a **query**, matches it against every token's **key** by a dot product, and takes a softmax-weighted blend of their **values**. High softmax sharpness $\beta$ makes it a hard lookup; low $\beta$ a uniform average — the same $\beta$ knob as the inverse-planning softmax. Attention lets every token see every other token, with no sequential bottleneck.
+
+**Appears in:** [Transformers & Attention](../deep/transformers-attention/)
+
+**See also:** [Dot Product](#dot-product-), [Transformer](#transformer-)
+{{% /expand %}}
+
+### Transformer 🤖
+{{% expand "Transformer" %}}
+The architecture behind modern language models: a stack of blocks, each combining self-**attention** (mix information across tokens) with a per-token MLP, wrapped in residual connections and normalization (the vanishing-gradient fixes). It has no recurrence, trains in parallel, and predicts the next token by minimizing cross-entropy.
+
+**Appears in:** [Transformers & Attention](../deep/transformers-attention/)
+
+**See also:** [Attention](#attention-), [Backpropagation](#backpropagation-)
+{{% /expand %}}
+
+### World Model 🤖
+{{% expand "World Model" %}}
+A *learned* generative model of an environment's dynamics — state and action to next state and reward — fit from experience (in an MDP the transition model was handed to us; here it is estimated). Planning by rolling a world model forward is "imagination"; it is only as good as the model, since prediction errors compound over the horizon (Dyna; Dreamer; MuZero).
+
+**Appears in:** [World Models & Imagination](../deep/world-models-imagination/)
+
+**See also:** [Simulation-based RL](#simulation-based-rl-), [Rollout](#rollout-)
+{{% /expand %}}
+
+### In-Context Learning 🤖
+{{% expand "In-Context Learning" %}}
+A model adapting from examples placed in its prompt with **zero weight updates** — the adaptation lives in the context window's activations, not the parameters. It looks like inference (condition on examples) rather than training (gradient steps), which is what makes the Bayesian reading below tempting.
+
+**Appears in:** [LLMs & In-Context Learning](../deep/llms-in-context-learning/)
+
+**See also:** [Empirical Bayes](#empirical-bayes-), [Predictive Distribution](#predictive-distribution-)
+{{% /expand %}}
+
+### Empirical Bayes 🤖
+{{% expand "Empirical Bayes" %}}
+Estimating the prior *itself* from data — by optimizing the marginal likelihood — instead of fixing it in advance (you first met the move in [Learning the Prior](../structure/hierarchical-bayes/learning-the-prior/)). The claim that in-context learning is Bayesian frames pretraining as exactly this: the corpus fits the prior, the prompt supplies the observations, the continuation reads out the posterior predictive.
+
+**Appears in:** [LLMs & In-Context Learning](../deep/llms-in-context-learning/)
+
+**See also:** [In-Context Learning](#in-context-learning-), [Marginal Likelihood](#marginal-likelihood-)
+{{% /expand %}}
+
+### Exchangeable 🤖
+{{% expand "Exchangeable" %}}
+A sequence is exchangeable when its joint probability doesn't depend on the *order* of its elements — shuffling the examples changes nothing. Independent-and-identically-distributed data is exchangeable. It is the assumption under which a Bayesian's running prediction must be a martingale, and the property whose violation (order effects) is evidence against a clean Bayesian account of real LLMs.
+
+**Appears in:** [LLMs & In-Context Learning](../deep/llms-in-context-learning/)
+
+**See also:** [Martingale](#martingale-), [In-Context Learning](#in-context-learning-)
+{{% /expand %}}
+
+### Martingale 🤖
+{{% expand "Martingale" %}}
+A running prediction that does not drift systematically as more (exchangeable) evidence arrives: today's prediction equals the expected value of tomorrow's. Any genuine Bayesian updating on exchangeable examples must produce one. Falck et al. (2024) use this as a testable signature — real LLMs measurably violate it, which is checkable evidence that in-context learning is not, mechanistically, Bayesian.
+
+**Appears in:** [LLMs & In-Context Learning](../deep/llms-in-context-learning/)
+
+**See also:** [Exchangeable](#exchangeable-), [Empirical Bayes](#empirical-bayes-)
+{{% /expand %}}
+
 ---
 
 ## Navigation

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Can a network learn XOR?</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --teal:#4DD0E1; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  .ttl{padding:5px 10px 2px;font-size:12.5px;font-weight:700;letter-spacing:.01em;}
+  .ttl small{font-weight:400;color:var(--dim);}
+  .cap{padding:0 10px 4px;font-size:11px;color:var(--dim);line-height:1.35;}
+  #stage{display:flex;flex:1;min-height:0;}
+  #left{flex:1;min-width:0;display:flex;flex-direction:column;}
+  #planewrap{position:relative;flex:1;min-height:0;}
+  canvas{display:block;width:100%;height:100%;}
+  .overlay{position:absolute;font-size:11px;z-index:3;pointer-events:none;text-shadow:0 1px 3px #000;line-height:1.5;}
+  #leg{top:8px;left:12px;color:var(--dim);}
+  .swatch{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:middle;margin-right:3px;}
+  #side{flex:0 0 330px;background:var(--panel);border-left:1px solid #2a2a33;
+    padding:9px 12px;display:flex;flex-direction:column;gap:7px;font-size:13px;overflow-y:auto;}
+  #modes label{display:block;color:var(--white);cursor:pointer;padding:1px 0;}
+  #modes input{accent-color:var(--accent);margin-right:6px;}
+  button{background:#222230;color:var(--white);border:1px solid #3a3a48;border-radius:5px;padding:4px 9px;font-size:13px;cursor:pointer;}
+  button:hover{border-color:var(--accent);}
+  button:disabled{opacity:.5;cursor:default;}
+  #readout{font-size:14px;}
+  .val{color:var(--yellow);font-weight:700;}
+  #status{font-size:12px;color:var(--dim);min-height:32px;line-height:1.3;}
+  #vout{font-size:11.5px;color:var(--dim);}
+  .shead{font-size:11.5px;color:var(--dim);margin-top:2px;}
+  .slrow{display:flex;align-items:center;gap:6px;}
+  .slrow .nm{flex:0 0 34px;color:var(--dim);}
+  .slrow input[type=range]{flex:1;accent-color:var(--accent);cursor:pointer;min-width:0;}
+  .slrow .val{flex:0 0 46px;text-align:right;font-size:12.5px;}
+  #sliders.off{opacity:.4;}
+  #sliders{display:flex;flex-direction:column;gap:4px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ttl">Can a network learn XOR? <small>— 2 inputs → 2 ReLU hidden units → 1 output, full-batch gradient descent on MSE</small></div>
+  <div class="cap">XOR: output 1 when exactly one input is 1. The four points below are the whole dataset — no single line separates the blues from the reds.</div>
+  <div id="stage">
+    <div id="left">
+      <div id="planewrap">
+        <div class="overlay" id="leg">
+          <span class="swatch" style="background:rgba(100,181,246,.55)"></span>predicted class 1&nbsp;
+          <span class="swatch" style="background:rgba(239,83,80,.45)"></span>predicted class 0<br>
+          ring: <span style="color:var(--green)">green = correct</span> · <span style="color:var(--yellow)">yellow dashed = wrong</span>
+        </div>
+        <canvas id="plane"></canvas>
+      </div>
+    </div>
+    <div id="side">
+      <div id="modes">
+        <label><input type="radio" name="mode" value="linear" checked> Linear only (no hidden layer)</label>
+        <label><input type="radio" name="mode" value="hidden"> 2 ReLU hidden units</label>
+      </div>
+      <div>
+        <button id="train">Train (gradient descent)</button>
+        <button id="rand">Randomize weights</button>
+      </div>
+      <div id="readout">loss <span class="val" id="lossval">–</span> &nbsp;·&nbsp; solves XOR: <span id="solve" style="font-weight:700">–</span></div>
+      <div id="status"></div>
+      <div id="vout"></div>
+      <div id="sliders">
+        <div class="shead">Hand-shape the hidden units &nbsp;·&nbsp; h₁ = ReLU(w₁₁x₁ + w₁₂x₂ + b₁)</div>
+        <div class="slrow"><span class="nm">w₁₁</span><input type="range" id="s11" min="-2.5" max="2.5" step="0.05"><span class="val" id="s11v"></span></div>
+        <div class="slrow"><span class="nm">w₁₂</span><input type="range" id="s12" min="-2.5" max="2.5" step="0.05"><span class="val" id="s12v"></span></div>
+        <div class="slrow"><span class="nm">b₁</span><input type="range" id="s1b" min="-2.5" max="2.5" step="0.05"><span class="val" id="s1bv"></span></div>
+        <div class="shead">h₂ = ReLU(w₂₁x₁ + w₂₂x₂ + b₂)</div>
+        <div class="slrow"><span class="nm">w₂₁</span><input type="range" id="s21" min="-2.5" max="2.5" step="0.05"><span class="val" id="s21v"></span></div>
+        <div class="slrow"><span class="nm">w₂₂</span><input type="range" id="s22" min="-2.5" max="2.5" step="0.05"><span class="val" id="s22v"></span></div>
+        <div class="slrow"><span class="nm">b₂</span><input type="range" id="s2b" min="-2.5" max="2.5" step="0.05"><span class="val" id="s2bv"></span></div>
+        <div class="shead">The output layer (v₁, v₂, c) auto-fits by least squares as you drag — try w₁₁=1, w₁₂=1, b₁=−0.5 and w₂₁=1, w₂₂=1, b₂=−1.5 (OR minus AND).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+// XOR playground: out = v·ReLU(Wx+b)+c (hidden mode) or out = w·x+b (linear mode).
+// MSE on the 4 points; classify by out > 0.5. lr/init/seed tuned offline so the
+// default load's Train visibly escapes a plateau and solves; ~half of random
+// restarts land in a local minimum — an honest nonconvexity lesson.
+const COL={bg:"#111111",dim:"#999999",white:"#ffffff",accent:"#64B5F6",red:"#EF5350",
+  green:"#66BB6A",yellow:"#FFEB3B",orange:"#FFA726"};
+function mb(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const $=id=>document.getElementById(id);
+const PX=[[0,0],[0,1],[1,0],[1,1]], PY=[0,1,1,0];
+const LR=0.08, STEPS=2000, CHUNK=40;
+const hrng=mb(19), lrng=mb(101);           // deterministic per load (seed chosen so load+Train solves)
+let hid=null, lin=null, mode='linear', anim=null, stepsDone=0;
+const u=(r,s)=>(r()*2-1)*s;
+function initHidden(){ hid={W:[[u(hrng,0.7),u(hrng,0.7)],[u(hrng,0.7),u(hrng,0.7)]],
+  b:[hrng()*0.4,hrng()*0.4], v:[u(hrng,0.7),u(hrng,0.7)], c:u(hrng,0.7)}; }
+function initLinear(){ lin={w:[u(lrng,0.7),u(lrng,0.7)], b:u(lrng,0.7)}; }
+function hidFwd(x){ const pre=[hid.W[0][0]*x[0]+hid.W[0][1]*x[1]+hid.b[0],
+                               hid.W[1][0]*x[0]+hid.W[1][1]*x[1]+hid.b[1]];
+  const h=[pre[0]>0?pre[0]:0, pre[1]>0?pre[1]:0];
+  return {pre,h,out:hid.v[0]*h[0]+hid.v[1]*h[1]+hid.c}; }
+function netOut(x){ return mode==='linear' ? lin.w[0]*x[0]+lin.w[1]*x[1]+lin.b : hidFwd(x).out; }
+function curLoss(){ let L=0; for(let i=0;i<4;i++){const e=netOut(PX[i])-PY[i];L+=e*e/4;} return L; }
+function solves(){ for(let i=0;i<4;i++){ if((netOut(PX[i])>0.5)!==(PY[i]===1)) return false; } return true; }
+function gdStep(){
+  if(mode==='linear'){
+    let g0=0,g1=0,gb=0;
+    for(let i=0;i<4;i++){const x=PX[i],e=lin.w[0]*x[0]+lin.w[1]*x[1]+lin.b-PY[i],d=2*e/4;
+      g0+=d*x[0]; g1+=d*x[1]; gb+=d;}
+    lin.w[0]-=LR*g0; lin.w[1]-=LR*g1; lin.b-=LR*gb;
+  }else{
+    const gW=[[0,0],[0,0]],gb=[0,0],gv=[0,0]; let gc=0;
+    for(let i=0;i<4;i++){const x=PX[i],f=hidFwd(x),e=f.out-PY[i],d=2*e/4;
+      for(let j=0;j<2;j++){gv[j]+=d*f.h[j]; const dh=d*hid.v[j];
+        if(f.pre[j]>0){gW[j][0]+=dh*x[0]; gW[j][1]+=dh*x[1]; gb[j]+=dh;}}
+      gc+=d;}
+    for(let j=0;j<2;j++){hid.W[j][0]-=LR*gW[j][0]; hid.W[j][1]-=LR*gW[j][1];
+      hid.b[j]-=LR*gb[j]; hid.v[j]-=LR*gv[j];}
+    hid.c-=LR*gc;
+  }
+}
+// exact least-squares refit of the output layer (v1,v2,c) for the current hidden
+// features — with a linear output unit this IS the optimal readout, so the
+// sliders alone can exhibit a full solution.
+function autoFit(){
+  const A=PX.map(x=>{const f=hidFwd(x); return [f.h[0],f.h[1],1];});
+  const N=[[1e-4,0,0],[0,1e-4,0],[0,0,1e-4]], r=[0,0,0];
+  for(let i=0;i<4;i++) for(let a=0;a<3;a++){ r[a]+=A[i][a]*PY[i];
+    for(let b2=0;b2<3;b2++) N[a][b2]+=A[i][a]*A[i][b2]; }
+  for(let i=0;i<3;i++){ let piv=i;
+    for(let k=i+1;k<3;k++) if(Math.abs(N[k][i])>Math.abs(N[piv][i])) piv=k;
+    [N[i],N[piv]]=[N[piv],N[i]]; [r[i],r[piv]]=[r[piv],r[i]];
+    for(let k=i+1;k<3;k++){const f=N[k][i]/N[i][i];
+      for(let j=i;j<3;j++) N[k][j]-=f*N[i][j]; r[k]-=f*r[i];}}
+  const th=[0,0,0];
+  for(let i=2;i>=0;i--){ let s=r[i]; for(let j=i+1;j<3;j++) s-=N[i][j]*th[j]; th[i]=s/N[i][i]; }
+  hid.v[0]=th[0]; hid.v[1]=th[1]; hid.c=th[2];
+}
+// ---------------- canvas ----------------
+const cv=$('plane'), cx=cv.getContext('2d');
+function sizeC(){ const r=cv.parentElement.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+  cv.width=Math.max(60,Math.floor(r.width*dpr)); cv.height=Math.max(60,Math.floor(r.height*dpr));
+  cx.setTransform(dpr,0,0,dpr,0,0); return {w:r.width,h:r.height}; }
+function paint(){
+  const {w,h}=sizeC(); cx.fillStyle=COL.bg; cx.fillRect(0,0,w,h);
+  const s=Math.min(w,h)-10, ox=(w-s)/2, oy=(h-s)/2;
+  const X=v=>ox+(v+0.25)/1.5*s, Y=v=>oy+s-(v+0.25)/1.5*s;
+  const g=Math.max(3,Math.floor(s/140));                       // decision regions
+  for(let px=0;px<s;px+=g) for(let py=0;py<s;py+=g){
+    const x1=(px+g/2)/s*1.5-0.25, x2=(s-(py+g/2))/s*1.5-0.25;
+    cx.fillStyle = netOut([x1,x2])>0.5 ? "rgba(100,181,246,0.30)" : "rgba(239,83,80,0.20)";
+    cx.fillRect(ox+px,oy+py,g,g);
+  }
+  cx.strokeStyle="rgba(255,255,255,0.14)"; cx.lineWidth=1;      // unit gridlines
+  for(const t of [0,1]){ cx.beginPath();cx.moveTo(X(t),oy);cx.lineTo(X(t),oy+s);cx.stroke();
+    cx.beginPath();cx.moveTo(ox,Y(t));cx.lineTo(ox+s,Y(t));cx.stroke(); }
+  cx.fillStyle=COL.dim; cx.font="11px sans-serif"; cx.textAlign="left";
+  cx.fillText("x₁ →", ox+s-34, Y(0)+16); cx.fillText("x₂ ↑", X(0)-30, oy+14);
+  cx.fillText("0", X(0)+5, Y(0)+14); cx.fillText("1", X(1)+5, Y(0)+14); cx.fillText("1", X(0)+5, Y(1)+13);
+  for(let i=0;i<4;i++){                                          // the 4 XOR points
+    const p=PX[i], ok=(netOut(p)>0.5)===(PY[i]===1), px=X(p[0]), py=Y(p[1]);
+    cx.beginPath(); cx.arc(px,py,9,0,2*Math.PI);
+    cx.fillStyle = PY[i]===1?COL.accent:COL.red; cx.fill();
+    cx.lineWidth=3; cx.setLineDash(ok?[]:[4,3]);
+    cx.strokeStyle = ok?COL.green:COL.yellow; cx.stroke(); cx.setLineDash([]);
+    cx.fillStyle="#111111"; cx.font="bold 11px sans-serif"; cx.textAlign="center"; cx.textBaseline="middle";
+    cx.fillText(String(PY[i]),px,py); cx.textBaseline="alphabetic";
+  }
+  cx.strokeStyle="#2a2a33"; cx.strokeRect(ox,oy,s,s);
+}
+// ---------------- UI ----------------
+const SLS=[
+  {id:'s11',get:()=>hid.W[0][0],set:v=>hid.W[0][0]=v},{id:'s12',get:()=>hid.W[0][1],set:v=>hid.W[0][1]=v},
+  {id:'s1b',get:()=>hid.b[0],  set:v=>hid.b[0]=v},   {id:'s21',get:()=>hid.W[1][0],set:v=>hid.W[1][0]=v},
+  {id:'s22',get:()=>hid.W[1][1],set:v=>hid.W[1][1]=v},{id:'s2b',get:()=>hid.b[1],  set:v=>hid.b[1]=v}];
+function syncSliders(){ for(const s of SLS){ $(s.id).value=s.get(); $(s.id+'v').textContent=s.get().toFixed(2); } }
+function setSliderState(){ const dis=(mode==='linear')||anim!==null;
+  for(const s of SLS) $(s.id).disabled=dis; $('sliders').classList.toggle('off',dis); }
+const fmt=v=>(v>=0?"+ ":"− ")+Math.abs(v).toFixed(2);
+function updateUI(msg){
+  const ok=solves();
+  $('lossval').textContent=curLoss().toFixed(4);
+  $('solve').textContent=ok?'yes':'no'; $('solve').style.color=ok?COL.green:COL.red;
+  $('vout').textContent = mode==='hidden'
+    ? `readout: out = ${hid.v[0].toFixed(2)}·h₁ ${fmt(hid.v[1])}·h₂ ${fmt(hid.c)}`
+    : `model: out = ${lin.w[0].toFixed(2)}·x₁ ${fmt(lin.w[1])}·x₂ ${fmt(lin.b)}`;
+  if(msg!==undefined) $('status').innerHTML=msg;
+}
+function finishMsg(){
+  if(solves()) return '<span style="color:#66BB6A">solved — the two ReLU folds carve out the diagonal band</span>';
+  if(mode==='linear') return '<span style="color:#FFA726">stuck: no line separates XOR — GD converged to predicting 0.5 everywhere (loss 0.25)</span>';
+  return '<span style="color:#FFA726">stuck in a local minimum — about half of random starts end here. Randomize, then Train again</span>';
+}
+function stopTrain(){ if(anim!==null){ cancelAnimationFrame(anim); anim=null; }
+  $('train').disabled=false; $('rand').disabled=false; }
+$('train').onclick=()=>{ if(anim!==null) return;
+  stepsDone=0; $('train').disabled=true; $('rand').disabled=true; setSliderState();
+  const frame=()=>{ for(let k=0;k<CHUNK&&stepsDone<STEPS;k++){ gdStep(); stepsDone++; }
+    if(mode==='hidden') syncSliders();
+    paint(); updateUI(`training… step ${stepsDone} / ${STEPS}`);
+    if(stepsDone<STEPS){ anim=requestAnimationFrame(frame); }
+    else { anim=null; stopTrain(); setSliderState(); updateUI(finishMsg()); } };
+  anim=requestAnimationFrame(frame);
+};
+$('rand').onclick=()=>{ stopTrain(); initHidden(); initLinear(); setSliderState(); syncSliders();
+  paint(); updateUI('weights randomized — press Train'); };
+for(const r of document.querySelectorAll('input[name=mode]')) r.onchange=e=>{
+  stopTrain(); mode=e.target.value; setSliderState(); syncSliders(); paint();
+  updateUI(mode==='linear' ? 'a line (plus threshold 0.5) is the whole model — press Train and watch it fail'
+                           : 'two ReLU units — press Train, or hand-shape the sliders'); };
+for(const s of SLS) $(s.id).oninput=e=>{ s.set(+e.target.value); $(s.id+'v').textContent=(+e.target.value).toFixed(2);
+  autoFit(); paint(); updateUI('hand-set features — output layer refit by least squares'); };
+window.addEventListener('resize',paint);
+window.addEventListener('load',()=>{ initHidden(); initLinear(); setSliderState(); syncSliders();
+  paint(); updateUI('press Train — gradient descent will do its best with a line'); });
+</script>
+</body>
+</html>
