@@ -21,7 +21,7 @@ tracks = ["beginner", "cogsci"]
 （インストール不要、ブラウザで動作）を使い、必要最小限のPythonだけを教え、
 すべてのコード行をすでに知っている集合の概念に結びつけます。
 
-なぜStanやPyMCではなくGenJAXなのか？[正直な答え](why-genjax/)。
+なぜStanやPyMCではなくGenJAXなのか？[正直な答え](../../genjax/why-genjax/)。
 
 ## 章一覧
 
