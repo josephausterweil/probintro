@@ -1,5 +1,5 @@
 +++
-date = "2026-07-05"
+date = "2026-07-04"
 title = "Bias in Data"
 weight = 30
 tracks = ["beginner", "cogsci"]

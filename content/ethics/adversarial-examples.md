@@ -1,5 +1,5 @@
 +++
-date = "2026-07-05"
+date = "2026-07-04"
 title = "Adversarial Examples"
 weight = 10
 tracks = ["beginner"]

@@ -599,6 +599,54 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 **Related Tutorial Chapters:**
 - [Part VIII, World Models & Imagination](../deep/world-models-imagination/)
 
+### Capstone — Adversarial Examples
+**Notebook**: [📓 Open in Colab: `capstone_adversarial_examples.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/capstone_adversarial_examples.ipynb)
+
+**What it covers:**
+- Part A: implement the fast gradient sign method (FGSM) and flip a confident classifier
+- Part B: sweep the perturbation size ε and plot the robustness curve
+- Part C (stretch): a pass of adversarial training, then re-measure
+- Anchor: Goodfellow, Shlens & Szegedy (2015) + Szegedy et al. (2014)
+
+**Related Tutorial Chapters:**
+- [Part IX, Adversarial Examples](../ethics/adversarial-examples/)
+
+### Capstone — Fairness, Formally
+**Notebook**: [📓 Open in Colab: `capstone_fairness_formalisms.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/capstone_fairness_formalisms.ipynb)
+
+**What it covers:**
+- Part A: implement demographic parity, equalized odds, and calibration on a confusion matrix
+- Part B: reproduce the impossibility result on a COMPAS-like dataset with unequal base rates
+- Part C (stretch): the fairness frontier (the tradeoff curve)
+- Anchor: Kleinberg et al. (2016) + Chouldechova (2017) + the ProPublica/COMPAS case
+
+**Related Tutorial Chapters:**
+- [Part IX, Fairness, Formally](../ethics/fairness-formalisms/)
+
+### Capstone — Bias in Data
+**Notebook**: [📓 Open in Colab: `capstone_bias_in_data.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/capstone_bias_in_data.ipynb)
+
+**What it covers:**
+- Part A: implement WEAT on a toy embedding and measure the effect size
+- Part B: attempt linear debiasing and measure what's removed vs. what leaks back
+- Part C (stretch): a downstream task inheriting the bias
+- Anchor: Caliskan et al. (2017) + Bolukbasi et al. (2016) + Buolamwini & Gebru (2018)
+
+**Related Tutorial Chapters:**
+- [Part IX, Bias in Data](../ethics/bias-in-data/)
+
+### Capstone — Alignment & Safety (the book's last)
+**Notebook**: [📓 Open in Colab: `capstone_alignment_safety.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/capstone_alignment_safety.ipynb)
+
+**What it covers:**
+- Part A: fit a Bradley–Terry reward model from pairwise preferences (recover a latent reward)
+- Part B: demonstrate reward hacking — optimize against the learned reward and watch it exploit a gap
+- Part C (stretch): more diverse preferences shrink the ill-posedness
+- Anchor: Christiano et al. (2017) + Hadfield-Menell et al. (2016) + the Goodhart/specification-gaming literature
+
+**Related Tutorial Chapters:**
+- [Part IX, Alignment & Safety](../ethics/alignment-safety/)
+
 **Topics:**
 - Q-learning, TD error, ε-greedy exploration
 - Reward shaping, positive cycles, reward hacking
@@ -660,6 +708,10 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 10. `capstone_transformers_attention.ipynb` - Capstone: build attention from scratch; previous-token and induction heads
 11. `capstone_llms_in_context_learning.ipynb` - Capstone: run both sides of the ICL-is-Bayesian debate (Xie/Ye vs Falck)
 12. `capstone_world_models_imagination.ipynb` - Capstone: learn a world model, plan by imagination vs model-free Q-learning
+13. `capstone_adversarial_examples.ipynb` - Capstone: implement FGSM, flip a classifier, plot the robustness curve
+14. `capstone_fairness_formalisms.ipynb` - Capstone: the three fairness criteria + the impossibility result as code
+15. `capstone_bias_in_data.ipynb` - Capstone: WEAT on embeddings, linear debiasing and its leaks
+16. `capstone_alignment_safety.ipynb` - Capstone: fit a Bradley-Terry reward, watch it get hacked
 
 ---
 
@@ -723,6 +775,10 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `capstone_transformers_attention.ipynb` | Part VIII | Capstone: attention from scratch, induction heads | ⭐⭐⭐⭐ Expert |
 | `capstone_llms_in_context_learning.ipynb` | Part VIII | Capstone: run the ICL-is-Bayesian debate | ⭐⭐⭐⭐ Expert |
 | `capstone_world_models_imagination.ipynb` | Part VIII | Capstone: learn a world model, plan by imagination | ⭐⭐⭐⭐ Expert |
+| `capstone_adversarial_examples.ipynb` | Part IX | Capstone: FGSM, robustness curve | ⭐⭐⭐ Intermediate |
+| `capstone_fairness_formalisms.ipynb` | Part IX | Capstone: fairness criteria + impossibility | ⭐⭐⭐⭐ Expert |
+| `capstone_bias_in_data.ipynb` | Part IX | Capstone: WEAT + debiasing leaks | ⭐⭐⭐ Intermediate |
+| `capstone_alignment_safety.ipynb` | Part IX | Capstone: reward modeling + reward hacking | ⭐⭐⭐⭐ Expert |
 
 ---
 

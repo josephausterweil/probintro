@@ -2667,6 +2667,51 @@ A running prediction that does not drift systematically as more (exchangeable) e
 **See also:** [Exchangeable](#exchangeable-), [Empirical Bayes](#empirical-bayes-)
 {{% /expand %}}
 
+### Adversarial Example ⚖️
+{{% expand "Adversarial Example" %}}
+An input perturbed by a tiny, often human-imperceptible amount that flips a model's prediction. The perturbation direction is the **gradient of the loss with respect to the input** — the model's own training machinery aimed at the input instead of the weights (FGSM; Goodfellow et al. 2015). It exploits the fact that a learned decision boundary is close to almost every point in high dimensions.
+
+**Appears in:** [Adversarial Examples](../ethics/adversarial-examples/)
+
+**See also:** [ReLU](#relu-), [Loss Function](#loss-function-)
+{{% /expand %}}
+
+### Demographic Parity ⚖️
+{{% expand "Demographic Parity" %}}
+A fairness criterion: the model's positive rate is equal across groups — $P(\hat{Y}{=}1 \mid G{=}a) = P(\hat{Y}{=}1 \mid G{=}b)$. Like every fairness notion, it is a precise statement about conditional probabilities; it conflicts with the others when group base rates differ.
+
+**Appears in:** [Fairness, Formally](../ethics/fairness-formalisms/)
+
+**See also:** [Equalized Odds](#equalized-odds-), [Calibration](#calibration-), [Conditional Probability](#conditional-probability-)
+{{% /expand %}}
+
+### Equalized Odds ⚖️
+{{% expand "Equalized Odds" %}}
+A fairness criterion: the model's error rates (true-positive and false-positive) are matched across groups — $P(\hat{Y}{=}1 \mid Y{=}y, G)$ equal for each true label $y$. With unequal base rates it cannot hold at the same time as calibration (the impossibility result).
+
+**Appears in:** [Fairness, Formally](../ethics/fairness-formalisms/)
+
+**See also:** [Demographic Parity](#demographic-parity-), [Calibration](#calibration-)
+{{% /expand %}}
+
+### Calibration ⚖️
+{{% expand "Calibration" %}}
+A fairness criterion (also called *sufficiency*): a score means the same thing across groups — among everyone the model scores $s$, the same fraction are truly positive regardless of group, $P(Y{=}1 \mid \hat{S}{=}s, G)$ equal. When base rates differ, calibration and equalized odds cannot both hold (Kleinberg et al. 2016; Chouldechova 2017) — the heart of the COMPAS debate.
+
+**Appears in:** [Fairness, Formally](../ethics/fairness-formalisms/)
+
+**See also:** [Equalized Odds](#equalized-odds-), [Demographic Parity](#demographic-parity-)
+{{% /expand %}}
+
+### WEAT ⚖️
+{{% expand "WEAT" %}}
+The Word Embedding Association Test (Caliskan, Bryson & Narayanan, 2017): measures bias baked into word vectors as a cosine-similarity effect size between sets of target words (e.g. career vs family words) and attribute words (e.g. male vs female names). It recovers the same implicit-association biases found in people — the bias is inherited from the corpus, sitting in the same geometry that does the useful work.
+
+**Appears in:** [Bias in Data](../ethics/bias-in-data/)
+
+**See also:** [Cosine Similarity](#cosine-similarity-), [Embedding](#embedding-)
+{{% /expand %}}
+
 ---
 
 ## Navigation
