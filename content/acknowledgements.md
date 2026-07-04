@@ -1,10 +1,12 @@
 +++
-date = "2026-06-01"
+date = "2026-07-04"
 title = "Acknowledgements - All Tutorials"
 weight = 920
 +++
 
 Written by Joe Austerweil. Thank you to Tim Burness, Grisha Szep, Kyana Burhite, Hongtao Hao, and the many students who took Human and Machine Learning over the years who have provided invaluable feedback on an early draft of this tutorial.
+
+Special thanks to **Shohei Yoshida** for carefully revising the Japanese translation — standardizing the terminology (標本空間), fixing mistranslations, and making the prose read naturally.
 
 Thanks to [amplifier](https://github.com/microsoft/amplifier), which was used to help refine the tutorial content and generate the connecting GenJAX tutorials, and to [Claude Code](https://www.anthropic.com/claude-code), with which much of the later material — the Bayesian-networks spine, the interactive widgets, and the worked derivations — was developed and validated.
 

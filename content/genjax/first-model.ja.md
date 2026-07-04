@@ -8,7 +8,7 @@ aliases = ["/genjax/02_first_model/"]
 
 ## 集合からシミュレーションへ
 
-Chibanyの日々の食事を覚えていますか？ 結果空間 $\Omega = \{HH, HT, TH, TT\}$ を列挙して可能性を数えました。
+Chibanyの日々の食事を覚えていますか？ 標本空間 $\Omega = \{HH, HT, TH, TT\}$ を列挙して可能性を数えました。
 
 今度は、コンピュータにそれらの結果を**生成**させてみましょう！
 
@@ -66,7 +66,7 @@ GenJAXにはベルヌーイ分布のための関数が二つあります：`flip
 
 | 数学の概念 | 数学的記法 | GenJAXのコード |
 |--------------|----------------------|-------------|
-| **結果空間** | $\Omega = \{HH, HT, TH, TT\}$ | `@gen def chibany_day(): ...` |
+| **標本空間** | $\Omega = \{HH, HT, TH, TT\}$ | `@gen def chibany_day(): ...` |
 | **確率変数** | $X \sim \text{Bernoulli}(0.5)$ | `flip(0.5) @ "lunch"` |
 | **確率** | $P(A) = \frac{\|A\|}{\|\Omega\|}$ | `jnp.mean(condition_satisfied)` |
 | **事象** | $A = \{HT, TH, TT\}$ | `has_tonkatsu = (days[:, 0] == 1) \| (days[:, 1] == 1)` |
@@ -363,7 +363,7 @@ Colabノートブックで：
 
 | 集合ベースの概念 | GenJAXの対応 |
 |-------------------|-------------------|
-| 結果空間 $\Omega$ | `simulate()` を何度も実行すること |
+| 標本空間 $\Omega$ | `simulate()` を何度も実行すること |
 | 一つの結果 $\omega$ | `simulate()` を一度呼び出すこと |
 | 事象 $A \subseteq \Omega$ | シミュレーションのフィルタリング |
 | $\|A\|$（要素を数える） | `jnp.sum(condition)` |
@@ -480,7 +480,7 @@ def chibany_three_meals():
     return (breakfast_is_tonkatsu, lunch_is_tonkatsu, dinner_is_tonkatsu)
 ```
 
-**これで結果空間には $2^3 = 8$ 通りの可能な結果があります！**
+**これで標本空間には $2^3 = 8$ 通りの可能な結果があります！**
 {{% /expand %}}
 
 ---
