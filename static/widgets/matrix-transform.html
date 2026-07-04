@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A matrix is a machine that moves every point</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --teal:#4DD0E1; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  .ttl{padding:5px 10px 2px;font-size:12.5px;font-weight:700;letter-spacing:.01em;}
+  .ttl small{font-weight:400;color:var(--dim);}
+  .cap{padding:0 10px 4px;font-size:11px;color:var(--dim);line-height:1.35;}
+  #main{display:flex;flex:1;min-height:0;gap:10px;padding:2px 10px 6px;}
+  #cvwrap{flex:1 1 55%;min-width:0;}
+  canvas{display:block;width:100%;height:100%;background:var(--panel);
+    border:1px solid #2a2a33;border-radius:6px;cursor:pointer;}
+  #side{flex:0 0 385px;display:flex;flex-direction:column;gap:7px;min-height:0;overflow:hidden auto;}
+  .box{background:var(--panel);border:1px solid #2a2a33;border-radius:6px;padding:7px 10px;}
+  #mrow{display:flex;align-items:center;gap:12px;justify-content:center;}
+  #mrow .mname{font-size:14px;color:var(--dim);}
+  .mat{border-left:2.5px solid #cccccc;border-right:2.5px solid #cccccc;border-radius:7px;padding:3px 7px;}
+  .mgrid{display:grid;grid-template-columns:repeat(2,56px);row-gap:2px;text-align:center;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:16.5px;}
+  .c1{color:var(--accent);} .c2{color:var(--red);}
+  .srow{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);padding:2px 0;}
+  .srow input[type=range]{flex:1;accent-color:var(--accent);cursor:pointer;}
+  .val{color:var(--yellow);font-weight:700;min-width:44px;text-align:right;
+    font-family:ui-monospace,Menlo,Consolas,monospace;}
+  #basis,#ptmath{font-size:12px;line-height:1.75;}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
+  .lab{color:var(--dim);}
+  #controls{flex:0 0 auto;background:var(--panel);padding:7px 12px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:6px 14px;border-top:1px solid #2a2a33;font-size:12.5px;}
+  #controls .plabel{color:var(--dim);}
+  #controls button{background:#222230;border:1px solid #3a3a48;border-radius:6px;color:var(--white);
+    padding:4px 10px;font-size:12px;cursor:pointer;}
+  #controls button:hover{border-color:var(--accent);}
+  #controls label{color:var(--white);display:flex;align-items:center;gap:7px;white-space:nowrap;cursor:pointer;}
+  #controls input[type=checkbox]{accent-color:var(--yellow);}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ttl">A matrix is a machine that moves every point
+    <small>— x′ = Mx: the matrix M eats a point’s coordinates and outputs new ones</small></div>
+  <div class="cap">Drag a, b, c, d — the grid, the unit square, the basis arrows e₁, e₂, and the six dishes
+    from the vector widget all move together. The faint ghost underneath is “before.” Click a data point to trace its arithmetic.</div>
+  <div id="main">
+    <div id="cvwrap"><canvas id="cv"></canvas></div>
+    <div id="side">
+      <div class="box" id="mrow"><span class="mname">M =</span>
+        <div class="mat"><div class="mgrid">
+          <span class="c1" id="ma">1.00</span><span class="c2" id="mb">0.00</span>
+          <span class="c1" id="mc">0.00</span><span class="c2" id="md">1.00</span>
+        </div></div>
+        <div class="mgrid" style="font-size:11px;color:var(--dim)">
+          <span>a&nbsp;&nbsp;&nbsp;b</span><span></span><span>c&nbsp;&nbsp;&nbsp;d</span><span></span>
+        </div>
+      </div>
+      <div class="box">
+        <div class="srow">a <input type="range" id="sa" min="-2" max="2" step="0.01" value="1"><span class="val" id="va">1.00</span></div>
+        <div class="srow">b <input type="range" id="sb" min="-2" max="2" step="0.01" value="0"><span class="val" id="vb">0.00</span></div>
+        <div class="srow">c <input type="range" id="sc" min="-2" max="2" step="0.01" value="0"><span class="val" id="vc">0.00</span></div>
+        <div class="srow">d <input type="range" id="sd" min="-2" max="2" step="0.01" value="1"><span class="val" id="vd">1.00</span></div>
+      </div>
+      <div class="box" id="basis"></div>
+      <div class="box" id="ptmath"></div>
+    </div>
+  </div>
+  <div id="controls">
+    <span class="plabel">presets:</span>
+    <button data-m="1,0,0,1">identity</button>
+    <button data-m="0.71,-0.71,0.71,0.71">rotate 45°</button>
+    <button data-m="2,0,0,1">stretch x ×2</button>
+    <button data-m="1,0,0,0.5">squash y ×½</button>
+    <button data-m="1,1,0,1">shear</button>
+    <button data-m="-1,0,0,1">flip</button>
+    <label><input type="checkbox" id="relu"> then apply ReLU, max(0,·) per coordinate
+      <span class="plabel">— ReLU folds the space: this is the nonlinearity between layers</span></label>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+// the six dishes from vector-space.html: normalized (weight/800, crunch/10) mapped into [-2,2]
+const PTS=[
+  {name:"tonkatsu-A", p:[ 0.500, 1.2], col:"#64B5F6"},
+  {name:"tonkatsu-B", p:[ 0.400, 1.6], col:"#64B5F6"},
+  {name:"hamburger-A",p:[-0.250,-0.8], col:"#EF5350"},
+  {name:"hamburger-B",p:[-0.175,-1.2], col:"#EF5350"},
+  {name:"salad",      p:[-0.750,-1.6], col:"#66BB6A"},
+  {name:"mega-katsu", p:[ 1.100, 1.6], col:"#64B5F6"}
+];
+let target={a:1,b:0,c:0,d:1,r:0};          // r = ReLU amount (0 off → 1 on), animated too
+let cur={a:1,b:0,c:0,d:1,r:0};
+let selPt=0, running=false, last=0;
+const f2=x=>x.toFixed(2);
+
+// ---------------- canvas ----------------
+const cv=$('cv'), ctx=cv.getContext('2d');
+let W=0,H=0,SC=1;
+function resize(){ const r=cv.getBoundingClientRect(), d=devicePixelRatio||1;
+  cv.width=Math.round(r.width*d); cv.height=Math.round(r.height*d);
+  W=r.width; H=r.height; SC=Math.min(W,H)/6.8; ctx.setTransform(d,0,0,d,0,0); draw(); }
+const PX=p=>[W/2+p[0]*SC, H/2-p[1]*SC];
+function T(p){ // matrix, then partial ReLU (cur.r lerps the fold in/out)
+  const x=cur.a*p[0]+cur.b*p[1], y=cur.c*p[0]+cur.d*p[1];
+  return [x+(Math.max(0,x)-x)*cur.r, y+(Math.max(0,y)-y)*cur.r]; }
+function poly(pts,map){ ctx.beginPath();
+  pts.forEach((p,i)=>{ const q=PX(map?map(p):p); i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); });
+  ctx.stroke(); }
+function seg(x0,y0,x1,y1,n){ const out=[];
+  for(let i=0;i<=n;i++) out.push([x0+(x1-x0)*i/n, y0+(y1-y0)*i/n]); return out; }
+function arrowTo(a,b,col,w){ const ang=Math.atan2(b[1]-a[1],b[0]-a[0]), h=11;
+  ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=w;
+  ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0]-6*Math.cos(ang),b[1]-6*Math.sin(ang)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(b[0],b[1]);
+  ctx.lineTo(b[0]-h*Math.cos(ang-0.4),b[1]-h*Math.sin(ang-0.4));
+  ctx.lineTo(b[0]-h*Math.cos(ang+0.4),b[1]-h*Math.sin(ang+0.4)); ctx.closePath(); ctx.fill(); }
+const SQ=[...seg(0,0,1,0,8),...seg(1,0,1,1,8),...seg(1,1,0,1,8),...seg(0,1,0,0,8)];
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  ctx.save(); ctx.beginPath(); ctx.rect(1,1,W-2,H-2); ctx.clip();
+  // ghost (before): straight grid, unit square, basis arrows, faint points
+  ctx.lineWidth=1;
+  for(let i=-3;i<=3;i++){ ctx.strokeStyle=i===0?"#3a3a48":"#25252f";
+    poly([[i,-3],[i,3]]); poly([[-3,i],[3,i]]); }
+  ctx.strokeStyle="#4a4a58"; poly([...SQ,SQ[0]]);
+  ctx.globalAlpha=0.35; arrowTo(PX([0,0]),PX([1,0]),"#64B5F6",2); arrowTo(PX([0,0]),PX([0,1]),"#EF5350",2);
+  for(const q of PTS){ const s=PX(q.p); ctx.fillStyle=q.col;
+    ctx.beginPath(); ctx.arc(s[0],s[1],4,0,7); ctx.fill(); }
+  ctx.globalAlpha=1;
+  // transformed grid (sampled so the ReLU fold shows as a bend)
+  ctx.strokeStyle="rgba(100,181,246,0.30)"; ctx.lineWidth=1;
+  for(let i=-3;i<=3;i++){ poly(seg(i,-3,i,3,24),T); poly(seg(-3,i,3,i,24),T); }
+  // transformed unit square
+  const sq=SQ.map(T);
+  ctx.beginPath(); sq.forEach((p,i)=>{ const q=PX(p); i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]); });
+  ctx.closePath(); ctx.fillStyle="rgba(255,235,59,0.10)"; ctx.fill();
+  ctx.strokeStyle="#FFEB3B"; ctx.lineWidth=2; ctx.stroke();
+  // transformed basis arrows + labels
+  const e1=T([1,0]), e2=T([0,1]);
+  arrowTo(PX([0,0]),PX(e1),"#64B5F6",3); arrowTo(PX([0,0]),PX(e2),"#EF5350",3);
+  ctx.font="bold 12px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+  const l1=PX(e1), l2=PX(e2), n1=Math.hypot(e1[0],e1[1])||1, n2=Math.hypot(e2[0],e2[1])||1;
+  ctx.fillStyle="#64B5F6"; ctx.fillText("e₁", l1[0]+14*e1[0]/n1, l1[1]-14*e1[1]/n1);
+  ctx.fillStyle="#EF5350"; ctx.fillText("e₂", l2[0]+14*e2[0]/n2, l2[1]-14*e2[1]/n2);
+  // transformed data points; the selected one gets a gold ring + name
+  PTS.forEach((q,i)=>{ const s=PX(T(q.p)); ctx.fillStyle=q.col;
+    ctx.beginPath(); ctx.arc(s[0],s[1],5.5,0,7); ctx.fill();
+    if(i===selPt){ ctx.strokeStyle="#FFEB3B"; ctx.lineWidth=2.5;
+      ctx.beginPath(); ctx.arc(s[0],s[1],9.5,0,7); ctx.stroke();
+      ctx.fillStyle="#FFEB3B"; ctx.font="11px sans-serif"; ctx.fillText(q.name,s[0],s[1]-17); } });
+  ctx.restore();
+}
+cv.addEventListener('click',e=>{
+  const r=cv.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+  let best=-1, bd=20*20;
+  PTS.forEach((q,i)=>{ for(const s of [PX(q.p),PX(T(q.p))]){
+    const d=(s[0]-mx)**2+(s[1]-my)**2; if(d<bd){bd=d;best=i;} } });
+  if(best>=0){ selPt=best; draw(); readout(); }
+});
+
+// ---------------- animation (~200 ms exponential lerp toward target) ----------------
+function tick(ts){ const dt=Math.min(50,ts-last); last=ts; let moving=false;
+  for(const k of ["a","b","c","d","r"]){ const diff=target[k]-cur[k];
+    if(Math.abs(diff)>5e-4){ cur[k]+=diff*Math.min(1,dt/70); moving=true; } else cur[k]=target[k]; }
+  draw();
+  if(moving) requestAnimationFrame(tick); else running=false; }
+function kick(){ readout(); if(!running){ running=true; last=performance.now(); requestAnimationFrame(tick); } }
+
+// ---------------- readouts ----------------
+function readout(){
+  const {a,b,c,d}=target;
+  $('ma').textContent=f2(a); $('mb').textContent=f2(b);
+  $('mc').textContent=f2(c); $('md').textContent=f2(d);
+  $('basis').innerHTML=
+    `<span style="color:#64B5F6">e₁ = (1, 0) lands at <b class="mono">(${f2(a)}, ${f2(c)})</b> — the matrix’s FIRST COLUMN.</span><br>`+
+    `<span style="color:#EF5350">e₂ = (0, 1) lands at <b class="mono">(${f2(b)}, ${f2(d)})</b> — the SECOND COLUMN.</span>`;
+  const q=PTS[selPt], [x0,y0]=q.p;
+  const x=a*x0+b*y0, y=c*x0+d*y0;
+  let html=`<span class="lab">selected point:</span> <b style="color:${q.col}">${q.name}</b>`+
+    ` <span class="mono">(${f2(x0)}, ${f2(y0)})</span><br>`+
+    `<span class="mono">x′ = ${f2(a)}×${f2(x0)} + ${f2(b)}×${f2(y0)} = ${f2(x)}</span><br>`+
+    `<span class="mono">y′ = ${f2(c)}×${f2(x0)} + ${f2(d)}×${f2(y0)} = ${f2(y)}</span>`;
+  if(target.r>0) html+=`<br><span class="mono" style="color:#FFEB3B">ReLU: (${f2(x)}, ${f2(y)}) → (${f2(Math.max(0,x))}, ${f2(Math.max(0,y))})</span>`+
+    (x<0||y<0?` <span class="lab">← negatives clamped to 0</span>`:` <span class="lab">← already positive, unchanged</span>`);
+  $('ptmath').innerHTML=html;
+}
+
+// ---------------- controls ----------------
+for(const k of ["a","b","c","d"]) $('s'+k).oninput=e=>{
+  target[k]=+e.target.value; $('v'+k).textContent=f2(+e.target.value); kick(); };
+$('relu').onchange=e=>{ target.r=e.target.checked?1:0; kick(); };
+document.querySelectorAll('#controls button').forEach(btn=>{
+  btn.onclick=()=>{ const m=btn.dataset.m.split(',').map(Number);
+    ["a","b","c","d"].forEach((k,i)=>{ target[k]=m[i]; $('s'+k).value=m[i]; $('v'+k).textContent=f2(m[i]); });
+    kick(); }; });
+new ResizeObserver(resize).observe(cv);
+readout();
+</script>
+</body>
+</html>

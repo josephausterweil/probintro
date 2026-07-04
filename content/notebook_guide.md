@@ -1,5 +1,5 @@
 +++
-date = "2026-06-24"
+date = "2026-07-04"
 title = "Interactive Notebooks - All Tutorials"
 weight = 910
 +++
@@ -529,6 +529,19 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 **Related Tutorial Chapters:**
 - [Tutorial 3 (Intro2), Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
+### From Bentos to Vectors: the Linear Algebra You Need
+**Notebook**: [📓 Open in Colab: `vectors_and_spaces.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/vectors_and_spaces.ipynb)
+
+**What it covers:**
+- Data → vectors: measurements as components, dimension, points in a plane
+- Dot product and cosine similarity, fully worked (kind vs. size)
+- 4-D vectors and embedding arithmetic (king − man + woman ≈ queen)
+- Matrix–vector multiplication as "a dot product per row"; columns = where the basis arrows land
+- Composition (two machines collapse into one) and a first ReLU layer
+
+**Related Tutorial Chapters:**
+- [Part VIII, From Bentos to Vectors](../deep/vectors-and-spaces/)
+
 **Topics:**
 - Q-learning, TD error, ε-greedy exploration
 - Reward shaping, positive cycles, reward hacking
@@ -584,6 +597,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 4. `23_inverse_rl_goal_inference.ipynb` - Inverse RL: goal inference, softmax likelihood, ill-posedness, ToM = IRL
 5. `24_pomdps_belief_inference.ipynb` - POMDPs, belief updates, α-vectors, Bayesian ToM, teaching & legibility
 6. `25_modern_rl_world_models.ipynb` - RLHF/DPO as inverse RL, world models, the LLM theory-of-mind debate
+7. `vectors_and_spaces.ipynb` - Linear algebra from zero: vectors, dot products, matrices as transformations (the Part VIII on-ramp)
 
 ---
 
@@ -641,6 +655,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 | `23_inverse_rl_goal_inference.ipynb` | Tutorial 3 | Inverse RL, goal inference, softmax, ToM = IRL | ⭐⭐⭐⭐ Expert |
 | `24_pomdps_belief_inference.ipynb` | Tutorial 3 | POMDPs, belief, α-vectors, BToM, legibility | ⭐⭐⭐⭐ Expert |
 | `25_modern_rl_world_models.ipynb` | Tutorial 3 | RLHF/DPO as IRL, world models, LLM ToM | ⭐⭐⭐⭐ Expert |
+| `vectors_and_spaces.ipynb` | Part VIII | Vectors, dot product, cosine, matrices, ReLU | ⭐⭐ Beginner |
 
 ---
 

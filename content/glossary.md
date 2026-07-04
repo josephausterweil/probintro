@@ -2487,6 +2487,105 @@ JAX randomness is **stateless**: every random draw is a deterministic function o
 **See also:** [Vectorization with vmap](#vectorization-with-vmap-)
 {{% /expand %}}
 
+### Vector 📐
+{{% expand "Vector" %}}
+A list of measurements written as one object — the kiosk's $[500, 8]$ for a bento's weight and crunch. Each entry is a **component**; the number of components is the **dimension**. A 2-D vector *is* a point on a plane (equivalently: an arrow from the origin to that point), which is what lets "similar data" become "nearby points."
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Dot Product](#dot-product-), [Embedding](#embedding-)
+{{% /expand %}}
+
+### Dot Product 📐
+{{% expand "Dot Product" %}}
+Multiply matching components and add: $\mathbf{u}\cdot\mathbf{v} = u_1 v_1 + u_2 v_2 + \dots$ — for $[3,4]\cdot[4,3]$, that's $12+12=24$. It is the one operation under almost everything in a neural network: a neuron's weighted sum, a matrix row acting on an input, an attention match score. Geometrically it grows when two vectors point the same way.
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Cosine Similarity](#cosine-similarity-), [Vector](#vector-)
+{{% /expand %}}
+
+### Cosine Similarity 📐
+{{% expand "Cosine Similarity" %}}
+The dot product divided by both vectors' lengths: $\cos\theta = \mathbf{u}\cdot\mathbf{v} / (\lVert\mathbf{u}\rVert\,\lVert\mathbf{v}\rVert)$. It measures *direction agreement* — 1 for "same way," 0 for unrelated — so a mini and a jumbo tonkatsu score as the same **kind** even though they're far apart in size. Distance measures size; cosine measures kind.
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Dot Product](#dot-product-), [Embedding](#embedding-)
+{{% /expand %}}
+
+### Matrix 📐
+{{% expand "Matrix" %}}
+A table of numbers that transforms every vector at once; multiplying is one dot product per row. The whole transformation is determined by where the basis arrows land — the matrix's **columns**. Two matrices applied in sequence compose into one ($W_2 W_1$), which is why stacked *linear* layers collapse and neural networks need a nonlinearity between them.
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Vector](#vector-), [Embedding](#embedding-)
+{{% /expand %}}
+
+### Embedding 📐
+{{% expand "Embedding" %}}
+A learned position in a feature space: instead of hand-measuring components (weight, crunch), a model *learns* where to place each item so that similar things end up nearby and directions carry meaning (king − man + woman ≈ queen). Word embeddings are the representational substrate of every modern language model.
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Vector](#vector-), [Cosine Similarity](#cosine-similarity-)
+{{% /expand %}}
+
+### Component 📐
+{{% expand "Component" %}}
+One entry of a vector — one measurement. In the kiosk's $[500, 8]$, the components are the weight ($500$ g) and the crunch score ($8$).
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Vector](#vector-), [Dimension](#dimension-)
+{{% /expand %}}
+
+### Dimension 📐
+{{% expand "Dimension" %}}
+The number of components a vector has — equivalently, the number of axes in its feature space. Two measurements per bento → a 2-D space you can draw; four measurements → a 4-D space you can't draw but compute in identically.
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Vector](#vector-), [Feature Space](#feature-space-)
+{{% /expand %}}
+
+### Norm (Vector Length) 📐
+{{% expand "Norm (Vector Length)" %}}
+The length of a vector's arrow, written $\lVert\mathbf{u}\rVert$ — Pythagoras applied to its components: $\lVert[3,4]\rVert = \sqrt{3^2+4^2} = 5$. Dividing a dot product by both norms strips out size and leaves the cosine of the angle.
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Dot Product](#dot-product-), [Cosine Similarity](#cosine-similarity-)
+{{% /expand %}}
+
+### Feature Space 📐
+{{% expand "Feature Space" %}}
+The space whose axes are your measurements — every data item becomes a point in it. "Similar items are nearby points" and "kinds are directions" are statements about this space; an embedding is a *learned* feature space.
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Vector](#vector-), [Embedding](#embedding-)
+{{% /expand %}}
+
+### Basis Vectors 📐
+{{% expand "Basis Vectors" %}}
+The one-step-along-each-axis vectors $\mathbf{e}_1 = [1,0]$, $\mathbf{e}_2 = [0,1]$ (and so on in higher dimensions). Every vector is a recipe of basis vectors ($[3,4] = 3\mathbf{e}_1 + 4\mathbf{e}_2$), and a matrix is fully described by where it sends them — its columns.
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Matrix](#matrix-), [Vector](#vector-)
+{{% /expand %}}
+
+### ReLU 📐
+{{% expand "ReLU" %}}
+The rectified linear unit, $g(x) = \max(0, x)$ applied per coordinate: negatives are clamped to zero, positives pass through. Geometrically it *folds* the plane onto the positive quadrant — the bend between layers that stops stacked matrices from collapsing into one and lets depth buy real expressive power.
+
+**Appears in:** [From Bentos to Vectors](../deep/vectors-and-spaces/)
+
+**See also:** [Matrix](#matrix-)
+{{% /expand %}}
+
 ---
 
 ## Navigation

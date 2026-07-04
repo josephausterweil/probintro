@@ -1,5 +1,5 @@
 +++
-date = "2026-07-02"
+date = "2026-07-04"
 title = "From Bayes to Deep Networks"
 linkTitle = "Deep Networks"
 weight = 80
@@ -18,15 +18,21 @@ already knows.
 
 ```mermaid
 graph LR
-    A[From Rules<br>to Weights 🤖] --> B[Neural Net<br>Fundamentals 🤖]
+    V[From Bentos<br>to Vectors] --> A[From Rules<br>to Weights 🤖]
+    A --> B[Neural Net<br>Fundamentals 🤖]
     B --> C[Transformers<br>& Attention 🤖]
     C --> D[LLMs & In-Context<br>Learning]
     D --> E[World Models<br>& Imagination]
 ```
 
+**Start with [From Bentos to Vectors](vectors-and-spaces/)** — the
+linear-algebra-from-zero on-ramp (vectors, dot products, matrices as
+transformations of space), written for readers with no math background, with
+two interactive widgets. Everything after it assumes it.
+
 {{% notice style="info" title="Part in preparation" %}}
-These chapters accompany Weeks 11–12 of the Human and Machine Learning course
-and are being written now. The stubs below sketch each chapter's premise.
+The remaining chapters accompany Weeks 11–12 of the Human and Machine Learning
+course and are being written now. The stubs below sketch each chapter's premise.
 {{% /notice %}}
 
 ## Chapters

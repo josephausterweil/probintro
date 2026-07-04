@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data become vectors; similarity becomes geometry</title>
+<style>
+  :root{
+    --bg:#111111; --panel:#181820; --dim:#999999; --white:#ffffff;
+    --accent:#64B5F6; --red:#EF5350; --green:#66BB6A; --yellow:#FFEB3B;
+    --orange:#FFA726; --teal:#4DD0E1; --purple:#BA68C8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"DejaVu Sans",sans-serif;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
+  .ttl{padding:5px 10px 2px;font-size:12.5px;font-weight:700;letter-spacing:.01em;}
+  .ttl small{font-weight:400;color:var(--dim);}
+  .cap{padding:0 10px 4px;font-size:11px;color:var(--dim);line-height:1.35;}
+  #main{display:flex;flex:1;min-height:0;gap:10px;padding:2px 10px 8px;}
+  #cvwrap{flex:1 1 56%;min-width:0;}
+  canvas{display:block;width:100%;height:100%;background:var(--panel);
+    border:1px solid #2a2a33;border-radius:6px;cursor:pointer;}
+  #side{flex:0 0 372px;display:flex;flex-direction:column;gap:8px;min-height:0;overflow:hidden auto;}
+  #vcards{display:flex;gap:8px;}
+  .vcard{flex:1;background:var(--panel);border:1px solid #2a2a33;border-radius:6px;
+    padding:7px 10px;min-height:104px;font-size:11.5px;}
+  .vname{font-weight:700;font-size:12.5px;padding-bottom:5px;}
+  .vecrow{display:flex;align-items:center;gap:9px;}
+  .vec{border-left:2px solid #cccccc;border-right:2px solid #cccccc;border-radius:5px;
+    padding:3px 9px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;
+    line-height:1.55;text-align:right;}
+  .meas{color:var(--dim);font-size:11px;line-height:1.65;}
+  .hint{color:var(--dim);font-size:11.5px;padding-top:24px;text-align:center;}
+  #math{background:var(--panel);border:1px solid #2a2a33;border-radius:6px;
+    padding:8px 11px;font-size:12.5px;line-height:1.8;min-height:118px;}
+  #math .lab{color:var(--dim);}
+  .mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
+  #controls{flex:0 0 auto;background:var(--panel);padding:7px 12px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:6px 18px;border-top:1px solid #2a2a33;font-size:13px;}
+  #controls label{color:var(--dim);display:flex;align-items:center;gap:7px;white-space:nowrap;cursor:pointer;}
+  #controls input[type=checkbox]{accent-color:var(--accent);}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="ttl">Data become vectors; vectors become points; similarity becomes geometry
+    <small>— dot product u·v, &nbsp;cos θ = u·v / (|u| |v|)</small></div>
+  <div class="cap">Click two items. Similar things point the same way — the angle between their arrows
+    (and the dot product that measures it) is small. Each dish is just two measurements: weight and fried-crunch.</div>
+  <div id="main">
+    <div id="cvwrap"><canvas id="cv"></canvas></div>
+    <div id="side">
+      <div id="vcards"></div>
+      <div id="math"></div>
+    </div>
+  </div>
+  <div id="controls">
+    <label><input type="checkbox" id="norm"> normalize vectors (rescale each to unit length, |u| = 1)
+      — then the dot product IS the cosine similarity</label>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const WMAX=800;                                 // weight axis: 0–800 g maps onto plot 0–10
+const ITEMS=[                                   // dx,dy,anch: label placement on the canvas
+  {name:"tonkatsu-A", w:500, c:8, col:"#64B5F6", dx:10, dy:16, anch:"left"},
+  {name:"tonkatsu-B", w:480, c:9, col:"#64B5F6", dx:-10, dy:-9, anch:"right"},
+  {name:"hamburger-A",w:350, c:3, col:"#EF5350", dx:10, dy:-8, anch:"left"},
+  {name:"hamburger-B",w:365, c:2, col:"#EF5350", dx:10, dy:10, anch:"left"},
+  {name:"salad",      w:250, c:1, col:"#66BB6A", dx:-10, dy:-8, anch:"right"},
+  {name:"mega-katsu", w:620, c:9, col:"#64B5F6", dx:10, dy:-6, anch:"left"}
+];
+ITEMS.forEach(it=>{ it.nx=it.w/WMAX; it.ny=it.c/10; it.len=Math.hypot(it.nx,it.ny); });
+let sel=[0,1], normOn=false;                    // preselect the two tonkatsu so the demo is live on load
+const vals=it=>normOn?[it.nx/it.len,it.ny/it.len]:[it.nx,it.ny];  // numbers used everywhere
+const f2=x=>x.toFixed(2);
+
+// ---------------- canvas ----------------
+const cv=$('cv'), ctx=cv.getContext('2d');
+let W=0,H=0; const ML=46,MR=14,MT=14,MB=40;
+const px=x=>ML+(W-ML-MR)*x/10, py=y=>H-MB-(H-MT-MB)*y/10;
+function resize(){ const r=cv.getBoundingClientRect(), d=devicePixelRatio||1;
+  cv.width=Math.round(r.width*d); cv.height=Math.round(r.height*d);
+  W=r.width; H=r.height; ctx.setTransform(d,0,0,d,0,0); draw(); }
+function arrowTo(x0,y0,x1,y1,col,w){ const a=Math.atan2(y1-y0,x1-x0), h=10;
+  ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=w;
+  ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1-6*Math.cos(a),y1-6*Math.sin(a)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x1,y1);
+  ctx.lineTo(x1-h*Math.cos(a-0.42),y1-h*Math.sin(a-0.42));
+  ctx.lineTo(x1-h*Math.cos(a+0.42),y1-h*Math.sin(a+0.42)); ctx.closePath(); ctx.fill(); }
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  // grid + axes
+  ctx.strokeStyle="#22222c"; ctx.lineWidth=1;
+  for(let i=1;i<=10;i++){ ctx.beginPath(); ctx.moveTo(px(i),py(0)); ctx.lineTo(px(i),py(10)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(px(0),py(i)); ctx.lineTo(px(10),py(i)); ctx.stroke(); }
+  ctx.strokeStyle="#3a3a48"; ctx.beginPath(); ctx.moveTo(px(0),py(10)); ctx.lineTo(px(0),py(0));
+  ctx.lineTo(px(10),py(0)); ctx.stroke();
+  // ticks: x in ORIGINAL grams, y in crunch units
+  ctx.fillStyle="#999999"; ctx.font="10.5px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="top";
+  for(let g=0;g<=WMAX;g+=200) ctx.fillText(g,px(g/WMAX*10),py(0)+5);
+  ctx.textAlign="right"; ctx.textBaseline="middle";
+  for(let c=0;c<=10;c+=2) ctx.fillText(c,px(0)-6,py(c));
+  ctx.textAlign="center"; ctx.textBaseline="alphabetic"; ctx.font="11.5px sans-serif";
+  ctx.fillText("weight (g)",(px(0)+px(10))/2,H-8);
+  ctx.save(); ctx.translate(13,(py(0)+py(10))/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText("fried-crunch (0–10)",0,0); ctx.restore();
+  // unit circle when normalized (|u|=1 in normalized units = radius 10 on the plot)
+  if(normOn){ ctx.strokeStyle="#55555f"; ctx.setLineDash([4,4]); ctx.beginPath();
+    ctx.arc(px(0),py(0),px(10)-px(0),-Math.PI/2,0); ctx.stroke(); ctx.setLineDash([]); }
+  // arrows for selected items (unit-length when normalized)
+  for(const i of sel){ const it=ITEMS[i], v=vals(it);
+    arrowTo(px(0),py(0),px(v[0]*10),py(v[1]*10),it.col,2.4); }
+  // angle arc between the two selected vectors
+  if(sel.length===2){ const t=sel.map(i=>Math.atan2(ITEMS[i].ny,ITEMS[i].nx));
+    const lo=Math.min(...t), hi=Math.max(...t), la=Math.max(0.06,lo-0.16);
+    ctx.strokeStyle="#FFEB3B"; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.arc(px(0),py(0),54,-hi,-lo); ctx.stroke();
+    // label sits just CLOCKWISE of the lower arrow, outside the wedge (arrows can be near-parallel)
+    ctx.fillStyle="#FFEB3B"; ctx.font="11.5px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle";
+    ctx.fillText("θ = "+((hi-lo)*180/Math.PI).toFixed(1)+"°",
+                 px(0)+80*Math.cos(la),py(0)-80*Math.sin(la)); }
+  // points + labels + selection rings
+  for(const it of ITEMS){ const x=px(it.nx*10), y=py(it.ny*10);
+    ctx.fillStyle=it.col; ctx.beginPath(); ctx.arc(x,y,6,0,7); ctx.fill();
+    ctx.font="11px sans-serif"; ctx.textAlign=it.anch; ctx.textBaseline="middle";
+    ctx.strokeStyle="#181820"; ctx.lineWidth=3;               // dark halo so arrows can't strike the text
+    ctx.strokeText(it.name,x+it.dx,y+it.dy);
+    ctx.fillText(it.name,x+it.dx,y+it.dy); }
+  sel.forEach((i,k)=>{ const it=ITEMS[i];
+    ctx.strokeStyle="#FFEB3B"; ctx.lineWidth=2.5; ctx.beginPath();
+    ctx.arc(px(it.nx*10),py(it.ny*10),10,0,7); ctx.stroke();
+    ctx.fillStyle="#FFEB3B"; ctx.font="bold 11px sans-serif"; ctx.textAlign="center";
+    ctx.fillText(k===0?"u":"v",px(it.nx*10),py(it.ny*10)-17); });
+}
+cv.addEventListener('click',e=>{
+  const r=cv.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+  let best=-1, bd=20*20;
+  ITEMS.forEach((it,i)=>{ const d=(px(it.nx*10)-mx)**2+(py(it.ny*10)-my)**2;
+    if(d<bd){bd=d;best=i;} });
+  if(best<0) return;
+  const k=sel.indexOf(best);
+  if(k>=0) sel.splice(k,1); else { sel.push(best); if(sel.length>2) sel.shift(); }
+  render();
+});
+
+// ---------------- side panel ----------------
+function card(it,tag){ const v=vals(it);
+  return `<div class="vcard"><div class="vname" style="color:${it.col}">${tag} = ${it.name}</div>
+    <div class="vecrow"><div class="vec">${f2(v[0])}<br>${f2(v[1])}</div>
+    <div class="meas">weight ${it.w} g<br>crunch ${it.c} / 10</div></div>
+    <div class="meas" style="padding-top:5px">${normOn?"rescaled to length 1":"scaled: weight/"+WMAX+", crunch/10"}</div></div>`; }
+function render(){
+  const cards=sel.map((i,k)=>card(ITEMS[i],k===0?"u":"v"));
+  while(cards.length<2) cards.push('<div class="vcard"><div class="hint">click '+(sel.length?'a second item':'two items')+'<br>on the plot</div></div>');
+  $('vcards').innerHTML=cards.join("");
+  if(sel.length<2){ $('math').innerHTML='<span class="lab">Select two items to compare their vectors.</span>'; draw(); return; }
+  const [u,v]=sel.map(i=>vals(ITEMS[i]));
+  const p1=u[0]*v[0], p2=u[1]*v[1], dot=p1+p2;
+  const a=ITEMS[sel[0]], b=ITEMS[sel[1]];
+  const cos=(a.nx*b.nx+a.ny*b.ny)/(a.len*b.len);
+  const th=Math.acos(Math.min(1,Math.max(-1,cos)))*180/Math.PI;
+  const verdict=cos>=0.95?['very similar','#66BB6A']:cos>=0.8?['somewhat similar','#FFEB3B']:['dissimilar','#EF5350'];
+  $('math').innerHTML=
+    `<span class="lab">dot product, step by step:</span><br>`+
+    `<span class="mono">u·v = ${f2(u[0])}×${f2(v[0])} + ${f2(u[1])}×${f2(v[1])}</span><br>`+
+    `<span class="mono">&nbsp;&nbsp;&nbsp;&nbsp;= ${f2(p1)} + ${f2(p2)} = <b style="color:#ffffff">${f2(dot)}</b></span>`+
+    (normOn?` <span class="lab">← this IS cos θ</span>`:``)+`<br>`+
+    `<span class="lab">angle between u and v:</span> <span class="mono">θ = ${th.toFixed(1)}°</span><br>`+
+    `<span class="lab">cosine similarity:</span> <span class="mono">cos θ = ${cos.toFixed(3)}</span>`+
+    ` → <b style="color:${verdict[1]}">${verdict[0]}</b>`;
+  draw();
+}
+$('norm').onchange=e=>{ normOn=e.target.checked; render(); };
+new ResizeObserver(resize).observe(cv);
+render();
+</script>
+</body>
+</html>
