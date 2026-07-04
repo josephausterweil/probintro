@@ -55,13 +55,25 @@ poll→chapter mapping is in the approved plan (`~/.claude/plans/
 tidy-purring-zephyr.md`) and the quiz shortcode already renders provenance.
 `{{< lecture >}}` boxes per chapter alongside.
 
-## Phase D — Part VIII: deep nets / LLMs  [status: pending · P1 — Week 11 lecture Jul 10]
+## Phase D — Part VIII: deep nets / LLMs  [status: pending · P1 — FLAGSHIP]
 
 Author the five stubbed chapters (`from-rules-to-weights`,
 `neural-net-fundamentals`, `transformers-attention`,
-`llms-in-context-learning` ← the ICL-as-hierarchical-Bayes payoff chapter,
-`world-models-imagination`), after/with the Week 11 deck. **This is the heart
-of Joe's modernization goal — re-scope against the research findings.**
+`llms-in-context-learning`, `world-models-imagination`), after/with the
+Week 11 deck (Jul 10).
+
+**Re-scoped 2026-07-04 per the positioning study: this is the book's
+flagship differentiator** — the "classical probabilistic modeling → LLMs"
+bridge has NO from-foundations pedagogical treatment anywhere (only research
+papers and one Princeton graduate-seminar lecture). Requirements:
+- `llms-in-context-learning` teaches ICL-as-Bayes as a **contested lens, not
+  settled fact**: present Xie et al. 2022 / Ye et al. (ICLR 2024 WS,
+  "pretraining is precisely empirical Bayes") AND Falck et al.
+  (arXiv:2406.00793) martingale counter-evidence, with a runnable GenJAX toy
+  (small-alphabet HMM pretraining → ICL posterior) so readers can test the
+  claim themselves.
+- Explicit callbacks to hierarchical Bayes (Part IV) — the payoff structure
+  the rest of the book earns.
 
 ## Phase E — Part IX: ethics / fairness / safety  [status: pending · P1 — Week 12 lecture Jul 17]
 
@@ -74,13 +86,40 @@ Author the four stubbed chapters (`adversarial-examples`,
 Canon-ledger audit across all rewritten Parts; notebook-guide/glossary/course
 lecture-card sync; retire remaining legacy phrasing.
 
-## Phase G — Japanese regeneration  [status: pending · P2 — LAST]
+## Phase G — Japanese  [status: pending · P2, spine polish pulled forward]
 
-Regenerate all `.ja.md` from the rewritten English (keep Shohei Yoshida's
-標本空間 terminology — it is now the book-wide standard); add the 5 missing
-siblings (bias-variance, gaussian-processes, inverse-rl, pomdps-belief,
-modern-rl-world-models — the last of the "5 broken links"); fix the JA
-glossary anchor mismatch (EN-style anchors on JA headings).
+Re-scoped 2026-07-04: the JA niche above intro-stats is confirmed empty
+(統計WEB stops at three Bayes lessons; main cogsci-modeling text is a 2017
+translation), but machine translation won't win it.
+- **G1 (pull forward, alongside Phases A–C):** human-polish the
+  Beginner-track spine — ideally inviting Shohei Yoshida to continue his
+  PR #8 work (his terminology 標本空間 is now the book-wide standard).
+- **G2 (last, as before):** regenerate remaining `.ja.md` from the rewritten
+  English; add the 5 missing siblings (bias-variance, gaussian-processes,
+  inverse-rl, pomdps-belief, modern-rl-world-models — the last "5 broken
+  links"); fix the JA glossary anchor mismatch (EN-style anchors on JA
+  headings).
+- Before G2: check the アヒル本/Stan-ecosystem flank the survey didn't cover.
+
+## Phase H — Colleague-outreach package, then publicize  [status: pending · P1 after D/E]
+
+Sequencing per Joe (2026-07-04): the book stays deliberately unpublicized
+until polished + content-complete; then colleague feedback; broad publicity
+only after that round. This phase is the outreach *package*, staged:
+- **H1 — pre-outreach essentials** (land with/right after Phases D–E):
+  Zenodo DOI + CITATION.cff + versioned release; a "coming from probmods?"
+  mapping page (probmods is frozen since 2023-06 and Griffiths has no
+  companion-site plans — the cogsci niche is durably open); a "teach with
+  this book" page (course-adoption story, track structure, per-chapter
+  Colab/quiz inventory); end-of-chapter exercise sets with solutions for at
+  least the Beginner-track spine; PDF export if cheap.
+- **H2 — colleague round** (Joe): targeted outreach for feedback + interest
+  in course use; fold feedback into a revision pass.
+- **H3 — public launch** (after H2): announcement pass (cogsci lists,
+  relevant subreddits/HN), basic SEO (sitemap/meta/descriptions), GitHub
+  Discussions as the community channel. Adoption benchmark from the study:
+  BMH sits at ~28k stars in the adjacent niche; discoverability, citability,
+  and exercises are the three measured gaps.
 
 ## Housekeeping  [status: pending · P3]
 
@@ -99,5 +138,14 @@ glossary anchor mismatch (EN-style anchors on JA headings).
   now / regenerated last; restructure-first-then-author (Joe).
 - 2026-07-04: restructure + PR #8 propagation deployed; PR #8 closed with
   attribution; course homepage follows.
-- *(append here — including any re-scoping driven by the 2026-07 deep-research
-  report on positioning/modernization.)*
+- 2026-07-04 (positioning study + Joe): modernization bridge confirmed as an
+  unoccupied teaching slot → Phase D is the flagship, with the contested-lens
+  requirement (Falck et al. counter-evidence taught alongside). probmods
+  frozen since 2023-06 AND (per Joe) Griffiths has no companion-web plans →
+  the cogsci-successor positioning is durable; mapping page added to H1.
+  Narrative alone is not the moat (Manga-Guide precedent) → Phases A–C stay
+  P2 quality work. JA niche empty above intro-stats → G1 spine polish pulled
+  forward (invite Shohei Yoshida). Joe's sequencing locked in: polish +
+  complete content → colleague feedback round → THEN publicize (Phase H1→H3);
+  no early publicity.
+- *(append here as decisions land.)*
