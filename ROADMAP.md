@@ -114,7 +114,15 @@ papers and one Princeton graduate-seminar lecture). Requirements:
 - Explicit callbacks to hierarchical Bayes (Part IV) — the payoff structure
   the rest of the book earns.
 
-## Phase E — Part IX: ethics / fairness / safety  [status: pending · P1 — Week 12 lecture Jul 17]
+## Phase E — Part IX: ethics / fairness / safety  [status: DONE 2026-07-05 · content-complete]
+
+All four chapters authored, validated, deployed, each with a capstone:
+adversarial-examples, fairness-formalisms (the flagship — fairness as
+conditional probability + the impossibility result as runnable code),
+bias-in-data (WEAT + debiasing leaks), alignment-safety (the book's last
+chapter — RLHF/reward-hacking, the "One Toolkit" close looping back to
+foundations/hungry). Week 12 deck + full checklist sync done. **The
+textbook is now whole, Parts I–IX.** Original directive kept below:
 
 Author the four stubbed chapters (`adversarial-examples`,
 `fairness-formalisms` as conditional-probability statements,
