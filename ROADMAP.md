@@ -82,7 +82,19 @@ structure** (CRP/DPMM sampled directly vs truncated stick-breaking),
 Honest flip side: fixed-structure continuous hierarchical models are
 BETTER served by Stan/PyMC (NUTS quality, ArviZ, diagnostics); say so.
 
-## Phase D — Part VIII: deep nets / LLMs  [status: ACTIVE · P1 — FLAGSHIP]
+## Phase D — Part VIII: deep nets / LLMs  [status: DONE 2026-07-04 · content-complete]
+
+All six chapters authored, validated, and deployed: `vectors-and-spaces`
+(the zero-LA on-ramp), `from-rules-to-weights`, `neural-net-fundamentals`,
+`transformers-attention`, `llms-in-context-learning` (the flagship —
+ICL-as-Bayes taught as a live debate with a run-both-sides capstone:
+Xie/Ye exact-Bayes toy passes Falck's martingale test, real LLMs fail it),
+`world-models-imagination`. Each ships a capstone notebook; `why-genjax`
+also landed. Glossary + notebook-guide + Part-index all synced. Remaining
+polish (student-persona round-2 on the flagship; JA siblings) folds into
+Phases F/G. Original directive below, kept for provenance:
+
+
 
 Author the five stubbed chapters (`from-rules-to-weights`,
 `neural-net-fundamentals`, `transformers-attention`,
