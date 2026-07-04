@@ -1,7 +1,7 @@
 +++
 date = "2026-06-14"
 title = "インタラクティブノートブック — 全チュートリアル"
-weight = 99
+weight = 910
 +++
 
 ## インタラクティブ Jupyter ノートブック
@@ -28,7 +28,7 @@ weight = 99
 - ランダムサンプリングと確率分布の理解
 
 **関連チュートリアル章：**
-- [チュートリアル 1、第 3 章：数え上げによる確率](../intro/03_prob_count/)
+- [チュートリアル 1、第 3 章：数え上げによる確率](../foundations/probability-as-counting/)
 
 **トピック：**
 - 離散確率分布
@@ -48,7 +48,7 @@ weight = 99
 - 逐次的な信念更新
 
 **関連チュートリアル章：**
-- [チュートリアル 1、第 4 章：条件付き確率](../intro/04_conditional/)
+- [チュートリアル 1、第 4 章：条件付き確率](../foundations/conditional-probability/)
 
 **トピック：**
 - 条件付き確率
@@ -68,8 +68,8 @@ weight = 99
 - 事前信念が事後的な結論に与える影響
 
 **関連チュートリアル章：**
-- [チュートリアル 1、第 5 章：ベイズの定理](../intro/05_bayes/)
-- [チュートリアル 2（GenJAX）、第 4 章：条件付け](../genjax/04_conditioning/)
+- [チュートリアル 1、第 5 章：ベイズの定理](../foundations/bayes-rule/)
+- [チュートリアル 2（GenJAX）、第 4 章：条件付け](../genjax/conditioning/)
 
 **トピック：**
 - ベイズ推論
@@ -91,8 +91,8 @@ weight = 99
 - パラメータの変化が結果に与える影響の理解
 
 **関連チュートリアル章：**
-- [チュートリアル 2（GenJAX）、第 0 章：はじめに](../genjax/00_getting_started/)
-- [チュートリアル 2（GenJAX）、第 2 章：最初のモデル](../genjax/02_first_model/)
+- [チュートリアル 2（GenJAX）、第 0 章：はじめに](../genjax/getting-started/)
+- [チュートリアル 2（GenJAX）、第 2 章：最初のモデル](../genjax/first-model/)
 
 **トピック：**
 - GenJAX の生成関数
@@ -121,9 +121,9 @@ weight = 99
   - 双峰分布と単峰分布の理解
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、メインページ](../intro2/)
-- [チュートリアル 3（Intro2）、第 4 章：ベイズ学習](../intro2/04_bayesian_learning/)
-- [チュートリアル 3（Intro2）、第 5 章：混合モデル](../intro2/05_mixture_models/)
+- [チュートリアル 3（Intro2）、メインページ](../learning/)
+- [チュートリアル 3（Intro2）、第 4 章：ベイズ学習](../learning/bayesian-learning/)
+- [チュートリアル 3（Intro2）、第 5 章：混合モデル](../learning/mixture-models/)
 
 **トピック：**
 - ガウス分布
@@ -147,7 +147,7 @@ weight = 99
 - **パート (f)**：解析的な公式の GenJAX による検証
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 4 章：ベイズ学習](../intro2/04_bayesian_learning/)
+- [チュートリアル 3（Intro2）、第 4 章：ベイズ学習](../learning/bayesian-learning/)
 
 **トピック：**
 - ガウス共役事前分布
@@ -170,8 +170,8 @@ weight = 99
 - **パート (f)**：混合モデルの GenJAX シミュレーション
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 4 章：ベイズ学習 — 問題 2](../intro2/04_bayesian_learning/#problem-2-gaussian-clusters-preview-of-chapter-5)
-- [チュートリアル 3（Intro2）、第 5 章：混合モデル](../intro2/05_mixture_models/)
+- [チュートリアル 3（Intro2）、第 4 章：ベイズ学習 — 問題 2](../learning/bayesian-learning/#problem-2-gaussian-clusters-preview-of-chapter-5)
+- [チュートリアル 3（Intro2）、第 5 章：混合モデル](../learning/mixture-models/)
 
 **トピック：**
 - 混合モデルによるカテゴリ分類
@@ -193,7 +193,7 @@ weight = 99
 - ベイズノンパラメトリクス
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 6 章：DPMM](../intro2/06_dpmm/)
+- [チュートリアル 3（Intro2）、第 6 章：DPMM](../complexity/dpmm/)
 
 **トピック：**
 - ディリクレ過程
@@ -214,7 +214,7 @@ weight = 99
 - 汎化勾配 — どの新しい数が当てはまるかの予測
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 7 章：ベイズ汎化](../intro2/07_generalization/)
+- [チュートリアル 3（Intro2）、第 7 章：ベイズ汎化](../structure/generalization/)
 
 **トピック：**
 - 集合としての仮説
@@ -234,7 +234,7 @@ weight = 99
 - 観測された重みから隠れクラスターへの推論
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 8 章：ベイズネットワーク](../intro2/08_bayes_nets/)
+- [チュートリアル 3（Intro2）、第 8 章：ベイズネットワーク](../structure/bayes-nets/)
 
 **トピック：**
 - 有向非巡回グラフ（DAG）
@@ -253,7 +253,7 @@ weight = 99
 - **説明消去**が数値的に起こる様子の観察（0.30 → 0.59 → 0.30）
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 9 章：条件付き独立性と d 分離](../intro2/09_conditional_independence/)
+- [チュートリアル 3（Intro2）、第 9 章：条件付き独立性と d 分離](../structure/conditional-independence/)
 
 **トピック：**
 - チェーン、フォーク、コライダーパターン
@@ -272,7 +272,7 @@ weight = 99
 - グラフ手術から生じる「見る/する」ギャップ（≈0.098 vs. 0.052）の観察
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 10 章：因果ベイズネットと do 演算子](../intro2/10_causal_bayes_nets/)
+- [チュートリアル 3（Intro2）、第 10 章：因果ベイズネットと do 演算子](../structure/causal-bayes-nets/)
 
 **トピック：**
 - do 演算子とグラフ手術
@@ -291,7 +291,7 @@ weight = 99
 - I(雨; お茶) = 0 が I(雨; お茶 | 看板) ≈ 0.46 ビットに跳ね上がる — ビット単位での説明消去
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 11 章：情報理論](../intro2/11_information_theory/)
+- [チュートリアル 3（Intro2）、第 11 章：情報理論](../structure/information-theory/)
 
 **トピック：**
 - 情報量とエントロピー
@@ -311,7 +311,7 @@ weight = 99
 - 3 状態の計算例
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 13 章：マルコフ連鎖](../intro2/13_markov_chains/)
+- [チュートリアル 3（Intro2）、第 13 章：マルコフ連鎖](../sampling/markov-chains/)
 
 **トピック：**
 - マルコフ性と遷移行列
@@ -331,7 +331,7 @@ weight = 99
 - 小さな有向ウェブ上での ε テレポートを用いた手製 PageRank
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 14 章：ネットワーク上のランダムウォーク](../intro2/14_random_walks_networks/)
+- [チュートリアル 3（Intro2）、第 14 章：ネットワーク上のランダムウォーク](../sampling/random-walks-networks/)
 
 **トピック：**
 - グラフ、隣接行列、次数
@@ -351,7 +351,7 @@ weight = 99
 - 流暢性リストからブロック構造を復元するシミュレーションベース（ABC）スケッチ
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 15 章：ランダムウォークとしての記憶探索](../intro2/15_memory_search/)
+- [チュートリアル 3（Intro2）、第 15 章：ランダムウォークとしての記憶探索](../sampling/memory-search/)
 
 **トピック：**
 - 意味的流暢性とクラスタリング/スイッチング
@@ -371,7 +371,7 @@ weight = 99
 - `model.importance` を用いた GenJAX 重要度サンプリング
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 16 章：モンテカルロ](../intro2/16_monte_carlo/)
+- [チュートリアル 3（Intro2）、第 16 章：モンテカルロ](../sampling/monte-carlo/)
 
 **トピック：**
 - サンプリングによる期待値と確率の推定；$1/\sqrt{n}$ レート
@@ -390,7 +390,7 @@ weight = 99
 - 伝播ステップとしての GenJAX 運動モデル
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 17 章：粒子フィルタ](../intro2/17_particle_filtering/)
+- [チュートリアル 3（Intro2）、第 17 章：粒子フィルタ](../sampling/particle-filtering/)
 
 **トピック：**
 - 状態空間モデル；逐次重要度サンプリング
@@ -409,7 +409,7 @@ weight = 99
 - `assess` スコアリングプリミティブを用いた GenJAX での MH ステップの組み立て
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 18 章：マルコフ連鎖モンテカルロ](../intro2/18_markov_chain_monte_carlo/)
+- [チュートリアル 3（Intro2）、第 18 章：マルコフ連鎖モンテカルロ](../sampling/mcmc/)
 
 **トピック：**
 - ターゲットを命中するチェーンの設計；詳細釣り合い条件
@@ -428,7 +428,7 @@ weight = 99
 - 未見の新しいユニットに対する予測分布の読み取り
 
 **関連チュートリアル章：**
-- [チュートリアル 3（Intro2）、第 19 章：心のサンプリング](../intro2/19_sampling_the_mind/)
+- [チュートリアル 3（Intro2）、第 19 章：心のサンプリング](../sampling/sampling-the-mind/)
 
 **トピック：**
 - MCMC with People；選択から事前分布を復元する

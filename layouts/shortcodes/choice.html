@@ -1,0 +1,9 @@
+{{- /* One option inside a {{< quiz >}} — see quiz.html.
+   {{< choice correct=true >}}the probability of the event **given data**{{< /choice >}}
+   {{< choice note=true >}}Why: ... shown after the reveal ...{{< /choice >}} */ -}}
+{{- $choices := .Parent.Scratch.Get "quiz-choices" | default slice }}
+{{- $choice := dict
+      "correct" (eq (.Get "correct" | default "false") "true")
+      "note"    (eq (.Get "note"    | default "false") "true")
+      "inner"   (trim .Inner "\n ") }}
+{{- .Parent.Scratch.Set "quiz-choices" ($choices | append $choice) }}

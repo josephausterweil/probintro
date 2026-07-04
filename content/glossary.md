@@ -1,7 +1,7 @@
 +++
 date = "2026-06-30"
 title = "Glossary - All Tutorials"
-weight = 100
+weight = 900
 +++
 
 ## How to Use This Glossary
@@ -125,7 +125,7 @@ A *Markov equivalence class* is the set of all directed acyclic graphs (DAGs) th
 
 **The exception that breaks equivalence:** a *collider* $A \to B \leftarrow C$ asserts an independence ($A \perp C$) that its reversed cousins do not, so a collider is generally *not* equivalent to the corresponding chain or fork. (Same skeleton, different "v-structures" ⇒ different class.)
 
-**Appears in:** [Tutorial 3, Chapter 9: Conditional Independence](../intro2/09_conditional_independence/) (chain / fork / collider, d-separation) and [Chapter 10: Causal Bayes Nets](../intro2/10_causal_bayes_nets/#the-same-statistics-three-different-stories) (the do-operator, intervention).
+**Appears in:** [Tutorial 3, Chapter 9: Conditional Independence](../structure/conditional-independence/) (chain / fork / collider, d-separation) and [Chapter 10: Causal Bayes Nets](../structure/causal-bayes-nets/#the-same-statistics-three-different-stories) (the do-operator, intervention).
 {{% /expand %}}
 
 ### Outcome Space 📘
@@ -336,7 +336,7 @@ trace, log_weight = target.importance(key, choicemap)
 
 **Key concept**: the [effective sample size](#effective-sample-size-) measures how well the weights are distributed. It is close to the number of samples when the proposal matches the target, and near 1 when a single sample dominates. The [importance weight](#importance-weight-) $w = p/q$ is the core correction.
 
-**Used in 📊**: Posterior inference for Bayesian models, DPMM; introduced in full in [Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#importance-sampling-sample-the-wrong-distribution) (self-normalized form, likelihood weighting), and the sequential version drives the [particle filter](#particle-filter-) of [Chapter 17](../intro2/17_particle_filtering/).
+**Used in 📊**: Posterior inference for Bayesian models, DPMM; introduced in full in [Chapter 16: Monte Carlo](../sampling/monte-carlo/#importance-sampling-sample-the-wrong-distribution) (self-normalized form, likelihood weighting), and the sequential version drives the [particle filter](#particle-filter-) of [Chapter 17](../sampling/particle-filtering/).
 
 **See also**: [Importance Weight](#importance-weight-), [Effective Sample Size](#effective-sample-size-), [Proposal Distribution](#proposal-distribution-), [Target](#target-), [Weight Degeneracy](#weight-degeneracy-)
 {{% /expand %}}
@@ -388,7 +388,7 @@ probability = event_count / 10000
 
 **When useful:** When outcome spaces are too large to enumerate by hand
 
-**Developed in 📊**: [Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#the-monte-carlo-estimator) builds the estimator $\hat\mu_n$ from the ground up (die rolls, $\pi$-by-darts), with its $1/\sqrt{n}$ error rate, [rejection sampling](#rejection-sampling-), and [importance sampling](#importance-sampling-).
+**Developed in 📊**: [Chapter 16: Monte Carlo](../sampling/monte-carlo/#the-monte-carlo-estimator) builds the estimator $\hat\mu_n$ from the ground up (die rolls, $\pi$-by-darts), with its $1/\sqrt{n}$ error rate, [rejection sampling](#rejection-sampling-), and [importance sampling](#importance-sampling-).
 
 **See also**: [vmap](#vmap-), [Trace](#trace-), [Importance Sampling](#importance-sampling-), [Rejection Sampling](#rejection-sampling-), [Effective Sample Size](#effective-sample-size-)
 {{% /expand %}}
@@ -562,7 +562,7 @@ where $n_k$ is the occupancy of table $k$, $n$ the customers so far, and $\alpha
 
 **The dish is a cluster's parameter.** Each table serves a **dish** $\theta_k \sim G_0$ drawn once when it opens and shared by everyone seated there — for bentos $\theta_k = \mu_k$, the cluster's Gaussian mean. The CRP fixes the *partition*; the dishes fix *where each cluster sits* on the weight axis. Put the dish values back into the sequence and you get the [Pólya urn](#pólya-urn-) (the DP's predictive marginal); the probability of a whole seating is the [EPPF](#exchangeable-partition-probability-function-eppf-); and by [Kingman's paintbox](#kingman-paintbox-) theorem the CRP partition is exactly a paintbox painted with the DP's [stick-breaking](#stick-breaking-construction-) weights.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also**: [Dirichlet Process (DP)](#dirichlet-process-dp-), [Pólya Urn](#pólya-urn-), [Stick-Breaking Construction](#stick-breaking-construction-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-), [Kingman Paintbox](#kingman-paintbox-), [DPMM](#dirichlet-process-mixture-model-dpmm-)
 {{% /expand %}}
@@ -587,7 +587,7 @@ beta_k = beta(1.0, alpha) @ f"beta_{k}"
 
 **Caveat**: fixing α makes the DPMM's posterior over the *number* of clusters inconsistent (Miller & Harrison, 2014); putting a prior on α restores it.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also**: [Dirichlet Process (DP)](#dirichlet-process-dp-), [Base Measure (G₀)](#base-measure-), [Stick-Breaking Construction](#stick-breaking-construction-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-)
 {{% /expand %}}
@@ -683,7 +683,7 @@ A **distribution over distributions** — the *prior* for mixture models when yo
 
 **Why "Dirichlet Process"**: it generalizes the [Dirichlet distribution](#dirichlet-distribution-) (a finite probability *vector*) to a random *measure* over infinitely many atoms. In practice it is used via the [DPMM](#dirichlet-process-mixture-model-dpmm-) to cluster without specifying $K$ — and far beyond clustering, as a modular "unknown-cardinality" prior ([HDP](#hierarchical-dirichlet-process-hdp-) topics, [IBP](#indian-buffet-process-ibp-) / [Beta process](#beta-process-) features).
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also**: [DPMM](#dirichlet-process-mixture-model-dpmm-), [Stick-Breaking Construction](#stick-breaking-construction-), [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Pólya Urn](#pólya-urn-), [Base Measure (G₀)](#base-measure-), [Concentration Parameter (α)](#concentration-parameter-α-)
 {{% /expand %}}
@@ -1101,7 +1101,7 @@ def stick_breaking(alpha, K):
 
 **Used in**: DPMM implementation
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also**: [Dirichlet Process (DP)](#dirichlet-process-dp-), [DPMM](#dirichlet-process-mixture-model-dpmm-), [Pólya Urn](#pólya-urn-), [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-), [Base Measure (G₀)](#base-measure-), [Beta Distribution](#beta-distribution-)
 {{% /expand %}}
@@ -1206,9 +1206,9 @@ std_dev = jnp.sqrt(variance)
 
 **Interpretation**: "How spread out is the data?"
 
-**In the bias-variance sense 📊**: In [the Bias-Variance Dilemma](../intro2/05a_bias_variance/#the-bias-variance-decomposition), "variance" names the spread of the *fitted model* $\hat{y}(x)$ as the **training set** changes — how much a model's predictions jump around when it is refit on different data. A flexible (high-degree) model has high variance: it reshapes itself to each dataset's noise. Same definition, $\text{Var}(\hat{y}) = \mathbb{E}[(\hat{y} - \mathbb{E}[\hat{y}])^2]$, but now the randomness is over which dataset you happened to draw.
+**In the bias-variance sense 📊**: In [the Bias-Variance Dilemma](../complexity/bias-variance/#the-bias-variance-decomposition), "variance" names the spread of the *fitted model* $\hat{y}(x)$ as the **training set** changes — how much a model's predictions jump around when it is refit on different data. A flexible (high-degree) model has high variance: it reshapes itself to each dataset's noise. Same definition, $\text{Var}(\hat{y}) = \mathbb{E}[(\hat{y} - \mathbb{E}[\hat{y}])^2]$, but now the randomness is over which dataset you happened to draw.
 
-**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#the-bias-variance-decomposition)
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../complexity/bias-variance/#the-bias-variance-decomposition)
 
 **See also**: Expected Value, Standard Deviation, Gaussian, Bias, Bias-Variance Decomposition
 {{% /expand %}}
@@ -1244,7 +1244,7 @@ ESS = 1.0 / sum(w**2 for w in normalized_weights)
 - Different inference method (MCMC)
 - Fix model (e.g., remove extra randomization)
 
-**Tutorial 3, Chapter 6**: The DPMM notebook had weight degeneracy (ESS=1/10) due to double randomization bug, which was fixed. In the streaming setting it is the reason a [particle filter](#particle-filter-) must [resample](#resampling-) every step ([Chapter 17](../intro2/17_particle_filtering/#resampling-and-degeneracy)).
+**Tutorial 3, Chapter 6**: The DPMM notebook had weight degeneracy (ESS=1/10) due to double randomization bug, which was fixed. In the streaming setting it is the reason a [particle filter](#particle-filter-) must [resample](#resampling-) every step ([Chapter 17](../sampling/particle-filtering/#resampling-and-degeneracy)).
 
 **See also**: [Importance Sampling](#importance-sampling-), [Effective Sample Size](#effective-sample-size-), [Resampling](#resampling-), [Particle Filter](#particle-filter-)
 {{% /expand %}}
@@ -1257,7 +1257,7 @@ In the bias-variance decomposition, *bias* is the error that survives because **
 
 **High bias ⇒ underfitting.** Lowered by making the model more flexible (higher degree, less shrinkage).
 
-**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#the-bias-variance-decomposition)
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../complexity/bias-variance/#the-bias-variance-decomposition)
 
 **See also**: Variance, Bias-Variance Decomposition, Underfitting, Ridge Regression and Regularization
 {{% /expand %}}
@@ -1276,7 +1276,7 @@ The expectation is taken over both the observation noise and the random training
 
 **Why it matters**: it proves you cannot drive both bias and variance to zero by tuning complexity — the best you can do is minimize their **sum**, which is why training error alone is a bad guide.
 
-**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#the-bias-variance-decomposition)
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../complexity/bias-variance/#the-bias-variance-decomposition)
 
 **See also**: Bias, Variance, Overfitting, Underfitting
 {{% /expand %}}
@@ -1289,7 +1289,7 @@ The expectation is taken over both the observation noise and the random training
 
 **Cures**: reduce complexity (lower degree, fewer parameters), or **regularize** (shrink the coefficients with a prior — ridge), or get more data.
 
-**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#underfitting-and-overfitting)
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../complexity/bias-variance/#underfitting-and-overfitting)
 
 **See also**: Underfitting, Variance, Ridge Regression and Regularization, Benign Overfitting
 {{% /expand %}}
@@ -1302,7 +1302,7 @@ The expectation is taken over both the observation noise and the random training
 
 **Cure**: add flexibility (higher degree, more features, less shrinkage). Beware: over-correcting lands you in overfitting — the dilemma in one sentence.
 
-**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#underfitting-and-overfitting)
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../complexity/bias-variance/#underfitting-and-overfitting)
 
 **See also**: Overfitting, Bias, Bias-Variance Decomposition
 {{% /expand %}}
@@ -1319,7 +1319,7 @@ $$\lambda = \frac{\sigma^2}{\tau^2}$$
 
 ($\sigma$ = observation-noise std, $\tau$ = prior width). A tighter prior (small $\tau$) ⇒ larger $\lambda$ ⇒ stronger shrinkage ⇒ lower variance but higher bias. A **moderate** $\lambda$ can give the lowest test error of all; pushing it too far **underfits**. When the prior width is held fixed, $\lambda = \sigma^2$ — the bridge to **Gaussian processes**.
 
-**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#ridge-regression-is-a-gaussian-prior)
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../complexity/bias-variance/#ridge-regression-is-a-gaussian-prior)
 
 **See also**: Prior Distribution, Bias, Variance, Overfitting, Conjugate Prior
 {{% /expand %}}
@@ -1330,7 +1330,7 @@ The model capacity at which a model has **exactly enough parameters to fit every
 
 It is the boundary between two regimes: **under-parameterized** ($p < n$, the classical bias-variance U) and **over-parameterized** ($p > n$, where benign overfitting and the second descent live). The spike sits exactly at $p = n$.
 
-**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#double-descent)
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../complexity/bias-variance/#double-descent)
 
 **See also**: Double Descent, Benign Overfitting, Overfitting
 {{% /expand %}}
@@ -1343,7 +1343,7 @@ The modern correction to the classical "more complexity is eventually always wor
 
 **Important caveat**: this is a **high-dimensional** phenomenon. A 1-D polynomial / low-dim feature model does *not* show a benign second descent — its min-norm interpolant diverges past $p = n$.
 
-**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#double-descent)
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../complexity/bias-variance/#double-descent)
 
 **See also**: Interpolation Threshold, Benign Overfitting, Bias-Variance Decomposition, Ridge Regression and Regularization
 {{% /expand %}}
@@ -1354,7 +1354,7 @@ Overfitting that **does not hurt**: a model interpolates noisy training data (ze
 
 **The mechanism**: in **high dimensions**, the minimum-norm interpolant spreads the fit thinly across very many directions, so the noise it must absorb to interpolate is diluted harmlessly — the implicit min-norm bias behaves like a useful prior. In **low** dimensions there are too few directions for this to work, and overfitting is *not* benign. So benign overfitting is something high dimensions buy you, not a universal free lunch.
 
-**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../intro2/05a_bias_variance/#double-descent)
+**Appears in:** [Tutorial 3, The Bias-Variance Dilemma](../complexity/bias-variance/#double-descent)
 
 **See also**: Double Descent, Interpolation Threshold, Overfitting, Ridge Regression and Regularization
 {{% /expand %}}
@@ -1367,7 +1367,7 @@ The *base measure* $G_0$ is one of the two knobs of a [Dirichlet process](#diric
 
 **Note:** even when $G_0$ is a smooth, continuous density, a DP draw $G$ is almost surely **discrete** — and that discreteness, not $G_0$, is what makes a DPMM cluster.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also:** [Dirichlet Process (DP)](#dirichlet-process-dp-), [Concentration Parameter (α)](#concentration-parameter-α-), [Stick-Breaking Construction](#stick-breaking-construction-)
 {{% /expand %}}
@@ -1378,7 +1378,7 @@ The *Pólya urn* (Blackwell & MacQueen, 1973) is the Dirichlet process's **predi
 $$\theta_{n+1} \mid \theta_{1:n} \;\sim\; \frac{\alpha}{n+\alpha}\, G_0 \;+\; \frac{1}{n+\alpha}\sum_{i=1}^{n} \delta_{\theta_i}.$$
 In words: the next parameter is a **fresh draw from $G_0$** with probability $\propto \alpha$ (open a new cluster), or a **copy of a value already seen** with probability $\propto$ its count (the rich-get-richer reuse). It is the same rule as the [CRP](#chinese-restaurant-process-crp-), but tracking the actual parameter *values* (dishes) rather than just the table *labels* — and it is a *consequence* of the DP, not the DP itself. This marginalization is what makes "collapsed" Gibbs samplers possible: you never have to represent the infinite $G$.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also:** [Dirichlet Process (DP)](#dirichlet-process-dp-), [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Stick-Breaking Construction](#stick-breaking-construction-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-)
 {{% /expand %}}
@@ -1389,7 +1389,7 @@ The *EPPF* is the probability the Dirichlet process / [CRP](#chinese-restaurant-
 $$P(\text{partition}) = \frac{\alpha^{K}\,\prod_{k=1}^{K}(n_k - 1)!}{\alpha(\alpha+1)\cdots(\alpha+n-1)}.$$
 Reading it: $\alpha^{K}$ charges a factor $\alpha$ to *open* each of the $K$ tables (larger $\alpha$ ⇒ more clusters); $\prod_k (n_k-1)!$ rewards *big* tables (rich-get-richer, so lopsided partitions dominate); the denominator is the rising factorial that normalizes the seating rule. Its defining feature is what is **absent** — it depends only on the block *sizes*, not on which point is which or the order they arrived. That invariance is **exchangeability**, and it is what lets a Gibbs sampler pluck any point out and reseat it as if it were the last to arrive.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also:** [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Pólya Urn](#pólya-urn-), [Kingman Paintbox](#kingman-paintbox-), [Dirichlet Process (DP)](#dirichlet-process-dp-)
 {{% /expand %}}
@@ -1398,16 +1398,16 @@ Reading it: $\alpha^{K}$ charges a factor $\alpha$ to *open* each of the $K$ tab
 {{% expand "Kingman Paintbox" %}}
 *Kingman's paintbox* (Kingman, 1978) is the representation theorem behind the [CRP](#chinese-restaurant-process-crp-): **every** exchangeable random partition arises by sampling labels from a random discrete measure. Pour the unit of probability into colored "boxes" of weights $\pi_1, \pi_2, \dots$, then color each point by the box it lands in; points sharing a color share a block. The CRP partition is exactly a paintbox painted with the Dirichlet process's [stick-breaking](#stick-breaking-construction-) weights — which is *why* the three lenses (CRP, [Pólya urn](#pólya-urn-), stick-breaking) describe one object.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also:** [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Exchangeable Partition Probability Function (EPPF)](#exchangeable-partition-probability-function-eppf-), [Stick-Breaking Construction](#stick-breaking-construction-)
 {{% /expand %}}
 
 ### Hierarchical Dirichlet Process (HDP) 📊
 {{% expand "Hierarchical Dirichlet Process (HDP)" %}}
-The *HDP* (Teh, Jordan, Beal & Blei, 2006) stacks Dirichlet processes so several grouped datasets can **share** their discovered components. A *top-level* DP draws a global menu of atoms (e.g. topics); each group then gets its *own* DP whose **base measure is that shared global draw**, so groups reuse the same atoms instead of inventing private ones. Applied to topic modeling it gives **HDP-LDA** — [LDA](#latent-dirichlet-allocation-lda-) that learns the *number* of topics from the corpus. It is the "[hierarchical Bayes](../intro2/12_hierarchical_bayes/) — a prior on the prior" idea applied to a random *measure* rather than a scalar.
+The *HDP* (Teh, Jordan, Beal & Blei, 2006) stacks Dirichlet processes so several grouped datasets can **share** their discovered components. A *top-level* DP draws a global menu of atoms (e.g. topics); each group then gets its *own* DP whose **base measure is that shared global draw**, so groups reuse the same atoms instead of inventing private ones. Applied to topic modeling it gives **HDP-LDA** — [LDA](#latent-dirichlet-allocation-lda-) that learns the *number* of topics from the corpus. It is the "[hierarchical Bayes](../structure/hierarchical-bayes/) — a prior on the prior" idea applied to a random *measure* rather than a scalar.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also:** [Dirichlet Process (DP)](#dirichlet-process-dp-), [Latent Dirichlet Allocation (LDA)](#latent-dirichlet-allocation-lda-), [Base Measure (G₀)](#base-measure-)
 {{% /expand %}}
@@ -1416,7 +1416,7 @@ The *HDP* (Teh, Jordan, Beal & Blei, 2006) stacks Dirichlet processes so several
 {{% expand "Latent Dirichlet Allocation (LDA)" %}}
 *LDA* (Blei, Ng & Jordan, 2003) is the canonical **topic model**: each *topic* is a distribution over words (a "lunch" topic leans on *bento, rice, sauce*), and each *document* is a mixture over a **fixed** number $T$ of topics, with per-document topic proportions drawn from a finite [Dirichlet distribution](#dirichlet-distribution-). It works beautifully but forces you to choose $T$ — the same fixed-cardinality problem the DP cures, one level up. Replacing the finite topic Dirichlet with a [hierarchical Dirichlet process](#hierarchical-dirichlet-process-hdp-) gives HDP-LDA, which learns $T$ from the corpus.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also:** [Hierarchical Dirichlet Process (HDP)](#hierarchical-dirichlet-process-hdp-), [Dirichlet Distribution](#dirichlet-distribution-), [Mixture Model](#mixture-model-)
 {{% /expand %}}
@@ -1425,7 +1425,7 @@ The *HDP* (Teh, Jordan, Beal & Blei, 2006) stacks Dirichlet processes so several
 {{% expand "Indian Buffet Process (IBP)" %}}
 The *IBP* (Griffiths & Ghahramani, 2011) is the **feature** analogue of the [CRP](#chinese-restaurant-process-crp-). Where the CRP gives each object exactly **one** cluster, the IBP gives it a **binary feature vector** over an unbounded set of features: customers file past an infinitely long buffet and sample *each* dish (feature) independently, with probability proportional to how many earlier customers took it, plus a $\mathrm{Poisson}(\alpha/n)$ helping of brand-new dishes. So an object can have glasses **and** a beard **and** a hat at once — many present-or-absent features, not a single label. The IBP is the predictive marginal of the [Beta process](#beta-process-), exactly as the CRP/Pólya urn is the predictive marginal of the Dirichlet process.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also:** [Beta Process](#beta-process-), [Chinese Restaurant Process (CRP)](#chinese-restaurant-process-crp-), [Dirichlet Process (DP)](#dirichlet-process-dp-)
 {{% /expand %}}
@@ -1434,7 +1434,7 @@ The *IBP* (Griffiths & Ghahramani, 2011) is the **feature** analogue of the [CRP
 {{% expand "Beta Process" %}}
 The *Beta process* (Thibaux & Jordan, 2007) is the Dirichlet process's sibling: a random measure whose draws describe **subsets** (which features an object has) rather than a **single assignment** (which cluster it belongs to). It is the random measure underlying the [Indian Buffet Process](#indian-buffet-process-ibp-) — the IBP is its predictive marginal — just as the DP underlies the [CRP](#chinese-restaurant-process-crp-). Same recipe ("put a prior on a measure of unbounded size"), different measure, and clusters become features.
 
-**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../intro2/06_dpmm/)
+**Appears in:** [Tutorial 3, Chapter 6: Discrete Bayesian Nonparametrics](../complexity/dpmm/)
 
 **See also:** [Indian Buffet Process (IBP)](#indian-buffet-process-ibp-), [Dirichlet Process (DP)](#dirichlet-process-dp-)
 {{% /expand %}}
@@ -1445,7 +1445,7 @@ A *kernel* $k(x, x')$ scores **how similar two inputs are**, and therefore how t
 $$k(x, x') = \sigma_f^2 \, \exp\!\left(-\frac{(x - x')^2}{2\,\ell^2}\right),$$
 with a **signal std** $\sigma_f$ (how far the function swings) and a [length-scale](#length-scale-) $\ell$ (how far a point's influence reaches). Similarity is maximal ($\sigma_f^2$) at zero distance and decays toward zero past a few length-scales. It is the same object as a kernel-density-estimation bump, carried from estimating a *density* to estimating a *function*.
 
-**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../complexity/gaussian-processes/)
 
 **See also:** [Gaussian Process](#gaussian-process-), [Length-scale](#length-scale-), [Marginal Likelihood](#marginal-likelihood-)
 {{% /expand %}}
@@ -1454,7 +1454,7 @@ with a **signal std** $\sigma_f$ (how far the function swings) and a [length-sca
 {{% expand "Length-scale" %}}
 The *length-scale* $\ell$ is the [RBF kernel](#kernel-)'s knob for **how far a point's influence reaches**: two inputs closer than $\ell$ are strongly correlated, and far past $\ell$ they are nearly independent. It *is* a [Gaussian process](#gaussian-process-)'s smoothness prior — **small $\ell$** = spiky, wiggly, local (the model expects rapid change); **large $\ell$** = broad, smooth, global. It is the same dial as a **bandwidth** in kernel density estimation. The data can choose it by maximizing the [marginal likelihood](#marginal-likelihood-).
 
-**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../complexity/gaussian-processes/)
 
 **See also:** [Kernel](#kernel-), [Gaussian Process](#gaussian-process-), [Marginal Likelihood](#marginal-likelihood-)
 {{% /expand %}}
@@ -1463,7 +1463,7 @@ The *length-scale* $\ell$ is the [RBF kernel](#kernel-)'s knob for **how far a p
 {{% expand "Gaussian Process (GP)" %}}
 A *Gaussian process* (GP) is a **prior over functions** such that any finite set of function values is jointly Gaussian: pick inputs $x_1, \dots, x_n$ and the vector $(f(x_1), \dots, f(x_n))$ is multivariate normal with mean $\mathbf{m}$ (usually $\mathbf{0}$) and covariance $K_{ij} = k(x_i, x_j)$ from a [kernel](#kernel-). It is the **continuous** Bayesian nonparametric — a prior over the *shape of a curve*, the twin of the [DPMM](#dirichlet-process-mixture-model-dpmm-)'s prior over partitions. With Gaussian observation noise the **posterior is closed form** (no MCMC): the posterior mean $k(X_\ast, X)\,[K+\sigma_n^2 I]^{-1}y$ is a similarity-weighted combination of the observed outputs, and the posterior band **pinches at the data and widens away from it**. Taken to the infinite-width limit, a neural network *is* a GP ([NNGP](#nngp-) / [NTK](#ntk-)).
 
-**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../complexity/gaussian-processes/)
 
 **See also:** [Kernel](#kernel-), [Length-scale](#length-scale-), [Marginal Likelihood](#marginal-likelihood-), [Ridge Regression and Regularization](#ridge-regression-and-regularization-), [NNGP](#nngp-), [NTK](#ntk-)
 {{% /expand %}}
@@ -1474,7 +1474,7 @@ The *marginal likelihood* (or **evidence**) is the probability a model assigns t
 $$\log p(y \mid X) = -\tfrac{1}{2}\, y^\top K^{-1} y - \tfrac{1}{2}\log|K| - \tfrac{n}{2}\log 2\pi, \qquad K = k(X,X) + \sigma_n^2 I,$$
 and its two data-dependent terms encode **Occam's razor automatically**: $y^\top K^{-1} y$ rewards fitting the data while $\log|K|$ penalizes an over-flexible kernel (which spreads its prior mass thin). Maximizing it over the kernel's [length-scale](#length-scale-), signal std, and noise is how a GP **lets the data choose its own inductive bias** — the continuous cousin of the DPMM letting the data choose the number of clusters.
 
-**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../complexity/gaussian-processes/)
 
 **See also:** [Gaussian Process](#gaussian-process-), [Kernel](#kernel-), [Length-scale](#length-scale-), [Bayes Theorem](#bayes-theorem-)
 {{% /expand %}}
@@ -1483,7 +1483,7 @@ and its two data-dependent terms encode **Occam's razor automatically**: $y^\top
 {{% expand "NNGP" %}}
 The *Neural Network Gaussian Process* is the [Gaussian process](#gaussian-process-) that a neural network becomes **at initialization** as its layers grow infinitely wide. A network's output is a sum of many iid random features, so by the **Central Limit Theorem** it is jointly Gaussian (Neal, 1996); for a *deep* net the kernel is built by a layer-by-layer recursion (Lee et al., 2018). The consequence: **exact Bayesian inference in an infinitely wide net = GP regression** with the NNGP kernel — the same closed-form posterior, no gradient descent. The NNGP describes the network's **prior** (what's random is the weights). Its training-time partner is the [NTK](#ntk-).
 
-**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../complexity/gaussian-processes/)
 
 **See also:** [NTK](#ntk-), [Gaussian Process](#gaussian-process-), [Kernel](#kernel-)
 {{% /expand %}}
@@ -1492,7 +1492,7 @@ The *Neural Network Gaussian Process* is the [Gaussian process](#gaussian-proces
 {{% expand "NTK" %}}
 The *Neural Tangent Kernel* (Jacot et al., 2018) describes a wide neural network **during gradient-descent training**: $\Theta(x, x') = \langle \nabla_\theta f(x),\, \nabla_\theta f(x') \rangle$, the similarity of the network's gradients at two inputs. In the infinite-width limit the NTK is **deterministic and constant throughout training**, the weights barely move (the "lazy" regime), and gradient-descent training reduces to **kernel regression with the NTK**. Where the [NNGP](#nngp-) is the net's *prior* (the weights are random), the NTK is what *training* does (nothing is random — the kernel is fixed). **Caveat:** both are "lazy" limits with **no feature learning** — the very thing that makes real, finite networks powerful.
 
-**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../complexity/gaussian-processes/)
 
 **See also:** [NNGP](#nngp-), [Gaussian Process](#gaussian-process-), [Kernel](#kernel-)
 {{% /expand %}}
@@ -1501,7 +1501,7 @@ The *Neural Tangent Kernel* (Jacot et al., 2018) describes a wide neural network
 {{% expand "Neural Process" %}}
 A *neural process* (Garnelo et al., 2018) is a neural network **trained to imitate a Gaussian process**: it maps a context set of observations straight to a predictive distribution over functions in a single forward pass, **learning** the kernel-like inductive bias from many related tasks instead of fixing it by hand. It trades the GP's exactness and $n\times n$ matrix inversion for **amortized** speed and a learned prior — meta-learning wearing a GP's clothes. It is to the GP what [amortized inference](#amortized-inference-) is to exact Bayesian inference.
 
-**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../complexity/gaussian-processes/)
 
 **See also:** [Gaussian Process](#gaussian-process-), [Amortized Inference](#amortized-inference-), [Nonparametric Memory](#nonparametric-memory-)
 {{% /expand %}}
@@ -1510,7 +1510,7 @@ A *neural process* (Garnelo et al., 2018) is a neural network **trained to imita
 {{% expand "Nonparametric Memory" %}}
 *Nonparametric memory* is the Bayesian-nonparametric spirit — *let the model grow with the data* — applied to language models: instead of baking all knowledge into fixed ("parametric") weights, the model keeps an explicit, growable **datastore** and **looks things up at inference time**. The link to Gaussian processes is exact: the [GP](#gaussian-process-) posterior mean $k(X_\ast, X)\,K^{-1}y$ is a *similarity-weighted combination of remembered outputs* — precisely what retrieval does, with a learned embedding as the kernel and the corpus as the training set. See [RAG / kNN-LM](#rag--knn-lm-) for the two main instances.
 
-**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../complexity/gaussian-processes/)
 
 **See also:** [RAG / kNN-LM](#rag--knn-lm-), [Gaussian Process](#gaussian-process-), [Neural Process](#neural-process-)
 {{% /expand %}}
@@ -1519,7 +1519,7 @@ A *neural process* (Garnelo et al., 2018) is a neural network **trained to imita
 {{% expand "RAG / kNN-LM" %}}
 Two instances of [nonparametric memory](#nonparametric-memory-) for language models. **kNN-LM** (Khandelwal et al., 2020) interpolates a model's next-token distribution with a **nearest-neighbor search** over a datastore of (context-embedding → next-token) pairs. **RAG** (Retrieval-Augmented Generation; Lewis et al., 2020) **retrieves** relevant documents and conditions generation on them. Both are the [Gaussian process](#gaussian-process-) posterior mean in disguise — *keep the data, define a similarity, predict by weighted lookup* — with a learned embedding playing the role of the kernel. Retrieval is nonparametric prediction at LLM scale.
 
-**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../intro2/06a_continuous_bnp/)
+**Appears in:** [Tutorial 3, Chapter 6a: Gaussian Processes](../complexity/gaussian-processes/)
 
 **See also:** [Nonparametric Memory](#nonparametric-memory-), [Gaussian Process](#gaussian-process-), [Kernel](#kernel-)
 {{% /expand %}}
@@ -1532,7 +1532,7 @@ The *surprise* (or *information content*) of an outcome $x$ is $-\log_2 P(x)$, m
 
 **Example:** an event you gave $P=0.01$ has surprise $-\log_2 0.01 \approx 6.6$ bits; one you gave $P=0.99$ has surprise $\approx 0.014$ bits.
 
-**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#surprise--log-px)
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../structure/information-theory/#surprise--log-px)
 
 **See also:** [Entropy](#entropy-)
 {{% /expand %}}
@@ -1547,7 +1547,7 @@ The *entropy* of a random variable $X$ is its **expected surprise** — the aver
 
 **Examples:** fair coin → 1 bit; $\text{Bernoulli}(0.7)$ → 0.881 bits; certain outcome → 0 bits.
 
-**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#entropy--expected-surprise)
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../structure/information-theory/#entropy--expected-surprise)
 
 **See also:** [Surprise](#surprise-information-content-), [Joint Entropy](#joint-entropy-), [Conditional Entropy](#conditional-entropy-), [Mutual Information](#mutual-information-)
 {{% /expand %}}
@@ -1560,7 +1560,7 @@ The *joint entropy* of two variables is the entropy of the pair $(X, Y)$ treated
 
 **Key identity (chain rule):** $H(X, Y) = H(X) + H(Y \mid X)$ — total uncertainty = uncertainty in $X$ + leftover uncertainty in $Y$ given $X$. (This is the logarithm of the probability chain rule $P(x,y)=P(x)P(y\mid x)$.)
 
-**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#joint-and-conditional-entropy)
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../structure/information-theory/#joint-and-conditional-entropy)
 
 **See also:** [Entropy](#entropy-), [Conditional Entropy](#conditional-entropy-), [Mutual Information](#mutual-information-)
 {{% /expand %}}
@@ -1573,7 +1573,7 @@ The *conditional entropy* $H(Y \mid X)$ is the uncertainty that **remains** in $
 
 **Limits:** if $X$ determines $Y$, then $H(Y \mid X) = 0$ (nothing left to learn); if $X$ is independent of $Y$, then $H(Y \mid X) = H(Y)$ (knowing $X$ didn't help).
 
-**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#joint-and-conditional-entropy)
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../structure/information-theory/#joint-and-conditional-entropy)
 
 **See also:** [Joint Entropy](#joint-entropy-), [Mutual Information](#mutual-information-)
 {{% /expand %}}
@@ -1589,7 +1589,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **Picture:** if $H(X)$ and $H(Y)$ are overlapping circles, $I(X;Y)$ is their *overlap* (inclusion–exclusion with the joint entropy as the union).
 
-**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#mutual-information). Conditioning on a **collider** drives it *above* zero — explaining away, measured in bits.
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../structure/information-theory/#mutual-information). Conditioning on a **collider** drives it *above* zero — explaining away, measured in bits.
 
 **See also:** [Entropy](#entropy-), [Conditional Entropy](#conditional-entropy-), [Conditional Independence (d-separation)](#markov-equivalence-class-)
 {{% /expand %}}
@@ -1604,7 +1604,7 @@ The *cross-entropy* $H(P, Q)$ is your **average surprise when reality is $P$ but
 
 **Note:** $H(P, P) = H(P)$ — a perfect model's cross-entropy collapses to plain entropy.
 
-**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#cross-entropy-and-kl-divergence)
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../structure/information-theory/#cross-entropy-and-kl-divergence)
 
 **See also:** [Entropy](#entropy-), [KL Divergence](#kl-divergence-)
 {{% /expand %}}
@@ -1617,7 +1617,7 @@ The *Kullback–Leibler divergence* $D_{\text{KL}}(P \parallel Q)$ measures how 
 
 **Properties:** $D_{\text{KL}}(P \parallel Q) \ge 0$, with equality iff $Q = P$ (**Gibbs' inequality**) — the wrong distribution can only *increase* your average surprise. It is **not symmetric** ($D_{\text{KL}}(P \parallel Q) \ne D_{\text{KL}}(Q \parallel P)$ in general), so it's a *divergence*, not a true distance.
 
-**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../intro2/11_information_theory/#cross-entropy-and-kl-divergence)
+**Appears in:** [Tutorial 3, Chapter 11: Information Theory](../structure/information-theory/#cross-entropy-and-kl-divergence)
 
 **See also:** [Cross-Entropy](#cross-entropy-), [Entropy](#entropy-)
 {{% /expand %}}
@@ -1628,7 +1628,7 @@ A process has the *Markov property* when **the future is independent of the past
 
 **Intuition:** the present is a complete summary of the past *for the purpose of predicting the future* — history left all its mark on the current state.
 
-**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#naming-it-the-markov-property)
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../sampling/markov-chains/#naming-it-the-markov-property)
 
 **See also:** [Markov Chain](#markov-chain-), [Transition Matrix](#transition-matrix-)
 {{% /expand %}}
@@ -1639,7 +1639,7 @@ A *Markov chain* is a sequence of states $X_0, X_1, X_2, \dots$ that has the [Ma
 
 **Example:** Chibany choosing tonkatsu or hamburger each day, where today's choice depends only on yesterday's.
 
-**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/) (the chain machinery), and as a [random walk](#random-walk-) on a network in [Chapter 14](../intro2/14_random_walks_networks/) and a model of memory in [Chapter 15](../intro2/15_memory_search/).
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../sampling/markov-chains/) (the chain machinery), and as a [random walk](#random-walk-) on a network in [Chapter 14](../sampling/random-walks-networks/) and a model of memory in [Chapter 15](../sampling/memory-search/).
 
 **See also:** [Markov Property](#markov-property-), [Stationary Distribution](#stationary-distribution-), [Random Walk](#random-walk-)
 {{% /expand %}}
@@ -1650,7 +1650,7 @@ The *transition matrix* $P$ of a Markov chain collects every one-step probabilit
 
 **Why it matters:** the matrix is also a *sampler* — pairing it with a stream of random numbers generates the whole sequence — and multiplying a distribution by $P$ steps it forward one unit of time.
 
-**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#two-views-of-the-same-chain). In [Chapter 14](../intro2/14_random_walks_networks/#from-a-graph-to-a-transition-matrix) it is built by row-normalizing a network's [adjacency matrix](#adjacency-matrix-and-degree-).
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../sampling/markov-chains/#two-views-of-the-same-chain). In [Chapter 14](../sampling/random-walks-networks/#from-a-graph-to-a-transition-matrix) it is built by row-normalizing a network's [adjacency matrix](#adjacency-matrix-and-degree-).
 
 **See also:** [Markov Chain](#markov-chain-), [Stationary Distribution](#stationary-distribution-), [Adjacency Matrix and Degree](#adjacency-matrix-and-degree-)
 {{% /expand %}}
@@ -1661,7 +1661,7 @@ The *stationary distribution* $\pi$ of a Markov chain is the long-run fraction o
 
 **How to find it:** by [power iteration](#power-iteration-) (just run the chain) or as the **left eigenvector of $P$ with eigenvalue 1** (every row-stochastic matrix has one). For a random walk on an undirected network it has the simple form $\pi_i \propto \deg(i)$.
 
-**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#the-stationary-distribution); the degree form and **PageRank** in [Chapter 14](../intro2/14_random_walks_networks/#the-stationary-distribution-of-a-walk).
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../sampling/markov-chains/#the-stationary-distribution); the degree form and **PageRank** in [Chapter 14](../sampling/random-walks-networks/#the-stationary-distribution-of-a-walk).
 
 **See also:** [Power Iteration](#power-iteration-), [Ergodicity](#ergodicity-), [PageRank](#pagerank-)
 {{% /expand %}}
@@ -1670,7 +1670,7 @@ The *stationary distribution* $\pi$ of a Markov chain is the long-run fraction o
 {{% expand "Power Iteration" %}}
 *Power iteration* finds a chain's [stationary distribution](#stationary-distribution-) by starting from any distribution $\mathbf{v}$ and multiplying by the [transition matrix](#transition-matrix-) repeatedly: $\mathbf{v}, \mathbf{v}P, \mathbf{v}P^2, \dots \to \pi$. The sequence converges to $\pi$ regardless of where it started (for an [ergodic](#ergodicity-) chain).
 
-**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#finding-π-just-run-it-power-iteration)
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../sampling/markov-chains/#finding-π-just-run-it-power-iteration)
 
 **See also:** [Stationary Distribution](#stationary-distribution-), [Ergodicity](#ergodicity-)
 {{% /expand %}}
@@ -1681,7 +1681,7 @@ A Markov chain is *ergodic* when you can reach any state from any other (possibl
 
 **Useful fact:** any chain can be made ergodic by adding a small probability $\varepsilon$ of jumping to any state — the trick that makes [PageRank](#pagerank-) well-defined (its "teleport" / damping term).
 
-**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../intro2/13_markov_chains/#why-the-start-doesnt-matter-ergodicity); the ε-trick reused in [Chapter 14](../intro2/14_random_walks_networks/#pagerank-the-same-π-at-web-scale); reused as the forgetting-the-start basis of MCMC **mixing** in [Chapter 18](../intro2/18_markov_chain_monte_carlo/#mixing-burn-in-and-the-multimodal-trap).
+**Appears in:** [Tutorial 3, Chapter 13: Markov Chains](../sampling/markov-chains/#why-the-start-doesnt-matter-ergodicity); the ε-trick reused in [Chapter 14](../sampling/random-walks-networks/#pagerank-the-same-π-at-web-scale); reused as the forgetting-the-start basis of MCMC **mixing** in [Chapter 18](../sampling/mcmc/#mixing-burn-in-and-the-multimodal-trap).
 
 **See also:** [Stationary Distribution](#stationary-distribution-), [PageRank](#pagerank-), [Mixing](#mixing-), [Burn-in](#burn-in-)
 {{% /expand %}}
@@ -1692,7 +1692,7 @@ A *random walk* on a network is a [Markov chain](#markov-chain-) whose states ar
 
 **Key result:** on an undirected, unweighted network the walk's [stationary distribution](#stationary-distribution-) is $\pi_i \propto \deg(i)$ — more-connected nodes are visited more often.
 
-**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/); a **censored** random walk models memory recall in [Chapter 15](../intro2/15_memory_search/).
+**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../sampling/random-walks-networks/); a **censored** random walk models memory recall in [Chapter 15](../sampling/memory-search/).
 
 **See also:** [Markov Chain](#markov-chain-), [Adjacency Matrix and Degree](#adjacency-matrix-and-degree-), [PageRank](#pagerank-), [Censoring Function](#censoring-function-)
 {{% /expand %}}
@@ -1703,7 +1703,7 @@ A graph $G = (V, E)$ has **nodes** $V$ joined by **edges** $E$. Its *adjacency m
 
 **Why it matters:** row-normalizing $L$ gives the [transition matrix](#transition-matrix-) of a [random walk](#random-walk-), and for an undirected walk $\pi_i \propto \deg(i)$ — the degree *is* the long-run visit frequency.
 
-**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/#chibanys-animal-network)
+**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../sampling/random-walks-networks/#chibanys-animal-network)
 
 **See also:** [Random Walk](#random-walk-), [Transition Matrix](#transition-matrix-)
 {{% /expand %}}
@@ -1714,7 +1714,7 @@ A graph $G = (V, E)$ has **nodes** $V$ joined by **edges** $E$. Its *adjacency m
 
 **Cognitive connection:** Griffiths, Steyvers & Firl (2007) showed PageRank over a *semantic* network predicts which words people produce in a fluency task.
 
-**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/#pagerank-the-same-π-at-web-scale)
+**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../sampling/random-walks-networks/#pagerank-the-same-π-at-web-scale)
 
 **See also:** [Stationary Distribution](#stationary-distribution-), [Ergodicity](#ergodicity-), [Semantic Network](#semantic-network-)
 {{% /expand %}}
@@ -1725,7 +1725,7 @@ A *semantic network* represents knowledge as a graph: **concepts** are nodes and
 
 **Why it matters:** treating semantic memory as a network lets a single [random walk](#random-walk-) on it model how people *recall* — the basis of the memory-search model in Chapter 15.
 
-**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/#whats-a-graph) and [Chapter 15: Memory Search](../intro2/15_memory_search/).
+**Appears in:** [Tutorial 3, Chapter 14: Random Walks on Networks](../sampling/random-walks-networks/#whats-a-graph) and [Chapter 15: Memory Search](../sampling/memory-search/).
 
 **See also:** [Random Walk](#random-walk-), [Censoring Function](#censoring-function-), [PageRank](#pagerank-)
 {{% /expand %}}
@@ -1736,7 +1736,7 @@ In the random-walk model of memory search (Abbott, Austerweil & Griffiths 2012),
 
 **Consequence:** the gap between successive *first-hitting times* $\tau(k)$ — when the walk first reaches the $k$-th reported item — drives the **inter-item response time** $\text{IRT}(k) = \tau(k) - \tau(k-1) + \text{word length}$, reproducing the human "switch-cost" curve with no explicit switch rule.
 
-**Appears in:** [Tutorial 3, Chapter 15: Memory Search](../intro2/15_memory_search/#the-censoring-function)
+**Appears in:** [Tutorial 3, Chapter 15: Memory Search](../sampling/memory-search/#the-censoring-function)
 
 **See also:** [Random Walk](#random-walk-), [Semantic Network](#semantic-network-)
 {{% /expand %}}
@@ -1747,7 +1747,7 @@ When you sample from a **proposal** $q$ instead of the **target** $p$ you care a
 
 **Good vs. bad weights:** a proposal that resembles the target gives weights near 1 (even, healthy); a mismatched proposal gives a few huge weights and many near-zero ones (the estimate gets noisy). The [effective sample size](#effective-sample-size-) measures this.
 
-**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#importance-sampling-sample-the-wrong-distribution)
+**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../sampling/monte-carlo/#importance-sampling-sample-the-wrong-distribution)
 
 **See also:** [Importance Sampling](#importance-sampling-), [Proposal Distribution](#proposal-distribution-), [Effective Sample Size](#effective-sample-size-)
 {{% /expand %}}
@@ -1758,7 +1758,7 @@ For a set of normalized weights $w_t$ (summing to 1), the *effective sample size
 
 **Two limits:** perfectly even weights give $N_{\text{eff}} = T$ (every sample counts); one dominating weight gives $N_{\text{eff}} \approx 1$. It is a **diagnostic of how well the proposal $q$ matches the target $p$** — not a direct measure of an estimate's accuracy.
 
-**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#effective-sample-size); the streaming version (weight degeneracy) in [Chapter 17: Particle Filtering](../intro2/17_particle_filtering/#resampling-and-degeneracy).
+**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../sampling/monte-carlo/#effective-sample-size); the streaming version (weight degeneracy) in [Chapter 17: Particle Filtering](../sampling/particle-filtering/#resampling-and-degeneracy).
 
 **See also:** [Importance Weight](#importance-weight-), [Importance Sampling](#importance-sampling-), [Weight Degeneracy](#weight-degeneracy-), [Resampling](#resampling-)
 {{% /expand %}}
@@ -1769,7 +1769,7 @@ A way to sample from a target density $p$ you can *evaluate* but not directly dr
 
 **Trade-off:** if the envelope is much larger than the area under $p$, most proposals are rejected — wasted work. That inefficiency is what [importance sampling](#importance-sampling-) avoids by *reweighting* instead of rejecting.
 
-**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#when-you-cant-sample-p-rejection-and-inverse-cdf)
+**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../sampling/monte-carlo/#when-you-cant-sample-p-rejection-and-inverse-cdf)
 
 **See also:** [Importance Sampling](#importance-sampling-), [Monte Carlo Simulation](#monte-carlo-simulation-)
 {{% /expand %}}
@@ -1780,7 +1780,7 @@ In importance sampling and MCMC, the *proposal* $q$ is the distribution you actu
 
 **Choosing it well:** a proposal close to the target keeps weights even (importance sampling) or mixing fast (MCMC); a poor proposal wrecks both.
 
-**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../intro2/16_monte_carlo/#importance-sampling-sample-the-wrong-distribution) and [Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#metropolishastings).
+**Appears in:** [Tutorial 3, Chapter 16: Monte Carlo](../sampling/monte-carlo/#importance-sampling-sample-the-wrong-distribution) and [Chapter 18: Markov Chain Monte Carlo](../sampling/mcmc/#metropolishastings).
 
 **See also:** [Importance Weight](#importance-weight-), [Metropolis–Hastings](#metropolishastings-), [Acceptance Ratio](#acceptance-ratio-)
 {{% /expand %}}
@@ -1791,7 +1791,7 @@ A method for **streaming** inference about a hidden state that changes over time
 
 **As a process model:** a *small* particle filter — a handful of guesses updated left-to-right — predicts human limited memory, order effects, and run-to-run variability.
 
-**Appears in:** [Tutorial 3, Chapter 17: Particle Filtering](../intro2/17_particle_filtering/)
+**Appears in:** [Tutorial 3, Chapter 17: Particle Filtering](../sampling/particle-filtering/)
 
 **See also:** [Importance Sampling](#importance-sampling-), [Resampling](#resampling-), [Effective Sample Size](#effective-sample-size-)
 {{% /expand %}}
@@ -1802,18 +1802,18 @@ In a [particle filter](#particle-filter-), *resampling* draws a new set of parti
 
 **Why it's needed:** without it, weights multiply over time until one particle carries everything — *weight degeneracy*, measured by a collapsing [effective sample size](#effective-sample-size-). Resampling concentrates the swarm where the action is and keeps the filter useful indefinitely.
 
-**Appears in:** [Tutorial 3, Chapter 17: Particle Filtering](../intro2/17_particle_filtering/#sequential-importance-sampling)
+**Appears in:** [Tutorial 3, Chapter 17: Particle Filtering](../sampling/particle-filtering/#sequential-importance-sampling)
 
 **See also:** [Particle Filter](#particle-filter-), [Weight Degeneracy](#weight-degeneracy-), [Effective Sample Size](#effective-sample-size-)
 {{% /expand %}}
 
 ### Markov Chain Monte Carlo (MCMC) 📊
 {{% expand "Markov Chain Monte Carlo (MCMC)" %}}
-A family of methods that sample from a target distribution $\pi$ (typically a hard-to-sample Bayesian posterior) by **designing a Markov chain whose [stationary distribution](#stationary-distribution-) is exactly $\pi$**, then running it and collecting the states it visits. It runs [Chapter 13](../intro2/13_markov_chains/)'s logic backwards: instead of being handed a chain and finding its $\pi$, you start from the $\pi$ you want and build the chain.
+A family of methods that sample from a target distribution $\pi$ (typically a hard-to-sample Bayesian posterior) by **designing a Markov chain whose [stationary distribution](#stationary-distribution-) is exactly $\pi$**, then running it and collecting the states it visits. It runs [Chapter 13](../sampling/markov-chains/)'s logic backwards: instead of being handed a chain and finding its $\pi$, you start from the $\pi$ you want and build the chain.
 
 **Workhorses:** [Metropolis–Hastings](#metropolishastings-) (propose + accept/reject) and [Gibbs sampling](#gibbs-sampling-) (resample a coordinate from its conditional).
 
-**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/) and [Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/).
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../sampling/mcmc/) and [Chapter 19: Sampling the Mind](../sampling/sampling-the-mind/).
 
 **See also:** [Metropolis–Hastings](#metropolishastings-), [Gibbs Sampling](#gibbs-sampling-), [Stationary Distribution](#stationary-distribution-), [Burn-in](#burn-in-), [Mixing](#mixing-)
 {{% /expand %}}
@@ -1824,7 +1824,7 @@ The most general MCMC recipe. From the current state $x$: **propose** a candidat
 
 **Why it works:** the rule forces *detailed balance* with respect to $P$, so $P$ is the chain's stationary distribution. Because only the **ratio** $P(x')/P(x)$ appears, the normalizer cancels — you can sample an *unnormalized* posterior.
 
-**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#metropolishastings) and [Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/).
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../sampling/mcmc/#metropolishastings) and [Chapter 19: Sampling the Mind](../sampling/sampling-the-mind/).
 
 **See also:** [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-), [Acceptance Ratio](#acceptance-ratio-), [Proposal Distribution](#proposal-distribution-), [Gibbs Sampling](#gibbs-sampling-)
 {{% /expand %}}
@@ -1835,7 +1835,7 @@ In [Metropolis–Hastings](#metropolishastings-), the probability of moving to a
 
 **Key feature:** only the *ratio* of target probabilities matters, so any normalizing constant cancels — the reason MCMC works on posteriors known only up to their evidence $p(\text{data})$.
 
-**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#metropolishastings)
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../sampling/mcmc/#metropolishastings)
 
 **See also:** [Metropolis–Hastings](#metropolishastings-), [Proposal Distribution](#proposal-distribution-)
 {{% /expand %}}
@@ -1844,7 +1844,7 @@ In [Metropolis–Hastings](#metropolishastings-), the probability of moving to a
 {{% expand "Gibbs Sampling" %}}
 An MCMC method that updates **one coordinate at a time**, drawing each from its exact full conditional $P(x_i \mid x_{-i})$ (the distribution of $x_i$ given the current values of all other coordinates). It **never rejects** — sampling from the true conditional automatically satisfies detailed balance — but requires those conditionals to be available, which they are when the model is built from **[conjugate](#conjugate-prior-)** pieces.
 
-**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#gibbs-sampling) and [Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/#step-1--gibbs-the-θᵢ-conjugate).
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../sampling/mcmc/#gibbs-sampling) and [Chapter 19: Sampling the Mind](../sampling/sampling-the-mind/#step-1--gibbs-the-θᵢ-conjugate).
 
 **See also:** [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-), [Metropolis–Hastings](#metropolishastings-), [Conjugate Prior](#conjugate-prior-)
 {{% /expand %}}
@@ -1853,7 +1853,7 @@ An MCMC method that updates **one coordinate at a time**, drawing each from its 
 {{% expand "Burn-in" %}}
 The initial portion of an MCMC run, *discarded* before collecting samples. Those early states reflect the chain's arbitrary starting point rather than the target distribution; once the chain has **mixed** (forgotten its start), the remaining states approximate the target and are kept.
 
-**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#mixing-burn-in-and-the-multimodal-trap)
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../sampling/mcmc/#mixing-burn-in-and-the-multimodal-trap)
 
 **See also:** [Mixing](#mixing-), [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-), [Ergodicity](#ergodicity-)
 {{% /expand %}}
@@ -1864,7 +1864,7 @@ An MCMC chain has *mixed* when it has forgotten its starting point and is explor
 
 **The trap:** on a **multimodal** target, a chain can have a perfectly healthy local acceptance rate yet stay stuck in one mode, never crossing the low-probability valleys between peaks. *Good local acceptance does not imply good global mixing* — which is why running multiple chains from different starts and checking they agree matters.
 
-**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/#mixing-burn-in-and-the-multimodal-trap)
+**Appears in:** [Tutorial 3, Chapter 18: Markov Chain Monte Carlo](../sampling/mcmc/#mixing-burn-in-and-the-multimodal-trap)
 
 **See also:** [Burn-in](#burn-in-), [Ergodicity](#ergodicity-), [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-)
 {{% /expand %}}
@@ -1873,7 +1873,7 @@ An MCMC chain has *mixed* when it has forgotten its starting point and is explor
 {{% expand "MCMC with People" %}}
 A method (Sanborn & Griffiths, 2007) that treats a *person* as the accept step of a Metropolis sampler: show them two options, let them choose, repeat. If the person accepts in proportion to their own posterior, the chain of choices converges to that posterior — and with no data to fit, it converges to the **prior in their head**. Run on cartoon animals, it recovers people's mental category prototypes.
 
-**Appears in:** [Tutorial 3, Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/#when-a-person-is-the-accept-step)
+**Appears in:** [Tutorial 3, Chapter 19: Sampling the Mind](../sampling/sampling-the-mind/#when-a-person-is-the-accept-step)
 
 **See also:** [Markov Chain Monte Carlo (MCMC)](#markov-chain-monte-carlo-mcmc-), [Metropolis–Hastings](#metropolishastings-), [Prior Distribution](#prior-distribution-)
 {{% /expand %}}
@@ -1882,7 +1882,7 @@ A method (Sanborn & Griffiths, 2007) that treats a *person* as the accept step o
 {{% expand "Statistical Decision Theory" %}}
 The normative account of how to turn a belief into an action once you say what your mistakes cost. It has four pieces: the unknown state of the world $\theta$, an observation $x$, an action $a$ from a set $A$, and a **loss** $L(\theta,a)$; a decision rule $d(x)$ maps observations to actions, and the optimal rule minimizes expected loss.
 
-**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **See also:** [Loss Function](#loss-function-), [Risk](#risk-), [Bayes Estimator](#bayes-estimator-), [Minimax](#minimax-)
 {{% /expand %}}
@@ -1891,7 +1891,7 @@ The normative account of how to turn a belief into an action once you say what y
 {{% expand "Loss Function" %}}
 A function $L(\theta, a)$ giving the cost of taking action $a$ when the world is really $\theta$ — the mirror image of reward. The loss you choose determines which decision is optimal: **0–1 loss → posterior mode (MAP)**, **squared loss → posterior mean**, **absolute loss → posterior median**.
 
-**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **See also:** [Risk](#risk-), [Bayes Estimator](#bayes-estimator-), [MAP Estimate](#map-estimate-), [Reward](#reward-)
 {{% /expand %}}
@@ -1900,7 +1900,7 @@ A function $L(\theta, a)$ giving the cost of taking action $a$ when the world is
 {{% expand "Risk" %}}
 The expected loss of a decision rule, $R(\theta, d) = \mathbb{E}_x[L(\theta, d(x))]$ — a report card on a rule, averaged over the data. The **Bayes** criterion minimizes prior-/posterior-expected risk; the **minimax** criterion minimizes the worst-case risk over $\theta$.
 
-**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **See also:** [Loss Function](#loss-function-), [Minimax](#minimax-), [Bayes Estimator](#bayes-estimator-)
 {{% /expand %}}
@@ -1909,7 +1909,7 @@ The expected loss of a decision rule, $R(\theta, d) = \mathbb{E}_x[L(\theta, d(x
 {{% expand "Bayes Estimator" %}}
 The action (often an estimate) that minimizes **posterior-expected loss**, $\arg\min_a \mathbb{E}_{\theta\mid x}[L(\theta,a)]$. Under 0–1, squared, and absolute loss it equals the posterior mode, mean, and median respectively.
 
-**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **See also:** [Loss Function](#loss-function-), [Risk](#risk-), [MAP Estimate](#map-estimate-), [Posterior Distribution](#posterior-distribution-)
 {{% /expand %}}
@@ -1918,7 +1918,7 @@ The action (often an estimate) that minimizes **posterior-expected loss**, $\arg
 {{% expand "Minimax" %}}
 A decision criterion that ignores the prior and minimizes the **worst-case** loss: $\arg\min_d \max_\theta R(\theta, d)$. The pessimist's rule — it buys insurance against the catastrophe at the cost of being worse in the typical case, where the Bayes rule wins.
 
-**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **See also:** [Risk](#risk-), [Bayes Estimator](#bayes-estimator-), [Statistical Decision Theory](#statistical-decision-theory-)
 {{% /expand %}}
@@ -1927,7 +1927,7 @@ A decision criterion that ignores the prior and minimizes the **worst-case** los
 {{% expand "MAP Estimate" %}}
 The **maximum a posteriori** estimate — the value that maximizes the posterior, i.e. the posterior **mode**. It is the Bayes estimator under **0–1 loss** (you pay 1 unless you are exactly right, so you bet on the densest point).
 
-**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **See also:** [Bayes Estimator](#bayes-estimator-), [Loss Function](#loss-function-), [Posterior Distribution](#posterior-distribution-)
 {{% /expand %}}
@@ -1936,7 +1936,7 @@ The **maximum a posteriori** estimate — the value that maximizes the posterior
 {{% expand "Probability Matching" %}}
 Choosing options in proportion to their probability rather than always choosing the most likely one. Long seen as an "irrationality," it is exactly the policy of a sampler that values its time: **one and done** (Vul, Goodman, Griffiths & Tenenbaum, 2014) shows that when samples cost time, deciding from a *single* sample maximizes reward rate — and a one-sample decision matches the posterior.
 
-**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **See also:** [Monte Carlo Simulation](#monte-carlo-simulation-), [Bayes Estimator](#bayes-estimator-)
 {{% /expand %}}
@@ -1945,7 +1945,7 @@ Choosing options in proportion to their probability rather than always choosing 
 {{% expand "Markov Decision Process" %}}
 A model of sequential decision-making with five pieces: states $S$, actions $A$, a transition function $T(s'\mid s,a)$ (one transition matrix **per action**), a reward $R$, and a discount $\gamma$. An action selects *which* transition matrix governs the next state. A plain Markov chain is the special case with a single action.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **See also:** [Policy](#policy-), [Reward](#reward-), [Discount Factor](#discount-factor-), [Value Function](#value-function-), [Markov Chain](#markov-chain-)
 {{% /expand %}}
@@ -1954,7 +1954,7 @@ A model of sequential decision-making with five pieces: states $S$, actions $A$,
 {{% expand "Policy" %}}
 An agent's rule for acting, $\pi(a\mid s)$ — which action to take in each state. Because the world is Markov, a policy needs only the *current* state, which is what tames the combinatorial blow-up of planning a whole sequence of actions. The **optimal policy** $\pi^*$ achieves the highest value in every state and is deterministic.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **See also:** [Markov Decision Process](#markov-decision-process-), [Value Function](#value-function-), [Value Iteration](#value-iteration-)
 {{% /expand %}}
@@ -1963,7 +1963,7 @@ An agent's rule for acting, $\pi(a\mid s)$ — which action to take in each stat
 {{% expand "Reward" %}}
 The payoff signal an agent seeks to maximize over time — the mirror image of loss. It may depend on the state, $R(s)$, or the state and action, $R(s,a)$. Agents maximize the **discounted return**, not the immediate reward, which is why far-sighted behavior can accept short-term losses.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **See also:** [Return](#return-), [Discount Factor](#discount-factor-), [Loss Function](#loss-function-), [Reward Shaping](#reward-shaping-)
 {{% /expand %}}
@@ -1972,7 +1972,7 @@ The payoff signal an agent seeks to maximize over time — the mirror image of l
 {{% expand "Discount Factor" %}}
 The number $\gamma \in [0,1)$ that weights future rewards relative to immediate ones, making the infinite-horizon return finite. It encodes how far ahead the agent looks: small $\gamma$ is impatient, large $\gamma$ is far-sighted. Sweeping $\gamma$ can flip the optimal policy at a sharp threshold.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **See also:** [Return](#return-), [Value Function](#value-function-), [Reward](#reward-)
 {{% /expand %}}
@@ -1981,7 +1981,7 @@ The number $\gamma \in [0,1)$ that weights future rewards relative to immediate 
 {{% expand "Return" %}}
 The discounted sum of all future rewards from time $t$, $G_t = \sum_{k\ge0}\gamma^k R_{t+k}$. The thing an agent actually maximizes; a state's **value** is the expected return from that state under a policy.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **See also:** [Discount Factor](#discount-factor-), [Value Function](#value-function-), [Reward](#reward-)
 {{% /expand %}}
@@ -1990,7 +1990,7 @@ The discounted sum of all future rewards from time $t$, $G_t = \sum_{k\ge0}\gamm
 {{% expand "Value Function" %}}
 The expected return from a state (the **state value** $v_\pi(s)$) or from a state–action pair (the **action value** or **Q-value** $q_\pi(s,a)$) under a policy $\pi$. The optimal values $v^*$, $q^*$ satisfy the Bellman equation $v^*(s)=\max_a q^*(s,a)$ and determine the optimal policy.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **See also:** [Bellman Equation](#bellman-equation-), [Value Iteration](#value-iteration-), [Return](#return-), [Q-Learning](#q-learning-)
 {{% /expand %}}
@@ -1999,7 +1999,7 @@ The expected return from a state (the **state value** $v_\pi(s)$) or from a stat
 {{% expand "Bellman Equation" %}}
 The recursion at the heart of dynamic programming: $v^*(s) = \max_a\big[R(s) + \gamma\sum_{s'}T(s'\mid s,a)\,v^*(s')\big]$ — the value of a state is the immediate reward plus the discounted value of the best next move. Recursive ($v^*$ on both sides), it is solved by iteration rather than by enumerating plans.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **See also:** [Value Function](#value-function-), [Value Iteration](#value-iteration-), [Markov Decision Process](#markov-decision-process-)
 {{% /expand %}}
@@ -2008,7 +2008,7 @@ The recursion at the heart of dynamic programming: $v^*(s) = \max_a\big[R(s) + \
 {{% expand "Value Iteration" %}}
 A dynamic-programming algorithm that finds the optimal values by applying the Bellman update repeatedly from any starting guess: $v_{k+1}(s)=\max_a[R(s)+\gamma\sum_{s'}T(s'\mid s,a)v_k(s')]$. It converges because the Bellman operator is a $\gamma$-contraction — each sweep shrinks the error by a factor of $\gamma$. Requires the model $T, R$.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **See also:** [Bellman Equation](#bellman-equation-), [Value Function](#value-function-), [Q-Learning](#q-learning-)
 {{% /expand %}}
@@ -2017,7 +2017,7 @@ A dynamic-programming algorithm that finds the optimal values by applying the Be
 {{% expand "Q-Learning" %}}
 A **model-free** reinforcement-learning algorithm that estimates the optimal action values $Q(s,a)$ from raw experience — no transition model needed. After each step it nudges its estimate toward the **TD target** $r + \gamma\max_{a'}Q(s',a')$ by a fraction $\alpha$. It learns the same optimal policy value iteration would compute, using the single next state the world returned instead of the full expectation over $T$.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Temporal-Difference Error](#temporal-difference-error-), [Learning Rate](#learning-rate-), [Epsilon-Greedy Exploration](#epsilon-greedy-exploration-), [Value Iteration](#value-iteration-)
 {{% /expand %}}
@@ -2026,7 +2026,7 @@ A **model-free** reinforcement-learning algorithm that estimates the optimal act
 {{% expand "Temporal-Difference Error" %}}
 The "surprise" term in a TD update: target − current estimate $= r + \gamma\max_{a'}Q(s',a') - Q(s,a)$. Learning is repeatedly reducing this error. It is also a model of the brain: midbrain **dopamine** neurons signal a reward-*prediction* error that matches the TD error (Schultz, Dayan & Montague, 1997).
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Q-Learning](#q-learning-), [Learning Rate](#learning-rate-), [Value Function](#value-function-)
 {{% /expand %}}
@@ -2035,7 +2035,7 @@ The "surprise" term in a TD update: target − current estimate $= r + \gamma\ma
 {{% expand "Learning Rate" %}}
 The step size $\alpha \in (0,1]$ in a TD update, controlling how far each estimate moves toward the target. Large $\alpha$ learns fast but noisily; small $\alpha$ is slow but stable. Convergence guarantees require $\alpha$ to shrink appropriately over time.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Q-Learning](#q-learning-), [Temporal-Difference Error](#temporal-difference-error-)
 {{% /expand %}}
@@ -2044,7 +2044,7 @@ The step size $\alpha \in (0,1]$ in a TD update, controlling how far each estima
 {{% expand "Epsilon-Greedy Exploration" %}}
 A simple exploration strategy: with probability $\varepsilon$ take a random action, otherwise take the current best (greedy) one. The random fraction guarantees the agent keeps trying every state–action pair, which Q-learning needs to converge. The tree-search analog is **UCB**.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Q-Learning](#q-learning-), [Monte Carlo Tree Search](#monte-carlo-tree-search-)
 {{% /expand %}}
@@ -2053,7 +2053,7 @@ A simple exploration strategy: with probability $\varepsilon$ take a random acti
 {{% expand "Reward Shaping" %}}
 Adding extra reward to guide learning. Done carelessly it backfires: a reward you can **farm in a loop** creates a positive cycle and the agent never finishes the task. **Potential-based shaping** (Ng, Harada & Russell, 1999), $F=\gamma\Phi(s')-\Phi(s)$, is the principled fix: the shaping along any path collapses to a constant fixed by its endpoints, so it can't create a farmable cycle and provably preserves the optimal policy.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Reward](#reward-), [Reward Hacking](#reward-hacking-), [Policy](#policy-)
 {{% /expand %}}
@@ -2062,7 +2062,7 @@ Adding extra reward to guide learning. Done carelessly it backfires: a reward yo
 {{% expand "Reward Hacking" %}}
 When an agent maximizes the reward you *specified* in a way that defeats what you *meant* — the positive-cycle trap at scale. In RLHF, agents farm a learned model of human approval without doing the task, exactly as a badly-shaped gridworld agent paces for praise instead of reaching the goal. A central problem in AI alignment.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Reward Shaping](#reward-shaping-), [Reward](#reward-)
 {{% /expand %}}
@@ -2071,7 +2071,7 @@ When an agent maximizes the reward you *specified* in a way that defeats what yo
 {{% expand "Simulation-Based RL" %}}
 Learning a model from experience and then planning by **simulating** with it — the middle ground between value iteration (needs the whole model) and Q-learning (needs many real trials). Also called model-based RL. **Dyna** (learn $\hat T$ by counting, then plan) and **MCTS** (plan by tree-structured rollouts) are examples; AlphaZero and MuZero are the same idea at scale.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Monte Carlo Tree Search](#monte-carlo-tree-search-), [Monte Carlo Simulation](#monte-carlo-simulation-), [Value Iteration](#value-iteration-), [Certainty Equivalence](#certainty-equivalence-)
 {{% /expand %}}
@@ -2080,7 +2080,7 @@ Learning a model from experience and then planning by **simulating** with it —
 {{% expand "Certainty Equivalence" %}}
 Planning with a single **point estimate** of an unknown model as if it were exactly correct: fit the model (e.g. the maximum-likelihood transition matrix $\hat T$ from empirical transition counts), then optimize against $\hat T$ and ignore the uncertainty that remains. **Dyna** is the canonical example. It is simple and works well once enough data has made the estimate sharp, but because it throws the uncertainty away it never reasons about *exploring to reduce* that uncertainty — the principled alternative keeps a posterior over the model (see Bayes-Adaptive MDP).
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Bayes-Adaptive MDP](#bayes-adaptive-mdp-), [Simulation-Based RL](#simulation-based-rl-), [Dirichlet Distribution](#dirichlet-distribution-)
 {{% /expand %}}
@@ -2089,7 +2089,7 @@ Planning with a single **point estimate** of an unknown model as if it were exac
 {{% expand "Bayes-Adaptive MDP" %}}
 The reformulation of *learning* an unknown MDP as a *planning* problem. Fold the unknown model parameters $\theta$ (e.g. the transition matrix) into the state as a **hidden, static** component: the true state becomes $(s, \theta)$ with $s$ observed and $\theta$ never seen directly, and each observed transition sharpens a posterior (belief) over $\theta$. The augmented problem is a **partially observable MDP (POMDP)** — a special "parameter-uncertainty" one — in which optimal behavior automatically trades off **exploration** (acting to reduce uncertainty about $\theta$) against **exploitation**. Solving it exactly is intractable; **posterior sampling** (Thompson sampling) is the common tractable approximation, and **certainty equivalence** (Dyna) is the point-estimate shortcut that ignores the belief entirely.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Certainty Equivalence](#certainty-equivalence-), [Simulation-Based RL](#simulation-based-rl-), [Dirichlet Distribution](#dirichlet-distribution-), [Partially Observable MDP (POMDP)](#partially-observable-mdp-pomdp-)
 {{% /expand %}}
@@ -2098,7 +2098,7 @@ The reformulation of *learning* an unknown MDP as a *planning* problem. Fold the
 {{% expand "Partially Observable MDP (POMDP)" %}}
 A Markov decision process in which the agent **cannot directly observe the state**. Instead of the state $s$, it receives an **observation** $o$ from an observation model $O(o \mid s)$ that depends on the hidden state; so it maintains a **belief** — a probability distribution over which state it is in — updates that belief by Bayes' rule after each action and observation, and chooses actions as a function of the belief rather than the unknown state. Optimal POMDP planning is much harder than MDP planning (the belief is a continuous state), and partial observability is the rule in realistic problems — noisy sensors, hidden diseases, unknown user intent. Learning an unknown MDP is itself a structured POMDP (see Bayes-Adaptive MDP). Covered in depth in later chapters.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Bayes-Adaptive MDP](#bayes-adaptive-mdp-), [Markov Decision Process](#markov-decision-process-), [Posterior Distribution](#posterior-distribution-)
 {{% /expand %}}
@@ -2107,7 +2107,7 @@ A Markov decision process in which the agent **cannot directly observe the state
 {{% expand "Two-Step Task" %}}
 A two-stage decision task (Daw et al., 2011) designed to **dissociate model-free from model-based control** behaviorally. A first-stage choice leads *probabilistically* — a **common** (70%) or **rare** (30%) transition — to one of two second-stage states, where a slowly drifting reward is collected. The diagnostic is whether the agent **repeats** its first-stage choice (*stays*) as a function of the previous trial's *reward* and *transition type*: a **model-free** learner shows only a **main effect of reward** (rewarded → stay, regardless of transition), whereas a **model-based** learner shows a **reward × transition interaction** (a *rare* reward makes it *switch*, since the other first-stage option commonly reaches the now-valuable state). People show both, taken as evidence for parallel habitual and goal-directed systems.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Simulation-Based RL](#simulation-based-rl-), [Q-Learning](#q-learning-), [Temporal-Difference Error](#temporal-difference-error-)
 {{% /expand %}}
@@ -2116,7 +2116,7 @@ A two-stage decision task (Daw et al., 2011) designed to **dissociate model-free
 {{% expand "Monte Carlo Tree Search" %}}
 A planning algorithm (MCTS) that simulates forward only from the current state, building a search tree through four repeated phases — **select** (descend by UCB), **expand** (add a node), **simulate** (random rollout to estimate value), **backup** (send the return up the path). It is the engine inside AlphaZero (which replaces the random rollout with a learned value network) and MuZero (which learns the model it searches).
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Simulation-Based RL](#simulation-based-rl-), [Upper Confidence Bound (UCB)](#upper-confidence-bound-ucb-), [Monte Carlo Simulation](#monte-carlo-simulation-), [Epsilon-Greedy Exploration](#epsilon-greedy-exploration-)
 {{% /expand %}}
@@ -2125,7 +2125,7 @@ A planning algorithm (MCTS) that simulates forward only from the current state, 
 {{% expand "Upper Confidence Bound (UCB)" %}}
 The rule **Monte Carlo Tree Search** uses to pick which action to follow in its **select** phase. For each action $a$ at a node it scores $\frac{W_a}{N_a} + c\sqrt{\frac{\ln N_{\text{parent}}}{N_a}}$ and takes the highest: the first term is the action's **average return** so far (*exploit* — favor what has paid off), and the second is an **uncertainty bonus** (*explore*) that is large for actions tried few times ($N_a$ small) and shrinks as they are tried more. $N_a$ counts the visits to action $a$, $W_a$ sums their returns, $N_{\text{parent}} = \sum_{a'} N_{a'}$ is the node's total visits, and $c$ (the *exploration constant*, e.g. $1.4$) sets the balance. It is the tree-search cousin of **ε-greedy**, but it explores *where it is most uncertain* rather than at random — so an under-tried action can be selected even when its current average is lower.
 
-**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Monte Carlo Tree Search](#monte-carlo-tree-search-), [Epsilon-Greedy Exploration](#epsilon-greedy-exploration-), [Simulation-Based RL](#simulation-based-rl-)
 {{% /expand %}}
@@ -2134,7 +2134,7 @@ The rule **Monte Carlo Tree Search** uses to pick which action to follow in its 
 {{% expand "Trajectory" %}}
 A single path the agent lives out: a sequence of states (and the rewards collected along the way) produced by starting in some state, following a policy to pick actions, and sampling each next state from the model. The Monte-Carlo value of a state is the average **discounted return** over many trajectories rolled out from it.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **See also:** [Rollout](#rollout-), [Return](#return-), [Value Function](#value-function-), [Monte Carlo Simulation](#monte-carlo-simulation-)
 {{% /expand %}}
@@ -2143,7 +2143,7 @@ A single path the agent lives out: a sequence of states (and the rewards collect
 {{% expand "Rollout" %}}
 Reinforcement learning's term for forward-simulating one **trajectory**: from a starting state, repeatedly pick an action (per the policy) and sample the next state from the model, stepping forward to a horizon or terminal state. "Roll out a trajectory" just means *generate one by simulation* — nothing more. In Monte Carlo Tree Search, *the rollout* often refers specifically to the simulation done with a random/default policy from a leaf node.
 
-**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/) and [Chapter 22: Q-Learning](../intro2/22_q_learning/)
+**Appears in:** [Tutorial 3, Chapter 21: Markov Decision Processes](../decisions/mdps/) and [Chapter 22: Q-Learning](../decisions/q-learning/)
 
 **See also:** [Trajectory](#trajectory-), [Monte Carlo Tree Search](#monte-carlo-tree-search-), [Simulation-Based RL](#simulation-based-rl-)
 {{% /expand %}}
@@ -2152,7 +2152,7 @@ Reinforcement learning's term for forward-simulating one **trajectory**: from a 
 {{% expand "Decision Rule" %}}
 A strategy $d(x)$ that maps each possible **observation** $x$ to an action — the object statistical decision theory optimizes. A concrete example is a *threshold*: "eat the bento if it's $\le k$ days old, else compost." With no observation, a decision rule collapses to a single action; stretched across time, it generalizes to a **policy**.
 
-**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **See also:** [Statistical Decision Theory](#statistical-decision-theory-), [Observation](#observation-), [Policy](#policy-), [Bayes Estimator](#bayes-estimator-)
 {{% /expand %}}
@@ -2161,7 +2161,7 @@ A strategy $d(x)$ that maps each possible **observation** $x$ to an action — t
 {{% expand "Observation" %}}
 The data $x$ you get to see before acting (a sniff, a day-count, a measurement). Bayesian inference turns it into a posterior $p(\theta \mid x)$; decision theory then maps it to an action through a **decision rule** $d(x)$. Writing $x$ as a single observation is just for tidiness — conditioning on a whole batch $x_1, \dots, x_n$ changes nothing about the framework.
 
-**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+**Appears in:** [Tutorial 3, Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **See also:** [Decision Rule](#decision-rule-), [Statistical Decision Theory](#statistical-decision-theory-), [Posterior Distribution](#posterior-distribution-)
 {{% /expand %}}
@@ -2170,7 +2170,7 @@ The data $x$ you get to see before acting (a sniff, a day-count, a measurement).
 {{% expand "Inverse Reinforcement Learning" %}}
 Recovering the **reward or goal** behind observed behavior — running a planner backwards. Forward RL turns a goal into actions; inverse RL (IRL) watches actions and infers the goal, via Bayes' rule with a policy as the likelihood: $P(\text{goal}\mid\text{actions})\propto P(\text{actions}\mid\text{goal})\,P(\text{goal})$. Fundamentally **ill-posed** (many rewards fit), so a prior and a rationality assumption do the disambiguating.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 **See also:** [Goal Inference](#goal-inference-), [Softmax Policy](#softmax-policy-), [Ill-Posed Problem](#ill-posed-problem-), [Theory of Mind](#theory-of-mind-)
 {{% /expand %}}
@@ -2179,7 +2179,7 @@ Recovering the **reward or goal** behind observed behavior — running a planner
 {{% expand "Goal Inference" %}}
 The special case of inverse RL where the hidden cause is a discrete **goal**. Watch a few steps, score each candidate goal by the probability its softmax policy assigns the observed actions, and normalize to a posterior. The posterior **slides** as more behavior is seen — the basis of the Baker, Saxe & Tenenbaum (2009) "freeze the video, where's it headed?" experiments.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 **See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [Theory of Mind](#theory-of-mind-), [Bayes' Theorem](#bayes-theorem-)
 {{% /expand %}}
@@ -2188,7 +2188,7 @@ The special case of inverse RL where the hidden cause is a discrete **goal**. Wa
 {{% expand "Softmax Policy" %}}
 A **noisy-rational** policy that turns action values into action probabilities: $\pi(a\mid s)\propto e^{\beta Q(s,a)}$ (also called the Boltzmann policy). The best action is most likely but every action keeps some probability. As a likelihood for inverse RL, it is what lets a *detour* be informative.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 **See also:** [Rationality (Inverse Temperature)](#rationality-inverse-temperature-), [Q-Learning](#q-learning-), [Inverse Reinforcement Learning](#inverse-reinforcement-learning-)
 {{% /expand %}}
@@ -2197,7 +2197,7 @@ A **noisy-rational** policy that turns action values into action probabilities: 
 {{% expand "Rationality (Inverse Temperature)" %}}
 The parameter $\beta\ge 0$ in the softmax policy controlling **how rational** an agent is assumed to be. $\beta\to 0$ gives a random (coin-flipping) agent; $\beta\to\infty$ gives a greedy, pure-exploitation one. It is a **modeling assumption we choose**, not something inferred from the data — and it sets how much we read into behavior.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 **See also:** [Softmax Policy](#softmax-policy-), [Inverse Reinforcement Learning](#inverse-reinforcement-learning-)
 {{% /expand %}}
@@ -2206,7 +2206,7 @@ The parameter $\beta\ge 0$ in the softmax policy controlling **how rational** an
 {{% expand "Ill-Posed Problem" %}}
 A problem whose solution is not uniquely determined by the data. Inverse RL is ill-posed: many rewards explain the same behavior (a flat reward makes every policy optimal; value-preserving reshaping leaves the policy unchanged). The **prior** and the **rationality assumption** are what pin down a single answer — not the behavior alone.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 **See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [Reward Shaping](#reward-shaping-)
 {{% /expand %}}
@@ -2215,7 +2215,7 @@ A problem whose solution is not uniquely determined by the data. Inverse RL is i
 {{% expand "Theory of Mind" %}}
 Attributing mental states — goals, beliefs, desires — to others to explain their behavior. The computational claim of this unit is that **Theory of Mind is inverse RL**: reading a mind is inverting a planner (Baker & Tenenbaum's inverse planning, reviewed by Jara-Ettinger 2019). Same Bayes-with-a-planner computation; only the name of the hidden cause changes.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/), [Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/), [Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [Bayesian Theory of Mind](#bayesian-theory-of-mind-), [False-Belief Task](#false-belief-task-), [ToMnet](#tomnet-)
 {{% /expand %}}
@@ -2224,16 +2224,16 @@ Attributing mental states — goals, beliefs, desires — to others to explain t
 {{% expand "False-Belief Task" %}}
 The benchmark test of Theory of Mind: can you represent a belief you *know* to be false? In its classic **Sally-Anne** form (Baron-Cohen, Leslie & Frith 1985), Sally hides a marble in a basket and leaves; Anne moves it to a box; *where will Sally look?* Passing requires holding Sally's belief ("basket") **apart from reality** ("box") — children reliably manage it only around **age 4**. Formally it is a **POMDP**: the marble's location is a hidden world state, and Sally's belief is a *separate* latent that can drift from the truth.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/), [Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/), [Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Theory of Mind](#theory-of-mind-), [Faux-Pas Test](#faux-pas-test-), [Belief State](#belief-state-)
 {{% /expand %}}
 
 ### Faux-Pas Test 📊
 {{% expand "Faux-Pas Test" %}}
-A harder Theory-of-Mind test: recognizing a social gaffe requires a **nested**, *second-order* false belief — the speaker's false belief (they didn't know it was a secret) **plus** the listener's knowledge of how the remark lands. Because it stacks one mental state inside another, it is passed years after the basic false-belief task, around **age 9–11**. That nested structure is what large-language-model Theory-of-Mind batteries probe in [Chapter 25](../intro2/25_modern_rl_world_models/).
+A harder Theory-of-Mind test: recognizing a social gaffe requires a **nested**, *second-order* false belief — the speaker's false belief (they didn't know it was a secret) **plus** the listener's knowledge of how the remark lands. Because it stacks one mental state inside another, it is passed years after the basic false-belief task, around **age 9–11**. That nested structure is what large-language-model Theory-of-Mind batteries probe in [Chapter 25](../decisions/modern-rl-world-models/).
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 **See also:** [False-Belief Task](#false-belief-task-), [Theory of Mind](#theory-of-mind-)
 {{% /expand %}}
@@ -2242,7 +2242,7 @@ A harder Theory-of-Mind test: recognizing a social gaffe requires a **nested**, 
 {{% expand "Maximum-Entropy IRL" %}}
 The foundational scalable inverse-RL method (Ziebart 2008). It resolves IRL's ill-posedness by picking, among all reward-consistent trajectory distributions, the one of **maximum entropy** — the least-committal explanation — giving trajectory probability $P(\tau)\propto e^{\text{reward}(\tau)}$, the softmax-over-value form at trajectory scale.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 **See also:** [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [GAIL](#gail-), [AIRL](#airl-)
 {{% /expand %}}
@@ -2251,7 +2251,7 @@ The foundational scalable inverse-RL method (Ziebart 2008). It resolves IRL's il
 {{% expand "GAIL" %}}
 **Generative Adversarial Imitation Learning** (Ho & Ermon 2016): a contest between two learners — a **critic** learns to tell the expert's behavior from the imitator's, and the imitator keeps improving until the critic can no longer tell them apart. (This is a GAN, if you have seen one.) Scales imitation to high-dimensional control, but *skips* recovering a reward, so it yields no transferable objective.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 **See also:** [Maximum-Entropy IRL](#maximum-entropy-irl-), [AIRL](#airl-)
 {{% /expand %}}
@@ -2260,7 +2260,7 @@ The foundational scalable inverse-RL method (Ziebart 2008). It resolves IRL's il
 {{% expand "AIRL" %}}
 **Adversarial Inverse RL** (Fu, Luo & Levine 2018): keeps GAIL's critic-versus-imitator contest but structures the **critic** so a transferable **reward falls out** of it, disentangled from the dynamics — combining GAIL's scale with a *transferable* reward you can re-optimize under new dynamics.
 
-**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+**Appears in:** [Tutorial 3, Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 **See also:** [GAIL](#gail-), [Maximum-Entropy IRL](#maximum-entropy-irl-)
 {{% /expand %}}
@@ -2269,7 +2269,7 @@ The foundational scalable inverse-RL method (Ziebart 2008). It resolves IRL's il
 {{% expand "Belief State" %}}
 In a POMDP, the agent never sees the world state, only noisy observations; its **belief** $b(s)=P(s\mid\text{history})$ is the posterior over the hidden state, updated by Bayes after each observation: $b'(s)\propto P(o\mid s)\,b(s)$. A belief is *just a probability*, and it is a **sufficient statistic** — it encodes everything the history says about the future.
 
-**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Partially Observable MDP (POMDP)](#partially-observable-mdp-pomdp-), [Belief MDP](#belief-mdp-), [Alpha-Vector](#alpha-vector-)
 {{% /expand %}}
@@ -2278,7 +2278,7 @@ In a POMDP, the agent never sees the world state, only noisy observations; its *
 {{% expand "Belief MDP" %}}
 Because the belief is a sufficient statistic, a POMDP is equivalent to an ordinary MDP whose **state is the belief**: the belief simplex is the state space, the belief update is the transition, and the α-vectors give the (piecewise-linear, convex) value. Everything from MDPs transfers — it just runs on beliefs.
 
-**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Belief State](#belief-state-), [Markov Decision Process](#markov-decision-process-), [Alpha-Vector](#alpha-vector-)
 {{% /expand %}}
@@ -2287,7 +2287,7 @@ Because the belief is a sufficient statistic, a POMDP is equivalent to an ordina
 {{% expand "Alpha-Vector" %}}
 The value of **committing** to one action, as a (linear) function of the belief — one line per action. Expected value is a weighted average, hence linear in the belief; the optimal value is the **upper envelope** of the action-lines, and its breakpoints are the decision thresholds (in the Tiger problem, open-right overtakes listen at belief $0.90$).
 
-**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Belief State](#belief-state-), [Tiger Problem](#tiger-problem-), [Belief MDP](#belief-mdp-)
 {{% /expand %}}
@@ -2296,7 +2296,7 @@ The value of **committing** to one action, as a (linear) function of the belief 
 {{% expand "Tiger Problem" %}}
 The canonical POMDP (Kaelbling, Littman & Cassandra 1998): a tiger behind one of two doors, an 85%-accurate "listen," and rewards listen $-1$ / correct $+10$ / tiger $-100$. Repeated agreeing growls slide the belief $0.5\to 0.85\to 0.97$; opening beats listening once the belief crosses $0.90$. The cleanest illustration of belief updating and decision thresholds.
 
-**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Belief State](#belief-state-), [Alpha-Vector](#alpha-vector-), [Partially Observable MDP (POMDP)](#partially-observable-mdp-pomdp-)
 {{% /expand %}}
@@ -2305,7 +2305,7 @@ The canonical POMDP (Kaelbling, Littman & Cassandra 1998): a tiger behind one of
 {{% expand "Bayesian Theory of Mind" %}}
 Inverting a POMDP-planning agent to recover **both** what it wants (desire) and what it believes — which can be *false* (Baker, Jara-Ettinger, Saxe & Tenenbaum 2017). Explains detours that look irrational under known-state inference: the food-truck walker hedged because they *believed* the first truck might be closed.
 
-**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Theory of Mind](#theory-of-mind-), [Belief State](#belief-state-), [Inverse Reinforcement Learning](#inverse-reinforcement-learning-)
 {{% /expand %}}
@@ -2314,7 +2314,7 @@ Inverting a POMDP-planning agent to recover **both** what it wants (desire) and 
 {{% expand "Legibility" %}}
 Acting so an observer can *read* your goal quickly — the flip of inverse planning (Dragan, Lee & Srinivasa 2013; Ho et al. 2016, "showing vs. doing"). A **legible** path resolves the observer's posterior early ($0.61$ vs $0.50$ on the first move) even when it is no longer than the **efficient** (predictable) one. Teaching is inverse planning run one level up.
 
-**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Goal Inference](#goal-inference-), [Communicative Demonstration](#communicative-demonstration-), [Cooperative Inverse RL](#cooperative-inverse-rl-)
 {{% /expand %}}
@@ -2323,7 +2323,7 @@ Acting so an observer can *read* your goal quickly — the flip of inverse plann
 {{% expand "Communicative Demonstration" %}}
 **Belief-directed planning** for teaching (Ho, Cushman, Littman & Austerweil 2021): a **level-0** observer inverts your actions into a posterior over your goal (inverse planning), and you, the **level-1** demonstrator, choose actions to drive that posterior toward the truth. Because the observer's belief is *hidden* to you, planning the demonstration is **itself a POMDP whose hidden state is the observer's belief** — teaching is inverse planning, one level up. It *predicts* the legibility effect: the legible path lifts the observer to $0.61$ on the first move versus $0.50$ for the merely efficient one.
 
-**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Legibility](#legibility-), [Cooperative Inverse RL](#cooperative-inverse-rl-), [Partially Observable MDP (POMDP)](#partially-observable-mdp-pomdp-)
 {{% /expand %}}
@@ -2332,7 +2332,7 @@ Acting so an observer can *read* your goal quickly — the flip of inverse plann
 {{% expand "Cooperative Inverse RL" %}}
 **CIRL** (Hadfield-Menell et al. 2016): a human and robot in a shared world, both rewarded by the *human's* reward, which only the human knows. The robot infers it from behavior; the human, knowing this, should **teach**. Efficient expert demonstration is provably suboptimal, and CIRL reduces to a **POMDP whose hidden state is the human's reward** — alignment as a teaching game.
 
-**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+**Appears in:** [Tutorial 3, Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 **See also:** [Legibility](#legibility-), [Inverse Reinforcement Learning](#inverse-reinforcement-learning-), [RLHF](#rlhf-)
 {{% /expand %}}
@@ -2341,7 +2341,7 @@ Acting so an observer can *read* your goal quickly — the flip of inverse plann
 {{% expand "RLHF" %}}
 **Reinforcement Learning from Human Feedback**: collect pairwise human **preferences** between model outputs, fit a **reward model** to them (Bradley-Terry), then optimize the policy against that learned reward. The reward-modeling step is literally inverse RL — recover a hidden reward from human choices — which is why it aligns today's large language models.
 
-**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
 **See also:** [DPO](#dpo-), [Reward Model](#reward-model-), [Bradley-Terry Model](#bradley-terry-model-), [Reward Hacking](#reward-hacking-)
 {{% /expand %}}
@@ -2350,7 +2350,7 @@ Acting so an observer can *read* your goal quickly — the flip of inverse plann
 {{% expand "DPO" %}}
 **Direct Preference Optimization** (Rafailov et al. 2023): shows the optimal RLHF policy implies an *implicit* reward, so the policy can be optimized **directly** on preferences — folding the reward-model and policy-optimization steps into one. The underlying inference problem (recover a reward from preferences) is identical to RLHF's.
 
-**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
 **See also:** [RLHF](#rlhf-), [Bradley-Terry Model](#bradley-terry-model-)
 {{% /expand %}}
@@ -2359,7 +2359,7 @@ Acting so an observer can *read* your goal quickly — the flip of inverse plann
 {{% expand "Bradley-Terry Model" %}}
 The standard choice model for pairwise preferences: $P(i\succ j)=\sigma(r_i-r_j)=\frac{e^{r_i}}{e^{r_i}+e^{r_j}}$ — a **pairwise softmax** over latent item rewards. Better items win more often, not always. Reward is identifiable only up to an additive constant, since preferences depend only on reward *differences*.
 
-**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
 **See also:** [RLHF](#rlhf-), [Softmax Policy](#softmax-policy-), [Reward Model](#reward-model-)
 {{% /expand %}}
@@ -2368,7 +2368,7 @@ The standard choice model for pairwise preferences: $P(i\succ j)=\sigma(r_i-r_j)
 {{% expand "Reward Model" %}}
 A learned function that scores outputs by predicted human preference — the object RLHF fits from pairwise comparisons and then optimizes against. Because it only *approximates* human values, optimizing hard against it invites **reward hacking** (the policy finds high-scoring outputs that aren't actually good).
 
-**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
 **See also:** [RLHF](#rlhf-), [Bradley-Terry Model](#bradley-terry-model-), [Reward Hacking](#reward-hacking-)
 {{% /expand %}}
@@ -2377,7 +2377,7 @@ A learned function that scores outputs by predicted human preference — the obj
 {{% expand "Amortized Inference" %}}
 Paying the cost of inference *once*, up front, by training a network to map data straight to the answer — rather than running inference (enumeration, importance sampling) at query time. Fast but inherits its training distribution; the opposite tradeoff from exact Bayesian inference (interpretable, sample-efficient, but slow).
 
-**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
 **See also:** [ToMnet](#tomnet-), [Importance Sampling](#importance-sampling-)
 {{% /expand %}}
@@ -2386,7 +2386,7 @@ Paying the cost of inference *once*, up front, by training a network to map data
 {{% expand "ToMnet" %}}
 The "Theory-of-Mind network" (Rabinowitz et al. 2018): a neural net that watches many agents and **learns** to predict their behavior and (possibly false) beliefs in a single forward pass — the learned, scalable, but opaque cousin of explicit Bayesian Theory of Mind. Same inverse problem, traded from exact-but-slow to learned-but-opaque.
 
-**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
 **See also:** [Theory of Mind](#theory-of-mind-), [Amortized Inference](#amortized-inference-), [Bayesian Theory of Mind](#bayesian-theory-of-mind-)
 {{% /expand %}}
@@ -2395,7 +2395,7 @@ The "Theory-of-Mind network" (Rabinowitz et al. 2018): a neural net that watches
 {{% expand "World Model" %}}
 A learned model of an environment's dynamics, used to **plan by imagining** rollouts rather than acting in the costly real world — simulation-based RL with a *learned, compressed* model. A world model that tracks hidden state from partial observations is maintaining a **belief**, the POMDP machinery learned by a network.
 
-**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
 **See also:** [MuZero](#muzero-), [Simulation-Based RL](#simulation-based-rl-), [Belief State](#belief-state-)
 {{% /expand %}}
@@ -2404,7 +2404,7 @@ A learned model of an environment's dynamics, used to **plan by imagining** roll
 {{% expand "MuZero" %}}
 A world-model agent (Schrittwieser et al. 2020) that learns a **latent** model — a state space only rich enough to predict reward, value, and policy — and runs Monte-Carlo Tree Search inside it, mastering Go, chess, and Atari **without being told the rules**. The Chapter-22 simulation-based-RL idea with a learned, abstract model.
 
-**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+**Appears in:** [Tutorial 3, Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
 **See also:** [World Model](#world-model-), [Simulation-Based RL](#simulation-based-rl-), [Monte Carlo Tree Search](#monte-carlo-tree-search-)
 {{% /expand %}}
@@ -2419,7 +2419,7 @@ The single most important numerical-stability trick in probabilistic computing. 
 $$\log\sum_i e^{x_i} \;=\; m + \log\sum_i e^{x_i - m}, \qquad m = \max_i x_i.$$
 Subtracting the max $m$ leaves the largest term at $e^0 = 1$ (so nothing overflows to `inf`), while the identity guarantees the answer is exactly unchanged. The normalized weights are then $p_i = e^{x_i - \text{logsumexp}(x)}$. **What breaks without it:** $e^{\text{large}}$ overflows to `inf` and $e^{\text{very negative}}$ underflows to $0$, so the naive `exp(x)/sum(exp(x))` returns `nan` — silently wrong. In code it is usually written `w = jnp.exp(x - jnp.max(x)); w = w / w.sum()`.
 
-**Used in:** almost every inference chapter — mixture models (Ch 5), generalization (Ch 7), Bayes nets (Ch 8–10), Monte Carlo and particle filtering (Ch 16–17), and inverse RL (Ch 23). First explained in [Chapter 5: Mixture Models](../intro2/05_mixture_models/).
+**Used in:** almost every inference chapter — mixture models (Ch 5), generalization (Ch 7), Bayes nets (Ch 8–10), Monte Carlo and particle filtering (Ch 16–17), and inverse RL (Ch 23). First explained in [Chapter 5: Mixture Models](../learning/mixture-models/).
 
 **See also:** [Log-Space Arithmetic](#log-space-arithmetic-), [Self-Normalized Importance Weights](#self-normalized-importance-weights-), [Softmax Policy](#softmax-policy-)
 {{% /expand %}}
@@ -2437,7 +2437,7 @@ Probabilities of many independent events *multiply*, and a product of thousands 
 {{% expand "Self-Normalized Importance Weights" %}}
 When the posterior is known only up to a constant ($p(x) \propto \tilde p(x)$, with the normalizer $Z$ unknown), you cannot compute $Z$ — but you don't need to. Draw samples, compute unnormalized weights $w_i$, and estimate any expectation as a **ratio**, $\mathbb{E}[f] \approx \sum_i w_i\,f(x_i) \big/ \sum_i w_i$: the unknown $Z$ cancels top and bottom. In code this is `w = jnp.exp(logw - jnp.max(logw)); w = w / w.sum()` — the [log-sum-exp trick](#log-sum-exp-trick-) applied to the weights, which is why it shows up everywhere importance sampling does.
 
-**Used in:** Ch 4–5, Ch 8–10, Ch 16–17 (importance sampling and particle filters), Ch 25 (recovering a reward from preferences). The *why-it-works* is spelled out in [Chapter 16: Monte Carlo](../intro2/16_monte_carlo/).
+**Used in:** Ch 4–5, Ch 8–10, Ch 16–17 (importance sampling and particle filters), Ch 25 (recovering a reward from preferences). The *why-it-works* is spelled out in [Chapter 16: Monte Carlo](../sampling/monte-carlo/).
 
 **See also:** [Log-Sum-Exp Trick](#log-sum-exp-trick-), [Log-Space Arithmetic](#log-space-arithmetic-)
 {{% /expand %}}
@@ -2492,9 +2492,9 @@ JAX randomness is **stateless**: every random draw is a deterministic function o
 ## Navigation
 
 **By Tutorial**:
-- [Tutorial 1: Discrete Probability](../intro/) - 📘 Tagged terms
+- [Tutorial 1: Discrete Probability](../foundations/) - 📘 Tagged terms
 - [Tutorial 2: GenJAX Programming](../genjax/) - 💻 Tagged terms
-- [Tutorial 3: Continuous Probability](../intro2/) - 📊 Tagged terms
+- [Tutorial 3: Continuous Probability](../learning/) - 📊 Tagged terms
 
 **By Topic**:
 - **Probability Basics**: Set, Outcome Space, Event, Probability, Conditional Probability

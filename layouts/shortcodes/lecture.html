@@ -1,0 +1,19 @@
+{{- /* "From the lecture" box linking a chapter to its course deck.
+
+   {{< lecture week=8 deckslide="value-iteration" label="MDPs and value iteration" >}}
+
+   week      course week number (required)
+   deckslide optional reveal.js slide anchor within the deck
+   label     optional human label for the link
+
+   Deck base URL comes from hugo.toml [params.course] slidesBase. */ -}}
+{{- $week := int (.Get "week") }}
+{{- $base := site.Params.course.slidesBase }}
+{{- $wk := printf "week%02d" $week }}
+<div class="lecture-box">
+<span class="lecture-box-icon">📽️</span>
+<span class="lecture-box-body">{{ T "Lecture_from" | default "From the lecture" }}:
+<a href="{{ $base }}/{{ $wk }}.html{{ with .Get "deckslide" }}#/{{ . }}{{ end }}" target="_blank" rel="noopener">
+{{- T "Lecture_week" | default "Week" }} {{ $week }}{{ with .Get "label" }} — {{ . }}{{ end }}</a>
+&nbsp;·&nbsp;<a href="{{ $base }}/{{ $wk }}.pdf" target="_blank" rel="noopener">PDF</a></span>
+</div>

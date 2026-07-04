@@ -53,8 +53,13 @@ from typing import List, Optional, Tuple
 # These are the GenJAX-backed, runnable tutorials. intro/ and glossary.md are
 # mostly illustrative fragments; include them with --exec-all.
 # ---------------------------------------------------------------------------
-EXEC_DIRS_DEFAULT = ["intro2", "genjax"]
-EXEC_DIRS_ALL = ["intro", "intro2", "genjax"]
+# Old (intro/intro2) and new (part-based) slugs are both listed so the
+# validator works across the restructure; trim the old names once no branch
+# still carries the old tree.
+EXEC_DIRS_DEFAULT = ["intro2", "genjax",
+                     "learning", "structure", "sampling", "decisions",
+                     "complexity", "deep", "ethics"]
+EXEC_DIRS_ALL = EXEC_DIRS_DEFAULT + ["intro", "foundations", "start"]
 
 # Numbers in expected-output are compared with this relative tolerance so that
 # harmless last-digit / formatting differences (0.661 vs 0.6610) don't fail.
@@ -318,7 +323,13 @@ def main():
     if args.files:
         markdown_files = [Path(f) for f in args.files]
     else:
-        tutorial_dirs = ["intro", "intro2", "genjax"]
+        # Discover every top-level content section (a dir with an _index.md)
+        # rather than hardcoding names, so restructures don't silently shrink
+        # the validation scope.
+        tutorial_dirs = sorted(
+            p.name for p in content_dir.iterdir()
+            if p.is_dir() and (p / "_index.md").exists()
+        )
         markdown_files = []
         for d in tutorial_dirs:
             p = content_dir / d
@@ -356,8 +367,12 @@ def main():
     units = {}  # key -> list of files
     for md in markdown_files:
         parent = md.parent
+        # A bundle is a chapter directory NESTED INSIDE a top-level section
+        # (content/<section>/<bundle>/). Detect by depth, not by a name
+        # blacklist, so new section names don't get misread as one giant
+        # shared-namespace bundle.
         is_bundle = (parent / "_index.md").exists() and parent.name != "content" \
-            and parent.name not in ("intro", "intro2", "genjax")
+            and parent.parent.name != "content"
         key = str(parent) if is_bundle else str(md)
         units.setdefault(key, []).append(md)
 

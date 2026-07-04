@@ -1,0 +1,34 @@
+{{- /* Self-check quiz imported from a lecture poll.
+
+   {{< quiz week=2 deckslide="quick-poll-the-posterior-is" >}}
+   What is the **posterior** probability of an event?
+   {{< choice >}}the probability of the event{{< /choice >}}
+   {{< choice correct=true >}}the probability of the event **given observations** — $P(H \mid D)${{< /choice >}}
+   {{< choice >}}the probability of the observations given the event{{< /choice >}}
+   {{< choice note=true >}}The posterior conditions on what you saw; prior × likelihood is the numerator.{{< /choice >}}
+   {{< /quiz >}}
+
+   week/deckslide (optional) render a provenance line linking the source
+   lecture poll. All content is rendered into the DOM at load (the reveal is
+   CSS-hidden), so MathJax typesets the options and the answer normally. */ -}}
+{{- $choices := .Scratch.Get "quiz-choices" | default slice }}
+{{- $id := printf "pi-quiz-%s-%d" (md5 .Page.Path) .Ordinal }}
+{{- /* .Inner minus the (empty) choice outputs = the question prose. */ -}}
+{{- $question := trim .Inner "\n " }}
+<form class="pi-quiz" id="{{ $id }}">
+<div class="pi-quiz-question">{{ $question | .Page.RenderString (dict "display" "block") }}</div>
+<ol class="pi-quiz-choices" type="A">
+{{- range $i, $c := $choices }}{{ if not $c.note }}
+<li><label><input type="radio" name="{{ $id }}" value="{{ $i }}"{{ if $c.correct }} data-correct="true"{{ end }}><span class="pi-quiz-choice-text">{{ $c.inner | $.Page.RenderString }}</span></label></li>
+{{- end }}{{ end }}
+</ol>
+<button type="button" class="pi-quiz-check">{{ T "Quiz_check" | default "Check answer" }}</button>
+<div class="pi-quiz-reveal">
+{{- range $choices }}{{ if .note }}
+<div class="pi-quiz-note">{{ .inner | $.Page.RenderString (dict "display" "block") }}</div>
+{{- end }}{{ end }}
+</div>
+{{- with .Get "week" }}
+<div class="pi-quiz-provenance">{{ T "Quiz_source" | default "From the" }} <a href="{{ site.Params.course.slidesBase }}/week{{ printf "%02d" (int .) }}.html{{ with $.Get "deckslide" }}#/{{ . }}{{ end }}" target="_blank" rel="noopener">{{ T "Lecture_week" | default "Week" }} {{ . }} {{ T "Quiz_lecture_poll" | default "lecture poll" }}</a></div>
+{{- end }}
+</form>

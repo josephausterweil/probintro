@@ -1,0 +1,30 @@
+{{- /* Interactive-widget embed.
+
+   {{< widget src="crp-seating" height="520" title="CRP seating simulator"
+       caption="Press Auto-seat and drag alpha." fallback="crp_fallback.png" >}}
+
+   src      widget file name in static/widgets/ (no .html)
+   height   iframe height in px (default 520)
+   title    accessible iframe title (default: src)
+   caption  optional one-line "what to try", markdown allowed
+   fallback optional static image path (shown for print / noscript)
+
+   Uses relURL so the embed works at any page depth (the old raw iframes
+   hardcoded ../../widgets/ and only worked at depth 2). */ -}}
+{{- $src := .Get "src" }}
+{{- $height := .Get "height" | default "520" }}
+{{- $title := .Get "title" | default $src }}
+<div class="widget-embed">
+<iframe src="{{ printf "widgets/%s.html" $src | relURL }}"
+        width="100%" height="{{ $height }}"
+        frameborder="0" loading="lazy"
+        style="background:#111111; border-radius:6px; margin:1rem 0;"
+        title="{{ $title }}">
+</iframe>
+{{- with .Get "fallback" }}
+<noscript><img src="{{ . | relURL }}" alt="{{ $title }}"></noscript>
+{{- end }}
+{{- with .Get "caption" }}
+<p class="widget-caption">{{ . | $.Page.RenderString }}</p>
+{{- end }}
+</div>

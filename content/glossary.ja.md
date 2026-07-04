@@ -1,7 +1,7 @@
 +++
 date = "2026-06-26"
 title = "用語集 - 全チュートリアル"
-weight = 100
+weight = 900
 +++
 
 ## この用語集の使い方
@@ -46,7 +46,7 @@ weight = 100
 
 ### 条件付き確率 📘
 {{% expand "条件付き確率" %}}
-*条件付き確率*とは、別の事象についての知識を条件として与えたときの、ある事象の確率です。ある事象を条件とするとは、その事象における可能な結果が可能性の集合（結果空間）を形成することを意味します。その後、その*制限された*結果空間の中で通常通りに確率を計算します。
+*条件付き確率*とは、別の事象についての知識を条件として与えたときの、ある事象の確率です。ある事象を条件とするとは、その事象における可能な結果が可能性の集合（標本空間）を形成することを意味します。その後、その*制限された*標本空間の中で通常通りに確率を計算します。
 
 **形式的定義:** $P(A \mid B) = \frac{|A \cap B|}{|B|}$、ここで $\mid$ の左側は確率を知りたい対象であり、$\mid$ の右側は真であることが知られている事柄です。
 
@@ -68,7 +68,7 @@ weight = 100
 
 ### 事象 📘
 {{% expand "事象" %}}
-*事象*とは、可能な結果を0個、いくつか、またはすべて含む集合です。言い換えると、事象は結果空間 $\Omega$ の任意の部分集合です。
+*事象*とは、可能な結果を0個、いくつか、またはすべて含む集合です。言い換えると、事象は標本空間 $\Omega$ の任意の部分集合です。
 
 **例:** 「少なくとも一皿のとんかつ」という事象は $\{HT, TH, TT\} \subseteq \Omega$ です。
 
@@ -124,21 +124,21 @@ def chibany_day():
 
 **同値を破る例外:** *コライダー* $A \to B \leftarrow C$ は、その逆向きの変形が持たない独立性（$A \perp C$）を主張するため、コライダーは一般に対応する連鎖やフォークと同値ではありません。（同じスケルトン、異なる「v構造」⇒異なるクラス。）
 
-**登場箇所:** [チュートリアル3、第9章：条件付き独立性](../intro2/09_conditional_independence/)（連鎖・フォーク・コライダー、d分離）と[第10章：因果ベイズネット](../intro2/10_causal_bayes_nets/#the-same-statistics-three-different-stories)（do演算子、介入）。
+**登場箇所:** [チュートリアル3、第9章：条件付き独立性](../structure/conditional-independence/)（連鎖・フォーク・コライダー、d分離）と[第10章：因果ベイズネット](../structure/causal-bayes-nets/#the-same-statistics-three-different-stories)（do演算子、介入）。
 {{% /expand %}}
 
-### 結果空間 📘
-{{% expand "結果空間" %}}
-*結果空間*（ギリシャ文字オメガ $\Omega$ で表記）とは、ランダムな過程における可能なすべての結果の集合です。確率を計算する基盤となります。
+### 標本空間 📘
+{{% expand "標本空間" %}}
+*標本空間*（ギリシャ文字オメガ $\Omega$ で表記）とは、ランダムな過程における可能なすべての結果の集合です。確率を計算する基盤となります。
 
 **例:** Chibany の1日2食について、$\Omega = \{HH, HT, TH, TT\}$。
 
-**GenJAXでは 💻**: `simulate()` を何度も実行することで、結果空間から結果を生成します
+**GenJAXでは 💻**: `simulate()` を何度も実行することで、標本空間から結果を生成します
 {{% /expand %}}
 
 ### 確率 📘
 {{% expand "確率" %}}
-結果空間 $\Omega$ に対する事象 $A$ の*確率*は、それらの大きさの比です：$P(A) = \frac{|A|}{|\Omega|}$。
+標本空間 $\Omega$ に対する事象 $A$ の*確率*は、それらの大きさの比です：$P(A) = \frac{|A|}{|\Omega|}$。
 
 結果に重みがある（等確率でない）場合は、数え上げる代わりに重みを合計します。
 
@@ -267,7 +267,7 @@ def roll_die(probs):
 
 **返り値**: 整数インデックス（0, 1, 2, ..., k-1）
 
-**チュートリアル1📘との接続**: 集合を使って学んだ離散的な結果空間を一般化したもの
+**チュートリアル1📘との接続**: 集合を使って学んだ離散的な標本空間を一般化したもの
 
 **📊での使用**: 混合モデルおよびDPMMにおけるクラスタ割り当て
 {{% /expand %}}
@@ -335,7 +335,7 @@ trace, log_weight = target.importance(key, choicemap)
 
 **重要な概念**: [有効サンプルサイズ](#effective-sample-size-)は重みの分布がどれほど良いかを測定します。提案分布がターゲットと一致するときはサンプル数に近く、1つのサンプルが支配するときは約1になります。[重要度重み](#importance-weight-) $w = p/q$ が核心的な補正項です。
 
-**📊での使用**: ベイズモデルおよびDPMMの事後推論；完全な形は[第16章：モンテカルロ](../intro2/16_monte_carlo/#importance-sampling-sample-the-wrong-distribution)（自己正規化形式、尤度重み付け）で導入され、逐次バージョンが[第17章](../intro2/17_particle_filtering/)の[粒子フィルタ](#particle-filter-)を駆動します。
+**📊での使用**: ベイズモデルおよびDPMMの事後推論；完全な形は[第16章：モンテカルロ](../sampling/monte-carlo/#importance-sampling-sample-the-wrong-distribution)（自己正規化形式、尤度重み付け）で導入され、逐次バージョンが[第17章](../sampling/particle-filtering/)の[粒子フィルタ](#particle-filter-)を駆動します。
 
 **関連項目**: [重要度重み](#importance-weight-), [有効サンプルサイズ](#effective-sample-size-), [提案分布](#proposal-distribution-), [Target](#target-), [重み退化](#weight-degeneracy-)
 {{% /expand %}}
@@ -385,9 +385,9 @@ event_count = jnp.sum(samples >= threshold)
 probability = event_count / 10000
 ```
 
-**有効な場面:** 手で列挙するには結果空間が大きすぎるとき
+**有効な場面:** 手で列挙するには標本空間が大きすぎるとき
 
-**📊での展開**: [第16章：モンテカルロ](../intro2/16_monte_carlo/#the-monte-carlo-estimator)では推定量 $\hat\mu_n$ をゼロから構築します（サイコロ、ダーツによる$\pi$の推定）。$1/\sqrt{n}$ の誤差率、[棄却サンプリング](#rejection-sampling-)、[重点サンプリング](#importance-sampling-)も扱います。
+**📊での展開**: [第16章：モンテカルロ](../sampling/monte-carlo/#the-monte-carlo-estimator)では推定量 $\hat\mu_n$ をゼロから構築します（サイコロ、ダーツによる$\pi$の推定）。$1/\sqrt{n}$ の誤差率、[棄却サンプリング](#rejection-sampling-)、[重点サンプリング](#importance-sampling-)も扱います。
 
 **関連項目**: [vmap](#vmap-), [トレース](#trace-), [重点サンプリング](#importance-sampling-), [棄却サンプリング](#rejection-sampling-), [有効サンプルサイズ](#effective-sample-size-)
 {{% /expand %}}
@@ -1251,7 +1251,7 @@ ESS = 1.0 / sum(w**2 for w in normalized_weights)
 - 別の推論手法（MCMC）を使う
 - モデルを修正する（例：余分なランダム化を取り除く）
 
-**チュートリアル3、第6章**: DPMMノートブックでは二重ランダム化バグにより重み退化（ESS=1/10）が発生しており、修正されました。逐次設定では、[粒子フィルタ](#particle-filter-)が毎ステップ[リサンプリング](#resampling-)しなければならない理由となっています（[第17章](../intro2/17_particle_filtering/#resampling-and-degeneracy)）。
+**チュートリアル3、第6章**: DPMMノートブックでは二重ランダム化バグにより重み退化（ESS=1/10）が発生しており、修正されました。逐次設定では、[粒子フィルタ](#particle-filter-)が毎ステップ[リサンプリング](#resampling-)しなければならない理由となっています（[第17章](../sampling/particle-filtering/#resampling-and-degeneracy)）。
 
 **関連項目**: [重点サンプリング](#importance-sampling-), [有効サンプルサイズ](#effective-sample-size-), [リサンプリング](#resampling-), [粒子フィルタ](#particle-filter-)
 {{% /expand %}}
@@ -1264,7 +1264,7 @@ ESS = 1.0 / sum(w**2 for w in normalized_weights)
 
 **例:** $P=0.01$ と見積もった事象の驚きは $-\log_2 0.01 \approx 6.6$ ビット；$P=0.99$ と見積もった事象の驚きは $\approx 0.014$ ビット。
 
-**登場箇所:** [チュートリアル3、第11章：情報理論](../intro2/11_information_theory/#surprise--log-px)
+**登場箇所:** [チュートリアル3、第11章：情報理論](../structure/information-theory/#surprise--log-px)
 
 **関連項目:** [エントロピー](#entropy-)
 {{% /expand %}}
@@ -1279,7 +1279,7 @@ ESS = 1.0 / sum(w**2 for w in normalized_weights)
 
 **例:** 公平なコイン → 1ビット；$\text{Bernoulli}(0.7)$ → 0.881ビット；確定的な結果 → 0ビット。
 
-**登場箇所:** [チュートリアル3、第11章：情報理論](../intro2/11_information_theory/#entropy--expected-surprise)
+**登場箇所:** [チュートリアル3、第11章：情報理論](../structure/information-theory/#entropy--expected-surprise)
 
 **関連項目:** [驚き](#surprise-information-content-), [同時エントロピー](#joint-entropy-), [条件付きエントロピー](#conditional-entropy-), [相互情報量](#mutual-information-)
 {{% /expand %}}
@@ -1292,7 +1292,7 @@ ESS = 1.0 / sum(w**2 for w in normalized_weights)
 
 **重要な等式（連鎖則）:** $H(X, Y) = H(X) + H(Y \mid X)$ ——全体の不確実性 = $X$ の不確実性 + $X$ を知った後の $Y$ の残りの不確実性。（これは確率の連鎖則 $P(x,y)=P(x)P(y\mid x)$ の対数です。）
 
-**登場箇所:** [チュートリアル3、第11章：情報理論](../intro2/11_information_theory/#joint-and-conditional-entropy)
+**登場箇所:** [チュートリアル3、第11章：情報理論](../structure/information-theory/#joint-and-conditional-entropy)
 
 **関連項目:** [エントロピー](#entropy-), [条件付きエントロピー](#conditional-entropy-), [相互情報量](#mutual-information-)
 {{% /expand %}}
@@ -1305,7 +1305,7 @@ ESS = 1.0 / sum(w**2 for w in normalized_weights)
 
 **限界値:** $X$ が $Y$ を決定するなら $H(Y \mid X) = 0$（学ぶべきことが残っていない）；$X$ が $Y$ と独立なら $H(Y \mid X) = H(Y)$（$X$ を知っても助けにならなかった）。
 
-**登場箇所:** [チュートリアル3、第11章：情報理論](../intro2/11_information_theory/#joint-and-conditional-entropy)
+**登場箇所:** [チュートリアル3、第11章：情報理論](../structure/information-theory/#joint-and-conditional-entropy)
 
 **関連項目:** [同時エントロピー](#joint-entropy-), [相互情報量](#mutual-information-)
 {{% /expand %}}
@@ -1321,7 +1321,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **図解:** $H(X)$ と $H(Y)$ を重なり合う円と見なすと、$I(X;Y)$ はその*重なり*です（同時エントロピーを和集合とした包除原理）。
 
-**登場箇所:** [チュートリアル3、第11章：情報理論](../intro2/11_information_theory/#mutual-information)。**コライダー**への条件付けにより相互情報量が正に増加します——説明除去効果をビット単位で測定。
+**登場箇所:** [チュートリアル3、第11章：情報理論](../structure/information-theory/#mutual-information)。**コライダー**への条件付けにより相互情報量が正に増加します——説明除去効果をビット単位で測定。
 
 **関連項目:** [エントロピー](#entropy-), [条件付きエントロピー](#conditional-entropy-), [条件付き独立性（d分離）](#markov-equivalence-class-)
 {{% /expand %}}
@@ -1336,7 +1336,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **注意:** $H(P, P) = H(P)$ ——完全なモデルのクロスエントロピーは単純なエントロピーに等しくなります。
 
-**登場箇所:** [チュートリアル3、第11章：情報理論](../intro2/11_information_theory/#cross-entropy-and-kl-divergence)
+**登場箇所:** [チュートリアル3、第11章：情報理論](../structure/information-theory/#cross-entropy-and-kl-divergence)
 
 **関連項目:** [エントロピー](#entropy-), [KLダイバージェンス](#kl-divergence-)
 {{% /expand %}}
@@ -1349,7 +1349,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **性質:** $D_{\text{KL}}(P \parallel Q) \ge 0$ であり、$Q = P$ のときに限り等号成立（**ギブスの不等式**）——誤った分布は平均的な驚きを*増やす*ことしかできません。**対称ではない**（一般に $D_{\text{KL}}(P \parallel Q) \ne D_{\text{KL}}(Q \parallel P)$）ため、真の距離ではなく*ダイバージェンス*です。
 
-**登場箇所:** [チュートリアル3、第11章：情報理論](../intro2/11_information_theory/#cross-entropy-and-kl-divergence)
+**登場箇所:** [チュートリアル3、第11章：情報理論](../structure/information-theory/#cross-entropy-and-kl-divergence)
 
 **関連項目:** [クロスエントロピー](#cross-entropy-), [エントロピー](#entropy-)
 {{% /expand %}}
@@ -1360,7 +1360,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **直感:** 現在は未来を予測するための過去の完全な要約です——歴史はその痕跡をすべて現在の状態に残しています。
 
-**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../intro2/13_markov_chains/#naming-it-the-markov-property)
+**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../sampling/markov-chains/#naming-it-the-markov-property)
 
 **関連項目:** [マルコフ連鎖](#markov-chain-), [推移行列](#transition-matrix-)
 {{% /expand %}}
@@ -1371,7 +1371,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **例:** Chibany が毎日とんかつかハンバーグを選ぶとき、今日の選択が昨日の選択にのみ依存する場合。
 
-**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../intro2/13_markov_chains/)（連鎖の仕組み）、[第14章](../intro2/14_random_walks_networks/)でのネットワーク上の[ランダムウォーク](#random-walk-)、[第15章](../intro2/15_memory_search/)での記憶モデル。
+**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../sampling/markov-chains/)（連鎖の仕組み）、[第14章](../sampling/random-walks-networks/)でのネットワーク上の[ランダムウォーク](#random-walk-)、[第15章](../sampling/memory-search/)での記憶モデル。
 
 **関連項目:** [マルコフ性](#markov-property-), [定常分布](#stationary-distribution-), [ランダムウォーク](#random-walk-)
 {{% /expand %}}
@@ -1382,7 +1382,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **重要な理由:** 行列は*サンプラー*でもあります——ランダム数の系列と組み合わせることで列全体を生成します——また分布に $P$ を掛けることで1単位時間分だけ進められます。
 
-**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../intro2/13_markov_chains/#two-views-of-the-same-chain)。[第14章](../intro2/14_random_walks_networks/#from-a-graph-to-a-transition-matrix)ではネットワークの[隣接行列](#adjacency-matrix-and-degree-)を行正規化することで構築されます。
+**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../sampling/markov-chains/#two-views-of-the-same-chain)。[第14章](../sampling/random-walks-networks/#from-a-graph-to-a-transition-matrix)ではネットワークの[隣接行列](#adjacency-matrix-and-degree-)を行正規化することで構築されます。
 
 **関連項目:** [マルコフ連鎖](#markov-chain-), [定常分布](#stationary-distribution-), [隣接行列と次数](#adjacency-matrix-and-degree-)
 {{% /expand %}}
@@ -1393,7 +1393,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **求め方:** [べき乗反復法](#power-iteration-)（ただ連鎖を実行する）、または**固有値1の $P$ の左固有ベクトル**（すべての行確率行列はこれを持つ）として求めます。無向ネットワーク上のランダムウォークでは $\pi_i \propto \deg(i)$ という単純な形になります。
 
-**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../intro2/13_markov_chains/#the-stationary-distribution)；次数の形と**PageRank**は[第14章](../intro2/14_random_walks_networks/#the-stationary-distribution-of-a-walk)。
+**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../sampling/markov-chains/#the-stationary-distribution)；次数の形と**PageRank**は[第14章](../sampling/random-walks-networks/#the-stationary-distribution-of-a-walk)。
 
 **関連項目:** [べき乗反復法](#power-iteration-), [エルゴード性](#ergodicity-), [PageRank](#pagerank-)
 {{% /expand %}}
@@ -1402,7 +1402,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 {{% expand "べき乗反復法" %}}
 *べき乗反復法*は、任意の分布 $\mathbf{v}$ から始めて[推移行列](#transition-matrix-)を繰り返し掛けることで連鎖の[定常分布](#stationary-distribution-)を求めます：$\mathbf{v}, \mathbf{v}P, \mathbf{v}P^2, \dots \to \pi$。この系列は出発点によらず（[エルゴード](#ergodicity-)連鎖において） $\pi$ に収束します。
 
-**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../intro2/13_markov_chains/#finding-π-just-run-it-power-iteration)
+**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../sampling/markov-chains/#finding-π-just-run-it-power-iteration)
 
 **関連項目:** [定常分布](#stationary-distribution-), [エルゴード性](#ergodicity-)
 {{% /expand %}}
@@ -1413,7 +1413,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **有用な事実:** どんな連鎖も、任意の状態にジャンプする小さな確率 $\varepsilon$ を加えることでエルゴード的にできます——[PageRank](#pagerank-)を well-defined にするトリック（その「テレポート」/ダンピング項）です。
 
-**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../intro2/13_markov_chains/#why-the-start-doesnt-matter-ergodicity)；ε トリックは[第14章](../intro2/14_random_walks_networks/#pagerank-the-same-π-at-web-scale)で再利用；MCMC の**混合**の「出発点を忘れる」基礎として[第18章](../intro2/18_markov_chain_monte_carlo/#mixing-burn-in-and-the-multimodal-trap)で再利用。
+**登場箇所:** [チュートリアル3、第13章：マルコフ連鎖](../sampling/markov-chains/#why-the-start-doesnt-matter-ergodicity)；ε トリックは[第14章](../sampling/random-walks-networks/#pagerank-the-same-π-at-web-scale)で再利用；MCMC の**混合**の「出発点を忘れる」基礎として[第18章](../sampling/mcmc/#mixing-burn-in-and-the-multimodal-trap)で再利用。
 
 **関連項目:** [定常分布](#stationary-distribution-), [PageRank](#pagerank-), [混合](#mixing-), [バーンイン](#burn-in-)
 {{% /expand %}}
@@ -1424,7 +1424,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **重要な結果:** 無向・無重みネットワーク上では、ウォークの[定常分布](#stationary-distribution-)は $\pi_i \propto \deg(i)$ です——接続が多いノードほど頻繁に訪問されます。
 
-**登場箇所:** [チュートリアル3、第14章：ネットワーク上のランダムウォーク](../intro2/14_random_walks_networks/)；**検閲された**ランダムウォークが[第15章](../intro2/15_memory_search/)で記憶想起をモデル化します。
+**登場箇所:** [チュートリアル3、第14章：ネットワーク上のランダムウォーク](../sampling/random-walks-networks/)；**検閲された**ランダムウォークが[第15章](../sampling/memory-search/)で記憶想起をモデル化します。
 
 **関連項目:** [マルコフ連鎖](#markov-chain-), [隣接行列と次数](#adjacency-matrix-and-degree-), [PageRank](#pagerank-), [検閲関数](#censoring-function-)
 {{% /expand %}}
@@ -1435,7 +1435,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **重要な理由:** $L$ を行正規化すると[ランダムウォーク](#random-walk-)の[推移行列](#transition-matrix-)が得られ、無向ウォークでは $\pi_i \propto \deg(i)$ ——次数が長期的な訪問頻度そのものになります。
 
-**登場箇所:** [チュートリアル3、第14章：ネットワーク上のランダムウォーク](../intro2/14_random_walks_networks/#chibanys-animal-network)
+**登場箇所:** [チュートリアル3、第14章：ネットワーク上のランダムウォーク](../sampling/random-walks-networks/#chibanys-animal-network)
 
 **関連項目:** [ランダムウォーク](#random-walk-), [推移行列](#transition-matrix-)
 {{% /expand %}}
@@ -1446,7 +1446,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **認知科学との接続:** Griffiths、Steyvers & Firl (2007) は、*意味的*ネットワーク上のPageRankが流暢性課題で人々が産出する単語を予測することを示しました。
 
-**登場箇所:** [チュートリアル3、第14章：ネットワーク上のランダムウォーク](../intro2/14_random_walks_networks/#pagerank-the-same-π-at-web-scale)
+**登場箇所:** [チュートリアル3、第14章：ネットワーク上のランダムウォーク](../sampling/random-walks-networks/#pagerank-the-same-π-at-web-scale)
 
 **関連項目:** [定常分布](#stationary-distribution-), [エルゴード性](#ergodicity-), [意味ネットワーク](#semantic-network-)
 {{% /expand %}}
@@ -1457,7 +1457,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **重要な理由:** 意味記憶をネットワークとして扱うことで、単一の[ランダムウォーク](#random-walk-)によって人々の*想起*をモデル化できます——第15章の記憶探索モデルの基盤です。
 
-**登場箇所:** [チュートリアル3、第14章：ネットワーク上のランダムウォーク](../intro2/14_random_walks_networks/#whats-a-graph)と[第15章：記憶探索](../intro2/15_memory_search/)。
+**登場箇所:** [チュートリアル3、第14章：ネットワーク上のランダムウォーク](../sampling/random-walks-networks/#whats-a-graph)と[第15章：記憶探索](../sampling/memory-search/)。
 
 **関連項目:** [ランダムウォーク](#random-walk-), [検閲関数](#censoring-function-), [PageRank](#pagerank-)
 {{% /expand %}}
@@ -1468,7 +1468,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **結果:** 連続する*最初到達時刻* $\tau(k)$——ウォークが $k$ 番目の報告アイテムに初めて到達するとき——の間隔が**項目間反応時間** $\text{IRT}(k) = \tau(k) - \tau(k-1) + \text{単語の長さ}$ を駆動し、明示的なスイッチルールなしに人間の「スイッチコスト」曲線を再現します。
 
-**登場箇所:** [チュートリアル3、第15章：記憶探索](../intro2/15_memory_search/#the-censoring-function)
+**登場箇所:** [チュートリアル3、第15章：記憶探索](../sampling/memory-search/#the-censoring-function)
 
 **関連項目:** [ランダムウォーク](#random-walk-), [意味ネットワーク](#semantic-network-)
 {{% /expand %}}
@@ -1479,7 +1479,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **良い重みと悪い重み:** ターゲットに似た提案分布は重みを1に近くします（均一、健全）；合わない提案分布は少数の巨大な重みと多数のゼロに近い重みを生成します（推定が不安定になります）。[有効サンプルサイズ](#effective-sample-size-)がこれを測定します。
 
-**登場箇所:** [チュートリアル3、第16章：モンテカルロ](../intro2/16_monte_carlo/#importance-sampling-sample-the-wrong-distribution)
+**登場箇所:** [チュートリアル3、第16章：モンテカルロ](../sampling/monte-carlo/#importance-sampling-sample-the-wrong-distribution)
 
 **関連項目:** [重点サンプリング](#importance-sampling-), [提案分布](#proposal-distribution-), [有効サンプルサイズ](#effective-sample-size-)
 {{% /expand %}}
@@ -1490,7 +1490,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **2つの極限:** 完全に均一な重みでは $N_{\text{eff}} = T$（すべてのサンプルが重要）；1つの支配的な重みでは $N_{\text{eff}} \approx 1$。これは**提案分布 $q$ がターゲット $p$ にどれほどよく合っているかの診断**であり、推定値の精度の直接的な測定ではありません。
 
-**登場箇所:** [チュートリアル3、第16章：モンテカルロ](../intro2/16_monte_carlo/#effective-sample-size)；逐次バージョン（重み退化）は[第17章：粒子フィルタリング](../intro2/17_particle_filtering/#resampling-and-degeneracy)。
+**登場箇所:** [チュートリアル3、第16章：モンテカルロ](../sampling/monte-carlo/#effective-sample-size)；逐次バージョン（重み退化）は[第17章：粒子フィルタリング](../sampling/particle-filtering/#resampling-and-degeneracy)。
 
 **関連項目:** [重要度重み](#importance-weight-), [重点サンプリング](#importance-sampling-), [重み退化](#weight-degeneracy-), [リサンプリング](#resampling-)
 {{% /expand %}}
@@ -1501,7 +1501,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **トレードオフ:** エンベロープが $p$ の面積よりはるかに大きければ、ほとんどの提案が棄却されます——無駄な仕事。その非効率を[重点サンプリング](#importance-sampling-)は棄却の代わりに*重み付け*することで回避します。
 
-**登場箇所:** [チュートリアル3、第16章：モンテカルロ](../intro2/16_monte_carlo/#when-you-cant-sample-p-rejection-and-inverse-cdf)
+**登場箇所:** [チュートリアル3、第16章：モンテカルロ](../sampling/monte-carlo/#when-you-cant-sample-p-rejection-and-inverse-cdf)
 
 **関連項目:** [重点サンプリング](#importance-sampling-), [モンテカルロシミュレーション](#monte-carlo-simulation-)
 {{% /expand %}}
@@ -1512,7 +1512,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **適切な選択:** ターゲットに近い提案分布は重みを均一に保ち（重点サンプリング）または混合を速めます（MCMC）；悪い提案分布は両方を台無しにします。
 
-**登場箇所:** [チュートリアル3、第16章：モンテカルロ](../intro2/16_monte_carlo/#importance-sampling-sample-the-wrong-distribution)と[第18章：マルコフ連鎖モンテカルロ](../intro2/18_markov_chain_monte_carlo/#metropolishastings)。
+**登場箇所:** [チュートリアル3、第16章：モンテカルロ](../sampling/monte-carlo/#importance-sampling-sample-the-wrong-distribution)と[第18章：マルコフ連鎖モンテカルロ](../sampling/mcmc/#metropolishastings)。
 
 **関連項目:** [重要度重み](#importance-weight-), [メトロポリス–ヘイスティングス](#metropolishastings-), [受け入れ比](#acceptance-ratio-)
 {{% /expand %}}
@@ -1523,7 +1523,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **過程モデルとして:** 少数の粒子フィルタ——少数の推測を左から右へ更新したもの——は、人間の限られた記憶、順序効果、試行間の変動性を予測します。
 
-**登場箇所:** [チュートリアル3、第17章：粒子フィルタリング](../intro2/17_particle_filtering/)
+**登場箇所:** [チュートリアル3、第17章：粒子フィルタリング](../sampling/particle-filtering/)
 
 **関連項目:** [重点サンプリング](#importance-sampling-), [リサンプリング](#resampling-), [有効サンプルサイズ](#effective-sample-size-)
 {{% /expand %}}
@@ -1534,18 +1534,18 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **必要な理由:** これなしには重みが時間とともに積み重なって1つの粒子がすべてを担うようになります——[有効サンプルサイズ](#effective-sample-size-)の崩壊で測られる*重み退化*。リサンプリングは群れを重要な場所に集中させ、フィルタを無期限に有用に保ちます。
 
-**登場箇所:** [チュートリアル3、第17章：粒子フィルタリング](../intro2/17_particle_filtering/#sequential-importance-sampling)
+**登場箇所:** [チュートリアル3、第17章：粒子フィルタリング](../sampling/particle-filtering/#sequential-importance-sampling)
 
 **関連項目:** [粒子フィルタ](#particle-filter-), [重み退化](#weight-degeneracy-), [有効サンプルサイズ](#effective-sample-size-)
 {{% /expand %}}
 
 ### マルコフ連鎖モンテカルロ（MCMC） 📊
 {{% expand "マルコフ連鎖モンテカルロ（MCMC）" %}}
-ターゲット分布 $\pi$（典型的にはサンプリングが困難なベイズ事後分布）から、**[定常分布](#stationary-distribution-)が正確に $\pi$ になるようなマルコフ連鎖を設計**し、それを実行して訪問した状態を収集することでサンプリングする手法の族。[第13章](../intro2/13_markov_chains/)の論理を逆に走らせます：連鎖が与えられて $\pi$ を求めるのではなく、求めたい $\pi$ から出発して連鎖を構築します。
+ターゲット分布 $\pi$（典型的にはサンプリングが困難なベイズ事後分布）から、**[定常分布](#stationary-distribution-)が正確に $\pi$ になるようなマルコフ連鎖を設計**し、それを実行して訪問した状態を収集することでサンプリングする手法の族。[第13章](../sampling/markov-chains/)の論理を逆に走らせます：連鎖が与えられて $\pi$ を求めるのではなく、求めたい $\pi$ から出発して連鎖を構築します。
 
 **主力手法:** [メトロポリス–ヘイスティングス](#metropolishastings-)（提案＋受け入れ/棄却）と[ギブスサンプリング](#gibbs-sampling-)（条件付き分布から1つの座標をリサンプリング）。
 
-**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../intro2/18_markov_chain_monte_carlo/)と[第19章：心のサンプリング](../intro2/19_sampling_the_mind/)。
+**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../sampling/mcmc/)と[第19章：心のサンプリング](../sampling/sampling-the-mind/)。
 
 **関連項目:** [メトロポリス–ヘイスティングス](#metropolishastings-), [ギブスサンプリング](#gibbs-sampling-), [定常分布](#stationary-distribution-), [バーンイン](#burn-in-), [混合](#mixing-)
 {{% /expand %}}
@@ -1556,7 +1556,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **なぜ機能するか:** このルールは $P$ に対して*詳細つり合い*を強制するため、$P$ が連鎖の定常分布になります。**比率** $P(x')/P(x)$ のみが現れるため、正規化定数がキャンセルされます——*非正規化*事後分布からサンプリングできます。
 
-**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../intro2/18_markov_chain_monte_carlo/#metropolishastings)と[第19章：心のサンプリング](../intro2/19_sampling_the_mind/)。
+**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../sampling/mcmc/#metropolishastings)と[第19章：心のサンプリング](../sampling/sampling-the-mind/)。
 
 **関連項目:** [マルコフ連鎖モンテカルロ（MCMC）](#markov-chain-monte-carlo-mcmc-), [受け入れ比](#acceptance-ratio-), [提案分布](#proposal-distribution-), [ギブスサンプリング](#gibbs-sampling-)
 {{% /expand %}}
@@ -1567,7 +1567,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 
 **重要な特徴:** ターゲット確率の*比率*のみが重要なため、あらゆる正規化定数がキャンセルされます——これがMCMCがエビデンス $p(\text{data})$ まで知らない事後分布に対して機能する理由です。
 
-**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../intro2/18_markov_chain_monte_carlo/#metropolishastings)
+**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../sampling/mcmc/#metropolishastings)
 
 **関連項目:** [メトロポリス–ヘイスティングス](#metropolishastings-), [提案分布](#proposal-distribution-)
 {{% /expand %}}
@@ -1576,7 +1576,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 {{% expand "ギブスサンプリング" %}}
 **1つの座標ずつ**更新するMCMC手法で、各座標をその完全条件付き分布 $P(x_i \mid x_{-i})$（他のすべての座標の現在値が与えられたときの $x_i$ の分布）から正確にサンプリングします。**棄却なし**——真の条件付き分布からサンプリングすることで自動的に詳細つり合いが満たされます——ただしそれらの条件付き分布が利用可能である必要があり、モデルが**[共役](#conjugate-prior-)**な部品から構築されているときに当てはまります。
 
-**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../intro2/18_markov_chain_monte_carlo/#gibbs-sampling)と[第19章：心のサンプリング](../intro2/19_sampling_the_mind/#step-1--gibbs-the-θᵢ-conjugate)。
+**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../sampling/mcmc/#gibbs-sampling)と[第19章：心のサンプリング](../sampling/sampling-the-mind/#step-1--gibbs-the-θᵢ-conjugate)。
 
 **関連項目:** [マルコフ連鎖モンテカルロ（MCMC）](#markov-chain-monte-carlo-mcmc-), [メトロポリス–ヘイスティングス](#metropolishastings-), [共役事前分布](#conjugate-prior-)
 {{% /expand %}}
@@ -1585,7 +1585,7 @@ $$I(X; Y) = H(X) - H(X \mid Y) = H(Y) - H(Y \mid X) = H(X) + H(Y) - H(X, Y).$$
 {{% expand "バーンイン" %}}
 MCMCの実行の最初の部分で、サンプルを収集する前に*破棄*されます。それらの初期状態は任意の出発点を反映しており、ターゲット分布を反映していません；連鎖が**混合**（出発点を忘れる）した後、残りの状態がターゲットを近似し、保持されます。
 
-**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../intro2/18_markov_chain_monte_carlo/#mixing-burn-in-and-the-multimodal-trap)
+**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../sampling/mcmc/#mixing-burn-in-and-the-multimodal-trap)
 
 **関連項目:** [混合](#mixing-), [マルコフ連鎖モンテカルロ（MCMC）](#markov-chain-monte-carlo-mcmc-), [エルゴード性](#ergodicity-)
 {{% /expand %}}
@@ -1596,7 +1596,7 @@ MCMCの連鎖が*混合した*とは、出発点を忘れてターゲット分�
 
 **罠:** **多峰性**のターゲット上では、連鎖が完全に健全な局所的な受け入れ率を持ちながらも1つのモードに留まり続け、峰の間の低確率の谷を越えられないことがあります。*良い局所的な受け入れは良いグローバルな混合を意味しません*——これが異なる出発点から複数の連鎖を実行して一致するか確認することが重要な理由です。
 
-**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../intro2/18_markov_chain_monte_carlo/#mixing-burn-in-and-the-multimodal-trap)
+**登場箇所:** [チュートリアル3、第18章：マルコフ連鎖モンテカルロ](../sampling/mcmc/#mixing-burn-in-and-the-multimodal-trap)
 
 **関連項目:** [バーンイン](#burn-in-), [エルゴード性](#ergodicity-), [マルコフ連鎖モンテカルロ（MCMC）](#markov-chain-monte-carlo-mcmc-)
 {{% /expand %}}
@@ -1605,7 +1605,7 @@ MCMCの連鎖が*混合した*とは、出発点を忘れてターゲット分�
 {{% expand "人間によるMCMC" %}}
 メトロポリスサンプラーの受け入れステップとして*人*を扱う手法（Sanborn & Griffiths、2007）：2つの選択肢を見せ、どちらかを選ばせ、繰り返す。人が自分の事後分布に比例して受け入れるならば、選択の連鎖はその事後分布に収束します——そしてデータなしには、それは**頭の中の事前分布**に収束します。アニメの動物に対して実行すると、人々の精神的なカテゴリのプロトタイプを復元します。
 
-**登場箇所:** [チュートリアル3、第19章：心のサンプリング](../intro2/19_sampling_the_mind/#when-a-person-is-the-accept-step)
+**登場箇所:** [チュートリアル3、第19章：心のサンプリング](../sampling/sampling-the-mind/#when-a-person-is-the-accept-step)
 
 **関連項目:** [マルコフ連鎖モンテカルロ（MCMC）](#markov-chain-monte-carlo-mcmc-), [メトロポリス–ヘイスティングス](#metropolishastings-), [事前分布](#prior-distribution-)
 {{% /expand %}}
@@ -1614,16 +1614,16 @@ MCMCの連鎖が*混合した*とは、出発点を忘れてターゲット分�
 {{% expand "偽信念課題" %}}
 心の理論を測る代表的なテスト：自分が**誤り**だと知っている信念を表現できるか？ 古典的な**サリー・アン課題**（Baron-Cohen, Leslie & Frith 1985）では、サリーがビー玉をかごに隠して部屋を出る。留守の間にアンがそれを箱へ移す。そして「サリーはどこを探すか？」と尋ねる。正解するには、現実（「箱」）とは**異なる**サリーの信念（「かご」）を保持しなければならず、子どもが安定して通過するのは**4歳ごろ**である。形式的にはこれは**POMDP**である：ビー玉の真の位置は隠れた世界状態であり、サリーの信念は真実から乖離しうる*別個の*潜在変数である。
 
-**登場箇所:** [チュートリアル3、第23章：逆強化学習](../intro2/23_inverse_rl_goal_inference/), [第24章：POMDP](../intro2/24_pomdps_belief_inference/)
+**登場箇所:** [チュートリアル3、第23章：逆強化学習](../decisions/inverse-rl/), [第24章：POMDP](../decisions/pomdps-belief/)
 
 **関連項目:** [心の理論](#theory-of-mind-), [失言課題](#faux-pas-test-), [信念状態](#belief-state-)
 {{% /expand %}}
 
 ### 失言課題 📊
 {{% expand "失言課題" %}}
-より難しい心の理論のテスト：社会的な失言（フォーパ）を見抜くには、**入れ子になった**二次の偽信念が必要である——話し手の偽信念（それが秘密だと知らなかった）に加えて、その発言がどう受け取られるかについての聞き手の知識である。ある心的状態を別の心的状態の中に積み重ねるため、基本的な偽信念課題よりずっと後、**9〜11歳ごろ**に通過する。この入れ子構造こそ、[第25章](../intro2/25_modern_rl_world_models/)で大規模言語モデルの心の理論テストが調べているものである。
+より難しい心の理論のテスト：社会的な失言（フォーパ）を見抜くには、**入れ子になった**二次の偽信念が必要である——話し手の偽信念（それが秘密だと知らなかった）に加えて、その発言がどう受け取られるかについての聞き手の知識である。ある心的状態を別の心的状態の中に積み重ねるため、基本的な偽信念課題よりずっと後、**9〜11歳ごろ**に通過する。この入れ子構造こそ、[第25章](../decisions/modern-rl-world-models/)で大規模言語モデルの心の理論テストが調べているものである。
 
-**登場箇所:** [チュートリアル3、第23章：逆強化学習](../intro2/23_inverse_rl_goal_inference/)
+**登場箇所:** [チュートリアル3、第23章：逆強化学習](../decisions/inverse-rl/)
 
 **関連項目:** [偽信念課題](#false-belief-task-), [心の理論](#theory-of-mind-)
 {{% /expand %}}
@@ -1632,7 +1632,7 @@ MCMCの連鎖が*混合した*とは、出発点を忘れてターゲット分�
 {{% expand "コミュニケーション的実演" %}}
 教示のための**信念志向プランニング**（Ho, Cushman, Littman & Austerweil 2021）：**レベル0**の観察者はあなたの行動を反転してゴールに関する事後分布を求める（逆計画）。あなた（**レベル1**の実演者）は、その事後分布を真実へ向かわせるように行動を選ぶ。観察者の信念はあなたには**隠れている**ため、実演を計画すること自体が、**隠れ状態が観察者の信念であるPOMDP**になる——すなわち教示とは、逆計画を一段上で実行することである。これは読みやすさ（legibility）効果を*予測*する：読みやすい経路は最初の一手で観察者を$0.61$へ引き上げ、単に効率的な経路の$0.50$を上回る。
 
-**登場箇所:** [チュートリアル3、第24章：POMDP](../intro2/24_pomdps_belief_inference/)
+**登場箇所:** [チュートリアル3、第24章：POMDP](../decisions/pomdps-belief/)
 
 **関連項目:** [読みやすさ](#legibility-), [協調的逆強化学習](#cooperative-inverse-rl-), [部分観測マルコフ決定過程（POMDP）](#partially-observable-mdp-pomdp-)
 {{% /expand %}}
@@ -1642,12 +1642,12 @@ MCMCの連鎖が*混合した*とは、出発点を忘れてターゲット分�
 ## ナビゲーション
 
 **チュートリアル別**:
-- [チュートリアル1：離散確率](../intro/) - 📘 タグ付き用語
+- [チュートリアル1：離散確率](../foundations/) - 📘 タグ付き用語
 - [チュートリアル2：GenJAXプログラミング](../genjax/) - 💻 タグ付き用語
-- [チュートリアル3：連続確率](../intro2/) - 📊 タグ付き用語
+- [チュートリアル3：連続確率](../learning/) - 📊 タグ付き用語
 
 **トピック別**:
-- **確率の基礎**: 集合, 結果空間, 事象, 確率, 条件付き確率
+- **確率の基礎**: 集合, 標本空間, 事象, 確率, 条件付き確率
 - **プログラミング**: @gen, トレース, ChoiceMap, simulate(), importance(), vmap
 - **分布**: ベルヌーイ分布, カテゴリカル分布, 正規/ガウス分布, ベータ分布, 一様分布
 - **ベイズ学習**: 事前分布, 尤度, 事後分布, 予測分布

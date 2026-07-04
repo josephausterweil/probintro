@@ -1,7 +1,7 @@
 +++
 date = "2026-06-24"
 title = "Interactive Notebooks - All Tutorials"
-weight = 99
+weight = 910
 +++
 
 ## Interactive Jupyter Notebooks
@@ -28,7 +28,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Understanding random sampling and probability distributions
 
 **Related Tutorial Chapters:**
-- [Tutorial 1, Chapter 3: Probability from Counting](../intro/03_prob_count/)
+- [Tutorial 1, Chapter 3: Probability from Counting](../foundations/probability-as-counting/)
 
 **Topics:**
 - Discrete probability distributions
@@ -48,7 +48,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Sequential belief updating
 
 **Related Tutorial Chapters:**
-- [Tutorial 1, Chapter 4: Conditional Probability](../intro/04_conditional/)
+- [Tutorial 1, Chapter 4: Conditional Probability](../foundations/conditional-probability/)
 
 **Topics:**
 - Conditional probability
@@ -68,8 +68,8 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - How prior beliefs affect posterior conclusions
 
 **Related Tutorial Chapters:**
-- [Tutorial 1, Chapter 5: Bayes' Theorem](../intro/05_bayes/)
-- [Tutorial 2 (GenJAX), Chapter 4: Conditioning](../genjax/04_conditioning/)
+- [Tutorial 1, Chapter 5: Bayes' Theorem](../foundations/bayes-rule/)
+- [Tutorial 2 (GenJAX), Chapter 4: Conditioning](../genjax/conditioning/)
 
 **Topics:**
 - Bayesian inference
@@ -91,8 +91,8 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Understanding how parameter changes affect outcomes
 
 **Related Tutorial Chapters:**
-- [Tutorial 2 (GenJAX), Chapter 0: Getting Started](../genjax/00_getting_started/)
-- [Tutorial 2 (GenJAX), Chapter 2: First Model](../genjax/02_first_model/)
+- [Tutorial 2 (GenJAX), Chapter 0: Getting Started](../genjax/getting-started/)
+- [Tutorial 2 (GenJAX), Chapter 2: First Model](../genjax/first-model/)
 
 **Topics:**
 - GenJAX generative functions
@@ -121,9 +121,9 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
   - Understanding bimodal vs unimodal distributions
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Main Page](../intro2/)
-- [Tutorial 3 (Intro2), Chapter 4: Bayesian Learning](../intro2/04_bayesian_learning/)
-- [Tutorial 3 (Intro2), Chapter 5: Mixture Models](../intro2/05_mixture_models/)
+- [Tutorial 3 (Intro2), Main Page](../learning/)
+- [Tutorial 3 (Intro2), Chapter 4: Bayesian Learning](../learning/bayesian-learning/)
+- [Tutorial 3 (Intro2), Chapter 5: Mixture Models](../learning/mixture-models/)
 
 **Topics:**
 - Gaussian distributions
@@ -147,7 +147,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - **Part (f)**: GenJAX verification of analytical formulas
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 4: Bayesian Learning](../intro2/04_bayesian_learning/)
+- [Tutorial 3 (Intro2), Chapter 4: Bayesian Learning](../learning/bayesian-learning/)
 
 **Topics:**
 - Gaussian conjugate priors
@@ -170,8 +170,8 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - **Part (f)**: GenJAX simulation of mixture models
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 4: Bayesian Learning - Problem 2](../intro2/04_bayesian_learning/#problem-2-gaussian-clusters-preview-of-chapter-5)
-- [Tutorial 3 (Intro2), Chapter 5: Mixture Models](../intro2/05_mixture_models/)
+- [Tutorial 3 (Intro2), Chapter 4: Bayesian Learning - Problem 2](../learning/bayesian-learning/#problem-2-gaussian-clusters-preview-of-chapter-5)
+- [Tutorial 3 (Intro2), Chapter 5: Mixture Models](../learning/mixture-models/)
 
 **Topics:**
 - Mixture model categorization
@@ -193,7 +193,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Bayesian nonparametrics
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 6: DPMM](../intro2/06_dpmm/)
+- [Tutorial 3 (Intro2), Chapter 6: DPMM](../complexity/dpmm/)
 
 **Topics:**
 - Dirichlet Process
@@ -214,7 +214,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - The generalization gradient — predicting which new numbers fit
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 7: Bayesian Generalization](../intro2/07_generalization/)
+- [Tutorial 3 (Intro2), Chapter 7: Bayesian Generalization](../structure/generalization/)
 
 **Topics:**
 - Hypotheses as sets
@@ -234,7 +234,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Inference from an observed weight back to the hidden cluster
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 8: Bayesian Networks](../intro2/08_bayes_nets/)
+- [Tutorial 3 (Intro2), Chapter 8: Bayesian Networks](../structure/bayes-nets/)
 
 **Topics:**
 - Directed acyclic graphs (DAGs)
@@ -253,7 +253,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Watching **explaining away** happen numerically (0.30 → 0.59 → 0.30)
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 9: Conditional Independence and d-Separation](../intro2/09_conditional_independence/)
+- [Tutorial 3 (Intro2), Chapter 9: Conditional Independence and d-Separation](../structure/conditional-independence/)
 
 **Topics:**
 - Chain, fork, and collider patterns
@@ -272,7 +272,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Seeing the see/do gap (≈0.098 vs. 0.052) emerge from graph surgery
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 10: Causal Bayes Nets and the Do-Operator](../intro2/10_causal_bayes_nets/)
+- [Tutorial 3 (Intro2), Chapter 10: Causal Bayes Nets and the Do-Operator](../structure/causal-bayes-nets/)
 
 **Topics:**
 - The do-operator and graph surgery
@@ -291,7 +291,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - I(rain; tea) = 0 jumping to I(rain; tea | sign) ≈ 0.46 bits — explaining away, in bits
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 11: Information Theory](../intro2/11_information_theory/)
+- [Tutorial 3 (Intro2), Chapter 11: Information Theory](../structure/information-theory/)
 
 **Topics:**
 - Surprise and entropy
@@ -311,7 +311,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - A three-state worked example
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 13: Markov Chains](../intro2/13_markov_chains/)
+- [Tutorial 3 (Intro2), Chapter 13: Markov Chains](../sampling/markov-chains/)
 
 **Topics:**
 - The Markov property and transition matrices
@@ -331,7 +331,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Hand-rolled PageRank with the ε-teleport on a tiny directed web
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 14: Random Walks on Networks](../intro2/14_random_walks_networks/)
+- [Tutorial 3 (Intro2), Chapter 14: Random Walks on Networks](../sampling/random-walks-networks/)
 
 **Topics:**
 - Graphs, adjacency matrices, degree
@@ -351,7 +351,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - A simulation-based (ABC) sketch that recovers block structure from fluency lists
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 15: Memory Search as a Random Walk](../intro2/15_memory_search/)
+- [Tutorial 3 (Intro2), Chapter 15: Memory Search as a Random Walk](../sampling/memory-search/)
 
 **Topics:**
 - Semantic fluency and clustering/switching
@@ -371,7 +371,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - GenJAX importance sampling via `model.importance`
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 16: Monte Carlo](../intro2/16_monte_carlo/)
+- [Tutorial 3 (Intro2), Chapter 16: Monte Carlo](../sampling/monte-carlo/)
 
 **Topics:**
 - Estimating expectations and probabilities by sampling; the $1/\sqrt{n}$ rate
@@ -390,7 +390,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - The GenJAX motion model as the propagate step
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 17: Particle Filtering](../intro2/17_particle_filtering/)
+- [Tutorial 3 (Intro2), Chapter 17: Particle Filtering](../sampling/particle-filtering/)
 
 **Topics:**
 - State-space models; sequential importance sampling
@@ -409,7 +409,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Assembling an MH step in GenJAX from the `assess` scoring primitive
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 18: Markov Chain Monte Carlo](../intro2/18_markov_chain_monte_carlo/)
+- [Tutorial 3 (Intro2), Chapter 18: Markov Chain Monte Carlo](../sampling/mcmc/)
 
 **Topics:**
 - Designing a chain to hit a target; detailed balance
@@ -428,7 +428,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Reading off a predictive for a brand-new, unseen unit
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 19: Sampling the Mind](../intro2/19_sampling_the_mind/)
+- [Tutorial 3 (Intro2), Chapter 19: Sampling the Mind](../sampling/sampling-the-mind/)
 
 **Topics:**
 - MCMC with People; recovering a prior from choices
@@ -448,7 +448,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - *One and Done*: why optimal decisions can come from a single sample (Vul et al.)
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 20: Statistical Decision Theory](../intro2/20_statistical_decision_theory/)
+- [Tutorial 3 (Intro2), Chapter 20: Statistical Decision Theory](../decisions/decision-theory/)
 
 **Topics:**
 - Decision theory, loss functions, risk, Bayes vs minimax
@@ -468,7 +468,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Estimating a value by simulating rollouts (the Monte-Carlo bridge)
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 21: Markov Decision Processes](../intro2/21_markov_decision_processes/)
+- [Tutorial 3 (Intro2), Chapter 21: Markov Decision Processes](../decisions/mdps/)
 
 **Topics:**
 - MDPs, policies, the Bellman equation, value iteration
@@ -488,7 +488,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Reward hacking → RLHF; the TD error → dopamine
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 22: Q-Learning](../intro2/22_q_learning/)
+- [Tutorial 3 (Intro2), Chapter 22: Q-Learning](../decisions/q-learning/)
 
 ### Inverse RL: Reading Goals from Behavior
 **Notebook**: [📓 Open in Colab: `23_inverse_rl_goal_inference.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/23_inverse_rl_goal_inference.ipynb)
@@ -501,7 +501,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - IRL at scale: MaxEnt, GAIL, AIRL
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 23: Inverse RL](../intro2/23_inverse_rl_goal_inference/)
+- [Tutorial 3 (Intro2), Chapter 23: Inverse RL](../decisions/inverse-rl/)
 
 ### POMDPs and Belief: Inferring a Hidden World
 **Notebook**: [📓 Open in Colab: `24_pomdps_belief_inference.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/24_pomdps_belief_inference.ipynb)
@@ -514,7 +514,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - Teaching, legibility, and Cooperative IRL
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 24: POMDPs](../intro2/24_pomdps_belief_inference/)
+- [Tutorial 3 (Intro2), Chapter 24: POMDPs](../decisions/pomdps-belief/)
 
 ### Modern RL: Preferences, World Models, and Machine Minds
 **Notebook**: [📓 Open in Colab: `25_modern_rl_world_models.ipynb`](https://colab.research.google.com/github/josephausterweil/probintro/blob/main/notebooks/25_modern_rl_world_models.ipynb)
@@ -527,7 +527,7 @@ This page provides a comprehensive overview of all Jupyter notebooks available a
 - The skeptical LLM Theory-of-Mind debate
 
 **Related Tutorial Chapters:**
-- [Tutorial 3 (Intro2), Chapter 25: Modern RL](../intro2/25_modern_rl_world_models/)
+- [Tutorial 3 (Intro2), Chapter 25: Modern RL](../decisions/modern-rl-world-models/)
 
 **Topics:**
 - Q-learning, TD error, ε-greedy exploration

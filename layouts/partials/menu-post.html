@@ -1,0 +1,11 @@
+{{- /* Project override of the theme's per-menu-item "post" hook: theme
+     behavior first (menuPost / Post params), then track badges. The
+     data-tracks attribute is copied onto the parent <li> by js/tracks.js so
+     CSS can dim off-track items; a visible emoji badge is shown only for
+     single-track (specialized) chapters. */ -}}
+{{- if .Params.menuPost }}{{ .Params.menuPost | safeHTML }}{{ else }}{{ .Params.Post | safeHTML }}{{ end }}
+{{- with .Params.tracks }}<span class="track-tags" data-tracks="{{ delimit . " " }}">
+{{- if eq (len .) 1 }}
+{{- if in . "cogsci" }}<span class="track-badge track-badge-cogsci" title="Bayesian cognitive science track">🧠</span>{{ end }}
+{{- if in . "beginner" }}<span class="track-badge track-badge-beginner" title="Beginner / probabilistic ML track">🤖</span>{{ end }}
+{{- end }}</span>{{ end }}

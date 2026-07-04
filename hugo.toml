@@ -56,6 +56,13 @@ defaultContentLanguageInSubdir = false
       }
     }"""
 
+# Course-site integration: base URL for the published lecture decks, consumed
+# by the {{< lecture >}} and {{< quiz >}} shortcodes. (Course repo
+# henkaku-center/hml publishes docs/ via GitHub Pages.) NOTE: this is a
+# sub-table of [params]; it must stay AFTER all bare params keys.
+[params.course]
+  slidesBase = "https://henkaku-center.github.io/hml/slides"
+
 [caches]
   [caches.images]
     dir = ':cacheDir/images'

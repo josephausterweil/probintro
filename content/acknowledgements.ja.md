@@ -1,10 +1,12 @@
 +++
-date = "2026-06-14"
+date = "2026-07-04"
 title = "謝辞 - 全チュートリアル"
-weight = 101
+weight = 920
 +++
 
 執筆：Joe Austerweil。Tim Burness、Grisha Szep、Kyana Burhite、Hongtao Hao、そして長年にわたり「人間と機械学習」を受講し、このチュートリアルの草稿に対して貴重なフィードバックを提供してくださった多くの学生の皆さんに感謝いたします。
+
+日本語訳を丁寧に見直し、用語の標準化（標本空間）、誤訳の修正、自然な文章への改善を行ってくださった**Shohei Yoshida**さんに特別な感謝を捧げます。
 
 チュートリアルの内容の洗練とGenJAX接続チュートリアルの生成を支援してくださった[amplifier](https://github.com/microsoft/amplifier)、そして後半の素材——ベイズネットワークの骨格、インタラクティブなウィジェット、および導出の例——の開発と検証に使用した[Claude Code](https://www.anthropic.com/claude-code)にも感謝いたします。
 

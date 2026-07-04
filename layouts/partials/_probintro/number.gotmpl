@@ -1,0 +1,50 @@
+{{- /* Hierarchical book numbering, computed from the weight-ordered tree.
+     Part _index      -> "4."
+     chapter          -> "4.3"
+     bundle sub-page  -> "4.3.1"
+     Non-book pages (no book_part ancestor) -> "".
+     Ordering reuses the theme's _relearn/pages.gotmpl so numbers always
+     match the sidebar. Opt out per page with `number = false`. */ -}}
+{{- $page := . }}
+{{- $result := "" }}
+{{- if and (ne $page.Kind "home") (ne ($page.Param "number") false) }}
+  {{- $first := $page.FirstSection }}
+  {{- if and $first $first.Params.book_part }}
+    {{- /* ordinal of the Part among book parts, in sidebar order */ -}}
+    {{- $pnum := 0 }}
+    {{- $i := 0 }}
+    {{- range partialCached "_relearn/pages.gotmpl" (dict "page" site.Home "by" "auto") site.Home.Path site.Language.Lang }}
+      {{- if .Params.book_part }}
+        {{- $i = add $i 1 }}
+        {{- if eq . $first }}{{ $pnum = $i }}{{ end }}
+      {{- end }}
+    {{- end }}
+    {{- if gt $pnum 0 }}
+      {{- if eq $page $first }}
+        {{- $result = printf "%d." $pnum }}
+      {{- else }}
+        {{- /* the chapter = the ancestor (or self) that is a direct child of the Part */ -}}
+        {{- $chapter := $page }}
+        {{- range $page.Ancestors }}
+          {{- if and .Parent (eq .Parent $first) }}{{ $chapter = . }}{{ end }}
+        {{- end }}
+        {{- $cnum := 0 }}
+        {{- range $j, $p := partialCached "_relearn/pages.gotmpl" (dict "page" $first "by" "auto") $first.Path site.Language.Lang }}
+          {{- if eq $p $chapter }}{{ $cnum = add $j 1 }}{{ end }}
+        {{- end }}
+        {{- if gt $cnum 0 }}
+          {{- if eq $page $chapter }}
+            {{- $result = printf "%d.%d" $pnum $cnum }}
+          {{- else }}
+            {{- $snum := 0 }}
+            {{- range $k, $p := partialCached "_relearn/pages.gotmpl" (dict "page" $chapter "by" "auto") $chapter.Path site.Language.Lang }}
+              {{- if eq $p $page }}{{ $snum = add $k 1 }}{{ end }}
+            {{- end }}
+            {{- if gt $snum 0 }}{{ $result = printf "%d.%d.%d" $pnum $cnum $snum }}{{ end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- return $result }}

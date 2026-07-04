@@ -1,0 +1,13 @@
+{{- /* First page after .page (in book order) whose tracks include .track.
+     Returns "" when .page is the track's last page. */ -}}
+{{- $page := .page }}
+{{- $track := .track }}
+{{- $next := "" }}
+{{- $found := false }}
+{{- range partialCached "_probintro/flat-pages.gotmpl" site site.Language.Lang }}
+  {{- if and $found (not $next) (in (.Params.tracks | default slice) $track) }}
+    {{- $next = . }}
+  {{- end }}
+  {{- if eq . $page }}{{ $found = true }}{{ end }}
+{{- end }}
+{{- return $next }}
