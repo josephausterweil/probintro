@@ -14,16 +14,17 @@ Statuses: `pending` / `active` / `done` / `dropped`. Priorities: `P1`
 
 ---
 
-## Phase A — Part I content pass (Tim's fixes)  [status: pending · P2]
+## Phase A — Part I content pass (Tim's fixes)  [status: partial · P2]
 
-- Fix the 1/3-vs-2/3 "second meal" inconsistency in
-  `foundations/conditional-probability.md`: lunch/dinner convention box,
-  event corrected to $A=\{HT,TT\}$ (2/3), diagram highlight matched, the
-  $\{TT\}$ reading kept as an explicit Tanaka-san contrast exercise.
-  (JA sibling: Shohei Yoshida's terminology is already in; keep it.)
-- `probability-as-counting`: concrete $P(A)=|A|/|\Omega|$ wording; reserve
-  *cardinality* for counts, introduce *weight* $w(A)$.
-- Merge `foundations/glossary` into the global glossary (anchor aliases).
+- [x] **DONE 2026-07-06.** Fixed the 1/3-vs-2/3 "second meal" inconsistency in
+  `foundations/conditional-probability.md`: added the lunch/dinner
+  convention box, corrected the event to $A=\{HT,TT\}$ (2/3), fixed the
+  mermaid highlight to HT,TT (verified live), kept the $\{TT\}$ reading as a
+  Tanaka-san contrast box. Both hard fixes mirrored into the JA sibling.
+- [x] **DONE 2026-07-06.** `probability-as-counting`: concrete
+  $P(A)=|A|/|\Omega|$ wording; reserved *cardinality* for counts, introduced
+  *weight* $w(A)$ for the unequal-likelihood case.
+- [ ] Merge `foundations/glossary` into the global glossary (anchor aliases).
 - Widgets 1–2: `outcome-grid.html` (conditioning by crossing out outcomes),
   `bayes-area.html` (prior × likelihood → posterior as area).
 - Story-driven rewrite per canon (Part I arc: *will there be tonkatsu today?*).

@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+title: "A Narrative Introduction to Probability, Probabilistic Machine Learning, and Probabilistic Computing"
+message: "If you use this textbook in teaching or research, please cite it."
+type: software
+authors:
+  - family-names: Austerweil
+    given-names: Joseph L.
+    # NOTE (Joe): add your ORCID here — orcid: "https://orcid.org/0000-XXXX-XXXX-XXXX"
+repository-code: "https://github.com/josephausterweil/probintro"
+url: "https://josephausterweil.github.io/probintro/"
+abstract: >-
+  A free, open, interactive textbook that teaches probability, probabilistic
+  machine learning, and probabilistic computing from a light background, told
+  as one continuous narrative (the Chiba Tech mascot "Chibany" and a year of
+  bento mysteries). It spans discrete probability through Bayesian learning,
+  structured and sequential inference, decision theory and reinforcement
+  learning, model complexity, deep networks and LLMs (in-context learning as
+  implicit hierarchical Bayes, taught as a live debate), and ML ethics,
+  fairness, and alignment. Every chapter interleaves runnable, validated
+  GenJAX/JAX code, interactive in-browser widgets, and a Colab capstone, and
+  offers two guided reading tracks — a beginner probabilistic-ML path and a
+  Bayesian-cognitive-science path — plus an in-page English/Japanese toggle.
+keywords:
+  - probability
+  - Bayesian inference
+  - probabilistic programming
+  - GenJAX
+  - probabilistic machine learning
+  - Bayesian cognitive science
+  - in-context learning
+  - interactive textbook
+license: "CC-BY-4.0"
+# NOTE (Joe): mint a Zenodo DOI for a tagged release and add it here as
+#   doi: "10.5281/zenodo.XXXXXXX"
+# so the "Cite this repository" button and colleague citations resolve to a
+# permanent, versioned archive. Until then GitHub cites the repo URL.
