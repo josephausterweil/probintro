@@ -22,9 +22,19 @@ Ready for some surprising results? Let's see what Chibany learns about dinner...
 
 ---
 
+{{% notice style="info" title="Notation: two meals, in order" %}}
+Chibany gets two offerings a day, and we always write them **in order: lunch first, dinner second.** So a day is a pair of letters — the first is lunch, the second is dinner:
+
+- $HT$ = **h**amburger lunch, **t**onkatsu dinner
+- $TH$ = **t**onkatsu lunch, **h**amburger dinner
+- $TT$ = tonkatsu both meals, $HH$ = hamburger both meals
+
+Whenever we ask about "the **dinner**," we mean the **second** letter. "Dinner is tonkatsu" is therefore the event $\{HT, TT\}$ — the two days whose second letter is $T$. Keep this straight and everything below is easy.
+{{% /notice %}}
+
 ## Chibany wants a tonkatsu dinner
 
-A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chibany that they know that there will be at least one tonkatsu in tomorrow's offering. Chibany is excited. They want to know how likely it is that the second meal is a Tonkatsu. They quiz Tanaka-san. Tanaka-san says it's just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says "I learned something because I know I will get at least one tonkatsu". Also, Chibany is an optimist and deserves to have all the tonkatsu. Who's right!? Let's check the chart...
+A graduate of Chiba Tech, Tanaka-san, visits Chibany one day and tells Chibany that they know that there will be at least one tonkatsu in tomorrow's offering. Chibany is excited. They want to know how likely it is that the **second meal — dinner — is a tonkatsu.** They quiz Tanaka-san. Tanaka-san says it's just as likely as before, so it should be 1/2. Chibany disagrees. Chibany says "I learned something because I know I will get at least one tonkatsu". Also, Chibany is an optimist and deserves to have all the tonkatsu. Who's right!? Let's check the chart...
 
 ```mermaid
 block-beta
@@ -38,11 +48,11 @@ block-beta
     end
     style a fill:#999, text-decoration:line-through
     style group1 stroke: #33f, stroke-width: 6px
-    style c stroke: #f33, stroke-width: 4px
+    style b stroke: #f33, stroke-width: 4px
     style d stroke: #f33, stroke-width: 4px
 ```
 
-In the case where there is at least one tonkatsu, the space of possible outcomes is $\{HT, TH, TT\}$, which is outlined in blue. The event of interest for Chibany is outlined in red. It turns out Chibany is right! There is a two in three chance that they get a tonkatsu dinner. That's larger than one in two.
+In the case where there is at least one tonkatsu, the space of possible outcomes is $\{HT, TH, TT\}$, which is outlined in blue. The event of interest for Chibany — **dinner is tonkatsu**, the days whose *second* letter is $T$, namely $\{HT, TT\}$ — is outlined in red. It turns out Chibany is right! Two of the three remaining days give a tonkatsu dinner, so there is a **two in three** chance. That's larger than one in two.
 
 {{% notice style="warning" title="Common Pitfall: The Intuition Trap" %}}
 **Many students (and Tanaka-san!) think**: "If each meal is 50/50, learning about one meal shouldn't change the other. So it's still 1/2, right?"
@@ -56,7 +66,15 @@ Chibany kindly reminds Tanaka-san that you never stop learning and to consider t
 
 ## Defining conditional probability as set restriction
 
-What Chibany calculated is a [conditional probability](../glossary/#conditional-probability): the probability of an event (tonkatsu for dinner) conditioned on knowledge of another event (at least one tonkatsu). Conditioning on an event means that the possible outcomes in that event form the set of possibilities or outcome space. We then calculate probabilities as normal within that *restricted* outcome space. In our example, we're interested in the probability of the event $A= \{TT\}$ conditioned on the knowledge that there's at least one tonkatsu, $ B = \Omega_{\geq 1 T}= \{HT, TH, TT\}$. Formally, this is written as $P(A \mid B) = \frac{|A|}{|B|}$, where everything to the left of the $\mid$ is what we're interested in knowing the probability of and everything to the right of the $\mid$ is what we know to be true.
+What Chibany calculated is a [conditional probability](../glossary/#conditional-probability): the probability of an event (tonkatsu for dinner) conditioned on knowledge of another event (at least one tonkatsu). Conditioning on an event means that the possible outcomes in that event form the set of possibilities or outcome space. We then calculate probabilities as normal within that *restricted* outcome space. In our example, we're interested in the probability of the event $A= \{HT, TT\}$ (dinner is tonkatsu) conditioned on the knowledge that there's at least one tonkatsu, $ B = \Omega_{\geq 1 T}= \{HT, TH, TT\}$. Formally, this is written as $P(A \mid B) = \frac{|A \cap B|}{|B|}$ — count the outcomes that are in *both* $A$ and $B$, over the outcomes in $B$. Here every dinner-tonkatsu day already has at least one tonkatsu, so $A \cap B = \{HT, TT\}$ and $P(A \mid B) = \frac{2}{3}$. Everything to the left of the $\mid$ is what we're interested in knowing the probability of, and everything to the right of the $\mid$ is what we know to be true.
+
+{{% notice style="note" title="Tanaka-san asks a different question — spot the difference" %}}
+Tanaka-san, still grumbling, tries to trap Chibany: "Fine — given at least one tonkatsu, what's the chance you get tonkatsu for **both** meals?" That is a *different* event: "both meals tonkatsu" is $\{TT\}$, not $\{HT, TT\}$. So
+
+$$P(\{TT\} \mid B) = \frac{|\{TT\} \cap B|}{|B|} = \frac{1}{3}.$$
+
+"Dinner is tonkatsu" ($\tfrac{2}{3}$) and "both meals are tonkatsu" ($\tfrac{1}{3}$) are not the same question — and the same conditioning set $B$ gives different answers depending on which event you ask about. Naming the event precisely, in set notation, is what keeps them apart.
+{{% /notice %}}
 
 {{% notice style="success" title="Key Insight: Conditional Probability" %}}
 **Conditional probability = restricting the outcome space**

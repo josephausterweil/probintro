@@ -7,11 +7,15 @@ aliases = ["/intro/03_prob_count/"]
 +++
 
 
-One goal of this tutorial is to show you that **probability is counting**. When every possible outcome is equally likely, probability is defined as the relative number of outcomes in each set. When outcomes are not equally likely, it is only slightly more complicated. Rather than each outcome counting one towards the size of a set it is in, you count the outcome according to its relative weight.
+One goal of this tutorial is to show you that **probability is counting**. When every possible outcome is equally likely, the probability of an event $A$ is the **fraction of the whole outcome space that lands inside $A$** — the count of outcomes in $A$ divided by the count of all possible outcomes:
+
+$$P(A) = \frac{|A|}{|\Omega|},$$
+
+where $\Omega$ (Greek capital omega) is the set of *all* possible outcomes. When outcomes are not equally likely, it is only slightly more complicated: instead of each outcome counting one, each contributes its own **weight**, and you compare total weights the same way. We come back to the weighted case below.
 
 ## Counting
 
-The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is the [cardinality](../glossary/#cardinality) or size of the set.
+The basic operation that we use to define probabilities is counting the number of elements in a set. If $A$ is a set, then $|A|$ is its [cardinality](../glossary/#cardinality) — a whole-number **count** of how many elements it has. (Cardinality is always a count; when we later attach unequal weights to outcomes we will use a separate symbol for total *weight*, so the two never get confused.)
 
 {{% notice style="info" title="Math Notation: Cardinality" %}}
 We write the **size** of a set using vertical bars:
@@ -78,7 +82,7 @@ $$P(A) = \frac{\text{circled outcomes}}{\text{total outcomes}} = \frac{3}{4} = 0
 
 ### When Outcomes Aren't Equally Likely
 
-Note that if the possible outcomes were not equally likely, we would sum their individual relative likelihoods to calculate their "sizes". Everything works in the same way: the probability of the event is the total "size" or "weight" of the possible outcomes in the event as compared to the total size or weight of all possible outcomes. We'll see an example of this [later](../conditional-probability/#weighted-possibilities)!
+Note that if the possible outcomes were not equally likely, we would give each outcome a **weight** and add up those weights instead of just counting. Write $w(A)$ for the total weight of the outcomes in $A$ (this is a *weight*, not a cardinality — it need not be a whole number). Everything works in the same way: the probability of an event is the total weight of its outcomes over the total weight of all outcomes, $P(A) = w(A)/w(\Omega)$. When every outcome is equally likely, each weight is the same and $w(A)$ is just a rescaling of the count $|A|$, so the two views agree. We'll see a worked weighted example [later](../conditional-probability/#weighted-possibilities)!
 
 {{% notice style="tip" title="💻 See This in Code" %}}
 **In GenJAX (Tutorial 2)**, we don't calculate $P(A) = |A|/|\Omega|$ by hand. Instead, we:
