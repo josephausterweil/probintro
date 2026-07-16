@@ -1,0 +1,80 @@
+# Course companion data — single source of truth for textbook → course links.
+#
+# [chapters] maps a chapter's logical page path (part/slug, no leading slash,
+# matching content/<part>/<slug>.md or a bundle dir's _index.md) to the SP26
+# course week whose lecture it accompanies. The closing "From the lecture" box
+# on each chapter page is rendered from this map (layouts/partials/
+# custom-comments.html → _probintro/lecture-box.gotmpl). A chapter absent from
+# this map simply gets no box (reference pages, self-study chapters).
+#
+# When a chapter serves several weeks (e.g. review reading), map it to the week
+# where it is the PRIMARY companion — the week's landing-page card (course
+# repo, docs/_build.py) handles the review links.
+#
+# [weeks] gives each week's display title (keep in sync with TOPIC_OVERRIDES in
+# the course repo's docs/_build.py). pdf_weeks lists the weeks whose deck has a
+# rendered PDF at <slidesBase>/weekNN.pdf — the box links a PDF only for these.
+#
+# Validate with: python3 scripts/check_course_links.py
+
+pdf_weeks = [1, 2, 3, 4]
+
+[chapters]
+"foundations/hungry" = 1
+"foundations/probability-as-counting" = 1
+"foundations/conditional-probability" = 2
+"foundations/bayes-rule" = 2
+"learning/mystery-bentos" = 2
+"learning/continuous" = 2
+"learning/gaussian" = 2
+"genjax/getting-started" = 2
+"genjax/python-basics" = 2
+"learning/bayesian-learning" = 3
+"genjax/first-model" = 3
+"genjax/traces" = 3
+"learning/mixture-models" = 4
+"structure/generalization" = 4
+"structure/hierarchical-bayes" = 4
+"structure/bayes-nets" = 5
+"structure/causal-bayes-nets" = 5
+"structure/conditional-independence" = 5
+"sampling/markov-chains" = 6
+"sampling/random-walks-networks" = 6
+"sampling/memory-search" = 6
+"sampling/monte-carlo" = 7
+"sampling/particle-filtering" = 7
+"sampling/mcmc" = 7
+"sampling/sampling-the-mind" = 7
+"decisions/decision-theory" = 8
+"decisions/mdps" = 8
+"decisions/q-learning" = 8
+"decisions/inverse-rl" = 9
+"decisions/pomdps-belief" = 9
+"decisions/modern-rl-world-models" = 9
+"complexity/bias-variance" = 10
+"complexity/dpmm" = 10
+"complexity/gaussian-processes" = 10
+"deep/vectors-and-spaces" = 11
+"deep/from-rules-to-weights" = 11
+"deep/neural-net-fundamentals" = 11
+"deep/transformers-attention" = 11
+"deep/llms-in-context-learning" = 11
+"deep/world-models-imagination" = 11
+"ethics/adversarial-examples" = 12
+"ethics/bias-in-data" = 12
+"ethics/fairness-formalisms" = 12
+"ethics/alignment-safety" = 12
+
+[weeks]
+1 = "Introduction & Basic Bayes"
+2 = "Levels of Analysis & Bayes cont'd"
+3 = "Conjugate Bayes & Topic Models"
+4 = "Generalization & Hierarchical Bayes"
+5 = "Bayes Nets & Causal Bayes Nets"
+6 = "Markov Chains & Networks"
+7 = "Monte Carlo Methods"
+8 = "SDT, MDPs & Reinforcement Learning"
+9 = "Inverse Reinforcement Learning"
+10 = "Bayesian Nonparametrics"
+11 = "Deep Neural Networks"
+12 = "Ethics & Adversarial ML"

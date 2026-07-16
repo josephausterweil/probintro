@@ -1,0 +1,7 @@
+{{- /* Project override of the theme's sidebar footer: add a link to the
+     companion course's homepage (hugo.toml [params.course] homeUrl/name)
+     above the theme's default credit line. */ -}}
+{{- with site.Params.course.homeUrl }}
+<p class="course-credit"><a href="{{ . }}" target="_blank" rel="noopener" title="{{ site.Params.course.name | default "Companion course" }}">🎓 {{ T "Course_companion" | default "Companion course" }} ↗</a></p>
+{{- end }}
+<p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>

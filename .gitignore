@@ -4,6 +4,7 @@ tutorial_evolution_presentation.html
 
 # Hugo build artifacts
 public/
+.build-check/
 resources/
 .hugo_build.lock
 

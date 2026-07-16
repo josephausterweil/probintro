@@ -1,0 +1,15 @@
+
+<article class="default">
+  <header class="headline">
+    {{- partial "content-header.html" . }}
+  </header>
+{{ partial "heading-pre.html" . }}{{ partial "heading.html" . }}{{ partial "heading-post.html" . }}
+
+{{ partial "article-content.html" . }}
+{{- /* Project addition: closing "From the lecture" box (data/course.toml).
+     Everything else matches the theme's _default/article.html. */ -}}
+{{- partial "_probintro/closing-lecture-box.html" . }}
+  <footer class="footline">
+    {{- partial "content-footer.html" . }}
+  </footer>
+</article>

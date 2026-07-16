@@ -1,0 +1,24 @@
+{{- /* "From the lecture" box — shared by the automatic closing box
+     (custom-comments.html) and the {{< lecture >}} shortcode. Context dict:
+
+       week      course week number (required)
+       deckslide optional reveal.js slide anchor within the deck
+       label     optional link label; defaults to the week title from
+                 data/course.toml [weeks]
+
+     Deck base URL comes from hugo.toml [params.course] slidesBase. The PDF
+     link is emitted only for weeks listed in data/course.toml pdf_weeks —
+     not every deck has a rendered PDF. */ -}}
+{{- $week := int .week }}
+{{- $base := site.Params.course.slidesBase }}
+{{- $wk := printf "week%02d" $week }}
+{{- $label := .label | default (index site.Data.course.weeks (printf "%d" $week)) }}
+{{- $hasPdf := false }}
+{{- range site.Data.course.pdf_weeks }}{{ if eq (int .) $week }}{{ $hasPdf = true }}{{ end }}{{ end }}
+<div class="lecture-box">
+<span class="lecture-box-icon">📽️</span>
+<span class="lecture-box-body">{{ T "Lecture_from" | default "From the lecture" }}:
+<a href="{{ $base }}/{{ $wk }}.html{{ with .deckslide }}#/{{ . }}{{ end }}" target="_blank" rel="noopener">
+{{- T "Lecture_week_n" $week | default (printf "Week %d" $week) }}{{ with $label }} — {{ . }}{{ end }}</a>
+{{- if $hasPdf }}&nbsp;·&nbsp;<a href="{{ $base }}/{{ $wk }}.pdf" target="_blank" rel="noopener">PDF</a>{{ end }}</span>
+</div>
