@@ -17,7 +17,7 @@
 #
 # Validate with: python3 scripts/check_course_links.py
 
-pdf_weeks = [1, 2, 3, 4]
+pdf_weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 [chapters]
 "foundations/hungry" = 1
