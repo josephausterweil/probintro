@@ -62,6 +62,8 @@ defaultContentLanguageInSubdir = false
 # sub-table of [params]; it must stay AFTER all bare params keys.
 [params.course]
   slidesBase = "https://henkaku-center.github.io/hml/slides"
+  homeUrl = "https://henkaku-center.github.io/hml/"
+  name = "Human and Machine Learning — Chiba Tech SDS, Spring 2026"
 
 [caches]
   [caches.images]

@@ -43,6 +43,12 @@ other = "From the lecture"
 [Lecture_week]
 other = "Week"
 
+[Lecture_week_n]
+other = "Week {{ . }}"
+
+[Course_companion]
+other = "Companion course"
+
 [Quiz_check]
 other = "Check answer"
 

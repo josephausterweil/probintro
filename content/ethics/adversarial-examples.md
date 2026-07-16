@@ -1,5 +1,5 @@
 +++
-date = "2026-07-04"
+date = "2026-07-16"
 title = "Adversarial Examples"
 weight = 10
 tracks = ["beginner"]
@@ -16,8 +16,6 @@ Chibany does what Chibany always does: investigates. The bento goes on the scale
 > **Alyssa:** "There's a name for that sticker's effect. It's an **adversarial example**: an input that's been perturbed by a tiny, often human-imperceptible amount — a *perturbation* — chosen so a trained model flips its prediction. The bento didn't change. The photo barely changed. The answer changed completely."
 
 That is this chapter's question, and it is the first pointed question of Chibany's year-end audit: the kiosk we [taught to see](../../deep/neural-net-fundamentals/) is astonishingly accurate — so **how can a sticker break it, and what does the breaking tell us about what it actually learned?**
-
-{{< lecture week=12 label="Adversarial examples" >}}
 
 ---
 

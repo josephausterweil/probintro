@@ -1,5 +1,5 @@
 +++
-date = "2026-07-04"
+date = "2026-07-16"
 title = "From Rules to Weights"
 weight = 10
 tracks = ["beginner"]
@@ -16,8 +16,6 @@ Every rule Chibany has ever used lives in the Bento Journal, and Chibany *wrote*
 > **Alyssa:** "And that is a genuinely new move for this book. The Model Fair in [Part VII](../../complexity/) answered *how complex should the model be?* three ways — shrink it with a prior, let it grow with the data, put a prior on functions directly. But all three shared something we never said out loud: **we chose the features in advance.** The kiosk didn't get that courtesy. It had to learn *what to measure* as well as what to conclude."
 
 That is this chapter's question: what changes when the features themselves become things the model learns — and how much of our Bayesian toolkit survives the change? (Spoiler, so you can relax: more of it survives than you'd think.)
-
-{{< lecture week=11 label="Deep neural networks" >}}
 
 ---
 

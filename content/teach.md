@@ -1,5 +1,5 @@
 +++
-date = "2026-07-06"
+date = "2026-07-16"
 title = "Teach With This Book"
 linkTitle = "Teach With This Book"
 weight = 8
@@ -70,11 +70,14 @@ track is genuinely self-contained.
 
 ## Adopting it in a course
 
-The book grew alongside a 12-week graduate course, *Human and Machine
-Learning*, so it maps cleanly onto a semester — roughly one Part every one to
-two weeks. Each lecture week has a slide deck; where a chapter parallels a
-lecture, its "From the lecture" box links the deck, and the in-chapter
-self-check quizzes are the same commit-before-reveal polls used live.
+The book grew alongside a 12-week graduate course, **[Human and Machine
+Learning](https://henkaku-center.github.io/hml/)** (Chiba Institute of
+Technology, School of Design & Science), so it maps cleanly onto a semester —
+roughly one Part every one to two weeks. The course homepage has the full
+schedule, slide decks, readings, and assignments — a worked example of
+teaching from this book. Where a chapter parallels a lecture, its closing
+"From the lecture" box links the week's deck, and the in-chapter self-check
+quizzes are the same commit-before-reveal polls used live.
 
 Mix and match freely: a one-term probabilistic-ML course can run Parts I–III
 then VII–IX; a cognitive-modeling seminar can run the CogSci track; a single

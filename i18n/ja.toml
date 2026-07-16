@@ -43,6 +43,12 @@ other = "講義より"
 [Lecture_week]
 other = "第"
 
+[Lecture_week_n]
+other = "第{{ . }}週"
+
+[Course_companion]
+other = "対応講義"
+
 [Quiz_check]
 other = "答え合わせ"
 

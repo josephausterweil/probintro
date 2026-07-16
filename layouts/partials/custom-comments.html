@@ -1,8 +1,19 @@
-{{- /* Theme hook rendered directly after the article body. Renders the
-     "next chapter in your track" footer for book pages. Both tracks' links
-     are computed server-side; CSS shows only the one matching the reader's
-     html[data-track] choice (none when "all" — the theme's own topbar
-     next/prev covers linear order). */ -}}
+{{- /* Theme hook rendered directly after the article body. Renders (1) the
+     closing "From the lecture" box and (2) the "next chapter in your track"
+     footer for book pages. Both tracks' links are computed server-side; CSS
+     shows only the one matching the reader's html[data-track] choice (none
+     when "all" — the theme's own topbar next/prev covers linear order). */ -}}
+{{- /* Closing lecture box: the chapter → course-week map lives in
+     data/course.toml [chapters], keyed by logical page path — one source for
+     every translation (.Path is language-independent). Bundle parts (e.g. the
+     generalization sub-pages) inherit the bundle's week via the parent
+     lookup. Unmapped pages get no box. */ -}}
+{{- $chapters := site.Data.course.chapters }}
+{{- $week := index $chapters (strings.TrimPrefix "/" .Path) }}
+{{- if not $week }}{{ with .Parent }}{{ $week = index $chapters (strings.TrimPrefix "/" .Path) }}{{ end }}{{ end }}
+{{- with $week }}
+{{- partial "_probintro/lecture-box.html" (dict "week" .) }}
+{{- end }}
 {{- if .Params.tracks }}
 {{- $labels := dict "beginner" (T "Track_beginner" | default "Beginner") "cogsci" (T "Track_cogsci" | default "CogSci") }}
 {{- $badges := dict "beginner" "🤖" "cogsci" "🧠" }}

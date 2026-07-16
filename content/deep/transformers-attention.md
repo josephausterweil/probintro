@@ -1,5 +1,5 @@
 +++
-date = "2026-07-04"
+date = "2026-07-16"
 title = "Transformers & Attention"
 weight = 30
 tracks = ["beginner"]
@@ -26,8 +26,6 @@ A one-step predictor sees only the word *be* and must guess from there. But you 
 Could we just give the Markov table more memory — condition on the last two words, or three, or twenty? In principle, yes; in practice the table explodes. Every extra step of memory multiplies the number of rows by the size of the **vocabulary** (the list of all distinct words the predictor knows), and a twenty-word context over even a modest vocabulary needs more rows than there are atoms to write them on. Worse, no fixed lookback is *enough* — language plants its clues at unbounded range.
 
 One piece of bookkeeping before we go on: the units of the sequence are called **tokens**. For us a token is simply a word; real systems chop text into word-pieces, but nothing below changes. The problem of this chapter is: *to predict the next token, how does a model reach back to the right earlier tokens — wherever they are?*
-
-{{< lecture week=11 label="Transformers and attention" >}}
 
 ---
 

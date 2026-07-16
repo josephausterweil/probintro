@@ -1,5 +1,5 @@
 +++
-date = "2026-07-05"
+date = "2026-07-16"
 title = "LLMs & In-Context Learning"
 weight = 40
 tracks = ["beginner", "cogsci"]
@@ -20,8 +20,6 @@ The chatbot answers: **blue**. Chibany starts a fresh chat and flips the game â€
 > **Jamal:** "And here's the part that should bother you: I can promise nothing inside the model changed. No gradient step, no update â€” the weights that answered your first game are bit-for-bit the weights that answered the second. Training ended months before you invented *plip*."
 >
 > **Chibany** looks from the screen to Jamal and asks the question this whole chapter answers: *"Then where did it put what it just learned?"*
-
-{{< lecture week=11 label="LLMs and in-context learning" >}}
 
 ---
 

@@ -1,5 +1,5 @@
 +++
-date = "2026-07-04"
+date = "2026-07-16"
 title = "Fairness, Formally"
 weight = 20
 tracks = ["beginner", "cogsci"]
@@ -14,8 +14,6 @@ Chibany, who has been keeping score in the Bento Journal all year, pads over to 
 > **Alyssa:** "That's the trap in the question, Chibany. You said 'fair' like it's one thing. It isn't. There are several precise notions of fairness — each one is a statement about a **conditional probability** — and here's the part nobody wants to hear: **they contradict each other.** You can't have them all. So before we can answer 'is it fair,' someone has to choose *which* fairness we even mean."
 
 That is the whole chapter in one breath, and it is the payoff a probability book can give an ethics unit that an ordinary ethics unit cannot. "Fair" is not a feeling to be argued about; each version of it is an *equation* in the language we built back in [Conditional Probability](../../foundations/conditional-probability/) — the chapter where conditioning meant **restricting the outcome space** and writing $P(A \mid B)$ for "the probability of $A$ once we know $B$." We are about to write three different fairness conditions in exactly that notation, compute them on real numbers, and watch them collide.
-
-{{< lecture week=12 label="Fairness in ML" >}}
 
 ---
 

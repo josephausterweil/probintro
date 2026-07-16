@@ -1,5 +1,5 @@
 +++
-date = "2026-07-04"
+date = "2026-07-16"
 title = "World Models & Imagination"
 weight = 50
 tracks = ["beginner", "cogsci"]
@@ -42,8 +42,6 @@ This chapter is the learning-side twin of
 same frontier from the inference side (recovering rewards from preferences,
 reading minds). Here we stay on the *learning* side: fit a model of the world,
 then plan by dreaming inside it.
-
-{{< lecture week=11 label="World models" >}}
 
 ---
 

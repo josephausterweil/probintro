@@ -1,5 +1,5 @@
 +++
-date = "2026-07-04"
+date = "2026-07-16"
 title = "Neural Network Fundamentals"
 weight = 20
 tracks = ["beginner"]
@@ -16,8 +16,6 @@ The [previous chapter](../from-rules-to-weights/) ended with the robot mascot tr
 Chibany, who has been listening while finishing the dinner bento, produces the Bento Journal and opens it to the newest page. Since the new year, the cafeteria has run a **variety-stamp campaign**: each day, if Chibany's two bentos *differ* — exactly one of the two is tonkatsu — the day's card gets a stamp. Two tonkatsu, no stamp. Zero tonkatsu, no stamp. Chibany has been logging it faithfully: one column for lunch, one for dinner (lunch first, dinner second, the Journal's usual convention), one for the stamp.
 
 Four kinds of day, a clean yes/no answer for each. It looks like the easiest dataset in the whole Journal. It is, in fact, the most famous trap in the history of neural networks — and walking the trainee into it, and then out of it, is this chapter.
-
-{{< lecture week=11 label="Deep neural networks" >}}
 
 ---
 

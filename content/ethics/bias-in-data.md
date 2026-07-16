@@ -1,5 +1,5 @@
 +++
-date = "2026-07-04"
+date = "2026-07-16"
 title = "Bias in Data"
 weight = 30
 tracks = ["beginner", "cogsci"]
@@ -23,8 +23,6 @@ Chibany flips back through the Bento Journal, frowning. Nobody sat down and prog
 > **Jamal:** "So the prior is the power *and* the problem. Same object."
 
 That sentence is the whole chapter. Everything this book has said in praise of priors — a good prior is exactly what lets a learner [generalize from a few examples](../../structure/generalization/) — has a shadow, and the shadow is this. A learner's **prior** (its built-in expectations before seeing the current data) is both its power and its liability. The very inductive bias that makes learning from little data *possible* is what makes a learner inherit the stereotypes sitting in its data. Where did "nurse → she" come from? Nobody put it there. The corpus did.
-
-{{< lecture week=12 label="Bias in data" >}}
 
 ---
 

@@ -1,5 +1,5 @@
 +++
-date = "2026-07-04"
+date = "2026-07-16"
 title = "Alignment & Safety"
 weight = 40
 tracks = ["beginner", "cogsci"]
@@ -18,8 +18,6 @@ The trainee learned from feedback. When it handed a student their bento with a l
 > **Jamal:** "Which is a sentence we've written before. It's [inverse RL](../../decisions/inverse-rl/) — recover the objective from behavior — pointed at the hardest target there is."
 
 This is **alignment**: getting a capable system to pursue what its designers actually intend. This chapter builds it out of machinery you already own — preferences, a reward model, Bayes' rule with a planner in the likelihood — and is honest about why it is unsolved. It is also the last chapter of the book, so it closes two loops at once: the year's audit, and the toolkit itself.
-
-{{< lecture week=12 label="Alignment and AI safety" >}}
 
 ---
 
